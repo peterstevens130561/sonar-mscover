@@ -46,10 +46,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFac
  * Decorates resources that do not have coverage metrics because they were not
  * touched by any test, and thus not present in the coverage report file.
  */
-public abstract class CoverageDecorator implements Decorator {
+public abstract class BaseDecorator implements Decorator {
 
     private static final Logger LOG = LoggerFactory
-            .getLogger(CoverageDecorator.class);
+            .getLogger(BaseDecorator.class);
 
     protected MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     protected String executionMode;
@@ -64,7 +64,7 @@ public abstract class CoverageDecorator implements Decorator {
 
     private DateFilter dateFilter = new AlwaysPassThroughDateFilter();
 
-    protected CoverageDecorator(Settings settings,TimeMachine timeMachine) {
+    protected BaseDecorator(Settings settings,TimeMachine timeMachine) {
         this.settings = settings; 
         propertiesHelper=new PropertiesHelper(settings);
         dateFilter = DateFilterFactory.createCutOffDateFilter(timeMachine, propertiesHelper);

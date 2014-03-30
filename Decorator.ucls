@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.5" icons="true" automaticImage="GIF" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.decorator.CoverageDecorator" 
+  <class id="1" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestDecorator" 
     project="sonar-mscover-plugin" 
-    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/decorator/CoverageDecorator.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="233" y="214"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="2" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestCoverageDecorator" 
-    project="sonar-mscover-plugin" 
-    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/decorator/UnitTestCoverageDecorator.java" 
+    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/decorator/UnitTestDecorator.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="594" y="505"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -23,10 +12,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" 
-    name="com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestCoverageDecorator" 
+  <class id="2" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestDecorator" 
     project="sonar-mscover-plugin" 
-    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/decorator/IntegrationTestCoverageDecorator.java" 
+    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/decorator/IntegrationTestDecorator.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="213" y="504"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -35,7 +23,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="4" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter" 
+  <interface id="3" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter" 
     project="sonar-mscover-plugin" 
     file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/datefilter/DateFilter.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -46,7 +34,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="5" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper" 
+  <class id="4" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper" 
     project="sonar-mscover-plugin" 
     file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/PropertiesHelper.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -57,7 +45,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="6" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter" 
+  <interface id="5" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter" 
     project="sonar-mscover-plugin" 
     file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/resourcefilter/ResourceFilter.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -68,38 +56,6 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <generalization id="7">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
-  <association id="8">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="9" name="fileFilter"/>      
-      <multiplicity id="10" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="11">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
-  <association id="12">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="13" name="dateFilter"/>      
-      <multiplicity id="14" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="15">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="16" name="propertiesHelper"/>      
-      <multiplicity id="17" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

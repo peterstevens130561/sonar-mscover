@@ -37,11 +37,7 @@ public class IntegrationTestSaver extends BaseSaver {
         LOG.debug("MsCover covered lines  " + coverageData.getCoveredLines());
         context.saveMeasure(resource, CoreMetrics.IT_LINES_TO_COVER,
                 (double) coverageData.getCountLines());
-        if(coverageData.getCoveredLines()>0) {
-            context.saveMeasure(resource, CoreMetrics.IT_BRANCH_COVERAGE,(double) 1);
-            context.saveMeasure(resource,CoreMetrics.IT_UNCOVERED_CONDITIONS,(double)10);
-            context.saveMeasure(resource,CoreMetrics.IT_CONDITIONS_TO_COVER,(double)10);
-        }
+
         context.saveMeasure(
                 resource,
                 CoreMetrics.IT_UNCOVERED_LINES,
@@ -53,6 +49,14 @@ public class IntegrationTestSaver extends BaseSaver {
                 convertPercentage(coverage));
     }
 
+    private void saveConditions(FileCoverage coverageData, SensorContext context, Resource resource) {
+        ;
+        if(coverageData.getCoveredLines()>0) {
+            context.saveMeasure(resource, CoreMetrics.IT_BRANCH_COVERAGE,(double) 1);
+            context.saveMeasure(resource,CoreMetrics.IT_UNCOVERED_CONDITIONS,(double)10);
+            context.saveMeasure(resource,CoreMetrics.IT_CONDITIONS_TO_COVER,(double)10);
+        }
+    }
     /*
      * Generates a measure that contains the visits of each line of the source
      * file.

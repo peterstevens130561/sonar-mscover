@@ -6,7 +6,7 @@ import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 
-class CoverageDecoratorStub extends CoverageDecorator {
+class CoverageDecoratorStub extends BaseDecorator {
 
     private int calls;
     public int getCalls() {

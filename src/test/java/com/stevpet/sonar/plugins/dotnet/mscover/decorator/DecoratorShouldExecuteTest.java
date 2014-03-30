@@ -10,8 +10,8 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.decorator.CoverageDecorator;
-import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestCoverageDecorator;
+import com.stevpet.sonar.plugins.dotnet.mscover.decorator.BaseDecorator;
+import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestDecorator;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -47,7 +47,7 @@ public class DecoratorShouldExecuteTest {
         //Arrange
         Settings settings = mock(Settings.class);
         when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_PATH)).thenReturn("a/b/c");
-        Decorator decorate = new IntegrationTestCoverageDecorator(settings,null);
+        Decorator decorate = new IntegrationTestDecorator(settings,null);
         //Act
         boolean actual = decorate.shouldExecuteOnProject(null);
         //Assert

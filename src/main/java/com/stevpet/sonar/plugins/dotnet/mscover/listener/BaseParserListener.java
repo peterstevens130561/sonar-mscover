@@ -2,7 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.listener;
 
 import org.codehaus.staxmate.in.SMInputCursor;
 
-public class BaseCoverageParserListener implements ParserListener {
+public class BaseParserListener implements ParserListener {
 
     public void onLine(SMInputCursor linesCursor) {
         //Base does nothing

@@ -24,7 +24,7 @@ import org.codehaus.staxmate.in.SMInputCursor;
 
 import org.sonar.api.utils.SonarException;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.listener.BaseCoverageParserListener;
+import com.stevpet.sonar.plugins.dotnet.mscover.listener.BaseParserListener;
 import com.stevpet.sonar.plugins.dotnet.mscover.listener.ParserListener;
 
 import javax.xml.stream.XMLStreamException;
@@ -43,7 +43,7 @@ public class CoverageParser implements Parser {
     private static String SIGNATURE_ELEMENT = "CoverageDSPriv";
     
 
-    private ParserListener listener =  new BaseCoverageParserListener() ;
+    private ParserListener listener =  new BaseParserListener() ;
 
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.CoverageParser#isCompatible(org.codehaus.staxmate.in.SMInputCursor)
