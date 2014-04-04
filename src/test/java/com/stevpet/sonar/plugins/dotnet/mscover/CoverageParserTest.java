@@ -15,9 +15,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.config.Settings;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.listener.ParserListener;
+import com.stevpet.sonar.plugins.dotnet.mscover.listener.ParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.CoverageParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.SingleListenerParser;
 
 
 public class CoverageParserTest {
@@ -31,7 +31,7 @@ public class CoverageParserTest {
     @Test
     public void ExcludeDefined_LinesNotScanned() throws XMLStreamException {
         File file = Helper.getResource("mscoverage.xml");
-        Parser parser = new CoverageParser();
+        Parser parser = new SingleListenerParser();
         SMInputFactory inf = new SMInputFactory(XMLInputFactory.newInstance());
         SMHierarchicCursor rootCursor = inf.rootElementCursor(file);
         SMInputCursor root = rootCursor.advance();      
@@ -46,7 +46,7 @@ public class CoverageParserTest {
     
     
     
-    private class TestCoverageParserListener implements ParserListener {
+    private class TestCoverageParserListener implements ParserObserver {
         
         
         private int visitedLines;
@@ -69,7 +69,8 @@ public class CoverageParserTest {
             visitedFiles++;
         }
 
-        public boolean onModuleName(String moduleName) {
+        public boolean onModuleName(SMInputCursor cursor) throws XMLStreamException {
+            String moduleName=cursor.getElemStringValue();
             return(!"tfsblame.exe".equals(moduleName));
         }
 

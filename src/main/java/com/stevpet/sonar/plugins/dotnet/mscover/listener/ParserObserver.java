@@ -23,7 +23,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.codehaus.staxmate.in.SMInputCursor;
 
-public interface ParserListener {
+public interface ParserObserver {
     /**
      * deal with a line element
      * 
@@ -41,8 +41,9 @@ public interface ParserListener {
     void onSourceFileNames(SMInputCursor childCursor) throws XMLStreamException;
     /**
      * Deal with a module. 
-     * @param moduleName
+     * @param cursor
      * @return true to continue processing the module
+     * @throws XMLStreamException 
      */
-    boolean  onModuleName(String moduleName);
+    boolean  onModuleName(SMInputCursor cursor) throws XMLStreamException;
 }

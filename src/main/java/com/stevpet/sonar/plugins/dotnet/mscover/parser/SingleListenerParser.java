@@ -25,7 +25,7 @@ import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.listener.BaseParserListener;
-import com.stevpet.sonar.plugins.dotnet.mscover.listener.ParserListener;
+import com.stevpet.sonar.plugins.dotnet.mscover.listener.ParserObserver;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -37,13 +37,13 @@ import static org.sonar.plugins.csharp.gallio.helper.StaxHelper.findElementName;
  * for more information
  *
  */
-public class CoverageParser implements Parser {
+public class SingleListenerParser implements Parser {
 
 
     private static String SIGNATURE_ELEMENT = "CoverageDSPriv";
     
 
-    private ParserListener listener =  new BaseParserListener() ;
+    private ParserObserver listener =  new BaseParserListener() ;
 
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.CoverageParser#isCompatible(org.codehaus.staxmate.in.SMInputCursor)
@@ -54,7 +54,7 @@ public class CoverageParser implements Parser {
     }
 
     
-    public void setListener(ParserListener listener) {
+    public void setListener(ParserObserver listener) {
         this.listener = listener ;
     }
     /* (non-Javadoc)
@@ -97,9 +97,9 @@ public class CoverageParser implements Parser {
         boolean doScanLines=false;    
         while(cursor.getNext() != null) {
                 String name=cursor.getLocalName();
+                
                 if("ModuleName".equals(name)) {
-                    String value=cursor.getElemStringValue();
-                    doScanLines = listener.onModuleName(value);
+                    doScanLines = listener.onModuleName(cursor);
                 }
                 if("NamespaceTable".equals(name) && doScanLines) {
                     scanLines(cursor);

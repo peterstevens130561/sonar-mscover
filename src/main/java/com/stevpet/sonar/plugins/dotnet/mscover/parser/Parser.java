@@ -2,7 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.parser;
 
 import org.codehaus.staxmate.in.SMInputCursor;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.listener.ParserListener;
+import com.stevpet.sonar.plugins.dotnet.mscover.listener.ParserObserver;
 
 public interface Parser {
 
@@ -11,6 +11,6 @@ public interface Parser {
     void parse(SMInputCursor startElementCursor);
 
     void setListener(
-            ParserListener testCoverageParserListener);
+            ParserObserver testCoverageParserListener);
 
 }

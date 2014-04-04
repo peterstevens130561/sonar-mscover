@@ -26,7 +26,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.listener.CoverageParserListener;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.CoverageParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.SingleListenerParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
@@ -110,7 +110,7 @@ public abstract class BaseCoverageSensor implements Sensor {
 
         //Create objects
         PropertiesHelper propertiesHelper = new PropertiesHelper(settings);
-        Parser parser = new CoverageParser();
+        Parser parser = new SingleListenerParser();
 
         CoverageParserListener parserListener = new CoverageParserListener();
         CoverageRegistry registry = new FileCoverageRegistry(projectDirectory);

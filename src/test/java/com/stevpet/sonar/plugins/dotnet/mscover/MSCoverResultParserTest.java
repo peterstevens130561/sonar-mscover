@@ -25,9 +25,9 @@ import com.google.common.collect.Collections2;
 
 import com.google.common.collect.Lists;
 import com.stevpet.sonar.plugins.dotnet.mscover.listener.CoverageParserListener;
-import com.stevpet.sonar.plugins.dotnet.mscover.listener.ParserListener;
+import com.stevpet.sonar.plugins.dotnet.mscover.listener.ParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.CoverageParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.SingleListenerParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
@@ -111,7 +111,7 @@ public class MSCoverResultParserTest {
   public void IsCompatible_ForValidFile_True() throws XMLStreamException {
 	  // given a proper coverage file
 	    File file = getResource("mscoverage.xml");
-	    Parser parser = new CoverageParser();
+	    Parser parser = new SingleListenerParser();
 	    SMInputFactory inf = new SMInputFactory(XMLInputFactory.newInstance());
 	    SMHierarchicCursor rootCursor = inf.rootElementCursor(file);
 	    SMInputCursor root = rootCursor.advance();
@@ -124,7 +124,7 @@ public class MSCoverResultParserTest {
   public void Parse_ForValidFile_CheckFiles() throws XMLStreamException {
 	    //Arrange
 	    File file = getResource("mscoverage.xml");
-	    Parser parser = new CoverageParser();
+	    Parser parser = new SingleListenerParser();
 	    SMInputFactory inf = new SMInputFactory(XMLInputFactory.newInstance());
 	    SMHierarchicCursor rootCursor = inf.rootElementCursor(file);
 	    SMInputCursor root = rootCursor.advance();	    
@@ -141,7 +141,7 @@ public class MSCoverResultParserTest {
   public void Parse_ForValidFile_CheckRegistry() throws XMLStreamException {
         //Arrange
         File file = getResource("mscoverage.xml");
-        Parser parser = new CoverageParser();
+        Parser parser = new SingleListenerParser();
         SMInputFactory inf = new SMInputFactory(XMLInputFactory.newInstance());
         SMHierarchicCursor rootCursor = inf.rootElementCursor(file);
         SMInputCursor root = rootCursor.advance();
@@ -179,7 +179,7 @@ public class MSCoverResultParserTest {
       // given a proper coverage file
         //Arrange
         File file = getResource("mscoverage.xml");
-        Parser parser = new CoverageParser();
+        Parser parser = new SingleListenerParser();
         SMInputFactory inf = new SMInputFactory(XMLInputFactory.newInstance());
         SMHierarchicCursor rootCursor = inf.rootElementCursor(file);
         SMInputCursor root = rootCursor.advance();
@@ -322,7 +322,7 @@ public class MSCoverResultParserTest {
   }
 private CoverageRegistry parseFile(File file) throws FactoryConfigurationError,
         XMLStreamException {
-    Parser parser = new CoverageParser();
+    Parser parser = new SingleListenerParser();
     SMInputFactory inf = new SMInputFactory(XMLInputFactory.newInstance());
     SMHierarchicCursor rootCursor = inf.rootElementCursor(file);
     SMInputCursor root = rootCursor.advance();
@@ -335,7 +335,7 @@ private CoverageRegistry parseFile(File file) throws FactoryConfigurationError,
     parser.parse(root);
     return coverageRegistry;
 }
-  private class TestCoverageParserListener implements ParserListener {
+  private class TestCoverageParserListener implements ParserObserver {
 
     private int visitedLines;
     private int visitedFiles;
@@ -347,18 +347,15 @@ private CoverageRegistry parseFile(File file) throws FactoryConfigurationError,
     int getVisitedFiles() {
         return visitedFiles;
     }
-    public void onLine(SMInputCursor linesCursor) {
-        // TODO Auto-generated method stub
+    public void onLine(SMInputCursor cursor) {
         visitedLines++;
     }
 
-    public void onSourceFileNames(SMInputCursor childCursor) {
-        // TODO Auto-generated method stub
+    public void onSourceFileNames(SMInputCursor cursor) {
         visitedFiles++;
     }
 
-    public boolean onModuleName(String moduleName) {
-        // TODO Auto-generated method stub
+    public boolean onModuleName(SMInputCursor cursor) {
         return true;
     }
       

@@ -9,7 +9,7 @@ import org.sonar.api.utils.SonarException;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.CoveragePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 
-public class CoverageParserListener implements ParserListener {
+public class CoverageParserListener implements ParserObserver {
     
 
     private static final String COVERAGE = "Coverage";
@@ -85,8 +85,6 @@ public class CoverageParserListener implements ParserListener {
     }
     
     
-
-
     private int getNextIntElement(SMInputCursor cursor, String expectedName)
             throws XMLStreamException {
         return getNextElement(cursor, expectedName).getElemIntValue();
@@ -119,7 +117,8 @@ public class CoverageParserListener implements ParserListener {
         this.coveredLines = coveredLines;
     }
 
-    public boolean onModuleName(String moduleName) {
+    public boolean onModuleName(SMInputCursor cursor) {
+        // TODO Auto-generated method stub
         return true;
     }
 

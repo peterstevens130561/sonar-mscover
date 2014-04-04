@@ -23,9 +23,9 @@
       <operations public="true" package="true" protected="true" private="false" static="false"/>    
     </display>  
   </class>  
-  <interface id="3" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.listener.ParserListener" 
+  <interface id="3" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.listener.ParserObserver" 
     project="sonar-mscover-plugin" 
-    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/listener/ParserListener.java" 
+    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/listener/ParserObserver.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="281" y="136"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -100,30 +100,30 @@
       <operations public="true" package="true" protected="true" private="false" static="false"/>    
     </display>  
   </class>  
-  <realization id="10">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="6"/>  
-  </realization>  
+  <generalization id="10">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
   <realization id="11">    
-    <end type="SOURCE" refId="2"/>    
+    <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="3"/>  
   </realization>  
-  <realization id="12">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="8"/>  
-  </realization>  
-  <association id="13">    
+  <association id="12">    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="14" name="registry"/>      
-      <multiplicity id="15" minimum="0" maximum="1"/>    
+      <attribute id="13" name="registry"/>      
+      <multiplicity id="14" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="16">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
+  <realization id="15">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="3"/>  
+  </realization>  
+  <realization id="16">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="6"/>  
+  </realization>  
   <association id="17">    
     <end type="SOURCE" refId="2" navigable="false">      
       <attribute id="18" name="registry"/>      
@@ -133,8 +133,8 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <realization id="20">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="3"/>  
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="8"/>  
   </realization>  
   <generalization id="21">    
     <end type="SOURCE" refId="5"/>    

@@ -19,7 +19,7 @@ import org.junit.Test;
 import com.stevpet.sonar.plugins.dotnet.mscover.listener.CoverageParserListener;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.CoverageParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.SingleListenerParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
 
 public class RegistryTest {
@@ -70,7 +70,7 @@ public class RegistryTest {
 
     private TestCoverageRegistry arrange(String coverageName) throws XMLStreamException {
         File file = Helper.getResource(coverageName);
-        Parser parser = new CoverageParser();
+        Parser parser = new SingleListenerParser();
         SMInputFactory inf = new SMInputFactory(XMLInputFactory.newInstance());
         SMHierarchicCursor rootCursor = inf.rootElementCursor(file);
         SMInputCursor root = rootCursor.advance();
