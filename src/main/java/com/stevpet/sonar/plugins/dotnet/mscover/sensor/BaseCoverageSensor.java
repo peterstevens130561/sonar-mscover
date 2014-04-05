@@ -26,9 +26,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.listener.CoverageParserListener;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.MethodBlocksObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.SingleListenerParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
@@ -110,24 +113,48 @@ public abstract class BaseCoverageSensor implements Sensor {
 
         //Create objects
         PropertiesHelper propertiesHelper = new PropertiesHelper(settings);
-        Parser parser = new SingleListenerParser();
 
-        CoverageParserListener parserListener = new CoverageParserListener();
+
         CoverageRegistry registry = new FileCoverageRegistry(projectDirectory);
+
+        String path = getCoveragePath();
+        
+        invokeSingleListenerParser(registry, path);  
+        invokeParserSubject(path);
+        
         Saver saver = createSaver(project, sensorContext, registry);
+        wireSaver(propertiesHelper, saver);
+        saver.save();
+
+    }
+
+    private void wireSaver(PropertiesHelper propertiesHelper, Saver saver) {
         DateFilter dateFilter = DateFilterFactory.createCutOffDateFilter(timeMachine, propertiesHelper);
         ResourceFilter fileFilter = ResourceFilterFactory.createAntPatternResourceFilter(propertiesHelper);
 
         saver.setDateFilter(dateFilter);
         saver.setResourceFilter(fileFilter);
-        parserListener.setRegistry(registry);
-        parser.setListener(parserListener);
+    }
 
-        String path = getCoveragePath();
+    private void invokeSingleListenerParser(CoverageRegistry registry,
+            String path) throws XMLStreamException {
+        CoverageParserListener parserListener = new CoverageParserListener();
+        parserListener.setRegistry(registry);   
+        Parser parser = new SingleListenerParser();
+        parser.setListener(parserListener);
         SMInputCursor coverageCursor = getCoverageCursor(path);
         parser.parse(coverageCursor);
-        saver.save();
+    }
 
+    private void invokeParserSubject(String path) throws XMLStreamException {
+        SMInputCursor coverageCursor;
+        MethodBlocksObserver methodBlocksObserver = new MethodBlocksObserver();
+        FileBlocksRegistry fileBlocksRegistry= new FileBlocksRegistry();
+        methodBlocksObserver.setRegistry(fileBlocksRegistry);
+        ParserSubject parserSubject = new ParserSubject();
+        parserSubject.registerObserver(methodBlocksObserver);
+        coverageCursor=getCoverageCursor(path);
+        parserSubject.parse(coverageCursor);
     }
 
     private MicrosoftWindowsEnvironment getMicrosoftWindowsEnvironment() {

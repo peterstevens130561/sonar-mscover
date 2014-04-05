@@ -1,5 +1,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.registry;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.commons.lang.StringUtils;
 import org.jfree.util.Log;
 
@@ -34,6 +37,25 @@ class SourceFilePathHelper {
           projectFolder = projectFolders[projectFolders.length - 1];
       }
 
+      /**
+       * Get the translated path of the file
+       * @param fullPath filename in the coverage file
+       * @return filename on the filesystem
+       * @throws IOException
+       */
+      public String getCanonicalFile(String fullPath) throws IOException {
+          setFilePath(fullPath);
+          if (!isModuleInSolution()) {
+              return StringUtils.EMPTY;
+          }
+          String projectPath = getSolutionPath();
+          File file = new File(projectPath);
+
+          if (!file.exists()) {
+              return StringUtils.EMPTY;
+          }
+          return file.getCanonicalPath();
+      }
       /**
        * full path the the source file (from the coverage file)
        * @param path
