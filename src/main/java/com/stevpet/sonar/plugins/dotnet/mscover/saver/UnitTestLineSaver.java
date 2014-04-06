@@ -15,12 +15,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceLine;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 
-public class UnitTestSaver extends BaseSaver {
+public class UnitTestLineSaver extends LineSaver {
 
     private final PropertiesBuilder<String, Integer> lineHitsBuilder = new PropertiesBuilder<String, Integer>(
             CoreMetrics.COVERAGE_LINE_HITS_DATA);
     
-    public UnitTestSaver(SensorContext context,
+    public UnitTestLineSaver(SensorContext context,
             Project project, CoverageRegistry registry) {
         super(context, project, registry);
     }

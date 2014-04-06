@@ -28,7 +28,7 @@ public class TestCoverSensor extends BaseCoverageSensor {
         super(settings, microsoftWindowsEnvironment,timeMachine);
     }
 
-    protected Saver createSaver(Project project, SensorContext sensorContext,
+    protected Saver createLineSaver(Project project, SensorContext sensorContext,
             CoverageRegistry registry) {
         saver=new TestsCoverageSaver(sensorContext,project,registry);
         return saver;

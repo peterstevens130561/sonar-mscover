@@ -24,7 +24,8 @@ import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.IntegrationTestSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.IntegrationTestLineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.UnitTestLineSaver;
 
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
@@ -49,9 +50,9 @@ public class UnitTestCoverSensor extends BaseCoverageSensor {
     }
 
     @Override
-    protected Saver createSaver(Project project, SensorContext sensorContext,
+    protected Saver createLineSaver(Project project, SensorContext sensorContext,
             CoverageRegistry registry) {
-        return new IntegrationTestSaver(sensorContext, project,
+        return new UnitTestLineSaver(sensorContext, project,
                 registry);
     }
 

@@ -16,14 +16,14 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceLine;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 
-public class IntegrationTestSaver extends BaseSaver {
+public class IntegrationTestLineSaver extends LineSaver {
     private static final Logger LOG = LoggerFactory
-            .getLogger(IntegrationTestSaver.class);
+            .getLogger(IntegrationTestLineSaver.class);
     
     private final PropertiesBuilder<String, Integer> lineHitsBuilder = new PropertiesBuilder<String, Integer>(
             CoreMetrics.IT_COVERAGE_LINE_HITS_DATA);
     
-    public IntegrationTestSaver(SensorContext context,
+    public IntegrationTestLineSaver(SensorContext context,
             Project project, CoverageRegistry registry) {
         super(context, project, registry);
     }
@@ -50,7 +50,6 @@ public class IntegrationTestSaver extends BaseSaver {
     }
 
     private void saveConditions(FileCoverage coverageData, SensorContext context, Resource resource) {
-        ;
         if(coverageData.getCoveredLines()>0) {
             context.saveMeasure(resource, CoreMetrics.IT_BRANCH_COVERAGE,(double) 1);
             context.saveMeasure(resource,CoreMetrics.IT_UNCOVERED_CONDITIONS,(double)10);

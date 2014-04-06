@@ -23,7 +23,7 @@ import org.jfree.util.Log;
  *    
  * @return
  */
-class SourceFilePathHelper {
+public class SourceFilePathHelper {
 
       public SourceFilePathHelper() {
           
@@ -43,7 +43,7 @@ class SourceFilePathHelper {
        * @return filename on the filesystem
        * @throws IOException
        */
-      public String getCanonicalFile(String fullPath) throws IOException {
+      public String getCanonicalPath(String fullPath) throws IOException {
           setFilePath(fullPath);
           if (!isModuleInSolution()) {
               return StringUtils.EMPTY;

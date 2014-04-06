@@ -9,8 +9,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.BaseSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.LineSaver;
 
-public class TestsCoverageSaver extends BaseSaver {
+public class TestsCoverageSaver extends LineSaver {
 
     private int hitDataCalled ;
     private int saveSummaryMeasuresCalled;

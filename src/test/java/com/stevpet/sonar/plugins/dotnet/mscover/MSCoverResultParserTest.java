@@ -31,7 +31,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.SingleListenerParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.IntegrationTestSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.IntegrationTestLineSaver;
 
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.SMInputFactory;
@@ -175,7 +175,7 @@ public class MSCoverResultParserTest {
 
   
   @Test 
-  public void Parse_ForValidSmallFileWithRealRegistrySave_ShouldHaveRightDetailsAndSummary() throws XMLStreamException {
+  public void Parse_ForValidSmallFileWithRealRegistrySave_ShouldHaveRightDetailsAndSummary() throws XMLStreamException, IOException {
       // given a proper coverage file
         //Arrange
         File file = getResource("mscoverage.xml");
@@ -199,7 +199,7 @@ public class MSCoverResultParserTest {
         parser.parse(root);
         
         //Act
-        Saver saver = new IntegrationTestSaver(sensorContext,project,coverageRegistry);
+        Saver saver = new IntegrationTestLineSaver(sensorContext,project,coverageRegistry);
         saver.save();
         
         //Assert ?

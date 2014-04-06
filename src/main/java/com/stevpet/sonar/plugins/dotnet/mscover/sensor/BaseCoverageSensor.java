@@ -30,9 +30,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.MethodBlocksObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.SingleListenerParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.SourceFileNamesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
@@ -59,7 +61,7 @@ public abstract class BaseCoverageSensor implements Sensor {
     /**
      * Creates the coverageSaver to use for the extension
      */
-    protected abstract Saver createSaver(Project project,
+    protected abstract Saver createLineSaver(Project project,
             SensorContext sensorContext, CoverageRegistry registry);
 
     /**
@@ -102,11 +104,13 @@ public abstract class BaseCoverageSensor implements Sensor {
             tryAnalyse(project, sensorContext);
         } catch (XMLStreamException e) {
             throw new SonarException("XmlStreamException", e);
-        } 
+        } catch (IOException e) {
+            throw new SonarException("IOException",e);
+        }
     }
 
     private void tryAnalyse(Project project, SensorContext sensorContext)
-            throws XMLStreamException {
+            throws XMLStreamException, IOException {
         LOG.info("MsCoverPlugin : name=" + project.getName());
         String projectDirectory = getCurrentProjectDirectory(project);
         LOG.info("MsCoverPlugin : directory=" + projectDirectory);
@@ -116,13 +120,15 @@ public abstract class BaseCoverageSensor implements Sensor {
 
 
         CoverageRegistry registry = new FileCoverageRegistry(projectDirectory);
+        FileBlocksRegistry fileBlocksRegistry= new FileBlocksRegistry();
+        SourceFileNamesRegistry sourceFileNamesRegistry = new SourceFileNamesRegistry();
 
         String path = getCoveragePath();
         
         invokeSingleListenerParser(registry, path);  
-        invokeParserSubject(path);
+        invokeParserSubject(fileBlocksRegistry,sourceFileNamesRegistry,path);
         
-        Saver saver = createSaver(project, sensorContext, registry);
+        Saver saver = createLineSaver(project, sensorContext, registry);
         wireSaver(propertiesHelper, saver);
         saver.save();
 
@@ -146,13 +152,18 @@ public abstract class BaseCoverageSensor implements Sensor {
         parser.parse(coverageCursor);
     }
 
-    private void invokeParserSubject(String path) throws XMLStreamException {
+    private void invokeParserSubject(FileBlocksRegistry fileBlocksRegistry, SourceFileNamesRegistry sourceFileNamesRegistry,String path) throws XMLStreamException {
         SMInputCursor coverageCursor;
-        MethodBlocksObserver methodBlocksObserver = new MethodBlocksObserver();
-        FileBlocksRegistry fileBlocksRegistry= new FileBlocksRegistry();
-        methodBlocksObserver.setRegistry(fileBlocksRegistry);
         ParserSubject parserSubject = new ParserSubject();
+        
+        MethodBlocksObserver methodBlocksObserver = new MethodBlocksObserver();
+        methodBlocksObserver.setRegistry(fileBlocksRegistry);
         parserSubject.registerObserver(methodBlocksObserver);
+        
+        SourceFileNamesObserver sourceFileNamesObserver = new SourceFileNamesObserver();
+        sourceFileNamesObserver.setRegistry(sourceFileNamesRegistry);
+        parserSubject.registerObserver(sourceFileNamesObserver);
+        
         coverageCursor=getCoverageCursor(path);
         parserSubject.parse(coverageCursor);
     }
