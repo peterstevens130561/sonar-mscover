@@ -315,7 +315,6 @@ public class MSCoverResultParserTest {
 
     public File writeToWorkingDirectory(String arg0, String arg1)
             throws IOException {
-        // TODO Auto-generated method stub
         return null;
     }
       
