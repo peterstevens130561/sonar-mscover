@@ -26,7 +26,6 @@ public class TestsCoverageSaver extends LineSaver {
     public TestsCoverageSaver(SensorContext context, Project project,
             CoverageRegistry registry) {
         super(context, project, registry);
-        // TODO Auto-generated constructor stub
     }
 
     public void saveSummaryMeasures(SensorContext context,
@@ -39,9 +38,7 @@ public class TestsCoverageSaver extends LineSaver {
         return null;
     }
 
-    public void setResourceFilter(ResourceFilter fileFilter) {
-        // TODO Auto-generated method stub
-        
+    public void setResourceFilter(ResourceFilter fileFilter) {       
     }
 
 }

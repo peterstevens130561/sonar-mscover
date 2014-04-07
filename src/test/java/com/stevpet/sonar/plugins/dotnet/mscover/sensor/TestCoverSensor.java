@@ -36,7 +36,6 @@ public class TestCoverSensor extends BaseCoverageSensor {
     }
 
     protected String getCoveragePath() {
-        // TODO Auto-generated method stub
         File file = Helper.getResource("mscoverage.xml");
         Assert.assertTrue(file.exists());
         return file.getAbsolutePath();

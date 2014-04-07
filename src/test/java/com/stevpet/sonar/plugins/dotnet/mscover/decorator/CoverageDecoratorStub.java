@@ -14,12 +14,10 @@ class CoverageDecoratorStub extends BaseDecorator {
     }
     protected CoverageDecoratorStub(Settings settings) {
         super(settings,null);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
     public boolean shouldExecuteDecorator(Project project, Settings settings) {
-        // TODO Auto-generated method stub
         PropertiesHelper helper = new PropertiesHelper(settings);
         return helper.isIntegrationTestsEnabled();
     }

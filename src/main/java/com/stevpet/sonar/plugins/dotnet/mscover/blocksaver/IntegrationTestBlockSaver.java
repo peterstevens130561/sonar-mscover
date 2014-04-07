@@ -33,7 +33,6 @@ public class IntegrationTestBlockSaver extends BaseBlockSaver {
     @Override
     void saveSummaryMeasures(SensorContext context, FileBlocks fileBlocks,
             Resource<?> resource) {
-        // TODO Auto-generated method stub
         BlockModel methodBlock=fileBlocks.getSummaryBlock();
 
         LOG.debug("MsCover resource       " + resource.getKey());

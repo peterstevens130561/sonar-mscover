@@ -107,7 +107,6 @@ public abstract class BaseBlockSaver extends BaseSaver implements BlockRegistry 
 
 
     protected Double getCoverage(BlockModel methodBlock) {
-        // TODO Auto-generated method stub
         if(methodBlock.getBlocks()==0) {
             return 1.0;
         }

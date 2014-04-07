@@ -208,52 +208,42 @@ public class MSCoverResultParserTest {
   private class DummyFileSystem implements ProjectFileSystem {
 
     public ProjectFileSystem addSourceDir(File arg0) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public ProjectFileSystem addTestDir(File arg0) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public File getBasedir() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public File getBuildDir() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public File getBuildOutputDir() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public File getFileFromBuildDirectory(String arg0) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public List<File> getJavaSourceFiles() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public File getReportOutputDir() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public File getSonarWorkingDirectory() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public Charset getSourceCharset() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -269,7 +259,6 @@ public class MSCoverResultParserTest {
     }
 
     public List<File> getSourceFiles(Language... arg0) {
-        // TODO Auto-generated method stub
         return null;
     }
 

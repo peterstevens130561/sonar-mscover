@@ -60,12 +60,10 @@ public class CoverageParserTest {
             return visitedFiles;
         }
         public void onLine(SMInputCursor linesCursor) {
-            // TODO Auto-generated method stub
             visitedLines++;
         }
 
         public void onSourceFileNames(SMInputCursor childCursor) {
-            // TODO Auto-generated method stub
             visitedFiles++;
         }
 

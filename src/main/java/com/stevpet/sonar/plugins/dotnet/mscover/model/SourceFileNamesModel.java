@@ -31,7 +31,6 @@ public class SourceFileNamesModel extends Model {
 
     @Override
     public String getLastElement() {
-        // TODO Auto-generated method stub
        return SOURCE_FILE_NAME_ELEMENTNAME;
     }
 }

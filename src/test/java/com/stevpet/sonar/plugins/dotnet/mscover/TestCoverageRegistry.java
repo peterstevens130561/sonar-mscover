@@ -21,33 +21,26 @@ public class TestCoverageRegistry implements CoverageRegistry {
         coveredLines++;       
     }
 
-    public void save() {
-        // TODO Auto-generated method stub
-        
+    public void save() {       
     }
 
     public int getFileCount() {
-        // TODO Auto-generated method stub
         return visitedFiles;
     }
 
     public Object getVisitedFiles() {
-        // TODO Auto-generated method stub
         return visitedFiles;
     }
 
     public Object getVisitedLines() {
-        // TODO Auto-generated method stub
         return coveredLines;
     }
 
     public int getLineCount() {
-        // TODO Auto-generated method stub
         return coveredLines;
     }
 
     public Collection<FileCoverage> getFileCoverages() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -57,7 +50,6 @@ public class TestCoverageRegistry implements CoverageRegistry {
     }
 
     public int getCoveredLineCount() {
-        // TODO Auto-generated method stub
         return coveredLines + uncoveredLines;
     }
 

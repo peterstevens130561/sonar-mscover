@@ -56,8 +56,7 @@ public class UnitTestBlockSaver extends BaseBlockSaver {
     @Override
     void saveSummaryMeasures(SensorContext context, FileBlocks fileBlocks,
             Resource<?> sonarFile) {
-        // TODO Auto-generated method stub
-        
+       
     }
 
     @Override
