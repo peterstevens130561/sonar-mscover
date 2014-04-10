@@ -28,6 +28,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.listener.CoverageParserListener;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.MethodBlocksObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.CoverageParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.SingleListenerParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
@@ -165,7 +166,7 @@ public abstract class BaseCoverageSensor implements Sensor {
 
     private void invokeParserSubject(FileBlocksRegistry fileBlocksRegistry, SourceFileNamesRegistry sourceFileNamesRegistry,String path) throws XMLStreamException {
         SMInputCursor coverageCursor;
-        ParserSubject parserSubject = new ParserSubject();
+        ParserSubject parserSubject = new CoverageParserSubject();
         
         MethodBlocksObserver methodBlocksObserver = new MethodBlocksObserver();
         methodBlocksObserver.setRegistry(fileBlocksRegistry);

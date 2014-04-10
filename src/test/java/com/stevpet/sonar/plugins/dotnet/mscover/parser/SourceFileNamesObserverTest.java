@@ -64,7 +64,7 @@ public class SourceFileNamesObserverTest {
     @Test
     public void ParseFileWithObserver() throws XMLStreamException {
         //Arrange
-        ParserSubject parser = new ParserSubject();
+        ParserSubject parser = new CoverageParserSubject();
         SourceFileNamesRegistry registry = new SourceFileNamesRegistry();
         observer.setRegistry(registry);
         parser.registerObserver(observer);
