@@ -16,7 +16,9 @@ public class FileBlocksRegistry {
     
     public void add(String fileId,BlockModel block) {
         if(!filesBlocks.containsKey(fileId)) {
-            filesBlocks.put(fileId, new FileBlocks());
+            FileBlocks fileBlocks = new FileBlocks();
+            fileBlocks.setFileId(fileId);
+            filesBlocks.put(fileId, fileBlocks);
         }
         FileBlocks fileBlocks = filesBlocks.get(fileId);
         fileBlocks.add(block);

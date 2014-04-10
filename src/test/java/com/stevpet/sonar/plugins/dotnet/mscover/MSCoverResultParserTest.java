@@ -263,42 +263,36 @@ public class MSCoverResultParserTest {
     }
 
     public List<File> getTestDirs() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public List<File> getTestFiles(Language... arg0) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public boolean hasJavaSourceFiles() {
-        // TODO Auto-generated method stub
         return false;
     }
 
     public boolean hasTestFiles(Language arg0) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     public List<InputFile> mainFiles(String... arg0) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public File resolvePath(String arg0) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public List<InputFile> testFiles(String... arg0) {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
     public Resource toResource(File arg0) {
-        // TODO Auto-generated method stub
+
         return null;
     }
 
@@ -395,14 +389,11 @@ private void checkParsing(final ParsingParameters parameters) {
   }
 
 
-public void Line(SMInputCursor linesCursor) {
-    // TODO Auto-generated method stub
-    
+public void Line(SMInputCursor linesCursor) {   
 }
 
 public void SourceFileNames(SMInputCursor childCursor) {
-    // TODO Auto-generated method stub
-    
+ 
 }
 
 }

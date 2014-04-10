@@ -12,6 +12,7 @@ import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.Helper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
 
@@ -28,12 +29,6 @@ public class TestCoverSensor extends BaseCoverageSensor {
         super(settings, microsoftWindowsEnvironment,timeMachine);
     }
 
-    protected Saver createLineSaver(Project project, SensorContext sensorContext,
-            CoverageRegistry registry) {
-        saver=new TestsCoverageSaver(sensorContext,project,registry);
-        return saver;
-        
-    }
 
     protected String getCoveragePath() {
         File file = Helper.getResource("mscoverage.xml");
@@ -43,6 +38,17 @@ public class TestCoverSensor extends BaseCoverageSensor {
 
     protected boolean shouldExecuteSensor(PropertiesHelper helper) {
         return true;
+    }
+    @Override
+    protected BaseBlockSaver createBlockSaver(Project project,
+            SensorContext sensorContext) {
+        return new TestBlockSaver(sensorContext,project);
+    }
+    @Override
+    protected Saver createLineSaver(Project project,
+            SensorContext sensorContext, CoverageRegistry registry) {
+        saver= new TestsCoverageLineSaver(sensorContext,project,registry);
+        return saver;
     }
 
 }

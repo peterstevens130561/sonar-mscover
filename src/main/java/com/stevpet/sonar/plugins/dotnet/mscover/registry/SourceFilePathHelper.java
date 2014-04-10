@@ -44,17 +44,35 @@ public class SourceFilePathHelper {
        * @throws IOException
        */
       public String getCanonicalPath(String fullPath) throws IOException {
+          if(StringUtils.isEmpty(fullPath)) {
+              return StringUtils.EMPTY;
+          }
           setFilePath(fullPath);
           if (!isModuleInSolution()) {
               return StringUtils.EMPTY;
           }
-          String projectPath = getSolutionPath();
-          File file = new File(projectPath);
+          String solutionPath = getSolutionPath();
+          File file = new File(solutionPath);
 
           if (!file.exists()) {
               return StringUtils.EMPTY;
           }
           return file.getCanonicalPath();
+      }
+      
+      /**
+       * Get the file with canonical path of the file
+       * @param fullPath filename in the coverage file
+       * @return file with path  being canonical
+       * @throws IOException
+       */
+      public File getCanonicalFile(String fullPath) throws IOException {
+          String path = getCanonicalPath(fullPath);
+          if(StringUtils.isEmpty(path) ) {
+              return null;
+          }
+          return new File(path);
+          
       }
       /**
        * full path the the source file (from the coverage file)

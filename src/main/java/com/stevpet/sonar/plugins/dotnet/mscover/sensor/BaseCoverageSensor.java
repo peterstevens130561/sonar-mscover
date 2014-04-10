@@ -23,6 +23,7 @@ import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.listener.CoverageParserListener;
@@ -35,6 +36,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
@@ -64,6 +66,7 @@ public abstract class BaseCoverageSensor implements Sensor {
     protected abstract Saver createLineSaver(Project project,
             SensorContext sensorContext, CoverageRegistry registry);
 
+    protected abstract BaseBlockSaver createBlockSaver(Project project, SensorContext sensorContext);
     /**
      * Gets the path to the coverage file for the extension
      * 
@@ -117,7 +120,8 @@ public abstract class BaseCoverageSensor implements Sensor {
 
         //Create objects
         PropertiesHelper propertiesHelper = new PropertiesHelper(settings);
-
+        SourceFilePathHelper sourceFilePathHelper = new SourceFilePathHelper();
+        sourceFilePathHelper.setProjectPath(projectDirectory);
 
         CoverageRegistry registry = new FileCoverageRegistry(projectDirectory);
         FileBlocksRegistry fileBlocksRegistry= new FileBlocksRegistry();
@@ -131,8 +135,15 @@ public abstract class BaseCoverageSensor implements Sensor {
         Saver saver = createLineSaver(project, sensorContext, registry);
         wireSaver(propertiesHelper, saver);
         saver.save();
-
+        
+        BaseBlockSaver blockSaver = createBlockSaver(project,sensorContext);
+        wireSaver(propertiesHelper,blockSaver);
+        blockSaver.setSourceFilePathHelper(sourceFilePathHelper);
+        blockSaver.setSourceFileNamesRegistry(sourceFileNamesRegistry);
+        blockSaver.setFileBlocksRegistry(fileBlocksRegistry);
+        blockSaver.save();
     }
+
 
     private void wireSaver(PropertiesHelper propertiesHelper, Saver saver) {
         DateFilter dateFilter = DateFilterFactory.createCutOffDateFilter(timeMachine, propertiesHelper);

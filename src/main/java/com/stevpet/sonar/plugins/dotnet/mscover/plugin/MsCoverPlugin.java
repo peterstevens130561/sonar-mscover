@@ -20,8 +20,10 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.plugin;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestDecorator;
-import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestDecorator;
+import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestBlockDecorator;
+import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestLineDecorator;
+import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestBlockDecorator;
+import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestLineDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.IntegrationTestCoverSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.UnitTestCoverSensor;
 
@@ -74,8 +76,10 @@ public List getExtensions() {
     return Arrays.asList(
         IntegrationTestCoverSensor.class,
         UnitTestCoverSensor.class,
-        IntegrationTestDecorator.class,
-        UnitTestDecorator.class
+        IntegrationTestLineDecorator.class,
+        UnitTestLineDecorator.class,
+        IntegrationTestBlockDecorator.class,
+        UnitTestBlockDecorator.class
         );
   }
 }

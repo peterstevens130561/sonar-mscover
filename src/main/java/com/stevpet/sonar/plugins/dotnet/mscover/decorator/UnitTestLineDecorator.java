@@ -19,9 +19,6 @@
  */
 package com.stevpet.sonar.plugins.dotnet.mscover.decorator;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.sonar.api.batch.DecoratorContext;
 import org.sonar.api.batch.DependedUpon;
 import org.sonar.api.batch.TimeMachine;
@@ -30,42 +27,43 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 
+
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Decorates resources that do not have coverage metrics because they were not touched by any test, and thus not present in the coverage
  * report file.
  */
-public class IntegrationTestDecorator extends BaseDecorator {
+public class UnitTestLineDecorator extends BaseDecorator {
 
-  public IntegrationTestDecorator(Settings settings,TimeMachine timeMachine) {
+  public UnitTestLineDecorator(Settings settings,TimeMachine timeMachine) {
 
     super(settings,timeMachine);
 
     this.executionMode="active";
-    this.testMetric = CoreMetrics.IT_COVERAGE;
+    this.testMetric = CoreMetrics.COVERAGE;
   }
 
-  
   @Override
   protected void handleUncoveredResource(DecoratorContext context, double lines) {
-    context.saveMeasure(CoreMetrics.IT_COVERAGE, 0.0);
-    context.saveMeasure(CoreMetrics.IT_LINE_COVERAGE, 0.0);
-    context.saveMeasure(CoreMetrics.IT_LINES_TO_COVER, lines);
-    context.saveMeasure(CoreMetrics.IT_UNCOVERED_LINES, lines);
+    context.saveMeasure(CoreMetrics.COVERAGE, 0.0);
+    context.saveMeasure(CoreMetrics.LINE_COVERAGE, 0.0);
+    context.saveMeasure(CoreMetrics.LINES_TO_COVER, lines);
+    context.saveMeasure(CoreMetrics.UNCOVERED_LINES, lines);
   }
 
-  
   @DependedUpon
   public List<Metric> generatesCoverageMetrics() {
-    return Arrays.asList(CoreMetrics.IT_COVERAGE, CoreMetrics.IT_LINE_COVERAGE, CoreMetrics.IT_LINES_TO_COVER, CoreMetrics.IT_UNCOVERED_LINES);
+    return Arrays.asList(CoreMetrics.COVERAGE, CoreMetrics.LINE_COVERAGE, CoreMetrics.LINES_TO_COVER, CoreMetrics.UNCOVERED_LINES);
   }
-
 
 @Override
 public boolean shouldExecuteDecorator(Project project, Settings settings) {
     PropertiesHelper helper = new PropertiesHelper(settings);
-    return helper.isIntegrationTestsEnabled();
+    return helper.isUnitTestsEnabled();
 }
 
 }

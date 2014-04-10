@@ -32,7 +32,7 @@ public class CoverSensorTest {
         //Act
         sensor.analyse(project, sensorContext);      
         //Assert
-        TestsCoverageSaver saver = (TestsCoverageSaver)sensor.getCoverageSaver();
+        TestsCoverageLineSaver saver = (TestsCoverageLineSaver)sensor.getCoverageSaver();
         Assert.assertEquals(0, saver.getHitDataCalls());
         Assert.assertEquals(0, saver.getSaveSummaryMeasuresCalls());
     }

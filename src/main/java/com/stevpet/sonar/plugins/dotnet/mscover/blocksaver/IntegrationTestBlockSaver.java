@@ -1,7 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.blocksaver;
 
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
@@ -14,7 +12,6 @@ import org.sonar.api.resources.Resource;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.BlockModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 
 public class IntegrationTestBlockSaver extends BaseBlockSaver {
     private static final Logger LOG = LoggerFactory
@@ -26,12 +23,12 @@ public class IntegrationTestBlockSaver extends BaseBlockSaver {
             CoreMetrics.IT_COVERED_CONDITIONS_BY_LINE);
     
     public IntegrationTestBlockSaver(SensorContext context,
-            Project project, CoverageRegistry registry) {
-        super(context, project, registry);
+            Project project) {
+        super(context, project);
     }
     
     @Override
-    void saveSummaryMeasures(SensorContext context, FileBlocks fileBlocks,
+    public void saveSummaryMeasures(SensorContext context, FileBlocks fileBlocks,
             Resource<?> resource) {
         BlockModel methodBlock=fileBlocks.getSummaryBlock();
 

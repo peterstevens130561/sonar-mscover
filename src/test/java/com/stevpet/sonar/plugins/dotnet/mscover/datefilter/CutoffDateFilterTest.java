@@ -44,6 +44,28 @@ public class CutoffDateFilterTest {
         //Assert
         Assert.assertTrue(isIncluded);
     }
+    @Test(expected=SonarException.class)
+    public void InvalidCommitLine_ShouldThrowException() {
+        DateFilter dateFilter = new CutOffDateFilter();
+        Measure lineRevisions = new Measure(CoreMetrics.SCM_LAST_COMMIT_DATETIMES_BY_LINE,"abcde");
+        dateFilter.setLineCommitDates(lineRevisions);
+    }
+    
+    @Test
+    public void EmptyCommitLine_IsValid() {
+        DateFilter dateFilter = new CutOffDateFilter();
+        Measure lineRevisions = new Measure(CoreMetrics.SCM_LAST_COMMIT_DATETIMES_BY_LINE);
+        dateFilter.setLineCommitDates(lineRevisions);
+        dateFilter.setCutOffDate("2014-01-01"); 
+        Assert.assertTrue(dateFilter.isIncludedInResults());
+    }
+    
+    @Test
+    public void NoMeasure_IsValid() {
+        DateFilter dateFilter = new CutOffDateFilter();
+        dateFilter.setCutOffDate("2014-01-01"); 
+        Assert.assertTrue(dateFilter.isIncludedInResults());
+    }
     @Test
     public void EmptyMeasuresValidDate_ShouldBeIncluded() {
         PropertiesBuilder<Integer, String> dates = new PropertiesBuilder<Integer,String>(CoreMetrics.SCM_LAST_COMMIT_DATETIMES_BY_LINE);

@@ -11,7 +11,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.BaseSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.LineSaver;
 
-public class TestsCoverageSaver extends LineSaver {
+public class TestsCoverageLineSaver extends LineSaver {
 
     private int hitDataCalled ;
     private int saveSummaryMeasuresCalled;
@@ -23,9 +23,8 @@ public class TestsCoverageSaver extends LineSaver {
     public int getSaveSummaryMeasuresCalls() {
         return saveSummaryMeasuresCalled ;
     }
-    public TestsCoverageSaver(SensorContext context, Project project,
-            CoverageRegistry registry) {
-        super(context, project, registry);
+    public TestsCoverageLineSaver(SensorContext context, Project project,CoverageRegistry registry) {
+        super(context, project,registry);
     }
 
     public void saveSummaryMeasures(SensorContext context,

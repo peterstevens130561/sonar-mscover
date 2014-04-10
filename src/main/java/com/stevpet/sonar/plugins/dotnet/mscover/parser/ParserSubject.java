@@ -1,24 +1,21 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.parser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.codehaus.staxmate.in.SMEvent;
-import org.codehaus.staxmate.in.SMHierarchicCursor;
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.jfree.util.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.sensor.BaseCoverageSensor;
 
 public class ParserSubject implements Subject {
  
     static final Logger LOG = LoggerFactory
             .getLogger(ParserSubject.class);
-    private ArrayList<String> parentElements = new ArrayList<String>() ;
-    private ArrayList<ParserObserver> observers = new ArrayList<ParserObserver>();
+    private List<String> parentElements = new ArrayList<String>() ;
+    private List<ParserObserver> observers = new ArrayList<ParserObserver>();
     
     public ParserSubject() throws XMLStreamException {
         String[] names =  { "Module","NamespaceTable","Class","Method","Lines","SourceFileNames"};
@@ -40,7 +37,7 @@ public class ParserSubject implements Subject {
             throws XMLStreamException {
         while ((childCursor.getNext()) != null) {
             String name = childCursor.getLocalName();
-            if (name.equals("schema")) {
+            if ("schema".equals(name)) {
                 continue;
             }
 
@@ -55,13 +52,16 @@ public class ParserSubject implements Subject {
             parseChild(elementPath, childCursor.childElementCursor());
         } else {
             String text = childCursor.getElemStringValue();
+            if(StringUtils.isNotEmpty(text)) {
+                text = text.trim();
+            }
             invokeObservers(elementPath, name, text);
         }
     }
 
     private String createElementPath(String path, String name) {
         String elementPath;
-        if (path.equals("")) {
+        if ("".equals(path)) {
             elementPath = name;
         } else {
             elementPath = path + "/" + name;

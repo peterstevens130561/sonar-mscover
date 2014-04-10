@@ -22,11 +22,11 @@ public class SourceFileNamesObserver implements ParserObserver {
     }
 
     public void observe(String name, String text) {
-        if(name.equals("SourceFileID")) {
+        if("SourceFileID".equals(name)) {
             model = new SourceFileNamesModel();
         }
         model.setField(name,text);
-        if(name.equals("SourceFileName")) {
+        if("SourceFileName".equals(name)) {
             registry.add(model.getSourceFileID(), model);
         }
     }

@@ -22,6 +22,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.sensor;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.UnitTestBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.IntegrationTestLineSaver;
@@ -54,6 +56,11 @@ public class UnitTestCoverSensor extends BaseCoverageSensor {
             CoverageRegistry registry) {
         return new UnitTestLineSaver(sensorContext, project,
                 registry);
+    }
+    
+    @Override
+    protected BaseBlockSaver createBlockSaver(Project project, SensorContext sensorContext) {
+        return new UnitTestBlockSaver(sensorContext, project);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.blocksaver;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
@@ -12,7 +13,6 @@ import org.sonar.api.utils.ParsingUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.BlockModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
@@ -28,8 +28,7 @@ public abstract class BaseBlockSaver extends BaseSaver implements BlockRegistry 
     private SensorContext context;
     private Project project;
  
-    public BaseBlockSaver(SensorContext context, Project project,
-            CoverageRegistry registry) {
+    public BaseBlockSaver(SensorContext context, Project project) {
         super();
         this.context = context;
         this.project=project;
@@ -64,17 +63,16 @@ public abstract class BaseBlockSaver extends BaseSaver implements BlockRegistry 
 
     }
     
-    abstract void saveSummaryMeasures(SensorContext context,FileBlocks fileBlocks, Resource<?> sonarFile);
-    abstract void saveLineMeasures(SensorContext context,FileBlocks fileBlocks, Resource<?> sonarFile);   
+    public abstract void saveSummaryMeasures(SensorContext context,FileBlocks fileBlocks, Resource<?> sonarFile);
+    public abstract void saveLineMeasures(SensorContext context,FileBlocks fileBlocks, Resource<?> sonarFile);   
     
     public org.sonar.api.resources.File getSonarFile(String fileID) throws IOException {
         String coveragePath = sourceFileNamesRegistry.getSourceFileName(fileID);
         
-        String canonicalPath = sourceFilePathHelper.getCanonicalPath(coveragePath);
-        if(canonicalPath == null) {
+        File file = sourceFilePathHelper.getCanonicalFile(coveragePath);
+        if(file == null) {
             return null;
         }
-        File file = new File(canonicalPath);
         org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File
                 .fromIOFile(file, project);
         if (sonarFile == null) {
@@ -108,9 +106,9 @@ public abstract class BaseBlockSaver extends BaseSaver implements BlockRegistry 
 
     protected Double getCoverage(BlockModel methodBlock) {
         if(methodBlock.getBlocks()==0) {
-            return 1.0;
+            return 100.0;
         }
-        return (double) methodBlock.getCovered() / (double) methodBlock.getBlocks();
+        return (double) (methodBlock.getCovered()*100.0) / (double) methodBlock.getBlocks();
     }
 
 }

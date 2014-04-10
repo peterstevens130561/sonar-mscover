@@ -104,6 +104,9 @@ public abstract class BaseDecorator implements Decorator {
         if (ncloc == null) {
             return ;
         }
+        //TODO: we need to split this into lines and blocks. Add a class between the Base and the Lines to
+        // take care of the lines, and the same for the blocks
+        // for the blocks we need to find a way to go from the name to the file
         Measure sts = context.getMeasure(CoreMetrics.STATEMENTS);
         double lines = Math.min(ncloc.getValue(), sts.getValue());
         if(lines==0) {

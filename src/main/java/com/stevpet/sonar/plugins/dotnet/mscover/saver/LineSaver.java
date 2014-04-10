@@ -34,7 +34,6 @@ public abstract class LineSaver extends  BaseSaver {
         this.project= project;
         this.context = context;
         this.registry = registry;
-        // TODO Auto-generated constructor stub
     }
 
     /* (non-Javadoc)

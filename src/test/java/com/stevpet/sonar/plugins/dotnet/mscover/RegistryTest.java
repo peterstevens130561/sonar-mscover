@@ -91,7 +91,6 @@ public class RegistryTest {
 
         public TestCoverageRegistry() {
             super("c:\\Users\\stevpet\\Documents\\GitHub\\tfsblame\\tfsblame");
-            // TODO Auto-generated constructor stub
         }
              
         public FileCoverage getFileCoverageByName(String name) {

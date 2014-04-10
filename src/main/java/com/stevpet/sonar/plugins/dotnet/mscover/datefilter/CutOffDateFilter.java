@@ -53,9 +53,6 @@ public class CutOffDateFilter implements DateFilter {
 
     public void setLineCoverage(Measure lineCoverage) {
         String[] lines = getData(lineCoverage);
-        if(lines==null) {
-            return;
-        }
         for(String line:lines) {
             parseCoverageLine(line);
         }
@@ -114,7 +111,7 @@ public class CutOffDateFilter implements DateFilter {
     }
     
     public boolean isResourceIncludedInResults(Resource resource) {
-        LOG.info("isResourceIncludedInResults" + resource.getLongName());
+        LOG.debug("isResourceIncludedInResults" + resource.getLongName());
         Measure commitDates = getCommitDateTimesByLine(resource);
         setLineCommitDates(commitDates);
         return isIncludedInResults();
