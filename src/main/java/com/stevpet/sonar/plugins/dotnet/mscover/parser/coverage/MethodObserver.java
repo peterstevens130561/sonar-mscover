@@ -29,7 +29,7 @@ public class MethodObserver implements ParserObserver {
      * put each field in the current object. When the final field is encountered the
      * current one is saved, and is cloned in a new one
      */
-    public void observe(String name, String text) {
+    public void observeElement(String name, String text) {
 
         model.setField(name,text);
         if(name.equals(model.getLastElement())) {

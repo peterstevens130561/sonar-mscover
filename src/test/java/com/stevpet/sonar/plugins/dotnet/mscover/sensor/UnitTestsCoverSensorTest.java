@@ -37,7 +37,6 @@ public class UnitTestsCoverSensorTest {
         context = mock(SensorContext.class);
         microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
         sensor = new UnitTestCoverSensor(settings,null,null);
-        
     }
     
     

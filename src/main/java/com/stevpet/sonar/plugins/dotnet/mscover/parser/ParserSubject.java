@@ -75,13 +75,20 @@ public abstract class ParserSubject implements Subject {
                 if (parentElements.contains(name)) {
                     parseChild(elementPath, childCursor.childElementCursor());
                 } else {
-                    String text = childCursor.getElemStringValue();
-                    if(StringUtils.isNotEmpty(text)) {
-                        text = text.trim();
-                    }
-                    invokeObservers(elementPath, name, text);
+                    
+                    String text = getTrimmedElementStringValue(childCursor);
+                    invokeElementObservers(elementPath, name, text);
                 }
             }
+
+    private String getTrimmedElementStringValue(SMInputCursor childCursor)
+            throws XMLStreamException {
+        String text = childCursor.getElemStringValue();
+        if(StringUtils.isNotEmpty(text)) {
+            text = text.trim();
+        }
+        return text;
+    }
 
     private String createElementPath(String path, String name) {
         String elementPath;
@@ -93,10 +100,10 @@ public abstract class ParserSubject implements Subject {
         return elementPath;
     }
 
-    private void invokeObservers(String path, String name, String text) {
+    private void invokeElementObservers(String path, String name, String text) {
         for (ParserObserver observer : observers) {
             if (observer.isMatch(path)) {
-                observer.observe(name, text);
+                observer.observeElement(name, text);
             }
         }
     }

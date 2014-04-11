@@ -19,7 +19,6 @@ import org.sonar.test.TestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.LineSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.UnitTestLineSaver;
 
 import static org.junit.Assert.assertFalse;

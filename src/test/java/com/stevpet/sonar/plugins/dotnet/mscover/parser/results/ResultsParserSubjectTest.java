@@ -6,7 +6,7 @@ import java.io.File;
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLStreamException;
 
-import org.codehaus.staxmate.in.SMInputCursor;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.sonar.test.TestUtils;

@@ -57,10 +57,10 @@ public class SourceFileNamesObserverTest {
     public void TwoFileNames_ShouldBeTwoInRegistry() {
         SourceFileNamesRegistry registry = new SourceFileNamesRegistry();
         observer.setRegistry(registry) ;
-        observer.observe(SOURCE_FILE_ID, "1");
-        observer.observe(SOURCE_FILE_NAME, "a/b/c");
-        observer.observe(SOURCE_FILE_ID, "2");
-        observer.observe(SOURCE_FILE_NAME, "a/b/d");
+        observer.observeElement(SOURCE_FILE_ID, "1");
+        observer.observeElement(SOURCE_FILE_NAME, "a/b/c");
+        observer.observeElement(SOURCE_FILE_ID, "2");
+        observer.observeElement(SOURCE_FILE_NAME, "a/b/d");
         Assert.assertEquals(2,registry.size());
     }
     
@@ -79,10 +79,4 @@ public class SourceFileNamesObserverTest {
         Assert.assertEquals(8,registry.size());
     }
     
-    private SMInputCursor getCursor(File file)
-            throws FactoryConfigurationError, XMLStreamException {
-        SMInputFactory inf = new SMInputFactory(XMLInputFactory.newInstance());
-        SMHierarchicCursor cursor= inf.rootElementCursor(file);
-        return cursor.advance();
-    }
 }

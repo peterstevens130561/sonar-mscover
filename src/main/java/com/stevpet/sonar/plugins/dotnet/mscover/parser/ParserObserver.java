@@ -12,5 +12,5 @@ public interface ParserObserver {
      * @param name of this element
      * @param text of this element
      */
-    void observe(String name,String text);
+    void observeElement(String name,String text);
 }

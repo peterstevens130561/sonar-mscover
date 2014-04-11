@@ -22,7 +22,7 @@ public class SourceFileNamesObserver implements ParserObserver {
         return matcher.matches();
     }
 
-    public void observe(String name, String text) {
+    public void observeElement(String name, String text) {
         if("SourceFileID".equals(name)) {
             model = new SourceFileNamesModel();
         }

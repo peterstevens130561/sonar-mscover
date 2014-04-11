@@ -28,7 +28,7 @@ public class MethodBlocksObserver implements ParserObserver {
         return matcher.matches();
     }
 
-    public void observe(String name, String text) {
+    public void observeElement(String name, String text) {
         if (name.equals(block.getFirstElement())) {
             block = new BlockModel();
             isActive=true;

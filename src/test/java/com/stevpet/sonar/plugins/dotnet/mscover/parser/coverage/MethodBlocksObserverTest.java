@@ -79,12 +79,12 @@ public class MethodBlocksObserverTest {
         FileBlocksRegistry registry = new FileBlocksRegistry();
         observer.setRegistry(registry);
         //Act
-        observer.observe("BlocksCovered", "10");
-        observer.observe("BlocksNotCovered","5");
-        observer.observe("LnStart","20");
-        observer.observe("SourceFileID","25");
-        observer.observe("LnStart","21");
-        observer.observe("SourceFileID", "25");
+        observer.observeElement("BlocksCovered", "10");
+        observer.observeElement("BlocksNotCovered","5");
+        observer.observeElement("LnStart","20");
+        observer.observeElement("SourceFileID","25");
+        observer.observeElement("LnStart","21");
+        observer.observeElement("SourceFileID", "25");
         //Assert
         FileBlocks fileBlocks=registry.get("25");
         Assert.assertEquals(1,fileBlocks.getBlocks().size());
