@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.parser;
+package com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage;
 
 import java.io.File;
 
@@ -13,6 +13,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.SourceFileNamesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 
 public class SourceFileNamesObserverTest {
@@ -70,9 +73,8 @@ public class SourceFileNamesObserverTest {
         parser.registerObserver(observer);
         
         File file=TestUtils.getResource("mscoverage.xml");
-        SMInputCursor cursor = getCursor(file);
         //Act
-        parser.parse(cursor);
+        parser.parseFile(file);
         //Assert
         Assert.assertEquals(8,registry.size());
     }

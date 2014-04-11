@@ -1,4 +1,6 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.parser;
+package com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage;
+
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
 
 
 public class CoverageParserSubject extends ParserSubject {

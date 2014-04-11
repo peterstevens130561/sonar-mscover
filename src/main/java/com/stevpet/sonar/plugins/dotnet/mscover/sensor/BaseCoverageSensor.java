@@ -27,12 +27,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.listener.CoverageParserListener;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.MethodBlocksObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.CoverageParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.SingleListenerParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.SourceFileNamesObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodBlocksObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.SourceFileNamesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
@@ -176,8 +176,8 @@ public abstract class BaseCoverageSensor implements Sensor {
         sourceFileNamesObserver.setRegistry(sourceFileNamesRegistry);
         parserSubject.registerObserver(sourceFileNamesObserver);
         
-        coverageCursor=getCoverageCursor(path);
-        parserSubject.parse(coverageCursor);
+        File file = getCoverageFile(path);
+        parserSubject.parseFile(file);
     }
 
     private MicrosoftWindowsEnvironment getMicrosoftWindowsEnvironment() {

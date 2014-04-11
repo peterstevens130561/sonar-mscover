@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.parser;
+package com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

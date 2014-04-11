@@ -25,7 +25,6 @@ public class ResultsParserSubjectTest {
     public void createParser_ParseResultsFile() throws FactoryConfigurationError, XMLStreamException {
         ParserSubject parserSubject = new ResultsParserSubject();
         File file = TestUtils.getResource("results.trx");
-        SMInputCursor cursor = parserSubject.getCursor(file);
-        parserSubject.parse(cursor);
+        parserSubject.parseFile(file);
     }
 }
