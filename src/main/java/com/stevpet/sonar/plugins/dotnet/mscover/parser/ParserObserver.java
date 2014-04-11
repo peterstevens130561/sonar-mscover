@@ -13,4 +13,6 @@ public interface ParserObserver {
      * @param text of this element
      */
     void observeElement(String name,String text);
+    void observeAttribute(String elementName, String path,
+            String attributeValue, String attributeName);
 }

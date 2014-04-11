@@ -81,6 +81,24 @@ public abstract class ParserSubject implements Subject {
                 }
             }
 
+    private void processAttributes(String path, String name, SMInputCursor elementCursor) throws XMLStreamException {
+        int attributeCount = elementCursor.getAttrCount();
+        for(int index=0;index<attributeCount;index++) {
+            String attributeValue=elementCursor.getAttrValue(index);
+            String attributeName = elementCursor.getAttrLocalName(index);
+            invokeAttributeObservers(name, path, attributeValue,attributeName);
+            
+        }
+    }
+    private void invokeAttributeObservers(String elementName, String path,
+            String attributeValue, String attributeName) {
+        for (ParserObserver observer : observers) {
+            if (observer.isMatch(path)) {
+                observer.observeAttribute(elementName,path,attributeValue,attributeName);
+            }
+        }
+    }
+
     private String getTrimmedElementStringValue(SMInputCursor childCursor)
             throws XMLStreamException {
         String text = childCursor.getElemStringValue();

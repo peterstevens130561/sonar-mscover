@@ -1,26 +1,18 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNamesModel;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 
 
-public class SourceFileNamesObserver implements ParserObserver {
+public class SourceFileNamesObserver extends BaseParserObserver {
 
-    private final Pattern pattern;
     private SourceFileNamesRegistry registry ;
     private SourceFileNamesModel model;
     public SourceFileNamesObserver() {
-        pattern = Pattern
-                .compile("SourceFileNames/(SourceFileID|SourceFileName)");
+        setPattern("SourceFileNames/(SourceFileID|SourceFileName)");
     }
-    public boolean isMatch(String path) {
-        Matcher matcher = pattern.matcher(path);
-        return matcher.matches();
-    }
+
 
     public void observeElement(String name, String text) {
         if("SourceFileID".equals(name)) {

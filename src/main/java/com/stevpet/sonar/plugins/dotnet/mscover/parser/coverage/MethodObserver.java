@@ -1,27 +1,20 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodModel;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodRegistry;
 
-public class MethodObserver implements ParserObserver {
-    private final Pattern pattern;
+public class MethodObserver extends BaseParserObserver {
+
     private MethodModel model = new MethodModel();
     private MethodRegistry registry;
     public MethodObserver() {
-        pattern = Pattern
-                .compile("(Module/ModuleNameName)|" +
+        setPattern("(Module/ModuleNameName)|" +
                         "(Module/NamespaceTable/Class/Method/MethodName)|" +
                         "(Module/NamespaceTable/Class/Method/Lines/(LnStart)|(SourceFileID))");
 
     }
-    public boolean isMatch(String path) {
-        Matcher matcher = pattern.matcher(path);
-        return matcher.matches();        
-    }
+
     public void setRegistry(MethodRegistry registry) {
         this.registry = registry;
     }
