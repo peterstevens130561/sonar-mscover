@@ -31,13 +31,4 @@ public class SourceFileNamesModel extends Model {
     public void setSourceFileName(String name) {
         sourceFileName = name;
     }
-    @Override
-    public String getFirstElement() {
-        return SOURCE_FILE_ID_ELEMENTNAME;
-    }
-
-    @Override
-    public String getLastElement() {
-       return SOURCE_FILE_NAME_ELEMENTNAME;
-    }
 }

@@ -10,21 +10,6 @@ public class MethodModel extends Model {
     private String fileID;
     private String lnStart;
     
-    @Override
-    public void setField(String name, String text) {
-        if("ModuleName".equals(name)) {
-            setModule(name);
-        }
-        if("MethodName".equals(name)) {
-            setMethod(name);
-        }
-        if("LnStart".equals(name)) {
-            setLnStart(name);
-        }
-        if("SourceFileID".equals(name)) {
-            setSourceFileID(name);
-        }
-    }
     
     public String getFileID() {
         return fileID;
@@ -68,15 +53,7 @@ public class MethodModel extends Model {
         module=name;
         
     }
-    @Override
-    public String getFirstElement() {
-        return "ModuleName";
-    }
-    @Override
-    public String getLastElement() {
 
-        return "SourceFileID";
-    }
     
     public MethodModel createClone()  {
          try {

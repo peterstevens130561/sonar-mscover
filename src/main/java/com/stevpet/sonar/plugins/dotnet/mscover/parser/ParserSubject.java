@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.parser;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,18 +61,24 @@ public abstract class ParserSubject implements Subject {
     private void parseChild(String path, SMInputCursor childCursor)
             throws XMLStreamException {
                 while ((childCursor.getNext()) != null) {
-                    String name = childCursor.getLocalName();
-                    if ("schema".equals(name)) {
-                        continue;
-                    }
-            
-                    processElement(path, childCursor, name);
+                    processStartElement(path, childCursor);
                 }
             }
 
-    private void processElement(String path, SMInputCursor childCursor, String name)
+    private void processStartElement(String path, SMInputCursor childCursor)
             throws XMLStreamException {
-                String elementPath = createElementPath(path, name);
+        String name = childCursor.getLocalName();
+        if ("schema".equals(name)) {
+            return;
+        }
+        String elementPath = createElementPath(path, name);
+        processAttributes(elementPath,name,childCursor);
+        processElement(elementPath, name, childCursor);
+    }
+
+    private void processElement(String elementPath, String name, SMInputCursor childCursor)
+            throws XMLStreamException {
+
                 if (parentElements.contains(name)) {
                     parseChild(elementPath, childCursor.childElementCursor());
                 } else {
@@ -81,13 +88,20 @@ public abstract class ParserSubject implements Subject {
                 }
             }
 
+    private void invokeElementObservers(String path, String name, String text) {
+        for (ParserObserver observer : observers) {
+            if (observer.isMatch(path)) {
+                observer.observeElement(name, text);
+                invokeAnnotatedElementMethods(name,text,observer);
+            }
+        }
+    }
     private void processAttributes(String path, String name, SMInputCursor elementCursor) throws XMLStreamException {
         int attributeCount = elementCursor.getAttrCount();
         for(int index=0;index<attributeCount;index++) {
             String attributeValue=elementCursor.getAttrValue(index);
             String attributeName = elementCursor.getAttrLocalName(index);
-            invokeAttributeObservers(name, path, attributeValue,attributeName);
-            
+            invokeAttributeObservers(name, path, attributeValue,attributeName);          
         }
     }
     private void invokeAttributeObservers(String elementName, String path,
@@ -95,7 +109,62 @@ public abstract class ParserSubject implements Subject {
         for (ParserObserver observer : observers) {
             if (observer.isMatch(path)) {
                 observer.observeAttribute(elementName,path,attributeValue,attributeName);
+                invokeAnnotatedMethods(elementName, attributeValue,attributeName, observer);
             }
+        }
+    }
+
+
+    private void invokeAnnotatedElementMethods(String elementName,
+            String elementValue,ParserObserver observer) {
+        Method[] methods = observer.getClass().getMethods();
+        for (Method method : methods) {
+            invokeAnnotatedElementMethod(elementName, elementValue,observer, method);
+        }
+    }
+
+    private void invokeAnnotatedElementMethod(String elementName,
+            String elementValue,ParserObserver observer, Method method) {
+        ElementMatcher annos = method.getAnnotation(ElementMatcher.class);
+
+        if (annos == null) {
+            return;
+        }
+        if (elementName.equals(annos.elementName()))
+            invokeMethod(elementValue, observer, method);
+        }
+
+    private void invokeMethod(String elementValue, ParserObserver observer,
+            Method method) {
+        try {
+            method.invoke(observer,elementValue);
+        } catch (Exception e) {
+            LOG.error("Exception thrown when invoking method",e);
+            throw new SonarException(e);
+        }
+    }
+  
+    private void invokeAnnotatedMethods(String elementName,
+            String attributeValue,String attributeName, ParserObserver observer) {
+        Method[] methods = observer.getClass().getMethods();
+        for (Method method : methods) {
+            invokeAnnotatedMethod(elementName, attributeValue,attributeName, observer, method);
+        }
+    }
+
+    private void invokeAnnotatedMethod(String elementName,
+            String attributeValue,String attributeName, ParserObserver observer, Method method) {
+        AttributeMatcher annos = method.getAnnotation(AttributeMatcher.class);
+
+        if (annos == null) {
+            if(method.getName().equals("executedMatcher")) {
+                LOG.error(method.getName());
+            }
+            return;
+        }
+        if (elementName.equals(annos.elementName())
+                && attributeName.equals(annos.attributeName())) {
+            invokeMethod(attributeValue, observer, method);
         }
     }
 
@@ -118,13 +187,7 @@ public abstract class ParserSubject implements Subject {
         return elementPath;
     }
 
-    private void invokeElementObservers(String path, String name, String text) {
-        for (ParserObserver observer : observers) {
-            if (observer.isMatch(path)) {
-                observer.observeElement(name, text);
-            }
-        }
-    }
+
     
     /**
      * Gets the cursor for the given file

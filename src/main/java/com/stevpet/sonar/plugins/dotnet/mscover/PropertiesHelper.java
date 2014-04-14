@@ -6,6 +6,7 @@ import org.sonar.api.config.Settings;
 public class PropertiesHelper {
 
     private final Settings settings;
+
     public static final String MSCOVER = "sonar.mscover.";
     public static final String MSCOVER_INTEGRATION_PATH = MSCOVER + "integrationtests";
     public static final String MSCOVER_UNIT_PATH=MSCOVER + "unittests";
@@ -13,6 +14,8 @@ public class PropertiesHelper {
     public static final String MSCOVER_EXCLUSIONS=MSCOVER + "exclusions";
     public static final String MSCOVER_INCLUSIONS=MSCOVER + "inclusions";
     public static final String MSCOVER_CUTOFFDATE=MSCOVER + "cutoffdate" ;
+    public static final String MSCOVER_INTEGRATION_RESULTS= MSCOVER + "integrationtests.results";
+    public static final String MSCOVER_UNIT_RESULTS= MSCOVER + "unittests.results";
     
     public PropertiesHelper(Settings settings) {
         this.settings = settings;
@@ -52,5 +55,13 @@ public class PropertiesHelper {
  
     public String getCutOffDate() {
         return settings.getString(MSCOVER_CUTOFFDATE);
+    }
+
+    public String getIntegrationTestsResults() {
+        return settings.getString(MSCOVER_INTEGRATION_RESULTS);
+    }
+    
+    public String getUnitTestsResults() {
+        return settings.getString(MSCOVER_UNIT_RESULTS);
     }
 }
