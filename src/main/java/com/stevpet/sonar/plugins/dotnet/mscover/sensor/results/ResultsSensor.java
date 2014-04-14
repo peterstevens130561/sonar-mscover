@@ -3,7 +3,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.sensor.results;
 import java.io.File;
 
 import org.apache.commons.lang.StringUtils;
-import org.jfree.util.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
@@ -18,7 +17,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.ResultsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.ResultsParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.sensor.BaseCoverageSensor;
 
 public class ResultsSensor implements Sensor {
     static final Logger LOG = LoggerFactory

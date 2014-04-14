@@ -130,10 +130,10 @@ public abstract class ParserSubject implements Subject {
         if (annos == null) {
             return;
         }
-        if (elementName.equals(annos.elementName()))
+        if (elementName.equals(annos.elementName())) {
             invokeMethod(elementValue, observer, method);
         }
-
+    }
     private void invokeMethod(String elementValue, ParserObserver observer,
             Method method) {
         try {
@@ -157,9 +157,6 @@ public abstract class ParserSubject implements Subject {
         AttributeMatcher annos = method.getAnnotation(AttributeMatcher.class);
 
         if (annos == null) {
-            if(method.getName().equals("executedMatcher")) {
-                LOG.error(method.getName());
-            }
             return;
         }
         if (elementName.equals(annos.elementName())

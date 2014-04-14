@@ -164,8 +164,14 @@ public abstract class BaseCoverageSensor implements Sensor {
         parser.parse(coverageCursor);
     }
 
+    /**
+     * Parse the coverage file, with loading the block coverage, sourcefilenames observers
+     * @param fileBlocksRegistry - block coverage
+     * @param sourceFileNamesRegistry - sourcefilenames
+     * @param path- to coverage file
+     * @throws XMLStreamException
+     */
     private void invokeParserSubject(FileBlocksRegistry fileBlocksRegistry, SourceFileNamesRegistry sourceFileNamesRegistry,String path) throws XMLStreamException {
-        SMInputCursor coverageCursor;
         ParserSubject parserSubject = new CoverageParserSubject();
         
         MethodBlocksObserver methodBlocksObserver = new MethodBlocksObserver();

@@ -24,11 +24,11 @@ public class SourceFileNamesModel extends Model {
         return sourceFileName;
     }
     
-    public void setSourceFileID(String ID) {
-        sourceFileID = ID;
+    public void setSourceFileID(String value) {
+        sourceFileID = value;
     }
 
-    public void setSourceFileName(String name) {
-        sourceFileName = name;
+    public void setSourceFileName(String value) {
+        sourceFileName = value;
     }
 }

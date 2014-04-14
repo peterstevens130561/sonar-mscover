@@ -3,7 +3,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.blocksaver;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;

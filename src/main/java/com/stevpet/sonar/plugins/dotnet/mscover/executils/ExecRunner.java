@@ -37,7 +37,9 @@ import java.net.URL;
  */
 public class ExecRunner { // NOSONAR : can't mock it otherwise
 
-  private static final Logger LOG = LoggerFactory.getLogger(ExecRunner.class);
+  private static final String GENDARME = "gendarme-";
+
+private static final Logger LOG = LoggerFactory.getLogger(ExecRunner.class);
 
   private static final String GENDARME_EXECUTABLE = "gendarme.exe";
   private static final long MINUTES_TO_MILLISECONDS = 60000;
@@ -67,7 +69,7 @@ public class ExecRunner { // NOSONAR : can't mock it otherwise
     if (!executable.exists() || !executable.isFile()) {
       LOG.info("Gendarme executable not found: '{}'. The embedded version ({}) will be used instead.", executable.getAbsolutePath(),
           EMBEDDED_VERSION);
-      executable = new File(tempFolder, "gendarme-" + EMBEDDED_VERSION + "-bin/" + GENDARME_EXECUTABLE);
+      executable = new File(tempFolder, GENDARME + EMBEDDED_VERSION + "-bin/" + GENDARME_EXECUTABLE);
       if (!executable.isFile()) {
         LOG.info("Extracting Gendarme binaries in {}", tempFolder);
         extractBinaries(tempFolder);
@@ -81,7 +83,7 @@ public class ExecRunner { // NOSONAR : can't mock it otherwise
   protected static void extractBinaries(String tempFolder) throws ExecException {
     try {
       URL executableURL = ExecRunner.class.getResource("/gendarme-" + EMBEDDED_VERSION + "-bin");
-      ZipUtils.extractArchiveFolderIntoDirectory(StringUtils.substringBefore(executableURL.getFile(), "!").substring(5), "gendarme-"
+      ZipUtils.extractArchiveFolderIntoDirectory(StringUtils.substringBefore(executableURL.getFile(), "!").substring(5), GENDARME
         + EMBEDDED_VERSION + "-bin", tempFolder);
     } catch (IOException e) {
       throw new ExecException("Could not extract the embedded Gendarme executable: " + e.getMessage(), e);

@@ -27,17 +27,13 @@ public class MethodModel extends Model {
         return lnStart;
     }
     
-    private void setSourceFileID(String name) {
-        fileID = name;
-        
-    }
     /**
      * set the pure name of the method, discard anything from the (
      * @param name of method, possibly with the ( etc
      */
     void setMethod(String name) {
         if(!StringUtils.isEmpty(name)) {
-            int endIndex = name.indexOf("(");
+            int endIndex = name.indexOf('(');
             if(endIndex>-1) {
                 name=name.substring(0, endIndex);
             }
@@ -50,8 +46,7 @@ public class MethodModel extends Model {
         
     }
      void setModule(String name) {
-        module=name;
-        
+        module=name;    
     }
 
     

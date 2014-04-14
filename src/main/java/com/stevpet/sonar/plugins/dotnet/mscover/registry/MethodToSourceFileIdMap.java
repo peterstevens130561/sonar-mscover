@@ -3,10 +3,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.registry;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.sonar.api.utils.SonarException;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodModel;
-
 public class MethodToSourceFileIdMap {
     private Map<String,String> methodRegistry= new HashMap<String,String>();
     private String moduleName;

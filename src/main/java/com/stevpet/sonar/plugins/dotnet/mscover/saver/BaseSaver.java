@@ -1,8 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.saver;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 

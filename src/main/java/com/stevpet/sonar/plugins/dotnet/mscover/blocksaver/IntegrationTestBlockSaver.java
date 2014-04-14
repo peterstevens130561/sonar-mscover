@@ -17,10 +17,7 @@ public class IntegrationTestBlockSaver extends BaseBlockSaver {
     private static final Logger LOG = LoggerFactory
             .getLogger(IntegrationTestBlockSaver.class);
     
-    private final PropertiesBuilder<String, Integer> lineConditionsBuilder = new PropertiesBuilder<String, Integer>(
-            CoreMetrics.IT_CONDITIONS_BY_LINE);
-    private final PropertiesBuilder<String, Integer> lineCoveredConditionsBuilder = new PropertiesBuilder<String, Integer>(
-            CoreMetrics.IT_COVERED_CONDITIONS_BY_LINE);
+   
     
     public IntegrationTestBlockSaver(SensorContext context,
             Project project) {
@@ -48,6 +45,10 @@ public class IntegrationTestBlockSaver extends BaseBlockSaver {
      */
     @Override
     public void saveLineMeasures(SensorContext context, FileBlocks fileMethodBlocks,Resource<?> resource) {
+         PropertiesBuilder<String, Integer> lineConditionsBuilder = new PropertiesBuilder<String, Integer>(
+                CoreMetrics.IT_CONDITIONS_BY_LINE);
+        PropertiesBuilder<String, Integer> lineCoveredConditionsBuilder = new PropertiesBuilder<String, Integer>(
+                CoreMetrics.IT_COVERED_CONDITIONS_BY_LINE);
         lineConditionsBuilder.clear();
         lineCoveredConditionsBuilder.clear();
         for (BlockModel methodBlocks : fileMethodBlocks.getBlocks()) {
