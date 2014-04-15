@@ -20,7 +20,7 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.eq;
-public class IntegrationBlockSaverTest {
+public class UnitBlockSaverTest {
     
     private SensorContext context;
     private FileBlocks fileBlocks;
@@ -35,24 +35,24 @@ public class IntegrationBlockSaverTest {
     }
     @Test
     public void Create_ShouldWork() {
-        BaseBlockSaver blockSaver = new IntegrationTestBlockSaver(null, null);
+        BaseBlockSaver blockSaver = new UnitTestBlockSaver(null, null);
         Assert.assertNotNull(blockSaver);
     }
     
     @Test
     public void saveMeasures_ShouldSaveThree() {
-        BaseBlockSaver blockSaver = new IntegrationTestBlockSaver(null, null);
+        BaseBlockSaver blockSaver = new UnitTestBlockSaver(null, null);
         BlockModel summaryBlock = new BlockModel();
         when(fileBlocks.getSummaryBlock()).thenReturn(summaryBlock);
         blockSaver.saveSummaryMeasures(context, fileBlocks, sonarFile);
-        verify(context,times(1)).saveMeasure(any(Resource.class),eq(CoreMetrics.IT_UNCOVERED_CONDITIONS),any(Double.class));
-        verify(context,times(1)).saveMeasure(any(Resource.class),eq(CoreMetrics.IT_CONDITIONS_TO_COVER),any(Double.class));
-        verify(context,times(1)).saveMeasure(any(Resource.class),eq(CoreMetrics.IT_BRANCH_COVERAGE),any(Double.class));
+        verify(context,times(1)).saveMeasure(any(Resource.class),eq(CoreMetrics.UNCOVERED_CONDITIONS),any(Double.class));
+        verify(context,times(1)).saveMeasure(any(Resource.class),eq(CoreMetrics.CONDITIONS_TO_COVER),any(Double.class));
+        verify(context,times(1)).saveMeasure(any(Resource.class),eq(CoreMetrics.BRANCH_COVERAGE),any(Double.class));
     }
     
     @Test
     public void saveLineMeasures_ShouldSaveTwo() {
-        BaseBlockSaver blockSaver = new IntegrationTestBlockSaver(null, null);
+        BaseBlockSaver blockSaver = new UnitTestBlockSaver(null, null);
         when(fileBlocks.getBlocks()).thenReturn(new ArrayList<BlockModel>());
         blockSaver.saveLineMeasures(context, fileBlocks, sonarFile);
         verify(context,times(2)).saveMeasure(any(Resource.class),any(Measure.class));
@@ -60,7 +60,7 @@ public class IntegrationBlockSaverTest {
     
     @Test
     public void saveLineMeasuresOneBlock_ShouldSaveTwo() {
-        BaseBlockSaver blockSaver = new IntegrationTestBlockSaver(null, null);
+        BaseBlockSaver blockSaver = new UnitTestBlockSaver(null, null);
         List<BlockModel> blocks = new ArrayList<BlockModel>() ;
         BlockModel block = new BlockModel();
         block.setNotCovered(10);
@@ -71,3 +71,4 @@ public class IntegrationBlockSaverTest {
         verify(context,times(2)).saveMeasure(any(Resource.class),any(Measure.class));
     }
 }
+

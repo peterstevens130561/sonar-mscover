@@ -2,14 +2,21 @@ package com.stevpet.sonar.plugins.dotnet.mscover.blocksaver;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.resources.Language;
 import org.sonar.api.resources.Project;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.utils.ParsingUtils;
+import org.sonar.api.utils.SonarException;
 
+import com.google.common.base.CharMatcher;
+import com.google.common.io.Files;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.BlockModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
@@ -26,9 +33,9 @@ public abstract class BaseBlockSaver extends BaseSaver implements BlockRegistry 
     private SourceFilePathHelper sourceFilePathHelper ;
     private SensorContext context;
     private Project project;
- 
+    private String charsetName;
     public BaseBlockSaver(SensorContext context, Project project) {
-        super();
+        super(context,project);
         this.context = context;
         this.project=project;
     }
@@ -72,27 +79,7 @@ public abstract class BaseBlockSaver extends BaseSaver implements BlockRegistry 
         if(file == null) {
             return null;
         }
-        org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File
-                .fromIOFile(file, project);
-        if (sonarFile == null) {
-            LOG.debug("Could not create sonarFile for "
-                    + file.getAbsolutePath());
-            return null;
-        }
-        if (!context.isIndexed(sonarFile, false)) {
-            LOG.debug("Skipping not indexed file " + sonarFile.getLongName());
-            return null;
-        }
-        String longName = sonarFile.getLongName();
-        if(!resourceFilter.isPassed(longName)) {
-            return null;
-        }
-        if (!dateFilter.isResourceIncludedInResults(sonarFile)) {
-            LOG.debug("Skipping file of which commit date is before cutoff date " +sonarFile.getLongName());
-            return null;
-        }
-
-        return sonarFile ;
+        return getSonarFileResource(file);
     }
 
   

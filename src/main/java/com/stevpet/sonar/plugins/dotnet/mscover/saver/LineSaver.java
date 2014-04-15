@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.saver;
 
 import java.io.File;
+import java.nio.charset.Charset;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +10,10 @@ import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.utils.ParsingUtils;
+import org.sonar.api.utils.SonarException;
 
+import com.google.common.base.CharMatcher;
+import com.google.common.io.Files;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.AlwaysPassThroughDateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
@@ -25,13 +29,13 @@ public abstract class LineSaver extends  BaseSaver {
     protected final Project project;
     protected CoverageRegistry registry ;
     protected DateFilter dateFilter = new AlwaysPassThroughDateFilter();
-
     protected ResourceFilter resourceFilter = ResourceFilterFactory.createEmptyFilter();
     
     public LineSaver(SensorContext context, Project project,
             CoverageRegistry registry) {
-        super();
+        super(context,project);
         this.project= project;
+
         this.context = context;
         this.registry = registry;
     }
@@ -65,33 +69,15 @@ public abstract class LineSaver extends  BaseSaver {
     protected double convertPercentage(Number percentage) {
         return ParsingUtils.scaleValue(percentage.doubleValue() * 100.0);
     }
+    
     public org.sonar.api.resources.File getSonarFile(FileCoverage fileCoverage) {
         File file = fileCoverage.getFile();
         if (file == null) {
             return null;
         }
-        org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File
-                .fromIOFile(file, project);
-        if (sonarFile == null) {
-            LOG.debug("Could not create sonarFile for "
-                    + file.getAbsolutePath());
-            return null;
-        }
-        if (!context.isIndexed(sonarFile, false)) {
-            LOG.debug("Skipping not indexed file " + sonarFile.getLongName());
-            return null;
-        }
-        String longName = sonarFile.getLongName();
-        if(!resourceFilter.isPassed(longName)) {
-            return null;
-        }
-        if (!dateFilter.isResourceIncludedInResults(sonarFile)) {
-            LOG.debug("Skipping file of which commit date is before cutoff date " +sonarFile.getLongName());
-            return null;
-        }
-
-        return sonarFile ;
+        return getSonarFileResource(file);
     }
+    
     public void saveLineMeasures(FileCoverage fileCoverage,
             org.sonar.api.resources.File sonarFile) {
         context.saveMeasure(sonarFile, getHitData(fileCoverage));
