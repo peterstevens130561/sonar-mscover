@@ -31,11 +31,13 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 
 /**
  * Decorates resources that do not have coverage metrics because they were not touched by any test, and thus not present in the coverage
  * report file.
  */
+@Extension
 public class IntegrationTestLineDecorator extends BaseDecorator {
 
   public IntegrationTestLineDecorator(Settings settings,TimeMachine timeMachine) {

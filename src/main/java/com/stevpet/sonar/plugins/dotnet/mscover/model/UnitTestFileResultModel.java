@@ -11,7 +11,6 @@ import java.util.List;
         saveFileMeasure(testFile, context, TestMetrics.COUNT_ASSERTS, testReport.getAsserts());
  */
 public class UnitTestFileResultModel {
-    private String sourceFileID ;
     private int error ;
     
     private List<UnitTestResultModel> tests = new ArrayList<UnitTestResultModel>() ;
@@ -24,4 +23,25 @@ public class UnitTestFileResultModel {
         }
     }
     
+    public double getPassed() {
+        return (double) tests.size() - error;
+    }
+    
+    public double getFail() {
+        return (double) error ;
+    }
+    
+    public double getTests() {
+        return (double) tests.size();
+    }
+    public double getDensity() {
+        if(tests.size() ==0) {
+            return 100.0;
+        }
+        return (100* getPassed()/getTests());
+    }
+    
+    public List<UnitTestResultModel> getUnitTests() {
+        return tests;
+    }
 }

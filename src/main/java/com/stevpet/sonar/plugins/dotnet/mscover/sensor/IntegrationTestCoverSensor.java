@@ -24,9 +24,10 @@ import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationTestBlockSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.IntegrationTestLineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +35,7 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
-
+@Extension
 public class IntegrationTestCoverSensor extends BaseCoverageSensor {
 
     static final Logger LOG = LoggerFactory

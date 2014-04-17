@@ -11,7 +11,7 @@ public interface Saver {
      * Save the registry into sonarQube
      * @throws IOException 
      */
-    void save() throws IOException;
+    void save();
     void setDateFilter(DateFilter dateFilter);
     void setResourceFilter(ResourceFilter fileFilter);
 }

@@ -5,21 +5,19 @@ import org.sonar.api.utils.SonarException;
 
 
 public class UnitTestResultModel  {
+    private MethodIdModel methodId = new MethodIdModel();
     private String testId;
-    private String testName;
     private String duration;
     private String outcome;
     private String relativeResultsDirectory;
     private String codeBase;
-    private String className;
-    private String moduleName;
-    private String namespaceName;
+
     
     public String getModuleName() {
-        return moduleName;
+        return methodId.getModuleName();
     }
     public String getNamespaceName() {
-        return namespaceName;
+        return methodId.getNamespaceName();
     }
 
     
@@ -30,10 +28,10 @@ public class UnitTestResultModel  {
         this.testId = testId;
     }
     public String getTestName() {
-        return testName;
+        return methodId.getMethodName();
     }
     public void setTestName(String testName) {
-        this.testName = testName;
+        methodId.setMethodName(testName);
     }
     public String getDuration() {
         return duration;
@@ -42,7 +40,7 @@ public class UnitTestResultModel  {
         return codeBase;
     }
     public String getClassName() {
-        return className;
+        return methodId.getClassName();
     }
     public void setDuration(String duration) {
         this.duration = duration;
@@ -69,7 +67,7 @@ public class UnitTestResultModel  {
             throw new SonarException("module can't be null");
         }
         String[] parts = value.split("\\\\");
-        moduleName=parts[parts.length-1];
+        methodId.setModuleName(parts[parts.length-1]);
     }
     
     
@@ -78,15 +76,20 @@ public class UnitTestResultModel  {
             throw new SonarException("namespacename can't be null");
         }
         int lastDot = value.lastIndexOf(".");
+        String namespaceName;
         if(lastDot==-1) {
             namespaceName=StringUtils.EMPTY;
         } else {
             namespaceName=value.substring(0, lastDot); 
         }
+        methodId.setNamespaceName(namespaceName);
     }
     
     public void setClassName(String value) {
-        this.className = value;
+        methodId.setClassName(value);
+    }
+    public MethodIdModel getMethodId() {
+        return methodId;
     }
 
     

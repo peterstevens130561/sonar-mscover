@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
 import org.jfree.util.Log;
+import org.sonar.api.utils.SonarException;
 
 /**
  * 
@@ -24,7 +25,6 @@ import org.jfree.util.Log;
  * @return
  */
 public class SourceFilePathHelper {
-
       public SourceFilePathHelper() {
           
       }
@@ -43,7 +43,7 @@ public class SourceFilePathHelper {
        * @return filename on the filesystem
        * @throws IOException
        */
-      public String getCanonicalPath(String fullPath) throws IOException {
+      public String getCanonicalPath(String fullPath) {
           if(StringUtils.isEmpty(fullPath)) {
               return StringUtils.EMPTY;
           }
@@ -57,7 +57,11 @@ public class SourceFilePathHelper {
           if (!file.exists()) {
               return StringUtils.EMPTY;
           }
-          return file.getCanonicalPath();
+          try {
+            return file.getCanonicalPath();
+        } catch (IOException e) {
+            throw new SonarException("Could not get path for " + fullPath);
+        }
       }
       
       /**
@@ -66,7 +70,7 @@ public class SourceFilePathHelper {
        * @return file with path  being canonical
        * @throws IOException
        */
-      public File getCanonicalFile(String fullPath) throws IOException {
+      public File getCanonicalFile(String fullPath) {
           String path = getCanonicalPath(fullPath);
           if(StringUtils.isEmpty(path) ) {
               return null;

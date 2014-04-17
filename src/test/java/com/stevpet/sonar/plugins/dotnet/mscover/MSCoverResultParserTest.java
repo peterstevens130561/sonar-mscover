@@ -24,14 +24,17 @@ import com.google.common.collect.Collections2;
 //import com.google.inject.internal.util.Lists;
 
 import com.google.common.collect.Lists;
+import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.listener.CoverageParserListener;
 import com.stevpet.sonar.plugins.dotnet.mscover.listener.ParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.SingleListenerParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.IntegrationTestLineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
 
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.SMInputFactory;
@@ -44,8 +47,6 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.resources.InputFile;
-import org.sonar.api.resources.Language;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.resources.Resource;
@@ -59,8 +60,6 @@ import org.sonar.test.TestUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -200,109 +199,14 @@ public class MSCoverResultParserTest {
         
         //Act
         Saver saver = new IntegrationTestLineSaver(sensorContext,project,coverageRegistry);
+        saver.setDateFilter(DateFilterFactory.createEmptyDateFilter());
+        saver.setResourceFilter(ResourceFilterFactory.createEmptyFilter());
         saver.save();
         
         //Assert ?
   }
 
-  private class DummyFileSystem implements ProjectFileSystem {
-
-    public ProjectFileSystem addSourceDir(File arg0) {
-        return null;
-    }
-
-    public ProjectFileSystem addTestDir(File arg0) {
-        return null;
-    }
-
-    public File getBasedir() {
-        return null;
-    }
-
-    public File getBuildDir() {
-        return null;
-    }
-
-    public File getBuildOutputDir() {
-        return null;
-    }
-
-    public File getFileFromBuildDirectory(String arg0) {
-        return null;
-    }
-
-    public List<File> getJavaSourceFiles() {
-        return null;
-    }
-
-    public File getReportOutputDir() {
-        return null;
-    }
-
-    public File getSonarWorkingDirectory() {
-        return null;
-    }
-
-    public Charset getSourceCharset() {
-        return null;
-    }
-
-    public List<File> getSourceDirs() {
-        String root = "TfsBlame/tfsblame/" ;
-        List<File> list = new ArrayList<File>();
-        String[] dirs = {"tfsblame","UnitTests"};
-        for(String dir : dirs) {
-            list.add(TestUtils.getResource(root + dir ));
-        }
-        return list;
-       
-    }
-
-    public List<File> getSourceFiles(Language... arg0) {
-        return null;
-    }
-
-    public List<File> getTestDirs() {
-        return null;
-    }
-
-    public List<File> getTestFiles(Language... arg0) {
-        return null;
-    }
-
-    public boolean hasJavaSourceFiles() {
-        return false;
-    }
-
-    public boolean hasTestFiles(Language arg0) {
-        return false;
-    }
-
-    public List<InputFile> mainFiles(String... arg0) {
-        return null;
-    }
-
-    public File resolvePath(String arg0) {
-        return null;
-    }
-
-    public List<InputFile> testFiles(String... arg0) {
-
-        return null;
-    }
-
-    public Resource toResource(File arg0) {
-
-        return null;
-    }
-
-    public File writeToWorkingDirectory(String arg0, String arg1)
-            throws IOException {
-        return null;
-    }
-      
-  }
-private CoverageRegistry parseFile(File file) throws FactoryConfigurationError,
+  private CoverageRegistry parseFile(File file) throws FactoryConfigurationError,
         XMLStreamException {
     Parser parser = new SingleListenerParser();
     SMInputFactory inf = new SMInputFactory(XMLInputFactory.newInstance());

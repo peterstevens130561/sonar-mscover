@@ -57,6 +57,12 @@ public abstract class BaseSaver implements Saver {
         this.resourceFilter = resourceFilter;
     }
     
+    /**
+     * Gets the resource of the file if it is to be included in the
+     * analysis. The resource will have been loaded into SonarQube.
+     * @param file
+     * @return resource
+     */
     public org.sonar.api.resources.File getSonarFileResource(File file) {
         org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File
                 .fromIOFile(file, project);
@@ -74,22 +80,26 @@ public abstract class BaseSaver implements Saver {
             LOG.debug("Skipping file of which commit date is before cutoff date " +sonarFile.getLongName());
             return null;
         }
-        if (!context.isIndexed(sonarFile, false)) {
-           
-            try {
-                context.index(sonarFile);
-                  String source = Files.toString(file, charset);
-                  source = CharMatcher.anyOf("\uFEFF").removeFrom(source); 
-                  context.saveSource(sonarFile, source);
-                  LOG.debug("MSCover added file" +sonarFile.getLongName());
-              } catch (Exception e) {
-                throw new SonarException("Unable to read and import the source file : '" + file.getAbsolutePath());
-              }
-            if(!context.isIndexed(sonarFile, false)) {
-                throw new SonarException("Can't index file" + file.getAbsolutePath());
-            }
+        if (!context.isIndexed(sonarFile, false)) {           
+            readSourceIntoSonar(file, sonarFile);
         }
         return sonarFile ;
+    }
+
+    private void readSourceIntoSonar(File file,
+            org.sonar.api.resources.File sonarFile) {
+        try {
+            context.index(sonarFile);
+              String source = Files.toString(file, charset);
+              source = CharMatcher.anyOf("\uFEFF").removeFrom(source); 
+              context.saveSource(sonarFile, source);
+              LOG.debug("MSCover added file" +sonarFile.getLongName());
+          } catch (Exception e) {
+            throw new SonarException("Unable to read and import the source file : '" + file.getAbsolutePath());
+          }
+        if(!context.isIndexed(sonarFile, false)) {
+            throw new SonarException("Can't index file" + file.getAbsolutePath());
+        }
     }
 
 

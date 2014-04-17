@@ -18,8 +18,9 @@ import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.LineSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.UnitTestLineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.UnitTestLineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -44,6 +45,7 @@ public class IntegrationTestsCoverSensorTest {
         context = mock(SensorContext.class);
         microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
         sensor = new IntegrationTestsCoverSensorStub(settings,null,null);
+        when(project.getFileSystem()).thenReturn( new DummyFileSystem());
         
     }
     

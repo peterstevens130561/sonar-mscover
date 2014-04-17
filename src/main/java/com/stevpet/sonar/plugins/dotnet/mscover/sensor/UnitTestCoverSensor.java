@@ -24,16 +24,17 @@ import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.UnitTestBlockSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.IntegrationTestLineSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.UnitTestLineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.UnitTestLineSaver;
 
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
-
+@Extension
 public class UnitTestCoverSensor extends BaseCoverageSensor {
 
 

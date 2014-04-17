@@ -74,6 +74,7 @@ public final class MsCoverPlugin extends SonarPlugin {
   // This is where you're going to declare all your Sonar extensions
   @SuppressWarnings({ "rawtypes", "unchecked" })
 public List getExtensions() {
+      
     return Arrays.asList(
         IntegrationTestCoverSensor.class,
         UnitTestCoverSensor.class,

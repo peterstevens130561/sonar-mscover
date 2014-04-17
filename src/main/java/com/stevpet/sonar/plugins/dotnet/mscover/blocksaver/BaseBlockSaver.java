@@ -2,21 +2,12 @@ package com.stevpet.sonar.plugins.dotnet.mscover.blocksaver;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.resources.Language;
 import org.sonar.api.resources.Project;
-import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.utils.ParsingUtils;
-import org.sonar.api.utils.SonarException;
 
-import com.google.common.base.CharMatcher;
-import com.google.common.io.Files;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.BlockModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
@@ -26,18 +17,14 @@ import com.stevpet.sonar.plugins.dotnet.mscover.saver.BaseSaver;
 
 public abstract class BaseBlockSaver extends BaseSaver implements BlockRegistry {
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(BaseBlockSaver.class);
     private SourceFileNamesRegistry sourceFileNamesRegistry;
     private FileBlocksRegistry fileBlocksRegistry;
     private SourceFilePathHelper sourceFilePathHelper ;
     private SensorContext context;
-    private Project project;
-    private String charsetName;
+
     public BaseBlockSaver(SensorContext context, Project project) {
         super(context,project);
         this.context = context;
-        this.project=project;
     }
 
 
@@ -55,7 +42,7 @@ public abstract class BaseBlockSaver extends BaseSaver implements BlockRegistry 
         this.sourceFilePathHelper =sourceFilePathHelper;
     }
 
-    public void save() throws IOException {
+    public void save() {
         for (FileBlocks fileBlocks: fileBlocksRegistry.values()) {
             String fileID = fileBlocks.getFileId();
             org.sonar.api.resources.File sonarFile = getSonarFile(fileID);
@@ -72,7 +59,7 @@ public abstract class BaseBlockSaver extends BaseSaver implements BlockRegistry 
     public abstract void saveSummaryMeasures(SensorContext context,FileBlocks fileBlocks, Resource<?> sonarFile);
     public abstract void saveLineMeasures(SensorContext context,FileBlocks fileBlocks, Resource<?> sonarFile);   
     
-    public org.sonar.api.resources.File getSonarFile(String fileID) throws IOException {
+    public org.sonar.api.resources.File getSonarFile(String fileID) {
         String coveragePath = sourceFileNamesRegistry.getSourceFileName(fileID);
         
         File file = sourceFilePathHelper.getCanonicalFile(coveragePath);

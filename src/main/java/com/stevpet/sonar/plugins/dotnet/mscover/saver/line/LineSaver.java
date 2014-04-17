@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.saver;
+package com.stevpet.sonar.plugins.dotnet.mscover.saver.line;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -20,6 +20,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.BaseSaver;
 
 public abstract class LineSaver extends  BaseSaver {
 

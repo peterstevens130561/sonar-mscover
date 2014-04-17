@@ -13,17 +13,33 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
+import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.ResultsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.ResultsParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.UnitTestObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.UnitTestResultObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestSaver;
 
+@Extension
 public class ResultsSensor implements Sensor {
     static final Logger LOG = LoggerFactory
             .getLogger(ResultsSensor.class);
     Settings settings;
     PropertiesHelper propertiesHelper ;
     String resultsPath;
+    private Object sourceFileNamesRegistry;
     public ResultsSensor(Settings settings) {
         this.settings = settings;
         propertiesHelper = new PropertiesHelper(settings);
@@ -36,22 +52,57 @@ public class ResultsSensor implements Sensor {
     }
 
     public void analyse(Project project, SensorContext context) {
-        ResultsObserver resultsObserver = new ResultsObserver();
         ResultsModel resultsModel = new ResultsModel() ;
-        resultsObserver.setRegistry(resultsModel);
+        UnitTestResultRegistry unitTestRegistry = new UnitTestResultRegistry();
         
-        ParserSubject parser = new ResultsParserSubject();
-        parser.registerObserver(resultsObserver);
+        ResultsObserver resultsObserver = new ResultsObserver();
+        resultsObserver.setRegistry(resultsModel);
+       
+        ParserSubject resultsParser = new ResultsParserSubject();    
+        UnitTestResultObserver unitTestResultObserver = new UnitTestResultObserver();
+
+        unitTestResultObserver.setRegistry(unitTestRegistry);
+        resultsParser.registerObserver(unitTestResultObserver);
+        
+        UnitTestObserver unitTestObserver = new UnitTestObserver();
+        unitTestObserver.setRegistry(unitTestRegistry);
+        resultsParser.registerObserver(unitTestObserver);
+        resultsParser.registerObserver(resultsObserver);
         
         File file = new File(resultsPath);
         if(!file.exists()) {
             throw new SonarException("Can't open " + resultsPath );
         }
-        parser.parseFile(file);
+        // just the totals
+        resultsParser.parseFile(file);
+        
         LOG.info("ResultsSensor: {}",resultsModel.getExecutedTests());
         context.saveMeasure(CoreMetrics.TESTS,(double)resultsModel.getExecutedTests());
         context.saveMeasure(CoreMetrics.TEST_FAILURES,(double)resultsModel.getFailedTests());
         context.saveMeasure(CoreMetrics.TEST_ERRORS,(double)resultsModel.getErroredTests());
+
+        UnitTestFilesResultRegistry filesResultRegistry = new UnitTestFilesResultRegistry();
+        
+        MethodToSourceFileIdMap map = new MethodToSourceFileIdMap() ;
+        MethodObserver methodObserver = new MethodObserver();
+        methodObserver.setRegistry(map);
+        //TODO: add lines to parse the coverage file
+        CoverageParserSubject coverageParser = new CoverageParserSubject();
+        coverageParser.registerObserver(methodObserver);
+        
+        String coverageFileName = propertiesHelper.getUnitTestsPath();
+        File coverageFile = new File(coverageFileName);
+        coverageParser.parseFile(coverageFile);
+        
+        methodObserver.setRegistry(map);
+        filesResultRegistry.mapResults(unitTestRegistry, map);
+
+
+        Saver testSaver = new TestSaver(context, project);
+        ResourceFilter fileFilter = ResourceFilterFactory.createAntPatternResourceFilter(propertiesHelper);
+        testSaver.setResourceFilter(fileFilter);
+        testSaver.save();
+        
     }
 
 }

@@ -12,7 +12,9 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 
+@Extension
 public class IntegrationTestBlockDecorator extends BaseDecorator {
     public IntegrationTestBlockDecorator(Settings settings,
             TimeMachine timeMachine) {

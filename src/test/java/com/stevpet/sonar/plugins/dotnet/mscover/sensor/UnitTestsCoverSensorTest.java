@@ -22,6 +22,7 @@ import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
+import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
 public class UnitTestsCoverSensorTest {
 
     Settings settings ;
@@ -36,6 +37,7 @@ public class UnitTestsCoverSensorTest {
         project = mock(Project.class);
         context = mock(SensorContext.class);
         microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
+        when(project.getFileSystem()).thenReturn(new DummyFileSystem());
         sensor = new UnitTestCoverSensor(settings,null,null);
     }
     
@@ -56,6 +58,7 @@ public class UnitTestsCoverSensorTest {
         //Arrange
         when(settings.getString(PropertiesHelper.MSCOVER_UNIT_PATH)).thenReturn("a/b");
         when(project.isRoot()).thenReturn(false);
+
         //Act
         boolean shouldExecute=sensor.shouldExecuteOnProject(project);
         //Assert

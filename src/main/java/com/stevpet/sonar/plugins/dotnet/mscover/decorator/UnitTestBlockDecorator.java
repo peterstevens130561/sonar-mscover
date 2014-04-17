@@ -12,7 +12,9 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 
+@Extension
 public class UnitTestBlockDecorator extends BaseDecorator {
     //TODO: Add work to support unit test block decorator 30min
     public UnitTestBlockDecorator(Settings settings, TimeMachine timeMachine) {

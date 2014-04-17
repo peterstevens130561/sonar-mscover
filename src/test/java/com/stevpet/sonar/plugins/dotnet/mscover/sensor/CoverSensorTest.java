@@ -11,6 +11,8 @@ import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.test.TestUtils;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -24,10 +26,8 @@ public class CoverSensorTest {
         TimeMachine timeMachine = mock(TimeMachine.class);
         TestCoverSensor sensor = new TestCoverSensor(settings,microsoftWindowsEnvironment,timeMachine);
         Project project = mock(Project.class);
+        when(project.getFileSystem()).thenReturn(new DummyFileSystem());
         when(project.getName()).thenReturn("tfsblame");
-        ProjectFileSystem fileSystem = mock(ProjectFileSystem.class);
-        when(fileSystem.getBasedir()).thenReturn(TestUtils.getResource("/"));
-        when(project.getFileSystem()).thenReturn(fileSystem);
         SensorContext sensorContext = mock(SensorContext.class);
         //Act
         sensor.analyse(project, sensorContext);      

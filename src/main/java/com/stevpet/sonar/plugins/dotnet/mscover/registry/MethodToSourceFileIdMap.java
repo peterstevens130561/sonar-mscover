@@ -3,14 +3,17 @@ package com.stevpet.sonar.plugins.dotnet.mscover.registry;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIdModel;
+
 public class MethodToSourceFileIdMap {
     private Map<String,String> methodRegistry= new HashMap<String,String>();
     private String moduleName;
-    private String clazz;
-    private String namespace;
-    private String method;
+    private String className;
+    private String namespaceName;
+    private String methodName;
     private String sourceFileID;
     private boolean registered;
+
 
     /**
      * set the modulename to register / get
@@ -25,7 +28,7 @@ public class MethodToSourceFileIdMap {
      * @param value
      */
     public void setNamespaceName(String value) {
-        namespace = value;
+        namespaceName = value;
     }
     
     /**
@@ -33,7 +36,7 @@ public class MethodToSourceFileIdMap {
      * @param value
      */
     public void setClassName(String value) {
-        clazz = value;
+        className = value;
     }
     
     /**
@@ -41,7 +44,7 @@ public class MethodToSourceFileIdMap {
      * @param value
      */
     public void setMethodName(String value) {
-        method=removeArgumentList(value);
+        methodName=removeArgumentList(value);
         registered=false;
     }
     
@@ -68,10 +71,10 @@ public class MethodToSourceFileIdMap {
         if(registered) {
             return ;
         }
-        String key=createKey() ;
+        MethodIdModel model = new MethodIdModel(moduleName,namespaceName,className,methodName);
         //methods may be overloaded, thus it may happen that
         //it appears multiple times. and thus we should not check
-        methodRegistry.put(key, sourceFileID);
+        methodRegistry.put(model.getId(), sourceFileID);
         registered=true;
     }
 
@@ -80,16 +83,21 @@ public class MethodToSourceFileIdMap {
      * @return
      */
     public String getSourceFileID() {
-        String key=createKey() ;
-        return methodRegistry.get(key);
+        MethodIdModel key = new MethodIdModel(moduleName,namespaceName,className,methodName);
+        return methodRegistry.get(key.getId());
     }
     
-    private String createKey() {
-        return moduleName + ":" + namespace + "." + clazz + "!" + method;
-    }
     
     public int size() {
         return methodRegistry.size();
+    }
+
+    public void setMethodId(MethodIdModel methodId) {
+        this.moduleName = methodId.getModuleName();
+        this.namespaceName = methodId.getNamespaceName();
+        this.className = methodId.getClassName();
+        this.methodName = methodId.getMethodName();
+        
     }
 
 }
