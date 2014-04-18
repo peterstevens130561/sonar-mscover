@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.sensor;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLInputFactory;
@@ -118,7 +119,12 @@ public abstract class BaseCoverageSensor implements Sensor {
         LOG.info("MsCoverPlugin : name=" + project.getName());
         String projectDirectory = getCurrentProjectDirectory(project);
         LOG.info("MsCoverPlugin : directory=" + projectDirectory);
-
+        String sourcedirs = settings.getString("sonar.sources");
+        LOG.info("MsCoverPlugin : sources=" + sourcedirs);
+        List<File> dirs = project.getFileSystem().getSourceDirs();
+        if(dirs==null) {
+            LOG.info("no sourcedirs");
+        }
         //Create objects
         PropertiesHelper propertiesHelper = new PropertiesHelper(settings);
         SourceFilePathHelper sourceFilePathHelper = new SourceFilePathHelper();

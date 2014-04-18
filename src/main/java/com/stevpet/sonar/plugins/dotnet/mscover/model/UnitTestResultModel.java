@@ -86,7 +86,17 @@ public class UnitTestResultModel  {
     }
     
     public void setClassName(String value) {
-        methodId.setClassName(value);
+        if(StringUtils.isEmpty(value)) {
+            throw new SonarException("className can't be null");
+        }
+        int lastDot = value.lastIndexOf(".");
+        String className;
+        if(lastDot==-1) {
+            className=value;
+        } else {
+            className=value.substring(lastDot+1); 
+        }
+        methodId.setClassName(className);
     }
     public MethodIdModel getMethodId() {
         return methodId;

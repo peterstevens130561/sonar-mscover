@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.sonar.api.utils.SonarException;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel;
 
@@ -19,6 +21,7 @@ public class UnitTestFilesResultRegistry {
             map.setMethodId(unitTest.getMethodId());
 
             String fileId = map.getSourceFileID();
+
             if(!unitTestFilesResultRegistry.containsKey(fileId)) {
                 unitTestFilesResultRegistry.put(fileId, new UnitTestFileResultModel());
             }

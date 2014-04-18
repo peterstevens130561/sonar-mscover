@@ -47,7 +47,7 @@ public class MethodIdModel {
     }
     
     public String getId() {
-        return moduleName + ":" + namespaceName + "." + className + "!" + methodName;       
+        String id=moduleName + ":" + namespaceName + "." + className + "!" + methodName;  
+        return id.toLowerCase();
     }
-    
 }

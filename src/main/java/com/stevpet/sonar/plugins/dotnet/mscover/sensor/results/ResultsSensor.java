@@ -19,12 +19,14 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.SourceFileNamesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.ResultsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.ResultsParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.UnitTestObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.UnitTestResultObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
@@ -52,6 +54,7 @@ public class ResultsSensor implements Sensor {
     }
 
     public void analyse(Project project, SensorContext context) {
+        LOG.info("MsCover Starting analysing test results");
         ResultsModel resultsModel = new ResultsModel() ;
         UnitTestResultRegistry unitTestRegistry = new UnitTestResultRegistry();
         
@@ -90,7 +93,13 @@ public class ResultsSensor implements Sensor {
         CoverageParserSubject coverageParser = new CoverageParserSubject();
         coverageParser.registerObserver(methodObserver);
         
+        SourceFileNamesRegistry sourceFileNamesRegistry = new SourceFileNamesRegistry();
+        SourceFileNamesObserver sourceFileNamesObserver = new SourceFileNamesObserver();
+        sourceFileNamesObserver.setRegistry(sourceFileNamesRegistry);
+        coverageParser.registerObserver(sourceFileNamesObserver);
+        
         String coverageFileName = propertiesHelper.getUnitTestsPath();
+        LOG.info("MSCover Reading " + coverageFileName );
         File coverageFile = new File(coverageFileName);
         coverageParser.parseFile(coverageFile);
         
@@ -98,9 +107,14 @@ public class ResultsSensor implements Sensor {
         filesResultRegistry.mapResults(unitTestRegistry, map);
 
 
-        Saver testSaver = new TestSaver(context, project);
+        TestSaver testSaver = new TestSaver(context, project);
         ResourceFilter fileFilter = ResourceFilterFactory.createAntPatternResourceFilter(propertiesHelper);
         testSaver.setResourceFilter(fileFilter);
+        testSaver.setDateFilter(DateFilterFactory.createEmptyDateFilter());
+        testSaver.setUnitTestFilesResultRegistry(filesResultRegistry);
+        testSaver.setSourceFileNamesRegistry(sourceFileNamesRegistry);
+        
+        LOG.info("MsCover Saving results");
         testSaver.save();
         
     }

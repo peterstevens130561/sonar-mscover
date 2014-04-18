@@ -1,9 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.saver.test;
 
 import java.io.File;
-import java.nio.charset.Charset;
-import java.util.Map.Entry;
-import java.util.Set;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,22 +9,12 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.Project;
-import org.sonar.api.resources.Resource;
-import org.sonar.api.utils.ParsingUtils;
-import org.sonar.api.utils.SonarException;
 
-import com.google.common.base.CharMatcher;
-import com.google.common.io.Files;
-import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.AlwaysPassThroughDateFilter;
-import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry.ForEachTest;
-import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
-import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.BaseSaver;
 
 public class TestSaver extends  BaseSaver {
@@ -35,14 +23,31 @@ public class TestSaver extends  BaseSaver {
             .getLogger(TestSaver.class);
     
     private final SensorContext context;
-    private final Project project;
-    
     private SourceFileNamesRegistry sourceFileNamesRegistry ;
     private UnitTestFilesResultRegistry unitTestFilesResultRegistry;
     
+    public SourceFileNamesRegistry getSourceFileNamesRegistry() {
+        return sourceFileNamesRegistry;
+    }
+
+    public void setSourceFileNamesRegistry(
+            SourceFileNamesRegistry sourceFileNamesRegistry) {
+        this.sourceFileNamesRegistry = sourceFileNamesRegistry;
+    }
+
+    public UnitTestFilesResultRegistry getUnitTestFilesResultRegistry() {
+        return unitTestFilesResultRegistry;
+    }
+
+    public void setUnitTestFilesResultRegistry(
+            UnitTestFilesResultRegistry unitTestFilesResultRegistry) {
+        this.unitTestFilesResultRegistry = unitTestFilesResultRegistry;
+    }
+
+
+    
     public TestSaver(SensorContext context, Project project) {
         super(context,project);
-        this.project= project;
         this.context = context;
     }
 
@@ -71,14 +76,30 @@ public class TestSaver extends  BaseSaver {
 
     public void saveTestMeasures( UnitTestFileResultModel fileResults,
             org.sonar.api.resources.File sonarFile) {
-        context.saveMeasure(sonarFile, CoreMetrics.TEST_SUCCESS_DENSITY,fileResults.getDensity());
+        context.saveMeasure(sonarFile,CoreMetrics.SKIPPED_TESTS, (double)0);
+        context.saveMeasure(sonarFile, CoreMetrics.TEST_ERRORS,(double) 0);
+        context.saveMeasure(sonarFile, CoreMetrics.TEST_SUCCESS_DENSITY,fileResults.getDensity()*100.0);
         context.saveMeasure(sonarFile, CoreMetrics.TEST_FAILURES,fileResults.getFail());
+        context.saveMeasure(sonarFile, CoreMetrics.TEST_EXECUTION_TIME,1000.0);
         context.saveMeasure(sonarFile,CoreMetrics.TESTS,fileResults.getTests());  
     }
 
     public void saveFileMeasures( UnitTestFileResultModel fileResults,
             org.sonar.api.resources.File sonarFile) {
-        // TODO Auto-generated method stub
-        
+        StringBuilder testCaseDetails = new StringBuilder(256);
+        testCaseDetails.append("<tests-details>");
+        List<UnitTestResultModel> details = fileResults.getUnitTests();
+        for (UnitTestResultModel detail : details) {
+          testCaseDetails.append("<testcase status=\"ok\"");
+          testCaseDetails.append(" time=\"0\"");
+          testCaseDetails.append(" name=\"");
+          testCaseDetails.append(detail.getTestName());
+          testCaseDetails.append("\"");
+          testCaseDetails.append(" />");
+        }
+        testCaseDetails.append("</tests-details>");
+        String data=testCaseDetails.toString();
+        context.saveMeasure(sonarFile, new Measure(CoreMetrics.TEST_DATA, data));
+        LOG.debug("test detail : {}", testCaseDetails);
     }
 }

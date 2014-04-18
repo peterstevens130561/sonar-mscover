@@ -3,6 +3,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.registry;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.sonar.api.utils.SonarException;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIdModel;
 
 public class MethodToSourceFileIdMap {
@@ -74,6 +76,10 @@ public class MethodToSourceFileIdMap {
         MethodIdModel model = new MethodIdModel(moduleName,namespaceName,className,methodName);
         //methods may be overloaded, thus it may happen that
         //it appears multiple times. and thus we should not check
+        String key=model.getId();
+        if(key==null) {
+            throw new SonarException("model key == null!");
+        }
         methodRegistry.put(model.getId(), sourceFileID);
         registered=true;
     }
@@ -84,7 +90,8 @@ public class MethodToSourceFileIdMap {
      */
     public String getSourceFileID() {
         MethodIdModel key = new MethodIdModel(moduleName,namespaceName,className,methodName);
-        return methodRegistry.get(key.getId());
+        String id = key.getId();
+        return methodRegistry.get(id);
     }
     
     

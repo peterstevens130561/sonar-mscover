@@ -9,7 +9,6 @@ import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
-import org.sonar.plugins.csharp.gallio.TestMetrics;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceLine;
@@ -28,7 +27,7 @@ public class UnitTestLineSaver extends LineSaver {
     public void saveSummaryMeasures(SensorContext context,
             FileCoverage coverageData, Resource<?> resource) {
         double coverage = coverageData.getCoverage();
-        context.saveMeasure(resource, TestMetrics.ELOC, (double) coverageData.getCountLines());
+        context.saveMeasure(resource, CoreMetrics.LINES, (double) coverageData.getCountLines());
         context.saveMeasure(resource, CoreMetrics.LINES_TO_COVER, (double) coverageData.getCountLines());
         context.saveMeasure(resource, CoreMetrics.UNCOVERED_LINES, (double) coverageData.getCountLines() - coverageData.getCoveredLines());
         context.saveMeasure(resource, CoreMetrics.COVERAGE, convertPercentage(coverage));

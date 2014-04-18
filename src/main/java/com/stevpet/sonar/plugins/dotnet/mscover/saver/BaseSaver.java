@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
+import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.utils.SonarException;
 
 import com.google.common.base.CharMatcher;
@@ -64,6 +65,7 @@ public abstract class BaseSaver implements Saver {
      * @return resource
      */
     public org.sonar.api.resources.File getSonarFileResource(File file) {
+
         org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File
                 .fromIOFile(file, project);
         if (sonarFile == null) {
