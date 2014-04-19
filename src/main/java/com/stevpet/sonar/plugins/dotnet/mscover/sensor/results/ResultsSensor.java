@@ -108,8 +108,7 @@ public class ResultsSensor implements Sensor {
 
 
         TestSaver testSaver = new TestSaver(context, project);
-        ResourceFilter fileFilter = ResourceFilterFactory.createAntPatternResourceFilter(propertiesHelper);
-        testSaver.setResourceFilter(fileFilter);
+        testSaver.setResourceFilter(ResourceFilterFactory.createEmptyFilter());
         testSaver.setDateFilter(DateFilterFactory.createEmptyDateFilter());
         testSaver.setUnitTestFilesResultRegistry(filesResultRegistry);
         testSaver.setSourceFileNamesRegistry(sourceFileNamesRegistry);

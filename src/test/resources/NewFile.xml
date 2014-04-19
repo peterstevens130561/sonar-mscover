@@ -1,0 +1,25 @@
+<tests-details>
+	<testcase status="ok" time="0" name="TestLevelPositive" />
+	<testcase status="ok" time="0" name="TestBoxNotIntersects" />
+	<testcase status="ok" time="0" name="TestAddChildNodeCorrectIndex" />
+	<testcase status="ok" time="0" name="TestIsWithinRangeNegative" />
+	<testcase status="ok" time="0" name="TestMaxChildrenNegative" />
+	<testcase status="ok" time="0" name="TestMaxChildrenEight" />
+	<testcase status="ok" time="0" name="TestBoxValid" />
+	<testcase status="ok" time="0" name="TestMaxChildrenTwo" />
+	<testcase status="ok" time="0" name="TestAddChildNodeNotContained" />
+	<testcase status="ok" time="0" name="TestAddChildNodeSameIndex" />
+	<testcase status="ok" time="0" name="TestAddChildNodeCorrectLevel" />
+	<testcase status="ok" time="0" name="TestAddChildNodeNegativeIndex" />
+	<testcase status="ok" time="0" name="TestAddChildNodeIncorrectIndex" />
+	<testcase status="ok" time="0" name="TestBoxIntersects" />
+	<testcase status="ok" time="0" name="TestMaxChildrenFour" />
+	<testcase status="ok" time="0" name="TestLevelNegative" />
+	<testcase status="ok" time="0" name="TestAddChildNodeIncorrectLevel" />
+	<testcase status="ok" time="0" name="TestMaxChildrenOne" />
+	<testcase status="ok" time="0" name="TestLevelZero" />
+	<testcase status="ok" time="0" name="TestBoxInvalid" />
+	<testcase status="ok" time="0" name="TestNotIsWithinRange" />
+	<testcase status="ok" time="0" name="TestIsWithinRange" />
+	<testcase status="ok" time="0" name="TestIsWithinRangeZero" />
+</tests-details>

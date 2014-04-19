@@ -3,12 +3,14 @@ package com.stevpet.sonar.plugins.dotnet.mscover.saver;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
+import org.sonar.api.scan.filesystem.PathResolver;
 import org.sonar.api.utils.SonarException;
 
 import com.google.common.base.CharMatcher;
@@ -58,6 +60,7 @@ public abstract class BaseSaver implements Saver {
         this.resourceFilter = resourceFilter;
     }
     
+
     /**
      * Gets the resource of the file if it is to be included in the
      * analysis. The resource will have been loaded into SonarQube.
@@ -66,8 +69,7 @@ public abstract class BaseSaver implements Saver {
      */
     public org.sonar.api.resources.File getSonarFileResource(File file) {
 
-        org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File
-                .fromIOFile(file, project);
+        org.sonar.api.resources.File sonarFile =fromIOFile(file, project);
         if (sonarFile == null) {
             LOG.debug("Could not create sonarFile for "
                     + file.getAbsolutePath());
@@ -91,6 +93,7 @@ public abstract class BaseSaver implements Saver {
     private void readSourceIntoSonar(File file,
             org.sonar.api.resources.File sonarFile) {
         try {
+            sonarFile.setQualifier("UTS");
             context.index(sonarFile);
               String source = Files.toString(file, charset);
               source = CharMatcher.anyOf("\uFEFF").removeFrom(source); 
@@ -103,7 +106,21 @@ public abstract class BaseSaver implements Saver {
             throw new SonarException("Can't index file" + file.getAbsolutePath());
         }
     }
+    
+    public static org.sonar.api.resources.File fromIOFile(java.io.File file, Project project) {
+        List<File> lf = project.getFileSystem().getSourceDirs();
+        if(lf.size()==0) {
+            lf.add(new File("."));
+        }
+        return fromIOFile(file,lf );
+      }
 
-
+    public static org.sonar.api.resources.File fromIOFile(java.io.File file, List<java.io.File> sourceDirs) {
+        PathResolver.RelativePath relativePath = new PathResolver().relativePath(sourceDirs, file);
+        if (relativePath != null) {
+          return new org.sonar.api.resources.File(relativePath.path());
+        }
+        return null;
+      }
   
 }

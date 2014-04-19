@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.saver.test;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
+import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
@@ -62,19 +64,29 @@ public class TestSaver extends  BaseSaver {
         public void execute(String fileID, UnitTestFileResultModel fileResults) {
         String sourceFileName=sourceFileNamesRegistry.getSourceFileName(fileID);
         File sourceFile=new File(sourceFileName);
+        try {
+            String canonicalName=sourceFile.getCanonicalPath();
+            sourceFile=new File(canonicalName);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         org.sonar.api.resources.File sonarFile = getSonarFileResource(sourceFile);
         if(sonarFile==null) {
             return;
         }
         LOG.debug("- Saving coverage information for file {}",
                 sonarFile.getKey());
-        saveFileMeasures(fileResults, sonarFile);
-        saveTestMeasures(fileResults, sonarFile);
+
+        saveSummaryMeasures(fileResults, sonarFile);
+        saveTestCaseMeasures(fileResults, sonarFile);
+
     }
    
 }
 
-    public void saveTestMeasures( UnitTestFileResultModel fileResults,
+    public void saveSummaryMeasures( UnitTestFileResultModel fileResults,
             org.sonar.api.resources.File sonarFile) {
         context.saveMeasure(sonarFile,CoreMetrics.SKIPPED_TESTS, (double)0);
         context.saveMeasure(sonarFile, CoreMetrics.TEST_ERRORS,(double) 0);
@@ -84,7 +96,7 @@ public class TestSaver extends  BaseSaver {
         context.saveMeasure(sonarFile,CoreMetrics.TESTS,fileResults.getTests());  
     }
 
-    public void saveFileMeasures( UnitTestFileResultModel fileResults,
+    public void saveTestCaseMeasures( UnitTestFileResultModel fileResults,
             org.sonar.api.resources.File sonarFile) {
         StringBuilder testCaseDetails = new StringBuilder(256);
         testCaseDetails.append("<tests-details>");
@@ -99,7 +111,9 @@ public class TestSaver extends  BaseSaver {
         }
         testCaseDetails.append("</tests-details>");
         String data=testCaseDetails.toString();
-        context.saveMeasure(sonarFile, new Measure(CoreMetrics.TEST_DATA, data));
+        Measure testData = new Measure(CoreMetrics.TEST_DATA, data);
+        testData.setPersistenceMode(PersistenceMode.DATABASE);
+        context.saveMeasure(sonarFile, testData);
         LOG.debug("test detail : {}", testCaseDetails);
     }
 }
