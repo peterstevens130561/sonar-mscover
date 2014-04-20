@@ -18,7 +18,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.SourceFileNamesO
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry.ForEachTest;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry.ForEachUnitTestFile;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
 
 public class IntegrationTest {
@@ -48,7 +48,7 @@ public class IntegrationTest {
 
         filesResultRegistry.mapResults(unitTestRegistry,methodToSourceFileIdMap);
         //Assert
-        filesResultRegistry.forEachTest(new checkUnitTest());
+        filesResultRegistry.forEachUnitTestFile(new checkUnitTest());
         
     }
 
@@ -93,7 +93,7 @@ public class IntegrationTest {
         return testResultsModel;
     }
     
-    private class checkUnitTest implements ForEachTest {
+    private class checkUnitTest implements ForEachUnitTestFile {
 
         public void execute(String fileId, UnitTestFileResultModel unitTest) {
             Assert.assertEquals("1", fileId);

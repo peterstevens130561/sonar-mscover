@@ -11,12 +11,13 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.resources.Project;
+import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry.ForEachTest;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry.ForEachUnitTestFile;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.BaseSaver;
 
 public class TestSaver extends  BaseSaver {
@@ -55,24 +56,14 @@ public class TestSaver extends  BaseSaver {
 
 
     public void save() {
-        unitTestFilesResultRegistry.forEachTest(new SaveTestMeasures());
+        unitTestFilesResultRegistry.forEachTest(new SaveUnitTestFileMeasures());
 
     }
 
-    class SaveTestMeasures implements ForEachTest {
+    class SaveUnitTestFileMeasures implements ForEachUnitTestFile {
         
         public void execute(String fileID, UnitTestFileResultModel fileResults) {
-        String sourceFileName=sourceFileNamesRegistry.getSourceFileName(fileID);
-        File sourceFile=new File(sourceFileName);
-        try {
-            String canonicalName=sourceFile.getCanonicalPath();
-            sourceFile=new File(canonicalName);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        org.sonar.api.resources.File sonarFile = getSonarFileResource(sourceFile);
+        org.sonar.api.resources.File sonarFile = tryToGetUnitTestResource(fileID);
         if(sonarFile==null) {
             return;
         }
@@ -83,6 +74,23 @@ public class TestSaver extends  BaseSaver {
         saveTestCaseMeasures(fileResults, sonarFile);
 
     }
+
+        private org.sonar.api.resources.File tryToGetUnitTestResource(
+                String fileID) {
+            String sourceFileName=sourceFileNamesRegistry.getSourceFileName(fileID);
+            File sourceFile=new File(sourceFileName);
+            try {
+                String canonicalName=sourceFile.getCanonicalPath();
+                sourceFile=new File(canonicalName);
+            } catch (IOException e) {
+                String msg = "IOException for" + sourceFileName;
+                LOG.error(msg + e);
+                throw new SonarException(msg,e);
+            }
+
+            org.sonar.api.resources.File sonarFile = getSonarFileResource(sourceFile);
+            return sonarFile;
+        }
    
 }
 

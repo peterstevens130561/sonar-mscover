@@ -30,11 +30,11 @@ public class UnitTestFilesResultRegistry {
         }
     }
 
-    public interface ForEachTest {
+    public interface ForEachUnitTestFile {
         void execute(String fileId,UnitTestFileResultModel unitTest);
     }
     
-    public void forEachTest(ForEachTest predicate) {
+    public void forEachUnitTestFile(ForEachUnitTestFile predicate) {
         for(Entry<String, UnitTestFileResultModel>entry: unitTestFilesResultRegistry.entrySet()) {
             String fileId = entry.getKey();
             UnitTestFileResultModel unitTest=entry.getValue();
