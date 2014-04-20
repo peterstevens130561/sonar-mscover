@@ -16,6 +16,7 @@ import org.sonar.api.utils.SonarException;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry.ForEachUnitTestFile;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.BaseSaver;
@@ -28,7 +29,7 @@ public class TestSaver extends  BaseSaver {
     private final SensorContext context;
     private SourceFileNamesRegistry sourceFileNamesRegistry ;
     private UnitTestFilesResultRegistry unitTestFilesResultRegistry;
-    
+    private SourceFilePathHelper sourceFilePathHelper;
     public SourceFileNamesRegistry getSourceFileNamesRegistry() {
         return sourceFileNamesRegistry;
     }
@@ -48,7 +49,10 @@ public class TestSaver extends  BaseSaver {
     }
 
 
-    
+    public void setSourceFilePathHelper(SourceFilePathHelper sourceFilePathHelper) {
+        this.sourceFilePathHelper = sourceFilePathHelper;
+    }
+
     public TestSaver(SensorContext context, Project project) {
         super(context,project);
         this.context = context;
@@ -56,12 +60,11 @@ public class TestSaver extends  BaseSaver {
 
 
     public void save() {
-        unitTestFilesResultRegistry.forEachTest(new SaveUnitTestFileMeasures());
-
+        unitTestFilesResultRegistry.forEachUnitTestFile(new SaveUnitTestFileMeasures());
     }
 
     class SaveUnitTestFileMeasures implements ForEachUnitTestFile {
-        
+
         public void execute(String fileID, UnitTestFileResultModel fileResults) {
         org.sonar.api.resources.File sonarFile = tryToGetUnitTestResource(fileID);
         if(sonarFile==null) {
@@ -69,7 +72,6 @@ public class TestSaver extends  BaseSaver {
         }
         LOG.debug("- Saving coverage information for file {}",
                 sonarFile.getKey());
-
         saveSummaryMeasures(fileResults, sonarFile);
         saveTestCaseMeasures(fileResults, sonarFile);
 
@@ -78,20 +80,18 @@ public class TestSaver extends  BaseSaver {
         private org.sonar.api.resources.File tryToGetUnitTestResource(
                 String fileID) {
             String sourceFileName=sourceFileNamesRegistry.getSourceFileName(fileID);
-            File sourceFile=new File(sourceFileName);
-            try {
-                String canonicalName=sourceFile.getCanonicalPath();
-                sourceFile=new File(canonicalName);
-            } catch (IOException e) {
-                String msg = "IOException for" + sourceFileName;
-                LOG.error(msg + e);
-                throw new SonarException(msg,e);
-            }
 
+            File sourceFile = sourceFilePathHelper.getCanonicalFile(sourceFileName);
+            if(sourceFile == null) {
+                return null;
+            }
             org.sonar.api.resources.File sonarFile = getSonarFileResource(sourceFile);
             return sonarFile;
         }
    
+        protected String getQualifier() {
+            return "UTS";
+        }
 }
 
     public void saveSummaryMeasures( UnitTestFileResultModel fileResults,

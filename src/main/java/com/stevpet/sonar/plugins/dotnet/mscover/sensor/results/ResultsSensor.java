@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.sensor.results;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.UnitTestResultObs
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
@@ -42,11 +44,14 @@ public class ResultsSensor implements Sensor {
     PropertiesHelper propertiesHelper ;
     String resultsPath;
     private Object sourceFileNamesRegistry;
+    private SourceFilePathHelper sourceFilePathHelper;
     public ResultsSensor(Settings settings) {
         this.settings = settings;
         propertiesHelper = new PropertiesHelper(settings);
         resultsPath=propertiesHelper.getIntegrationTestsResults();
         LOG.info("ResultsSensor:{}",resultsPath);
+        sourceFilePathHelper = new SourceFilePathHelper();
+
     }
     
     public boolean shouldExecuteOnProject(Project project) {
@@ -55,6 +60,14 @@ public class ResultsSensor implements Sensor {
 
     public void analyse(Project project, SensorContext context) {
         LOG.info("MsCover Starting analysing test results");
+        String projectDirectory = null;
+        try {
+            projectDirectory = project.getFileSystem().getBasedir().getCanonicalPath();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        sourceFilePathHelper.setProjectPath(projectDirectory);
         ResultsModel resultsModel = new ResultsModel() ;
         UnitTestResultRegistry unitTestRegistry = new UnitTestResultRegistry();
         
@@ -112,7 +125,7 @@ public class ResultsSensor implements Sensor {
         testSaver.setDateFilter(DateFilterFactory.createEmptyDateFilter());
         testSaver.setUnitTestFilesResultRegistry(filesResultRegistry);
         testSaver.setSourceFileNamesRegistry(sourceFileNamesRegistry);
-        
+        testSaver.setSourceFilePathHelper(sourceFilePathHelper);
         LOG.info("MsCover Saving results");
         testSaver.save();
         

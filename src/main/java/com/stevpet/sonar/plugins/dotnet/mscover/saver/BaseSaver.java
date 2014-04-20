@@ -93,7 +93,8 @@ public abstract class BaseSaver implements Saver {
     private void readSourceIntoSonar(File file,
             org.sonar.api.resources.File sonarFile) {
         try {
-            sonarFile.setQualifier("UTS");
+            String qualifier=getQualifier();
+            sonarFile.setQualifier(qualifier);
             context.index(sonarFile);
               String source = Files.toString(file, charset);
               source = CharMatcher.anyOf("\uFEFF").removeFrom(source); 
@@ -106,7 +107,13 @@ public abstract class BaseSaver implements Saver {
             throw new SonarException("Can't index file" + file.getAbsolutePath());
         }
     }
+
+
     
+    protected String getQualifier() {
+        return "FIL";
+    }
+
     public static org.sonar.api.resources.File fromIOFile(java.io.File file, Project project) {
         List<File> lf = project.getFileSystem().getSourceDirs();
         if(lf.size()==0) {
