@@ -9,15 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
-import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.scan.filesystem.PathResolver;
 import org.sonar.api.utils.SonarException;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.io.Files;
-import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 
 public abstract class BaseSaver implements Saver {
@@ -108,7 +105,7 @@ public abstract class BaseSaver implements Saver {
         if(!context.isIndexed(sonarFile, false)) {
             String msg="Can't index file" + file.getAbsolutePath();
             LOG.error(msg);
-            throw new SonarException("Can't index file" + file.getAbsolutePath());
+            throw new SonarException(msg);
         }
     }
 

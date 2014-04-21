@@ -193,8 +193,7 @@ public abstract class ParserSubject implements Subject {
      * @throws FactoryConfigurationError
      * @throws XMLStreamException
      */
-    public SMInputCursor getCursor(File file)
-            throws SonarException {
+    public SMInputCursor getCursor(File file) {
         SMInputCursor result=null;
         try {
         SMInputFactory inf = new SMInputFactory(XMLInputFactory.newInstance());

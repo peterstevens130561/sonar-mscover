@@ -1,7 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.saver.line;
 
 import java.io.File;
-import java.nio.charset.Charset;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,10 +9,6 @@ import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.utils.ParsingUtils;
-import org.sonar.api.utils.SonarException;
-
-import com.google.common.base.CharMatcher;
-import com.google.common.io.Files;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.AlwaysPassThroughDateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;

@@ -1,7 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.blocksaver;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;

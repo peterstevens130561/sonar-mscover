@@ -4,9 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
-import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel;
@@ -34,11 +32,11 @@ public class UnitTestFilesResultRegistry {
         void execute(String fileId,UnitTestFileResultModel unitTest);
     }
     
-    public void forEachUnitTestFile(ForEachUnitTestFile predicate) {
+    public void forEachUnitTestFile(ForEachUnitTestFile action) {
         for(Entry<String, UnitTestFileResultModel>entry: unitTestFilesResultRegistry.entrySet()) {
             String fileId = entry.getKey();
             UnitTestFileResultModel unitTest=entry.getValue();
-            predicate.execute(fileId, unitTest);
+            action.execute(fileId, unitTest);
         }
         
     }
