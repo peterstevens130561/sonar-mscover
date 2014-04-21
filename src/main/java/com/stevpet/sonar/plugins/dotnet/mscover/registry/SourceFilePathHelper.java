@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
-import org.jfree.util.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.SonarException;
+
 
 /**
  * 
@@ -25,9 +27,9 @@ import org.sonar.api.utils.SonarException;
  * @return
  */
 public class SourceFilePathHelper {
-      public SourceFilePathHelper() {
-          
-      }
+    private static final Logger LOG = LoggerFactory
+            .getLogger(SourceFilePathHelper.class);
+
       private String projectPath;
       private String projectFolder;
       private String sourceFilePath;
@@ -60,7 +62,9 @@ public class SourceFilePathHelper {
           try {
             return file.getCanonicalPath();
         } catch (IOException e) {
-            throw new SonarException("Could not get path for " + fullPath);
+            String msg="Could not get path for " + fullPath;
+            LOG.error(msg);
+            throw new SonarException(msg,e);
         }
       }
       
@@ -99,7 +103,6 @@ public class SourceFilePathHelper {
        */
       public String getSolutionPath() {
           if(isSourceFileInProject()) {
-              Log.info("In project " + sourceFilePath);
               return sourceFilePath ;
           }
           String coveragePathRelativeToSolution = getRelativePath();

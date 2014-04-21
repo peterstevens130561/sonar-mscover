@@ -43,7 +43,6 @@ public class ResultsSensor implements Sensor {
     Settings settings;
     PropertiesHelper propertiesHelper ;
     String resultsPath;
-    private Object sourceFileNamesRegistry;
     private SourceFilePathHelper sourceFilePathHelper;
     public ResultsSensor(Settings settings) {
         this.settings = settings;
@@ -64,8 +63,9 @@ public class ResultsSensor implements Sensor {
         try {
             projectDirectory = project.getFileSystem().getBasedir().getCanonicalPath();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            String msg="Could not get path to project directory";
+            LOG.error(msg);
+            throw new SonarException(msg,e);
         }
         sourceFilePathHelper.setProjectPath(projectDirectory);
         ResultsModel resultsModel = new ResultsModel() ;

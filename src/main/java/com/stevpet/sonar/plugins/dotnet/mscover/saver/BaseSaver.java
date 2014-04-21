@@ -100,10 +100,14 @@ public abstract class BaseSaver implements Saver {
               source = CharMatcher.anyOf("\uFEFF").removeFrom(source); 
               context.saveSource(sonarFile, source);
               LOG.debug("MSCover added file" +sonarFile.getLongName());
-          } catch (Exception e) {
-            throw new SonarException("Unable to read and import the source file : '" + file.getAbsolutePath());
+          } catch (IOException e) {
+              String msg="Unable to read and import the source file : '" + file.getAbsolutePath();
+              LOG.error(msg);
+            throw new SonarException(msg,e);
           }
         if(!context.isIndexed(sonarFile, false)) {
+            String msg="Can't index file" + file.getAbsolutePath();
+            LOG.error(msg);
             throw new SonarException("Can't index file" + file.getAbsolutePath());
         }
     }

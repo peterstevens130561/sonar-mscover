@@ -1,13 +1,11 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 
 public class MethodObserver extends BaseParserObserver {
 
-    private MethodModel model = new MethodModel();
     private MethodToSourceFileIdMap registry;
     public MethodObserver() {
         setPattern("(Module/ModuleName)|" +

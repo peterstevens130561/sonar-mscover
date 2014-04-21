@@ -2,14 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
 import java.util.ArrayList;
 import java.util.List;
-/*
- *    saveFileMeasure(testFile, context, CoreMetrics.SKIPPED_TESTS, testReport.getSkipped());
-        saveFileMeasure(testFile, context, CoreMetrics.TESTS, testsCount);
-        saveFileMeasure(testFile, context, CoreMetrics.TEST_ERRORS, testReport.getErrors());
-        saveFileMeasure(testFile, context, CoreMetrics.TEST_FAILURES, testReport.getFailures());
-        saveFileMeasure(testFile, context, CoreMetrics.TEST_EXECUTION_TIME, testReport.getTimeMS());
-        saveFileMeasure(testFile, context, TestMetrics.COUNT_ASSERTS, testReport.getAsserts());
- */
+
 public class UnitTestFileResultModel {
     private int error ;
     
@@ -38,7 +31,7 @@ public class UnitTestFileResultModel {
         if(tests.size() ==0) {
             return 100.0;
         }
-        return (100* getPassed()/getTests());
+        return 100* getPassed()/getTests();
     }
     
     public List<UnitTestResultModel> getUnitTests() {
