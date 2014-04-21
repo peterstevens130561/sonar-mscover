@@ -89,11 +89,13 @@ public class TestSaver extends  BaseSaver {
             return sonarFile;
         }
    
-        protected String getQualifier() {
-            return "UTS";
-        }
+
 }
 
+    @Override
+    protected String getQualifier() {
+        return "UTS";
+    }
     public void saveSummaryMeasures( UnitTestFileResultModel fileResults,
             org.sonar.api.resources.File sonarFile) {
         context.saveMeasure(sonarFile,CoreMetrics.SKIPPED_TESTS, (double)0);
