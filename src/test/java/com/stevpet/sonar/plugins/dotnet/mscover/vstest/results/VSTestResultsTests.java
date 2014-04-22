@@ -16,7 +16,7 @@ public class VSTestResultsTests {
         vsTestResults.setFile(resultsFile);
         String path=vsTestResults.getCoveragePath();
         Assert.assertNotNull(path);
-        Assert.assertEquals("Mileage\\TestResults\\stevpet_RDSJ741TY1 2014-04-21 12_03_37.trx",path);
+        Assert.assertEquals("Mileage\\TestResults\\58925830-5ea0-4927-a4e0-de8a89cc09cd\\stevpet_RDSJ741TY1 2014-04-21 12_03_08.coverage",path);
     }
     
     @Test
