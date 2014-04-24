@@ -36,7 +36,7 @@ public class UnitTestBlockDecoratorTest {
     
     @Test
     public void shouldExecute_Set_ExpectTrue() {
-        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_PATH)).thenReturn("a/b/c");
+        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH)).thenReturn("a/b/c");
         BaseDecorator decorator = new UnitTestLineDecorator(settings,timeMachine) ;
         boolean shouldExecute = decorator.shouldExecuteDecorator(null, settings);
         Assert.assertTrue(shouldExecute);
@@ -44,7 +44,7 @@ public class UnitTestBlockDecoratorTest {
     
     @Test
     public void shouldExecute_NotSet_ExpectFalse() {
-        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_PATH)).thenReturn(null);
+        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH)).thenReturn(null);
         BaseDecorator decorator = new UnitTestLineDecorator(settings,timeMachine) ;
         boolean shouldExecute = decorator.shouldExecuteDecorator(null, settings);
         Assert.assertFalse(shouldExecute);

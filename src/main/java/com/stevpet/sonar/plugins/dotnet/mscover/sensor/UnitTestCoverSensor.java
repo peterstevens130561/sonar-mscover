@@ -49,7 +49,7 @@ public class UnitTestCoverSensor extends BaseCoverageSensor {
 
     @Override
     protected String getCoveragePath() {
-        return  new PropertiesHelper(settings).getUnitTestsPath();
+        return  new PropertiesHelper(settings).getUnitTestCoveragePath();
     }
 
     @Override

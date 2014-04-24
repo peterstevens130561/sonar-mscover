@@ -56,7 +56,7 @@ public class UnitTestsCoverSensorTest {
     @Test
     public void UnitTestsSensor_PathSet_Enabled() {
         //Arrange
-        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_PATH)).thenReturn("a/b");
+        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH)).thenReturn("a/b");
         when(project.isRoot()).thenReturn(false);
 
         //Act
@@ -67,7 +67,7 @@ public class UnitTestsCoverSensorTest {
     
     public void UnitTestsSensor_Analyse_Enabled() {
         //Arrange
-        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_PATH)).thenReturn("mscover.xml");
+        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH)).thenReturn("mscover.xml");
         when(project.isRoot()).thenReturn(false);
         when(project.getName()).thenReturn("tfsblame");
         VisualStudioProject vsProject = mock(VisualStudioProject.class);
@@ -83,7 +83,7 @@ public class UnitTestsCoverSensorTest {
     @Test
     public void UnitTestsSensor_GetSensorPath() {
         UnitTestSensorInspector inspector = new UnitTestSensorInspector(settings);
-        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_PATH)).thenReturn("mscover.xml");
+        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH)).thenReturn("mscover.xml");
         String path = inspector.getCoveragePath();
         Assert.assertNotNull(path);
     }

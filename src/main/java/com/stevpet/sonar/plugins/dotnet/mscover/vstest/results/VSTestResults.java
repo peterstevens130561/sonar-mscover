@@ -10,27 +10,30 @@ import com.google.common.io.Files;
 
 public class VSTestResults {
 
+    private String results;
     private static String RESULTS_PATTERN = "\nResults File: ";
     private static String ATTACHMENTS_PATTERN = "\nAttachments:\r\n  ";
-    private File resultsFile;
 
     public void setFile(File resultsFile) {
-       this.resultsFile=resultsFile;
-        
+       try {
+        results=Files.toString(resultsFile, Charset.defaultCharset());
+    } catch (IOException e) {
+        throw new SonarException("Failed to read",e);
+    }       
     }
 
 
-    public String getResultsPath() throws IOException {
-        return  getFile(RESULTS_PATTERN);
+    public String getResultsPath()  {
+        return  getPieceFromResults(RESULTS_PATTERN);
 
     }
 
-    public String getCoveragePath() throws IOException {
-        return getFile(ATTACHMENTS_PATTERN);
+    public String getCoveragePath() {
+        return getPieceFromResults(ATTACHMENTS_PATTERN);
     }
-    private String getFile(String begin) throws IOException {
-        String results=Files.toString(resultsFile, Charset.defaultCharset());
-        String msg = "invalid results file '" + resultsFile.getCanonicalPath() + "', can 't find ";
+    
+    private String getPieceFromResults(String begin)  {
+        String msg = "invalid results file " + results + " can 't find ";
         int resultsPos=results.lastIndexOf(begin);
         if(resultsPos==-1) {
             throw new SonarException(msg + begin);
@@ -42,6 +45,11 @@ public class VSTestResults {
         }
         String result=results.substring(resultsPos + begin.length(),newLinePos);
         return result;
+    }
+
+
+    public void setResults(String string) {
+            results= string;
     }
 
 

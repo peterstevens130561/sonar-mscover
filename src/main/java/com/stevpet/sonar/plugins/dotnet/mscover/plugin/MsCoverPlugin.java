@@ -41,11 +41,11 @@ import java.util.List;
  */
 @Properties({
     @Property(
-            key=PropertiesHelper.MSCOVER_INTEGRATION_PATH,
+            key=PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH,
             name = "integration tests file)",
             defaultValue="",global=false,project=true,type = PropertyType.STRING),
     @Property(
-            key=PropertiesHelper.MSCOVER_UNIT_PATH,
+            key=PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH,
             name = "unit tests file",
             defaultValue="",global=false,project=true,type = PropertyType.STRING),
     @Property(

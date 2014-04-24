@@ -36,7 +36,7 @@ public class IntegrationTestLineDecoratorTest {
     
     @Test
     public void shouldExecute_Set_ExpectTrue() {
-        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_PATH)).thenReturn("a/b/c");
+        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn("a/b/c");
         BaseDecorator decorator = new IntegrationTestLineDecorator(settings,timeMachine) ;
         boolean shouldExecute = decorator.shouldExecuteDecorator(null, settings);
         Assert.assertTrue(shouldExecute);
@@ -44,7 +44,7 @@ public class IntegrationTestLineDecoratorTest {
     
     @Test
     public void shouldExecute_NotSet_ExpectFalse() {
-        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_PATH)).thenReturn(null);
+        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn(null);
         BaseDecorator decorator = new IntegrationTestLineDecorator(settings,timeMachine) ;
         boolean shouldExecute = decorator.shouldExecuteDecorator(null, settings);
         Assert.assertFalse(shouldExecute);

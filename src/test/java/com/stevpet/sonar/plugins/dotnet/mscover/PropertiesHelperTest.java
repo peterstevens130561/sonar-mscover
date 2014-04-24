@@ -22,7 +22,7 @@ public class PropertiesHelperTest {
     public void IntegrationTestsNotSet_ShouldBeDisabled () {
         //Arrange
         String path=null;
-        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_PATH)).thenReturn(path);
+        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn(path);
         //Act
         boolean enabled=helper.isIntegrationTestsEnabled();
         //Assert
@@ -33,7 +33,7 @@ public class PropertiesHelperTest {
     public void IntegrationTestsBlank_ShouldBeDisabledd() {
         //Arrange
         String path = "";
-        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_PATH)).thenReturn(path);
+        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn(path);
         //Act
         boolean enabled=helper.isIntegrationTestsEnabled();
         //Assert
@@ -44,7 +44,7 @@ public class PropertiesHelperTest {
     public void IntegrationTestsSet_ShouldBeEnabled() {
         //Arrange
         String path = "a/b/c";
-        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_PATH)).thenReturn(path);
+        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn(path);
         //Act
         boolean enabled=helper.isIntegrationTestsEnabled();
         //Assert
@@ -56,7 +56,7 @@ public class PropertiesHelperTest {
     public void UnitTestsNotSet_ShouldBeDisabled () {
         //Arrange
         String path=null;
-        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_PATH)).thenReturn(path);
+        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH)).thenReturn(path);
         //Act
         boolean enabled=helper.isUnitTestsEnabled();
         //Assert
@@ -67,7 +67,7 @@ public class PropertiesHelperTest {
     public void UnitTestsBlank_ShouldBeDisabledd() {
         //Arrange
         String path = "";
-        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_PATH)).thenReturn(path);
+        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH)).thenReturn(path);
         //Act
         boolean enabled=helper.isUnitTestsEnabled();
         //Assert
@@ -78,7 +78,7 @@ public class PropertiesHelperTest {
     public void UnitTestsSet_ShouldBeEnabled() {
         //Arrange
         String path = "a/b/c";
-        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_PATH)).thenReturn(path);
+        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH)).thenReturn(path);
         //Act
         boolean enabled=helper.isUnitTestsEnabled();
         //Assert

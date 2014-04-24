@@ -64,7 +64,7 @@ public class IntegrationTestsCoverSensorTest {
     @Test
     public void IntegrationTestsSensor_PathSet_Enabled() {
         //Arrange
-        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_PATH)).thenReturn("a/b");
+        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn("a/b");
         when(project.isRoot()).thenReturn(false);
         //Act
         boolean shouldExecute=sensor.shouldExecuteOnProject(project);
@@ -75,7 +75,7 @@ public class IntegrationTestsCoverSensorTest {
 
     public void IntegrationTestsSensor_Analyse_Enabled() {
         //Arrange
-        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_PATH)).thenReturn("mscover.xml");
+        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn("mscover.xml");
         when(project.isRoot()).thenReturn(false);
         when(project.getName()).thenReturn("tfsblame");
         VisualStudioProject vsProject = mock(VisualStudioProject.class);
@@ -92,7 +92,7 @@ public class IntegrationTestsCoverSensorTest {
     
     public void UnitTestsSensor_Analyse_Enabled() {
         //Arrange
-        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_PATH)).thenReturn("mscover.xml");
+        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH)).thenReturn("mscover.xml");
         when(project.isRoot()).thenReturn(false);
         when(project.getName()).thenReturn("tfsblame");
         VisualStudioProject vsProject = mock(VisualStudioProject.class);
