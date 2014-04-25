@@ -101,10 +101,13 @@ public class UnitTestsCoverSensorTest {
         Saver saver = inspector.createBlockSaver(project, null);
         Assert.assertNotNull(saver);      
     }
+    
     private class UnitTestSensorInspector extends UnitTestCoverSensor {
 
         public UnitTestSensorInspector(Settings settings) {
             super(settings,null,null);
         }    
     }
+    
+    
 }

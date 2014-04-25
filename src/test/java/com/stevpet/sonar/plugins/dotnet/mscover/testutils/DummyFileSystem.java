@@ -14,6 +14,8 @@ import org.sonar.test.TestUtils;
 
 public class DummyFileSystem implements ProjectFileSystem {
 
+    private File baseDir =TestUtils.getResource("/") ;
+    
     public ProjectFileSystem addSourceDir(File arg0) {
         return null;
     }
@@ -23,9 +25,13 @@ public class DummyFileSystem implements ProjectFileSystem {
     }
 
     public File getBasedir() {
-        return TestUtils.getResource("/") ;
+        return baseDir;
+
     }
 
+    public void  setBasedir(File dir) {
+        baseDir=dir;
+    }
     public File getBuildDir() {
         return null;
     }

@@ -41,6 +41,10 @@ public class UnitTestRunner {
         this.solutionDirectory = solutionDirectory;
     }
     
+    public boolean shouldRun() {
+        // TODO Auto-generated method stub
+        return "runvstest".equals(propertiesHelper.getMode());
+    } 
     /**
      * if mode is set to runvstest the runner will attempt to run test & obtain coverage
      * information. Make sure all properties are set:
@@ -49,9 +53,6 @@ public class UnitTestRunner {
      * @return
      */
     public boolean runTests() {
-        if (!"runvstest".equals(propertiesHelper.getMode())) {
-            return false;
-        }
         requireTestSettings();
         requireOutputPath();
         findAssemblies();
@@ -63,7 +64,8 @@ public class UnitTestRunner {
     }
     private void requireOutputPath() {
             if(StringUtils.isEmpty(outputPath)) {
-                setOutputPath(propertiesHelper.getUnitTestCoveragePath());
+                outputPath = solutionDirectory + "/" + propertiesHelper.getUnitTestCoveragePath();
+                setOutputPath(outputPath);
             }
             if(StringUtils.isEmpty(outputPath)) {
                 throw new SonarException(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH + " not set ");
@@ -77,7 +79,7 @@ public class UnitTestRunner {
         testSettingsPath = solutionDirectory.getAbsolutePath() + "\\" + testSettings;
         File testSettingsFile = new File(testSettingsPath);
         if(!testSettingsFile.exists()) {
-            throw new SonarException(PropertiesHelper.MSCOVER_TESTSETTINGS + " file " + testSettings + " does not exist");
+            throw new SonarException(PropertiesHelper.MSCOVER_TESTSETTINGS + " file " + testSettingsPath + " does not exist");
         }      
     }
     
@@ -179,5 +181,7 @@ public class UnitTestRunner {
     public String toString() {
         return log.toString();
     }
-    } 
+    }
+
+
 }

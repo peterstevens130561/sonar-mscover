@@ -62,11 +62,16 @@ public class UnitTestResultModel  {
         
     }
     
-    public void setModuleFromCodeBase(String value) {
-        if(StringUtils.isEmpty(value)) {
+    /**
+     * set the module to the last segment in the codeBase
+     * @param path to the dll, may use / or \ in the path, 
+     */
+    public void setModuleFromCodeBase(String codeBase) {
+        if(StringUtils.isEmpty(codeBase)) {
             throw new SonarException("module can't be null");
         }
-        String[] parts = value.split("\\\\");
+        codeBase=codeBase.replace("\\","/");
+        String[] parts = codeBase.split("/");
         methodId.setModuleName(parts[parts.length-1]);
     }
     
