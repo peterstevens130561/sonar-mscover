@@ -8,31 +8,36 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
+import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageAnalyser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunner;
 
 @Extension
 public class ResultsSensor implements Sensor {
     static final Logger LOG = LoggerFactory
             .getLogger(ResultsSensor.class);
-    Settings settings;
-    PropertiesHelper propertiesHelper ;
+    private PropertiesHelper propertiesHelper ;
+    private UnitTestRunner unitTestRunner;
+    private TimeMachine timeMachine;
    
     
-    public ResultsSensor(Settings settings) {
-        this.settings = settings;
+    public ResultsSensor(Settings settings,TimeMachine timeMachine) {
+        this.timeMachine = timeMachine;
         propertiesHelper = new PropertiesHelper(settings);
+        unitTestRunner = UnitTestRunner.create();
+        unitTestRunner.setPropertiesHelper(propertiesHelper);
     }
     
     public boolean shouldExecuteOnProject(Project project) {
         String resultsPath=propertiesHelper.getUnitTestResultsPath();
-        boolean shouldExecute = StringUtils.isNotEmpty(resultsPath);
-        LOG.info("ResultsSensor {},shouldExecute");
+        boolean shouldExecute = (StringUtils.isNotEmpty(resultsPath) || unitTestRunner.shouldRun()) && project.isRoot();
+        LOG.info("ResultsSensor {}",shouldExecute);
         return shouldExecute;
     }
 
@@ -40,8 +45,6 @@ public class ResultsSensor implements Sensor {
         LOG.info("MsCover Starting analysing test results");
         String coveragePath;
         String resultsPath;
-        UnitTestRunner unitTestRunner = UnitTestRunner.create();
-        unitTestRunner.setPropertiesHelper(propertiesHelper);
         if(unitTestRunner.shouldRun()) {
             LOG.info("MsCover Running tests");
             String projectDirectory = getProjectDirectory(project);
@@ -56,6 +59,10 @@ public class ResultsSensor implements Sensor {
         }
         UnitTestAnalyser analyser = new UnitTestAnalyser(project,context);
         analyser.analyseResults(coveragePath, resultsPath);
+        if(unitTestRunner.shouldRun()) {
+            CoverageAnalyser coverageAnalyser = new CoverageAnalyser(project,context, timeMachine, propertiesHelper);
+            coverageAnalyser.analyseResults(coveragePath);
+        }
     }
 
  

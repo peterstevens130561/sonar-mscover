@@ -29,12 +29,15 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.UnitTestLineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.sensor.results.ResultsSensor;
 
+import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 @Extension
+@DependsUpon("ResultsSensor")
 public class UnitTestCoverSensor extends BaseCoverageSensor {
 
 

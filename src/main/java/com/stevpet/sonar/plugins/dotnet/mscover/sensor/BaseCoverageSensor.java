@@ -106,6 +106,8 @@ public abstract class BaseCoverageSensor implements Sensor {
      */
     public void analyse(Project project, SensorContext sensorContext) {
         try {
+            PropertiesHelper propertiesHelper = new PropertiesHelper(settings);
+            CoverageAnalyser coverageAnalyser = new CoverageAnalyser(project,sensorContext, timeMachine, propertiesHelper);
             tryAnalyse(project, sensorContext);
         } catch (XMLStreamException e) {
             throw new SonarException("XmlStreamException", e);

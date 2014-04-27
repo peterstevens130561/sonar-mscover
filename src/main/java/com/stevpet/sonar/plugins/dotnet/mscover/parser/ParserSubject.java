@@ -43,8 +43,9 @@ public abstract class ParserSubject implements Subject {
             LOG.error("FactoryConfigurationError",e);
             throw new SonarException(e);
         } catch (XMLStreamException e) {
-            LOG.error("XMLStreamException",e);
-            throw new SonarException(e);
+            String msg = "XMLStreamException in " + file.getAbsolutePath();
+            LOG.error(msg,e);
+            throw new SonarException(msg,e);
         }
 
     }

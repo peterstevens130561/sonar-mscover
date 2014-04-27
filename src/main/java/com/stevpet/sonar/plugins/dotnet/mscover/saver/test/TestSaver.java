@@ -10,6 +10,7 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.resources.Project;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
@@ -110,7 +111,7 @@ public class TestSaver extends  BaseSaver {
         testCaseDetails.append("<tests-details>");
         List<UnitTestResultModel> details = fileResults.getUnitTests();
         for (UnitTestResultModel detail : details) {
-          testCaseDetails.append("<testcase status=\"ok\"");
+          testCaseDetails.append("<testcase status=\"" +getSonarStatus(detail.getOutcome()) + "\"");
           testCaseDetails.append(" time=\"0\"");
           testCaseDetails.append(" name=\"");
           testCaseDetails.append(detail.getTestName());
@@ -123,5 +124,13 @@ public class TestSaver extends  BaseSaver {
         testData.setPersistenceMode(PersistenceMode.DATABASE);
         context.saveMeasure(sonarFile, testData);
         LOG.debug("test detail : {}", testCaseDetails);
+    }
+
+    private String getSonarStatus(String outcome) {
+        if("Passed".equals(outcome)) {
+            return "ok" ;
+        } else {
+            return "error" ;
+        }
     }
 }

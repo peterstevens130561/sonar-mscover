@@ -1,7 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,10 +28,11 @@ public class AssembliesFinder {
     public void setPattern(String patternSequence) {
         String[] patterns = patternSequence.split(",");
         for(int i=0;i<patterns.length;i++) {
-            patterns[i] = "**/bin/Debug/" + patterns[i] + ".dll";
+            patterns[i] = patterns[i] + ".dll";
         }
         this.inclusionMatchers=WildcardPattern.create(patterns);         
     }
+    
 
     /**
      * Start finding the patterns defined in setPattern from the specified directory

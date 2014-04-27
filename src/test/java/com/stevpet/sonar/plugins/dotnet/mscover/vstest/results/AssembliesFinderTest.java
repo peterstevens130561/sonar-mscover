@@ -17,7 +17,7 @@ public class AssembliesFinderTest {
     @Test
     public void simpleFinder() throws IOException {
         AssembliesFinder finder = AssembliesFinder.create();
-        finder.setPattern("UnitTestProject");
+        finder.setPattern("**/bin/Debug/UnitTestProject");
         File root = TestUtils.getResource("Mileage");
         List<String> result=finder.findAssemblies(root);
         Assert.assertEquals(1, result.size());
@@ -26,7 +26,7 @@ public class AssembliesFinderTest {
     @Test
     public void simpleFinderWild() throws IOException {
         AssembliesFinder finder = AssembliesFinder.create();
-        finder.setPattern("UnitTest*");
+        finder.setPattern("**/bin/Debug/UnitTest*");
         File root = TestUtils.getResource("Mileage");
         List<String> result=finder.findAssemblies(root);
         Assert.assertEquals(1, result.size());
@@ -35,7 +35,7 @@ public class AssembliesFinderTest {
     @Test
     public void simpleFinderWilder() throws IOException {
         AssembliesFinder finder = AssembliesFinder.create();
-        finder.setPattern("*Test*,*Mileage*");
+        finder.setPattern("**/bin/Debug/*Test*,**/bin/Debug/*Mileage*");
         File root = TestUtils.getResource("Mileage");
         List<String> result=finder.findAssemblies(root);
         Assert.assertEquals(3, result.size());

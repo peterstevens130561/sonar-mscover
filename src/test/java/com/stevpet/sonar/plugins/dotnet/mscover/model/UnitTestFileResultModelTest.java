@@ -23,7 +23,7 @@ public class UnitTestFileResultModelTest {
         addPassedTest();
         Assert.assertEquals(1, (int)fileResult.getPassed());
         Assert.assertEquals(0, (int)fileResult.getFail());
-        Assert.assertEquals(100,(int)fileResult.getDensity());
+        Assert.assertEquals(1,(int)fileResult.getDensity());
     }
 
     @Test
@@ -41,7 +41,7 @@ public class UnitTestFileResultModelTest {
         addPassedTest();
         Assert.assertEquals(1, (int)fileResult.getPassed());
         Assert.assertEquals(1, (int)fileResult.getFail());
-        Assert.assertEquals(50,fileResult.getDensity(),0.00001);        
+        Assert.assertEquals(0.5,fileResult.getDensity(),0.00001);        
     }
     
     private void addFailedTest() {
@@ -51,7 +51,7 @@ public class UnitTestFileResultModelTest {
     }
     private void addPassedTest() {
         UnitTestResultModel passedTest = new UnitTestResultModel();
-        passedTest.setOutcome("Pass");
+        passedTest.setOutcome("Passed");
         fileResult.add(passedTest);
     }
     

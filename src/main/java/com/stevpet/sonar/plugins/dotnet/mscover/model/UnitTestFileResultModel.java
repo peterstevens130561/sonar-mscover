@@ -11,7 +11,7 @@ public class UnitTestFileResultModel {
     public void add(UnitTestResultModel unitTest) {
         tests.add(unitTest);
         String outcome=unitTest.getOutcome();
-        if(!"Pass".equals(outcome)) {
+        if(!"Passed".equals(outcome)) {
             error++;
         }
     }
@@ -29,9 +29,9 @@ public class UnitTestFileResultModel {
     }
     public double getDensity() {
         if(tests.size() ==0) {
-            return 100.0;
+            return 1.0;
         }
-        return 100* getPassed()/getTests();
+        return getPassed()/getTests();
     }
     
     public List<UnitTestResultModel> getUnitTests() {

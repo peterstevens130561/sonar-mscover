@@ -9,7 +9,7 @@ public class ResultsParserSubject extends  ParserSubject {
     public String[] getHierarchy() {
         String[] hierarchy = { "TestResults","TestSettings","Execution",
                 "Results","TestDefinitions","UnitTest","UnitTestResult",
-                "TestEntries","TestLists","ResultSummary",
+                "TestEntries","TestLists","ResultSummary","RunInfos","RunInfo",
                 "UriAttachments","UriAttachment",
                 "CollectorDataEntries","Collector","Output","ErrorInfo","Message"};
         return hierarchy;

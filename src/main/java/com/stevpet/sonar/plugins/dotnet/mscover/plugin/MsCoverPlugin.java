@@ -77,7 +77,7 @@ public List getExtensions() {
       
     return Arrays.asList(
         IntegrationTestCoverSensor.class,
-        UnitTestCoverSensor.class,
+  //      UnitTestCoverSensor.class,
         IntegrationTestLineDecorator.class,
         UnitTestLineDecorator.class,
         IntegrationTestBlockDecorator.class,

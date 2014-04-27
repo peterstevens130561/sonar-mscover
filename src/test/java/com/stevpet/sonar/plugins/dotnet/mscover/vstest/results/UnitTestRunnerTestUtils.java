@@ -15,7 +15,7 @@ public class UnitTestRunnerTestUtils {
         when(settings.getString("sonar.mscover.mode")).thenReturn("runvstest");
         when(settings.getString("sonar.mscover.vstest.testsettings")).thenReturn("Testsettings1.testsettings");
         when(settings.getString("sonar.mscover.vstest.coverage2xml")).thenReturn("C:/Program Files (x86)/Baker Hughes/Coverage2Xml/CodeCoverage.exe"); 
-        when(settings.getString("sonar.mscover.unittests.assemblies")).thenReturn("*Test*");
+        when(settings.getString("sonar.mscover.unittests.assemblies")).thenReturn("**/bin/Debug/*Test*");
         when(settings.getString("sonar.mscover.unittests.coveragexml")).thenReturn("coverage.xml");
         return settings;
     }
