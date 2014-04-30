@@ -42,8 +42,9 @@ public class UnitTestRunner {
     }
     
     public boolean shouldRun() {
-        // TODO Auto-generated method stub
-        return "runvstest".equals(propertiesHelper.getMode());
+        boolean shouldRun="runvstest".equals(propertiesHelper.getMode());
+        LOG.debug("shouldRun ->{}",shouldRun);
+        return shouldRun;
     } 
     /**
      * if mode is set to runvstest the runner will attempt to run test & obtain coverage
@@ -65,7 +66,7 @@ public class UnitTestRunner {
     private void requireOutputPath() {
             if(StringUtils.isEmpty(outputPath)) {
                 outputPath = solutionDirectory + "/" + propertiesHelper.getUnitTestCoveragePath();
-                setOutputPath(outputPath);
+                setCoverageXmlPath(outputPath);
             }
             if(StringUtils.isEmpty(outputPath)) {
                 throw new SonarException(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH + " not set ");
@@ -150,7 +151,7 @@ public class UnitTestRunner {
     }
 
 
-    public String getResultsPath() {
+    public String getResultsXmlPath() {
         return resultsPath;
     }
     public void setResultsPath(String resultsPath) {
@@ -161,7 +162,7 @@ public class UnitTestRunner {
     public String getOutputPath() {
         return outputPath;
     }
-    public void setOutputPath(String outputPath) {
+    public void setCoverageXmlPath(String outputPath) {
         this.outputPath = outputPath;
     }
 
@@ -173,6 +174,7 @@ public class UnitTestRunner {
         }
 
     public void consumeLine(String line) {
+        LOG.info(line);
         log.append(line);
         log.append("\r\n");  
     }

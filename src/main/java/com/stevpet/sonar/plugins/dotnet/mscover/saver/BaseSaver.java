@@ -104,8 +104,8 @@ public abstract class BaseSaver implements Saver {
           }
         if(!context.isIndexed(sonarFile, false)) {
             String msg="Can't index file" + file.getAbsolutePath();
-            LOG.error(msg);
-            throw new SonarException(msg);
+            LOG.debug(msg);
+            //throw new SonarException(msg);
         }
     }
 
@@ -118,7 +118,7 @@ public abstract class BaseSaver implements Saver {
     public static org.sonar.api.resources.File fromIOFile(java.io.File file, Project project) {
         List<File> lf = project.getFileSystem().getSourceDirs();
         if(lf.size()==0) {
-            lf.add(new File("."));
+           // lf.add(new File("."));
         }
         return fromIOFile(file,lf );
       }

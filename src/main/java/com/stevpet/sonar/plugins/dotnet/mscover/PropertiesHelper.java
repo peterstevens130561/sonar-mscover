@@ -19,7 +19,12 @@ public class PropertiesHelper {
     public static final String MSCOVER_MODE = MSCOVER + "mode";
     public static final String MSCOVER_UNITTEST_ASSEMBLIES = MSCOVER + "unittests.assemblies";
     public static final String MSCOVER_TESTSETTINGS = MSCOVER + "vstest.testsettings";
+
+            
+            
+    }
     
+    @Deprecated
     public PropertiesHelper(Settings settings) {
         this.settings = settings;
     }
@@ -79,5 +84,17 @@ public class PropertiesHelper {
 
     public String getTestSettings() {
         return settings.getString(MSCOVER_TESTSETTINGS);
+    }
+
+    /**
+     * Preferred constructor
+     */
+    public static PropertiesHelper create(Settings settings) {
+        return new PropertiesHelper(settings);
+    }
+
+    public boolean shouldMsCoverRun() {
+        String mode = getMode();
+        return StringUtils.isNotEmpty(mode) && !"skip".equals(mode);
     }
 }
