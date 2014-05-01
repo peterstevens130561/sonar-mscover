@@ -34,28 +34,24 @@ public class UnitTestCoverSensorCompleteTest {
         fileSystem.setBasedir(TestUtils.getResource("Mileage"));
         when(project.getFileSystem()).thenReturn( fileSystem);
     }
+
+
     @Test
-    public void runTests_Analyse() {
-        Settings settings = UnitTestRunnerTestUtils.mockUnitTestRunnerSettingsToRun();
-        ResultsSensor sensor = new ResultsSensor(null,settings, null,moduleFileSystem,vsTestEnvironment);
-        sensor.analyse(project, context);
-    }
-    
-    @Test
-    public void runTests_ShouldExecute() {
+    public void projectIsRootPropertyExecuteRootIsTrue_ShouldNotExecute() {
         Settings settings = UnitTestRunnerTestUtils.mockUnitTestRunnerSettingsToRun();
         ResultsSensor sensor = new ResultsSensor(null,settings, null,moduleFileSystem,vsTestEnvironment);
         when(project.isRoot()).thenReturn(true);
+        
         boolean shouldExecute=sensor.shouldExecuteOnProject(project);
-        Assert.assertTrue(shouldExecute);
+        Assert.assertFalse(shouldExecute);
     }
     
     @Test
-    public void runTestsNotRoot_ShouldNotExecute() {
+    public void runTestsNotRoot_ShouldExecute() {
         Settings settings = UnitTestRunnerTestUtils.mockUnitTestRunnerSettingsToRun();
         ResultsSensor sensor = new ResultsSensor(null,settings, null,moduleFileSystem,vsTestEnvironment);
         when(project.isRoot()).thenReturn(false);
         boolean shouldExecute=sensor.shouldExecuteOnProject(project);
-        Assert.assertFalse(shouldExecute);
+        Assert.assertTrue(shouldExecute);
     }
 }

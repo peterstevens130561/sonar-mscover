@@ -32,6 +32,7 @@ public class BaseDecoratorTest {
     public void sunnyDay() {
         PrimitiveDecorator decorator = new PrimitiveDecorator(settings, null);
         when(resource.getScope()).thenReturn(Scopes.FILE);
+        when(resource.getLongName()).thenReturn("somename");
         setNcLoc(10.0);
         setStatements(20.0);
         decorator.decorate(resource, context);

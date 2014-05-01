@@ -51,6 +51,9 @@ public class ResultsSensor implements Sensor {
         this.vsTestEnvironment = vsTestEnvironment;
     }
     
+    /**
+     * tests whether the sensor should execute on the project
+     */
     public boolean shouldExecuteOnProject(Project project) {
         String resultsPath=propertiesHelper.getUnitTestResultsPath();
         boolean shouldExecute = (StringUtils.isNotEmpty(resultsPath) || unitTestRunner.shouldRun()) && (project.isRoot() == propertiesHelper.excuteRoot());
