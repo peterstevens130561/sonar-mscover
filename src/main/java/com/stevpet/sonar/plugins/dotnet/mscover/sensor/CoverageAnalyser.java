@@ -150,8 +150,7 @@ public class CoverageAnalyser {
         try {
             projectDirectory = project.getFileSystem().getBasedir().getCanonicalPath();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new SonarException("Could not get file",e);
         }
         return projectDirectory;
     }
