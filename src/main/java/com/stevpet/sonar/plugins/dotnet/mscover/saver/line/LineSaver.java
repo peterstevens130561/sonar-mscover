@@ -8,7 +8,9 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.ParsingUtils;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.AlwaysPassThroughDateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
@@ -31,7 +33,6 @@ public abstract class LineSaver extends  BaseSaver {
             CoverageRegistry registry) {
         super(context,project);
         this.project= project;
-
         this.context = context;
         this.registry = registry;
     }

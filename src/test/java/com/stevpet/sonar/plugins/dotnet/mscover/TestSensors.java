@@ -13,7 +13,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 
 @Extension
 public class TestSensors {
-    @Test
+
     public void simpleExperiment() {
         String name=TestSensors.class.getPackage().getName();
         List<Class<?>> results = new ArrayList<Class<?>>();
@@ -30,7 +30,7 @@ public class TestSensors {
         Assert.assertEquals(3,results.size());
     }
     
-    @Test
+
     public void straightfromClass() {
            Extension extension=this.getClass().getAnnotation(Extension.class);
            Assert.assertNotNull(extension);

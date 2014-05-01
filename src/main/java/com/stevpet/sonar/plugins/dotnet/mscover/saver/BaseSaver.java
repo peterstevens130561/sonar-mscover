@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.scan.filesystem.PathResolver;
 import org.sonar.api.utils.SonarException;
 
@@ -27,10 +28,10 @@ public abstract class BaseSaver implements Saver {
     private Project project ;
     private SensorContext context;
     private Charset charset;
+
     public BaseSaver(SensorContext context,Project project) {
         this.project = project ;
         this.context = context;
-        
         setCharset(project);
     }
 
@@ -115,10 +116,10 @@ public abstract class BaseSaver implements Saver {
         return "FIL";
     }
 
-    public static org.sonar.api.resources.File fromIOFile(java.io.File file, Project project) {
+    public  org.sonar.api.resources.File fromIOFile(java.io.File file, Project project) {
         List<File> lf = project.getFileSystem().getSourceDirs();
         if(lf.size()==0) {
-           // lf.add(new File("."));
+           lf.add(new File("."));
         }
         return fromIOFile(file,lf );
       }

@@ -1,7 +1,11 @@
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.config.Settings;
+import org.sonar.api.resources.Language;
 
 public class PropertiesHelper {
 
@@ -19,10 +23,6 @@ public class PropertiesHelper {
     public static final String MSCOVER_MODE = MSCOVER + "mode";
     public static final String MSCOVER_UNITTEST_ASSEMBLIES = MSCOVER + "unittests.assemblies";
     public static final String MSCOVER_TESTSETTINGS = MSCOVER + "vstest.testsettings";
-
-            
-            
-    }
     
     @Deprecated
     public PropertiesHelper(Settings settings) {
@@ -96,5 +96,22 @@ public class PropertiesHelper {
     public boolean shouldMsCoverRun() {
         String mode = getMode();
         return StringUtils.isNotEmpty(mode) && !"skip".equals(mode);
+    }
+    
+    public boolean isCPlusPlus() {
+        return getLanguages().contains("c++");
+    }
+
+    public List<String> getLanguages() {
+        List<String> languages = new ArrayList<String>();
+        String[] languageSetting = settings.getStringArrayBySeparator(
+                "sonar.language", ",");
+        if (languageSetting != null) {
+            for (String language : languageSetting) {
+                languages.add(language);
+            }
+        }
+
+        return languages;
     }
 }

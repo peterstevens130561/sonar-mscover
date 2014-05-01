@@ -1,0 +1,19 @@
+
+c:\Users\stevpet\My Documents\github\Mileage>vstest.console UnitTestProject/bin/Debug/UnitTestProject.dll /settings:TestSettings1.testsettings /EnableCodeCoverage /logger:trx 
+Microsoft (R) Test Execution Command Line Tool Version 11.0.60315.1
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+Starting test execution, please wait...
+Warning: Using Isolation mode to run the tests as diagnostic data adapters were enabled in the runsettings. Use the /inIsolation parameter to suppress this warning.
+Passed   Mileage_SunnyDay_ShouldMatch
+Failed   Mileage_SunnyDay_ShouldFail
+
+Passed   Mileage_SunnyDay_ShouldInconclusive
+Passed   Mileage_DivideZero_UncaughtException
+Results File: Mileage\TestResults\stevpet_RDSJ741TY1 2014-04-21 12_03_37.trx
+
+Attachments:
+  Mileage\TestResults\58925830-5ea0-4927-a4e0-de8a89cc09cd\stevpet_RDSJ741TY1 2014-04-21 12_03_08.coverage
+
+Total tests: 4. Passed: 3. Failed: 1. Skipped: 0.
+Test execution time: 24.9957 Seconds

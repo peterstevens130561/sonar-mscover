@@ -16,4 +16,8 @@ public class AlwaysPassThroughResourceFilter implements ResourceFilter {
         //Intentionally left blank
     }
 
+    public boolean isIncluded(String longName) {
+        return true;
+    }
+
 }

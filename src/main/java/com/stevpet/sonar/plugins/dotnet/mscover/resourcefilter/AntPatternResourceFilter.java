@@ -1,5 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter;
 
+import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.WildcardPattern;
 
 public class AntPatternResourceFilter implements ResourceFilter {
@@ -28,10 +29,14 @@ public class AntPatternResourceFilter implements ResourceFilter {
      * @see com.stevpet.sonar.plugins.dotnet.mscover.FileFilter#isPassed(java.lang.String)
      */
     public boolean isPassed(String longName) {
+        if(StringUtils.isEmpty(longName)) {
+            return false;
+        }
+        String antName = longName.replaceAll("\\\\", "/");
         if(exclusionMatchers==null) {
             return true;
         }
-        boolean isExcluded=WildcardPattern.match(exclusionMatchers,longName);
+        boolean isExcluded=WildcardPattern.match(exclusionMatchers,antName);
         if(isExcluded) {
             return false ;
         }
@@ -39,8 +44,14 @@ public class AntPatternResourceFilter implements ResourceFilter {
         if(inclusionMatchers == null) {
             return true;
         }
-        return WildcardPattern.match(inclusionMatchers,longName);
-
+        return WildcardPattern.match(inclusionMatchers,antName);
     }
-
+    
+    public boolean isIncluded(String longName) {
+        String antName = longName.replaceAll("\\\\", "/");
+        if(inclusionMatchers == null) {
+            return false;
+        }
+        return WildcardPattern.match(inclusionMatchers,antName);
+    }
 }

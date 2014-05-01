@@ -1,5 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 
 public class ResourceFilterFactory {
@@ -21,6 +23,18 @@ public class ResourceFilterFactory {
         String inclusions = propertiesHelper.getInclusions();
         filter.setInclusions(inclusions);
         return filter;
+    }
+    
+    /**
+     * Create a filter to find the unit test assemblies
+     * @param propertiesHelper
+     * @return
+     */
+    public static ResourceFilter createUnitTestAssembliesFilter(PropertiesHelper propertiesHelper) {
+        ResourceFilter filter= new AntPatternResourceFilter();
+        String inclusions=propertiesHelper.getUnitTestsAssemblies();
+        filter.setInclusions(inclusions);
+        return filter;        
     }
 
     /**
