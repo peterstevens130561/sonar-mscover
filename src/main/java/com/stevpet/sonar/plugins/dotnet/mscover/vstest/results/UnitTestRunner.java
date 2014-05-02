@@ -25,6 +25,7 @@ public class UnitTestRunner {
     private String resultsPath;
     
     private String outputPath;
+    private String sonarPath;
     
     private UnitTestRunner() {
     }
@@ -33,6 +34,9 @@ public class UnitTestRunner {
         return new UnitTestRunner();
     }
 
+    public void setSonarPath(String path) {
+        this.sonarPath = path;
+    }
     public void setPropertiesHelper(PropertiesHelper propertiesHelper) {
         this.propertiesHelper = propertiesHelper;
     }
@@ -93,8 +97,10 @@ public class UnitTestRunner {
     }
     private void runCodeCoverage() {
         CodeCoverageCommand command = new CodeCoverageCommand();
+        command.setSonarPath(sonarPath);
         command.setCoveragePath(coveragePath);
         command.setOutputPath(getOutputPath());
+        command.install();
         executeShellCommand(command);
    
  

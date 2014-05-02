@@ -49,6 +49,7 @@ public class VsTestSensor implements Sensor {
         unitTestRunner.setCoverageXmlPath(coverageXmlPath);
 
         unitTestRunner.setSolutionDirectory(moduleFileSystem.baseDir());
+        unitTestRunner.setSonarPath(moduleFileSystem.workingDir().getAbsolutePath());
         unitTestRunner.runTests();
         vsTestEnvironment.setResultsXmlPath(unitTestRunner.getResultsXmlPath());
         vsTestEnvironment.setCoverageXmlPath(coverageXmlPath);

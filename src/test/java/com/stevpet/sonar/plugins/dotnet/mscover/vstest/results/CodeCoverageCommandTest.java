@@ -19,18 +19,8 @@ public class CodeCoverageCommandTest {
         command.setCoveragePath("stevpet.coverage");
         command.setOutputPath("stevpet.xml");
         String commandLine = command.toCommandLine();
-        String expected = "C:/Program Files (x86)/Baker Hughes/Coverage2Xml/CodeCoverage.exe stevpet.coverage stevpet.xml";
+        String expected = "/CodeCoverage/CodeCoverage.exe stevpet.coverage stevpet.xml";
         Assert.assertEquals(expected, commandLine);
     }
     
-    @Test
-    public void ownCommand() {
-        CodeCoverageCommand command = CodeCoverageCommand.create() ;
-        command.setCoveragePath("stevpet.coverage");
-        command.setOutputPath("stevpet.xml");
-        command.setCommandPath("CodeCoverage.exe");
-        String commandLine = command.toCommandLine();
-        String expected = "CodeCoverage.exe stevpet.coverage stevpet.xml";
-        Assert.assertEquals(expected, commandLine);
-    }
 }
