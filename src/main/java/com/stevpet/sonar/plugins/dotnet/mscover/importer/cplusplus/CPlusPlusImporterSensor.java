@@ -30,9 +30,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFac
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestSaver;
 
 //@DependedUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
-@DependedUpon("CPlusPlusImporterSensor Executed")
+@DependedUpon(CPlusPlusImporterSensor.DEPENDS)
 public class CPlusPlusImporterSensor implements Sensor {
 
+    public static final String DEPENDS="CPlusPlusImporterSensor";
     private static final Logger LOG = LoggerFactory
             .getLogger(CPlusPlusImporterSensor.class);
     private final PropertiesHelper propertiesHelper ;

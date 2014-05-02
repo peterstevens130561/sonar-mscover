@@ -26,7 +26,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestBlockDecorator
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestLineDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.importer.cplusplus.CPlusPlusImporterSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.IntegrationTestCoverSensor;
-import com.stevpet.sonar.plugins.dotnet.mscover.sensor.UnitTestCoverSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.results.ResultsSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.results.VsTestSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
