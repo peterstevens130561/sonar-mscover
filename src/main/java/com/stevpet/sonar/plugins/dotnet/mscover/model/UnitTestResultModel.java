@@ -12,6 +12,7 @@ public class UnitTestResultModel  {
     private String relativeResultsDirectory;
     private String codeBase;
     private String message = StringUtils.EMPTY;
+    private String stackTrace;
 
     
     public String getModuleName() {
@@ -113,6 +114,13 @@ public class UnitTestResultModel  {
 
     public String getMessage() {
         return message;
+    }
+    public void setStackTrace(String value) {
+       stackTrace=value; 
+    }
+    
+    public String getStackTrace() {
+        return stackTrace;
     }
     
 

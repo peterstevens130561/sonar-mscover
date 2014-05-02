@@ -51,7 +51,9 @@ public class ResultsParserTest {
         Assert.assertEquals(4, results.size());
         UnitTestResultModel result=results.getById("2b700139-4cbd-7db0-4b54-6f23eab71b6b");
         Assert.assertTrue(result.getMessage().startsWith("Test method joaFrameworkUnitTests.joaSolutionTest.NewSolutionTest"));
-        Assert.assertTrue(result.getStackTrace().startsWith("    at joaFramework.SolutionBase..ctor()"));
+        String stackTrace=result.getStackTrace();
+        Assert.assertNotNull(stackTrace);
+        Assert.assertTrue(stackTrace.startsWith("at joaFramework.SolutionBase..ctor()"));
     }
     @Test
     public void checkModuleName_ShouldBeLastPart() {

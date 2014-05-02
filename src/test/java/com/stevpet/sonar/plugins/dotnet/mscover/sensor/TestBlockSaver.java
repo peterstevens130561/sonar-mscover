@@ -13,21 +13,16 @@ public class TestBlockSaver extends BaseBlockSaver {
 
     public TestBlockSaver(SensorContext context, Project project) {
         super(context, project);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
     public void saveSummaryMeasures(SensorContext context,
             FileBlocks fileBlocks, Resource<?> sonarFile) {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override
     public void saveLineMeasures(SensorContext context, FileBlocks fileBlocks,
             Resource<?> sonarFile) {
-        // TODO Auto-generated method stub
-        
     }
 
 }

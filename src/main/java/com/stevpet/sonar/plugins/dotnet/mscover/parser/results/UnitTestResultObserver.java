@@ -22,7 +22,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
 public class UnitTestResultObserver extends BaseParserObserver {
 
     public UnitTestResultObserver() {
-        setPattern("(Results/UnitTestResult)|(.*/Message)|(.*/Stacktrace)");
+        setPattern("(Results/UnitTestResult)|(.*/Message)|(.*/StackTrace)");
     }
     
     private UnitTestResultRegistry registry;
@@ -62,4 +62,8 @@ public class UnitTestResultObserver extends BaseParserObserver {
         unitTestResult.setMessage(value);
     }
     
+    @ElementMatcher(elementName="StackTrace")
+    public void stackTrace(String value) {
+        unitTestResult.setStackTrace(value);
+    }
 }

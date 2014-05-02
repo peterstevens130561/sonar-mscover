@@ -3,6 +3,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.saver.test;
 import java.io.File;
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
@@ -28,6 +29,7 @@ public class TestSaver extends  BaseSaver {
     private SourceFileNamesRegistry sourceFileNamesRegistry ;
     private UnitTestFilesResultRegistry unitTestFilesResultRegistry;
     private SourceFilePathHelper sourceFilePathHelper;
+    private StringBuilder testCaseDetails ;
     public SourceFileNamesRegistry getSourceFileNamesRegistry() {
         return sourceFileNamesRegistry;
     }
@@ -107,7 +109,7 @@ public class TestSaver extends  BaseSaver {
 
     public void saveTestCaseMeasures( UnitTestFileResultModel fileResults,
             org.sonar.api.resources.File sonarFile) {
-        StringBuilder testCaseDetails = new StringBuilder(256);
+        testCaseDetails = new StringBuilder(256);
         testCaseDetails.append("<tests-details>");
         List<UnitTestResultModel> details = fileResults.getUnitTests();
         for (UnitTestResultModel detail : details) {
@@ -115,8 +117,16 @@ public class TestSaver extends  BaseSaver {
           testCaseDetails.append(" time=\"0\"");
           testCaseDetails.append(" name=\"");
           testCaseDetails.append(detail.getTestName());
-          testCaseDetails.append("\"");
-          testCaseDetails.append(" />");
+          testCaseDetails.append("\">");
+          if(isNotPassed(detail)) {
+              testCaseDetails.append("<error ");
+              testCaseDetails.append(getMessageAttribute(detail));
+              testCaseDetails.append(">");
+              testCaseDetails.append("<![CDATA[");
+              testCaseDetails.append(StringEscapeUtils.escapeXml(detail.getStackTrace())).append("]]>");
+              testCaseDetails.append("</error>");
+          }
+          testCaseDetails.append("</testcase>");
         }
         testCaseDetails.append("</tests-details>");
         String data=testCaseDetails.toString();
@@ -126,11 +136,26 @@ public class TestSaver extends  BaseSaver {
         LOG.debug("test detail : {}", testCaseDetails);
     }
 
+    private boolean isNotPassed(UnitTestResultModel detail) {
+        return !"Passed".equals(detail.getOutcome());
+    }
+
     private String getSonarStatus(String outcome) {
         if("Passed".equals(outcome)) {
             return "ok" ;
         } else {
             return "error" ;
         }
+    }
+    
+
+    private String getMessageAttribute(UnitTestResultModel result) {
+        String errorMessage = result.getMessage();
+        String xmlErrorMessage = StringEscapeUtils.escapeXml(errorMessage);
+        StringBuilder sb = new StringBuilder();
+        sb.append("message=\"");
+        sb.append(xmlErrorMessage);
+        sb.append("\"");
+        return sb.toString();
     }
 }

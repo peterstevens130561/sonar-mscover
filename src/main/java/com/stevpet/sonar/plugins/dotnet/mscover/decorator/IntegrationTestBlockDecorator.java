@@ -23,7 +23,6 @@ public class IntegrationTestBlockDecorator extends BaseDecorator {
         this.testMetric = CoreMetrics.IT_BRANCH_COVERAGE;
     }
 
-    //TODO: Add work to support unit test block decorator 60min
     @Override
     public boolean shouldExecuteDecorator(Project project, Settings settings) {
         PropertiesHelper helper = new PropertiesHelper(settings);
