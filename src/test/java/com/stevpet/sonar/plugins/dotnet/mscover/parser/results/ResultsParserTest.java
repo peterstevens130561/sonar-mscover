@@ -38,6 +38,21 @@ public class ResultsParserTest {
         Assert.assertEquals(186, results.size());
     }
 
+    
+    @Test
+    public void parser_GetResultsWithError_ShouldMatch() {
+        ParserSubject parserSubject = new ResultsParserSubject();
+        File file = TestUtils.getResource("ResultsWithError.trx");
+        UnitTestResultRegistry results = new UnitTestResultRegistry();
+        UnitTestResultObserver resultsObserver = new UnitTestResultObserver();
+        resultsObserver.setRegistry(results);
+        parserSubject.registerObserver(resultsObserver);
+        parserSubject.parseFile(file);
+        Assert.assertEquals(4, results.size());
+        UnitTestResultModel result=results.getById("2b700139-4cbd-7db0-4b54-6f23eab71b6b");
+        Assert.assertTrue(result.getMessage().startsWith("Test method joaFrameworkUnitTests.joaSolutionTest.NewSolutionTest"));
+        Assert.assertTrue(result.getStackTrace().startsWith("    at joaFramework.SolutionBase..ctor()"));
+    }
     @Test
     public void checkModuleName_ShouldBeLastPart() {
         UnitTestResultModel result = new UnitTestResultModel() ;

@@ -11,6 +11,7 @@ public class UnitTestResultModel  {
     private String outcome;
     private String relativeResultsDirectory;
     private String codeBase;
+    private String message = StringUtils.EMPTY;
 
     
     public String getModuleName() {
@@ -106,7 +107,13 @@ public class UnitTestResultModel  {
     public MethodIdModel getMethodId() {
         return methodId;
     }
+    public void setMessage(String value) {
+        message=value;     
+    }
 
+    public String getMessage() {
+        return message;
+    }
     
 
 }

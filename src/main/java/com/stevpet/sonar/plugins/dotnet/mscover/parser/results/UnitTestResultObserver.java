@@ -3,6 +3,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.parser.results;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.AttributeMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
 
 /*
@@ -21,7 +22,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
 public class UnitTestResultObserver extends BaseParserObserver {
 
     public UnitTestResultObserver() {
-        setPattern("Results/UnitTestResult");
+        setPattern("(Results/UnitTestResult)|(.*/Message)|(.*/Stacktrace)");
     }
     
     private UnitTestResultRegistry registry;
@@ -55,4 +56,10 @@ public class UnitTestResultObserver extends BaseParserObserver {
         unitTestResult.setRelativeResultsDirectory(value);
         registry.add(unitTestResult);
     }
+    
+    @ElementMatcher(elementName="Message")
+    public void message(String value) {
+        unitTestResult.setMessage(value);
+    }
+    
 }

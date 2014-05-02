@@ -23,48 +23,51 @@ public abstract class ParserSubject implements Subject {
             .getLogger(ParserSubject.class);
     List<ParserObserver> observers = new ArrayList<ParserObserver>();
 
-    List<String> parentElements = new ArrayList<String>() ;
-    
+    List<String> parentElements = new ArrayList<String>();
+
     public ParserSubject() {
-        String[] names =  getHierarchy();
-        for(String name :  names) {
+        String[] names = getHierarchy();
+        for (String name : names) {
             parentElements.add(name);
         }
     }
-    
-    public abstract String[] getHierarchy() ;
-    
-    public void parseFile(File file) { 
+
+    public abstract String[] getHierarchy();
+
+    public void parseFile(File file) {
         SMInputCursor cursor;
         try {
             cursor = getCursor(file);
             parse(cursor);
         } catch (FactoryConfigurationError e) {
-            LOG.error("FactoryConfigurationError",e);
+            LOG.error("FactoryConfigurationError", e);
             throw new SonarException(e);
         } catch (XMLStreamException e) {
             String msg = "XMLStreamException in " + file.getAbsolutePath();
-            LOG.error(msg,e);
-            throw new SonarException(msg,e);
+            LOG.error(msg, e);
+            throw new SonarException(msg, e);
         }
 
     }
-    
+
     private void parse(SMInputCursor rootCursor) throws XMLStreamException {
-            SMInputCursor childCursor = rootCursor.childElementCursor();
-            parseChild("",childCursor);
+        SMInputCursor childCursor = rootCursor.childElementCursor();
+        parseChild("", childCursor);
     }
 
     public void registerObserver(ParserObserver observer) {
         observers.add(observer);
     }
 
-    private void parseChild(String path, SMInputCursor childCursor)
+    private boolean parseChild(String path, SMInputCursor childCursor)
             throws XMLStreamException {
-                while ((childCursor.getNext()) != null) {
-                    processStartElement(path, childCursor);
-                }
-            }
+        boolean parsedChild = false;
+        while ((childCursor.getNext()) != null) {
+            processStartElement(path, childCursor);
+            parsedChild = true;
+        }
+        return parsedChild;
+    }
 
     private void processStartElement(String path, SMInputCursor childCursor)
             throws XMLStreamException {
@@ -73,59 +76,64 @@ public abstract class ParserSubject implements Subject {
             return;
         }
         String elementPath = createElementPath(path, name);
-        processAttributes(elementPath,name,childCursor);
+        processAttributes(elementPath, name, childCursor);
         processElement(elementPath, name, childCursor);
     }
 
-    private void processElement(String elementPath, String name, SMInputCursor childCursor)
-            throws XMLStreamException {
+    private void processElement(String elementPath, String name,
+            SMInputCursor childCursor) throws XMLStreamException {
 
-                if (parentElements.contains(name)) {
-                    parseChild(elementPath, childCursor.childElementCursor());
-                } else {
-                    
-                    String text = getTrimmedElementStringValue(childCursor);
-                    invokeElementObservers(elementPath, name, text);
-                }
-            }
+        if (parentElements.contains(name)) {
+            parseChild(elementPath, childCursor.childElementCursor());
+        } else {
+
+            String text = getTrimmedElementStringValue(childCursor);
+            invokeElementObservers(elementPath, name, text);
+        }
+    }
 
     private void invokeElementObservers(String path, String name, String text) {
         for (ParserObserver observer : observers) {
             if (observer.isMatch(path)) {
                 observer.observeElement(name, text);
-                invokeAnnotatedElementMethods(name,text,observer);
+                invokeAnnotatedElementMethods(name, text, observer);
             }
         }
     }
-    private void processAttributes(String path, String name, SMInputCursor elementCursor) throws XMLStreamException {
+
+    private void processAttributes(String path, String name,
+            SMInputCursor elementCursor) throws XMLStreamException {
         int attributeCount = elementCursor.getAttrCount();
-        for(int index=0;index<attributeCount;index++) {
-            String attributeValue=elementCursor.getAttrValue(index);
+        for (int index = 0; index < attributeCount; index++) {
+            String attributeValue = elementCursor.getAttrValue(index);
             String attributeName = elementCursor.getAttrLocalName(index);
-            invokeAttributeObservers(name, path, attributeValue,attributeName);          
+            invokeAttributeObservers(name, path, attributeValue, attributeName);
         }
     }
+
     private void invokeAttributeObservers(String elementName, String path,
             String attributeValue, String attributeName) {
         for (ParserObserver observer : observers) {
             if (observer.isMatch(path)) {
-                observer.observeAttribute(elementName,path,attributeValue,attributeName);
-                invokeAnnotatedMethods(elementName, attributeValue,attributeName, observer);
+                observer.observeAttribute(elementName, path, attributeValue,
+                        attributeName);
+                invokeAnnotatedMethods(elementName, attributeValue,
+                        attributeName, observer);
             }
         }
     }
 
-
     private void invokeAnnotatedElementMethods(String elementName,
-            String elementValue,ParserObserver observer) {
+            String elementValue, ParserObserver observer) {
         Method[] methods = observer.getClass().getMethods();
         for (Method method : methods) {
-            invokeAnnotatedElementMethod(elementName, elementValue,observer, method);
+            invokeAnnotatedElementMethod(elementName, elementValue, observer,
+                    method);
         }
     }
 
     private void invokeAnnotatedElementMethod(String elementName,
-            String elementValue,ParserObserver observer, Method method) {
+            String elementValue, ParserObserver observer, Method method) {
         ElementMatcher annos = method.getAnnotation(ElementMatcher.class);
 
         if (annos == null) {
@@ -135,26 +143,29 @@ public abstract class ParserSubject implements Subject {
             invokeMethod(elementValue, observer, method);
         }
     }
+
     private void invokeMethod(String elementValue, ParserObserver observer,
             Method method) {
         try {
-            method.invoke(observer,elementValue);
+            method.invoke(observer, elementValue);
         } catch (Exception e) {
-            LOG.error("Exception thrown when invoking method",e);
+            LOG.error("Exception thrown when invoking method", e);
             throw new SonarException(e);
         }
     }
-  
+
     private void invokeAnnotatedMethods(String elementName,
-            String attributeValue,String attributeName, ParserObserver observer) {
+            String attributeValue, String attributeName, ParserObserver observer) {
         Method[] methods = observer.getClass().getMethods();
         for (Method method : methods) {
-            invokeAnnotatedMethod(elementName, attributeValue,attributeName, observer, method);
+            invokeAnnotatedMethod(elementName, attributeValue, attributeName,
+                    observer, method);
         }
     }
 
     private void invokeAnnotatedMethod(String elementName,
-            String attributeValue,String attributeName, ParserObserver observer, Method method) {
+            String attributeValue, String attributeName,
+            ParserObserver observer, Method method) {
         AttributeMatcher annos = method.getAnnotation(AttributeMatcher.class);
 
         if (annos == null) {
@@ -169,7 +180,7 @@ public abstract class ParserSubject implements Subject {
     private String getTrimmedElementStringValue(SMInputCursor childCursor)
             throws XMLStreamException {
         String text = childCursor.getElemStringValue();
-        if(StringUtils.isNotEmpty(text)) {
+        if (StringUtils.isNotEmpty(text)) {
             text = text.trim();
         }
         return text;
@@ -185,25 +196,25 @@ public abstract class ParserSubject implements Subject {
         return elementPath;
     }
 
-
-    
     /**
      * Gets the cursor for the given file
+     * 
      * @param file
      * @return
      * @throws FactoryConfigurationError
      * @throws XMLStreamException
      */
     public SMInputCursor getCursor(File file) {
-        SMInputCursor result=null;
+        SMInputCursor result = null;
         try {
-        SMInputFactory inf = new SMInputFactory(XMLInputFactory.newInstance());
-        SMHierarchicCursor cursor= inf.rootElementCursor(file);
-        result=cursor.advance();
-        } catch(XMLStreamException e) {
-            String msg="Could not create cursor " + e.getMessage();
+            SMInputFactory inf = new SMInputFactory(
+                    XMLInputFactory.newInstance());
+            SMHierarchicCursor cursor = inf.rootElementCursor(file);
+            result = cursor.advance();
+        } catch (XMLStreamException e) {
+            String msg = "Could not create cursor " + e.getMessage();
             LOG.error(msg);
-            throw new SonarException(msg,e);
+            throw new SonarException(msg, e);
         }
         return result;
     }

@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="87fcd3d3-2a2d-4134-9589-afbfd9f5093c" name="stevpet@RDSJ741TY1 2014-05-02 11:48:31" runUser="BHI-MASTER\stevpet" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2014-05-02T11:48:31.5457631+02:00" queuing="2014-05-02T11:48:31.5487634+02:00" start="2014-05-02T11:48:31.5517637+02:00" finish="2014-05-02T11:48:35.6541739+02:00" />
+  <TestSettings name="default" id="78f6877f-4a33-4419-a03a-41b193f68f95">
+    <Execution>
+      <TestTypeSpecific />
+    </Execution>
+    <Deployment runDeploymentRoot="stevpet_RDSJ741TY1 2014-05-02 11_48_31" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="b5470ca1-d353-4c56-9036-38e41b34e4d2" testId="2b700139-4cbd-7db0-4b54-6f23eab71b6b" testName="NewSolutionTest" computerName="RDSJ741TY1" duration="00:00:00.9531783" startTime="2014-05-02T11:48:28.7344820+02:00" endTime="2014-05-02T11:48:30.8386924+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b5470ca1-d353-4c56-9036-38e41b34e4d2">
+      <Output>
+        <ErrorInfo>
+          <Message>Test method joaFrameworkUnitTests.joaSolutionTest.NewSolutionTest threw exception: 
+System.IO.FileNotFoundException: Could not load file or assembly 'joaAdaptor.dll' or one of its dependencies. The specified module could not be found.</Message>
+          <StackTrace>    at joaFramework.SolutionBase..ctor()
+   at joaFrameworkUnitTests.joaSolutionTest.NewSolutionTest() in c:\Development\Jewel.Release.Oahu\JewelEarth\Core\joaFramework\FrameworkUnitTests\joaSolutionTest.cs:line 19
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="be4f9eb5-f22d-40c6-b2b8-5b54d365a4b2" testId="7d924da8-f6da-7e5a-942b-751fa36b32cb" testName="NewSolutionBaseTest" computerName="RDSJ741TY1" duration="00:00:00.0022716" startTime="2014-05-02T11:48:30.8416927+02:00" endTime="2014-05-02T11:48:30.8456931+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="be4f9eb5-f22d-40c6-b2b8-5b54d365a4b2">
+      <Output>
+        <ErrorInfo>
+          <Message>Test method joaFrameworkUnitTests.joaSolutionTest.NewSolutionBaseTest threw exception: 
+System.IO.FileNotFoundException: Could not load file or assembly 'joaAdaptor.dll' or one of its dependencies. The specified module could not be found.</Message>
+          <StackTrace>    at joaFramework.SolutionBase..ctor()
+   at joaFrameworkUnitTests.joaSolutionTest.NewSolutionBaseTest() in c:\Development\Jewel.Release.Oahu\JewelEarth\Core\joaFramework\FrameworkUnitTests\joaSolutionTest.cs:line 33
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="94743b3b-6555-4204-a918-49b5366564c7" testId="61b57812-bb9e-fb1d-e18c-e0d5c2bd536f" testName="CreateSolutionFileLinkTest" computerName="RDSJ741TY1" duration="00:00:00.0027217" startTime="2014-05-02T11:48:30.8486934+02:00" endTime="2014-05-02T11:48:30.8526938+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="94743b3b-6555-4204-a918-49b5366564c7">
+      <Output>
+        <ErrorInfo>
+          <Message>Test method joaFrameworkUnitTests.joaSolutionTest.CreateSolutionFileLinkTest threw exception: 
+System.IO.DirectoryNotFoundException: Could not find a part of the path 'C:\Development\Jewel.Release.Oahu\JewelEarth\Core\joaFramework\TestResults\stevpet_RDSJ741TY1 2014-05-02 11_48_27\Out\Resources\Empty Solution.jewel'.</Message>
+          <StackTrace>    at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy)
+   at System.IO.FileStream..ctor(String path, FileMode mode)
+   at joaFrameworkUnitTests.joaSolutionTest.OpenJewelFile(String resourceName) in c:\Development\Jewel.Release.Oahu\JewelEarth\Core\joaFramework\FrameworkUnitTests\joaSolutionTest.cs:line 90
+   at joaFrameworkUnitTests.joaSolutionTest.CreateSolutionFileLinkTest() in c:\Development\Jewel.Release.Oahu\JewelEarth\Core\joaFramework\FrameworkUnitTests\joaSolutionTest.cs:line 50
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="3e90b888-cdb1-4615-8119-0ba6447f91ed" testId="93095566-c9f4-68fa-1df3-3ad70d8f7e8f" testName="LoadSolutionTest1" computerName="RDSJ741TY1" duration="00:00:00.0014749" startTime="2014-05-02T11:48:30.8556941+02:00" endTime="2014-05-02T11:48:30.8586944+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3e90b888-cdb1-4615-8119-0ba6447f91ed">
+      <Output>
+        <ErrorInfo>
+          <Message>Test method joaFrameworkUnitTests.joaSolutionTest.LoadSolutionTest1 threw exception: 
+System.IO.DirectoryNotFoundException: Could not find a part of the path 'C:\Development\Jewel.Release.Oahu\JewelEarth\Core\joaFramework\TestResults\stevpet_RDSJ741TY1 2014-05-02 11_48_27\Out\Resources\Empty Solution v4.4.41.0.jewel'.</Message>
+          <StackTrace>    at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy)
+   at System.IO.FileStream..ctor(String path, FileMode mode)
+   at joaFrameworkUnitTests.joaSolutionTest.OpenJewelFile(String resourceName) in c:\Development\Jewel.Release.Oahu\JewelEarth\Core\joaFramework\FrameworkUnitTests\joaSolutionTest.cs:line 90
+   at joaFrameworkUnitTests.joaSolutionTest.LoadSolutionTest1() in c:\Development\Jewel.Release.Oahu\JewelEarth\Core\joaFramework\FrameworkUnitTests\joaSolutionTest.cs:line 72
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+</TestRun>

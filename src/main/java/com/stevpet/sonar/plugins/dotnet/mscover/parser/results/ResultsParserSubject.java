@@ -11,7 +11,7 @@ public class ResultsParserSubject extends  ParserSubject {
                 "Results","TestDefinitions","UnitTest","UnitTestResult",
                 "TestEntries","TestLists","ResultSummary","RunInfos","RunInfo",
                 "UriAttachments","UriAttachment",
-                "CollectorDataEntries","Collector","Output","ErrorInfo","Message"};
+                "CollectorDataEntries","Collector","Output","ErrorInfo"};
         return hierarchy;
     }
 }
