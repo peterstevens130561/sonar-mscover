@@ -23,6 +23,8 @@ public class UnitTestRunnerTest {
         unitTestRunner.setPropertiesHelper(propertiesHelper);
         File solutionDirectory = TestUtils.getResource("Mileage");
         unitTestRunner.setSolutionDirectory(solutionDirectory);
+        String sonarPath=TestUtils.getResource("Mileage/.sonar").getAbsolutePath();
+        unitTestRunner.setSonarPath(sonarPath);
         unitTestRunner.runTests();    
         
     }
