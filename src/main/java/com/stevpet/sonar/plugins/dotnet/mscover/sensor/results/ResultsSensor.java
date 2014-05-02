@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.DependedUpon;
 import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
@@ -26,7 +27,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageAnalyser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
-@DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
+
+@DependsUpon({"CPlusPlusImporterSensor Executed",DotNetConstants.CORE_PLUGIN_EXECUTED})
 public class ResultsSensor implements Sensor {
     static final Logger LOG = LoggerFactory
             .getLogger(ResultsSensor.class);

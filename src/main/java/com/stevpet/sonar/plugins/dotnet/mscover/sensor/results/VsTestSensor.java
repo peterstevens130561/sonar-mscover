@@ -5,6 +5,7 @@ import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.DependedUpon;
+import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
@@ -16,7 +17,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
-@DependedUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
+@DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
 public class VsTestSensor implements Sensor {
     private static final Logger LOG = LoggerFactory
             .getLogger(VsTestSensor.class);
@@ -37,7 +38,7 @@ public class VsTestSensor implements Sensor {
 
 
     public boolean shouldExecuteOnProject(Project project) {
-        boolean shouldExecute=unitTestRunner.shouldRun();
+        boolean shouldExecute=unitTestRunner.shouldRun() && project.isRoot();
         LOG.info("MsCover : running tests {}",shouldExecute);       
         return shouldExecute;
     }

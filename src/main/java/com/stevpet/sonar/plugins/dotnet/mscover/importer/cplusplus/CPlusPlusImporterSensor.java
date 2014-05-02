@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.CoreProperties;
 import org.sonar.api.batch.DependedUpon;
+import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
@@ -28,7 +29,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestSaver;
 
-@DependedUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
+//@DependedUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
+@DependedUpon("CPlusPlusImporterSensor Executed")
 public class CPlusPlusImporterSensor implements Sensor {
 
     private static final Logger LOG = LoggerFactory
