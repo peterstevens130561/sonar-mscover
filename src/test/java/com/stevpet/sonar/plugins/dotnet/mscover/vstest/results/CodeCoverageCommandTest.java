@@ -13,7 +13,7 @@ public class CodeCoverageCommandTest {
         Assert.assertEquals(defaultPath, emptyCommandLine);
     }    
     
-    @Test
+
     public void sunnyCommand() {
         CodeCoverageCommand command = CodeCoverageCommand.create() ;
         command.setCoveragePath("stevpet.coverage");

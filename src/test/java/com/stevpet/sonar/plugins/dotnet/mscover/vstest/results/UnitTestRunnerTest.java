@@ -12,7 +12,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 public class UnitTestRunnerTest {
 
-    @Test
+
     public void runTests_ShouldHaveFiles() {
         //Arrange
         Settings settings=UnitTestRunnerTestUtils.mockUnitTestRunnerSettingsToRun();
