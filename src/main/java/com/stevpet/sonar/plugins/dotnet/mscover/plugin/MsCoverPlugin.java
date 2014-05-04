@@ -34,6 +34,7 @@ import org.sonar.api.Properties;
 import org.sonar.api.Property;
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
+import org.sonar.api.config.Settings;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,6 +43,10 @@ import java.util.List;
  * This class is the entry point for all extensions
  */
 @Properties({
+    @Property(
+            key=PropertiesHelper.MSCOVER_MODE,
+            name = "runmode: one of skip,runvstest,reuse)",
+            defaultValue="",global=false,project=true,type = PropertyType.STRING),
     @Property(
             key=PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH,
             name = "integration tests file)",
@@ -52,7 +57,7 @@ import java.util.List;
             defaultValue="",global=false,project=true,type = PropertyType.STRING),
     @Property(
             key=PropertiesHelper.MSCOVER_EXECUTEROOT,
-            name = "when set only root project is used",
+            name = "when set only root project is used. Set to true for C++",
             defaultValue="false",global=false,project=true,type = PropertyType.BOOLEAN),   
     @Property(
             key=PropertiesHelper.MSCOVER_INCLUSIONS,
@@ -72,7 +77,6 @@ import java.util.List;
             
 public final class MsCoverPlugin extends SonarPlugin {
 
-
   // This is where you're going to declare all your Sonar extensions
   @SuppressWarnings({ "rawtypes", "unchecked" })
 public List getExtensions() {
@@ -82,7 +86,6 @@ public List getExtensions() {
             VsTestEnvironment.class,
             VsTestSensor.class,
         IntegrationTestCoverSensor.class,
-  //      UnitTestCoverSensor.class,
         IntegrationTestLineDecorator.class,
         UnitTestLineDecorator.class,
         IntegrationTestBlockDecorator.class,

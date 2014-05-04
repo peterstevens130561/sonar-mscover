@@ -26,6 +26,7 @@ import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
@@ -56,10 +57,13 @@ public abstract class BaseCoverageSensor implements Sensor {
 
     private final TimeMachine timeMachine;
 
+    private PropertiesHelper propertiesHelper;
+
     public BaseCoverageSensor(Settings settings,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             TimeMachine timeMachine) {
         this.settings = settings;
+        this.propertiesHelper = PropertiesHelper.create(settings);
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.timeMachine = timeMachine;
     }
@@ -88,6 +92,10 @@ public abstract class BaseCoverageSensor implements Sensor {
      * not
      */
     public boolean shouldExecuteOnProject(Project project) {
+        String resultsPath=propertiesHelper.getUnitTestResultsPath();
+        if(propertiesHelper.getRunMode() == RunMode.SKIP) {
+            return false;
+        }
         if (project == null) {
             LOG.error("MSCover : project is null, will not execute");
             return false;

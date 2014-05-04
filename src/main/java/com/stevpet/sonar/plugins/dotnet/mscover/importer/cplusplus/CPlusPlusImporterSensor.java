@@ -25,6 +25,7 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.dotnet.api.DotNetConstants;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestSaver;
@@ -57,7 +58,7 @@ public class CPlusPlusImporterSensor implements Sensor {
         filter = ResourceFilterFactory.createUnitTestAssembliesFilter(propertiesHelper);
     }
     public boolean shouldExecuteOnProject(Project project) {
-        return propertiesHelper.shouldMsCoverRun();
+        return propertiesHelper.getRunMode() != RunMode.SKIP;
     }
 
     public void analyse(Project project, SensorContext context) {

@@ -46,6 +46,7 @@ public class IntegrationTestsCoverSensorTest {
         microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
         sensor = new IntegrationTestsCoverSensorStub(settings,null,null);
         when(project.getFileSystem()).thenReturn( new DummyFileSystem());
+        when(settings.getString(PropertiesHelper.MSCOVER_MODE)).thenReturn("reuse");
         
     }
     

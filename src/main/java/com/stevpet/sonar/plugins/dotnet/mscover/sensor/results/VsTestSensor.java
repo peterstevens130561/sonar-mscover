@@ -14,6 +14,7 @@ import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.dotnet.api.DotNetConstants;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
@@ -25,19 +26,25 @@ public class VsTestSensor implements Sensor {
     private VsTestEnvironment vsTestEnvironment;
     private ModuleFileSystem moduleFileSystem;
     private UnitTestRunner unitTestRunner;
+
+    private PropertiesHelper propertiesHelper;
     
     
     public VsTestSensor(VsTestEnvironment vsTestEnvironment, Settings settings,ModuleFileSystem moduleFileSystem) {
         this.vsTestEnvironment = vsTestEnvironment;
         this.moduleFileSystem = moduleFileSystem;
         
-        PropertiesHelper propertiesHelper = new PropertiesHelper(settings);
+        propertiesHelper = PropertiesHelper.create(settings);
         unitTestRunner = UnitTestRunner.create();
         unitTestRunner.setPropertiesHelper(propertiesHelper);
     }
 
 
     public boolean shouldExecuteOnProject(Project project) {
+        String resultsPath=propertiesHelper.getUnitTestResultsPath();
+        if(propertiesHelper.getRunMode() == RunMode.SKIP) {
+            return false;
+        }
         boolean shouldExecute=unitTestRunner.shouldRun() && project.isRoot();
         LOG.info("MsCover : running tests {}",shouldExecute);       
         return shouldExecute;

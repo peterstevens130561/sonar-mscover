@@ -12,7 +12,9 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.dotnet.api.DotNetConstants;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.importer.cplusplus.CPlusPlusImporterSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageAnalyser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunner;
@@ -42,6 +44,9 @@ public class ResultsSensor implements Sensor {
      */
     public boolean shouldExecuteOnProject(Project project) {
         String resultsPath=propertiesHelper.getUnitTestResultsPath();
+        if(propertiesHelper.getRunMode() == RunMode.SKIP) {
+            return false;
+        }
         boolean shouldExecute = (StringUtils.isNotEmpty(resultsPath) || unitTestRunner.shouldRun()) && (project.isRoot() == propertiesHelper.excuteRoot());
         LOG.info("ResultsSensor {}",shouldExecute);
         return shouldExecute;

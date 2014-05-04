@@ -23,6 +23,7 @@ public class AbstractCoverSensorTest {
         project = mock(Project.class);
         settings= mock(Settings.class);
         sensor= new TestCoverSensor(settings,null,null);
+        when(settings.getString(PropertiesHelper.MSCOVER_MODE)).thenReturn("reuse");
     }
     
     @Test

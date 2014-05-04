@@ -58,6 +58,7 @@ public class UnitTestsCoverSensorTest {
         //Arrange
         when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH)).thenReturn("a/b");
         when(project.isRoot()).thenReturn(false);
+        when(settings.getString(PropertiesHelper.MSCOVER_MODE)).thenReturn("reuse");
 
         //Act
         boolean shouldExecute=sensor.shouldExecuteOnProject(project);
