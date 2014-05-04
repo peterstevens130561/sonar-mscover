@@ -11,9 +11,8 @@ public class MsCoverException extends SonarException {
        super(msg);
     }
 
-    public MsCoverException(String msg, IOException e) {
+    public MsCoverException(String msg, Exception e) {
         super(msg,e);
     }
-
 
 }

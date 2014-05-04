@@ -48,12 +48,24 @@ import java.util.List;
             name = "runmode: one of skip,runvstest,reuse)",
             defaultValue="",global=false,project=true,type = PropertyType.STRING),
     @Property(
+            key=PropertiesHelper.MSCOVER_TESTSETTINGS,
+            name = "testsettings file, required in runmode runvstest)",
+            defaultValue="",global=false,project=true,type = PropertyType.STRING),
+    @Property(
+            key=PropertiesHelper.MSCOVER_UNIT_RESULTS,
+            name = "name of results file (.trx)",
+            defaultValue="",global=false,project=true,type = PropertyType.STRING),
+    @Property(
+            key=PropertiesHelper.MSCOVER_UNITTEST_ASSEMBLIES,
+            name = "pattern for unit test assemblies",
+            defaultValue="",global=false,project=true,type = PropertyType.STRING),
+    @Property(
             key=PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH,
-            name = "integration tests file)",
+            name = "integration tests xml file)",
             defaultValue="",global=false,project=true,type = PropertyType.STRING),
     @Property(
             key=PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH,
-            name = "unit tests file",
+            name = "unit tests xml file",
             defaultValue="",global=false,project=true,type = PropertyType.STRING),
     @Property(
             key=PropertiesHelper.MSCOVER_EXECUTEROOT,
@@ -71,7 +83,6 @@ import java.util.List;
             key=PropertiesHelper.MSCOVER_EXCLUSIONS,
             name = "regular expression to match files that should be excluded",
             defaultValue="",global=false,project=true,type = PropertyType.STRING)
- 
     }
 )
             
