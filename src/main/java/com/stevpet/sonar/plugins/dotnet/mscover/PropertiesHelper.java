@@ -7,8 +7,16 @@ import org.apache.commons.lang.StringUtils;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Language;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
+
 public class PropertiesHelper {
 
+    public enum RunMode {
+        SKIP,
+        REUSE,
+        RUNVSTEST,
+        RUNOPENCOVER
+    }
     private final Settings settings;
 
     public static final String MSCOVER = "sonar.mscover.";
@@ -113,5 +121,19 @@ public class PropertiesHelper {
         }
 
         return languages;
+    }
+    
+    public RunMode getRunMode() {
+        String name=settings.getString(MSCOVER_MODE);
+        if(StringUtils.isEmpty(name)) {
+            return RunMode.SKIP;
+        }
+        RunMode runMode = RunMode.SKIP;
+        try {
+            runMode= Enum.valueOf(RunMode.class, name.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new MsCoverException("Invalid property value " + MSCOVER_MODE +"=" + name);
+        }
+        return runMode;
     }
 }
