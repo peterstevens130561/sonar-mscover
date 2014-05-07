@@ -42,10 +42,10 @@ public class MethodIdModelTest {
     }
     @Test
     public void setModuleName_AllCharacters_Pass() {
-        valid("-_ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890abcdefghijklmnopqrstuvwxyz.");
+        valid("-_ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890abcdefghijklmnopqrstuvwxyz.dll");
     }
     private void valid(String name) {
-        methodIdModel.setMethodName(name);
-        Assert.assertEquals(name, methodIdModel.getMethodName());
+        methodIdModel.setModuleName(name);
+        Assert.assertEquals(name, methodIdModel.getModuleName());
     }
 }
