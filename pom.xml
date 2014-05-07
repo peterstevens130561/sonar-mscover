@@ -5,10 +5,9 @@
   <groupId>org.codehaus.sonar.examples</groupId>
   <artifactId>sonar-mscover-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
-  <version>0.4-SNAPSHOT</version>
+  <version>0.5-SNAPSHOT</version>
 
   <name>Sonar Integration Test Plugin MSCover</name>
-  <description>Plugin to include test coverage for assemblies instrumented with vsinstr</description>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -136,4 +135,8 @@
   		</dependency>
   	</dependencies>
   </dependencyManagement>
+  <description>Plugin to report test / code coverage for ms environment</description>
+  <scm>
+  	<developerConnection>Peter Stevens</developerConnection>
+  </scm>
 </project>
