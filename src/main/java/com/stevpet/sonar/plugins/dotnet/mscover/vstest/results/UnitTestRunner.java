@@ -11,6 +11,7 @@ import org.sonar.api.utils.command.CommandExecutor;
 import org.sonar.api.utils.command.StreamConsumer;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 
 public class UnitTestRunner {
     private static final Logger LOG = LoggerFactory
@@ -46,7 +47,7 @@ public class UnitTestRunner {
     }
     
     public boolean shouldRun() {
-        boolean shouldRun="runvstest".equals(propertiesHelper.getMode());
+        boolean shouldRun=propertiesHelper.getRunMode() == RunMode.RUNVSTEST;
         LOG.debug("shouldRun ->{}",shouldRun);
         return shouldRun;
     } 

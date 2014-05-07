@@ -7,8 +7,10 @@ import java.util.Map.Entry;
 
 
 
+
 import org.sonar.api.utils.SonarException;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIdModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel;
 
@@ -19,11 +21,14 @@ public class UnitTestFilesResultRegistry {
     public void mapResults(UnitTestResultRegistry unitTestRegistry, MethodToSourceFileIdMap map) {
         Collection<UnitTestResultModel>unitTests=unitTestRegistry.values();
         for(UnitTestResultModel unitTest:unitTests) {
-            map.setMethodId(unitTest.getMethodId());
+            MethodIdModel methodId=unitTest.getMethodId();
+            map.setMethodId(methodId);
 
             String fileId = map.getSourceFileID();
             if(fileId==null) {
-                throw new SonarException("failed to get sourcefileId for " + unitTest.getMethodId().getId());
+                String id = methodId.getId();
+                map.dumpMap();
+                throw new SonarException("failed to get sourcefileId for " + id);
             }
             if(!unitTestFilesResultRegistry.containsKey(fileId)) {
                 unitTestFilesResultRegistry.put(fileId, new UnitTestFileResultModel());

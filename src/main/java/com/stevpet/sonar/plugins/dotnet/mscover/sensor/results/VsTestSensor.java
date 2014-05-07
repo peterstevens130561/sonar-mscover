@@ -6,20 +6,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.DependedUpon;
 import org.sonar.api.batch.DependsUpon;
+import org.sonar.api.batch.Phase;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
+import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.dotnet.api.DotNetConstants;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
+import com.stevpet.sonar.plugins.dotnet.mscover.csharpsolutionfilesystem.CSharpSolutionFileSystem;
+import com.stevpet.sonar.plugins.dotnet.mscover.importer.cplusplus.CPlusPlusImporterSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
-@DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
+@DependedUpon(VsTestSensor.DEPENDS)
 public class VsTestSensor implements Sensor {
+    
+    public static final String DEPENDS="VsTestSensor";
     private static final Logger LOG = LoggerFactory
             .getLogger(VsTestSensor.class);
        
@@ -41,30 +47,42 @@ public class VsTestSensor implements Sensor {
 
 
     public boolean shouldExecuteOnProject(Project project) {
-        String resultsPath=propertiesHelper.getUnitTestResultsPath();
-        if(propertiesHelper.getRunMode() == RunMode.SKIP) {
-            return false;
-        }
-        boolean shouldExecute=unitTestRunner.shouldRun() && project.isRoot();
-        LOG.info("MsCover : running tests {}",shouldExecute);       
+        RunMode runMode=propertiesHelper.getRunMode() ;
+        boolean shouldExecute=runMode == RunMode.RUNVSTEST;
         return shouldExecute;
+ 
     }
 
     public void analyse(Project project, SensorContext context) {
-        LOG.info("MsCover : started running tests");
-        String coverageXmlPath = moduleFileSystem.workingDir()
-                + "/coverage.xml";
-        unitTestRunner.setCoverageXmlPath(coverageXmlPath);
 
-        unitTestRunner.setSolutionDirectory(moduleFileSystem.baseDir());
-        unitTestRunner.setSonarPath(moduleFileSystem.workingDir().getAbsolutePath());
+        if(vsTestEnvironment.getTestsHaveRun()) {
+            LOG.info("MsCover : tests have run already");
+            return;
+        }
+        if(!project.isRoot()) {
+            LOG.info("MsCover : CSharp solution, using first project to run tests");
+            moduleFileSystem = CSharpSolutionFileSystem.createFromProject(moduleFileSystem);
+        }
+        
+        LOG.info("MsCover : started running tests");
+
+        File baseDir=moduleFileSystem.baseDir();
+        unitTestRunner.setSolutionDirectory(baseDir);
+        
+        String sonarWorkingDirectory=moduleFileSystem.workingDir().getAbsolutePath();
+        String coverageXmlPath =sonarWorkingDirectory + "/coverage.xml";
+        unitTestRunner.setCoverageXmlPath(coverageXmlPath);
+        unitTestRunner.setSonarPath(sonarWorkingDirectory);
         unitTestRunner.runTests();
-        vsTestEnvironment.setResultsXmlPath(unitTestRunner.getResultsXmlPath());
+        
+        String testResultsPath=unitTestRunner.getResultsXmlPath();
+        vsTestEnvironment.setResultsXmlPath(testResultsPath);
         vsTestEnvironment.setCoverageXmlPath(coverageXmlPath);
+        vsTestEnvironment.setTestsHaveRun();
         
         LOG.info("MsCover : running tests completed");
         LOG.info("MsCover : coverage in {}",coverageXmlPath);
-        LOG.info("MsCover : results in {}",unitTestRunner.getResultsXmlPath());
+        LOG.info("MsCover : results in {}",testResultsPath);
     }
 
 }

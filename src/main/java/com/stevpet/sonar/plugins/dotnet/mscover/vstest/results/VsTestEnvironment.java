@@ -11,6 +11,7 @@ public class VsTestEnvironment implements BatchExtension {
     
     private String coverageXmlPath;
     private String resultsXmlPath;
+    private boolean testsHaveRun=false;
     public String getXmlCoveragePath() {
         return coverageXmlPath;
     }
@@ -22,5 +23,11 @@ public class VsTestEnvironment implements BatchExtension {
     }
     public void setResultsXmlPath(String xmlResultsPath) {
         this.resultsXmlPath = xmlResultsPath;
+    }
+    public void setTestsHaveRun() {
+        testsHaveRun=true;      
+    }
+    public boolean getTestsHaveRun() {
+        return testsHaveRun;
     }
 }

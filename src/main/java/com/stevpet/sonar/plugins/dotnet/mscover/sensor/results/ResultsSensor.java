@@ -21,7 +21,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
 
-@DependsUpon({CPlusPlusImporterSensor.DEPENDS,DotNetConstants.CORE_PLUGIN_EXECUTED})
+@DependsUpon({CPlusPlusImporterSensor.DEPENDS,VsTestSensor.DEPENDS,DotNetConstants.CORE_PLUGIN_EXECUTED})
 public class ResultsSensor implements Sensor {
     static final Logger LOG = LoggerFactory
             .getLogger(ResultsSensor.class);
@@ -47,7 +47,10 @@ public class ResultsSensor implements Sensor {
         if(propertiesHelper.getRunMode() == RunMode.SKIP) {
             return false;
         }
-        boolean shouldExecute = (StringUtils.isNotEmpty(resultsPath) || unitTestRunner.shouldRun()) && (project.isRoot() == propertiesHelper.excuteRoot());
+        boolean resultsDefined=StringUtils.isNotEmpty(resultsPath);
+        boolean rightLevel = project.isRoot() == propertiesHelper.excuteRoot();
+        boolean shouldRunUnitTests=unitTestRunner.shouldRun();
+        boolean shouldExecute = (resultsDefined || shouldRunUnitTests) && rightLevel;
         LOG.info("ResultsSensor {}",shouldExecute);
         return shouldExecute;
     }

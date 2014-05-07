@@ -1,8 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.importer.cplusplus;
 
 import java.io.File;
-import java.io.FileFilter;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.CoreProperties;
 import org.sonar.api.batch.DependedUpon;
-import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
@@ -22,15 +19,11 @@ import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.SonarException;
-import org.sonar.plugins.dotnet.api.DotNetConstants;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestSaver;
 
-//@DependedUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
 @DependedUpon(CPlusPlusImporterSensor.DEPENDS)
 public class CPlusPlusImporterSensor implements Sensor {
 
