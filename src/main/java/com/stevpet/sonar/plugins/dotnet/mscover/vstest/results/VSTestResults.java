@@ -39,12 +39,20 @@ public class VSTestResults {
             throw new SonarException(msg + begin);
         }
         int captureStart=resultsPos+begin.length();
-        int newLinePos=results.indexOf("\n", captureStart+1);
+        while(isWhiteSpace(results.charAt(captureStart))) {
+            captureStart++;
+        }
+        int newLinePos = results.indexOf('\n',captureStart);
         if(newLinePos == -1) {
             throw new SonarException(msg + " end of line");
         }
-        String result=results.substring(resultsPos + begin.length(),newLinePos);
+        String result=results.substring(captureStart,newLinePos);
         return result;
+    }
+
+
+    private boolean isWhiteSpace(char charAt) {
+        return charAt == '\t' || charAt == ' ' || charAt == '\r' || charAt == '\n' ;
     }
 
 

@@ -22,6 +22,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
+import com.stevpet.sonar.plugins.dotnet.mscover.helpers.SonarResourceHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 
 public abstract class BaseSaver implements Saver {
@@ -73,7 +74,7 @@ public abstract class BaseSaver implements Saver {
      */
     public org.sonar.api.resources.File getSonarFileResource(File file) {
 
-        org.sonar.api.resources.File sonarFile =fromIOFile(file, project);
+        org.sonar.api.resources.File sonarFile =SonarResourceHelper.getFromFile(file, project);
         if (sonarFile == null) {
             LOG.debug("Could not create sonarFile for "
                     + file.getAbsolutePath());
