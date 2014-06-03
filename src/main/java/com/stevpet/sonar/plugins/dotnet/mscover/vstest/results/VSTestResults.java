@@ -12,7 +12,7 @@ public class VSTestResults {
 
     private String results;
     private static String RESULTS_PATTERN = "\nResults File: ";
-    private static String ATTACHMENTS_PATTERN = "\nAttachments:\r\n  ";
+    private static String ATTACHMENTS_PATTERN = "\nAttachments:";
 
     public void setFile(File resultsFile) {
        try {
@@ -39,7 +39,7 @@ public class VSTestResults {
             throw new SonarException(msg + begin);
         }
         int captureStart=resultsPos+begin.length();
-        int newLinePos=results.indexOf("\r\n", captureStart);
+        int newLinePos=results.indexOf("\n", captureStart+1);
         if(newLinePos == -1) {
             throw new SonarException(msg + " end of line");
         }

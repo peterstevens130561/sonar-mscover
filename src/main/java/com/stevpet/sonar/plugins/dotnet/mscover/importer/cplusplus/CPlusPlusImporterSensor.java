@@ -63,7 +63,8 @@ public class CPlusPlusImporterSensor implements Sensor {
         findCppProjects(moduleFileSystem.baseDir());
         List<File> sourceDirs = new ArrayList<File>() ;
         sourceDirs.add(moduleFileSystem.baseDir()); 
-        
+        LOG.debug("MSCover sourcedir {}",moduleFileSystem.baseDir().getAbsolutePath());
+
         for(File dir:cppProjectDirs) {
             loadSourcesFromDir(dir,sourceDirs);
         } 
@@ -136,6 +137,7 @@ public class CPlusPlusImporterSensor implements Sensor {
             resource.setQualifier(Qualifiers.UNIT_TEST_FILE);
           }
         }
+        LOG.debug("Created resource {}",resource.getKey());
         return resource;
       }
 
