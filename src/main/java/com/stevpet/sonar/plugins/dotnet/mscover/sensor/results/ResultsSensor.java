@@ -15,8 +15,14 @@ import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.UnitTestBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.importer.cplusplus.CPlusPlusImporterSensor;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.UnitTestLineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.sensor.AssociatedUnitTestCoverSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageAnalyser;
+import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
@@ -29,9 +35,11 @@ public class ResultsSensor implements Sensor {
     private UnitTestRunner unitTestRunner;
     private TimeMachine timeMachine;
     private VsTestEnvironment vsTestEnvironment;
+    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
    
     
     public ResultsSensor(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,Settings settings,TimeMachine timeMachine,ModuleFileSystem moduleFileSystem,VsTestEnvironment vsTestEnvironment) {
+        this.microsoftWindowsEnvironment=microsoftWindowsEnvironment ;
         this.timeMachine = timeMachine;
         propertiesHelper = PropertiesHelper.create(settings);
         unitTestRunner = UnitTestRunner.create();
@@ -55,7 +63,7 @@ public class ResultsSensor implements Sensor {
         return shouldExecute;
     }
 
-    public void analyse(Project project, SensorContext context) {
+    public void analyse(Project project, SensorContext sensorContext) {
         LOG.info("MsCover Starting analysing test results");
         String coveragePath;
         String resultsPath;
@@ -67,11 +75,15 @@ public class ResultsSensor implements Sensor {
             coveragePath = propertiesHelper.getUnitTestCoveragePath();
             resultsPath=propertiesHelper.getUnitTestResultsPath();
         }
-        UnitTestAnalyser analyser = new UnitTestAnalyser(project,context);
+        UnitTestAnalyser analyser = new UnitTestAnalyser(project,sensorContext);
         analyser.analyseResults(coveragePath, resultsPath);
         if(unitTestRunner.shouldRun()) {
-            CoverageAnalyser coverageAnalyser = new CoverageAnalyser(project,context, timeMachine, propertiesHelper);
-            coverageAnalyser.analyseResults(coveragePath);
+            CoverageHelper coverageHelper = CoverageHelper.create(propertiesHelper,microsoftWindowsEnvironment,timeMachine);
+            LineSaver lineSaver=new UnitTestLineSaver(sensorContext, project);
+            coverageHelper.setLineSaver(lineSaver);
+            BlockSaver blockSaver = new UnitTestBlockSaver(sensorContext, project);
+            coverageHelper.setBlockSaver(blockSaver);
+            coverageHelper.analyse(project,sensorContext,coveragePath);
         }
     }
 
