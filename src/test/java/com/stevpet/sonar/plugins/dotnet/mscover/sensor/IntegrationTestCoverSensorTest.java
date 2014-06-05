@@ -12,7 +12,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class AbstractCoverSensorTest {
+public class IntegrationTestCoverSensorTest {
     private Settings settings;
     private Project project;
     private Sensor sensor;
@@ -22,8 +22,9 @@ public class AbstractCoverSensorTest {
 
         project = mock(Project.class);
         settings= mock(Settings.class);
-        sensor= new TestCoverSensor(settings,null,null);
+        sensor= new IntegrationTestCoverSensor(settings,null,null);
         when(settings.getString(PropertiesHelper.MSCOVER_MODE)).thenReturn("reuse");
+        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn("hi");
     }
     
     @Test

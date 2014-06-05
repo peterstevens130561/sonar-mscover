@@ -30,7 +30,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineSaver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +59,6 @@ public class IntegrationTestCoverSensor implements Sensor {
     
 
     public boolean shouldExecuteOnProject(Project project) {
-        // TODO Auto-generated method stub
         return coverageHelper.shouldExecuteOnProject(project) && propertiesHelper.isIntegrationTestsEnabled() ;
     }
 

@@ -49,7 +49,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineSaver;
 
 public class CoverageHelper {
 
