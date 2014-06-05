@@ -18,29 +18,39 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.BaseSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
 
-public abstract class LineSaver extends  BaseSaver {
+public abstract class LineSaver implements Saver {
 
     private static final Logger LOG = LoggerFactory
             .getLogger(LineSaver.class);
-    protected final SensorContext context;
+    protected final SensorContext sensorContext;
     protected final Project project;
     protected CoverageRegistry registry ;
     protected DateFilter dateFilter = new AlwaysPassThroughDateFilter();
     protected ResourceFilter resourceFilter = ResourceFilterFactory.createEmptyFilter();
+    private ResourceMediator resourceMediator;
     
     public LineSaver(SensorContext context, Project project,
             CoverageRegistry registry) {
-        super(context,project);
         this.project= project;
-        this.context = context;
+        this.sensorContext = context;
         this.registry = registry;
+        resourceMediator = ResourceMediator.create(sensorContext, project);
+    }
+
+    public LineSaver(SensorContext sensorContext, Project project) {
+        this.project= project;
+        this.sensorContext = sensorContext;
+        resourceMediator = ResourceMediator.create(sensorContext, project);
     }
 
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.CoverageSaver#save()
      */
     public void save() {
+
         for (FileCoverage fileCoverage : registry.getFileCoverages()) {
             org.sonar.api.resources.File sonarFile = getSonarFile(fileCoverage);
             if(sonarFile==null) {
@@ -48,12 +58,21 @@ public abstract class LineSaver extends  BaseSaver {
             }
             LOG.debug("- Saving coverage information for file {}",
                     sonarFile.getKey());
-            saveSummaryMeasures(context, fileCoverage, sonarFile);
-            saveLineMeasures(context,fileCoverage, sonarFile);
+            saveSummaryMeasures(sensorContext, fileCoverage, sonarFile);
+            saveLineMeasures(sensorContext,fileCoverage, sonarFile);
         }
 
     }
     
+    public void setDateFilter(DateFilter dateFilter) {
+        resourceMediator.setDateFilter(dateFilter);
+        
+    }
+
+    public void setResourceFilter(ResourceFilter fileFilter) {
+        resourceMediator.setResourceFilter(fileFilter);
+        
+    }
     public abstract void saveSummaryMeasures(SensorContext context,
             FileCoverage coverageData, Resource<?> resource) ;
     
@@ -72,12 +91,12 @@ public abstract class LineSaver extends  BaseSaver {
         if (file == null) {
             return null;
         }
-        return getSonarFileResource(file);
+        return resourceMediator.getSonarFileResource(file);
     }
     
     public void saveLineMeasures(FileCoverage fileCoverage,
             org.sonar.api.resources.File sonarFile) {
-        context.saveMeasure(sonarFile, getHitData(fileCoverage));
+        sensorContext.saveMeasure(sonarFile, getHitData(fileCoverage));
     }
     
     public abstract Measure getHitData(FileCoverage coverable);

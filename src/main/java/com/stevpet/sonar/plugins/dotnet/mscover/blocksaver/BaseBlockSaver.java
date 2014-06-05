@@ -15,7 +15,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.BaseSaver;
 
-public abstract class BaseBlockSaver extends BaseSaver implements BlockRegistry {
+public abstract class BaseBlockSaver extends BaseSaver implements BlockSaver {
 
     private SourceFileNamesRegistry sourceFileNamesRegistry;
     private FileBlocksRegistry fileBlocksRegistry;
@@ -28,20 +28,32 @@ public abstract class BaseBlockSaver extends BaseSaver implements BlockRegistry 
     }
 
 
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver#setSourceFileNamesRegistry(com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry)
+     */
     public void setSourceFileNamesRegistry(
             SourceFileNamesRegistry sourceFileNamesRegistry) {
         this.sourceFileNamesRegistry = sourceFileNamesRegistry;
     }
 
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver#setFileBlocksRegistry(com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry)
+     */
     public void setFileBlocksRegistry(FileBlocksRegistry fileBlocksRegistry) {
         this.fileBlocksRegistry = fileBlocksRegistry;
         
     }
     
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver#setSourceFilePathHelper(com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper)
+     */
     public void setSourceFilePathHelper(SourceFilePathHelper sourceFilePathHelper) {
         this.sourceFilePathHelper =sourceFilePathHelper;
     }
 
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver#save()
+     */
     public void save() {
         for (FileBlocks fileBlocks: fileBlocksRegistry.values()) {
             String fileID = fileBlocks.getFileId();

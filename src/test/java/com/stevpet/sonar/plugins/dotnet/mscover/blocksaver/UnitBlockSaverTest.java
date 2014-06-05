@@ -35,7 +35,7 @@ public class UnitBlockSaverTest {
     }
     @Test
     public void Create_ShouldWork() {
-        BaseBlockSaver blockSaver = new UnitTestBlockSaver(null, null);
+        BlockSaver blockSaver = new UnitTestBlockSaver(null, null);
         Assert.assertNotNull(blockSaver);
     }
     

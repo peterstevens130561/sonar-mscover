@@ -27,7 +27,7 @@ public class BaseBlockSaverTest {
     }
     @Test
     public void CreateSaver_WithNullParms_ShouldCreate() {
-        BaseBlockSaver saver = new DummyBaseBlockSaver(null,null);
+        BlockSaver saver = new DummyBaseBlockSaver(null,null);
     }
     
     

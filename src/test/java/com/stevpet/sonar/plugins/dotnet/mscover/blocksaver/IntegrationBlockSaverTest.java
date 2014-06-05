@@ -35,7 +35,7 @@ public class IntegrationBlockSaverTest {
     }
     @Test
     public void Create_ShouldWork() {
-        BaseBlockSaver blockSaver = new IntegrationTestBlockSaver(null, null);
+        BlockSaver blockSaver = new IntegrationTestBlockSaver(null, null);
         Assert.assertNotNull(blockSaver);
     }
     

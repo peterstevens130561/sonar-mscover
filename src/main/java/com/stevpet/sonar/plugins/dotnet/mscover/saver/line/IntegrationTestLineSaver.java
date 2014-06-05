@@ -12,9 +12,11 @@ import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceLine;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 
 public class IntegrationTestLineSaver extends LineSaver {
     private static final Logger LOG = LoggerFactory
@@ -28,6 +30,10 @@ public class IntegrationTestLineSaver extends LineSaver {
         super(context, project, registry);
     }
     
+    public IntegrationTestLineSaver(SensorContext sensorContext, Project project) {
+       super(sensorContext,project);
+    }
+
     public void saveSummaryMeasures(SensorContext context,
             FileCoverage coverageData, Resource<?> resource) {
         double coverage = coverageData.getCoverage();
@@ -65,4 +71,5 @@ public class IntegrationTestLineSaver extends LineSaver {
         }
         return hitsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
     }
+
 }

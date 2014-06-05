@@ -35,11 +35,13 @@ public abstract class BaseSaver implements Saver {
     private Project project ;
     private SensorContext context;
     private Charset charset;
+    private ResourceMediator resourceMediator;
 
     public BaseSaver(SensorContext context,Project project) {
         this.project = project ;
         this.context = context;
         setCharset(project);
+        resourceMediator=ResourceMediator.create(context,project);
     }
 
     private void setCharset(Project project) {
@@ -58,10 +60,12 @@ public abstract class BaseSaver implements Saver {
      */
         
     public void setDateFilter(DateFilter dateFilter) {
+        resourceMediator.setDateFilter(dateFilter);
         this.dateFilter = dateFilter;
     }
     
     public void setResourceFilter(ResourceFilter resourceFilter) {
+        resourceMediator.setResourceFilter(resourceFilter);
         this.resourceFilter = resourceFilter;
     }
     
@@ -73,7 +77,10 @@ public abstract class BaseSaver implements Saver {
      * @return resource
      */
     public org.sonar.api.resources.File getSonarFileResource(File file) {
-
+        return resourceMediator.getSonarFileResource(file);
+    }
+    public org.sonar.api.resources.File getSonarFileResourceOld(File file) {
+        
         org.sonar.api.resources.File sonarFile =SonarResourceHelper.getFromFile(file, project);
         if (sonarFile == null) {
             LOG.debug("Could not create sonarFile for "
@@ -116,83 +123,8 @@ public abstract class BaseSaver implements Saver {
             //throw new SonarException(msg);
         }
     }
-
-
-    
+ 
     protected String getQualifier() {
         return "FIL";
-    }
-
-    public  org.sonar.api.resources.File fromIOFile(java.io.File file, Project project) {
-        List<File> lf = project.getFileSystem().getSourceDirs();
-        if(lf.size()==0) {
-           lf.add(new File("."));
-        }
-        for(File dir:lf) {
-            LOG.debug("MSCover sourcedir {}",dir.getAbsolutePath());
-        }
-        return fromIOFile(file,lf );
-      }
-
-    public org.sonar.api.resources.File fromIOFile(java.io.File file, List<java.io.File> sourceDirs) {
-        String relativePath = getRelativePath(sourceDirs, file);
-        if (relativePath != null) {
-            LOG.debug("Relative path {}",relativePath);
-          return new org.sonar.api.resources.File(relativePath);
-        }
-        return null;
-      }
-    
-    @CheckForNull
-    public String getRelativePath(Collection<File> dirs, File file) {
-      List<String> stack = Lists.newArrayList();
-      File cursor = file;
-      while (cursor != null) {
-        File parentDir = parentDir(dirs, cursor);
-        if (parentDir != null) {
-          return Joiner.on("/").join(stack);
-        }
-        stack.add(0, cursor.getName());
-        cursor = cursor.getParentFile();
-      }
-      return null;
-    }
-
-
-    @CheckForNull
-    private File parentDir(Collection<File> dirs, File cursor) {
-      for (File dir : dirs) {
-        if (sameDir(dir,cursor)) {
-          return dir;
-        }
-      }
-      return null;
-    }
-    @CheckForNull
-    public String relativePath(File dir, File file) throws IOException {
-      List<String> stack = Lists.newArrayList();
-      File cursor = file;
-      while (cursor != null) {
-        if (sameDir(dir,cursor)) {
-          return Joiner.on("/").join(stack);
-        }
-        stack.add(0, cursor.getName());
-        cursor = cursor.getParentFile();
-      }
-      return null;
-    }
-  
-    public boolean sameDir(File dir1, File dir2) {
-        try {
-        String path1 = dir1.getCanonicalPath();
-        String path2 = dir2.getCanonicalPath();
-        boolean same=path1.equals(path2);
-        LOG.debug("comparing " + path1 + " " + path2 + "->" + same);
-        return same;
-
-        } catch ( IOException e ) {
-            throw new SonarException(e);
-        }
-   
     }
 }
