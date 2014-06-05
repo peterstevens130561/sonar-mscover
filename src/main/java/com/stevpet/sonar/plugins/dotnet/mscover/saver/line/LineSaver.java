@@ -21,7 +21,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.saver.BaseSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
 
-public abstract class LineSaver implements Saver {
+public abstract class LineSaver implements Saver, LineMeasureSaver {
 
     private static final Logger LOG = LoggerFactory
             .getLogger(LineSaver.class);
@@ -73,9 +73,15 @@ public abstract class LineSaver implements Saver {
         resourceMediator.setResourceFilter(fileFilter);
         
     }
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver#saveSummaryMeasures(org.sonar.api.batch.SensorContext, com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage, org.sonar.api.resources.Resource)
+     */
     public abstract void saveSummaryMeasures(SensorContext context,
             FileCoverage coverageData, Resource<?> resource) ;
     
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver#saveLineMeasures(org.sonar.api.batch.SensorContext, com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage, org.sonar.api.resources.File)
+     */
     public void saveLineMeasures(SensorContext context,FileCoverage fileCoverage,
             org.sonar.api.resources.File sonarFile) {
         context.saveMeasure(sonarFile,getHitData(fileCoverage));

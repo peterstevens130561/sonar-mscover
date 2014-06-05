@@ -18,7 +18,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceLine;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 
-public class IntegrationTestLineSaver extends LineSaver {
+public class IntegrationTestLineSaver extends LineSaver implements LineMeasureSaver {
     private static final Logger LOG = LoggerFactory
             .getLogger(IntegrationTestLineSaver.class);
     
@@ -71,5 +71,6 @@ public class IntegrationTestLineSaver extends LineSaver {
         }
         return hitsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
     }
+
 
 }

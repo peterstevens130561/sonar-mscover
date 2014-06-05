@@ -14,7 +14,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceLine;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 
-public class UnitTestLineSaver extends LineSaver {
+public class UnitTestLineSaver extends LineSaver implements LineMeasureSaver {
 
     private final PropertiesBuilder<String, Integer> lineHitsBuilder = new PropertiesBuilder<String, Integer>(
             CoreMetrics.COVERAGE_LINE_HITS_DATA);
@@ -24,6 +24,10 @@ public class UnitTestLineSaver extends LineSaver {
         super(context, project, registry);
     }
     
+    public UnitTestLineSaver(SensorContext sensorContext, Project project) {
+        super(sensorContext,project);
+    }
+
     public void saveSummaryMeasures(SensorContext context,
             FileCoverage coverageData, Resource<?> resource) {
         double coverage = coverageData.getCoverage();

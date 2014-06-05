@@ -18,7 +18,7 @@ import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.UnitTestLineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
 
@@ -108,7 +108,7 @@ public class IntegrationTestsCoverSensorTest {
     
     @Test
     public void saveMeasure_Calls_ShouldBe5() {
-        LineSaver saver = new UnitTestLineSaver(context,project,null) ;
+        LineMeasureSaver saver = new UnitTestLineSaver(context,project,null) ;
         
         FileCoverage coverageData= mock(FileCoverage.class);
         when(coverageData.getCountLines()).thenReturn(10);
