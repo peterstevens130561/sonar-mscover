@@ -18,9 +18,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.UnitTestBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.importer.cplusplus.CPlusPlusImporterSensor;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.UnitTestLineSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageAnalyser;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
@@ -78,7 +78,7 @@ public class ResultsSensor implements Sensor {
         analyser.analyseResults(coveragePath, resultsPath);
         if(unitTestRunner.shouldRun()) {
             CoverageHelper coverageHelper = CoverageHelper.create(propertiesHelper,microsoftWindowsEnvironment,timeMachine);
-            LineSaver lineSaver=new UnitTestLineSaver(sensorContext, project);
+            LineMeasureSaver lineSaver=new UnitTestLineSaver();
             coverageHelper.setLineSaver(lineSaver);
             BlockSaver blockSaver = new UnitTestBlockSaver(sensorContext, project);
             coverageHelper.setBlockSaver(blockSaver);

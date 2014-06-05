@@ -9,24 +9,17 @@ import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
+import org.sonar.api.utils.ParsingUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceLine;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 
-public class UnitTestLineSaver extends LineSaver implements LineMeasureSaver {
+public class UnitTestLineSaver implements LineMeasureSaver {
 
     private final PropertiesBuilder<String, Integer> lineHitsBuilder = new PropertiesBuilder<String, Integer>(
             CoreMetrics.COVERAGE_LINE_HITS_DATA);
     
-    public UnitTestLineSaver(SensorContext context,
-            Project project, CoverageRegistry registry) {
-        super(context, project, registry);
-    }
-    
-    public UnitTestLineSaver(SensorContext sensorContext, Project project) {
-        super(sensorContext,project);
-    }
 
     public void saveSummaryMeasures(SensorContext context,
             FileCoverage coverageData, Resource resource) {
@@ -53,6 +46,10 @@ public class UnitTestLineSaver extends LineSaver implements LineMeasureSaver {
             hitsBuilder.add(Integer.toString(lineNumber), countVisits);
         }
         return hitsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
+    }
+    
+    protected double convertPercentage(Number percentage) {
+        return ParsingUtils.scaleValue(percentage.doubleValue() * 100.0);
     }
 }
 

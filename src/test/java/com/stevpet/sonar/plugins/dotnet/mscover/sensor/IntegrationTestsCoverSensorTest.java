@@ -108,7 +108,7 @@ public class IntegrationTestsCoverSensorTest {
     
     @Test
     public void saveMeasure_Calls_ShouldBe5() {
-        LineMeasureSaver saver = new UnitTestLineSaver(context,project,null) ;
+        LineMeasureSaver saver = new UnitTestLineSaver() ;
         
         FileCoverage coverageData= mock(FileCoverage.class);
         when(coverageData.getCountLines()).thenReturn(10);
@@ -128,7 +128,6 @@ public class IntegrationTestsCoverSensorTest {
             super(settings, microsoftWindowsEnvironment, timeMachine);
         }
         
-        @Override
         protected String getCurrentProjectDirectory(Project project) {
             File testProject=TestUtils.getResource("/TfsBlame/tfsblame/tfsblame");
             return testProject.getAbsolutePath();
