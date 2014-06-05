@@ -26,6 +26,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestSaver;
 
 public class UnitTestAnalyser {
@@ -78,10 +79,12 @@ public class UnitTestAnalyser {
         sourceFilePathHelper.setProjectPath(projectDirectory);
         
         filesResultRegistry.mapResults(unitTestRegistry, map);
+        ResourceMediator resourceMediator = ResourceMediator.create(context, project);
+        resourceMediator.setResourceFilter(ResourceFilterFactory.createEmptyFilter());
+        resourceMediator.setDateFilter(DateFilterFactory.createEmptyDateFilter());
+        
+        TestSaver testSaver = new TestSaver(context,resourceMediator);
 
-        TestSaver testSaver = new TestSaver(context, project);
-        testSaver.setResourceFilter(ResourceFilterFactory.createEmptyFilter());
-        testSaver.setDateFilter(DateFilterFactory.createEmptyDateFilter());
         testSaver.setUnitTestFilesResultRegistry(filesResultRegistry);
         testSaver.setSourceFileNamesRegistry(sourceFileNamesRegistry);
         testSaver.setSourceFilePathHelper(sourceFilePathHelper);

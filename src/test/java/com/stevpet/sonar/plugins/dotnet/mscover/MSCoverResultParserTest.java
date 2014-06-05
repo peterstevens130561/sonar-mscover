@@ -35,6 +35,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.SingleListenerParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
@@ -213,7 +214,8 @@ public class MSCoverResultParserTest {
         
         LineMeasureSaver lineSaver = mock(IntegrationTestLineSaver.class);
         coverageHelper.setLineSaver(lineSaver);
-        BlockSaver blockSaver = new IntegrationTestBlockSaver(sensorContext,project) ;
+        ResourceMediator resourceMediator = ResourceMediator.create(sensorContext,project);
+        BlockSaver blockSaver = new IntegrationTestBlockSaver(sensorContext,project,resourceMediator) ;
         coverageHelper.setBlockSaver(blockSaver);
         
         coverageHelper.analyse(project, sensorContext, file.getCanonicalPath());

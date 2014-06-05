@@ -27,6 +27,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationTestBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
@@ -64,9 +65,10 @@ public class IntegrationTestCoverSensor implements Sensor {
 
     public void analyse(Project project, SensorContext sensorContext) {
         // TODO Auto-generated method stub
+        ResourceMediator resourceMediator = ResourceMediator.create(sensorContext,project);
         LineMeasureSaver lineSaver=new IntegrationTestLineSaver();
         coverageHelper.setLineSaver(lineSaver);
-        BlockSaver blockSaver = new IntegrationTestBlockSaver(sensorContext, project);
+        BlockSaver blockSaver = new IntegrationTestBlockSaver(sensorContext, project,resourceMediator);
         coverageHelper.setBlockSaver(blockSaver);
         String coveragePath=propertiesHelper.getIntegrationTestsPath();
         coverageHelper.analyse(project,sensorContext,coveragePath);

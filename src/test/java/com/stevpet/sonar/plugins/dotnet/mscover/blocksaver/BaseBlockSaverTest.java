@@ -16,6 +16,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 
 public class BaseBlockSaverTest {
 
@@ -79,7 +80,7 @@ public class BaseBlockSaverTest {
     private class DummyBaseBlockSaver extends BaseBlockSaver {
 
         public DummyBaseBlockSaver(SensorContext context, Project project) {
-            super(context, project);
+            super(context, project,null);
 
         }
 

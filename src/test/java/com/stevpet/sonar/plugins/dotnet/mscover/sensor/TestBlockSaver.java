@@ -12,7 +12,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 public class TestBlockSaver extends BaseBlockSaver {
 
     public TestBlockSaver(SensorContext context, Project project) {
-        super(context, project);
+        super(context, project,null);
     }
 
     @Override

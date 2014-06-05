@@ -157,7 +157,6 @@ public class CoverageHelper {
         
         saveLineMeasures(registry);
         
-        wireSaver(blockSaver);
         blockSaver.setSourceFilePathHelper(sourceFilePathHelper);
         blockSaver.setSourceFileNamesRegistry(sourceFileNamesRegistry);
         blockSaver.setFileBlocksRegistry(fileBlocksRegistry);
@@ -165,13 +164,6 @@ public class CoverageHelper {
     }
 
 
-    private void wireSaver(Saver saver) {
-        DateFilter dateFilter = DateFilterFactory.createCutOffDateFilter(timeMachine, propertiesHelper);
-        ResourceFilter fileFilter = ResourceFilterFactory.createAntPatternResourceFilter(propertiesHelper);
-
-        saver.setDateFilter(dateFilter);
-        saver.setResourceFilter(fileFilter);
-    }
 
     private void invokeSingleListenerParser(CoverageRegistry registry,
             String path) throws XMLStreamException {

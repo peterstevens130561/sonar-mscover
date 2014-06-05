@@ -13,6 +13,7 @@ import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.BlockModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 
 public class IntegrationTestBlockSaver extends BaseBlockSaver {
     private static final Logger LOG = LoggerFactory
@@ -21,8 +22,8 @@ public class IntegrationTestBlockSaver extends BaseBlockSaver {
    
     @Deprecated
     public IntegrationTestBlockSaver(SensorContext context,
-            Project project) {
-        super(context, project);
+            Project project,ResourceMediator resourceMediator) {
+        super(context, project,resourceMediator);
     }
     
 

@@ -12,6 +12,4 @@ public interface Saver {
      * @throws IOException 
      */
     void save();
-    void setDateFilter(DateFilter dateFilter);
-    void setResourceFilter(ResourceFilter fileFilter);
 }

@@ -18,9 +18,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry.ForEachUnitTestFile;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.BaseSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 
-public class TestSaver extends  BaseSaver {
+public class TestSaver {
 
     private static final Logger LOG = LoggerFactory
             .getLogger(TestSaver.class);
@@ -30,6 +30,8 @@ public class TestSaver extends  BaseSaver {
     private UnitTestFilesResultRegistry unitTestFilesResultRegistry;
     private SourceFilePathHelper sourceFilePathHelper;
     private StringBuilder testCaseDetails ;
+
+    private ResourceMediator resourceMediator;
     public SourceFileNamesRegistry getSourceFileNamesRegistry() {
         return sourceFileNamesRegistry;
     }
@@ -53,9 +55,9 @@ public class TestSaver extends  BaseSaver {
         this.sourceFilePathHelper = sourceFilePathHelper;
     }
 
-    public TestSaver(SensorContext context, Project project) {
-        super(context,project);
+    public TestSaver(SensorContext context,ResourceMediator resourceMediator) {
         this.context = context;
+        this.resourceMediator = resourceMediator;
     }
 
 
@@ -87,16 +89,12 @@ public class TestSaver extends  BaseSaver {
                 LOG.warn("Could not get unit test file for file "+sourceFileName);
                 return null;
             }
-            return getSonarFileResource(sourceFile);
+            return resourceMediator.getSonarFileResource(sourceFile);
         }
    
 
 }
 
-    @Override
-    protected String getQualifier() {
-        return "UTS";
-    }
     public void saveSummaryMeasures( UnitTestFileResultModel fileResults,
             org.sonar.api.resources.File sonarFile) {
         context.saveMeasure(sonarFile,CoreMetrics.SKIPPED_TESTS, (double)0);

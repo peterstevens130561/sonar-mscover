@@ -13,16 +13,18 @@ import org.sonar.api.utils.SonarException;
 import com.google.common.base.CharMatcher;
 import com.google.common.io.Files;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
+import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.helpers.SonarResourceHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
 
 public class ResourceMediator {
     
     private static final Logger LOG = LoggerFactory
-            .getLogger(BaseSaver.class);
+            .getLogger(ResourceMediator.class);
 
-    protected DateFilter dateFilter;
-    protected ResourceFilter resourceFilter;
+    protected DateFilter dateFilter = DateFilterFactory.createEmptyDateFilter();
+    protected ResourceFilter resourceFilter = ResourceFilterFactory.createEmptyFilter();
     private Project project ;
     private SensorContext context;
     private Charset charset;

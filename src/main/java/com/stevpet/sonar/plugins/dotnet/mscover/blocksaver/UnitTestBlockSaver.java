@@ -11,6 +11,7 @@ import org.sonar.api.resources.Resource;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.BlockModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 
 
 public class UnitTestBlockSaver extends BaseBlockSaver {
@@ -21,8 +22,8 @@ public class UnitTestBlockSaver extends BaseBlockSaver {
             CoreMetrics.COVERED_CONDITIONS_BY_LINE);
     
     public UnitTestBlockSaver(SensorContext context,
-            Project project) {
-        super(context, project);
+            Project project,ResourceMediator resourceMediator) {
+        super(context, project,resourceMediator);
     }
     
     public void saveSummaryMeasures(SensorContext context, FileBlocks fileBlocks,

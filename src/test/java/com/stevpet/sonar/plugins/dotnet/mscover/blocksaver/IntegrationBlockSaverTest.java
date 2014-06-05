@@ -35,13 +35,13 @@ public class IntegrationBlockSaverTest {
     }
     @Test
     public void Create_ShouldWork() {
-        BlockSaver blockSaver = new IntegrationTestBlockSaver(null, null);
+        BlockSaver blockSaver = createBlockSaver();
         Assert.assertNotNull(blockSaver);
     }
     
     @Test
     public void saveMeasures_ShouldSaveThree() {
-        BaseBlockSaver blockSaver = new IntegrationTestBlockSaver(null, null);
+        BaseBlockSaver blockSaver = createBlockSaver();
         BlockModel summaryBlock = new BlockModel();
         when(fileBlocks.getSummaryBlock()).thenReturn(summaryBlock);
         blockSaver.saveSummaryMeasures(context, fileBlocks, sonarFile);
@@ -52,7 +52,7 @@ public class IntegrationBlockSaverTest {
     
     @Test
     public void saveLineMeasures_ShouldSaveTwo() {
-        BaseBlockSaver blockSaver = new IntegrationTestBlockSaver(null, null);
+        BaseBlockSaver blockSaver = createBlockSaver();
         when(fileBlocks.getBlocks()).thenReturn(new ArrayList<BlockModel>());
         blockSaver.saveLineMeasures(context, fileBlocks, sonarFile);
         verify(context,times(2)).saveMeasure(any(Resource.class),any(Measure.class));
@@ -60,7 +60,7 @@ public class IntegrationBlockSaverTest {
     
     @Test
     public void saveLineMeasuresOneBlock_ShouldSaveTwo() {
-        BaseBlockSaver blockSaver = new IntegrationTestBlockSaver(null, null);
+        BaseBlockSaver blockSaver = createBlockSaver();
         List<BlockModel> blocks = new ArrayList<BlockModel>() ;
         BlockModel block = new BlockModel();
         block.setNotCovered(10);
@@ -69,5 +69,8 @@ public class IntegrationBlockSaverTest {
         when(fileBlocks.getBlocks()).thenReturn(blocks);
         blockSaver.saveLineMeasures(context, fileBlocks, sonarFile);
         verify(context,times(2)).saveMeasure(any(Resource.class),any(Measure.class));
+    }
+    private IntegrationTestBlockSaver createBlockSaver() {
+        return new IntegrationTestBlockSaver(null, null,null);
     }
 }

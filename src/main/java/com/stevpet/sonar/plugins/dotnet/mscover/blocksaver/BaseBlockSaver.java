@@ -13,18 +13,18 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.BaseSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 
-public abstract class BaseBlockSaver extends BaseSaver implements BlockSaver {
+public abstract class BaseBlockSaver  implements BlockSaver {
 
     private SourceFileNamesRegistry sourceFileNamesRegistry;
     private FileBlocksRegistry fileBlocksRegistry;
     private SourceFilePathHelper sourceFilePathHelper ;
     private SensorContext context;
-
-    public BaseBlockSaver(SensorContext context, Project project) {
-        super(context,project);
+    private ResourceMediator resourceMediator ;
+    public BaseBlockSaver(SensorContext context, Project project,ResourceMediator resourceMediator) {
         this.context = context;
+        this.resourceMediator = resourceMediator;
     }
 
 
@@ -78,11 +78,10 @@ public abstract class BaseBlockSaver extends BaseSaver implements BlockSaver {
         if(file == null) {
             return null;
         }
-        return getSonarFileResource(file);
+        return resourceMediator.getSonarFileResource(file);
     }
 
   
-
 
     protected double convertPercentage(Number percentage) {
         return ParsingUtils.scaleValue(percentage.doubleValue() * 100.0);
