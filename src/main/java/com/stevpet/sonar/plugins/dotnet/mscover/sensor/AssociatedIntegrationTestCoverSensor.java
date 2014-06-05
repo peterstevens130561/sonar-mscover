@@ -23,58 +23,55 @@ import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationTestBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineSaver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 @Extension
-public class IntegrationTestCoverSensor extends BaseCoverageSensor {
+public class AssociatedIntegrationTestCoverSensor implements Sensor {
 
     static final Logger LOG = LoggerFactory
-            .getLogger(IntegrationTestCoverSensor.class);
+            .getLogger(AssociatedIntegrationTestCoverSensor.class);
 
+    private final PropertiesHelper propertiesHelper ;
+
+    private CoverageHelper coverageHelper;
     /**
      * Use of IoC to get Settings
      */
-    public IntegrationTestCoverSensor(Settings settings,
+    public AssociatedIntegrationTestCoverSensor(Settings settings,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             TimeMachine timeMachine) {
-        super(settings,microsoftWindowsEnvironment,timeMachine);
-    }
-
-    @Override
-    public String getCoveragePath() {
-        return  new PropertiesHelper(settings).getIntegrationTestsPath();
-    }
-
-    @Override
-    public
-    Saver createLineSaver(Project project, SensorContext sensorContext,
-            CoverageRegistry registry) {
-
-        //return new IntegrationTestLineSaver(sensorContext, project,
-        //        registry);
-        return null;
-    }
-    
-    @Override
-    public BaseBlockSaver createBlockSaver(Project project, SensorContext sensorContext) {
-        return new IntegrationTestBlockSaver(sensorContext, project);
+        propertiesHelper = new PropertiesHelper(settings);
+        coverageHelper = CoverageHelper.create(propertiesHelper,microsoftWindowsEnvironment,timeMachine);
     }
     
 
-    @Override
-    public
-    boolean shouldExecuteSensor(PropertiesHelper helper) {
-        return helper.isIntegrationTestsEnabled();
+    public boolean shouldExecuteOnProject(Project project) {
+        // TODO Auto-generated method stub
+        return coverageHelper.shouldExecuteOnProject(project) && propertiesHelper.isIntegrationTestsEnabled() ;
+    }
+
+    public void analyse(Project project, SensorContext sensorContext) {
+        // TODO Auto-generated method stub
+        LineMeasureSaver lineSaver=new IntegrationTestLineSaver();
+        coverageHelper.setLineSaver(lineSaver);
+        BlockSaver blockSaver = new IntegrationTestBlockSaver(sensorContext, project);
+        coverageHelper.setBlockSaver(blockSaver);
+        String coveragePath=propertiesHelper.getIntegrationTestsPath();
+        coverageHelper.analyse(project,sensorContext,coveragePath);
     }
 
 }

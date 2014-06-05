@@ -24,9 +24,12 @@ import com.google.common.collect.Collections2;
 //import com.google.inject.internal.util.Lists;
 
 import com.google.common.collect.Lists;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationTestBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.listener.CoverageParserListener;
 import com.stevpet.sonar.plugins.dotnet.mscover.listener.ParserObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.SingleListenerParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
@@ -34,6 +37,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
 
 import org.apache.commons.lang.StringUtils;
@@ -47,19 +52,23 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.TimeMachine;
+import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.resources.Resource;
-import org.sonar.plugins.csharp.gallio.results.coverage.CoverageResultParser;
-import org.sonar.plugins.csharp.gallio.results.coverage.DotCoverParsingStrategy;
-import org.sonar.plugins.csharp.gallio.results.coverage.model.FileCoverage;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import org.sonar.test.TestUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.List;
 
@@ -74,13 +83,18 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({File.class, DotCoverParsingStrategy.class})
+@PrepareForTest({File.class})
 public class MSCoverResultParserTest {
 
-  private CoverageResultParser parser;
+
   private SensorContext context;
   private Project project;
   private VisualStudioSolution solution;
+  private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
+  private PropertiesHelper propertiesHelper;
+  private Settings settings ;
+  
+  private TimeMachine timeMachine ;
 
   @Before
   public void setUp() {
@@ -100,10 +114,14 @@ public class MSCoverResultParserTest {
     when(solution.getProject(any(File.class))).thenReturn(vsProject);
     when(solution.getProjectFromSonarProject(eq(project))).thenReturn(vsProject);
 
-    MicrosoftWindowsEnvironment microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
+    microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
     when(microsoftWindowsEnvironment.getCurrentSolution()).thenReturn(solution);
 
-    parser = new CoverageResultParser(context, microsoftWindowsEnvironment);
+    
+    settings = mock(Settings.class);
+    propertiesHelper = new PropertiesHelper(settings);
+    
+    timeMachine = mock(TimeMachine.class);
   }
 
   @Test 
@@ -178,32 +196,30 @@ public class MSCoverResultParserTest {
       // given a proper coverage file
         //Arrange
         File file = getResource("mscoverage.xml");
-        Parser parser = new SingleListenerParser();
-        SMInputFactory inf = new SMInputFactory(XMLInputFactory.newInstance());
-        SMHierarchicCursor rootCursor = inf.rootElementCursor(file);
-        SMInputCursor root = rootCursor.advance();
         // verify that it is compatible
-        CoverageParserListener parserListener = new CoverageParserListener();
         Project project = new Project("tfsblame","","tfsBlame");
-        ProjectFileSystem fs = new DummyFileSystem();
+        ProjectFileSystem fs = mock(ProjectFileSystem.class);
         project.setFileSystem(fs);
-        
+
         SensorContext sensorContext = mock(SensorContext.class);
         when(sensorContext.isIndexed((Resource) any(), eq(false))).thenReturn(true);
         
-        String projectDir = getResource("TfsBlame/tfsblame/tfsblame").getAbsolutePath();
-        CoverageRegistry coverageRegistry = new FileCoverageRegistry(projectDir) ;
-        parserListener.setRegistry(coverageRegistry);
-        parser.setListener(parserListener);
-        parser.parse(root);
+        File projectDir= getResource("TfsBlame/tfsblame/tfsblame");
+        when(fs.getBasedir()).thenReturn(projectDir);
+        when(fs.getSourceCharset()).thenReturn(Charset.forName("UTF-8"));
         
         //Act
-        Saver saver = new IntegrationTestLineSaver(sensorContext,project,coverageRegistry);
-        saver.setDateFilter(DateFilterFactory.createEmptyDateFilter());
-        saver.setResourceFilter(ResourceFilterFactory.createEmptyFilter());
-        saver.save();
+        CoverageHelper coverageHelper = CoverageHelper.create(propertiesHelper, microsoftWindowsEnvironment, timeMachine);
         
+        LineMeasureSaver lineSaver = mock(IntegrationTestLineSaver.class);
+        coverageHelper.setLineSaver(lineSaver);
+        BlockSaver blockSaver = new IntegrationTestBlockSaver(sensorContext,project) ;
+        coverageHelper.setBlockSaver(blockSaver);
+        
+        coverageHelper.analyse(project, sensorContext, file.getCanonicalPath());
         //Assert ?
+        verify(lineSaver,times(8)).saveSummaryMeasures(any(SensorContext.class), any(FileCoverage.class), any(Resource.class));
+        verify(lineSaver,times(8)).getHitData(any(FileCoverage.class));
   }
 
   private CoverageRegistry parseFile(File file) throws FactoryConfigurationError,
@@ -254,44 +270,6 @@ private File getResource(String resourcePath) {
     return resourceFile;
 }
  
-private void checkParsing(final ParsingParameters parameters) {
-    File file = TestUtils.getResource("/Results/coverage/" + parameters.report);
-    List<FileCoverage> files = parser.parse(project, file);
-
-    int numberOfLinesInFiles = 0;
-    for (FileCoverage fileCoverage : files) {
-      numberOfLinesInFiles += fileCoverage.getCountLines();
-    }
-
-    Collection<FileCoverage> filesFound = Collections2.filter(files, new Predicate<FileCoverage>() {
-      public boolean apply(FileCoverage input) {
-
-        return StringUtils.contains(input.getFile().getName(), parameters.fileName);
-      }
-    });
-    assertEquals(1, filesFound.size());
-    assertEquals(parameters.fileNumber, files.size());
-
-    FileCoverage firstFileCoverage = filesFound.iterator().next();
-
-    assertEquals(parameters.coveredLines, firstFileCoverage.getCoveredLines());
-    assertEquals(parameters.lines, firstFileCoverage.getCountLines());
-    assertEquals(parameters.coverage, firstFileCoverage.getCoverage(), 0.0001);
-
-  }
-
-
-  public static class ParsingParameters {
-
-    public String report;
-    public String assemblyName;
-    public int fileNumber;
-    public String fileName;
-    public int coveredLines;
-    public int lines;
-    public double coverage;
-  }
-
 
 public void Line(SMInputCursor linesCursor) {   
 }

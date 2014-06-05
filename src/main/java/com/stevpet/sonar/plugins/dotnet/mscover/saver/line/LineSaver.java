@@ -77,7 +77,7 @@ public abstract class LineSaver implements Saver, LineMeasureSaver {
      * @see com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver#saveSummaryMeasures(org.sonar.api.batch.SensorContext, com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage, org.sonar.api.resources.Resource)
      */
     public abstract void saveSummaryMeasures(SensorContext context,
-            FileCoverage coverageData, Resource<?> resource) ;
+            FileCoverage coverageData, Resource resource) ;
     
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver#saveLineMeasures(org.sonar.api.batch.SensorContext, com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage, org.sonar.api.resources.File)

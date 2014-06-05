@@ -9,8 +9,10 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.PropertiesBuilder;
+import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
+import org.sonar.api.utils.ParsingUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
@@ -18,24 +20,16 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceLine;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 
-public class IntegrationTestLineSaver extends LineSaver implements LineMeasureSaver {
+public class IntegrationTestLineSaver implements LineMeasureSaver {
     private static final Logger LOG = LoggerFactory
             .getLogger(IntegrationTestLineSaver.class);
     
     private final PropertiesBuilder<String, Integer> lineHitsBuilder = new PropertiesBuilder<String, Integer>(
             CoreMetrics.IT_COVERAGE_LINE_HITS_DATA);
     
-    public IntegrationTestLineSaver(SensorContext context,
-            Project project, CoverageRegistry registry) {
-        super(context, project, registry);
-    }
-    
-    public IntegrationTestLineSaver(SensorContext sensorContext, Project project) {
-       super(sensorContext,project);
-    }
 
     public void saveSummaryMeasures(SensorContext context,
-            FileCoverage coverageData, Resource<?> resource) {
+            FileCoverage coverageData, Resource resource) {
         double coverage = coverageData.getCoverage();
         LOG.debug("MsCover resource       " + resource.getKey());
         LOG.debug("MsCover coverage       " + coverage);
@@ -70,6 +64,9 @@ public class IntegrationTestLineSaver extends LineSaver implements LineMeasureSa
             hitsBuilder.add(Integer.toString(lineNumber), countVisits);
         }
         return hitsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
+    }
+    protected double convertPercentage(Number percentage) {
+        return ParsingUtils.scaleValue(percentage.doubleValue() * 100.0);
     }
 
 

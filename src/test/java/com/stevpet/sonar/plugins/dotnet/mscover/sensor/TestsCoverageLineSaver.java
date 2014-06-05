@@ -28,7 +28,7 @@ public class TestsCoverageLineSaver extends LineSaver {
     }
 
     public void saveSummaryMeasures(SensorContext context,
-            FileCoverage coverageData, Resource<?> resource) {
+            FileCoverage coverageData, Resource resource) {
         saveSummaryMeasuresCalled++;
     }
 

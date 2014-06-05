@@ -63,12 +63,12 @@ public class FileCoverageRegistry implements CoverageRegistry {
             String projectPath = pathHelper.getSolutionPath();
             File file = new File(projectPath);
             LOG.info("MsCover path : "+ projectPath);
-            if (!file.exists()) {
-                LOG.warn("File '" + projectPath
-                        + "' does not exist. Original :" + fullPath);
-                return;
-            }
             fileCoverage.setCanonicalFile(file);
+            if (!file.exists()) {
+                LOG.warn("Ignoring that file '" + projectPath
+                        + "' does not exist. Original :" + fullPath);
+            }
+
         }
     }
 

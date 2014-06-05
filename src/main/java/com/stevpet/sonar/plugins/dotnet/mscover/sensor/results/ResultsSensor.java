@@ -20,7 +20,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.UnitTestBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.importer.cplusplus.CPlusPlusImporterSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.UnitTestLineSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.sensor.AssociatedUnitTestCoverSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageAnalyser;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunner;

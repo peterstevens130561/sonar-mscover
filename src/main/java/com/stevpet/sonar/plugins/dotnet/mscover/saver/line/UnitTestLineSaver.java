@@ -29,7 +29,7 @@ public class UnitTestLineSaver extends LineSaver implements LineMeasureSaver {
     }
 
     public void saveSummaryMeasures(SensorContext context,
-            FileCoverage coverageData, Resource<?> resource) {
+            FileCoverage coverageData, Resource resource) {
         double coverage = coverageData.getCoverage();
         context.saveMeasure(resource, CoreMetrics.LINES, (double) coverageData.getCountLines());
         context.saveMeasure(resource, CoreMetrics.LINES_TO_COVER, (double) coverageData.getCountLines());

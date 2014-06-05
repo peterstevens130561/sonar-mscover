@@ -19,12 +19,13 @@ public class IntegrationTestBlockSaver extends BaseBlockSaver {
             .getLogger(IntegrationTestBlockSaver.class);
     
    
-    
+    @Deprecated
     public IntegrationTestBlockSaver(SensorContext context,
             Project project) {
         super(context, project);
     }
     
+
     @Override
     public void saveSummaryMeasures(SensorContext context, FileBlocks fileBlocks,
             Resource<?> resource) {
