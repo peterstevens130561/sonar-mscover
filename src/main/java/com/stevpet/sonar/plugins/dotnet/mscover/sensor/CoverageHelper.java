@@ -2,7 +2,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.sensor;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLInputFactory;
@@ -25,11 +24,7 @@ import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
-import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationTestBlockSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
-import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.listener.CoverageParserListener;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
@@ -43,11 +38,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
-import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
 
 public class CoverageHelper {
@@ -56,7 +47,6 @@ public class CoverageHelper {
             .getLogger(CoverageHelper.class);
     private final PropertiesHelper propertiesHelper;
     private final MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-    private final TimeMachine timeMachine;
     private LineMeasureSaver lineSaver;
     private BlockSaver blockSaver;
     private Project project;
@@ -79,17 +69,14 @@ public class CoverageHelper {
      * @param timeMachine
      */
     private CoverageHelper(PropertiesHelper propertiesHelper,
-            MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-            TimeMachine timeMachine) {
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         this.propertiesHelper = propertiesHelper ;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
-        this.timeMachine = timeMachine;
     }
 
     public static CoverageHelper create(PropertiesHelper propertiesHelper,
-            MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-            TimeMachine timeMachine) {
-        return new CoverageHelper(propertiesHelper,microsoftWindowsEnvironment,timeMachine);
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+        return new CoverageHelper(propertiesHelper,microsoftWindowsEnvironment);
     }
 
     public void setLineSaver(LineMeasureSaver lineSaver) {
@@ -120,15 +107,12 @@ public class CoverageHelper {
     /**
      * performs the analysis
      */
-    public void analyse(Project project, SensorContext sensorContext,String path) {
+    public void analyse(Project project, SensorContext sensorContext,String path,ResourceMediator resourceMediator) {
         this.project = project;
         this.sensorContext = sensorContext;
         this.path = path;
-        resourceMediator = ResourceMediator.create(sensorContext, project);
-        DateFilter dateFilter = DateFilterFactory.createCutOffDateFilter(timeMachine, propertiesHelper);
-        resourceMediator.setDateFilter(dateFilter);
-        ResourceFilter fileFilter = ResourceFilterFactory.createAntPatternResourceFilter(propertiesHelper);
-        resourceMediator.setResourceFilter(fileFilter);
+        this.resourceMediator=resourceMediator;
+
         try {
             tryAnalyse();
         } catch (XMLStreamException e) {

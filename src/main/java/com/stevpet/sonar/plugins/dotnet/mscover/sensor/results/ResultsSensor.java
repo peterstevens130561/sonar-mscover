@@ -79,14 +79,14 @@ public class ResultsSensor implements Sensor {
         UnitTestAnalyser analyser = new UnitTestAnalyser(project,sensorContext);
         analyser.analyseResults(coveragePath, resultsPath);
         if(unitTestRunner.shouldRun()) {
-            CoverageHelper coverageHelper = CoverageHelper.create(propertiesHelper,microsoftWindowsEnvironment,timeMachine);
+            CoverageHelper coverageHelper = CoverageHelper.create(propertiesHelper,microsoftWindowsEnvironment);
             LineMeasureSaver lineSaver=new UnitTestLineSaver();
             coverageHelper.setLineSaver(lineSaver);
             ResourceMediator resourceMediator = ResourceMediator.create(sensorContext,project);
             BlockMeasureSaver blockMeasureSaver = new UnitTestBlockSaver();
             BlockSaver blockSaver = new BaseBlockSaver(sensorContext, project, resourceMediator, blockMeasureSaver);
             coverageHelper.setBlockSaver(blockSaver);
-            coverageHelper.analyse(project,sensorContext,coveragePath);
+            coverageHelper.analyse(project,sensorContext,coveragePath,resourceMediator);
         }
     }
 

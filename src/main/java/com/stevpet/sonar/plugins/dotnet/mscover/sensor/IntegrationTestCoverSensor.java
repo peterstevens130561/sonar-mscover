@@ -26,8 +26,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationTestBlockSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
+import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
@@ -47,7 +51,7 @@ public class IntegrationTestCoverSensor implements Sensor {
             .getLogger(IntegrationTestCoverSensor.class);
 
     private final PropertiesHelper propertiesHelper ;
-
+    private TimeMachine timeMachine;
     private CoverageHelper coverageHelper;
     /**
      * Use of IoC to get Settings
@@ -56,7 +60,8 @@ public class IntegrationTestCoverSensor implements Sensor {
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             TimeMachine timeMachine) {
         propertiesHelper = new PropertiesHelper(settings);
-        coverageHelper = CoverageHelper.create(propertiesHelper,microsoftWindowsEnvironment,timeMachine);
+        this.timeMachine=timeMachine;
+        coverageHelper = CoverageHelper.create(propertiesHelper,microsoftWindowsEnvironment);
     }
     
 
@@ -66,14 +71,18 @@ public class IntegrationTestCoverSensor implements Sensor {
 
     public void analyse(Project project, SensorContext sensorContext) {
         // TODO Auto-generated method stub
-        ResourceMediator resourceMediator = ResourceMediator.create(sensorContext,project);
+        ResourceMediator resourceMediator = ResourceMediator.create(sensorContext, project);
+        DateFilter dateFilter = DateFilterFactory.createCutOffDateFilter(timeMachine, propertiesHelper);
+        resourceMediator.setDateFilter(dateFilter);
+        ResourceFilter fileFilter = ResourceFilterFactory.createAntPatternResourceFilter(propertiesHelper);
+        resourceMediator.setResourceFilter(fileFilter);
         LineMeasureSaver lineSaver=new IntegrationTestLineSaver();
         coverageHelper.setLineSaver(lineSaver);
         BlockMeasureSaver blockMeasureSaver = new IntegrationTestBlockSaver();
         BlockSaver blockSaver = new BaseBlockSaver(sensorContext, project, resourceMediator, blockMeasureSaver);
         coverageHelper.setBlockSaver(blockSaver);
         String coveragePath=propertiesHelper.getIntegrationTestsPath();
-        coverageHelper.analyse(project,sensorContext,coveragePath);
+        coverageHelper.analyse(project,sensorContext,coveragePath,resourceMediator);
     }
 
 }

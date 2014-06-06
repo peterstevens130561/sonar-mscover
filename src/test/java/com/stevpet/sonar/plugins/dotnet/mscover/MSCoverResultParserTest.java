@@ -212,7 +212,7 @@ public class MSCoverResultParserTest {
         when(fs.getSourceCharset()).thenReturn(Charset.forName("UTF-8"));
         
         //Act
-        CoverageHelper coverageHelper = CoverageHelper.create(propertiesHelper, microsoftWindowsEnvironment, timeMachine);
+        CoverageHelper coverageHelper = CoverageHelper.create(propertiesHelper, microsoftWindowsEnvironment);
         
         LineMeasureSaver lineSaver = mock(IntegrationTestLineSaver.class);
         coverageHelper.setLineSaver(lineSaver);
@@ -221,7 +221,7 @@ public class MSCoverResultParserTest {
         BlockSaver blockSaver = new BaseBlockSaver(sensorContext,project,resourceMediator, blockMeasureSaver) ;
         coverageHelper.setBlockSaver(blockSaver);
         
-        coverageHelper.analyse(project, sensorContext, file.getCanonicalPath());
+        coverageHelper.analyse(project, sensorContext, file.getCanonicalPath(),resourceMediator);
         //Assert ?
         verify(lineSaver,times(8)).saveSummaryMeasures(any(SensorContext.class), any(FileCoverage.class), any(Resource.class));
         verify(lineSaver,times(8)).getHitData(any(FileCoverage.class));
