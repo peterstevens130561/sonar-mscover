@@ -80,21 +80,10 @@ public class BaseBlockSaverTest {
     private class DummyBaseBlockSaver extends BaseBlockSaver {
 
         public DummyBaseBlockSaver(SensorContext context, Project project) {
-            super(context, project,null);
+            super(context, project,null,null);
 
         }
 
-        @Override
-        public void saveSummaryMeasures(SensorContext context,
-                FileBlocks fileBlocks, Resource<?> sonarFile) {
-            
-        }
-
-        @Override
-        public void saveLineMeasures(SensorContext context,
-                FileBlocks fileBlocks, Resource<?> sonarFile) {
-            
-        }
     
 
     }

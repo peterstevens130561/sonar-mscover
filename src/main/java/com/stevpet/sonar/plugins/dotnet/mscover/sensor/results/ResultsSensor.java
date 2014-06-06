@@ -15,6 +15,8 @@ import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.UnitTestBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.importer.cplusplus.CPlusPlusImporterSensor;
@@ -81,7 +83,8 @@ public class ResultsSensor implements Sensor {
             LineMeasureSaver lineSaver=new UnitTestLineSaver();
             coverageHelper.setLineSaver(lineSaver);
             ResourceMediator resourceMediator = ResourceMediator.create(sensorContext,project);
-            BlockSaver blockSaver = new UnitTestBlockSaver(sensorContext, project,resourceMediator);
+            BlockMeasureSaver blockMeasureSaver = new UnitTestBlockSaver();
+            BlockSaver blockSaver = new BaseBlockSaver(sensorContext, project, resourceMediator, blockMeasureSaver);
             coverageHelper.setBlockSaver(blockSaver);
             coverageHelper.analyse(project,sensorContext,coveragePath);
         }

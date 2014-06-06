@@ -24,6 +24,8 @@ import com.google.common.collect.Collections2;
 //import com.google.inject.internal.util.Lists;
 
 import com.google.common.collect.Lists;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationTestBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
@@ -215,7 +217,8 @@ public class MSCoverResultParserTest {
         LineMeasureSaver lineSaver = mock(IntegrationTestLineSaver.class);
         coverageHelper.setLineSaver(lineSaver);
         ResourceMediator resourceMediator = ResourceMediator.create(sensorContext,project);
-        BlockSaver blockSaver = new IntegrationTestBlockSaver(sensorContext,project,resourceMediator) ;
+        BlockMeasureSaver blockMeasureSaver = new IntegrationTestBlockSaver();
+        BlockSaver blockSaver = new BaseBlockSaver(sensorContext,project,resourceMediator, blockMeasureSaver) ;
         coverageHelper.setBlockSaver(blockSaver);
         
         coverageHelper.analyse(project, sensorContext, file.getCanonicalPath());

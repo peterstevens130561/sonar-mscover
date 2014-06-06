@@ -15,38 +15,38 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.BlockModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 
-public class IntegrationTestBlockSaver extends BaseBlockSaver {
+public class IntegrationTestBlockSaver implements BlockMeasureSaver {
     private static final Logger LOG = LoggerFactory
             .getLogger(IntegrationTestBlockSaver.class);
     
    
-    @Deprecated
-    public IntegrationTestBlockSaver(SensorContext context,
-            Project project,ResourceMediator resourceMediator) {
-        super(context, project,resourceMediator);
-    }
+
     
 
-    @Override
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver#saveSummaryMeasures(org.sonar.api.batch.SensorContext, com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks, org.sonar.api.resources.Resource)
+     */
     public void saveSummaryMeasures(SensorContext context, FileBlocks fileBlocks,
             Resource<?> resource) {
         BlockModel methodBlock=fileBlocks.getSummaryBlock();
 
         LOG.debug("MsCover resource       " + resource.getKey());
-        LOG.debug("MsCover coverage       " + getCoverage(methodBlock));
+        LOG.debug("MsCover coverage       " + BaseBlockSaver.getCoverage(methodBlock));
         LOG.debug("MsCover lines to cover " + methodBlock.getBlocks());
         LOG.debug("MsCover covered lines  " + methodBlock.getCovered());
 
         context.saveMeasure(resource,CoreMetrics.IT_UNCOVERED_CONDITIONS,(double) methodBlock.getNotCovered());
         context.saveMeasure(resource, CoreMetrics.IT_CONDITIONS_TO_COVER,(double)methodBlock.getBlocks());
-        context.saveMeasure(resource, CoreMetrics.IT_BRANCH_COVERAGE,getCoverage(methodBlock));
+        context.saveMeasure(resource, CoreMetrics.IT_BRANCH_COVERAGE,BaseBlockSaver.getCoverage(methodBlock));
     }
 
     /*
      * Generates a measure that contains the visits of each line of the source
      * file.
      */
-    @Override
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver#saveLineMeasures(org.sonar.api.batch.SensorContext, com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks, org.sonar.api.resources.Resource)
+     */
     public void saveLineMeasures(SensorContext context, FileBlocks fileMethodBlocks,Resource<?> resource) {
          PropertiesBuilder<String, Integer> lineConditionsBuilder = new PropertiesBuilder<String, Integer>(
                 CoreMetrics.IT_CONDITIONS_BY_LINE);

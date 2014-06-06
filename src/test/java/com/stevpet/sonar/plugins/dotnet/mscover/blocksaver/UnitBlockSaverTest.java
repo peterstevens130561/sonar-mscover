@@ -35,13 +35,13 @@ public class UnitBlockSaverTest {
     }
     @Test
     public void Create_ShouldWork() {
-        BlockSaver blockSaver = new UnitTestBlockSaver(null, null,null);
+        BlockMeasureSaver blockSaver = new UnitTestBlockSaver();
         Assert.assertNotNull(blockSaver);
     }
     
     @Test
     public void saveMeasures_ShouldSaveThree() {
-        BaseBlockSaver blockSaver = new UnitTestBlockSaver(null, null,null);
+        BlockMeasureSaver blockSaver = new UnitTestBlockSaver();
         BlockModel summaryBlock = new BlockModel();
         when(fileBlocks.getSummaryBlock()).thenReturn(summaryBlock);
         blockSaver.saveSummaryMeasures(context, fileBlocks, sonarFile);
@@ -52,7 +52,7 @@ public class UnitBlockSaverTest {
     
     @Test
     public void saveLineMeasures_ShouldSaveTwo() {
-        BaseBlockSaver blockSaver = new UnitTestBlockSaver(null, null,null);
+        BlockMeasureSaver blockSaver = new UnitTestBlockSaver();
         when(fileBlocks.getBlocks()).thenReturn(new ArrayList<BlockModel>());
         blockSaver.saveLineMeasures(context, fileBlocks, sonarFile);
         verify(context,times(2)).saveMeasure(any(Resource.class),any(Measure.class));
@@ -60,7 +60,7 @@ public class UnitBlockSaverTest {
     
     @Test
     public void saveLineMeasuresOneBlock_ShouldSaveTwo() {
-        BaseBlockSaver blockSaver = new UnitTestBlockSaver(null, null,null);
+        BlockMeasureSaver blockSaver = new UnitTestBlockSaver();
         List<BlockModel> blocks = new ArrayList<BlockModel>() ;
         BlockModel block = new BlockModel();
         block.setNotCovered(10);

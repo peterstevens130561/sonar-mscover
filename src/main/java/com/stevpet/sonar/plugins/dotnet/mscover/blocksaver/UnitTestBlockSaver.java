@@ -14,17 +14,13 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 
 
-public class UnitTestBlockSaver extends BaseBlockSaver {
+public class UnitTestBlockSaver implements BlockMeasureSaver {
 
     private final PropertiesBuilder<String, Integer> lineConditionsBuilder = new PropertiesBuilder<String, Integer>(
             CoreMetrics.CONDITIONS_BY_LINE);
     private final PropertiesBuilder<String, Integer> lineCoveredConditionsBuilder = new PropertiesBuilder<String, Integer>(
             CoreMetrics.COVERED_CONDITIONS_BY_LINE);
     
-    public UnitTestBlockSaver(SensorContext context,
-            Project project,ResourceMediator resourceMediator) {
-        super(context, project,resourceMediator);
-    }
     
     public void saveSummaryMeasures(SensorContext context, FileBlocks fileBlocks,
             Resource<?> resource) {
@@ -32,11 +28,10 @@ public class UnitTestBlockSaver extends BaseBlockSaver {
         BlockModel methodBlock=fileBlocks.getSummaryBlock();
         context.saveMeasure(resource,CoreMetrics.UNCOVERED_CONDITIONS,(double) methodBlock.getNotCovered());
         context.saveMeasure(resource, CoreMetrics.CONDITIONS_TO_COVER,(double)methodBlock.getBlocks());
-        context.saveMeasure(resource, CoreMetrics.BRANCH_COVERAGE,getCoverage(methodBlock));
+        context.saveMeasure(resource, CoreMetrics.BRANCH_COVERAGE,BaseBlockSaver.getCoverage(methodBlock));
     }
 
 
-    @Override
     public void saveLineMeasures(SensorContext context, FileBlocks fileMethodBlocks,Resource<?> resource) {
         lineConditionsBuilder.clear();
         lineCoveredConditionsBuilder.clear();
