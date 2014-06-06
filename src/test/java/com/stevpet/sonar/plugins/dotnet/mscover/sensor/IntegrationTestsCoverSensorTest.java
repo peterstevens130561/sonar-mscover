@@ -9,6 +9,7 @@ import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.config.Settings;
+import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
@@ -20,6 +21,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.UnitTestLineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
 
 import static org.junit.Assert.assertFalse;
@@ -30,6 +33,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.anyDouble;
+
 public class IntegrationTestsCoverSensorTest {
 
     Settings settings ;
@@ -70,7 +75,8 @@ public class IntegrationTestsCoverSensorTest {
         //Act
         boolean shouldExecute=sensor.shouldExecuteOnProject(project);
         //Assert
-        assertTrue(shouldExecute);         
+        assertTrue(shouldExecute); 
+
     }
     
 
@@ -108,20 +114,21 @@ public class IntegrationTestsCoverSensorTest {
     
     @Test
     public void saveMeasure_Calls_ShouldBe5() {
-        LineMeasureSaver saver = new UnitTestLineSaver() ;
+        MeasureSaver measureSaver = mock(SonarMeasureSaver.class);
+        LineMeasureSaver saver = UnitTestLineSaver.create(measureSaver);
         
         FileCoverage coverageData= mock(FileCoverage.class);
         when(coverageData.getCountLines()).thenReturn(10);
         when(coverageData.getCoveredLines()).thenReturn(6);
         when(coverageData.getUncoveredLines()).thenReturn(4);
-        Resource<?> resource = mock(Resource.class);
-        saver.saveSummaryMeasures(context, coverageData, resource);
+        File file = mock(File.class);
+        saver.saveMeasures(coverageData, file);
         //Assert
-        verify(context, times(5)).saveMeasure(any(Resource.class),any(Metric.class), any(Double.class));
+        verify(measureSaver,times(1)).saveMeasure(any(Measure.class));
+        verify(measureSaver,times(5)).saveMeasure(any(Metric.class),anyDouble());
         
     }
     private class IntegrationTestsCoverSensorStub extends IntegrationTestCoverSensor {
-
         public  IntegrationTestsCoverSensorStub(Settings settings,
                 MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
                 TimeMachine timeMachine) {

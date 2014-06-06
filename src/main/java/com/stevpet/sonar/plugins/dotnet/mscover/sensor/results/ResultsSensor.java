@@ -24,6 +24,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.UnitTestLineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
@@ -80,11 +82,14 @@ public class ResultsSensor implements Sensor {
         analyser.analyseResults(coveragePath, resultsPath);
         if(unitTestRunner.shouldRun()) {
             CoverageHelper coverageHelper = CoverageHelper.create(propertiesHelper,microsoftWindowsEnvironment);
-            LineMeasureSaver lineSaver=new UnitTestLineSaver();
-            coverageHelper.setLineSaver(lineSaver);
             ResourceMediator resourceMediator = ResourceMediator.createWithFilters(sensorContext,project,timeMachine,propertiesHelper);
             
-            BlockMeasureSaver blockMeasureSaver = new UnitTestBlockSaver();
+            MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
+            LineMeasureSaver lineSaver=UnitTestLineSaver.create(measureSaver);
+            coverageHelper.setLineSaver(lineSaver);
+   
+            
+            BlockMeasureSaver blockMeasureSaver = UnitTestBlockSaver.create(measureSaver);
             BlockSaver blockSaver = new BaseBlockSaver(sensorContext, resourceMediator, blockMeasureSaver);
             coverageHelper.setBlockSaver(blockSaver);
             coverageHelper.analyse(project,sensorContext,coveragePath,resourceMediator);

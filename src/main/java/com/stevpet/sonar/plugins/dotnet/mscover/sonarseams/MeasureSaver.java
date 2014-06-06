@@ -3,6 +3,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.sonarseams;
 import java.io.File;
 
 import org.sonar.api.measures.Measure;
+import org.sonar.api.measures.Metric;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 
@@ -26,5 +27,7 @@ public interface MeasureSaver {
      * @param measure
      */
     public abstract void saveMeasure(Measure measure);
+
+    public abstract void saveMeasure(Metric metric, double value);
 
 }

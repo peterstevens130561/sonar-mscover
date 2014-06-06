@@ -1,5 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.blocksaver;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,8 @@ import org.sonar.api.resources.Resource;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.BlockModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -20,55 +23,58 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.anyDouble;
 public class UnitBlockSaverTest {
     
     private SensorContext context;
     private FileBlocks fileBlocks;
-    private Resource<?> sonarFile;
+    private File sonarFile;
+    private MeasureSaver measureSaver;
 
     @Before
     public void before() {
         context = mock(SensorContext.class);
         fileBlocks = mock(FileBlocks.class);
-        sonarFile = mock(Resource.class);
+        sonarFile = mock(File.class);
+        measureSaver = mock(SonarMeasureSaver.class);
         
     }
     @Test
     public void Create_ShouldWork() {
-        BlockMeasureSaver blockSaver = new UnitTestBlockSaver();
+        BlockMeasureSaver blockSaver = createTestBlockSaver();
         Assert.assertNotNull(blockSaver);
     }
     
     @Test
-    public void saveMeasures_ShouldSaveThree() {
-        BlockMeasureSaver blockSaver = new UnitTestBlockSaver();
+    public void saveMeasures_ShouldSaveThreeSummaryMeasures() {
+        BlockMeasureSaver blockSaver = createTestBlockSaver();
         BlockModel summaryBlock = new BlockModel();
         when(fileBlocks.getSummaryBlock()).thenReturn(summaryBlock);
-        blockSaver.saveSummaryMeasures(context, fileBlocks, sonarFile);
-        verify(context,times(1)).saveMeasure(any(Resource.class),eq(CoreMetrics.UNCOVERED_CONDITIONS),any(Double.class));
-        verify(context,times(1)).saveMeasure(any(Resource.class),eq(CoreMetrics.CONDITIONS_TO_COVER),any(Double.class));
-        verify(context,times(1)).saveMeasure(any(Resource.class),eq(CoreMetrics.BRANCH_COVERAGE),any(Double.class));
+        blockSaver.saveMeasures(context, fileBlocks, sonarFile);
+        verify(measureSaver,times(1)).saveMeasure(eq(CoreMetrics.UNCOVERED_CONDITIONS),anyDouble());
+        verify(measureSaver,times(1)).saveMeasure(eq(CoreMetrics.CONDITIONS_TO_COVER),anyDouble());
+        verify(measureSaver,times(1)).saveMeasure(eq(CoreMetrics.BRANCH_COVERAGE),anyDouble());
     }
     
-    @Test
-    public void saveLineMeasures_ShouldSaveTwo() {
-        BlockMeasureSaver blockSaver = new UnitTestBlockSaver();
-        when(fileBlocks.getBlocks()).thenReturn(new ArrayList<BlockModel>());
-        blockSaver.saveLineMeasures(context, fileBlocks, sonarFile);
-        verify(context,times(2)).saveMeasure(any(Resource.class),any(Measure.class));
-    }
+
     
     @Test
-    public void saveLineMeasuresOneBlock_ShouldSaveTwo() {
-        BlockMeasureSaver blockSaver = new UnitTestBlockSaver();
+    public void saveLineMeasuresOneBlock_ShouldSaveTwoLineMeasures() {
+        BlockMeasureSaver blockSaver = createTestBlockSaver();
         List<BlockModel> blocks = new ArrayList<BlockModel>() ;
         BlockModel block = new BlockModel();
         block.setNotCovered(10);
         block.setCovered(0);
         blocks.add(block);
+        BlockModel summaryBlock = new BlockModel();
+        when(fileBlocks.getSummaryBlock()).thenReturn(summaryBlock);
         when(fileBlocks.getBlocks()).thenReturn(blocks);
-        blockSaver.saveLineMeasures(context, fileBlocks, sonarFile);
-        verify(context,times(2)).saveMeasure(any(Resource.class),any(Measure.class));
+        blockSaver.saveMeasures(context, fileBlocks, sonarFile);
+        verify(measureSaver,times(2)).saveMeasure(any(Measure.class));
+    }
+    
+    private UnitTestBlockSaver createTestBlockSaver() {
+        return UnitTestBlockSaver.create(measureSaver);
     }
 }
 

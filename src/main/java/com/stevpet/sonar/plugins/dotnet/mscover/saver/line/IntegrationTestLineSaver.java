@@ -19,8 +19,20 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceLine;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
 public class IntegrationTestLineSaver implements LineMeasureSaver {
+    
+    private MeasureSaver measureSaver;
+
+
+    private IntegrationTestLineSaver(MeasureSaver measureSaver) {
+        this.measureSaver = measureSaver ;
+    }
+    
+    public static IntegrationTestLineSaver create(MeasureSaver measureSaver) {
+        return new IntegrationTestLineSaver(measureSaver);
+    }
     private static final Logger LOG = LoggerFactory
             .getLogger(IntegrationTestLineSaver.class);
     
@@ -28,25 +40,18 @@ public class IntegrationTestLineSaver implements LineMeasureSaver {
             CoreMetrics.IT_COVERAGE_LINE_HITS_DATA);
     
 
-    public void saveSummaryMeasures(SensorContext context,
-            FileCoverage coverageData, Resource resource) {
-        double coverage = coverageData.getCoverage();
-        LOG.debug("MsCover resource       " + resource.getKey());
-        LOG.debug("MsCover coverage       " + coverage);
-        LOG.debug("MsCover lines to cover " + coverageData.getCountLines());
-        LOG.debug("MsCover covered lines  " + coverageData.getCoveredLines());
-        context.saveMeasure(resource, CoreMetrics.IT_LINES_TO_COVER,
-                (double) coverageData.getCountLines());
+    public void saveMeasures(FileCoverage coverageData, java.io.File file) {
 
-        context.saveMeasure(
-                resource,
-                CoreMetrics.IT_UNCOVERED_LINES,
-                (double) coverageData.getCountLines()
+        double coverage = coverageData.getCoverage();
+
+        measureSaver.saveMeasure(CoreMetrics.IT_LINES_TO_COVER,(double) coverageData.getCountLines());
+
+        measureSaver.saveMeasure(CoreMetrics.IT_UNCOVERED_LINES,(double) coverageData.getCountLines()
                         - coverageData.getCoveredLines());
-        context.saveMeasure(resource, CoreMetrics.IT_COVERAGE,
-                convertPercentage(coverage));
-        context.saveMeasure(resource, CoreMetrics.IT_LINE_COVERAGE,
-                convertPercentage(coverage));
+        measureSaver.saveMeasure(CoreMetrics.IT_COVERAGE,convertPercentage(coverage));
+        measureSaver.saveMeasure(CoreMetrics.IT_LINE_COVERAGE,convertPercentage(coverage));
+        Measure lineMeasures=getHitData(coverageData);
+        measureSaver.saveMeasure(lineMeasures);
     }
 
     /*
@@ -68,6 +73,8 @@ public class IntegrationTestLineSaver implements LineMeasureSaver {
     protected double convertPercentage(Number percentage) {
         return ParsingUtils.scaleValue(percentage.doubleValue() * 100.0);
     }
+
+
 
 
 }

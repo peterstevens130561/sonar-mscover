@@ -57,26 +57,18 @@ public class BaseBlockSaver  implements BlockSaver {
     public void save() {
         for (FileBlocks fileBlocks: fileBlocksRegistry.values()) {
             String fileID = fileBlocks.getFileId();
-            org.sonar.api.resources.File sonarFile = getSonarFile(fileID);
-            if(sonarFile==null) {
-                continue;
-            }
-
-            blockMeasureSaver.saveSummaryMeasures(context, fileBlocks, sonarFile);
-            blockMeasureSaver.saveLineMeasures(context, fileBlocks,sonarFile);
+            File sonarFile = getSonarFile(fileID);
+            blockMeasureSaver.saveMeasures(context, fileBlocks, sonarFile);
         }
 
     }
     
     
-    public org.sonar.api.resources.File getSonarFile(String fileID) {
+    public File getSonarFile(String fileID) {
         String coveragePath = sourceFileNamesRegistry.getSourceFileName(fileID);
         
         File file = sourceFilePathHelper.getCanonicalFile(coveragePath);
-        if(file == null) {
-            return null;
-        }
-        return resourceMediator.getSonarFileResource(file);
+        return file;
     }
 
   

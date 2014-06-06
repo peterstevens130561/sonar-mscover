@@ -36,6 +36,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,14 +73,11 @@ public class IntegrationTestCoverSensor implements Sensor {
 
     public void analyse(Project project, SensorContext sensorContext) {
         // TODO Auto-generated method stub
-        ResourceMediator resourceMediator = ResourceMediator.create(sensorContext, project);
-        DateFilter dateFilter = DateFilterFactory.createCutOffDateFilter(timeMachine, propertiesHelper);
-        resourceMediator.setDateFilter(dateFilter);
-        ResourceFilter fileFilter = ResourceFilterFactory.createAntPatternResourceFilter(propertiesHelper);
-        resourceMediator.setResourceFilter(fileFilter);
-        LineMeasureSaver lineSaver=new IntegrationTestLineSaver();
+        ResourceMediator resourceMediator = ResourceMediator.createWithFilters(sensorContext, project, timeMachine, propertiesHelper);
+        MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
+        LineMeasureSaver lineSaver=IntegrationTestLineSaver.create(measureSaver);
         coverageHelper.setLineSaver(lineSaver);
-        BlockMeasureSaver blockMeasureSaver = new IntegrationTestBlockSaver();
+        BlockMeasureSaver blockMeasureSaver = IntegrationTestBlockSaver.create(measureSaver);
         BlockSaver blockSaver = new BaseBlockSaver(sensorContext, resourceMediator, blockMeasureSaver);
         coverageHelper.setBlockSaver(blockSaver);
         String coveragePath=propertiesHelper.getIntegrationTestsPath();

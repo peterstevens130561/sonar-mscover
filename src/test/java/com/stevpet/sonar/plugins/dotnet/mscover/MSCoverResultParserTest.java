@@ -42,6 +42,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
 
 import org.apache.commons.lang.StringUtils;
@@ -211,20 +213,20 @@ public class MSCoverResultParserTest {
         when(fs.getBasedir()).thenReturn(projectDir);
         when(fs.getSourceCharset()).thenReturn(Charset.forName("UTF-8"));
         
+        MeasureSaver measureSaver = mock(SonarMeasureSaver.class);
         //Act
         CoverageHelper coverageHelper = CoverageHelper.create(propertiesHelper, microsoftWindowsEnvironment);
         
         LineMeasureSaver lineSaver = mock(IntegrationTestLineSaver.class);
         coverageHelper.setLineSaver(lineSaver);
         ResourceMediator resourceMediator = ResourceMediator.create(sensorContext,project);
-        BlockMeasureSaver blockMeasureSaver = new IntegrationTestBlockSaver();
+        BlockMeasureSaver blockMeasureSaver = IntegrationTestBlockSaver.create(measureSaver);
         BlockSaver blockSaver = new BaseBlockSaver(sensorContext,resourceMediator, blockMeasureSaver) ;
         coverageHelper.setBlockSaver(blockSaver);
         
         coverageHelper.analyse(project, sensorContext, file.getCanonicalPath(),resourceMediator);
         //Assert ?
-        verify(lineSaver,times(8)).saveSummaryMeasures(any(SensorContext.class), any(FileCoverage.class), any(Resource.class));
-        verify(lineSaver,times(8)).getHitData(any(FileCoverage.class));
+        verify(lineSaver,times(8)).saveMeasures(any(FileCoverage.class), any(File.class));
   }
 
   private CoverageRegistry parseFile(File file) throws FactoryConfigurationError,

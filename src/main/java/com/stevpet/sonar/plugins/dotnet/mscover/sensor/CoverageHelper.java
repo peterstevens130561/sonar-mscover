@@ -234,15 +234,8 @@ public class CoverageHelper {
     public void saveLineMeasures(CoverageRegistry registry) {
 
         for (FileCoverage fileCoverage : registry.getFileCoverages()) {
-            org.sonar.api.resources.File sonarFile = getSonarFile(fileCoverage);
-            if(sonarFile==null) {
-                continue;
-            }
-            LOG.debug("- Saving coverage information for file {}",
-                    sonarFile.getKey());
-            lineSaver.saveSummaryMeasures(sensorContext, fileCoverage, sonarFile);
-            Measure lineMeasures=lineSaver.getHitData(fileCoverage);
-            sensorContext.saveMeasure(sonarFile,lineMeasures);
+            File file = fileCoverage.getFile();
+            lineSaver.saveMeasures(fileCoverage, file);
         }
 
     }

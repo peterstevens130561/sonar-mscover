@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.Measure;
+import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Resource;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
@@ -43,6 +44,12 @@ public class SonarMeasureSaver implements MeasureSaver {
         if(resource !=null) {
           sensorContext.saveMeasure(resource, measure);
         }
+    }
+
+    public void saveMeasure(Metric metric, double value) {
+        if(resource !=null) {
+            sensorContext.saveMeasure(metric,value);
+          } 
     }
     
 }

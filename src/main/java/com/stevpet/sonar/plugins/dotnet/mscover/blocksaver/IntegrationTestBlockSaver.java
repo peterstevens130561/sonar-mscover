@@ -1,5 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.blocksaver;
 
+import java.io.File;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
@@ -14,56 +16,52 @@ import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.BlockModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
 public class IntegrationTestBlockSaver implements BlockMeasureSaver {
+    
     private static final Logger LOG = LoggerFactory
             .getLogger(IntegrationTestBlockSaver.class);
     
-   
+    private MeasureSaver measureSaver ;
+    private IntegrationTestBlockSaver(MeasureSaver measureSaver) {
+        this.measureSaver = measureSaver ;
+    }
+    
+    public static IntegrationTestBlockSaver create(MeasureSaver measureSaver) {
+        return new IntegrationTestBlockSaver(measureSaver);
+    }
 
     
 
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver#saveSummaryMeasures(org.sonar.api.batch.SensorContext, com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks, org.sonar.api.resources.Resource)
      */
-    public void saveSummaryMeasures(SensorContext context, FileBlocks fileBlocks,
-            Resource<?> resource) {
+    public void saveMeasures(SensorContext context, FileBlocks fileBlocks,
+            File file) {
+        measureSaver.setFile(file);
         BlockModel methodBlock=fileBlocks.getSummaryBlock();
 
-        LOG.debug("MsCover resource       " + resource.getKey());
-        LOG.debug("MsCover coverage       " + BaseBlockSaver.getCoverage(methodBlock));
-        LOG.debug("MsCover lines to cover " + methodBlock.getBlocks());
-        LOG.debug("MsCover covered lines  " + methodBlock.getCovered());
+        measureSaver.saveMeasure(CoreMetrics.IT_UNCOVERED_CONDITIONS,(double) methodBlock.getNotCovered());
+        measureSaver.saveMeasure(CoreMetrics.IT_CONDITIONS_TO_COVER,(double)methodBlock.getBlocks());
+        measureSaver.saveMeasure(CoreMetrics.IT_BRANCH_COVERAGE,BaseBlockSaver.getCoverage(methodBlock));
 
-        context.saveMeasure(resource,CoreMetrics.IT_UNCOVERED_CONDITIONS,(double) methodBlock.getNotCovered());
-        context.saveMeasure(resource, CoreMetrics.IT_CONDITIONS_TO_COVER,(double)methodBlock.getBlocks());
-        context.saveMeasure(resource, CoreMetrics.IT_BRANCH_COVERAGE,BaseBlockSaver.getCoverage(methodBlock));
-    }
-
-    /*
-     * Generates a measure that contains the visits of each line of the source
-     * file.
-     */
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver#saveLineMeasures(org.sonar.api.batch.SensorContext, com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks, org.sonar.api.resources.Resource)
-     */
-    public void saveLineMeasures(SensorContext context, FileBlocks fileMethodBlocks,Resource<?> resource) {
          PropertiesBuilder<String, Integer> lineConditionsBuilder = new PropertiesBuilder<String, Integer>(
                 CoreMetrics.IT_CONDITIONS_BY_LINE);
         PropertiesBuilder<String, Integer> lineCoveredConditionsBuilder = new PropertiesBuilder<String, Integer>(
                 CoreMetrics.IT_COVERED_CONDITIONS_BY_LINE);
         lineConditionsBuilder.clear();
         lineCoveredConditionsBuilder.clear();
-        for (BlockModel methodBlocks : fileMethodBlocks.getBlocks()) {
+        for (BlockModel methodBlocks : fileBlocks.getBlocks()) {
             int lineNumber = methodBlocks.getLine();
             int covered =methodBlocks.getCovered();
             lineConditionsBuilder.add(Integer.toString(lineNumber), methodBlocks.getBlocks());
             lineCoveredConditionsBuilder.add(Integer.toString(lineNumber), covered);
         }
         Measure lineConditionsMeasure= lineConditionsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
-        context.saveMeasure(resource,lineConditionsMeasure);
+        measureSaver.saveMeasure(lineConditionsMeasure);
         Measure lineCoveredConditionsMeasure=lineCoveredConditionsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
-        context.saveMeasure(resource,lineCoveredConditionsMeasure);
+        measureSaver.saveMeasure(lineCoveredConditionsMeasure);
     }
 
 }
