@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.stevpet.sonar.plugins.dotnet.mscover.sonarseams;
+package com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.sonarmeasuresaver;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -16,12 +16,14 @@ import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.Resource;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 
 /**
  * @author stevpet
  *
  */
-public class SonarMeasureSaverSaveMeasureTest {
+public class SaveMeasureTest {
 
     private ResourceMediator resourceMediator;
     private SensorContext sensorContext;
@@ -37,7 +39,7 @@ public class SonarMeasureSaverSaveMeasureTest {
         sensorContext = mock(SensorContext.class);  
         
         measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
-        measureSaver.setFile(new File("somefile"));
+
     }
 
     /**
@@ -49,6 +51,7 @@ public class SonarMeasureSaverSaveMeasureTest {
         org.sonar.api.resources.File resource=new org.sonar.api.resources.File("somefile");
         when(resourceMediator.getSonarFileResource(any(File.class))).thenReturn(resource);
         Measure measure = new Measure();
+        measureSaver.setFile(new File("somefile"));
         measureSaver.saveMeasure(measure);
         verify(sensorContext,times(1)).saveMeasure(eq(resource),eq(measure));
     }
@@ -57,8 +60,9 @@ public class SonarMeasureSaverSaveMeasureTest {
     public void invalidResource_shouldNotSave() {
         when(resourceMediator.getSonarFileResource(any(File.class))).thenReturn(null);
         Measure measure = new Measure();
+        org.sonar.api.resources.File resource=new org.sonar.api.resources.File("somefile");
+        measureSaver.setFile(new File("somefile"));
         measureSaver.saveMeasure(measure);
-        verify(sensorContext,times(0)).saveMeasure(eq(measure));
+        verify(sensorContext,times(0)).saveMeasure(eq(resource),eq(measure));
     }
-
 }

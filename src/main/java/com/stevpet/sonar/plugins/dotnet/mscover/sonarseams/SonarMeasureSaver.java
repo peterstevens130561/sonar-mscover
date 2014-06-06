@@ -28,12 +28,6 @@ public class SonarMeasureSaver implements MeasureSaver {
         return new SonarMeasureSaver(sensorContext,resourceMediator);
     }
     
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver#setResourcMediator(com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator)
-     */
-    public void setResourceMediator(ResourceMediator resourceMediator) {
-        this.resourceMediator = resourceMediator;
-    }
     
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver#setFile(java.io.File)
