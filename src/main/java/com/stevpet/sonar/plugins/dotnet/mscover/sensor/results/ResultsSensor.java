@@ -92,7 +92,7 @@ public class ResultsSensor implements Sensor {
             BlockMeasureSaver blockMeasureSaver = UnitTestBlockSaver.create(measureSaver);
             BlockSaver blockSaver = new BaseBlockSaver(sensorContext, resourceMediator, blockMeasureSaver);
             coverageHelper.setBlockSaver(blockSaver);
-            coverageHelper.analyse(project,sensorContext,coveragePath,resourceMediator);
+            coverageHelper.analyse(project,coveragePath);
         }
     }
 

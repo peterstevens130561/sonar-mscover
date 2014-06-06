@@ -13,7 +13,6 @@ import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.Project;
@@ -38,7 +37,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
 
 public class CoverageHelper {
@@ -50,10 +48,7 @@ public class CoverageHelper {
     private LineMeasureSaver lineSaver;
     private BlockSaver blockSaver;
     private Project project;
-    private SensorContext sensorContext;
     private String path;
-    private ResourceMediator resourceMediator;
-
     /**
      * initial instantiation of the helper. Do not forget to invoke
      * setLineSaver & setBlockSaver.
@@ -107,11 +102,9 @@ public class CoverageHelper {
     /**
      * performs the analysis
      */
-    public void analyse(Project project, SensorContext sensorContext,String path,ResourceMediator resourceMediator) {
+    public void analyse(Project project, String path) {
         this.project = project;
-        this.sensorContext = sensorContext;
         this.path = path;
-        this.resourceMediator=resourceMediator;
 
         try {
             tryAnalyse();
@@ -240,11 +233,4 @@ public class CoverageHelper {
 
     }
     
-    public org.sonar.api.resources.File getSonarFile(FileCoverage fileCoverage) {
-        File file = fileCoverage.getFile();
-        if (file == null) {
-            return null;
-        }
-        return resourceMediator.getSonarFileResource(file);
-    }
 }

@@ -81,7 +81,7 @@ public class IntegrationTestCoverSensor implements Sensor {
         BlockSaver blockSaver = new BaseBlockSaver(sensorContext, resourceMediator, blockMeasureSaver);
         coverageHelper.setBlockSaver(blockSaver);
         String coveragePath=propertiesHelper.getIntegrationTestsPath();
-        coverageHelper.analyse(project,sensorContext,coveragePath,resourceMediator);
+        coverageHelper.analyse(project,coveragePath);
     }
 
 }

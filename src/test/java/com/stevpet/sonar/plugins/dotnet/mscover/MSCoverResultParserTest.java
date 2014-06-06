@@ -224,7 +224,7 @@ public class MSCoverResultParserTest {
         BlockSaver blockSaver = new BaseBlockSaver(sensorContext,resourceMediator, blockMeasureSaver) ;
         coverageHelper.setBlockSaver(blockSaver);
         
-        coverageHelper.analyse(project, sensorContext, file.getCanonicalPath(),resourceMediator);
+        coverageHelper.analyse(project, file.getCanonicalPath());
         //Assert ?
         verify(lineSaver,times(8)).saveMeasures(any(FileCoverage.class), any(File.class));
   }
