@@ -218,7 +218,7 @@ public class MSCoverResultParserTest {
         coverageHelper.setLineSaver(lineSaver);
         ResourceMediator resourceMediator = ResourceMediator.create(sensorContext,project);
         BlockMeasureSaver blockMeasureSaver = new IntegrationTestBlockSaver();
-        BlockSaver blockSaver = new BaseBlockSaver(sensorContext,project,resourceMediator, blockMeasureSaver) ;
+        BlockSaver blockSaver = new BaseBlockSaver(sensorContext,resourceMediator, blockMeasureSaver) ;
         coverageHelper.setBlockSaver(blockSaver);
         
         coverageHelper.analyse(project, sensorContext, file.getCanonicalPath(),resourceMediator);

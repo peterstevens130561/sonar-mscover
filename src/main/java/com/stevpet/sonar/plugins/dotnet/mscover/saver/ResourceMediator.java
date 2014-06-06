@@ -7,11 +7,13 @@ import java.nio.charset.Charset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.SonarException;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.io.Files;
+import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.helpers.SonarResourceHelper;
@@ -39,6 +41,14 @@ public class ResourceMediator {
         return new ResourceMediator(context,project);
     }
 
+    public static ResourceMediator createWithFilters(
+            SensorContext sensorContext, Project project,TimeMachine timeMachine,
+            PropertiesHelper propertiesHelper) {
+        ResourceMediator resourceMediator = create(sensorContext,project);
+        resourceMediator.setDateFilter(DateFilterFactory.createCutOffDateFilter(timeMachine, propertiesHelper));
+        resourceMediator.setResourceFilter(ResourceFilterFactory.createAntPatternResourceFilter(propertiesHelper));
+        return null;
+    }
     private void setCharset(Project project) {
         String charsetName;
         if(project==null) {
@@ -117,5 +127,7 @@ public class ResourceMediator {
     protected String getQualifier() {
         return "FIL";
     }
+
+
 
 }

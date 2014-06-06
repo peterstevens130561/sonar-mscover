@@ -28,7 +28,7 @@ public class BaseBlockSaverTest {
     }
     @Test
     public void CreateSaver_WithNullParms_ShouldCreate() {
-        BlockSaver saver = new DummyBaseBlockSaver(null,null);
+        BlockSaver saver = new DummyBaseBlockSaver(null);
     }
     
     
@@ -47,7 +47,7 @@ public class BaseBlockSaverTest {
         sourceFileNamesRegistry.add("1", sourceFileNamesModel);     
         SourceFilePathHelper sourceFilePathHelper = new SourceFilePathHelper();
         sourceFilePathHelper.setProjectPath("d");
-        BaseBlockSaver saver = new DummyBaseBlockSaver(null,null);
+        BaseBlockSaver saver = new DummyBaseBlockSaver(null);
         saver.setFileBlocksRegistry(fileBlocksRegistry);
         saver.setSourceFileNamesRegistry(sourceFileNamesRegistry);
         saver.setSourceFilePathHelper(sourceFilePathHelper);
@@ -69,7 +69,7 @@ public class BaseBlockSaverTest {
         sourceFileNamesRegistry.add("1", sourceFileNamesModel);     
         SourceFilePathHelper sourceFilePathHelper = new SourceFilePathHelper();
         sourceFilePathHelper.setProjectPath("a");
-        BaseBlockSaver saver = new DummyBaseBlockSaver(null,null);
+        BaseBlockSaver saver = new DummyBaseBlockSaver(null);
         saver.setFileBlocksRegistry(fileBlocksRegistry);
         saver.setSourceFileNamesRegistry(sourceFileNamesRegistry);
         saver.setSourceFilePathHelper(sourceFilePathHelper);
@@ -79,8 +79,8 @@ public class BaseBlockSaverTest {
     
     private class DummyBaseBlockSaver extends BaseBlockSaver {
 
-        public DummyBaseBlockSaver(SensorContext context, Project project) {
-            super(context, project,null,null);
+        public DummyBaseBlockSaver(SensorContext context) {
+            super(context, null,null);
 
         }
 

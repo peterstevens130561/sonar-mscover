@@ -21,7 +21,7 @@ public class BaseBlockSaver  implements BlockSaver {
     private SensorContext context;
     private ResourceMediator resourceMediator ;
     private BlockMeasureSaver blockMeasureSaver;
-    public BaseBlockSaver(SensorContext context, Project project,ResourceMediator resourceMediator,BlockMeasureSaver blockMeasureSaver) {
+    public BaseBlockSaver(SensorContext context, ResourceMediator resourceMediator,BlockMeasureSaver blockMeasureSaver) {
         this.context = context;
         this.resourceMediator = resourceMediator;
         this.blockMeasureSaver = blockMeasureSaver;
