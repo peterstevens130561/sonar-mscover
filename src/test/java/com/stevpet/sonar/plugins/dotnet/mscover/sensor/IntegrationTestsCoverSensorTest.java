@@ -123,8 +123,8 @@ public class IntegrationTestsCoverSensorTest {
         File file = mock(File.class);
         saver.saveMeasures(coverageData, file);
         //Assert
-        verify(measureSaver,times(1)).saveMeasure(any(Measure.class));
-        verify(measureSaver,times(5)).saveMeasure(any(Metric.class),anyDouble());
+        verify(measureSaver,times(1)).saveFileMeasure(any(Measure.class));
+        verify(measureSaver,times(5)).saveFileMeasure(any(Metric.class),anyDouble());
         
     }
     private class IntegrationTestsCoverSensorStub extends IntegrationTestCoverSensor {

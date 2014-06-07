@@ -32,9 +32,9 @@ public class IntegrationTestBlockSaver implements BlockMeasureSaver {
         measureSaver.setFile(file);
         BlockModel methodBlock=fileBlocks.getSummaryBlock();
 
-        measureSaver.saveMeasure(CoreMetrics.IT_UNCOVERED_CONDITIONS,(double) methodBlock.getNotCovered());
-        measureSaver.saveMeasure(CoreMetrics.IT_CONDITIONS_TO_COVER,(double)methodBlock.getBlocks());
-        measureSaver.saveMeasure(CoreMetrics.IT_BRANCH_COVERAGE,BaseBlockSaver.getCoverage(methodBlock));
+        measureSaver.saveFileMeasure(CoreMetrics.IT_UNCOVERED_CONDITIONS,(double) methodBlock.getNotCovered());
+        measureSaver.saveFileMeasure(CoreMetrics.IT_CONDITIONS_TO_COVER,(double)methodBlock.getBlocks());
+        measureSaver.saveFileMeasure(CoreMetrics.IT_BRANCH_COVERAGE,BaseBlockSaver.getCoverage(methodBlock));
 
          PropertiesBuilder<String, Integer> lineConditionsBuilder = new PropertiesBuilder<String, Integer>(
                 CoreMetrics.IT_CONDITIONS_BY_LINE);
@@ -49,9 +49,9 @@ public class IntegrationTestBlockSaver implements BlockMeasureSaver {
             lineCoveredConditionsBuilder.add(Integer.toString(lineNumber), covered);
         }
         Measure lineConditionsMeasure= lineConditionsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
-        measureSaver.saveMeasure(lineConditionsMeasure);
+        measureSaver.saveFileMeasure(lineConditionsMeasure);
         Measure lineCoveredConditionsMeasure=lineCoveredConditionsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
-        measureSaver.saveMeasure(lineCoveredConditionsMeasure);
+        measureSaver.saveFileMeasure(lineCoveredConditionsMeasure);
     }
 
 }

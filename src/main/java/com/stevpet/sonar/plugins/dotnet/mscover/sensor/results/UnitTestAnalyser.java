@@ -12,6 +12,8 @@ import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.ConcreteParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodObserver;
@@ -24,39 +26,36 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
 public class UnitTestAnalyser {
 
     static final Logger LOG = LoggerFactory
             .getLogger(UnitTestAnalyser.class);
-    private UnitTestResultRegistry unitTestRegistry;
-    private ResultsModel resultsModel;
+    private UnitTestRegistry registry;
     private UnitTestFilesResultRegistry filesResultRegistry;
     private SourceFileNamesRegistry sourceFileNamesRegistry;
-    
-    private ResultsObserver unitTestSummaryResultsObserver;
-    private UnitTestResultObserver unitTestResultObserver;
-    private UnitTestObserver unitTestObserver;
-    private MethodObserver methodObserver;
+
     private MethodToSourceFileIdMap map;
-    private SourceFileNamesObserver sourceFileNamesObserver;
     private SensorContext context;
     private Project project;
+    private ParserFactory factory = new ConcreteParserFactory();
+    private MeasureSaver measureSaver;
     
     
-    public UnitTestAnalyser(Project project, SensorContext context) {
+    public UnitTestAnalyser(Project project, SensorContext context,MeasureSaver measureSaver) {
         this.project = project;
         this.context = context;
+        this.measureSaver = measureSaver;
     }
     
     public void analyseResults(String coveragePath, String resultsPath) {
         createRegistries(); 
-        createObservers();
-        wireRegistriesIntoObservers();
         
         parseUnitTestResultsFile(resultsPath);      
         parseCoverageFile(coveragePath);
@@ -65,12 +64,11 @@ public class UnitTestAnalyser {
         saveUnitTests();
     }
     private void parseCoverageFile(String coverageFileName) {
-        CoverageParserSubject coverageParser = new CoverageParserSubject();
-        registerCoverageObservers(coverageParser);
+        ParserSubject parser = factory.createFileNamesParser(map, sourceFileNamesRegistry);
         
         LOG.info("MSCover Reading " + coverageFileName );
         File coverageFile = new File(coverageFileName);
-        coverageParser.parseFile(coverageFile);
+        parser.parseFile(coverageFile);
     }
 
     private void saveUnitTests() {
@@ -78,10 +76,9 @@ public class UnitTestAnalyser {
         String projectDirectory = getProjectDirectory(project);
         sourceFilePathHelper.setProjectPath(projectDirectory);
         
-        filesResultRegistry.mapResults(unitTestRegistry, map);
-        ResourceMediator resourceMediator = ResourceMediator.createWithEmptyFilters(context, project);
-
-        
+        UnitTestResultRegistry unitTestResultRegistry = registry.getResults();
+        filesResultRegistry.mapResults(unitTestResultRegistry, map);
+        ResourceMediator resourceMediator = ResourceMediator.createWithEmptyFilters(context, project);        
         TestSaver testSaver = new TestSaver(context,resourceMediator);
 
         testSaver.setUnitTestFilesResultRegistry(filesResultRegistry);
@@ -104,58 +101,29 @@ public class UnitTestAnalyser {
     }
 
     private void saveSummaryTestResults() {
+        ResultsModel resultsModel = registry.getSummary();
         LOG.info("ResultsSensor: {}",resultsModel.getExecutedTests());
-        context.saveMeasure(CoreMetrics.TESTS,(double)resultsModel.getExecutedTests());
-        context.saveMeasure(CoreMetrics.TEST_FAILURES,(double)resultsModel.getFailedTests());
-        context.saveMeasure(CoreMetrics.TEST_ERRORS,(double)resultsModel.getErroredTests());
+        measureSaver.saveSummaryMeasure(CoreMetrics.TESTS,(double)resultsModel.getExecutedTests());
+        measureSaver.saveSummaryMeasure(CoreMetrics.TEST_FAILURES,(double)resultsModel.getFailedTests());
+        measureSaver.saveSummaryMeasure(CoreMetrics.TEST_ERRORS,(double)resultsModel.getErroredTests());
     }
 
     private void parseUnitTestResultsFile(String resultsPath) {
-        ParserSubject resultsParser = new ResultsParserSubject();    
-        registerResultsObservers(resultsParser);
+
+        ParserSubject resultsParser = factory.createUnitTestResultsParser(registry); 
         
         File file = new File(resultsPath);
         if(!file.exists()) {
             throw new SonarException("Can't open " + resultsPath );
         }
-        // just the totals
         resultsParser.parseFile(file);
     }
 
     private void createRegistries() {
-        resultsModel = new ResultsModel();
-        unitTestRegistry = new UnitTestResultRegistry();
+        registry = new UnitTestRegistry();
         map = new MethodToSourceFileIdMap();
         filesResultRegistry = new UnitTestFilesResultRegistry();
         sourceFileNamesRegistry = new SourceFileNamesRegistry();
     }
     
-    private void createObservers() {
-        unitTestSummaryResultsObserver = new ResultsObserver();
-        unitTestResultObserver = new UnitTestResultObserver();
-        unitTestObserver = new UnitTestObserver();
-        methodObserver = new MethodObserver();
-        sourceFileNamesObserver = new SourceFileNamesObserver();
-    }
-    
-    private void registerCoverageObservers(CoverageParserSubject coverageParser) {
-        coverageParser.registerObserver(methodObserver);
-        coverageParser.registerObserver(sourceFileNamesObserver);
-    }
-
-    private void registerResultsObservers(ParserSubject resultsParser) {
-        resultsParser.registerObserver(unitTestResultObserver);
-        resultsParser.registerObserver(unitTestObserver);
-        resultsParser.registerObserver(unitTestSummaryResultsObserver);
-    }
-
-    private void wireRegistriesIntoObservers() {
-        unitTestSummaryResultsObserver.setRegistry(resultsModel);
-        unitTestResultObserver.setRegistry(unitTestRegistry);
-        unitTestObserver.setRegistry(unitTestRegistry);
-        methodObserver.setRegistry(map);
-        sourceFileNamesObserver.setRegistry(sourceFileNamesRegistry);
-    }
-
-
 }

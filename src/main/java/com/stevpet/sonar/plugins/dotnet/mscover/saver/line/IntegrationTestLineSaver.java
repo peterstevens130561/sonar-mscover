@@ -37,14 +37,14 @@ public class IntegrationTestLineSaver implements LineMeasureSaver {
 
         double coverage = coverageData.getCoverage();
 
-        measureSaver.saveMeasure(CoreMetrics.IT_LINES_TO_COVER,(double) coverageData.getCountLines());
+        measureSaver.saveFileMeasure(CoreMetrics.IT_LINES_TO_COVER,(double) coverageData.getCountLines());
 
-        measureSaver.saveMeasure(CoreMetrics.IT_UNCOVERED_LINES,(double) coverageData.getCountLines()
+        measureSaver.saveFileMeasure(CoreMetrics.IT_UNCOVERED_LINES,(double) coverageData.getCountLines()
                         - coverageData.getCoveredLines());
-        measureSaver.saveMeasure(CoreMetrics.IT_COVERAGE,convertPercentage(coverage));
-        measureSaver.saveMeasure(CoreMetrics.IT_LINE_COVERAGE,convertPercentage(coverage));
+        measureSaver.saveFileMeasure(CoreMetrics.IT_COVERAGE,convertPercentage(coverage));
+        measureSaver.saveFileMeasure(CoreMetrics.IT_LINE_COVERAGE,convertPercentage(coverage));
         Measure lineMeasures=getHitData(coverageData);
-        measureSaver.saveMeasure(lineMeasures);
+        measureSaver.saveFileMeasure(lineMeasures);
     }
 
     /*

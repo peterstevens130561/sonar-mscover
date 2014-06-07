@@ -33,6 +33,7 @@ public class ResultsSensor implements Sensor {
     private TimeMachine timeMachine;
     private VsTestEnvironment vsTestEnvironment;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
+
    
     
     public ResultsSensor(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,Settings settings,TimeMachine timeMachine,ModuleFileSystem moduleFileSystem,VsTestEnvironment vsTestEnvironment) {
@@ -72,13 +73,13 @@ public class ResultsSensor implements Sensor {
             coveragePath = propertiesHelper.getUnitTestCoveragePath();
             resultsPath=propertiesHelper.getUnitTestResultsPath();
         }
-        UnitTestAnalyser analyser = new UnitTestAnalyser(project,sensorContext);
+        
+        ResourceMediator resourceMediator = ResourceMediator.createWithFilters(sensorContext,project,timeMachine,propertiesHelper);            
+        MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
+
+        UnitTestAnalyser analyser = new UnitTestAnalyser(project,sensorContext,measureSaver);
         analyser.analyseResults(coveragePath, resultsPath);
         if(unitTestRunner.shouldRun()) {
-
-            ResourceMediator resourceMediator = ResourceMediator.createWithFilters(sensorContext,project,timeMachine,propertiesHelper);            
-            MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
-
             CoverageHelper coverageHelper = CoverageHelper.create(propertiesHelper,microsoftWindowsEnvironment);
             coverageHelper.injectUnitSavers(measureSaver);
             coverageHelper.analyse(project,coveragePath);

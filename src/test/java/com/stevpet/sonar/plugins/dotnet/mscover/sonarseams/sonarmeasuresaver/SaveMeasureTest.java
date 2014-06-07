@@ -54,7 +54,7 @@ public class SaveMeasureTest {
         when(resourceMediator.getSonarFileResource(any(File.class))).thenReturn(resource);
         Measure measure = new Measure();
         measureSaver.setFile(new File("somefile"));
-        measureSaver.saveMeasure(measure);
+        measureSaver.saveFileMeasure(measure);
         verify(sensorContext,times(1)).saveMeasure(eq(resource),eq(measure));
     }
     
@@ -64,7 +64,7 @@ public class SaveMeasureTest {
         Measure measure = new Measure();
         org.sonar.api.resources.File resource=new org.sonar.api.resources.File("somefile");
         measureSaver.setFile(new File("somefile"));
-        measureSaver.saveMeasure(measure);
+        measureSaver.saveFileMeasure(measure);
         verify(sensorContext,times(0)).saveMeasure(eq(resource),eq(measure));
     }
 }

@@ -40,16 +40,20 @@ public class SonarMeasureSaver implements MeasureSaver {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver#saveMeasure(org.sonar.api.measures.Measure)
      */
-    public void saveMeasure(Measure measure) {
+    public void saveFileMeasure(Measure measure) {
         if(resource !=null) {
           sensorContext.saveMeasure(resource, measure);
         }
     }
 
-    public void saveMeasure(Metric metric, double value) {
+    public void saveFileMeasure(Metric metric, double value) {
         if(resource !=null) {
-            sensorContext.saveMeasure(metric,value);
+            sensorContext.saveMeasure(resource,metric,value);
           } 
+    }
+
+    public void saveSummaryMeasure(Metric metric, double value) {
+        sensorContext.saveMeasure(metric,value);
     }
     
 }

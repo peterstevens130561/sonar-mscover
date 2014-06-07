@@ -25,8 +25,10 @@ public interface MeasureSaver {
      * if the file is to be included in the analysis then the measure will be saved
      * @param measure
      */
-    public abstract void saveMeasure(Measure measure);
+    public abstract void saveFileMeasure(Measure measure);
 
-    public abstract void saveMeasure(Metric metric, double value);
+    public abstract void saveFileMeasure(Metric metric, double value);
+
+    public abstract void saveSummaryMeasure(Metric tests, double executedTests);
 
 }

@@ -47,9 +47,9 @@ public class UnitBlockSaverTest {
         BlockModel summaryBlock = new BlockModel();
         when(fileBlocks.getSummaryBlock()).thenReturn(summaryBlock);
         blockSaver.saveMeasures(fileBlocks, sonarFile);
-        verify(measureSaver,times(1)).saveMeasure(eq(CoreMetrics.UNCOVERED_CONDITIONS),anyDouble());
-        verify(measureSaver,times(1)).saveMeasure(eq(CoreMetrics.CONDITIONS_TO_COVER),anyDouble());
-        verify(measureSaver,times(1)).saveMeasure(eq(CoreMetrics.BRANCH_COVERAGE),anyDouble());
+        verify(measureSaver,times(1)).saveFileMeasure(eq(CoreMetrics.UNCOVERED_CONDITIONS),anyDouble());
+        verify(measureSaver,times(1)).saveFileMeasure(eq(CoreMetrics.CONDITIONS_TO_COVER),anyDouble());
+        verify(measureSaver,times(1)).saveFileMeasure(eq(CoreMetrics.BRANCH_COVERAGE),anyDouble());
     }
     
 
@@ -66,7 +66,7 @@ public class UnitBlockSaverTest {
         when(fileBlocks.getSummaryBlock()).thenReturn(summaryBlock);
         when(fileBlocks.getBlocks()).thenReturn(blocks);
         blockSaver.saveMeasures(fileBlocks, sonarFile);
-        verify(measureSaver,times(2)).saveMeasure(any(Measure.class));
+        verify(measureSaver,times(2)).saveFileMeasure(any(Measure.class));
     }
     
     private UnitTestBlockSaver createTestBlockSaver() {
