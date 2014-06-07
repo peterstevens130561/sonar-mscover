@@ -1,12 +1,19 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage;
 
+import java.io.File;
+
+import javax.xml.stream.XMLStreamException;
+
 import org.junit.Assert;
 import org.junit.Test;
+import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.BlockModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodBlocksObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 
 public class MethodBlocksObserverTest {
     //Arrange
@@ -92,5 +99,20 @@ public class MethodBlocksObserverTest {
         Assert.assertEquals(10, block.getCovered());
         Assert.assertEquals(5, block.getNotCovered());
         Assert.assertEquals(20,block.getLine());
+    }
+    
+    @Test
+    public void ParseFileWithObserver() throws XMLStreamException {
+        //Arrange
+        ParserSubject parser = new CoverageParserSubject();
+        FileBlocksRegistry registry = new FileBlocksRegistry();
+        observer.setRegistry(registry);
+        parser.registerObserver(observer);
+        
+        File file=TestUtils.getResource("mscoverage.xml");
+        //Act
+        parser.parseFile(file);
+        //Assert
+        Assert.assertEquals(8,registry.values().size());
     }
 }

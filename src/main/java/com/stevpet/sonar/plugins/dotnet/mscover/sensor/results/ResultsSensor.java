@@ -86,7 +86,7 @@ public class ResultsSensor implements Sensor {
             MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
 
             CoverageHelper coverageHelper = CoverageHelper.create(propertiesHelper,microsoftWindowsEnvironment);
-            coverageHelper.prepareUnit(measureSaver);
+            coverageHelper.injectUnitSavers(measureSaver);
             coverageHelper.analyse(project,coveragePath);
         }
     }

@@ -31,8 +31,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.SingleListenerParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.ConcreteParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodBlocksObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.ParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.SourceFileNamesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
@@ -82,7 +84,7 @@ public class CoverageHelper {
      * inject the unittest savers
      * @param measureSaver
      */
-    public void prepareUnit(MeasureSaver measureSaver) {
+    public void injectUnitSavers(MeasureSaver measureSaver) {
         LineMeasureSaver lineSaver=UnitTestLineSaver.create(measureSaver);
         BlockMeasureSaver blockMeasureSaver = UnitTestBlockSaver.create(measureSaver);
         injectSavers(lineSaver, blockMeasureSaver);  
@@ -92,7 +94,7 @@ public class CoverageHelper {
      * inject the integration test savers
      * @param measureSaver
      */
-    public void prepareIntegration(MeasureSaver measureSaver) {
+    public void inejctIntegrationSavers(MeasureSaver measureSaver) {
         LineMeasureSaver lineSaver=IntegrationTestLineSaver.create(measureSaver);
         BlockMeasureSaver blockMeasureSaver = IntegrationTestBlockSaver.create(measureSaver);
         injectSavers(lineSaver, blockMeasureSaver);        
@@ -153,14 +155,14 @@ public class CoverageHelper {
 
 
 
-        CoverageRegistry registry = new FileCoverageRegistry(projectDirectory);
+        CoverageRegistry coverageRegistry = new FileCoverageRegistry(projectDirectory);
         FileBlocksRegistry fileBlocksRegistry= new FileBlocksRegistry();
         SourceFileNamesRegistry sourceFileNamesRegistry = new SourceFileNamesRegistry();
 
-        invokeSingleListenerParser(registry, path);  
+        invokeSingleListenerParser(coverageRegistry, path);  
         invokeParserSubject(fileBlocksRegistry,sourceFileNamesRegistry,path);
         
-        saveLineMeasures(registry);
+        saveLineMeasures(coverageRegistry);
         
         blockSaver.setSourceFileNamesRegistry(sourceFileNamesRegistry);
         blockSaver.setFileBlocksRegistry(fileBlocksRegistry);
@@ -185,18 +187,10 @@ public class CoverageHelper {
      * @param sourceFileNamesRegistry - sourcefilenames
      * @param path- to coverage file
      * @throws XMLStreamException
-     */
+     */    
     private void invokeParserSubject(FileBlocksRegistry fileBlocksRegistry, SourceFileNamesRegistry sourceFileNamesRegistry,String path) throws XMLStreamException {
-        ParserSubject parserSubject = new CoverageParserSubject();
-        
-        MethodBlocksObserver methodBlocksObserver = new MethodBlocksObserver();
-        methodBlocksObserver.setRegistry(fileBlocksRegistry);
-        parserSubject.registerObserver(methodBlocksObserver);
-        
-        SourceFileNamesObserver sourceFileNamesObserver = new SourceFileNamesObserver();
-        sourceFileNamesObserver.setRegistry(sourceFileNamesRegistry);
-        parserSubject.registerObserver(sourceFileNamesObserver);
-        
+        ParserFactory parserFactory = new ConcreteParserFactory();
+        ParserSubject parserSubject = parserFactory.createCoverageParser(fileBlocksRegistry, sourceFileNamesRegistry);
         File file = getCoverageFile(path);
         parserSubject.parseFile(file);
     }

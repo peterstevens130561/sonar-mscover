@@ -9,6 +9,6 @@ public class CoverageParserSubject extends ParserSubject {
     public String[] getHierarchy() {
         String[] hierarchy= { "Module","NamespaceTable","Class","Method","Lines","SourceFileNames"};
         return hierarchy;
-    }        
+    }
     
 }

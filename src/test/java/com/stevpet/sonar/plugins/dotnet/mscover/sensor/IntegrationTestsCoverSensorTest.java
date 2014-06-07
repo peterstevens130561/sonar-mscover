@@ -12,7 +12,6 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
-import org.sonar.api.resources.Resource;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import org.sonar.test.TestUtils;
@@ -133,12 +132,6 @@ public class IntegrationTestsCoverSensorTest {
                 MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
                 TimeMachine timeMachine) {
             super(settings, microsoftWindowsEnvironment, timeMachine);
-        }
-        
-        protected String getCurrentProjectDirectory(Project project) {
-            File testProject=TestUtils.getResource("/TfsBlame/tfsblame/tfsblame");
-            return testProject.getAbsolutePath();
-            
         }
     }
 }

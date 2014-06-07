@@ -1,15 +1,10 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
 
 import java.io.File;
-
-import org.junit.Test;
 import org.sonar.api.config.Settings;
 import org.sonar.test.TestUtils;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 public class UnitTestRunnerTest {
 
 

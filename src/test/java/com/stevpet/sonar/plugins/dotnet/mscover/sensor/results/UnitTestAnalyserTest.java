@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.any;
 
-import org.mockito.Matchers;
 
 public class UnitTestAnalyserTest {
 

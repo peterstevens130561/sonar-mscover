@@ -2,20 +2,13 @@ package com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage;
 
 import java.io.File;
 
-import javax.xml.stream.FactoryConfigurationError;
-import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 
-import org.codehaus.staxmate.SMInputFactory;
-import org.codehaus.staxmate.in.SMHierarchicCursor;
-import org.codehaus.staxmate.in.SMInputCursor;
 import org.junit.Assert;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.SourceFileNamesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 
 public class SourceFileNamesObserverTest {

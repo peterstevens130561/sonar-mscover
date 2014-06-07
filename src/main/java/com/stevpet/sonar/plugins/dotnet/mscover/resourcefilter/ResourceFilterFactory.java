@@ -1,7 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 
 public class ResourceFilterFactory {
