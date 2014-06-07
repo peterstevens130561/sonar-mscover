@@ -14,7 +14,7 @@ import static org.mockito.Mockito.when;
 
 public class DecoratorDecorateTest {
 
-    private Resource resource ;
+    private Resource<?> resource ;
     private Settings settings;
     private DecoratorContext context;
     private CoverageDecoratorStub decorator;

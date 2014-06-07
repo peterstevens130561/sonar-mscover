@@ -44,7 +44,6 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
@@ -86,7 +85,6 @@ public class MSCoverResultParserTest {
   private PropertiesHelper propertiesHelper;
   private Settings settings ;
   
-  private TimeMachine timeMachine ;
 
   @Before
   public void setUp() {
@@ -111,9 +109,8 @@ public class MSCoverResultParserTest {
 
     
     settings = mock(Settings.class);
-    propertiesHelper = new PropertiesHelper(settings);
+    propertiesHelper = PropertiesHelper.create(settings);
     
-    timeMachine = mock(TimeMachine.class);
   }
 
   @Test 
@@ -194,7 +191,7 @@ public class MSCoverResultParserTest {
         project.setFileSystem(fs);
 
         SensorContext sensorContext = mock(SensorContext.class);
-        when(sensorContext.isIndexed((Resource) any(), eq(false))).thenReturn(true);
+        when(sensorContext.isIndexed((Resource<?>) any(), eq(false))).thenReturn(true);
         
         File projectDir= getResource("TfsBlame/tfsblame/tfsblame");
         when(fs.getBasedir()).thenReturn(projectDir);
@@ -206,7 +203,6 @@ public class MSCoverResultParserTest {
         
         LineMeasureSaver lineSaver = mock(IntegrationTestLineSaver.class);
         coverageHelper.setLineSaver(lineSaver);
-        ResourceMediator resourceMediator = ResourceMediator.create(sensorContext,project);
         BlockMeasureSaver blockMeasureSaver = IntegrationTestBlockSaver.create(measureSaver);
         BlockSaver blockSaver = new BaseBlockSaver(blockMeasureSaver) ;
         coverageHelper.setBlockSaver(blockSaver);

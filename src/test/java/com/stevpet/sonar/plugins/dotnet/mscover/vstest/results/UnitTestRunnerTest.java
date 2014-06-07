@@ -14,7 +14,7 @@ public class UnitTestRunnerTest {
 
         //Act
         UnitTestRunner unitTestRunner = UnitTestRunner.create();
-        PropertiesHelper propertiesHelper = new PropertiesHelper(settings);
+        PropertiesHelper propertiesHelper = PropertiesHelper.create(settings);
         unitTestRunner.setPropertiesHelper(propertiesHelper);
         File solutionDirectory = TestUtils.getResource("Mileage");
         unitTestRunner.setSolutionDirectory(solutionDirectory);

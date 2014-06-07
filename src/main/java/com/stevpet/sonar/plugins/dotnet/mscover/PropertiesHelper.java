@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.config.Settings;
-import org.sonar.api.resources.Language;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 
 public class PropertiesHelper {

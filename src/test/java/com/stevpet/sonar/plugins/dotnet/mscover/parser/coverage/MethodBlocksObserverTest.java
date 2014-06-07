@@ -13,7 +13,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodBlocksObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 
 public class MethodBlocksObserverTest {
     //Arrange

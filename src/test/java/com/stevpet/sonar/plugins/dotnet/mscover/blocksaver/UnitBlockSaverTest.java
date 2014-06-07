@@ -7,10 +7,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
-import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
-import org.sonar.api.resources.Resource;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.BlockModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks;
@@ -26,14 +24,12 @@ import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.anyDouble;
 public class UnitBlockSaverTest {
     
-    private SensorContext context;
     private FileBlocks fileBlocks;
     private File sonarFile;
     private MeasureSaver measureSaver;
 
     @Before
     public void before() {
-        context = mock(SensorContext.class);
         fileBlocks = mock(FileBlocks.class);
         sonarFile = mock(File.class);
         measureSaver = mock(SonarMeasureSaver.class);

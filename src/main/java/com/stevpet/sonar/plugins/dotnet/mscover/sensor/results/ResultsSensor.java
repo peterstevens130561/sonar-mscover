@@ -15,14 +15,8 @@ import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
-import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.UnitTestBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.importer.cplusplus.CPlusPlusImporterSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.UnitTestLineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;

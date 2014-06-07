@@ -16,7 +16,6 @@ public class IntegrationTestCoverSensorTest {
     private Settings settings;
     private Project project;
     private Sensor sensor;
-    private PropertiesHelper helper;
     @Before
     public void before() {       
 

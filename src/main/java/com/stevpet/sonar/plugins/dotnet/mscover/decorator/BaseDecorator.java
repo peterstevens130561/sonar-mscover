@@ -66,7 +66,7 @@ public abstract class BaseDecorator implements Decorator {
 
     protected BaseDecorator(Settings settings,TimeMachine timeMachine) {
         this.settings = settings; 
-        propertiesHelper=new PropertiesHelper(settings);
+        propertiesHelper=PropertiesHelper.create(settings);
         dateFilter = DateFilterFactory.createCutOffDateFilter(timeMachine, propertiesHelper);
         fileFilter = ResourceFilterFactory.createAntPatternResourceFilter(propertiesHelper);
     }

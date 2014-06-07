@@ -15,7 +15,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.helpers.SonarResourceHelper;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.sonar.test.TestUtils.getResource;
 
 @SuppressWarnings("deprecation")
 public class GetFromFileTest {

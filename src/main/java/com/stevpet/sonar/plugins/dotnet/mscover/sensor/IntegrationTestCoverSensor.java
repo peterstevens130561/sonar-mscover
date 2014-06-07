@@ -48,7 +48,7 @@ public class IntegrationTestCoverSensor implements Sensor {
     public IntegrationTestCoverSensor(Settings settings,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             TimeMachine timeMachine) {
-        propertiesHelper = new PropertiesHelper(settings);
+        propertiesHelper = PropertiesHelper.create(settings);
         this.timeMachine=timeMachine;
         coverageHelper = CoverageHelper.create(propertiesHelper,microsoftWindowsEnvironment);
     }

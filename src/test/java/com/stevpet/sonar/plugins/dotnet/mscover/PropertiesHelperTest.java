@@ -15,7 +15,7 @@ public class PropertiesHelperTest {
     @Before
     public void before() {
         settings = mock(Settings.class);
-        helper = new PropertiesHelper(settings);
+        helper = PropertiesHelper.create(settings);
     }
     
     @Test

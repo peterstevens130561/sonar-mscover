@@ -5,7 +5,6 @@ import java.io.File;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 
 /**
  * Use as seam between the app and sonar to save any measure. Allows better testing of the

@@ -34,7 +34,6 @@ import org.sonar.api.Properties;
 import org.sonar.api.Property;
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
-import org.sonar.api.config.Settings;
 
 import java.util.Arrays;
 import java.util.List;

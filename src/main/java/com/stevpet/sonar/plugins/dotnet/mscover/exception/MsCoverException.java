@@ -1,7 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.exception;
 
-import java.io.IOException;
-
 import org.sonar.api.utils.SonarException;
 
 public class MsCoverException extends SonarException {

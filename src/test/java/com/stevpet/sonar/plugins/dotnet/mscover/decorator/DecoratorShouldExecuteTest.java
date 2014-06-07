@@ -2,19 +2,15 @@ package com.stevpet.sonar.plugins.dotnet.mscover.decorator;
 
 
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.sonar.api.batch.Decorator;
-import org.sonar.api.batch.DecoratorContext;
 import org.sonar.api.config.Settings;
-import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.decorator.BaseDecorator;
-import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestLineDecorator;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class DecoratorShouldExecuteTest {
 

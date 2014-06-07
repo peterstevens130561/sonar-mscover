@@ -1,18 +1,16 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.sensor;
 
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
-import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.test.TestUtils;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.results.ResultsSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
@@ -21,13 +19,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment
 
 public class UnitTestCoverSensorCompleteTest {
     private Project project;
-    private SensorContext context;
     private ModuleFileSystem moduleFileSystem;
     private VsTestEnvironment vsTestEnvironment;
 
     @Before 
     public void before() {
-        context = mock(SensorContext.class);
         project = mock(Project.class);
         moduleFileSystem=mock(ModuleFileSystem.class);
         DummyFileSystem fileSystem = new DummyFileSystem();

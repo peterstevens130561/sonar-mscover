@@ -66,7 +66,7 @@ public class IntegrationTestLineDecorator extends BaseDecorator {
 
 @Override
 public boolean shouldExecuteDecorator(Project project, Settings settings) {
-    PropertiesHelper helper = new PropertiesHelper(settings);
+    PropertiesHelper helper = PropertiesHelper.create(settings);
     return helper.isIntegrationTestsEnabled();
 }
 
