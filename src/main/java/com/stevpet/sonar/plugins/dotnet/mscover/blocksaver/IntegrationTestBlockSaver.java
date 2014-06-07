@@ -2,26 +2,16 @@ package com.stevpet.sonar.plugins.dotnet.mscover.blocksaver;
 
 import java.io.File;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.PropertiesBuilder;
-import org.sonar.api.resources.Project;
-import org.sonar.api.resources.Resource;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.BlockModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
 public class IntegrationTestBlockSaver implements BlockMeasureSaver {
-    
-    private static final Logger LOG = LoggerFactory
-            .getLogger(IntegrationTestBlockSaver.class);
     
     private MeasureSaver measureSaver ;
     private IntegrationTestBlockSaver(MeasureSaver measureSaver) {
@@ -37,7 +27,7 @@ public class IntegrationTestBlockSaver implements BlockMeasureSaver {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver#saveSummaryMeasures(org.sonar.api.batch.SensorContext, com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks, org.sonar.api.resources.Resource)
      */
-    public void saveMeasures(SensorContext context, FileBlocks fileBlocks,
+    public void saveMeasures(FileBlocks fileBlocks,
             File file) {
         measureSaver.setFile(file);
         BlockModel methodBlock=fileBlocks.getSummaryBlock();

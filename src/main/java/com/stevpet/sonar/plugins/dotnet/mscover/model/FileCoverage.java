@@ -52,8 +52,9 @@ public class FileCoverage {
   }
 
   /**
-   * Returns the file.
-   * 
+   * Returns the file, which has a path on the current filesystem: the coveragefile
+   * may have paths on other filesystem, but when the file is added to the model it 
+   * is converted.
    * @return The file to return.
    */
   public File getFile() {

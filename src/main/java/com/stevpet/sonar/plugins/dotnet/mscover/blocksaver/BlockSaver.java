@@ -13,7 +13,5 @@ public interface BlockSaver extends Saver {
     public abstract void setFileBlocksRegistry(
             FileBlocksRegistry fileBlocksRegistry);
 
-    public abstract void setSourceFilePathHelper(
-            SourceFilePathHelper sourceFilePathHelper);
     
 }

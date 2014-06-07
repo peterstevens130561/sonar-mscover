@@ -81,17 +81,12 @@ public class ResultsSensor implements Sensor {
         UnitTestAnalyser analyser = new UnitTestAnalyser(project,sensorContext);
         analyser.analyseResults(coveragePath, resultsPath);
         if(unitTestRunner.shouldRun()) {
-            CoverageHelper coverageHelper = CoverageHelper.create(propertiesHelper,microsoftWindowsEnvironment);
-            ResourceMediator resourceMediator = ResourceMediator.createWithFilters(sensorContext,project,timeMachine,propertiesHelper);
-            
+
+            ResourceMediator resourceMediator = ResourceMediator.createWithFilters(sensorContext,project,timeMachine,propertiesHelper);            
             MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
-            LineMeasureSaver lineSaver=UnitTestLineSaver.create(measureSaver);
-            coverageHelper.setLineSaver(lineSaver);
-   
-            
-            BlockMeasureSaver blockMeasureSaver = UnitTestBlockSaver.create(measureSaver);
-            BlockSaver blockSaver = new BaseBlockSaver(sensorContext, resourceMediator, blockMeasureSaver);
-            coverageHelper.setBlockSaver(blockSaver);
+
+            CoverageHelper coverageHelper = CoverageHelper.create(propertiesHelper,microsoftWindowsEnvironment);
+            coverageHelper.prepareUnit(measureSaver);
             coverageHelper.analyse(project,coveragePath);
         }
     }

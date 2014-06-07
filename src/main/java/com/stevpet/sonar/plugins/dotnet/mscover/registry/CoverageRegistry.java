@@ -1,6 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.registry;
 
-import java.io.File;
 import java.util.Collection;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.CoveragePoint;

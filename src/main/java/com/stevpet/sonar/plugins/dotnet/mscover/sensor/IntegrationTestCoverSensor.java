@@ -19,26 +19,6 @@
  */
 package com.stevpet.sonar.plugins.dotnet.mscover.sensor;
 
-import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationTestBlockSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
-import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
-import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
@@ -46,6 +26,19 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
+import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
+
+import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationTestBlockSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 @Extension
 public class IntegrationTestCoverSensor implements Sensor {
 
@@ -72,15 +65,11 @@ public class IntegrationTestCoverSensor implements Sensor {
     }
 
     public void analyse(Project project, SensorContext sensorContext) {
-        // TODO Auto-generated method stub
         ResourceMediator resourceMediator = ResourceMediator.createWithFilters(sensorContext, project, timeMachine, propertiesHelper);
         MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
-        LineMeasureSaver lineSaver=IntegrationTestLineSaver.create(measureSaver);
-        coverageHelper.setLineSaver(lineSaver);
-        BlockMeasureSaver blockMeasureSaver = IntegrationTestBlockSaver.create(measureSaver);
-        BlockSaver blockSaver = new BaseBlockSaver(sensorContext, resourceMediator, blockMeasureSaver);
-        coverageHelper.setBlockSaver(blockSaver);
+
         String coveragePath=propertiesHelper.getIntegrationTestsPath();
+        coverageHelper.prepareIntegration(measureSaver);
         coverageHelper.analyse(project,coveragePath);
     }
 

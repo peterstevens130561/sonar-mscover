@@ -19,34 +19,21 @@
  */
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
-//import com.google.inject.internal.util.Lists;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import com.google.common.collect.Lists;
-import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationTestBlockSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.listener.CoverageParserListener;
-import com.stevpet.sonar.plugins.dotnet.mscover.listener.ParserObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.SingleListenerParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 
-import org.apache.commons.lang.StringUtils;
+import javax.xml.stream.FactoryConfigurationError;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+
 import org.codehaus.staxmate.SMInputFactory;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
@@ -65,27 +52,27 @@ import org.sonar.api.resources.Resource;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
-
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
 import org.sonar.test.TestUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.Collection;
-import java.util.List;
-
-import javax.xml.stream.FactoryConfigurationError;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import com.google.common.collect.Lists;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationTestBlockSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.listener.CoverageParserListener;
+import com.stevpet.sonar.plugins.dotnet.mscover.listener.ParserObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.SingleListenerParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
+//import com.google.inject.internal.util.Lists;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({File.class})
@@ -221,7 +208,7 @@ public class MSCoverResultParserTest {
         coverageHelper.setLineSaver(lineSaver);
         ResourceMediator resourceMediator = ResourceMediator.create(sensorContext,project);
         BlockMeasureSaver blockMeasureSaver = IntegrationTestBlockSaver.create(measureSaver);
-        BlockSaver blockSaver = new BaseBlockSaver(sensorContext,resourceMediator, blockMeasureSaver) ;
+        BlockSaver blockSaver = new BaseBlockSaver(blockMeasureSaver) ;
         coverageHelper.setBlockSaver(blockSaver);
         
         coverageHelper.analyse(project, file.getCanonicalPath());

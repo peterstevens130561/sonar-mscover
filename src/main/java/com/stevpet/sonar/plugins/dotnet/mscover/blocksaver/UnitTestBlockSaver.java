@@ -36,8 +36,7 @@ public class UnitTestBlockSaver implements BlockMeasureSaver {
     }
     
 
-    public void saveMeasures(SensorContext context, FileBlocks fileBlocks,
-            File file) {
+    public void saveMeasures(FileBlocks fileBlocks,File file) {
         measureSaver.setFile(file);
         BlockModel methodBlock=fileBlocks.getSummaryBlock();
         measureSaver.saveMeasure(CoreMetrics.UNCOVERED_CONDITIONS,(double) methodBlock.getNotCovered());

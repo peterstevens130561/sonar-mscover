@@ -13,8 +13,6 @@ import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.batch.TimeMachine;
-import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.utils.SonarException;
@@ -23,7 +21,11 @@ import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationTestBlockSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.UnitTestBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.listener.CoverageParserListener;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
@@ -36,8 +38,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.UnitTestLineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
 public class CoverageHelper {
 
@@ -74,6 +78,32 @@ public class CoverageHelper {
         return new CoverageHelper(propertiesHelper,microsoftWindowsEnvironment);
     }
 
+    /**
+     * inject the unittest savers
+     * @param measureSaver
+     */
+    public void prepareUnit(MeasureSaver measureSaver) {
+        LineMeasureSaver lineSaver=UnitTestLineSaver.create(measureSaver);
+        BlockMeasureSaver blockMeasureSaver = UnitTestBlockSaver.create(measureSaver);
+        injectSavers(lineSaver, blockMeasureSaver);  
+    }
+    
+    /**
+     * inject the integration test savers
+     * @param measureSaver
+     */
+    public void prepareIntegration(MeasureSaver measureSaver) {
+        LineMeasureSaver lineSaver=IntegrationTestLineSaver.create(measureSaver);
+        BlockMeasureSaver blockMeasureSaver = IntegrationTestBlockSaver.create(measureSaver);
+        injectSavers(lineSaver, blockMeasureSaver);        
+    }
+
+    private void injectSavers(LineMeasureSaver lineSaver,
+            BlockMeasureSaver blockMeasureSaver) {
+        BlockSaver blockSaver = new BaseBlockSaver(blockMeasureSaver);
+        setLineSaver(lineSaver);
+        setBlockSaver(blockSaver);
+    }
     public void setLineSaver(LineMeasureSaver lineSaver) {
         this.lineSaver = lineSaver;    
     }
@@ -122,8 +152,6 @@ public class CoverageHelper {
         LOG.info("MsCoverPlugin : directory=" + projectDirectory);
 
 
-        SourceFilePathHelper sourceFilePathHelper = new SourceFilePathHelper();
-        sourceFilePathHelper.setProjectPath(projectDirectory);
 
         CoverageRegistry registry = new FileCoverageRegistry(projectDirectory);
         FileBlocksRegistry fileBlocksRegistry= new FileBlocksRegistry();
@@ -134,7 +162,6 @@ public class CoverageHelper {
         
         saveLineMeasures(registry);
         
-        blockSaver.setSourceFilePathHelper(sourceFilePathHelper);
         blockSaver.setSourceFileNamesRegistry(sourceFileNamesRegistry);
         blockSaver.setFileBlocksRegistry(fileBlocksRegistry);
         blockSaver.save();
@@ -232,5 +259,7 @@ public class CoverageHelper {
         }
 
     }
+
+
     
 }
