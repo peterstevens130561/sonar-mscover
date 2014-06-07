@@ -55,7 +55,7 @@ public class BaseBlockSaver  implements BlockSaver {
     }
 
 
-    protected double convertPercentage(Number percentage) {
+    public static double convertPercentage(Number percentage) {
         return ParsingUtils.scaleValue(percentage.doubleValue() * 100.0);
     }
 
