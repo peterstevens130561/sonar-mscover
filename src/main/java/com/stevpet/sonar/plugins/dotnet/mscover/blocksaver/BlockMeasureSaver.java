@@ -6,6 +6,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks;
 
 public interface BlockMeasureSaver {
 
-    public abstract void saveMeasures(FileBlocks fileBlocks, File sonarFile);
+    public void saveMeasures(FileBlocks fileBlocks, File sonarFile);
 
 }

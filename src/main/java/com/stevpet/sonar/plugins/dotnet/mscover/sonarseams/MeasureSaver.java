@@ -19,16 +19,16 @@ public interface MeasureSaver {
      * to translate it to a resource.
      * @param file
      */
-    public abstract void setFile(File file);
+    public void setFile(File file);
 
     /**
      * if the file is to be included in the analysis then the measure will be saved
      * @param measure
      */
-    public abstract void saveFileMeasure(Measure measure);
+    public void saveFileMeasure(Measure measure);
 
-    public abstract void saveFileMeasure(Metric metric, double value);
+    public void saveFileMeasure(Metric metric, double value);
 
-    public abstract void saveSummaryMeasure(Metric tests, double executedTests);
+    public void saveSummaryMeasure(Metric tests, double executedTests);
 
 }

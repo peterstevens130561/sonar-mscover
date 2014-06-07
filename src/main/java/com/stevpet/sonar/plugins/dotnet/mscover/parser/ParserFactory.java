@@ -14,7 +14,7 @@ public interface ParserFactory {
      * @param sourceFileNamesRegistry
      * @return
      */
-    public abstract ParserSubject createCoverageParser(
+    public ParserSubject createCoverageParser(
             FileBlocksRegistry fileBlocksRegistry,
             SourceFileNamesRegistry sourceFileNamesRegistry);
     
@@ -23,7 +23,7 @@ public interface ParserFactory {
      * @param registry
      * @return
      */
-    public abstract ParserSubject createUnitTestResultsParser(UnitTestRegistry registry);
+    public ParserSubject createUnitTestResultsParser(UnitTestRegistry registry);
     /**
      * Used to be able to find the sourcefile by specifying the method
      * @param map

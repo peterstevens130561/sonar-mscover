@@ -19,13 +19,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment
 
 public class UnitTestCoverSensorCompleteTest {
     private Project project;
-    private ModuleFileSystem moduleFileSystem;
     private VsTestEnvironment vsTestEnvironment;
 
     @Before 
     public void before() {
         project = mock(Project.class);
-        moduleFileSystem=mock(ModuleFileSystem.class);
         DummyFileSystem fileSystem = new DummyFileSystem();
         fileSystem.setBasedir(TestUtils.getResource("Mileage"));
         when(project.getFileSystem()).thenReturn( fileSystem);
@@ -35,7 +33,7 @@ public class UnitTestCoverSensorCompleteTest {
     @Test
     public void projectIsRootPropertyExecuteRootIsTrue_ShouldNotExecute() {
         Settings settings = UnitTestRunnerTestUtils.mockUnitTestRunnerSettingsToRun();
-        ResultsSensor sensor = new ResultsSensor(null,settings, null,moduleFileSystem,vsTestEnvironment);
+        ResultsSensor sensor = new ResultsSensor(null,settings, null,vsTestEnvironment);
         when(project.isRoot()).thenReturn(true);
         
         boolean shouldExecute=sensor.shouldExecuteOnProject(project);
@@ -45,7 +43,7 @@ public class UnitTestCoverSensorCompleteTest {
     @Test
     public void runTestsNotRoot_ShouldExecute() {
         Settings settings = UnitTestRunnerTestUtils.mockUnitTestRunnerSettingsToRun();
-        ResultsSensor sensor = new ResultsSensor(null,settings, null,moduleFileSystem,vsTestEnvironment);
+        ResultsSensor sensor = new ResultsSensor(null,settings, null,vsTestEnvironment);
         when(project.isRoot()).thenReturn(false);
         boolean shouldExecute=sensor.shouldExecuteOnProject(project);
         Assert.assertTrue(shouldExecute);

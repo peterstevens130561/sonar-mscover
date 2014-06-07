@@ -25,7 +25,7 @@ public class ShouldExecuteTest {
         settings = mock(Settings.class);
         project = mock(Project.class);
         propertiesHelper = mock(PropertiesHelper.class);
-        resultsSensor = new ResultsSensor(null, settings, null, null, null);
+        resultsSensor = new ResultsSensor(null, settings, null, null);
     }
     
     @Test

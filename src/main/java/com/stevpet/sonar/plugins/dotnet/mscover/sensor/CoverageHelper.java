@@ -99,9 +99,8 @@ public class CoverageHelper {
 
     private void injectSavers(LineMeasureSaver lineSaver,
             BlockMeasureSaver blockMeasureSaver) {
-        BlockSaver blockSaver = new BaseBlockSaver(blockMeasureSaver);
+        blockSaver = new BaseBlockSaver(blockMeasureSaver);
         setLineSaver(lineSaver);
-        setBlockSaver(blockSaver);
     }
     public void setLineSaver(LineMeasureSaver lineSaver) {
         this.lineSaver = lineSaver;    

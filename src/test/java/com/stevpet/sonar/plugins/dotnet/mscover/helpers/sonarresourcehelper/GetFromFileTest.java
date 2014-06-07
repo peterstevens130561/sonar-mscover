@@ -7,6 +7,8 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.test.TestUtils;
@@ -18,7 +20,8 @@ import static org.mockito.Mockito.when;
 
 @SuppressWarnings("deprecation")
 public class GetFromFileTest {
-
+    private static final Logger LOG = LoggerFactory
+            .getLogger(GetFromFileTest.class);
     Project project ;
     ProjectFileSystem projectFileSystem;
     File file;
@@ -44,7 +47,7 @@ public class GetFromFileTest {
     @Test
     public void EmptyProject_FileNotFound() {
         //Arrange
-        addSourceDir("EmptyProject");
+        addSourceDir("ProjectWithOneSourceDir/SourceDir1");
         //Act
         File notInProjectFile = new File("a/b/c/d.cs");
         org.sonar.api.resources.File fileResource=SonarResourceHelper.getFromFile(notInProjectFile, project);
@@ -100,6 +103,7 @@ public class GetFromFileTest {
     private void addSourceDir(String resourcePath) {
         File sourceDir=getTestResource(resourcePath);
         sourceDirs.add(sourceDir);
+        LOG.info("Added " + sourceDir.getName());
     }
     private File getTestResource(String resourcePath) {
         return TestUtils.getResource("SonarResourceHelper/" + resourcePath);

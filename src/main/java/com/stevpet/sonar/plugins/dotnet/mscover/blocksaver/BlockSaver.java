@@ -6,10 +6,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.saver.Saver;
 
 public interface BlockSaver extends Saver {
 
-    public abstract void setSourceFileNamesRegistry(
+    public void setSourceFileNamesRegistry(
             SourceFileNamesRegistry sourceFileNamesRegistry);
 
-    public abstract void setFileBlocksRegistry(
+    public void setFileBlocksRegistry(
             FileBlocksRegistry fileBlocksRegistry);
 
     

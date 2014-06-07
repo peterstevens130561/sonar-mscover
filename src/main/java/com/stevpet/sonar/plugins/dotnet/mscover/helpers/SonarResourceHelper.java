@@ -16,6 +16,10 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
 public class SonarResourceHelper {
+    
+    private SonarResourceHelper() {
+        
+    }
     private static final Logger LOG = LoggerFactory
             .getLogger(SonarResourceHelper.class);
     /**
@@ -40,6 +44,7 @@ public class SonarResourceHelper {
     private static  org.sonar.api.resources.File findFileInProject(java.io.File file, Project project) {
         List<File> lf = project.getFileSystem().getSourceDirs();
         if(lf.size()==0) {
+            LOG.info("no sourcedirs");
            lf.add(new File("."));
         }
 
@@ -86,7 +91,6 @@ public class SonarResourceHelper {
         String path1 = dir1.getCanonicalPath();
         String path2 = dir2.getCanonicalPath();
         boolean same=path1.equals(path2);
-        LOG.debug("comparing " + path1 + " " + path2 + "->" + same);
         return same;
 
         } catch ( IOException e ) {

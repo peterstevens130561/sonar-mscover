@@ -36,7 +36,9 @@ public class ResultsSensor implements Sensor {
 
    
     
-    public ResultsSensor(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,Settings settings,TimeMachine timeMachine,ModuleFileSystem moduleFileSystem,VsTestEnvironment vsTestEnvironment) {
+    public ResultsSensor(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
+            Settings settings,TimeMachine timeMachine,
+            VsTestEnvironment vsTestEnvironment) {
         this.microsoftWindowsEnvironment=microsoftWindowsEnvironment ;
         this.timeMachine = timeMachine;
         propertiesHelper = PropertiesHelper.create(settings);
@@ -65,20 +67,18 @@ public class ResultsSensor implements Sensor {
         LOG.info("MsCover Starting analysing test results");
         String coveragePath;
         String resultsPath;
+        ResourceMediator resourceMediator = ResourceMediator.createWithFilters(sensorContext,project,timeMachine,propertiesHelper);            
+        MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
+        UnitTestAnalyser unitTestAnalyser = new UnitTestAnalyser(project,sensorContext,measureSaver);       
         if(unitTestRunner.shouldRun()) {
-            resultsPath=vsTestEnvironment.getXmlResultsPath();
             coveragePath=vsTestEnvironment.getXmlCoveragePath();
+            resultsPath=vsTestEnvironment.getXmlResultsPath();
         } else {
             LOG.info("MsCover using test results");
             coveragePath = propertiesHelper.getUnitTestCoveragePath();
             resultsPath=propertiesHelper.getUnitTestResultsPath();
         }
-        
-        ResourceMediator resourceMediator = ResourceMediator.createWithFilters(sensorContext,project,timeMachine,propertiesHelper);            
-        MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
-
-        UnitTestAnalyser analyser = new UnitTestAnalyser(project,sensorContext,measureSaver);
-        analyser.analyseResults(coveragePath, resultsPath);
+        unitTestAnalyser.analyseResults(coveragePath, resultsPath);
         if(unitTestRunner.shouldRun()) {
             CoverageHelper coverageHelper = CoverageHelper.create(propertiesHelper,microsoftWindowsEnvironment);
             coverageHelper.injectUnitSavers(measureSaver);
