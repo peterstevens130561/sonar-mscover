@@ -79,9 +79,8 @@ public class UnitTestAnalyser {
         sourceFilePathHelper.setProjectPath(projectDirectory);
         
         filesResultRegistry.mapResults(unitTestRegistry, map);
-        ResourceMediator resourceMediator = ResourceMediator.create(context, project);
-        resourceMediator.setResourceFilter(ResourceFilterFactory.createEmptyFilter());
-        resourceMediator.setDateFilter(DateFilterFactory.createEmptyDateFilter());
+        ResourceMediator resourceMediator = ResourceMediator.createWithEmptyFilters(context, project);
+
         
         TestSaver testSaver = new TestSaver(context,resourceMediator);
 

@@ -47,7 +47,14 @@ public class ResourceMediator {
         ResourceMediator resourceMediator = create(sensorContext,project);
         resourceMediator.setDateFilter(DateFilterFactory.createCutOffDateFilter(timeMachine, propertiesHelper));
         resourceMediator.setResourceFilter(ResourceFilterFactory.createAntPatternResourceFilter(propertiesHelper));
-        return null;
+        return resourceMediator;
+    }
+    
+    public static ResourceMediator createWithEmptyFilters(SensorContext sensorContext, Project project) {
+        ResourceMediator resourceMediator = create(sensorContext,project);
+        resourceMediator.setResourceFilter(ResourceFilterFactory.createEmptyFilter());
+        resourceMediator.setDateFilter(DateFilterFactory.createEmptyDateFilter());
+        return resourceMediator;
     }
     private void setCharset(Project project) {
         String charsetName;
