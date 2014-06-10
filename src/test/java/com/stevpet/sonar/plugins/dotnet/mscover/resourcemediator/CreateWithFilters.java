@@ -18,7 +18,7 @@ public class CreateWithFilters {
 
 
     @Test
-    public void create_ShouldWork() {
+    public void createShouldWork() {
         SensorContext sensorContext = mock(SensorContext.class);
         Project project = mock(Project.class);
         when(project.getFileSystem()).thenReturn(new DummyFileSystem());

@@ -66,62 +66,18 @@ public class CoverageHelper {
      * @param microsoftWindowsEnvironment
      * @param timeMachine
      */
-    private CoverageHelper(PropertiesHelper propertiesHelper,
+    CoverageHelper(PropertiesHelper propertiesHelper,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         this.propertiesHelper = propertiesHelper ;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
     }
 
+
     public static CoverageHelper create(PropertiesHelper propertiesHelper,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
-        return new CoverageHelper(propertiesHelper,microsoftWindowsEnvironment);
+        // TODO Auto-generated method stub
+        return new CoverageHelper(propertiesHelper, microsoftWindowsEnvironment);
     }
-
-    /**
-     * inject the unittest savers
-     * @param measureSaver
-     */
-    public void injectUnitSavers(MeasureSaver measureSaver) {
-        LineMeasureSaver lineSaver=UnitTestLineSaver.create(measureSaver);
-        BlockMeasureSaver blockMeasureSaver = UnitTestBlockSaver.create(measureSaver);
-        injectSavers(lineSaver, blockMeasureSaver);  
-    }
-    
-    /**
-     * inject the integration test savers
-     * @param measureSaver
-     */
-    public void inejctIntegrationSavers(MeasureSaver measureSaver) {
-        LineMeasureSaver lineSaver=IntegrationTestLineSaver.create(measureSaver);
-        BlockMeasureSaver blockMeasureSaver = IntegrationTestBlockSaver.create(measureSaver);
-        injectSavers(lineSaver, blockMeasureSaver);        
-    }
-
-    private void injectSavers(LineMeasureSaver lineSaver,
-            BlockMeasureSaver blockMeasureSaver) {
-        blockSaver = new BaseBlockSaver(blockMeasureSaver);
-        setLineSaver(lineSaver);
-    }
-    public void setLineSaver(LineMeasureSaver lineSaver) {
-        this.lineSaver = lineSaver;    
-    }
-
-    public boolean shouldExecuteOnProject(Project project) {
-        if(propertiesHelper.getRunMode() == RunMode.SKIP) {
-            return false;
-        }
-        if (project == null) {
-            LOG.error("MSCover : project is null, will not execute");
-            return false;
-            
-        }
-        if(project.isRoot() != propertiesHelper.excuteRoot()) {
-            LOG.info("MSCover : Skipping project project.isRoot() =" + project.isRoot() + ", " + PropertiesHelper.MSCOVER_EXECUTEROOT + "=" + propertiesHelper.excuteRoot());
-            return false;
-        }
-        return true;
-    }
-
     public void setBlockSaver( BlockSaver blockSaver) {
         this.blockSaver = blockSaver;
         
@@ -249,6 +205,14 @@ public class CoverageHelper {
         }
 
     }
+
+    public void setLineSaver(LineMeasureSaver lineSaver) {
+        this.lineSaver=lineSaver; 
+    }
+
+
+
+
 
 
     
