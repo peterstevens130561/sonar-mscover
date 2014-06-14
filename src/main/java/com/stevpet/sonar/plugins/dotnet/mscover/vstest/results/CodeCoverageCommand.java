@@ -3,6 +3,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.plexus.util.FileUtils;
@@ -11,6 +13,7 @@ import org.sonar.api.utils.command.Command;
 import org.sonar.plugins.dotnet.api.utils.ZipUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
+import com.stevpet.sonar.plugins.dotnet.mscover.helpers.SonarWindowsFileSystemHelper;
 
 public class CodeCoverageCommand implements ShellCommand {
     private String coveragePath;
@@ -26,15 +29,20 @@ public class CodeCoverageCommand implements ShellCommand {
         return new CodeCoverageCommand();
     }
 
-    public void setCoveragePath(String coveragePath) {
-        this.coveragePath = coveragePath;
+    public void setCoveragePath(String path) {
+        SonarWindowsFileSystemHelper.dieOnInvalidPath(path);
+        this.coveragePath = SonarWindowsFileSystemHelper.createQualifiedPath(path);
     }
 
-    public void setOutputPath(String outputPath) {
-        this.outputPath = outputPath;
+    public void setOutputPath(String path) {
+        SonarWindowsFileSystemHelper.dieOnInvalidPath(path);
+        this.outputPath = SonarWindowsFileSystemHelper.createQualifiedPath(path);
     }
+
 
     /**
+     * 
+     * 
      * set the path to the .sonar folder
      * 
      * @param path
@@ -48,7 +56,7 @@ public class CodeCoverageCommand implements ShellCommand {
      */
     public String toCommandLine() {
         Command command = toCommand();
-        return command.toCommandLine();
+        return SonarWindowsFileSystemHelper.makeWindowsPath(command.toCommandLine());
     }
 
     private void removeBinaries(String binaryFolderPath) {

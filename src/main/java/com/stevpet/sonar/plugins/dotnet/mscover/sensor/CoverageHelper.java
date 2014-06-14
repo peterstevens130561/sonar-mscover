@@ -201,7 +201,9 @@ public class CoverageHelper {
 
         for (FileCoverage fileCoverage : registry.getFileCoverages()) {
             File file = fileCoverage.getFile();
-            lineSaver.saveMeasures(fileCoverage, file);
+            if(file !=null) {
+                lineSaver.saveMeasures(fileCoverage, file);
+            }
         }
 
     }

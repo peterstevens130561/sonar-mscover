@@ -40,4 +40,10 @@ public class ResultsModel {
         // TODO Auto-generated method stub
         return erroredTests;
     }
+
+    public void add(UnitTestFileResultModel fileResults) {
+        this.passedTests += fileResults.getPassed();
+        this.failedTests += fileResults.getFail();
+        this.executedTests = this.passedTests + this.failedTests;
+    }
 }

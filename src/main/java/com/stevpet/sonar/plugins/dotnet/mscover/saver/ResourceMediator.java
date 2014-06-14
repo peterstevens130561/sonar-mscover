@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.resources.Project;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.SonarException;
 
 import com.google.common.base.CharMatcher;
@@ -88,6 +89,26 @@ public class ResourceMediator {
      */
     public org.sonar.api.resources.File getSonarFileResource(File file) {
 
+        org.sonar.api.resources.File sonarFile = getSonarResource(file);
+        if (!context.isIndexed(sonarFile, false)) {           
+            return null;
+        }
+        return sonarFile ;
+    }
+
+    public org.sonar.api.resources.File getSonarTestResource(File file) {
+
+        org.sonar.api.resources.File sonarFile = getSonarResource(file);
+        if(sonarFile == null) {
+            return null ;
+        }
+        if (!context.isIndexed(sonarFile, false)) {           
+            readSourceIntoSonar(file,sonarFile,Qualifiers.UNIT_TEST_FILE);
+        }
+        return sonarFile ;
+    }
+
+    private org.sonar.api.resources.File getSonarResource(File file) {
         org.sonar.api.resources.File sonarFile =SonarResourceHelper.getFromFile(file, project);
         if (sonarFile == null) {
             LOG.debug("Could not create sonarFile for "
@@ -103,16 +124,11 @@ public class ResourceMediator {
             LOG.debug("Skipping file of which commit date is before cutoff date " +sonarFile.getLongName());
             return null;
         }
-        if (!context.isIndexed(sonarFile, false)) {           
-            readSourceIntoSonar(file, sonarFile);
-        }
-        return sonarFile ;
+        return sonarFile;
     }
-
     private void readSourceIntoSonar(File file,
-            org.sonar.api.resources.File sonarFile) {
+            org.sonar.api.resources.File sonarFile,String qualifier) {
         try {
-            String qualifier=getQualifier();
             sonarFile.setQualifier(qualifier);
             context.index(sonarFile);
               String source = Files.toString(file, charset);
@@ -131,9 +147,7 @@ public class ResourceMediator {
         }
     }
  
-    protected String getQualifier() {
-        return "FIL";
-    }
+
 
 
 

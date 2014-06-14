@@ -31,4 +31,8 @@ public interface MeasureSaver {
 
     public void saveSummaryMeasure(Metric tests, double executedTests);
 
+    public void setIgnoreTwiceSameMeasure();
+
+    public void setExceptionOnTwiceSameMeasure();
+
 }

@@ -51,7 +51,6 @@ public class UnitTestAnalyser {
         parseUnitTestResultsFile(resultsPath);      
         parseCoverageFile(coveragePath);
         
-        saveSummaryTestResults();
         saveUnitTests();
     }
     private void parseCoverageFile(String coverageFileName) {
@@ -70,7 +69,7 @@ public class UnitTestAnalyser {
         UnitTestResultRegistry unitTestResultRegistry = registry.getResults();
         filesResultRegistry.mapResults(unitTestResultRegistry, map);
         ResourceMediator resourceMediator = ResourceMediator.createWithEmptyFilters(context, project);        
-        TestSaver testSaver = new TestSaver(context,resourceMediator);
+        TestSaver testSaver = new TestSaver(context,resourceMediator, measureSaver);
 
         testSaver.setUnitTestFilesResultRegistry(filesResultRegistry);
         testSaver.setSourceFileNamesRegistry(sourceFileNamesRegistry);
@@ -91,14 +90,7 @@ public class UnitTestAnalyser {
         return projectDirectory;
     }
 
-    private void saveSummaryTestResults() {
-        ResultsModel resultsModel = registry.getSummary();
-        LOG.info("ResultsSensor: {}",resultsModel.getExecutedTests());
-        measureSaver.saveSummaryMeasure(CoreMetrics.TESTS,(double)resultsModel.getExecutedTests());
-        measureSaver.saveSummaryMeasure(CoreMetrics.TEST_FAILURES,(double)resultsModel.getFailedTests());
-        measureSaver.saveSummaryMeasure(CoreMetrics.TEST_ERRORS,(double)resultsModel.getErroredTests());
-    }
-
+   
     private void parseUnitTestResultsFile(String resultsPath) {
 
         ParserSubject resultsParser = factory.createUnitTestResultsParser(registry); 

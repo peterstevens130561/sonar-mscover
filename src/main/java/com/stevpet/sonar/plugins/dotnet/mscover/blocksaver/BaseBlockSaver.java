@@ -42,7 +42,7 @@ public class BaseBlockSaver  implements BlockSaver {
     public void save() {
         for (FileBlocks fileBlocks: fileBlocksRegistry.values()) {
             File sonarFile = getSonarFile(fileBlocks);
-            blockMeasureSaver.saveMeasures(fileBlocks, sonarFile);
+            //blockMeasureSaver.saveMeasures(fileBlocks, sonarFile);
         }
 
     }

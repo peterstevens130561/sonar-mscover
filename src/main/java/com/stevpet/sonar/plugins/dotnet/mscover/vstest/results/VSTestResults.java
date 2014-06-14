@@ -3,6 +3,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.sonar.api.utils.SonarException;
 
@@ -11,8 +13,8 @@ import com.google.common.io.Files;
 public class VSTestResults {
 
     private String results;
-    private static String RESULTS_PATTERN = "\nResults File: ";
-    private static String ATTACHMENTS_PATTERN = "\nAttachments:";
+    private static Pattern RESULTS_PATTERN = Pattern.compile("\\nResults File: (.*\\.trx)");
+    private static Pattern ATTACHMENTS_PATTERN = Pattern.compile("\\nAttachments:\\r?\\n  (.*\\.coverage)");
 
     public void setFile(File resultsFile) {
        try {
@@ -32,21 +34,12 @@ public class VSTestResults {
         return getPieceFromResults(ATTACHMENTS_PATTERN);
     }
     
-    private String getPieceFromResults(String begin)  {
-        String msg = "invalid results file " + results + " can 't find ";
-        int resultsPos=results.lastIndexOf(begin);
-        if(resultsPos==-1) {
-            throw new SonarException(msg + begin);
+    private String getPieceFromResults(Pattern pattern)  {
+        Matcher matcher = pattern.matcher(results);
+        if(!matcher.find()) {
+            throw new SonarException("Could not find area");
         }
-        int captureStart=resultsPos+begin.length();
-        while(isWhiteSpace(results.charAt(captureStart))) {
-            captureStart++;
-        }
-        int newLinePos = results.indexOf('\n',captureStart);
-        if(newLinePos == -1) {
-            throw new SonarException(msg + " end of line");
-        }
-        String result=results.substring(captureStart,newLinePos);
+        String result=matcher.group(1).trim();
         return result;
     }
 

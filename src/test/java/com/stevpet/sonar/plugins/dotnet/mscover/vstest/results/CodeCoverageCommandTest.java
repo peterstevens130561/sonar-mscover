@@ -14,13 +14,57 @@ public class CodeCoverageCommandTest {
     }    
     
 
+    @Test
     public void sunnyCommand() {
         CodeCoverageCommand command = CodeCoverageCommand.create() ;
         command.setCoveragePath("stevpet.coverage");
         command.setOutputPath("stevpet.xml");
         String commandLine = command.toCommandLine();
-        String expected = "/CodeCoverage/CodeCoverage.exe stevpet.coverage stevpet.xml";
+        String expected = "null\\CodeCoverage\\CodeCoverage.exe stevpet.coverage stevpet.xml";
         Assert.assertEquals(expected, commandLine);
     }
     
+    @Test
+    public void mixedPath_mustBeWindows() {
+        CodeCoverageCommand command = CodeCoverageCommand.create() ;
+        command.setCoveragePath("john/aap\\wim.xml");
+        command.setOutputPath("stevpet.xml");
+        String commandLine = command.toCommandLine();
+        String expected = "null\\CodeCoverage\\CodeCoverage.exe john\\aap\\wim.xml stevpet.xml";
+        Assert.assertEquals(expected, commandLine);
+    }
+    
+    @Test
+    public void spacedCoveragePath_MustBeEnclosedBetweenParenthesis() {
+        CodeCoverageCommand command = CodeCoverageCommand.create() ;
+        command.setCoveragePath("john/aap\\wi m.xml");
+        command.setOutputPath("stevpet.xml");
+        String commandLine = command.toCommandLine();
+        String expected = "null\\CodeCoverage\\CodeCoverage.exe \"john\\aap\\wi m.xml\" stevpet.xml";
+        Assert.assertEquals(expected, commandLine);
+    }
+    
+    @Test
+    public void spacedOutputPath_MustBeEnclosedBetweenParenthesis() {
+        CodeCoverageCommand command = CodeCoverageCommand.create() ;
+        command.setCoveragePath("john/aap\\wim.xml");
+        command.setOutputPath("stev pet.xml");
+        String commandLine = command.toCommandLine();
+        String expected = "null\\CodeCoverage\\CodeCoverage.exe john\\aap\\wim.xml \"stev pet.xml\"";
+        Assert.assertEquals(expected, commandLine);
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void invalidCoveragePath_MustThrowException() {
+        CodeCoverageCommand command = CodeCoverageCommand.create() ;
+        command.setCoveragePath("john\r/aap\\wim.xml");
+        Assert.fail();
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void invalidOutputPath_MustThrowException() {
+        CodeCoverageCommand command = CodeCoverageCommand.create() ;
+        command.setOutputPath("john\r/aap\\wim.xml");
+        Assert.fail();
+    }
 }

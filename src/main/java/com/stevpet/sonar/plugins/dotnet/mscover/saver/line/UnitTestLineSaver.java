@@ -33,7 +33,9 @@ public class UnitTestLineSaver implements LineMeasureSaver {
             FileCoverage coverageData, File file) {
         measureSaver.setFile(file);
         double coverage = coverageData.getCoverage();
+        measureSaver.setIgnoreTwiceSameMeasure();
         measureSaver.saveFileMeasure(CoreMetrics.LINES, (double) coverageData.getCountLines());
+        measureSaver.setExceptionOnTwiceSameMeasure();
         measureSaver.saveFileMeasure( CoreMetrics.LINES_TO_COVER, (double) coverageData.getCountLines());
         measureSaver.saveFileMeasure( CoreMetrics.UNCOVERED_LINES, (double) coverageData.getCountLines() - coverageData.getCoveredLines());
         measureSaver.saveFileMeasure( CoreMetrics.COVERAGE, convertPercentage(coverage));

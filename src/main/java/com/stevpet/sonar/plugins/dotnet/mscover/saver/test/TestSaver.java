@@ -11,6 +11,7 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
@@ -18,6 +19,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry.ForEachUnitTestFile;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
 public class TestSaver {
 
@@ -29,8 +31,15 @@ public class TestSaver {
     private UnitTestFilesResultRegistry unitTestFilesResultRegistry;
     private SourceFilePathHelper sourceFilePathHelper;
     private StringBuilder testCaseDetails ;
-
+    private ResultsModel  projectSummaryResults;
+    private MeasureSaver measureSaver;
     private ResourceMediator resourceMediator;
+    
+    public TestSaver(SensorContext context,ResourceMediator resourceMediator,MeasureSaver measureSaver) {
+        this.context = context;
+        this.resourceMediator = resourceMediator;
+        this.measureSaver = measureSaver;
+    }
     public SourceFileNamesRegistry getSourceFileNamesRegistry() {
         return sourceFileNamesRegistry;
     }
@@ -54,17 +63,23 @@ public class TestSaver {
         this.sourceFilePathHelper = sourceFilePathHelper;
     }
 
-    public TestSaver(SensorContext context,ResourceMediator resourceMediator) {
-        this.context = context;
-        this.resourceMediator = resourceMediator;
-    }
+
 
 
     /**
      * Save results in all test files
      */
     public void save() {
+        projectSummaryResults = new ResultsModel();
         unitTestFilesResultRegistry.forEachUnitTestFile(new SaveUnitTestFileMeasures());
+        saveProjectTestResults();
+    }
+
+    private void saveProjectTestResults() {
+        LOG.info("ResultsSensor: {}",projectSummaryResults.getExecutedTests());
+        measureSaver.saveSummaryMeasure(CoreMetrics.TESTS,(double)projectSummaryResults.getExecutedTests());
+        measureSaver.saveSummaryMeasure(CoreMetrics.TEST_FAILURES,(double)projectSummaryResults.getFailedTests());
+        measureSaver.saveSummaryMeasure(CoreMetrics.TEST_ERRORS,(double)projectSummaryResults.getErroredTests());
     }
 
     class SaveUnitTestFileMeasures implements ForEachUnitTestFile {
@@ -74,6 +89,7 @@ public class TestSaver {
         if(sonarFile==null) {
             return;
         }
+        projectSummaryResults.add(fileResults);
         saveSummaryMeasures(fileResults, sonarFile);
         saveTestCaseMeasures(fileResults, sonarFile);
 
@@ -88,11 +104,12 @@ public class TestSaver {
                 LOG.warn("Could not get unit test file for file "+sourceFileName);
                 return null;
             }
-            return resourceMediator.getSonarFileResource(sourceFile);
+            return resourceMediator.getSonarTestResource(sourceFile);
         }
    
 
 }
+
 
     public void saveSummaryMeasures( UnitTestFileResultModel fileResults,
             org.sonar.api.resources.File sonarFile) {
