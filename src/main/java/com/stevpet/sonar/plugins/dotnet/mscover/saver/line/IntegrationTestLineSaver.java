@@ -36,7 +36,7 @@ public class IntegrationTestLineSaver implements LineMeasureSaver {
     public void saveMeasures(FileCoverage coverageData, java.io.File file) {
 
         double coverage = coverageData.getCoverage();
-
+        measureSaver.setFile(file);
         measureSaver.saveFileMeasure(CoreMetrics.IT_LINES_TO_COVER,(double) coverageData.getCountLines());
 
         measureSaver.saveFileMeasure(CoreMetrics.IT_UNCOVERED_LINES,(double) coverageData.getCountLines()

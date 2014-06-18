@@ -29,6 +29,17 @@ public class FileFilterTest {
     }
     
     @Test
+    public void UnitTestsDirSpecified_FileInDirectory_ShouldNotPass() {
+        //Arrange
+        ResourceFilter fileFilter = new AntPatternResourceFilter();
+        fileFilter.setExclusions("*Tests*/*");
+        //Act
+        boolean isPassed=fileFilter.isPassed("UnitTests1/aap.cpp");
+        //Assert
+        Assert.assertFalse(isPassed);
+    }
+    
+    @Test
     public void DirectoryMatch_FileInDirectory_ShouldMatch() {
         //Arrange
         ResourceFilter fileFilter = new AntPatternResourceFilter();

@@ -80,13 +80,20 @@ public class UnitTestRunner {
     private void requireTestSettings() {
         String testSettings = propertiesHelper.getTestSettings();
         if(StringUtils.isEmpty(testSettings)) {
-            throw new SonarException(PropertiesHelper.MSCOVER_TESTSETTINGS + " not set, required though when using this mode");
+            getDefaultSettingsOrDie();
         }
         testSettingsPath = solutionDirectory.getAbsolutePath() + "\\" + testSettings;
         File testSettingsFile = new File(testSettingsPath);
         if(!testSettingsFile.exists()) {
             throw new SonarException(PropertiesHelper.MSCOVER_TESTSETTINGS + " file " + testSettingsPath + " does not exist");
         }      
+    }
+
+    private void getDefaultSettingsOrDie() {
+        testSettingsPath= new TestConfigFinder().getDefault(solutionDirectory);
+        if(testSettingsPath==null) {
+            throw new SonarException(PropertiesHelper.MSCOVER_TESTSETTINGS + "not set, and no testsettings file found");
+        }
     }
     
     private void getResultPaths() {

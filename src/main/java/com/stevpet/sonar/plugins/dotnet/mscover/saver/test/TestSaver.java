@@ -19,6 +19,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry.ForEachUnitTestFile;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
+import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.NullResource;
+import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
 public class TestSaver {
@@ -85,24 +87,21 @@ public class TestSaver {
     class SaveUnitTestFileMeasures implements ForEachUnitTestFile {
 
         public void execute(String fileID, UnitTestFileResultModel fileResults) {
-        org.sonar.api.resources.File sonarFile = tryToGetUnitTestResource(fileID);
-        if(sonarFile==null) {
-            return;
-        }
+        ResourceSeam sonarFile = tryToGetUnitTestResource(fileID);
         projectSummaryResults.add(fileResults);
         saveSummaryMeasures(fileResults, sonarFile);
         saveTestCaseMeasures(fileResults, sonarFile);
 
     }
 
-        private org.sonar.api.resources.File tryToGetUnitTestResource(
+        private ResourceSeam tryToGetUnitTestResource(
                 String fileID) {
             String sourceFileName=sourceFileNamesRegistry.getSourceFileName(fileID);
 
             File sourceFile = sourceFilePathHelper.getCanonicalFile(sourceFileName);
             if(sourceFile == null) {
                 LOG.warn("Could not get unit test file for file "+sourceFileName);
-                return null;
+                return new NullResource();
             }
             return resourceMediator.getSonarTestResource(sourceFile);
         }
@@ -112,17 +111,17 @@ public class TestSaver {
 
 
     public void saveSummaryMeasures( UnitTestFileResultModel fileResults,
-            org.sonar.api.resources.File sonarFile) {
-        context.saveMeasure(sonarFile,CoreMetrics.SKIPPED_TESTS, (double)0);
-        context.saveMeasure(sonarFile, CoreMetrics.TEST_ERRORS,(double) 0);
-        context.saveMeasure(sonarFile, CoreMetrics.TEST_SUCCESS_DENSITY,fileResults.getDensity()*100.0);
-        context.saveMeasure(sonarFile, CoreMetrics.TEST_FAILURES,fileResults.getFail());
-        context.saveMeasure(sonarFile, CoreMetrics.TEST_EXECUTION_TIME,1000.0);
-        context.saveMeasure(sonarFile,CoreMetrics.TESTS,fileResults.getTests());  
+            ResourceSeam sonarFile) {
+        sonarFile.saveMetricValue(CoreMetrics.SKIPPED_TESTS, (double)0);
+        sonarFile.saveMetricValue(CoreMetrics.TEST_ERRORS,(double) 0);
+        sonarFile.saveMetricValue(CoreMetrics.TEST_SUCCESS_DENSITY,fileResults.getDensity()*100.0);
+        sonarFile.saveMetricValue(CoreMetrics.TEST_FAILURES,fileResults.getFail());
+        sonarFile.saveMetricValue(CoreMetrics.TEST_EXECUTION_TIME,1000.0);
+        sonarFile.saveMetricValue(CoreMetrics.TESTS,fileResults.getTests());  
     }
 
     public void saveTestCaseMeasures( UnitTestFileResultModel fileResults,
-            org.sonar.api.resources.File sonarFile) {
+            ResourceSeam sonarFile) {
         testCaseDetails = new StringBuilder(256);
         testCaseDetails.append("<tests-details>");
         List<UnitTestResultModel> details = fileResults.getUnitTests();
@@ -146,7 +145,7 @@ public class TestSaver {
         String data=testCaseDetails.toString();
         Measure testData = new Measure(CoreMetrics.TEST_DATA, data);
         testData.setPersistenceMode(PersistenceMode.DATABASE);
-        context.saveMeasure(sonarFile, testData);
+        sonarFile.saveMeasure(testData);
         LOG.debug("test detail : {}", testCaseDetails);
     }
 

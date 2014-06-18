@@ -8,6 +8,7 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Resource;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
+import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
 
 /**
  * Use as seam between the app and sonar to save any measure. Allows better
@@ -20,7 +21,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 public class SonarMeasureSaver implements MeasureSaver {
     private SensorContext sensorContext;
     private ResourceMediator resourceMediator;
-    private Resource resource;
+    private ResourceSeam resource;
     private Boolean ignoreSaveTwice=false;
 
     private SonarMeasureSaver(SensorContext sensorContext,
@@ -53,27 +54,23 @@ public class SonarMeasureSaver implements MeasureSaver {
      * (org.sonar.api.measures.Measure)
      */
     public void saveFileMeasure(Measure measure) {
-        if (resource != null) {
             try {
-                sensorContext.saveMeasure(resource, measure);
+                resource.saveMeasure(measure);
             } catch (RuntimeException e) {
                 if (!ignoreSaveTwice) {
                     throw e;
                 }
             }
-        }
     }
 
     public void saveFileMeasure(Metric metric, double value) {
-        if (resource != null) {
             try {
-                sensorContext.saveMeasure(resource, metric, value);
+                resource.saveMetricValue(metric, value);
             } catch (RuntimeException e) {
                 if (!ignoreSaveTwice) {
                     throw e;
                 }
             }
-        }
     }
 
     public void saveSummaryMeasure(Metric metric, double value) {

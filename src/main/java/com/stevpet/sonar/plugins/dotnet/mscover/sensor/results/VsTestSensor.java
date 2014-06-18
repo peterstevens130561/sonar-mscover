@@ -61,6 +61,11 @@ public class VsTestSensor implements Sensor {
         
         LOG.info("MsCover : started running tests");
 
+        String coverageXmlPath = runUnitTests();   
+        updateTestEnvironment(coverageXmlPath);
+    }
+
+    private String runUnitTests() {
         File baseDir=moduleFileSystem.baseDir();
         unitTestRunner.setSolutionDirectory(baseDir);
         
@@ -69,7 +74,10 @@ public class VsTestSensor implements Sensor {
         unitTestRunner.setCoverageXmlPath(coverageXmlPath);
         unitTestRunner.setSonarPath(sonarWorkingDirectory);
         unitTestRunner.runTests();
-        
+        return coverageXmlPath;
+    }
+    
+    private void updateTestEnvironment(String coverageXmlPath) {
         String testResultsPath=unitTestRunner.getResultsXmlPath();
         vsTestEnvironment.setResultsXmlPath(testResultsPath);
         vsTestEnvironment.setCoverageXmlPath(coverageXmlPath);
@@ -79,5 +87,6 @@ public class VsTestSensor implements Sensor {
         LOG.info("MsCover : coverage in {}",coverageXmlPath);
         LOG.info("MsCover : results in {}",testResultsPath);
     }
+
 
 }

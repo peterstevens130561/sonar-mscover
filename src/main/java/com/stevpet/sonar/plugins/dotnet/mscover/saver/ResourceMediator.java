@@ -20,6 +20,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.helpers.SonarResourceHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
+import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeamFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.SonarResourceSeamFactory;
 
 public class ResourceMediator {
     
@@ -31,11 +34,13 @@ public class ResourceMediator {
     private Project project ;
     private SensorContext context;
     private Charset charset;
+    private ResourceSeamFactory resourceSeamFactory;
 
     public ResourceMediator(SensorContext context,Project project) {
         this.project = project ;
         this.context = context;
         setCharset(project);
+        resourceSeamFactory = new SonarResourceSeamFactory(context);
     }
     
     public static ResourceMediator create(SensorContext context,Project project) {
@@ -87,36 +92,40 @@ public class ResourceMediator {
      * @param file
      * @return resource
      */
-    public org.sonar.api.resources.File getSonarFileResource(File file) {
+    public ResourceSeam getSonarFileResource(File file) {
+        return getSonarResource(file);
 
-        org.sonar.api.resources.File sonarFile = getSonarResource(file);
-        if (!context.isIndexed(sonarFile, false)) {           
-            return null;
-        }
-        return sonarFile ;
     }
 
-    public org.sonar.api.resources.File getSonarTestResource(File file) {
+    public ResourceSeam getSonarTestResource(File file) {
 
-        org.sonar.api.resources.File sonarFile = getSonarResource(file);
+        ResourceSeam sonarFile = getSonarResource(file);
         if(sonarFile == null) {
             return null ;
         }
-        if (!context.isIndexed(sonarFile, false)) {           
-            readSourceIntoSonar(file,sonarFile,Qualifiers.UNIT_TEST_FILE);
+        if (sonarFile.isIndexed(false)) {           
+            readSourceIntoSonar(file,sonarFile.getResource(),Qualifiers.UNIT_TEST_FILE);
         }
         return sonarFile ;
     }
 
-    private org.sonar.api.resources.File getSonarResource(File file) {
+    private Object getResource() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    private ResourceSeam getSonarResource(File file) {
+        ResourceSeam resource;
         org.sonar.api.resources.File sonarFile =SonarResourceHelper.getFromFile(file, project);
         if (sonarFile == null) {
             LOG.debug("Could not create sonarFile for "
                     + file.getAbsolutePath());
-            return null;
+            resource=resourceSeamFactory.createNullResource();
+        } else {
+            resource=resourceSeamFactory.createFileResource(sonarFile);
         }
 
-        String longName = sonarFile.getLongName();
+        String longName = resource.getLongName();
         if(!resourceFilter.isPassed(longName)) {
             return null;
         }
@@ -124,7 +133,7 @@ public class ResourceMediator {
             LOG.debug("Skipping file of which commit date is before cutoff date " +sonarFile.getLongName());
             return null;
         }
-        return sonarFile;
+        return resource;
     }
     private void readSourceIntoSonar(File file,
             org.sonar.api.resources.File sonarFile,String qualifier) {
