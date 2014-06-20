@@ -77,23 +77,26 @@ public class UnitTestRunner {
                 throw new SonarException(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH + " not set ");
             }
     }
+    
     private void requireTestSettings() {
         String testSettings = propertiesHelper.getTestSettings();
         if(StringUtils.isEmpty(testSettings)) {
-            getDefaultSettingsOrDie();
+            testSettingsPath=getDefaultSettingsOrDie();
+        } else {
+            testSettingsPath = solutionDirectory.getAbsolutePath() + "\\" + testSettings;
         }
-        testSettingsPath = solutionDirectory.getAbsolutePath() + "\\" + testSettings;
         File testSettingsFile = new File(testSettingsPath);
         if(!testSettingsFile.exists()) {
             throw new SonarException(PropertiesHelper.MSCOVER_TESTSETTINGS + " file " + testSettingsPath + " does not exist");
         }      
     }
 
-    private void getDefaultSettingsOrDie() {
-        testSettingsPath= new TestConfigFinder().getDefault(solutionDirectory);
+    private String getDefaultSettingsOrDie() {
+        String testSettingsPath= new TestConfigFinder().getDefault(solutionDirectory);
         if(testSettingsPath==null) {
             throw new SonarException(PropertiesHelper.MSCOVER_TESTSETTINGS + "not set, and no testsettings file found");
         }
+        return testSettingsPath;
     }
     
     private void getResultPaths() {

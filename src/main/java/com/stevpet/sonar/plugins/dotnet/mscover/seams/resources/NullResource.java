@@ -1,5 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.seams.resources;
 
+import java.nio.charset.Charset;
+
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
@@ -25,8 +27,17 @@ public class NullResource implements ResourceSeam {
         return StringUtils.EMPTY;
     }
 
-    public File getResource() {
-        return null;
+
+    public boolean isIncluded() {
+        return false;
     }
 
+
+
+    public void setIsExcluded() {      
+    }
+
+    public void readSource(java.io.File file, String path, Charset charset) {
+
+    }
 }

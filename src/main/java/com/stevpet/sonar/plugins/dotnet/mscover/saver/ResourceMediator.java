@@ -100,19 +100,13 @@ public class ResourceMediator {
     public ResourceSeam getSonarTestResource(File file) {
 
         ResourceSeam sonarFile = getSonarResource(file);
-        if(sonarFile == null) {
-            return null ;
-        }
-        if (sonarFile.isIndexed(false)) {           
-            readSourceIntoSonar(file,sonarFile.getResource(),Qualifiers.UNIT_TEST_FILE);
+
+        if (!sonarFile.isIndexed(false)) {
+                sonarFile.readSource(file,Qualifiers.UNIT_TEST_FILE,charset);
         }
         return sonarFile ;
     }
 
-    private Object getResource() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     private ResourceSeam getSonarResource(File file) {
         ResourceSeam resource;
@@ -127,37 +121,13 @@ public class ResourceMediator {
 
         String longName = resource.getLongName();
         if(!resourceFilter.isPassed(longName)) {
-            return null;
+            resource.setIsExcluded();
         }
         if (!dateFilter.isResourceIncludedInResults(sonarFile)) {
+            resource.setIsExcluded();
             LOG.debug("Skipping file of which commit date is before cutoff date " +sonarFile.getLongName());
-            return null;
         }
         return resource;
     }
-    private void readSourceIntoSonar(File file,
-            org.sonar.api.resources.File sonarFile,String qualifier) {
-        try {
-            sonarFile.setQualifier(qualifier);
-            context.index(sonarFile);
-              String source = Files.toString(file, charset);
-              source = CharMatcher.anyOf("\uFEFF").removeFrom(source); 
-              context.saveSource(sonarFile, source);
-              LOG.debug("MSCover added file" +sonarFile.getLongName());
-          } catch (IOException e) {
-              String msg="Unable to read and import the source file : '" + file.getAbsolutePath();
-              LOG.error(msg);
-            throw new SonarException(msg,e);
-          }
-        if(!context.isIndexed(sonarFile, false)) {
-            String msg="Can't index file" + file.getAbsolutePath();
-            LOG.debug(msg);
-            //throw new SonarException(msg);
-        }
-    }
- 
-
-
-
 
 }
