@@ -4,8 +4,13 @@ import java.util.List;
 
 import org.sonar.api.utils.command.Command;
 
-public class VSTestCommand implements ShellCommand {
+import com.google.common.base.Joiner;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.opencover.OpenCoverTarget;
 
+public class VSTestCommand implements ShellCommand,OpenCoverTarget {
+
+    private static String defaultPath = "C:/Program Files (x86)/Microsoft Visual Studio 11.0/" +
+            "Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe";
     private String commandPath;
     private String testSettingsPath;
     private List<String> unitTestAssemblyPaths;
@@ -18,10 +23,7 @@ public class VSTestCommand implements ShellCommand {
         return new VSTestCommand();
     }
     
- 
-    private static String defaultPath = "C:/Program Files (x86)/Microsoft Visual Studio 11.0/" +
-            "Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe";
-    
+  
     /**
      * @return Creates the commandline with all options
      */
@@ -46,6 +48,16 @@ public class VSTestCommand implements ShellCommand {
 
     public void setUnitTestAssembliesPath(List<String> unitTestAssemblyPaths) {
         this.unitTestAssemblyPaths = unitTestAssemblyPaths;
+    }
+    public String getExecutable() {
+        return commandPath;
+    }
+    public String getArguments() {
+        Command command = Command.create("bogus");
+        command.addArguments(unitTestAssemblyPaths);
+        command.addArgument("/Settings:" + testSettingsPath);
+        command.addArgument("/Logger:trx");
+        return Joiner.on(" ").join(command.getArguments());
     }
 
 
