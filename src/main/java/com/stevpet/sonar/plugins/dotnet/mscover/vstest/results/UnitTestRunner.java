@@ -19,11 +19,11 @@ public class UnitTestRunner {
     private PropertiesHelper propertiesHelper ;
     private File solutionDirectory ;
     private List<String> unitTestAssembliesPath;
-    private String testSettingsPath;
     private StreamConsumer stdOut;
     private StreamConsumer stdErr;
     private String coveragePath;
     private String resultsPath;
+    private File testSettingsFile;
     
     private String outputPath;
     private String sonarPath;
@@ -75,13 +75,20 @@ public class UnitTestRunner {
     
     public VSTestCommand prepareTestCommand() {
         requireTestSettings();
+        redetermineSolutionDirectory();
         requireOutputPath();
         findAssemblies();
         return buildVSTestCommand();     
     }
+    private void redetermineSolutionDirectory() {
+        solutionDirectory=testSettingsFile.getParentFile();
+    }
+
     /**
      * Converts the .coverage file into an xml file
      */
+    
+    
     private void convertCoverageFileToXml() {
             CodeCoverageCommand command = new CodeCoverageCommand();
             command.setSonarPath(sonarPath);
@@ -103,22 +110,21 @@ public class UnitTestRunner {
     private void requireTestSettings() {
         String testSettings = propertiesHelper.getTestSettings();
         if(StringUtils.isEmpty(testSettings)) {
-            testSettingsPath=getDefaultSettingsOrDie();
+            testSettingsFile=getDefaultSettingsOrDie();
         } else {
-            testSettingsPath = solutionDirectory.getAbsolutePath() + "\\" + testSettings;
+            testSettingsFile= new TestConfigFinder().findFileUpwards(solutionDirectory,testSettings);
         }
-        File testSettingsFile = new File(testSettingsPath);
-        if(!testSettingsFile.exists()) {
-            throw new SonarException(PropertiesHelper.MSCOVER_TESTSETTINGS + " file " + testSettingsPath + " does not exist");
+        if(testSettingsFile == null || !testSettingsFile.exists()) {
+            throw new SonarException(PropertiesHelper.MSCOVER_TESTSETTINGS + " file " + testSettingsFile.getAbsolutePath()+ " does not exist");
         }      
     }
 
-    private String getDefaultSettingsOrDie() {
-        String testSettingsPath= new TestConfigFinder().getDefault(solutionDirectory);
-        if(testSettingsPath==null) {
+    private File getDefaultSettingsOrDie() {
+        File  testSettingsFile= new TestConfigFinder().findDefaultUpwards(solutionDirectory);
+        if(testSettingsFile==null) {
             throw new SonarException(PropertiesHelper.MSCOVER_TESTSETTINGS + "not set, and no testsettings file found");
         }
-        return testSettingsPath;
+        return testSettingsFile;
     }
     
     /**
@@ -150,7 +156,7 @@ public class UnitTestRunner {
      */
     private VSTestCommand buildVSTestCommand() {
         VSTestCommand vsTestCommand = VSTestCommand.create();
-        vsTestCommand.setTestSettingsPath(testSettingsPath);
+        vsTestCommand.setTestSettingsPath(testSettingsFile.getAbsolutePath());
         vsTestCommand.setUnitTestAssembliesPath(unitTestAssembliesPath);
         vsTestCommand.setCodeCoverage(doCodeCoverage);
         return vsTestCommand;

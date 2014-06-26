@@ -33,4 +33,32 @@ public class TestConfigFinder {
         }
         return defaultConfigAbsolutePath;
     }
+    
+    public File findDefaultUpwards(File folder) {
+        return findFileUpwards(folder,configRegex);
+    }
+    public File findFileUpwards(File folder, String regex) {
+        boolean found=false;
+        Pattern pattern = Pattern.compile(regex);
+        while(folder.length() >0) {
+            File file=getFileName(folder,pattern); 
+            if(file !=null) {
+                return file;
+            }
+            folder = folder.getParentFile();
+        }
+        return null;
+    }
+
+    private File getFileName(File folder,Pattern pattern) {
+        for(File file:folder.listFiles()) {
+            String fileName = file.getName();
+            Matcher matcher = pattern.matcher(fileName);
+            if(matcher.find()) {
+                    LOG.info("found test configuration file, will be used " + fileName);
+                    return file;
+            }
+        }
+        return null;
+    }
 }

@@ -72,7 +72,7 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
             logReasonToNotExecute("there are no test projects.");
             return false;
         }
-        if (!project.isRoot() || !"cs".equals(project.getLanguageKey())) {
+        if (project.isRoot() || !"cs".equals(project.getLanguageKey())) {
             return false;
         }
         String msCoverMode = settings.getString(PropertiesHelper.MSCOVER_MODE);
