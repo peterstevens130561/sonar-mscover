@@ -23,7 +23,7 @@ public class ToCommandTest {
         Command command = openCoverCommand.toCommand();
         String commandLine=command.toCommandLine();
         Assert.assertTrue(commandLine.contains(" -register:user "));
-        Assert.assertTrue(commandLine.contains(" -output:\"output path\" "));
+        Assert.assertTrue(commandLine.contains(" \"-output:output path\" "));
         Assert.assertTrue(commandLine.contains("jippie"));
         
     }

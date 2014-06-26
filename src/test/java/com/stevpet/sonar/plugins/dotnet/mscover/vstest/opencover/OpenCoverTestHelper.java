@@ -15,7 +15,7 @@ public class OpenCoverTestHelper {
     protected void assertArgument(String value) {
         String commandLine=openCoverCommand.toCommandLine();
         assertNotNull(commandLine);
-        assertEquals(EXECUTABLE + " " + value,commandLine);
+        assertEquals(EXECUTABLE + "/OpenCover.Console.Exe " + value,commandLine);
     }
 
     protected OpenCoverCommand createCommand() {

@@ -16,7 +16,7 @@ public class SetTargetCommandTest {
     public void NormalCommand_ShouldSeeCommandLineWithTargetArgsEscaped() {
         OpenCoverTarget target = new Target();
         openCoverCommand.setTargetCommand(target);
-        testHelper.assertArgument("-target:\"myexecutable\" -targetargs:\"-aap:\\\"some escaped stuff\\\" -noot:simple\"");
+        testHelper.assertArgument("\"-target:myexecutable\" \"-targetargs:-aap:\\\"some escaped stuff\\\" -noot:simple\"");
         
     }
     

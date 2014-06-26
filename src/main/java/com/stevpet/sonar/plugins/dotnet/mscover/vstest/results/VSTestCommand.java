@@ -14,6 +14,7 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
     private String commandPath;
     private String testSettingsPath;
     private List<String> unitTestAssemblyPaths;
+    private boolean doCodeCoverage;
     
     private VSTestCommand() {
         commandPath=defaultPath;
@@ -31,11 +32,14 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
         Command command = toCommand();
         return command.toCommandLine();
     }
+
     public Command toCommand() {
         Command command = Command.create(commandPath);
         command.addArguments(unitTestAssemblyPaths);
         command.addArgument("/Settings:" + testSettingsPath);
-        command.addArgument("/EnableCodeCoverage");
+        if (doCodeCoverage) {
+            command.addArgument("/EnableCodeCoverage");
+        }
         command.addArgument("/Logger:trx");
         return command;
     }
@@ -53,11 +57,13 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
         return commandPath;
     }
     public String getArguments() {
-        Command command = Command.create("bogus");
-        command.addArguments(unitTestAssemblyPaths);
-        command.addArgument("/Settings:" + testSettingsPath);
-        command.addArgument("/Logger:trx");
-        return Joiner.on(" ").join(command.getArguments());
+        Command command = toCommand();
+        String commandLine=command.toCommandLine();
+        int start = commandPath.length() + 1;
+        return commandLine.substring(start);
+    }
+    public void setCodeCoverage(boolean doCodeCoverage) {
+        this.doCodeCoverage=doCodeCoverage;
     }
 
 

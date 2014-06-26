@@ -27,6 +27,7 @@ public class UnitTestRunner {
     
     private String outputPath;
     private String sonarPath;
+    private boolean doCodeCoverage;
     
     private UnitTestRunner() {
     }
@@ -46,6 +47,9 @@ public class UnitTestRunner {
         this.solutionDirectory = solutionDirectory;
     }
     
+    public void setDoCodeCoverage(boolean doCodeCoverage) {
+        this.doCodeCoverage=doCodeCoverage;
+    }
     public boolean shouldRun() {
         boolean shouldRun=propertiesHelper.getRunMode() == RunMode.RUNVSTEST;
         LOG.debug("shouldRun ->{}",shouldRun);
@@ -56,17 +60,35 @@ public class UnitTestRunner {
      * information. Make sure all properties are set:
      * -solutionDirectory
      * -outputPath
+     * Result is the .cover file
      * @return
      */
-    public boolean runTests() {
+    public void runTests() {
+        VSTestCommand vsTestCommand=prepareTestCommand();
+        executeShellCommand(vsTestCommand);
+        getResultPaths();
+        if(doCodeCoverage) {
+            convertCoverageFileToXml();
+        }
+    }
+    
+    
+    public VSTestCommand prepareTestCommand() {
         requireTestSettings();
         requireOutputPath();
         findAssemblies();
-        runVsTest();
-        getResultPaths();
-        runCodeCoverage();
-        return true;
- 
+        return buildVSTestCommand();     
+    }
+    /**
+     * Converts the .coverage file into an xml file
+     */
+    private void convertCoverageFileToXml() {
+            CodeCoverageCommand command = new CodeCoverageCommand();
+            command.setSonarPath(sonarPath);
+            command.setCoveragePath(coveragePath);
+            command.setOutputPath(getCoverageXmlPath());
+            command.install();
+            executeShellCommand(command);
     }
     private void requireOutputPath() {
             if(StringUtils.isEmpty(outputPath)) {
@@ -99,23 +121,16 @@ public class UnitTestRunner {
         return testSettingsPath;
     }
     
-    private void getResultPaths() {
+    /**
+     * parse test log to get paths to result files
+     */
+    public void getResultPaths() {
         VSTestResults vsTestResults = new VSTestResults();
         vsTestResults.setResults(stdOut.toString());
         setCoveragePath(vsTestResults.getCoveragePath());
-        setResultsPath(vsTestResults.getResultsPath());
-        
+        setResultsPath(vsTestResults.getResultsPath());     
     }
-    private void runCodeCoverage() {
-        CodeCoverageCommand command = new CodeCoverageCommand();
-        command.setSonarPath(sonarPath);
-        command.setCoveragePath(coveragePath);
-        command.setOutputPath(getOutputPath());
-        command.install();
-        executeShellCommand(command);
-   
- 
-    }
+
     private int executeShellCommand(ShellCommand command) {
         stdOut = new StringStreamConsumer();
         stdErr = new StringStreamConsumer();
@@ -133,11 +148,12 @@ public class UnitTestRunner {
     /**
      * run the test. if the tests were done, stdOut holds the log data
      */
-    private void runVsTest() {
+    private VSTestCommand buildVSTestCommand() {
         VSTestCommand vsTestCommand = VSTestCommand.create();
         vsTestCommand.setTestSettingsPath(testSettingsPath);
         vsTestCommand.setUnitTestAssembliesPath(unitTestAssembliesPath);
-        executeShellCommand(vsTestCommand);
+        vsTestCommand.setCodeCoverage(doCodeCoverage);
+        return vsTestCommand;
 
     }
     
@@ -160,9 +176,18 @@ public class UnitTestRunner {
     }
 
 
+    /**
+     * gets the path to the .cover file
+     * @return
+     */
     public String getCoveragePath() {
         return coveragePath;
     }
+    
+    /**
+     * sets the path to the .cover file
+     * @param coveragePath
+     */
     public void setCoveragePath(String coveragePath) {
         this.coveragePath = coveragePath;
     }
@@ -176,13 +201,12 @@ public class UnitTestRunner {
     }
 
 
-    public String getOutputPath() {
+    public String getCoverageXmlPath() {
         return outputPath;
     }
     public void setCoverageXmlPath(String outputPath) {
         this.outputPath = outputPath;
     }
-
 
     class StringStreamConsumer implements StreamConsumer{
         private StringBuilder log ;
@@ -201,6 +225,9 @@ public class UnitTestRunner {
         return log.toString();
     }
     }
+
+
+
 
 
 }

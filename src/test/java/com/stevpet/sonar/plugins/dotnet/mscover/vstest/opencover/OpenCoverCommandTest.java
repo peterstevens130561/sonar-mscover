@@ -19,7 +19,7 @@ public class OpenCoverCommandTest {
     public void CreateCommand_CommandLineShouldHaveExecutable () {
         String commandLine=openCoverCommand.toCommandLine();
         assertNotNull(commandLine);
-        assertEquals(testHelper.EXECUTABLE,commandLine);
+        assertEquals(testHelper.EXECUTABLE + "/OpenCover.Console.Exe",commandLine);
     }
 
 
@@ -34,7 +34,7 @@ public class OpenCoverCommandTest {
     public void testSetTargetDir() {
         String value="some/path\\with\\backslashes and spaces";
         openCoverCommand.setTargetDir(value);
-        testHelper.assertArgument("-targetdir:\"some/path/with/backslashes and spaces\"");
+        testHelper.assertArgument("\"-targetdir:some/path/with/backslashes and spaces\"");
     }
 
 
@@ -42,14 +42,14 @@ public class OpenCoverCommandTest {
     public void testSetFilter() {
         String value="+BAAP.NOOT +MIES.WIM";
         openCoverCommand.setFilter(value);
-        testHelper.assertArgument("-filter:\"" + value + "\"");      
+        testHelper.assertArgument("\"-filter:" + value + "\"");      
     }
 
     @Test
     public void testSetOutputPath() {
         String value="some/path\\with\\backslashes";
         openCoverCommand.setOutputPath(value);
-        testHelper.assertArgument("-output:\"some/path/with/backslashes\"");
+        testHelper.assertArgument("\"-output:some/path/with/backslashes\"");
     }
 
 }

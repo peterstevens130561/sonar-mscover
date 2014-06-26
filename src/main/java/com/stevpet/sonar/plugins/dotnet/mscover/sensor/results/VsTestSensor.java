@@ -15,6 +15,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.csharpsolutionfilesystem.CSharpSolutionFileSystem;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunnerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
 @DependedUpon(VsTestSensor.DEPENDS)
@@ -36,8 +37,7 @@ public class VsTestSensor implements Sensor {
         this.moduleFileSystem = moduleFileSystem;
         
         propertiesHelper = PropertiesHelper.create(settings);
-        unitTestRunner = UnitTestRunner.create();
-        unitTestRunner.setPropertiesHelper(propertiesHelper);
+
     }
 
 
@@ -66,16 +66,13 @@ public class VsTestSensor implements Sensor {
     }
 
     private String runUnitTests() {
-        File baseDir=moduleFileSystem.baseDir();
-        unitTestRunner.setSolutionDirectory(baseDir);
-        
-        String sonarWorkingDirectory=moduleFileSystem.workingDir().getAbsolutePath();
-        String coverageXmlPath =sonarWorkingDirectory + "/coverage.xml";
-        unitTestRunner.setCoverageXmlPath(coverageXmlPath);
-        unitTestRunner.setSonarPath(sonarWorkingDirectory);
+        unitTestRunner = UnitTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem);
+        unitTestRunner.setDoCodeCoverage(true);
         unitTestRunner.runTests();
-        return coverageXmlPath;
+        return unitTestRunner.getCoverageXmlPath();
     }
+
+
     
     private void updateTestEnvironment(String coverageXmlPath) {
         String testResultsPath=unitTestRunner.getResultsXmlPath();

@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.sensor.vstestopencover;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -12,7 +13,9 @@ import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.command.CommandExecutor;
 import org.sonar.plugins.dotnet.api.DotNetConfiguration;
 import org.sonar.plugins.dotnet.api.DotNetConstants;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
@@ -24,6 +27,11 @@ import org.sonar.plugins.dotnet.api.utils.FileFinder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.opencover.OpenCoverCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.opencover.OpenCoverTarget;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunnerFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestCommand;
 @DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
 public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
 
@@ -33,16 +41,19 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
     private File workDir;
     private PropertiesHelper propertiesHelper ;
     private final Settings settings;
-    protected VsTestOpenCoverCoverageSensor(Settings settings, 
-            MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+    private ModuleFileSystem moduleFileSystem;
+    
+    public VsTestOpenCoverCoverageSensor(Settings settings, 
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
+            ModuleFileSystem moduleFileSystem) {
         super(microsoftWindowsEnvironment, "OpenCover", PropertiesHelper.MSCOVER_MODE);
         propertiesHelper = PropertiesHelper.create(settings);
         this.settings = settings;
+        this.moduleFileSystem = moduleFileSystem;
     }
 
     @Override
     public String[] getSupportedLanguages() {
-        // TODO Auto-generated method stub
         return new String[] {"cs"};
     }
 
@@ -51,21 +62,26 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
      * {@inheritDoc}
      */
     public boolean shouldExecuteOnProject(Project project) {
-      if (MODE_REUSE_REPORT.equals(getExecutionMode())) {
-        logReasonToNotExecute("it is set to 'reuseReport' mode.");
+        if (getMicrosoftWindowsEnvironment().isTestExecutionDone()) {
+            logReasonToNotExecute("test execution has already been done.");
+            return false;
+        }
+        if (getMicrosoftWindowsEnvironment().getCurrentSolution() != null
+                && getMicrosoftWindowsEnvironment().getCurrentSolution()
+                        .getUnitTestProjects().isEmpty()) {
+            logReasonToNotExecute("there are no test projects.");
+            return false;
+        }
+        if (!project.isRoot() || !"cs".equals(project.getLanguageKey())) {
+            return false;
+        }
+        String msCoverMode = settings.getString(PropertiesHelper.MSCOVER_MODE);
+        boolean runMode = "runopencover".equalsIgnoreCase(msCoverMode);
+        if (runMode) {
+            LOG.info("will run opencover with vstest embedded");
+            return true;
+        }
         return false;
-      }
-      if (getMicrosoftWindowsEnvironment().isTestExecutionDone()) {
-        logReasonToNotExecute("test execution has already been done.");
-        return false;
-      }
-      if (getMicrosoftWindowsEnvironment().getCurrentSolution() != null
-        && getMicrosoftWindowsEnvironment().getCurrentSolution().getUnitTestProjects().isEmpty()) {
-        logReasonToNotExecute(" as there are no test projects.");
-        return false;
-      }
-
-      return super.shouldExecuteOnProject(project);
     }
     private void logReasonToNotExecute(String string) {
         LOG.info(WONT_EXECUTE + string);
@@ -75,18 +91,54 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
     public void analyse(Project project, SensorContext context) {
         getSolution();
         ensureWorkDirExists();
-        buildVsTestOpenCoverRunner();
-        executeVsTestOpenCoverRunner();
+        executeVsTestOpenCoverRunner(project);
         // tell that tests were executed so that no other project tries to launch them a second time
         getMicrosoftWindowsEnvironment().setTestExecutionDone();
      
     }
 
-    private void executeVsTestOpenCoverRunner() {
-       throw new NotImplementedException();
-        
+    
+    private void executeVsTestOpenCoverRunner(Project project) {
+        String openCoverPath = settings.getString("sonar.opencover.installDirectory");
+        OpenCoverCommand openCoverCommand = new OpenCoverCommand(openCoverPath) ;
+        openCoverCommand.setRegister("user");
+        String sonarWorkingDirPath=project.getFileSystem().getSonarWorkingDirectory().getAbsolutePath();
+        openCoverCommand.setTargetDir(sonarWorkingDirPath);
+        openCoverCommand.setMergeByHash();
+        openCoverCommand.setOutputPath(sonarWorkingDirPath + "\\coverage-report.xml");
+        openCoverCommand.setTargetCommand(prepareTestRunner());
+        String filter = getFilter();
+        openCoverCommand.setFilter(filter); 
+        long timeoutMilliseconds = 1000 * 300;
+        int exitCode=CommandExecutor.create().execute(openCoverCommand.toCommand(), timeoutMilliseconds);
+        if(exitCode != 0) {
+            throw new SonarException("OpenCover terminated with exitCode " + exitCode);
+        }
     }
 
+    private OpenCoverTarget prepareTestRunner() {
+        UnitTestRunner unitTestRunner = UnitTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem);
+        VSTestCommand testCommand=unitTestRunner.prepareTestCommand();
+        return testCommand;
+    }
+    protected String getFilter() {
+        final StringBuilder filterBuilder = new StringBuilder();
+        // We add all the covered assemblies
+        for (String assemblyName : listCoveredAssemblies()) {
+          filterBuilder.append("+[" + assemblyName + "]* ");
+        }
+        return filterBuilder.toString();
+    }
+    
+    protected List<String> listCoveredAssemblies() {
+        List<String> coveredAssemblyNames = new ArrayList<String>();
+        for (VisualStudioProject visualProject : solution.getProjects()) {
+          if (!visualProject.isTest()) {
+            coveredAssemblyNames.add(visualProject.getAssemblyName());
+          }
+        }
+        return coveredAssemblyNames;
+      }
     private void buildVsTestOpenCoverRunner() {
         throw new NotImplementedException();      
     }

@@ -16,7 +16,7 @@ public class OpenCoverCommand implements ShellCommand {
     Command command ;
     Map<String,String> arguments = Maps.newHashMap();
     public OpenCoverCommand(String path) {
-        command = Command.create(path);
+        command = Command.create(path + "/OpenCover.Console.Exe");
     }
     
     public void setRegister(String value) {
@@ -39,6 +39,10 @@ public class OpenCoverCommand implements ShellCommand {
     private void setTargetArgs( String value) {
         String escapedArg=value.replaceAll("\\\"", "\\\\\"");
         addSpacedArgument("targetargs",escapedArg );
+    }
+    
+    public void setMergeByHash() {
+        addArgument("mergebyhash","");
     }
     
     public void setFilter(String value) {
@@ -65,8 +69,9 @@ public class OpenCoverCommand implements ShellCommand {
     }
 
     private void addSpacedArgument(String name, String valueWithSpaces) {
-        String escapedValue  = "\"" +valueWithSpaces + "\"";
-        addArgument(name,escapedValue);
+        StringBuilder sb = new StringBuilder();
+        sb.append("\"-").append(name).append(":").append(valueWithSpaces).append("\"");
+        arguments.put(name, sb.toString());
     }
     
     private void addArgument(String name, String value) {
