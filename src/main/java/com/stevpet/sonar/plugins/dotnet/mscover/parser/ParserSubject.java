@@ -1,11 +1,13 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.parser;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.stream.FactoryConfigurationError;
+import javax.xml.stream.Location;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 
@@ -24,6 +26,8 @@ public abstract class ParserSubject implements Subject {
     List<ParserObserver> observers = new ArrayList<ParserObserver>();
 
     List<String> parentElements = new ArrayList<String>();
+    private int line;
+    private int column;
 
     public ParserSubject() {
         String[] names = getHierarchy();
@@ -86,7 +90,7 @@ public abstract class ParserSubject implements Subject {
         if (parentElements.contains(name)) {
             parseChild(elementPath, childCursor.childElementCursor());
         } else {
-
+            updateLocation(childCursor);
             String text = getTrimmedElementStringValue(childCursor);
             invokeElementObservers(elementPath, name, text);
         }
@@ -107,8 +111,22 @@ public abstract class ParserSubject implements Subject {
         for (int index = 0; index < attributeCount; index++) {
             String attributeValue = elementCursor.getAttrValue(index);
             String attributeName = elementCursor.getAttrLocalName(index);
+            updateLocation(elementCursor);
             invokeAttributeObservers(name, path, attributeValue, attributeName);
         }
+    }
+
+    private void updateLocation(SMInputCursor elementCursor) {
+        Location location;
+        try {
+            location = elementCursor.getCursorLocation();
+            line = location.getLineNumber();
+            column = location.getColumnNumber();
+        } catch (XMLStreamException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
     private void invokeAttributeObservers(String elementName, String path,
@@ -148,9 +166,21 @@ public abstract class ParserSubject implements Subject {
             Method method) {
         try {
             method.invoke(observer, elementValue);
-        } catch (Exception e) {
-            LOG.error("Exception thrown when invoking method", e);
-            throw new SonarException(e);
+        } catch (InvocationTargetException e) {
+            String msg = "Invocation Target Exception thrown when invoking method " + 
+                    observer.getClass().getName() + ":" + method.getName();
+            LOG.error(msg, e);
+            throw new SonarException(msg,e);
+        } catch (IllegalAccessException e) {
+            String msg = "Illegal Access Exception thrown when invoking method " + 
+                    observer.getClass().getName() + ":" + method.getName();
+            LOG.error(msg, e);
+            throw new SonarException(msg,e);
+        } catch (IllegalArgumentException e) {
+            String msg = "Illegal Argument Exception thrown when invoking method " + 
+                    observer.getClass().getName() + ":" + method.getName();
+            LOG.error(msg, e);
+            throw new SonarException(msg,e);
         }
     }
 

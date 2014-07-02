@@ -25,8 +25,16 @@ public class SourceFileNamesRegistry implements Registry<SourceFileNamesModel> {
         return map.values();
     }
 
+    /**
+     * 
+     * @param fileID
+     * @return sourcefilename matching fileId, or null if not found
+     */
     public String getSourceFileName(String fileID) {
         SourceFileNamesModel model = get(fileID);
+        if(model==null) {
+            return null;
+        }
         return model.getSourceFileName();
     }
 
