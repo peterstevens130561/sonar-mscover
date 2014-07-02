@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.sensor.vstestopencover;
+package com.stevpet.sonar.plugins.dotnet.mscover.sensor.opencover;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -75,9 +75,7 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
         if (project.isRoot() || !"cs".equals(project.getLanguageKey())) {
             return false;
         }
-        String msCoverMode = settings.getString(PropertiesHelper.MSCOVER_MODE);
-        boolean runMode = "runopencover".equalsIgnoreCase(msCoverMode);
-        if (runMode) {
+        if (propertiesHelper.runOpenCover()) {
             LOG.info("will run opencover with vstest embedded");
             return true;
         }

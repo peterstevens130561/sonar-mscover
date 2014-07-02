@@ -1,5 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.sensor.opencover;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
@@ -9,11 +11,12 @@ import org.sonar.plugins.dotnet.api.sensor.AbstractDotNetSensor;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 
-public class OpenCoverCoverageSensor extends AbstractDotNetSensor {
+public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
 
+    private static final Logger LOG = LoggerFactory.getLogger(OpenCoverCoverageResultsSensor.class);
     private PropertiesHelper propertiesHelper;
 
-    public OpenCoverCoverageSensor(
+    public OpenCoverCoverageResultsSensor(
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             Settings settings) {
         super(microsoftWindowsEnvironment, "OpenCover", settings.getString(PropertiesHelper.MSCOVER_MODE));
@@ -26,13 +29,22 @@ public class OpenCoverCoverageSensor extends AbstractDotNetSensor {
     }
 
     @Override
-    public void analyse(Project project, SensorContext context) {
+    public boolean shouldExecuteOnProject(Project project) {
+        if(!super.shouldExecuteOnProject(project)) {
+            return false;
+        }
         if(isTestProject(project)) {
-            return;
+            return false;
         }
-        if(!shouldExecuteOnProject(project)) {
-            return;
+        if(!propertiesHelper.runOpenCover()) {
+            return false;
         }
+        LOG.info("Will execute " + project.getName());
+        return true;
+    }
+    @Override
+    public void analyse(Project project, SensorContext context) {
+
     }
 
 }

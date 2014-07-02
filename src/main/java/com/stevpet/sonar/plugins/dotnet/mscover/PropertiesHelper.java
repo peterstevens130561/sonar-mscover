@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.config.Settings;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 
 public class PropertiesHelper {
@@ -133,6 +134,11 @@ public class PropertiesHelper {
             throw new MsCoverException("Invalid property value " + MSCOVER_MODE +"=" + name);
         }
         return runMode;
+    }
+
+    public boolean runOpenCover() {
+        String msCoverMode = settings.getString(MSCOVER_MODE);
+        return "runopencover".equalsIgnoreCase(msCoverMode);
     }
     
 }
