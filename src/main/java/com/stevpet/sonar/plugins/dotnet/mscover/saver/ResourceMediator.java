@@ -1,7 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.saver;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.Charset;
 
 import org.slf4j.Logger;
@@ -10,10 +9,7 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Qualifiers;
-import org.sonar.api.utils.SonarException;
 
-import com.google.common.base.CharMatcher;
-import com.google.common.io.Files;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
@@ -32,7 +28,6 @@ public class ResourceMediator {
     protected DateFilter dateFilter = DateFilterFactory.createEmptyDateFilter();
     protected ResourceFilter resourceFilter = ResourceFilterFactory.createEmptyFilter();
     private Project project ;
-    private SensorContext context;
     private Charset charset;
     private ResourceSeamFactory resourceSeamFactory;
 

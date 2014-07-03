@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.sonar.api.utils.command.Command;
 
-import com.google.common.base.Joiner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.opencover.OpenCoverTarget;
 
 public class VSTestCommand implements ShellCommand,OpenCoverTarget {
