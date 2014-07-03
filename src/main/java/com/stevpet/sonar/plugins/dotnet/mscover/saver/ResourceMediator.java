@@ -33,7 +33,6 @@ public class ResourceMediator {
 
     public ResourceMediator(SensorContext context,Project project) {
         this.project = project ;
-        this.context = context;
         setCharset(project);
         resourceSeamFactory = new SonarResourceSeamFactory(context);
     }
