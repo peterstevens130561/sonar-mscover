@@ -7,7 +7,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.AttributeMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
 
-public class SequencePointsObserver extends BaseParserObserver {
+public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
 
         private SonarCoverage registry ;
         private SequencePoint sequencePoint;
@@ -16,7 +16,7 @@ public class SequencePointsObserver extends BaseParserObserver {
         private boolean lineVisited;
         private BranchOffsetToLineMapper offsetToLineMapper = new BranchOffsetToLineMapper();
         private boolean branchVisited;
-        public SequencePointsObserver() {
+        public OpenCoverSequencePointsObserver() {
             setPattern("Modules/Module/Classes/Class/Methods/Method/FileRef" +
                      "|Modules/Module/Classes/Class/Methods/Method/SequencePoints/SequencePoint" +
                      "|Modules/Module/Classes/Class/Methods/Method/BranchPoints/BranchPoint" +

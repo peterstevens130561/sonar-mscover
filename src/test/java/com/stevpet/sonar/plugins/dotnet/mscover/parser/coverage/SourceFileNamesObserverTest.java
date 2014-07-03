@@ -18,7 +18,7 @@ public class SourceFileNamesObserverTest {
     private static final String SOURCE_FILE_ID = "SourceFileID";
     private static final String SOURCE_FILE_NAME_PATH = SOURCE_FILE_NAMES + SOURCE_FILE_NAME;
     private static final String SOURCE_FILE_ID_PATH = SOURCE_FILE_NAMES + SOURCE_FILE_ID;
-    SourceFileNamesObserver observer = new SourceFileNamesObserver();
+    CoverageSourceFileNamesObserver observer = new CoverageSourceFileNamesObserver();
     @Test
     public void CompleteSourceFileID_ShouldGetSame() {
         String path = SOURCE_FILE_ID_PATH;

@@ -13,7 +13,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.SourceFileNamesObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageSourceFileNamesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
@@ -59,7 +59,7 @@ public class IntegrationTest {
         coverageParser.registerObserver(methodObserver);
         
 
-        SourceFileNamesObserver sourceFileNamesObserver = new SourceFileNamesObserver();
+        CoverageSourceFileNamesObserver sourceFileNamesObserver = new CoverageSourceFileNamesObserver();
         sourceFileNamesObserver.setRegistry(sourceFileNamesRegistry);
         coverageParser.registerObserver(sourceFileNamesObserver);
 

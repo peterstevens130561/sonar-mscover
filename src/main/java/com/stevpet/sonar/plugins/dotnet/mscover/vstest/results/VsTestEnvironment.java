@@ -5,6 +5,8 @@ import org.sonar.api.batch.InstantiationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+
 @InstantiationStrategy(InstantiationStrategy.PER_BATCH)
 public class VsTestEnvironment implements BatchExtension {
     private static final Logger LOG = LoggerFactory.getLogger(VsTestEnvironment.class);
@@ -12,6 +14,8 @@ public class VsTestEnvironment implements BatchExtension {
     private String coverageXmlPath;
     private String resultsXmlPath;
     private boolean testsHaveRun=false;
+
+    private SonarCoverage sonarCoverage;
     public String getXmlCoveragePath() {
         return coverageXmlPath;
     }
@@ -29,5 +33,14 @@ public class VsTestEnvironment implements BatchExtension {
     }
     public boolean getTestsHaveRun() {
         return testsHaveRun;
+    }
+    
+    public void setSonarCoverage(SonarCoverage sonarCoverage) {
+        this.sonarCoverage = sonarCoverage;
+        this.setTestsHaveRun();
+    }
+    
+    public SonarCoverage getSonarCoverage() {
+        return sonarCoverage;
     }
 }

@@ -5,11 +5,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 
 
-public class SourceFileNamesObserver extends BaseParserObserver {
+public class CoverageSourceFileNamesObserver extends BaseParserObserver {
 
     private SourceFileNamesRegistry registry ;
     private SourceFileNamesModel model;
-    public SourceFileNamesObserver() {
+    public CoverageSourceFileNamesObserver() {
         setPattern("SourceFileNames/(SourceFileID|SourceFileName)");
     }
 

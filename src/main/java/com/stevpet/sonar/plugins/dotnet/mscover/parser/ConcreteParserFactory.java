@@ -1,9 +1,14 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.parser;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodBlocksObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.SourceFileNamesObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageSourceFileNamesObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverSequencePointsObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverSourceFileNamesObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.ResultsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.ResultsParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.UnitTestObserver;
@@ -26,7 +31,7 @@ public class ConcreteParserFactory implements ParserFactory {
         methodBlocksObserver.setRegistry(fileBlocksRegistry);
         parserSubject.registerObserver(methodBlocksObserver);
 
-        SourceFileNamesObserver sourceFileNamesObserver = new SourceFileNamesObserver();
+        CoverageSourceFileNamesObserver sourceFileNamesObserver = new CoverageSourceFileNamesObserver();
         sourceFileNamesObserver.setRegistry(sourceFileNamesRegistry);
         parserSubject.registerObserver(sourceFileNamesObserver);
         return parserSubject;
@@ -47,7 +52,7 @@ public class ConcreteParserFactory implements ParserFactory {
         methodObserver.setRegistry(map);
         parserSubject.registerObserver(methodObserver);
 
-        SourceFileNamesObserver sourceFileNamesObserver = new SourceFileNamesObserver();
+        CoverageSourceFileNamesObserver sourceFileNamesObserver = new CoverageSourceFileNamesObserver();
         sourceFileNamesObserver.setRegistry(sourceFileNamesRegistry);
         parserSubject.registerObserver(sourceFileNamesObserver);
         return parserSubject;
@@ -74,6 +79,23 @@ public class ConcreteParserFactory implements ParserFactory {
         unitTestObserver.setRegistry(registry.getResults());
         parser.registerObserver(unitTestObserver);
 
+        return parser;
+    }
+
+    /**
+     * Creates the complete parser, with the observers registered
+     * @param registry initialized registry
+     */
+    public ParserSubject createOpenCoverParser(SonarCoverage registry) {
+        ParserSubject parser = new OpenCoverParserSubject();
+        
+        OpenCoverObserver observer = new OpenCoverSourceFileNamesObserver();
+        observer.setRegistry(registry);
+        parser.registerObserver(observer);
+        
+        OpenCoverSequencePointsObserver pointsObserver = new OpenCoverSequencePointsObserver();
+        pointsObserver.setRegistry(registry);
+        parser.registerObserver(pointsObserver);
         return parser;
     }
 }

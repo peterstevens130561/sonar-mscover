@@ -27,11 +27,16 @@ import org.sonar.plugins.dotnet.api.utils.FileFinder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.ConcreteParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.opencover.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.opencover.OpenCoverTarget;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunnerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 @DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
 public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
 
@@ -42,14 +47,19 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
     private PropertiesHelper propertiesHelper ;
     private final Settings settings;
     private ModuleFileSystem moduleFileSystem;
+    private String openCoverCoveragePath;
+    private VsTestEnvironment testEnvironment;
+    private String sonarWorkingDirPath;
     
     public VsTestOpenCoverCoverageSensor(Settings settings, 
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
-            ModuleFileSystem moduleFileSystem) {
+            ModuleFileSystem moduleFileSystem,
+            VsTestEnvironment testEnvironment) {
         super(microsoftWindowsEnvironment, "OpenCover", PropertiesHelper.MSCOVER_MODE);
         propertiesHelper = PropertiesHelper.create(settings);
         this.settings = settings;
         this.moduleFileSystem = moduleFileSystem;
+        this.testEnvironment = testEnvironment;
     }
 
     @Override
@@ -87,12 +97,26 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
 
     @Override
     public void analyse(Project project, SensorContext context) {
+        sonarWorkingDirPath = project.getFileSystem().getSonarWorkingDirectory().getAbsolutePath();
+        String openCoverCoveragePath= sonarWorkingDirPath + "\\coverage-report.xml";
+        testEnvironment.setCoverageXmlPath(openCoverCoveragePath);
         getSolution();
         ensureWorkDirExists();
+        
         executeVsTestOpenCoverRunner(project);
         // tell that tests were executed so that no other project tries to launch them a second time
         getMicrosoftWindowsEnvironment().setTestExecutionDone();
+        parseCoverageFile(testEnvironment);
+        
      
+    }
+
+    private void parseCoverageFile(VsTestEnvironment testEnvironment) {
+        ParserFactory parserFactory = new ConcreteParserFactory();
+        SonarCoverage sonarCoverageRegistry = new SonarCoverage();
+        ParserSubject parser=parserFactory.createOpenCoverParser(sonarCoverageRegistry);
+        parser.parseFile(new File(openCoverCoveragePath));
+        testEnvironment.setSonarCoverage(sonarCoverageRegistry);
     }
 
     
@@ -100,10 +124,13 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
         String openCoverPath = settings.getString("sonar.opencover.installDirectory");
         OpenCoverCommand openCoverCommand = new OpenCoverCommand(openCoverPath) ;
         openCoverCommand.setRegister("user");
-        String sonarWorkingDirPath=project.getFileSystem().getSonarWorkingDirectory().getAbsolutePath();
+        
         openCoverCommand.setTargetDir(sonarWorkingDirPath);
-        openCoverCommand.setMergeByHash();
-        openCoverCommand.setOutputPath(sonarWorkingDirPath + "\\coverage-report.xml");
+        openCoverCommand.setMergeByHash();   
+
+        testEnvironment.setTestsHaveRun();
+        openCoverCommand.setOutputPath(testEnvironment.getXmlCoveragePath());
+        
         openCoverCommand.setTargetCommand(prepareTestRunner());
         String filter = getFilter();
         openCoverCommand.setFilter(filter); 

@@ -1,5 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.parser;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
@@ -32,4 +33,6 @@ public interface ParserFactory {
      */
     public ParserSubject createFileNamesParser(MethodToSourceFileIdMap map,
             SourceFileNamesRegistry sourceFileNamesRegistry);
+
+    public ParserSubject createOpenCoverParser(SonarCoverage registry);
 }
