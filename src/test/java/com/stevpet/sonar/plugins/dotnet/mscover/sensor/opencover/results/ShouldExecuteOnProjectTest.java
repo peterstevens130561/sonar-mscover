@@ -11,6 +11,7 @@ import org.sonar.plugins.dotnet.api.sensor.AbstractDotNetSensor;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.opencover.OpenCoverCoverageResultsSensor;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -23,6 +24,7 @@ public class ShouldExecuteOnProjectTest {
     private VisualStudioProject vsProject;
     private Project project; 
     private Settings settings;
+    private VsTestEnvironment vsTestEnvironment;
     @Before
     public void before() {
         project=mock(Project.class);
@@ -30,7 +32,8 @@ public class ShouldExecuteOnProjectTest {
         vsProject = mock(VisualStudioProject.class);
         when(microsoftWindowsEnvironment.getCurrentProject(anyString())).thenReturn(vsProject);
         settings = mock(Settings.class);
-        sensor = new OpenCoverCoverageResultsSensor(microsoftWindowsEnvironment,settings);
+        vsTestEnvironment = new VsTestEnvironment();
+        sensor = new OpenCoverCoverageResultsSensor(microsoftWindowsEnvironment,settings, vsTestEnvironment);
           
     }
     
@@ -61,6 +64,7 @@ public class ShouldExecuteOnProjectTest {
         when(project.isRoot()).thenReturn(false);
         when(vsProject.isTest()).thenReturn(false);
         when(settings.getString(matches(PropertiesHelper.MSCOVER_MODE))).thenReturn("runopencover");
+        vsTestEnvironment.setTestsHaveRun();
         assertTrue(sensor.shouldExecuteOnProject(project));
     }
     
