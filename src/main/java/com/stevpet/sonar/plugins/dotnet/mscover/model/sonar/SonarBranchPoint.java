@@ -1,6 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
-public class SonarBranchPoint implements CoveragePoint, CoverageLine{
+public class SonarBranchPoint implements CoverageLinePoint{
     private int line;
     private int branchesVisited ;
     private int branchesToVisit ;

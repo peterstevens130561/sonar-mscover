@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.opencover.SequencePoint;
-
 public class SonarCoverage {
     Map<String,SonarFileCoverage> map = new HashMap<String,SonarFileCoverage>();
 

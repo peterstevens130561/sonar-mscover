@@ -1,6 +1,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
-public interface CoveragePoints {
+import java.util.List;
+
+public interface CoverageLinePoints {
 
     abstract CoveragePoint getLast();
 
@@ -9,5 +11,7 @@ public interface CoveragePoints {
     abstract SonarCoverageSummary getSummary();
     
     abstract CoveragePoint addPoint(int line, boolean visited);
+
+    abstract List<CoverageLinePoint> getPoints();
 
 }

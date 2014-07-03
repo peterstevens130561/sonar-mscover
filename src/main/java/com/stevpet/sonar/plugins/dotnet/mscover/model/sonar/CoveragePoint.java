@@ -4,6 +4,7 @@ public interface CoveragePoint {
 
     abstract int getToCover();
 
-    abstract int getCovered();    
+    abstract int getCovered();  
+    
 
 }

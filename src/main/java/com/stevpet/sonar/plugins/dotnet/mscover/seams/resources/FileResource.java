@@ -24,10 +24,11 @@ public class FileResource implements ResourceSeam {
     private File resource;
     private boolean isExcluded = false;
     FileResource(SensorContext sensorContext,File file) {
-        if(file==null) {
+        if(file==null || sensorContext==null) {
             throw new IllegalArgumentException("Programmer error: FileResource invoked with null argument");
         }
         this.resource=file;
+        this.sensorContext=sensorContext;
     }
 
     public void saveMetricValue(Metric metric,

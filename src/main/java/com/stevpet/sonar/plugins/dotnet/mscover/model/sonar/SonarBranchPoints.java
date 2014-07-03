@@ -3,10 +3,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sonar.api.utils.SonarException;
-
-public class SonarBranchPoints implements CoveragePoints {
-    private List<SonarBranchPoint> points = new ArrayList<SonarBranchPoint>();
+public class SonarBranchPoints implements CoverageLinePoints {
+    private List<CoverageLinePoint> points = new ArrayList<CoverageLinePoint>();
 
     public int size() {
         return points.size();
@@ -17,10 +15,9 @@ public class SonarBranchPoints implements CoveragePoints {
      */
     public SonarBranchPoint getLast() {
         int last=size()-1;
-        return points.get(last);
+        return (SonarBranchPoint)points.get(last);
     }
 
-    
     /**
      * aggregate a branchpoint.
      * @param line of branchpoint
@@ -55,10 +52,14 @@ public class SonarBranchPoints implements CoveragePoints {
 
     public SonarCoverageSummary getSummary() {
         SonarCoverageSummary summary = new SonarCoverageSummary();
-        for(SonarBranchPoint point: points) {
+        for(CoveragePoint point: points) {
             summary.incrementPoint(point);
         }
         return summary;
+    }
+
+    public List<CoverageLinePoint> getPoints() {
+        return points;
     }
     
 }

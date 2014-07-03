@@ -5,7 +5,6 @@ import java.nio.charset.Charset;
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
-import org.sonar.api.resources.File;
 
 public class NullResource implements ResourceSeam {
 

@@ -23,7 +23,7 @@ public class FileCoverageModelTest {
 
         SonarLinePoint linePoint = createFirstLinePoint(line,true);
         
-        assertEquals(linePoint.isVisited(), true);
+        assertEquals(linePoint.getCovered()>0, true);
         assertEquals(linePoint.getLine(),73);
     }
     
@@ -32,12 +32,12 @@ public class FileCoverageModelTest {
         CoveragePoint linePoint= createFirstLinePoint(line,true);
         
         coveredFile.addLinePoint(line,false);
-        SonarLinePoint point=coveredFile.getLastLinePoint();
-        assertEquals(point.isVisited(), false);
+        CoveragePoint point=coveredFile.getLastLinePoint();
+        assertEquals(point.getCovered()>0, false);
     }
 
     private SonarLinePoint createFirstLinePoint(int line,boolean isVisited) {
-        return coveredFile.addLinePoint(line,isVisited);
+        return (SonarLinePoint)coveredFile.addLinePoint(line,isVisited);
         
     }
 

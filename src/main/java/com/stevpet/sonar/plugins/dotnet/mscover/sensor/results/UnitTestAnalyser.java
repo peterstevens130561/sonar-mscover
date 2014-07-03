@@ -6,11 +6,9 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.SonarException;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ConcreteParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;

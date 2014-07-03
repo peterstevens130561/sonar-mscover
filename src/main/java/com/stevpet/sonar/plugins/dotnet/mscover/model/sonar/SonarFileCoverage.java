@@ -7,8 +7,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 public class SonarFileCoverage {
     String absolutePath ;
 
-    private SonarLinePoints linePoints = new SonarLinePoints();
-    private SonarBranchPoints branchPoints = new SonarBranchPoints();
+    private CoverageLinePoints linePoints = new SonarLinePoints();
+    private CoverageLinePoints branchPoints = new SonarBranchPoints();
     
     public void setAbsolutePath(String absolutePath) {  
         this.absolutePath=absolutePath;
@@ -18,19 +18,19 @@ public class SonarFileCoverage {
         return absolutePath;
     }
     
-    public SonarLinePoints getLinePoints() {
+    public CoverageLinePoints getLinePoints() {
         return linePoints;
     }
     
-    public SonarBranchPoints getBranchPoints() {
+    public CoverageLinePoints getBranchPoints() {
         return branchPoints;
     }
 
-    public SonarLinePoint addLinePoint(int line, boolean covered) {
+    public CoveragePoint addLinePoint(int line, boolean covered) {
         return getLinePoints().addPoint(line,covered);
     }
 
-    public SonarLinePoint getLastLinePoint() {
+    public CoveragePoint getLastLinePoint() {
         return getLinePoints().getLast();
     }
 

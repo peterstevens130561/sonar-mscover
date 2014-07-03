@@ -96,7 +96,7 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
     @Override
     public void analyse(Project project, SensorContext context) {
         sonarWorkingDirPath = project.getFileSystem().getSonarWorkingDirectory().getAbsolutePath();
-        String openCoverCoveragePath= sonarWorkingDirPath + "\\coverage-report.xml";
+        openCoverCoveragePath= sonarWorkingDirPath + "\\coverage-report.xml";
         testEnvironment.setCoverageXmlPath(openCoverCoveragePath);
         getSolution();
         ensureWorkDirExists();
@@ -113,7 +113,7 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
         ParserFactory parserFactory = new ConcreteParserFactory();
         SonarCoverage sonarCoverageRegistry = new SonarCoverage();
         ParserSubject parser=parserFactory.createOpenCoverParser(sonarCoverageRegistry);
-        parser.parseFile(new File(openCoverCoveragePath));
+        parser.parseFile(new File(testEnvironment.getXmlCoveragePath()));
         testEnvironment.setSonarCoverage(sonarCoverageRegistry);
     }
 

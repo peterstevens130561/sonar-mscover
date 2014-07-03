@@ -3,15 +3,15 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SonarLinePoints implements CoveragePoints {
-    List<SonarLinePoint> points = new ArrayList<SonarLinePoint>();
+public class SonarLinePoints implements CoverageLinePoints {
+    List<CoverageLinePoint> points = new ArrayList<CoverageLinePoint>();
 
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoveragePoints#getLast()
      */
     public SonarLinePoint getLast() {
         int last=size()-1;
-        return points.get(last);
+        return (SonarLinePoint)points.get(last);
     }
 
     /* (non-Javadoc)
@@ -50,6 +50,10 @@ public class SonarLinePoints implements CoveragePoints {
 
         }
         return summary;
+    }
+
+    public List<CoverageLinePoint> getPoints() {
+        return points;
     }
     
     
