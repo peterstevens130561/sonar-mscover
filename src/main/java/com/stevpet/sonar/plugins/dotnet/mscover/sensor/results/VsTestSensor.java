@@ -74,7 +74,7 @@ public class VsTestSensor implements Sensor {
     
     private void updateTestEnvironment(String coverageXmlPath) {
         String testResultsPath=unitTestRunner.getResultsXmlPath();
-        vsTestEnvironment.setResultsXmlPath(testResultsPath);
+        vsTestEnvironment.setTestResultsXmlPath(testResultsPath);
         vsTestEnvironment.setCoverageXmlPath(coverageXmlPath);
         vsTestEnvironment.setTestsHaveRun();
         

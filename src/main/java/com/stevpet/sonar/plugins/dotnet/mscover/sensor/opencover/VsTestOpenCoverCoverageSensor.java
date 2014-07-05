@@ -1,12 +1,14 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.sensor.opencover;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.NotImplementedException;
+import org.codehaus.plexus.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.DependsUpon;
@@ -16,6 +18,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.command.CommandExecutor;
+import org.sonar.api.utils.command.StreamConsumer;
 import org.sonar.plugins.dotnet.api.DotNetConstants;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
@@ -31,9 +34,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.opencover.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.opencover.OpenCoverTarget;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunnerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestOutputParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 @DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
 public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
@@ -48,6 +53,9 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
     private String openCoverCoveragePath;
     private VsTestEnvironment testEnvironment;
     private String sonarWorkingDirPath;
+    private StringStreamConsumer stdOut;
+    private StringStreamConsumer stdErr;
+
     
     public VsTestOpenCoverCoverageSensor(Settings settings, 
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
@@ -102,6 +110,7 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
         ensureWorkDirExists();
         
         executeVsTestOpenCoverRunner(project);
+        getResultPaths();
         // tell that tests were executed so that no other project tries to launch them a second time
         getMicrosoftWindowsEnvironment().setTestExecutionDone();
         parseCoverageFile(testEnvironment);
@@ -132,11 +141,37 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
         openCoverCommand.setTargetCommand(prepareTestRunner());
         String filter = getFilter();
         openCoverCommand.setFilter(filter); 
-        long timeoutMilliseconds = 1000 * 300;
-        int exitCode=CommandExecutor.create().execute(openCoverCommand.toCommand(), timeoutMilliseconds);
-        if(exitCode != 0) {
-            throw new SonarException("OpenCover terminated with exitCode " + exitCode);
+        executeShellCommand(openCoverCommand);
+
+
+    }
+    
+    private int executeShellCommand(ShellCommand command) {
+        stdOut = new StringStreamConsumer();
+        stdErr = new StringStreamConsumer();
+        long timeOut = (long)(30 * 60000);
+        int exitCode = CommandExecutor.create().execute(command.toCommand(),stdOut,stdErr, timeOut);
+        if(exitCode!=0 && exitCode !=1) {
+            String msg=command.toCommandLine() + " failed with exitCode " + exitCode;
+            LOG.error(stdErr.toString());
+            throw new SonarException(msg);
+        }   
+        return exitCode;
+    }
+    
+    /**
+     * parse test log to get paths to result files
+     */
+    public void getResultPaths() {
+        VSTestOutputParser vsTestResults = new VSTestOutputParser();
+        vsTestResults.setResults(stdOut.toString());
+        try {
+            FileUtils.fileWrite(sonarWorkingDirPath + "/testlog.txt", stdOut.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        String resultsPath=vsTestResults.getTestResultsXmlPath(); 
+        testEnvironment.setTestResultsXmlPath(resultsPath);
     }
 
     private OpenCoverTarget prepareTestRunner() {
@@ -156,15 +191,13 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
     protected List<String> listCoveredAssemblies() {
         List<String> coveredAssemblyNames = new ArrayList<String>();
         for (VisualStudioProject visualProject : solution.getProjects()) {
-          if (!visualProject.isTest()) {
+   //       if (!visualProject.isTest()) {
             coveredAssemblyNames.add(visualProject.getAssemblyName());
-          }
+   //       }
         }
         return coveredAssemblyNames;
       }
-    private void buildVsTestOpenCoverRunner() {
-        throw new NotImplementedException();      
-    }
+
 
     private void getSolution() {
         solution = getMicrosoftWindowsEnvironment().getCurrentSolution();
@@ -203,5 +236,21 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
                 new Object[] {assembly, visualStudioProject.getProjectFile(), buildConfiguration, buildPlatform});
           }
         }
+
+      class StringStreamConsumer implements StreamConsumer{
+          private StringBuilder log ;
+          StringStreamConsumer() {
+              log = new StringBuilder();
+          }
+          @Override
+          public String toString() {
+              return log.toString();
+          }
+        public void consumeLine(String line) {
+            LOG.info(line);
+            log.append(line);
+            log.append("\r\n");  
+        }
+          }
 
 }

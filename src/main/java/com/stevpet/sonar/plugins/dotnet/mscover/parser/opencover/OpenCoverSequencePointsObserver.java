@@ -38,7 +38,6 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         @AttributeMatcher(attributeName = "vc", elementName = "SequencePoint")
         public void visitedCountMatcher(String attributeValue) {
             sequencePoint=new OpenCoverSequencePoint();
-            sequencePoint.setVisitedCount(attributeValue);
            lineVisited = !"0".equals(attributeValue);
 
         }

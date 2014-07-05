@@ -109,6 +109,10 @@ public class MethodToSourceFileIdMap {
         return methodRegistry.size();
     }
 
+    /**
+     * set the method to look for with getSourceFileID
+     * @param methodId
+     */
     public void setMethodId(MethodIdModel methodId) {
         this.moduleName = methodId.getModuleName();
         this.namespaceName = methodId.getNamespaceName();

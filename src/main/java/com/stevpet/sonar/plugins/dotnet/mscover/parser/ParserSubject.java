@@ -100,7 +100,7 @@ public abstract class ParserSubject implements Subject {
         for (ParserObserver observer : observers) {
             if (observer.isMatch(path)) {
                 observer.observeElement(name, text);
-                invokeAnnotatedElementMethods(name, text, observer);
+                invokeAnnotatedElementMethods(path,name, text, observer);
             }
         }
     }
@@ -141,15 +141,27 @@ public abstract class ParserSubject implements Subject {
         }
     }
 
-    private void invokeAnnotatedElementMethods(String elementName,
+    private void invokeAnnotatedElementMethods(String elementPath,String elementName,
             String elementValue, ParserObserver observer) {
         Method[] methods = observer.getClass().getMethods();
         for (Method method : methods) {
             invokeAnnotatedElementMethod(elementName, elementValue, observer,
                     method);
+            invokePathMatcherMethod(elementPath,elementValue,observer,method);
         }
     }
 
+    private void invokePathMatcherMethod(String path, String elementValue,
+            ParserObserver observer, Method method) {
+        PathMatcher annos = method.getAnnotation(PathMatcher.class);
+        if (annos == null) {
+            return;
+        }
+        if(path.equals(annos.path())) {
+            invokeMethod(elementValue,observer,method);
+        }
+        
+    }
     private void invokeAnnotatedElementMethod(String elementName,
             String elementValue, ParserObserver observer, Method method) {
         ElementMatcher annos = method.getAnnotation(ElementMatcher.class);

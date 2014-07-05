@@ -1,21 +1,11 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.model.opencover;
 
 public class OpenCoverSequencePoint implements SequencePoint {
-    private int visitedCount ;
     private int line ;
     private int offset ;
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.model.opencover.SequencePoint#getVisitedCount()
      */
-    public int getVisitedCount() {
-        return visitedCount;
-    }
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.model.opencover.SequencePoint#setVisitedCount(java.lang.String)
-     */
-    public void setVisitedCount(String string) {
-        this.visitedCount = Integer.parseInt(string);
-    }
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.model.opencover.SequencePoint#getLine()
      */

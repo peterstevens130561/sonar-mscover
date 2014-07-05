@@ -25,7 +25,7 @@ public class VsTestEnvironment implements BatchExtension {
     public String getXmlResultsPath() {
         return resultsXmlPath;
     }
-    public void setResultsXmlPath(String xmlResultsPath) {
+    public void setTestResultsXmlPath(String xmlResultsPath) {
         this.resultsXmlPath = xmlResultsPath;
     }
     public void setTestsHaveRun() {

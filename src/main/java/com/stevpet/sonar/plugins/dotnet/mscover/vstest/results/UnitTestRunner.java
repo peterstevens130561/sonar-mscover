@@ -131,10 +131,10 @@ public class UnitTestRunner {
      * parse test log to get paths to result files
      */
     public void getResultPaths() {
-        VSTestResults vsTestResults = new VSTestResults();
+        VSTestOutputParser vsTestResults = new VSTestOutputParser();
         vsTestResults.setResults(stdOut.toString());
         setCoveragePath(vsTestResults.getCoveragePath());
-        setResultsPath(vsTestResults.getResultsPath());     
+        setResultsPath(vsTestResults.getTestResultsXmlPath());     
     }
 
     private int executeShellCommand(ShellCommand command) {

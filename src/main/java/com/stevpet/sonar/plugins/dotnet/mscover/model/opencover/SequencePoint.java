@@ -2,15 +2,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model.opencover;
 
 public interface SequencePoint {
 
-    /**
-     * @return the visitedCount
-     */
-    public abstract int getVisitedCount();
-
-    /**
-     * @param string the visitedCount to set
-     */
-    public abstract void setVisitedCount(String string);
 
     /**
      * @return the line

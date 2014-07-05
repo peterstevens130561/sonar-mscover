@@ -10,7 +10,7 @@ import org.sonar.api.utils.SonarException;
 
 import com.google.common.io.Files;
 
-public class VSTestResults {
+public class VSTestOutputParser {
 
     private String results;
     private static Pattern RESULTS_PATTERN = Pattern.compile("\\nResults File: (.*\\.trx)");
@@ -25,7 +25,7 @@ public class VSTestResults {
     }
 
 
-    public String getResultsPath()  {
+    public String getTestResultsXmlPath()  {
         return  getPieceFromResults(RESULTS_PATTERN);
 
     }

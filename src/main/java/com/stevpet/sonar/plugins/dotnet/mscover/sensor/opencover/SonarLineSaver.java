@@ -73,16 +73,5 @@ public class SonarLineSaver implements FileCoverageSaver {
         return ParsingUtils.scaleValue(percentage.doubleValue() * 100.0);
     }
     
-    public double getCoverage(int covered, int tocover) {
-        if (tocover==0) {
-          return 1.;
-        }
-        double coverage=Math.round(((double) covered / (double) tocover) * 100) * 0.01;
-        if(coverage < 0) {
-            Log.error("negative coverage on " + this.toString() + " must be programming error");
-            coverage=0;
-        }
-        return coverage;
-      } 
 
 }
