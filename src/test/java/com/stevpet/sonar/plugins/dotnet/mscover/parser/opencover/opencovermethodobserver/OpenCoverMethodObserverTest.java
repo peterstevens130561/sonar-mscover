@@ -40,6 +40,6 @@ public class OpenCoverMethodObserverTest {
         parser.registerObserver(observer);
         File file=TestUtils.getResource("coverage-report.xml");
         parser.parseFile(file);
-        assertEquals(136,registry.size());
+        assertEquals(141,registry.size());
     }
 }

@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="2de8fe23-2f67-40fc-831a-cd7696c3a099" name="stevpet@RDSJ741TY1 2014-07-04 13:12:51" runUser="BHI-MASTER\stevpet" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2014-07-04T13:12:51.6899585+02:00" queuing="2014-07-04T13:12:51.6899585+02:00" start="2014-07-04T13:12:51.6899585+02:00" finish="2014-07-04T13:12:53.3342873+02:00" />
+  <TestSettings name="default" id="12b26654-09b8-4cda-b18b-aae61f2df9eb">
+    <Execution>
+      <TestTypeSpecific />
+    </Execution>
+    <Deployment runDeploymentRoot="stevpet_RDSJ741TY1 2014-07-04 13_12_51" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="35658581-9f6c-4382-a690-93b504b3d62c" testId="380cefce-e7ce-aca9-d713-1a7eb5675623" testName="CreateInputClassWithNewGuid_SerializeAndDesirializeId_InputGuidAreEqualToOutputGuid" computerName="RDSJ741TY1" duration="00:00:00.3260122" startTime="2014-07-04T13:12:50.7007607+02:00" endTime="2014-07-04T13:12:51.6139433+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="35658581-9f6c-4382-a690-93b504b3d62c" />
+    <UnitTestResult executionId="324b9187-a70c-4956-8e44-dff05639048f" testId="fd8042e8-be62-ee62-f5f6-e845415f920b" testName="ApiResourceHandler_Test_MatchSucceeded" computerName="RDSJ741TY1" duration="00:00:00.3414588" startTime="2014-07-04T13:12:51.6209447+02:00" endTime="2014-07-04T13:12:52.2570719+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="324b9187-a70c-4956-8e44-dff05639048f" />
+    <UnitTestResult executionId="19870680-30c0-4eee-879d-f98bcf7875b3" testId="d1312990-3d93-d146-e37d-cb2d024be8b3" testName="ApiResourceHandler_Test_MatchFailed" computerName="RDSJ741TY1" duration="00:00:00.0013212" startTime="2014-07-04T13:12:52.2620729+02:00" endTime="2014-07-04T13:12:52.2670739+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="19870680-30c0-4eee-879d-f98bcf7875b3" />
+    <UnitTestResult executionId="329246fc-0f1e-48b6-83d2-060148b84397" testId="4d4cbc35-fe02-98bb-3fe6-23be43bcf756" testName="ApiResourceHandler_Test_ProcessRequest_Succeeded" computerName="RDSJ741TY1" duration="00:00:00.1683854" startTime="2014-07-04T13:12:52.2720749+02:00" endTime="2014-07-04T13:12:52.4441093+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="329246fc-0f1e-48b6-83d2-060148b84397" />
+    <UnitTestResult executionId="6aba13a6-bfac-4df2-a24e-49eb7bf25de8" testId="4579f6a1-6fe6-ef8b-a6b3-81cce5405a48" testName="ApiResourceHandler_Test_ProcessEmptyRequest_Failed" computerName="RDSJ741TY1" duration="00:00:00.0130800" startTime="2014-07-04T13:12:52.4491103+02:00" endTime="2014-07-04T13:12:52.4651135+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6aba13a6-bfac-4df2-a24e-49eb7bf25de8" />
+    <UnitTestResult executionId="1efe51f6-e032-422a-8265-fbb869cb3f5c" testId="86ec9c03-cbc9-4e4a-097c-09e751650227" testName="VirtualResourceHandler_Test_MatchSucceeded" computerName="RDSJ741TY1" duration="00:00:00.0124951" startTime="2014-07-04T13:12:52.4701145+02:00" endTime="2014-07-04T13:12:52.4861177+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1efe51f6-e032-422a-8265-fbb869cb3f5c" />
+    <UnitTestResult executionId="1cbbd7e8-e72d-4663-807f-a9c8be9f2970" testId="b15719bc-9d7d-504b-d407-4699b24008fd" testName="VirtualResourceHandler_Test_MatchFailed" computerName="RDSJ741TY1" duration="00:00:00.0006838" startTime="2014-07-04T13:12:52.4911187+02:00" endTime="2014-07-04T13:12:52.4951195+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1cbbd7e8-e72d-4663-807f-a9c8be9f2970" />
+    <UnitTestResult executionId="093da0b6-d463-4be0-9993-dfeeea3f8dbb" testId="a2b83374-cbe2-181c-8411-dbbda50a66e7" testName="VirtualResourceHandler_Test_ProcessRequest_Succeeded" computerName="RDSJ741TY1" duration="00:00:00.0280197" startTime="2014-07-04T13:12:52.5001205+02:00" endTime="2014-07-04T13:12:52.5311267+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="093da0b6-d463-4be0-9993-dfeeea3f8dbb" />
+    <UnitTestResult executionId="2d9f8f74-25b9-46b1-a624-322574daeccd" testId="acaef1c5-b97c-f775-3807-e3e968d77128" testName="VirtualResourceHandler_Test_ProcessRequestWithoutRegisteringUIModule_Failed" computerName="RDSJ741TY1" duration="00:00:00.0028185" startTime="2014-07-04T13:12:52.5371279+02:00" endTime="2014-07-04T13:12:52.5431291+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2d9f8f74-25b9-46b1-a624-322574daeccd" />
+    <UnitTestResult executionId="1f278900-56a7-4b44-8e3b-95a61c63cbbf" testId="15d39773-f49c-e893-b146-5ee62c3c27b4" testName="CreateOperationHandlerSetAndRegisterMockedHandler_LookupByOperationType_ResultConstainsMockedHandler" computerName="RDSJ741TY1" duration="00:00:00.2295537" startTime="2014-07-04T13:12:52.5481301+02:00" endTime="2014-07-04T13:12:53.0702345+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1f278900-56a7-4b44-8e3b-95a61c63cbbf" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="CreateInputClassWithNewGuid_SerializeAndDesirializeId_InputGuidAreEqualToOutputGuid" storage="c:/development/jewel.release.oahu/jewelearth/core/thinclient/common.unittest/bin/debug/common.unittest.dll" id="380cefce-e7ce-aca9-d713-1a7eb5675623">
+      <Execution id="35658581-9f6c-4382-a690-93b504b3d62c" />
+      <TestMethod codeBase="C:/Development/Jewel.Release.Oahu/JewelEarth/Core/ThinClient/Common.UnitTest/bin/Debug/Common.UnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="BHI.JewelEarth.ThinClient.Common.UnitTest.SerializationHelperTest" name="CreateInputClassWithNewGuid_SerializeAndDesirializeId_InputGuidAreEqualToOutputGuid" />
+    </UnitTest>
+    <UnitTest name="ApiResourceHandler_Test_MatchSucceeded" storage="c:/development/jewel.release.oahu/jewelearth/core/thinclient/infrastructure.unittest/bin/debug/infrastructure.unittest.dll" id="fd8042e8-be62-ee62-f5f6-e845415f920b">
+      <Execution id="324b9187-a70c-4956-8e44-dff05639048f" />
+      <TestMethod codeBase="C:/Development/Jewel.Release.Oahu/JewelEarth/Core/ThinClient/Infrastructure.UnitTest/bin/Debug/Infrastructure.UnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="BHI.JewelEarth.ThinClient.Infrastructure.UnitTest.ApiResourceHandlerTest" name="ApiResourceHandler_Test_MatchSucceeded" />
+    </UnitTest>
+    <UnitTest name="ApiResourceHandler_Test_MatchFailed" storage="c:/development/jewel.release.oahu/jewelearth/core/thinclient/infrastructure.unittest/bin/debug/infrastructure.unittest.dll" id="d1312990-3d93-d146-e37d-cb2d024be8b3">
+      <Execution id="19870680-30c0-4eee-879d-f98bcf7875b3" />
+      <TestMethod codeBase="C:/Development/Jewel.Release.Oahu/JewelEarth/Core/ThinClient/Infrastructure.UnitTest/bin/Debug/Infrastructure.UnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="BHI.JewelEarth.ThinClient.Infrastructure.UnitTest.ApiResourceHandlerTest" name="ApiResourceHandler_Test_MatchFailed" />
+    </UnitTest>
+    <UnitTest name="ApiResourceHandler_Test_ProcessRequest_Succeeded" storage="c:/development/jewel.release.oahu/jewelearth/core/thinclient/infrastructure.unittest/bin/debug/infrastructure.unittest.dll" id="4d4cbc35-fe02-98bb-3fe6-23be43bcf756">
+      <Execution id="329246fc-0f1e-48b6-83d2-060148b84397" />
+      <TestMethod codeBase="C:/Development/Jewel.Release.Oahu/JewelEarth/Core/ThinClient/Infrastructure.UnitTest/bin/Debug/Infrastructure.UnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="BHI.JewelEarth.ThinClient.Infrastructure.UnitTest.ApiResourceHandlerTest" name="ApiResourceHandler_Test_ProcessRequest_Succeeded" />
+    </UnitTest>
+    <UnitTest name="ApiResourceHandler_Test_ProcessEmptyRequest_Failed" storage="c:/development/jewel.release.oahu/jewelearth/core/thinclient/infrastructure.unittest/bin/debug/infrastructure.unittest.dll" id="4579f6a1-6fe6-ef8b-a6b3-81cce5405a48">
+      <Execution id="6aba13a6-bfac-4df2-a24e-49eb7bf25de8" />
+      <TestMethod codeBase="C:/Development/Jewel.Release.Oahu/JewelEarth/Core/ThinClient/Infrastructure.UnitTest/bin/Debug/Infrastructure.UnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="BHI.JewelEarth.ThinClient.Infrastructure.UnitTest.ApiResourceHandlerTest" name="ApiResourceHandler_Test_ProcessEmptyRequest_Failed" />
+    </UnitTest>
+    <UnitTest name="VirtualResourceHandler_Test_MatchSucceeded" storage="c:/development/jewel.release.oahu/jewelearth/core/thinclient/infrastructure.unittest/bin/debug/infrastructure.unittest.dll" id="86ec9c03-cbc9-4e4a-097c-09e751650227">
+      <Execution id="1efe51f6-e032-422a-8265-fbb869cb3f5c" />
+      <TestMethod codeBase="C:/Development/Jewel.Release.Oahu/JewelEarth/Core/ThinClient/Infrastructure.UnitTest/bin/Debug/Infrastructure.UnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="BHI.JewelEarth.ThinClient.Infrastructure.UnitTest.VirtualResourceHandlerTest" name="VirtualResourceHandler_Test_MatchSucceeded" />
+    </UnitTest>
+    <UnitTest name="VirtualResourceHandler_Test_MatchFailed" storage="c:/development/jewel.release.oahu/jewelearth/core/thinclient/infrastructure.unittest/bin/debug/infrastructure.unittest.dll" id="b15719bc-9d7d-504b-d407-4699b24008fd">
+      <Execution id="1cbbd7e8-e72d-4663-807f-a9c8be9f2970" />
+      <TestMethod codeBase="C:/Development/Jewel.Release.Oahu/JewelEarth/Core/ThinClient/Infrastructure.UnitTest/bin/Debug/Infrastructure.UnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="BHI.JewelEarth.ThinClient.Infrastructure.UnitTest.VirtualResourceHandlerTest" name="VirtualResourceHandler_Test_MatchFailed" />
+    </UnitTest>
+    <UnitTest name="VirtualResourceHandler_Test_ProcessRequest_Succeeded" storage="c:/development/jewel.release.oahu/jewelearth/core/thinclient/infrastructure.unittest/bin/debug/infrastructure.unittest.dll" id="a2b83374-cbe2-181c-8411-dbbda50a66e7">
+      <Execution id="093da0b6-d463-4be0-9993-dfeeea3f8dbb" />
+      <TestMethod codeBase="C:/Development/Jewel.Release.Oahu/JewelEarth/Core/ThinClient/Infrastructure.UnitTest/bin/Debug/Infrastructure.UnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="BHI.JewelEarth.ThinClient.Infrastructure.UnitTest.VirtualResourceHandlerTest" name="VirtualResourceHandler_Test_ProcessRequest_Succeeded" />
+    </UnitTest>
+    <UnitTest name="VirtualResourceHandler_Test_ProcessRequestWithoutRegisteringUIModule_Failed" storage="c:/development/jewel.release.oahu/jewelearth/core/thinclient/infrastructure.unittest/bin/debug/infrastructure.unittest.dll" id="acaef1c5-b97c-f775-3807-e3e968d77128">
+      <Execution id="2d9f8f74-25b9-46b1-a624-322574daeccd" />
+      <TestMethod codeBase="C:/Development/Jewel.Release.Oahu/JewelEarth/Core/ThinClient/Infrastructure.UnitTest/bin/Debug/Infrastructure.UnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="BHI.JewelEarth.ThinClient.Infrastructure.UnitTest.VirtualResourceHandlerTest" name="VirtualResourceHandler_Test_ProcessRequestWithoutRegisteringUIModule_Failed" />
+    </UnitTest>
+    <UnitTest name="CreateOperationHandlerSetAndRegisterMockedHandler_LookupByOperationType_ResultConstainsMockedHandler" storage="c:/development/jewel.release.oahu/jewelearth/core/thinclient/service.unittest/bin/debug/service.unittest.dll" id="15d39773-f49c-e893-b146-5ee62c3c27b4">
+      <Execution id="1f278900-56a7-4b44-8e3b-95a61c63cbbf" />
+      <TestMethod codeBase="C:/Development/Jewel.Release.Oahu/JewelEarth/Core/ThinClient/Service.UnitTest/bin/Debug/Service.UnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="BHI.JewelEarth.ThinClient.Service.UnitTest.OperationServiceTest" name="CreateOperationHandlerSetAndRegisterMockedHandler_LookupByOperationType_ResultConstainsMockedHandler" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="380cefce-e7ce-aca9-d713-1a7eb5675623" executionId="35658581-9f6c-4382-a690-93b504b3d62c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fd8042e8-be62-ee62-f5f6-e845415f920b" executionId="324b9187-a70c-4956-8e44-dff05639048f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d1312990-3d93-d146-e37d-cb2d024be8b3" executionId="19870680-30c0-4eee-879d-f98bcf7875b3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4d4cbc35-fe02-98bb-3fe6-23be43bcf756" executionId="329246fc-0f1e-48b6-83d2-060148b84397" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4579f6a1-6fe6-ef8b-a6b3-81cce5405a48" executionId="6aba13a6-bfac-4df2-a24e-49eb7bf25de8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="86ec9c03-cbc9-4e4a-097c-09e751650227" executionId="1efe51f6-e032-422a-8265-fbb869cb3f5c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b15719bc-9d7d-504b-d407-4699b24008fd" executionId="1cbbd7e8-e72d-4663-807f-a9c8be9f2970" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a2b83374-cbe2-181c-8411-dbbda50a66e7" executionId="093da0b6-d463-4be0-9993-dfeeea3f8dbb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="acaef1c5-b97c-f775-3807-e3e968d77128" executionId="2d9f8f74-25b9-46b1-a624-322574daeccd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="15d39773-f49c-e893-b146-5ee62c3c27b4" executionId="1f278900-56a7-4b44-8e3b-95a61c63cbbf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="10" executed="10" passed="10" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

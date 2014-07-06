@@ -79,7 +79,7 @@ public class ResultsSensor implements Sensor {
             coveragePath = propertiesHelper.getUnitTestCoveragePath();
             resultsPath=propertiesHelper.getUnitTestResultsPath();
         }
-        unitTestAnalyser.analyseResults(coveragePath, resultsPath);
+        unitTestAnalyser.analyseVsTestResults(coveragePath, resultsPath);
         if(unitTestRunner.shouldRun()) {
             AbstractCoverageHelperFactory coverageHelperFactory = new SonarCoverageHelperFactory();
             CoverageHelper coverageHelper = coverageHelperFactory.createUnitTestCoverageHelper(propertiesHelper, microsoftWindowsEnvironment, measureSaver);

@@ -1,0 +1,29 @@
+Executing: C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe
+Microsoft (R) Test Execution Command Line Tool Version 11.0.60315.1
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+Starting test execution, please wait...
+Passed   CreateInputClassWithNewGuid_SerializeAndDesirializeId_InputGuidAreEqualToOutputGuid
+Passed   ApiResourceHandler_Test_MatchSucceeded
+Passed   ApiResourceHandler_Test_MatchFailed
+Passed   ApiResourceHandler_Test_ProcessRequest_Succeeded
+Passed   ApiResourceHandler_Test_ProcessEmptyRequest_Failed
+Passed   VirtualResourceHandler_Test_MatchSucceeded
+Passed   VirtualResourceHandler_Test_MatchFailed
+Passed   VirtualResourceHandler_Test_ProcessRequest_Succeeded
+Passed   VirtualResourceHandler_Test_ProcessRequestWithoutRegisteringUIModule_Failed
+Passed   CreateOperationHandlerSetAndRegisterMockedHandler_LookupByOperationType_ResultConstainsMockedHandler
+Results File: C:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Common\.sonar\TestResults\stevpet_RDSJ741TY1 2014-07-04 09_52_36.trx
+
+Total tests: 10. Passed: 10. Failed: 0. Skipped: 0.
+Test Run Successful.
+Test execution time: 8.7687 Seconds
+Committing...
+Visited Classes 5 of 40 (12.5)
+Visited Methods 24 of 170 (14.12)
+Visited Points 106 of 851 (12.46)
+Visited Branches 47 of 464 (10.13)
+
+==== Alternative Results (includes all methods including those without corresponding source) ====
+Alternative Visited Classes 7 of 55 (12.73)
+Alternative Visited Methods 33 of 294 (11.22)

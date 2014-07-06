@@ -38,7 +38,18 @@ public class UnitTestAnalyserTest {
         String coveragePath = TestUtils.getResource("Mileage/coverage.xml").getAbsolutePath();
         File resultsFile = TestUtils.getResource("Mileage/results.trx");
         String resultsPath=resultsFile.getAbsolutePath();
-        analyser.analyseResults(coveragePath, resultsPath);
+        analyser.analyseVsTestResults(coveragePath, resultsPath);
+        verify(measureSaver,times(3)).saveSummaryMeasure(any(Metric.class),anyDouble());
+    }
+    
+    @Test
+    public void sunnyOpenCoverDay() {
+        String base="UnitTestAnalyser/OpenCover/";
+        UnitTestAnalyser analyser = new UnitTestAnalyser(project, context,measureSaver) ;
+        String coveragePath = TestUtils.getResource(base+"coverage-report.xml").getAbsolutePath();
+        File resultsFile = TestUtils.getResource(base + "testresults.trx");
+        String resultsPath=resultsFile.getAbsolutePath();
+        analyser.analyseOpenCoverTestResults(coveragePath, resultsPath);
         verify(measureSaver,times(3)).saveSummaryMeasure(any(Metric.class),anyDouble());
     }
 }

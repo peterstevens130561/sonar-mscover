@@ -73,7 +73,6 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
     @PathMatcher(path="Modules/Module/Classes/Class/FullName")
     public void setNamespaceAndClassName(String value) {
         if("<Module>".equals(value)) {
-            scanMode=ScanMode.SKIP;
             return;
         }
         String regex = "(.*)\\.(.*)";

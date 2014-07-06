@@ -14,13 +14,16 @@ public class SetNameSpaceAndClassNameTest {
         
     }
     
+    /**
+     * if the classname is <Module> then there are no following elements, it can be ignored
+     */
     @Test
     public void Module_Ignored() {
         String name="<Module>";
         spy.setNamespaceAndClassName(name);
         String actualNameSpaceName=spy.getNameSpaceName();
         assertEquals(null,actualNameSpaceName);
-        assertTrue(spy.isSkipping());
+        assertFalse(spy.isSkipping());
     }
     @Test
     public void NameWithThree_NameSpaceIsFirstTwo() {

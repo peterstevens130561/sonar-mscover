@@ -5,6 +5,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageParserSu
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodBlocksObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageSourceFileNamesObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverFileNamesAndIdObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverMethodObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverSequencePointsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverSourceFileNamesObserver;
@@ -97,5 +99,20 @@ public class ConcreteParserFactory implements ParserFactory {
         pointsObserver.setRegistry(registry);
         parser.registerObserver(pointsObserver);
         return parser;
+    }
+
+    public ParserSubject createOpenCoverFileNamesParser(
+            MethodToSourceFileIdMap map,
+            SourceFileNamesRegistry sourceFileNamesRegistry) {
+        ParserSubject parserSubject = new OpenCoverParserSubject();
+
+        OpenCoverMethodObserver methodObserver = new OpenCoverMethodObserver();
+        methodObserver.setRegistry(map);
+        parserSubject.registerObserver(methodObserver);
+
+        OpenCoverFileNamesAndIdObserver sourceFileNamesObserver = new OpenCoverFileNamesAndIdObserver();
+        sourceFileNamesObserver.setRegistry(sourceFileNamesRegistry);
+        parserSubject.registerObserver(sourceFileNamesObserver);
+        return parserSubject;
     }
 }
