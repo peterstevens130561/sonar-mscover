@@ -28,6 +28,7 @@ import org.sonar.plugins.dotnet.api.sensor.AbstractDotNetSensor;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ConcreteParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserFactory;
@@ -53,8 +54,9 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
     private String openCoverCoveragePath;
     private VsTestEnvironment testEnvironment;
     private String sonarWorkingDirPath;
-    private StringStreamConsumer stdOut;
-    private StringStreamConsumer stdErr;
+    //private StringStreamConsumer stdOut;
+    //private StringStreamConsumer stdErr;
+    WindowsCommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
 
     
     public VsTestOpenCoverCoverageSensor(Settings settings, 
@@ -141,12 +143,14 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
         openCoverCommand.setTargetCommand(prepareTestRunner());
         String filter = getFilter();
         openCoverCommand.setFilter(filter); 
-        executeShellCommand(openCoverCommand);
+  
+        commandLineExecutor.execute(openCoverCommand);
+        //executeShellCommand(openCoverCommand);
 
 
     }
     
-    private int executeShellCommand(ShellCommand command) {
+    /* private int executeShellCommand(ShellCommand command) {
         stdOut = new StringStreamConsumer();
         stdErr = new StringStreamConsumer();
         long timeOut = (long)(30 * 60000);
@@ -158,18 +162,15 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
         }   
         return exitCode;
     }
+    */
     
     /**
      * parse test log to get paths to result files
      */
     public void getResultPaths() {
         VSTestOutputParser vsTestResults = new VSTestOutputParser();
-        vsTestResults.setResults(stdOut.toString());
-        try {
-            FileUtils.fileWrite(sonarWorkingDirPath + "/testlog.txt", stdOut.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String stdOut=commandLineExecutor.getStdOut();
+        vsTestResults.setResults(stdOut);
         String resultsPath=vsTestResults.getTestResultsXmlPath(); 
         testEnvironment.setTestResultsXmlPath(resultsPath);
     }

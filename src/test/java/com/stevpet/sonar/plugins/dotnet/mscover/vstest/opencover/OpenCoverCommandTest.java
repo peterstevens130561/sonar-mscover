@@ -44,6 +44,12 @@ public class OpenCoverCommandTest {
         openCoverCommand.setFilter(value);
         testHelper.assertArgument("\"-filter:" + value + "\"");      
     }
+    
+    @Test
+    public void testSetMergeByHash() {
+        openCoverCommand.setMergeByHash();
+        testHelper.assertArgument("-mergebyhash:");      
+    }
 
     @Test
     public void testSetOutputPath() {

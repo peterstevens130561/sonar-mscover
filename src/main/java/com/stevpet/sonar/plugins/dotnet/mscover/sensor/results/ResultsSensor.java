@@ -70,7 +70,7 @@ public class ResultsSensor implements Sensor {
         String resultsPath;
         ResourceMediator resourceMediator = ResourceMediator.createWithFilters(sensorContext,project,timeMachine,propertiesHelper);            
         MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
-        UnitTestAnalyser unitTestAnalyser = new UnitTestAnalyser(project,sensorContext,measureSaver);       
+        UnitTestAnalyser unitTestAnalyser = new UnitTestAnalyser(project,sensorContext,measureSaver);     
         if(unitTestRunner.shouldRun()) {
             coveragePath=vsTestEnvironment.getXmlCoveragePath();
             resultsPath=vsTestEnvironment.getXmlResultsPath();

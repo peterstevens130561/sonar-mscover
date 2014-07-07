@@ -35,12 +35,22 @@ public class UnitTestAnalyser {
     private Project project;
     private ParserFactory factory = new ConcreteParserFactory();
     private MeasureSaver measureSaver;
+    private SourceFilePathHelper sourceFilePathHelper ;
+    private ResourceMediator resourceMediator;
     
-    
+    /**
+     * @deprecated Use {@link #UnitTestAnalyser(Project,SensorContext,MeasureSaver,SourceFilePathHelper)} instead
+     */
     public UnitTestAnalyser(Project project, SensorContext context,MeasureSaver measureSaver) {
+        this(project, context, measureSaver, new SourceFilePathHelper(),ResourceMediator.createWithEmptyFilters(context, project));
+    }
+
+    public UnitTestAnalyser(Project project, SensorContext context,MeasureSaver measureSaver, SourceFilePathHelper sourceFilePathHelper,ResourceMediator resourceMediator) {
         this.project = project;
         this.context = context;
         this.measureSaver = measureSaver;
+        this.sourceFilePathHelper = sourceFilePathHelper;
+        this.resourceMediator = resourceMediator; 
     }
     
     /**
@@ -85,13 +95,13 @@ public class UnitTestAnalyser {
     }
 
     private void saveUnitTests() {
-        SourceFilePathHelper sourceFilePathHelper = new SourceFilePathHelper();
+
         String projectDirectory = getProjectDirectory(project);
         sourceFilePathHelper.setProjectPath(projectDirectory);
         
         UnitTestResultRegistry unitTestResultRegistry = registry.getResults();
         filesResultRegistry.mapResults(unitTestResultRegistry, map);
-        ResourceMediator resourceMediator = ResourceMediator.createWithEmptyFilters(context, project);        
+       
         TestSaver testSaver = new TestSaver(context,resourceMediator, measureSaver);
 
         testSaver.setUnitTestFilesResultRegistry(filesResultRegistry);
