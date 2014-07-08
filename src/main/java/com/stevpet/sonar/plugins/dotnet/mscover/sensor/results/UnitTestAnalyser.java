@@ -102,7 +102,7 @@ public class UnitTestAnalyser {
         UnitTestResultRegistry unitTestResultRegistry = registry.getResults();
         filesResultRegistry.mapResults(unitTestResultRegistry, map);
        
-        TestSaver testSaver = new TestSaver(context,resourceMediator, measureSaver);
+        TestSaver testSaver = new TestSaver(resourceMediator,measureSaver);
 
         testSaver.setUnitTestFilesResultRegistry(filesResultRegistry);
         testSaver.setSourceFileNamesRegistry(sourceFileNamesRegistry);

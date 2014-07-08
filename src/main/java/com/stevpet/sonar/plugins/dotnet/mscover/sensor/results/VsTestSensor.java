@@ -40,10 +40,7 @@ public class VsTestSensor implements Sensor {
 
 
     public boolean shouldExecuteOnProject(Project project) {
-        RunMode runMode=propertiesHelper.getRunMode() ;
-        boolean shouldExecute=runMode == RunMode.RUNVSTEST;
-        return shouldExecute;
- 
+        return propertiesHelper.runVsTest();
     }
 
     public void analyse(Project project, SensorContext context) {

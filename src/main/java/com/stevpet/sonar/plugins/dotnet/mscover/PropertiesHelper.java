@@ -13,8 +13,7 @@ public class PropertiesHelper {
     public enum RunMode {
         SKIP,
         REUSE,
-        RUNVSTEST,
-        RUNOPENCOVER
+        RUNVSTEST
     }
     private final Settings settings;
 
@@ -30,6 +29,7 @@ public class PropertiesHelper {
     public static final String MSCOVER_MODE = MSCOVER + "mode";
     public static final String MSCOVER_UNITTEST_ASSEMBLIES = MSCOVER + "unittests.assemblies";
     public static final String MSCOVER_TESTSETTINGS = MSCOVER + "vstest.testsettings";
+    public static final String MSCOVER_COVERAGETOOL = MSCOVER + "coveragetool";
     
     @Deprecated
     public PropertiesHelper(Settings settings) {
@@ -81,7 +81,6 @@ public class PropertiesHelper {
     }
 
     public String getMode() {
-        // TODO Auto-generated method stub
         return settings.getString(MSCOVER_MODE);
     }
     
@@ -138,7 +137,14 @@ public class PropertiesHelper {
 
     public boolean runOpenCover() {
         String msCoverMode = settings.getString(MSCOVER_MODE);
-        return "runopencover".equalsIgnoreCase(msCoverMode);
+        
+        return getRunMode().equals(RunMode.RUNVSTEST) && "opencover".equalsIgnoreCase(settings.getString(MSCOVER_COVERAGETOOL));
+    }
+
+    public boolean runVsTest() {
+        String msCoverMode = settings.getString(MSCOVER_MODE);
+        
+        return getRunMode().equals(RunMode.RUNVSTEST) && "vstest".equalsIgnoreCase(settings.getString(MSCOVER_COVERAGETOOL));
     }
     
 }

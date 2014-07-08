@@ -13,6 +13,7 @@ public class UnitTestRunnerTestUtils {
     public static Settings mockUnitTestRunnerSettingsToRun() {
         Settings settings = mock(Settings.class);
         when(settings.getString("sonar.mscover.mode")).thenReturn("runvstest");
+        when(settings.getString("sonar.mscover.coveragetool")).thenReturn("vstest");
         when(settings.getString("sonar.mscover.vstest.testsettings")).thenReturn("Testsettings1.testsettings");
         when(settings.getString("sonar.mscover.vstest.coverage2xml")).thenReturn("C:/Program Files (x86)/Baker Hughes/Coverage2Xml/CodeCoverage.exe"); 
         when(settings.getString("sonar.mscover.unittests.assemblies")).thenReturn("**/bin/Debug/*Test*");

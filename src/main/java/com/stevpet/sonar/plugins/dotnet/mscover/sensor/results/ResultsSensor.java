@@ -53,13 +53,15 @@ public class ResultsSensor implements Sensor {
      * tests whether the sensor should execute on the project
      */
     public boolean shouldExecuteOnProject(Project project) {
-        String resultsPath=propertiesHelper.getUnitTestResultsPath();
+
         if(propertiesHelper.getRunMode() == RunMode.SKIP) {
             return false;
         }
+        String resultsPath=propertiesHelper.getUnitTestResultsPath();
         boolean resultsDefined=StringUtils.isNotEmpty(resultsPath);
+        
         boolean rightLevel = project.isRoot() == propertiesHelper.excuteRoot();
-        boolean shouldRunUnitTests=unitTestRunner.shouldRun();
+        boolean shouldRunUnitTests=propertiesHelper.runVsTest();
         boolean shouldExecute = (resultsDefined || shouldRunUnitTests) && rightLevel;
         LOG.info("ResultsSensor {}",shouldExecute);
         return shouldExecute;
@@ -73,7 +75,7 @@ public class ResultsSensor implements Sensor {
         MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
         SourceFilePathHelper sourcePathHelper = new SourceFilePathHelper();
         UnitTestAnalyser unitTestAnalyser = new UnitTestAnalyser(project,sensorContext,measureSaver,sourcePathHelper,resourceMediator);     
-        if(unitTestRunner.shouldRun()) {
+        if(propertiesHelper.runVsTest()) {
             coveragePath=vsTestEnvironment.getXmlCoveragePath();
             resultsPath=vsTestEnvironment.getXmlResultsPath();
         } else {
@@ -82,7 +84,7 @@ public class ResultsSensor implements Sensor {
             resultsPath=propertiesHelper.getUnitTestResultsPath();
         }
         unitTestAnalyser.analyseVsTestResults(coveragePath, resultsPath);
-        if(unitTestRunner.shouldRun()) {
+        if(propertiesHelper.runVsTest()) {
             AbstractCoverageHelperFactory coverageHelperFactory = new SonarCoverageHelperFactory();
             CoverageHelper coverageHelper = coverageHelperFactory.createUnitTestCoverageHelper(propertiesHelper, microsoftWindowsEnvironment, measureSaver);
             coverageHelper.analyse(project,coveragePath);

@@ -28,7 +28,6 @@ public class TestSaver {
     private static final Logger LOG = LoggerFactory
             .getLogger(TestSaver.class);
     
-    private final SensorContext context;
     private SourceFileNamesRegistry sourceFileNamesRegistry ;
     private UnitTestFilesResultRegistry unitTestFilesResultRegistry;
     private SourceFilePathHelper sourceFilePathHelper;
@@ -37,8 +36,13 @@ public class TestSaver {
     private MeasureSaver measureSaver;
     private ResourceMediator resourceMediator;
     
+    /**
+     * @deprecated Use {@link #TestSaver(ResourceMediator,MeasureSaver)} instead
+     */
     public TestSaver(SensorContext context,ResourceMediator resourceMediator,MeasureSaver measureSaver) {
-        this.context = context;
+        this(resourceMediator, measureSaver);
+    }
+    public TestSaver(ResourceMediator resourceMediator,MeasureSaver measureSaver) {
         this.resourceMediator = resourceMediator;
         this.measureSaver = measureSaver;
     }

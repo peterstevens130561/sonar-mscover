@@ -49,6 +49,10 @@ import java.util.List;
             key=PropertiesHelper.MSCOVER_MODE,
             name = "runmode: one of skip,runvstest,reuse)",
             defaultValue="",global=false,project=true,type = PropertyType.STRING),
+            @Property(
+                    key=PropertiesHelper.MSCOVER_COVERAGETOOL,
+                    name="coveragetool: one of opencover,vstest (default)",
+                    defaultValue="vstest",global=false,project=true,type=PropertyType.STRING),
     @Property(
             key=PropertiesHelper.MSCOVER_TESTSETTINGS,
             name = "testsettings file, required in runmode runvstest)",

@@ -134,4 +134,44 @@ public class PropertiesHelperTest {
         //Assert
         Assert.assertFalse(enabled);      
     }
+    
+    @Test public void defaultRunVsTest_True() {
+           setSetting(PropertiesHelper.MSCOVER_MODE,"runvstest");
+           setSetting(PropertiesHelper.MSCOVER_COVERAGETOOL,"vstest");
+           boolean actual=helper.runVsTest();
+           Assert.assertTrue(actual);
+    }
+    
+    @Test public void otherRunVsTest_False() {
+        setSetting(PropertiesHelper.MSCOVER_MODE,"runvstest");
+        setSetting(PropertiesHelper.MSCOVER_COVERAGETOOL,"bogus");
+        boolean actual=helper.runVsTest();
+        Assert.assertFalse(actual);
+    }
+    
+    
+    @Test public void defaultRunOpenCover_False() {
+        setSetting(PropertiesHelper.MSCOVER_MODE,"runvstest");
+        setSetting(PropertiesHelper.MSCOVER_COVERAGETOOL,"vstest");
+        boolean actual=helper.runOpenCover();
+        Assert.assertFalse(actual);
+ }
+ 
+ @Test public void otherRunOpenCover_False() {
+     setSetting(PropertiesHelper.MSCOVER_MODE,"runvstest");
+     setSetting(PropertiesHelper.MSCOVER_COVERAGETOOL,"bogus");
+     boolean actual=helper.runOpenCover();
+     Assert.assertFalse(actual);
+ }
+ 
+ @Test public void openCoverRunOpenCover_False() {
+     setSetting(PropertiesHelper.MSCOVER_MODE,"runvstest");
+     setSetting(PropertiesHelper.MSCOVER_COVERAGETOOL,"opencover");
+     boolean actual=helper.runOpenCover();
+     Assert.assertTrue(actual);
+ }
+    
+    private void setSetting(String property,String value) {
+        when(settings.getString(property)).thenReturn(value);       
+    }
 }
