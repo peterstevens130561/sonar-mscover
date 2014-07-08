@@ -65,9 +65,6 @@ public class TestSaver {
         this.sourceFilePathHelper = sourceFilePathHelper;
     }
 
-
-
-
     /**
      * Save results in all test files
      */
@@ -88,7 +85,9 @@ public class TestSaver {
 
         public void execute(String fileID, UnitTestFileResultModel fileResults) {
         ResourceSeam sonarFile = tryToGetUnitTestResource(fileID);
-        projectSummaryResults.add(fileResults);
+        if(!(sonarFile instanceof NullResource)) {
+            projectSummaryResults.add(fileResults);
+        }
         saveSummaryMeasures(fileResults, sonarFile);
         saveTestCaseMeasures(fileResults, sonarFile);
 

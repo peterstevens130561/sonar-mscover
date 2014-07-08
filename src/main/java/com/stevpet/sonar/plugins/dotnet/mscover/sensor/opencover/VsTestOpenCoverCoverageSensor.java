@@ -150,19 +150,6 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
 
     }
     
-    /* private int executeShellCommand(ShellCommand command) {
-        stdOut = new StringStreamConsumer();
-        stdErr = new StringStreamConsumer();
-        long timeOut = (long)(30 * 60000);
-        int exitCode = CommandExecutor.create().execute(command.toCommand(),stdOut,stdErr, timeOut);
-        if(exitCode!=0 && exitCode !=1) {
-            String msg=command.toCommandLine() + " failed with exitCode " + exitCode;
-            LOG.error(stdErr.toString());
-            throw new SonarException(msg);
-        }   
-        return exitCode;
-    }
-    */
     
     /**
      * parse test log to get paths to result files

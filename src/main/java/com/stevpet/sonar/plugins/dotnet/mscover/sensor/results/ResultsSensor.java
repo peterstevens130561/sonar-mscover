@@ -15,6 +15,7 @@ import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.importer.cplusplus.CPlusPlusImporterSensor;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.AbstractCoverageHelperFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper;
@@ -70,7 +71,8 @@ public class ResultsSensor implements Sensor {
         String resultsPath;
         ResourceMediator resourceMediator = ResourceMediator.createWithFilters(sensorContext,project,timeMachine,propertiesHelper);            
         MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
-        UnitTestAnalyser unitTestAnalyser = new UnitTestAnalyser(project,sensorContext,measureSaver);     
+        SourceFilePathHelper sourcePathHelper = new SourceFilePathHelper();
+        UnitTestAnalyser unitTestAnalyser = new UnitTestAnalyser(project,sensorContext,measureSaver,sourcePathHelper,resourceMediator);     
         if(unitTestRunner.shouldRun()) {
             coveragePath=vsTestEnvironment.getXmlCoveragePath();
             resultsPath=vsTestEnvironment.getXmlResultsPath();
