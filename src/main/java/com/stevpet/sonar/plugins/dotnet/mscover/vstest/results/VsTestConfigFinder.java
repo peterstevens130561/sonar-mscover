@@ -32,7 +32,7 @@ public class VsTestConfigFinder implements TestConfigFinder {
         String pattern ;
         String msg;
         if(StringUtils.isEmpty(testSettings)) {
-            msg=PropertiesHelper.MSCOVER_TESTSETTINGS + "not set, and no testsettings file found";
+            msg=PropertiesHelper.MSCOVER_TESTSETTINGS + " not set, and no testsettings file found";
             pattern=configRegex;
 
         } else {
@@ -48,31 +48,18 @@ public class VsTestConfigFinder implements TestConfigFinder {
     }
     
     public String getDefault(File folder) {
-        String defaultConfigAbsolutePath=null;
-        LOG.info("No test configuration file specified in sonar.mscover.vsttest.testsettings, will try to find default");
-        for(File file:folder.listFiles()) {
-            String fileName = file.getName();
-            Matcher matcher = configPattern.matcher(fileName);
-            if(matcher.find()) {
-
-                if(defaultConfigAbsolutePath!=null) {
-                    LOG.warn("found multiple test configuration files, found also " + fileName);
-                } else {
-                    defaultConfigAbsolutePath=file.getAbsolutePath();
-                    LOG.info("found test configuration file, will be used " + fileName);
-                }
-            }
+        File file= getMatchingFile(folder,configPattern);
+        if(file!=null) {
+            return file.getAbsolutePath();
         }
-        return defaultConfigAbsolutePath;
+        return null;
     }
-    
 
-    
     public File findFileUpwards(File folder, String regex) {
         boolean found=false;
         Pattern pattern = Pattern.compile(regex);
-        while(folder.length() >0) {
-            File file=getMatchingFileName(folder,pattern); 
+        while(folder !=null) {
+            File file=getMatchingFile(folder,pattern); 
             if(file !=null) {
                 return file;
             }
@@ -81,16 +68,21 @@ public class VsTestConfigFinder implements TestConfigFinder {
         return null;
     }
 
-    private File getMatchingFileName(File folder,Pattern pattern) {
+    private File getMatchingFile(File folder,Pattern pattern) {
+        File matchingFile = null;
         for(File file:folder.listFiles()) {
             String fileName = file.getName();
             Matcher matcher = pattern.matcher(fileName);
             if(matcher.find()) {
+                if(matchingFile!=null) {
+                    LOG.warn("found multiple test configuration files, found also " + fileName);                 
+                } else {
                     LOG.info("found test configuration file, will be used " + fileName);
-                    return file;
+                    matchingFile=file;
+                }
             }
         }
-        return null;
+        return matchingFile;
     }
 
  
