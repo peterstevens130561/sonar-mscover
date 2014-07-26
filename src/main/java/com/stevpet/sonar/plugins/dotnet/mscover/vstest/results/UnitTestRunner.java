@@ -39,12 +39,20 @@ public class UnitTestRunner {
     public void setSonarPath(String path) {
         this.sonarPath = path;
     }
+    
+    public String getSonarPath() {
+        return sonarPath;
+    }
     public void setPropertiesHelper(PropertiesHelper propertiesHelper) {
         this.propertiesHelper = propertiesHelper;
     }
     
     public void setSolutionDirectory(File solutionDirectory) {
         this.solutionDirectory = solutionDirectory;
+    }
+    
+    public File getSolutionDirectory() {
+        return solutionDirectory;
     }
     
     public void setDoCodeCoverage(boolean doCodeCoverage) {
@@ -105,23 +113,11 @@ public class UnitTestRunner {
     
     private void requireTestSettings() {
         String testSettings = propertiesHelper.getTestSettings();
-        if(StringUtils.isEmpty(testSettings)) {
-            testSettingsFile=getDefaultSettingsOrDie();
-        } else {
-            testSettingsFile= new TestConfigFinder().findFileUpwards(solutionDirectory,testSettings);
-        }
-        if(testSettingsFile == null || !testSettingsFile.exists()) {
-            throw new SonarException(PropertiesHelper.MSCOVER_TESTSETTINGS + " file not set or does not exist " + testSettingsFile.getAbsolutePath()+ " does not exist");
-        }      
+        TestConfigFinder configFinder = new VsTestConfigFinder(solutionDirectory);
+        testSettingsFile = configFinder.getTestSettingsFileOrDie(testSettings);
+  
     }
 
-    private File getDefaultSettingsOrDie() {
-        File  testSettingsFile= new TestConfigFinder().findDefaultUpwards(solutionDirectory);
-        if(testSettingsFile==null) {
-            throw new SonarException(PropertiesHelper.MSCOVER_TESTSETTINGS + "not set, and no testsettings file found");
-        }
-        return testSettingsFile;
-    }
     
     /**
      * parse test log to get paths to result files
@@ -227,6 +223,10 @@ public class UnitTestRunner {
         return log.toString();
     }
     }
+
+
+
+
 
 
 

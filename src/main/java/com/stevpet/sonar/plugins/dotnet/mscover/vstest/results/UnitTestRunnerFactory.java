@@ -2,13 +2,17 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
 
 import java.io.File;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 
 public class UnitTestRunnerFactory {
+    private static Logger LOG = LoggerFactory.getLogger(UnitTestRunnerFactory.class);
     public static UnitTestRunner create() {
         return UnitTestRunner.create();
     }
@@ -30,6 +34,11 @@ public class UnitTestRunnerFactory {
             UnitTestRunner unitTestRunner = UnitTestRunner.create();
             unitTestRunner.setPropertiesHelper(propertiesHelper);
             VisualStudioSolution solution=microsoftWindowsEnvironment.getCurrentSolution();
+            if(solution == null) {
+                String msg = "No current solution";
+                LOG.error(msg);
+                throw new SonarException(msg);
+            }
             File solutionDir = solution.getSolutionDir();
             unitTestRunner.setSolutionDirectory(solutionDir);
             

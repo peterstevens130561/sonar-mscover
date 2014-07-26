@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.TestConfigFinder;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestConfigFinder;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -23,7 +23,7 @@ public class GetDefaultTest {
 
     @Test
     public void NoFilesFound_NullPath(){
-        TestConfigFinder configFinder = new TestConfigFinder();
+        VsTestConfigFinder configFinder = new VsTestConfigFinder(solutionFolder);
         File files[] = {};
         when(solutionFolder.listFiles()).thenReturn(files);
         String configAbsolutePath = configFinder.getDefault(solutionFolder);
@@ -32,7 +32,7 @@ public class GetDefaultTest {
     
     @Test
     public void TestSettingsFileFound_ExpectPath(){
-        TestConfigFinder configFinder = new TestConfigFinder();
+        VsTestConfigFinder configFinder = new VsTestConfigFinder(solutionFolder);
         String expected = "testSettings.testsettings";
         File files[] = {new File(expected)};
         when(solutionFolder.listFiles()).thenReturn(files);
@@ -43,7 +43,7 @@ public class GetDefaultTest {
 
     @Test
     public void RunConfigFileFound_ExpectPath(){
-        TestConfigFinder configFinder = new TestConfigFinder();
+        VsTestConfigFinder configFinder = new VsTestConfigFinder(solutionFolder);
         String expected = "testSettings.testrunconfig";
         File files[] = {new File(expected)};
         when(solutionFolder.listFiles()).thenReturn(files);
@@ -54,7 +54,7 @@ public class GetDefaultTest {
 
     @Test
     public void InvalidConfigFileFound_ExpectNull(){
-        TestConfigFinder configFinder = new TestConfigFinder();
+        VsTestConfigFinder configFinder = new VsTestConfigFinder(solutionFolder);
         String expected = "testrunconfigother";
         File files[] = {new File(expected)};
         when(solutionFolder.listFiles()).thenReturn(files);
@@ -65,7 +65,7 @@ public class GetDefaultTest {
     
     @Test
     public void InvalidTestSettingsFound_ExpectNull(){
-        TestConfigFinder configFinder = new TestConfigFinder();
+        VsTestConfigFinder configFinder = new VsTestConfigFinder(solutionFolder);
         String expected = "testsettingsother";
         File files[] = {new File(expected)};
         when(solutionFolder.listFiles()).thenReturn(files);
@@ -75,7 +75,7 @@ public class GetDefaultTest {
     
     @Test
     public void SeveralFilesAndConfigFileFound_ExpectConfigFile() {
-        TestConfigFinder configFinder = new TestConfigFinder();
+        VsTestConfigFinder configFinder = new VsTestConfigFinder(solutionFolder);
         String expected = "sonarsettings.testsettings";
         File files[] = {new File("john.sln"),new File(expected),new File("somefile.csproj")};
         when(solutionFolder.listFiles()).thenReturn(files);
@@ -87,7 +87,7 @@ public class GetDefaultTest {
     
     @Test
     public void SeveralFilesAndSeveralConfigFilesFound_ExpectConfigFile() {
-        TestConfigFinder configFinder = new TestConfigFinder();
+        VsTestConfigFinder configFinder = new VsTestConfigFinder(solutionFolder);
         String expected = "sonarsettings.testsettings";
         File files[] = {new File("john.sln"),new File(expected),new File("somefile.csproj"),new File("localsettings.testsettings")};
         when(solutionFolder.listFiles()).thenReturn(files);
