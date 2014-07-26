@@ -1,5 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.sensor.results;
 
+import java.io.File;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.DependedUpon;
@@ -8,6 +10,7 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
@@ -28,12 +31,13 @@ public class VsTestSensor implements Sensor {
     private UnitTestRunner unitTestRunner;
 
     private PropertiesHelper propertiesHelper;
+    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     
     
-    public VsTestSensor(VsTestEnvironment vsTestEnvironment, Settings settings,ModuleFileSystem moduleFileSystem) {
+    public VsTestSensor(VsTestEnvironment vsTestEnvironment, Settings settings,ModuleFileSystem moduleFileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         this.vsTestEnvironment = vsTestEnvironment;
         this.moduleFileSystem = moduleFileSystem;
-        
+        this.microsoftWindowsEnvironment=microsoftWindowsEnvironment;
         propertiesHelper = PropertiesHelper.create(settings);
 
     }
@@ -61,7 +65,7 @@ public class VsTestSensor implements Sensor {
     }
 
     private String runUnitTests() {
-        unitTestRunner = UnitTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem);
+        unitTestRunner = UnitTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
         unitTestRunner.setDoCodeCoverage(true);
         unitTestRunner.runTests();
         return unitTestRunner.getCoverageXmlPath();

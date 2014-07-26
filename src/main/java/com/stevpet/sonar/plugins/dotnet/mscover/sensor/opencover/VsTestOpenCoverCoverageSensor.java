@@ -54,9 +54,8 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
     private String openCoverCoveragePath;
     private VsTestEnvironment testEnvironment;
     private String sonarWorkingDirPath;
-    //private StringStreamConsumer stdOut;
-    //private StringStreamConsumer stdErr;
     WindowsCommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
+    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 
     
     public VsTestOpenCoverCoverageSensor(Settings settings, 
@@ -68,6 +67,7 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
         this.settings = settings;
         this.moduleFileSystem = moduleFileSystem;
         this.testEnvironment = testEnvironment;
+        this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
     }
 
     @Override
@@ -163,7 +163,7 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
     }
 
     private OpenCoverTarget prepareTestRunner() {
-        UnitTestRunner unitTestRunner = UnitTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem);
+        UnitTestRunner unitTestRunner = UnitTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
         VSTestCommand testCommand=unitTestRunner.prepareTestCommand();
         return testCommand;
     }

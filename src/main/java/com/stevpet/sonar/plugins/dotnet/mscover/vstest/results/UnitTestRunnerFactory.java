@@ -3,6 +3,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
 import java.io.File;
 
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
+import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 
@@ -21,14 +23,15 @@ public class UnitTestRunnerFactory {
      * Only remaining thing is to set code coverage
      * @param propertiesHelper
      * @param moduleFileSystem
+     * @param microsoftWindowsEnvironment - directory that holds the solution
      * @return
      */
-    public static UnitTestRunner createBasicTestRunnner(PropertiesHelper propertiesHelper, ModuleFileSystem moduleFileSystem) {
+    public static UnitTestRunner createBasicTestRunnner(PropertiesHelper propertiesHelper, ModuleFileSystem moduleFileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
             UnitTestRunner unitTestRunner = UnitTestRunner.create();
             unitTestRunner.setPropertiesHelper(propertiesHelper);
-            
-            File baseDir=moduleFileSystem.baseDir();
-            unitTestRunner.setSolutionDirectory(baseDir);
+            VisualStudioSolution solution=microsoftWindowsEnvironment.getCurrentSolution();
+            File solutionDir = solution.getSolutionDir();
+            unitTestRunner.setSolutionDirectory(solutionDir);
             
             String sonarWorkingDirectory=moduleFileSystem.workingDir().getAbsolutePath();
             String coverageXmlPath =sonarWorkingDirectory + "/coverage.xml";

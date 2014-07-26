@@ -75,13 +75,9 @@ public class UnitTestRunner {
     
     public VSTestCommand prepareTestCommand() {
         requireTestSettings();
-        redetermineSolutionDirectory();
         requireOutputPath();
         findAssemblies();
         return buildVSTestCommand();     
-    }
-    private void redetermineSolutionDirectory() {
-        solutionDirectory=testSettingsFile.getParentFile();
     }
 
     /**
@@ -115,7 +111,7 @@ public class UnitTestRunner {
             testSettingsFile= new TestConfigFinder().findFileUpwards(solutionDirectory,testSettings);
         }
         if(testSettingsFile == null || !testSettingsFile.exists()) {
-            throw new SonarException(PropertiesHelper.MSCOVER_TESTSETTINGS + " file " + testSettingsFile.getAbsolutePath()+ " does not exist");
+            throw new SonarException(PropertiesHelper.MSCOVER_TESTSETTINGS + " file not set or does not exist " + testSettingsFile.getAbsolutePath()+ " does not exist");
         }      
     }
 
