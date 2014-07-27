@@ -58,6 +58,16 @@ public class VsTestConfigFinderTest {
     }
     
     @Test
+    public void setInProject_relativeInRoot() {
+        File solutionDir = TestUtils.getResource(ROOT + "\\relative\\solutions\\solution");
+        VsTestConfigFinder finder = new VsTestConfigFinder(solutionDir);
+        File settingsFile=finder.getTestSettingsFileOrDie("../../intop.cfg");
+        assertNotNull(settingsFile);
+        assertEquals("intop.cfg",settingsFile.getName());
+        File expectedDir=TestUtils.getResource(ROOT + "\\relative");
+        assertEquals(expectedDir.getAbsolutePath(),settingsFile.getParent());
+    }
+    @Test
     public void setInProject_notThere_expectException() {
 
         File solutionDir = TestUtils.getResource(ROOT + "\\InProject_ExpectFile");

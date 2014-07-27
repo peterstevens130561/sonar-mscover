@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,17 +30,17 @@ public class VsTestConfigFinder implements TestConfigFinder {
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.TestConfigFinder#getTestSettingsFileOrDie(java.lang.String)
      */
     public File getTestSettingsFileOrDie(String testSettings) {
-        String pattern ;
         String msg;
+        File testSettingsFile;
         if(StringUtils.isEmpty(testSettings)) {
             msg=PropertiesHelper.MSCOVER_TESTSETTINGS + " not set, and no testsettings file found";
-            pattern=configRegex;
+            testSettingsFile= findDefaultFileUpwards(solutionDirectory);
 
         } else {
             msg=PropertiesHelper.MSCOVER_TESTSETTINGS + "=" + testSettings + " not found";
-            pattern=testSettings;
+            testSettingsFile= findSameFileUpwards(testSettings);
         }
-        File testSettingsFile= findFileUpwards(solutionDirectory,pattern);
+
         if(testSettingsFile == null || !testSettingsFile.exists()) {
             LOG.error(msg);
             throw new SonarException(msg);
@@ -48,18 +49,17 @@ public class VsTestConfigFinder implements TestConfigFinder {
     }
     
     public String getDefault(File folder) {
-        File file= getMatchingFile(folder,configPattern);
+        File file= getFileMatchingPattern(folder,configPattern);
         if(file!=null) {
             return file.getAbsolutePath();
         }
         return null;
     }
 
-    public File findFileUpwards(File folder, String regex) {
-        boolean found=false;
-        Pattern pattern = Pattern.compile(regex);
+    public File findDefaultFileUpwards(File folder) {
+        Pattern pattern = Pattern.compile(configRegex);
         while(folder !=null) {
-            File file=getMatchingFile(folder,pattern); 
+            File file=getFileMatchingPattern(folder,pattern); 
             if(file !=null) {
                 return file;
             }
@@ -68,7 +68,7 @@ public class VsTestConfigFinder implements TestConfigFinder {
         return null;
     }
 
-    private File getMatchingFile(File folder,Pattern pattern) {
+    private File getFileMatchingPattern(File folder,Pattern pattern) {
         File matchingFile = null;
         for(File file:folder.listFiles()) {
             String fileName = file.getName();
@@ -85,5 +85,29 @@ public class VsTestConfigFinder implements TestConfigFinder {
         return matchingFile;
     }
 
+    public File findSameFileUpwards(String setting) {
+        String fullPath=solutionDirectory.getAbsolutePath() + "\\" + setting ;
+        File file = new File(fullPath);
+        
+        try {
+            file = file.getCanonicalFile();
+        } catch (IOException e) {
+            String msg="IOException on " + file.getAbsolutePath();
+            LOG.error(msg);
+            throw new SonarException(msg,e);
+        } 
+        File folder=file.getParentFile();
+        String name=file.getName();
+        while(folder !=null) {
+            String fullName = folder.getAbsolutePath() + "\\" + name;
+            file = new File(fullName);
+            if(file.exists()){
+                return file ;
+            }
+            folder = folder.getParentFile();
+        }
+        return null;
+    }
+ 
  
 }
