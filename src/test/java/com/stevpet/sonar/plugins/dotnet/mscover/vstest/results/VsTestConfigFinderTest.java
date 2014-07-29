@@ -54,7 +54,7 @@ public class VsTestConfigFinderTest {
         File settingsFile=finder.getTestSettingsFileOrDie("mystic.conftxt");
         assertNotNull(settingsFile);
         assertEquals("mystic.conftxt",settingsFile.getName());
-        assertEquals(solutionDir.getAbsolutePath(),settingsFile.getParent());
+        assertEquals(solutionDir.getAbsolutePath().toUpperCase(),settingsFile.getParentFile().getAbsolutePath().toUpperCase());
     }
     
     @Test
@@ -65,7 +65,7 @@ public class VsTestConfigFinderTest {
         assertNotNull(settingsFile);
         assertEquals("intop.cfg",settingsFile.getName());
         File expectedDir=TestUtils.getResource(ROOT + "\\relative");
-        assertEquals(expectedDir.getAbsolutePath(),settingsFile.getParent());
+        assertEquals(expectedDir.getAbsolutePath().toUpperCase(),settingsFile.getParentFile().getAbsolutePath().toUpperCase());
     }
     @Test
     public void setInProject_notThere_expectException() {

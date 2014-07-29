@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.command.CommandExecutor;
 import org.sonar.api.utils.command.StreamConsumer;
+import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
+import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
@@ -28,6 +30,7 @@ public class UnitTestRunner {
     private String outputPath;
     private String sonarPath;
     private boolean doCodeCoverage;
+    private List<VisualStudioProject> projects;
     
     private UnitTestRunner() {
     }
@@ -47,6 +50,12 @@ public class UnitTestRunner {
         this.propertiesHelper = propertiesHelper;
     }
     
+    public void setSolution(VisualStudioSolution solution) {
+        this.solutionDirectory = solution.getSolutionDir();
+        this.projects = solution.getProjects();
+    }
+    
+    @Deprecated
     public void setSolutionDirectory(File solutionDirectory) {
         this.solutionDirectory = solutionDirectory;
     }
@@ -159,18 +168,32 @@ public class UnitTestRunner {
      * Gets the unittest assemblies. Expect to find at least one, so if none found throw
      * a sonar exception, as continuing is useless
      */
-    private void findAssemblies() {
+    private void findTestAssembliesFromProperty() {
         String assembliesPattern = propertiesHelper.getUnitTestsAssemblies();
         if(StringUtils.isEmpty(assembliesPattern)) {
             throw new SonarException(PropertiesHelper.MSCOVER_UNITTEST_ASSEMBLIES + " not set, required though when using this mode");
         }
-        AssembliesFinder assembliesFinder = AssembliesFinder.create() ;
+        AssembliesFinder assembliesFinder = AssembliesFinder.create(propertiesHelper) ;
         assembliesFinder.setPattern(assembliesPattern);
         unitTestAssembliesPath = assembliesFinder.findAssemblies(solutionDirectory);
         if(unitTestAssembliesPath.isEmpty()) {
             throw new SonarException(" No unittest assemblies found with pattern '" + assembliesPattern + "'");
         }
         
+    }
+    
+    private void findAssemblies() {
+        String assembliesPattern = propertiesHelper.getUnitTestsAssemblies();
+        if(StringUtils.isEmpty(assembliesPattern)) {
+            LOG.debug(PropertiesHelper.MSCOVER_UNITTEST_ASSEMBLIES + " undefined, will use projects to find test projects");
+            AssembliesFinder assembliesFinder = AssembliesFinder.create(propertiesHelper) ;
+            unitTestAssembliesPath = assembliesFinder.findTestProjects(projects);
+            if(unitTestAssembliesPath.isEmpty()) {
+                LOG.warn(" no test projects found");
+            }
+        }  else {      
+            findTestAssembliesFromProperty();
+        }
     }
 
 

@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.sonar.api.config.Settings;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
+import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverRequiredPropertyMissingException;
 
 public class PropertiesHelper {
 
@@ -145,6 +146,28 @@ public class PropertiesHelper {
         String msCoverMode = settings.getString(MSCOVER_MODE);
         
         return getRunMode().equals(RunMode.RUNVSTEST) && "vstest".equalsIgnoreCase(settings.getString(MSCOVER_COVERAGETOOL));
+    }
+
+    /**
+     * gets the value of sonar.dotnet.buildConfiguration. If the value is not set exception is thrown
+     */
+    public String getRequiredBuildConfiguration() {
+        return getRequiredProperty("sonar.dotnet.buildConfiguration");
+    }
+    
+    /**
+     * gets the value of sonar.dotnet.buildPlatform. If the value is not set exception is thrown
+     * @return
+     */
+    public String getRequiredBuildPlatform() {
+        return getRequiredProperty("sonar.dotnet.buildPlatform");
+    }
+    private String getRequiredProperty(String property) {
+        String buildConfiguration = settings.getString(property);
+        if(StringUtils.isEmpty(buildConfiguration)) {
+            throw new MsCoverRequiredPropertyMissingException(property);
+        }
+        return null;        
     }
     
 }

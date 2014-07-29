@@ -39,8 +39,7 @@ public class UnitTestRunnerFactory {
                 LOG.error(msg);
                 throw new SonarException(msg);
             }
-            File solutionDir = solution.getSolutionDir();
-            unitTestRunner.setSolutionDirectory(solutionDir);
+            unitTestRunner.setSolution(solution);
             
             String sonarWorkingDirectory=moduleFileSystem.workingDir().getAbsolutePath();
             String coverageXmlPath =sonarWorkingDirectory + "/coverage.xml";
