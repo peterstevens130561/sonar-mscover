@@ -36,13 +36,12 @@ public class AssembliesFinder {
     public List<String> findAssembliesFromConfig(File solutionDirectory, List<VisualStudioProject> projects) {
         String assembliesPattern = propertiesHelper.getUnitTestsAssemblies();
         if(StringUtils.isEmpty(assembliesPattern)) {
-            LOG.debug(PropertiesHelper.MSCOVER_UNITTEST_ASSEMBLIES + " undefined, will use projects to find test projects");
             fromBuildConfiguration(projects);
-            if(assemblies.isEmpty()) {
-                LOG.warn(" no test projects found");
-            }
         }  else {      
-                fromMSCoverProperty(solutionDirectory);
+            fromMSCoverProperty(solutionDirectory);
+        }
+        if(assemblies.isEmpty()) {
+            LOG.warn(" no test projects found");
         }
         return assemblies;
     }
@@ -68,9 +67,6 @@ public class AssembliesFinder {
 
     private List<String> fromMSCoverProperty(File solutionDirectory) {
         String assembliesPattern = propertiesHelper.getUnitTestsAssemblies();
-        if(StringUtils.isEmpty(assembliesPattern)) {
-            throw new SonarException(PropertiesHelper.MSCOVER_UNITTEST_ASSEMBLIES + " not set, required though when using this mode");
-        }
         setPattern(assembliesPattern);
         findAssemblies(solutionDirectory);
         if(assemblies.isEmpty()) {
