@@ -162,12 +162,13 @@ public class PropertiesHelper {
     public String getRequiredBuildPlatform() {
         return getRequiredProperty("sonar.dotnet.buildPlatform");
     }
+    
     private String getRequiredProperty(String property) {
-        String buildConfiguration = settings.getString(property);
-        if(StringUtils.isEmpty(buildConfiguration)) {
+        String value = settings.getString(property);
+        if(StringUtils.isEmpty(value)) {
             throw new MsCoverRequiredPropertyMissingException(property);
         }
-        return null;        
+        return value;
     }
     
 }

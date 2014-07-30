@@ -72,24 +72,34 @@ public class AssembliesFinder {
         }
     }
 
-    public List<String> findTestProjects(List<VisualStudioProject> projects) {
+    /**
+     * Go through the list of projects, and put the full path of each unit test assembly in the returned list
+     * @param projects
+     * @return list of full paths to unit test assemblies
+     * @exception in case of no list or empty list, or no assembly defined for current configuration
+     */
+    public List<String> findUnitTestAssemblies(List<VisualStudioProject> projects) {
         if(projects==null || projects.size()==0) {
             throw new SolutionHasNoProjectsSonarException() ;
         }
         assemblies=new ArrayList<String>();
         for(VisualStudioProject project: projects) {
             if(project.isUnitTest()) {
-                String assemblyName=project.getAssemblyName();
-                String buildConfiguration=propertiesHelper.getRequiredBuildConfiguration();
-                String buildPlatform=propertiesHelper.getRequiredBuildPlatform();
-                File assemblyFile=project.getArtifact(buildConfiguration, buildPlatform);
-                if(assemblyFile==null) {
-                    throw new NoAssemblyDefinedMsCoverException(buildConfiguration,buildPlatform);
-                }
-                assemblies.add(assemblyName);
+                addUnitTestAssembly(project);
             }
         }
         return assemblies;       
+    }
+
+    private void addUnitTestAssembly(VisualStudioProject project) {
+        String buildConfiguration=propertiesHelper.getRequiredBuildConfiguration();
+        String buildPlatform=propertiesHelper.getRequiredBuildPlatform();
+        File assemblyFile=project.getArtifact(buildConfiguration, buildPlatform);
+        if(assemblyFile==null) {
+            throw new NoAssemblyDefinedMsCoverException(buildConfiguration,buildPlatform);
+        }
+        String assemblyPath=assemblyFile.getAbsolutePath();
+        assemblies.add(assemblyPath);
     }
 
 }

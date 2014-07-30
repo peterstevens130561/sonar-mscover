@@ -187,7 +187,7 @@ public class UnitTestRunner {
         if(StringUtils.isEmpty(assembliesPattern)) {
             LOG.debug(PropertiesHelper.MSCOVER_UNITTEST_ASSEMBLIES + " undefined, will use projects to find test projects");
             AssembliesFinder assembliesFinder = AssembliesFinder.create(propertiesHelper) ;
-            unitTestAssembliesPath = assembliesFinder.findTestProjects(projects);
+            unitTestAssembliesPath = assembliesFinder.findUnitTestAssemblies(projects);
             if(unitTestAssembliesPath.isEmpty()) {
                 LOG.warn(" no test projects found");
             }
