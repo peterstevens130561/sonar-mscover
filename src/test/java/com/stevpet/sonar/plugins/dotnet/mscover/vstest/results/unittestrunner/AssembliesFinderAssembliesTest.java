@@ -24,33 +24,31 @@ import static org.mockito.Matchers.eq;
 
 
 
-public class AssembliesFinderTest {
+public class AssembliesFinderAssembliesTest {
     
     
     private PropertiesHelper propertiesHelper;
-    private Settings settings ;
+    private AssembliesFinder finder ;
     
     @Before
     public void before() {
-        settings = mock(Settings.class);
-        propertiesHelper = propertiesHelper.create(settings);
+        propertiesHelper = mock(PropertiesHelper.class);
+        finder = AssembliesFinder.create(propertiesHelper);
     }
     
     @Test(expected=NullPointerException.class)
     public void createAssembliesFinderWithNull_ExpectNullPointerException(){
-        AssembliesFinder finder = AssembliesFinder.create(null);        
+       finder = AssembliesFinder.create(null);        
     }
     
     @Test (expected = SolutionHasNoProjectsSonarException.class)
     public void noProjectsList_ExpectSonarException() {
-        AssembliesFinder finder = AssembliesFinder.create(propertiesHelper);
-        finder.findUnitTestAssemblies(null);
+        fromBuildConfiguration(null);
     }
     
     @Test(expected = SolutionHasNoProjectsSonarException.class)
     public void noProjects_ExpectSonarException() {
-        AssembliesFinder finder = AssembliesFinder.create(propertiesHelper);
-        finder.findUnitTestAssemblies(null);
+        fromBuildConfiguration(null);
     
     }
     
@@ -60,8 +58,7 @@ public class AssembliesFinderTest {
         VisualStudioProject project = mock(VisualStudioProject.class);
         when(project.isUnitTest()).thenReturn(false);
         projects.add(project);
-        AssembliesFinder finder = AssembliesFinder.create(propertiesHelper);
-        List<String> assemblies = finder.findUnitTestAssemblies(projects);
+        List<String> assemblies = fromBuildConfiguration(projects);
         assertEquals(0,assemblies.size());
     }
     
@@ -78,20 +75,20 @@ public class AssembliesFinderTest {
         when(project.isUnitTest()).thenReturn(true);
         when(project.getArtifact(eq(buildConfiguration), eq(buildPlatform))).thenReturn(new File(unitTestPath));
         
-        propertiesHelper = mock(PropertiesHelper.class);
         when(propertiesHelper.getRequiredBuildConfiguration()).thenReturn(buildConfiguration);
         when(propertiesHelper.getRequiredBuildPlatform()).thenReturn(buildPlatform);
         
         projects.add(project);
         //Act
-        AssembliesFinder finder = AssembliesFinder.create(propertiesHelper);
-        List<String> assemblies = finder.findUnitTestAssemblies(projects);
+        List<String> assemblies = fromBuildConfiguration(projects);
         
         //Assert
         assertEquals(1,assemblies.size());
         assertEquals(unitTestPath,assemblies.get(0));
     }
     
+
+
     @Test(expected=NoAssemblyDefinedMsCoverException.class)
     public void oneProjectIsTestProjectUnknownConfig_ExpectException() {
         //Arrange
@@ -105,17 +102,21 @@ public class AssembliesFinderTest {
         when(project.isUnitTest()).thenReturn(true);
         when(project.getArtifact(eq(buildConfiguration), eq(buildPlatform))).thenReturn(null);
         
-        propertiesHelper = mock(PropertiesHelper.class);
         when(propertiesHelper.getRequiredBuildConfiguration()).thenReturn(buildConfiguration);
         when(propertiesHelper.getRequiredBuildPlatform()).thenReturn(buildPlatform);
         
         projects.add(project);
         //Act
-        AssembliesFinder finder = AssembliesFinder.create(propertiesHelper);
-        List<String> assemblies = finder.findUnitTestAssemblies(projects);
+
+        List<String> assemblies = fromBuildConfiguration(projects);
         
         //Assert
         assertEquals(1,assemblies.size());
         assertEquals(unitTestPath,assemblies.get(0));
+    }
+    
+    private List<String> fromBuildConfiguration(
+            List<VisualStudioProject> projects) {
+        return finder.findAssembliesFromConfig(null, projects);
     }
 }

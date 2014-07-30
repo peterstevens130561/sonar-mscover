@@ -164,38 +164,11 @@ public class UnitTestRunner {
 
     }
     
-    /**
-     * Gets the unittest assemblies. Expect to find at least one, so if none found throw
-     * a sonar exception, as continuing is useless
-     */
-    private void findTestAssembliesFromProperty() {
-        String assembliesPattern = propertiesHelper.getUnitTestsAssemblies();
-        if(StringUtils.isEmpty(assembliesPattern)) {
-            throw new SonarException(PropertiesHelper.MSCOVER_UNITTEST_ASSEMBLIES + " not set, required though when using this mode");
-        }
-        AssembliesFinder assembliesFinder = AssembliesFinder.create(propertiesHelper) ;
-        assembliesFinder.setPattern(assembliesPattern);
-        unitTestAssembliesPath = assembliesFinder.findAssemblies(solutionDirectory);
-        if(unitTestAssembliesPath.isEmpty()) {
-            throw new SonarException(" No unittest assemblies found with pattern '" + assembliesPattern + "'");
-        }
-        
-    }
-    
-    private void findAssemblies() {
-        String assembliesPattern = propertiesHelper.getUnitTestsAssemblies();
-        if(StringUtils.isEmpty(assembliesPattern)) {
-            LOG.debug(PropertiesHelper.MSCOVER_UNITTEST_ASSEMBLIES + " undefined, will use projects to find test projects");
-            AssembliesFinder assembliesFinder = AssembliesFinder.create(propertiesHelper) ;
-            unitTestAssembliesPath = assembliesFinder.findUnitTestAssemblies(projects);
-            if(unitTestAssembliesPath.isEmpty()) {
-                LOG.warn(" no test projects found");
-            }
-        }  else {      
-            findTestAssembliesFromProperty();
-        }
-    }
 
+    private void findAssemblies() {
+        AssembliesFinder assembliesFinder = AssembliesFinder.create(propertiesHelper) ;
+        unitTestAssembliesPath=assembliesFinder.findAssembliesFromConfig(solutionDirectory, projects);
+    }
 
     /**
      * gets the path to the .cover file
