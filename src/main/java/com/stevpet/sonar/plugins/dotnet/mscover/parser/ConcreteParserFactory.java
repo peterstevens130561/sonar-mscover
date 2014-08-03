@@ -7,6 +7,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageSourceFileNamesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverFileNamesAndIdObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverMethodObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverMissingPdbObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverSequencePointsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverSourceFileNamesObserver;
@@ -98,6 +99,8 @@ public class ConcreteParserFactory implements ParserFactory {
         OpenCoverSequencePointsObserver pointsObserver = new OpenCoverSequencePointsObserver();
         pointsObserver.setRegistry(registry);
         parser.registerObserver(pointsObserver);
+        
+        OpenCoverMissingPdbObserver missingPdbObserver = new OpenCoverMissingPdbObserver();
         return parser;
     }
 

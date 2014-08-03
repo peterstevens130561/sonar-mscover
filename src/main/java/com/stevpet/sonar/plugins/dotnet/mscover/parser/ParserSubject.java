@@ -51,7 +51,16 @@ public abstract class ParserSubject implements Subject {
             LOG.error(msg, e);
             throw new SonarException(msg, e);
         }
+        checkOnErrors(file);
 
+    }
+
+    private void checkOnErrors(File file) {
+        for(ParserObserver observer:observers) {
+            if(observer.hasError()) {
+                throw new ParserSubjectErrorException(file);
+            }
+        }
     }
 
     private void parse(SMInputCursor rootCursor) throws XMLStreamException {

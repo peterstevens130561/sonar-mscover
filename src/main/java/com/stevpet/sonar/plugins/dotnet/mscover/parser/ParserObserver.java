@@ -15,4 +15,11 @@ public interface ParserObserver {
     void observeElement(String name,String text);
     void observeAttribute(String elementName, String path,
             String attributeValue, String attributeName);
+    
+    
+    /**
+     * true if one or more errors have been found during parsing. The observer
+     * is responsible for logging;
+     */
+    boolean hasError();
 }

@@ -1,17 +1,15 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.AttributeMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ElementMatcher;
 
 public class OpenCoverMissingPdbObserver extends OpenCoverObserver{
-    private List<String> missingPdbs = new ArrayList<String>();
+    private static final Logger LOG = LoggerFactory.getLogger(OpenCoverMissingPdbObserver.class);
     private boolean isMissing=false;
-    public List<String> getMissingPdbs() {
-        return missingPdbs;
-    }
+
     
     public OpenCoverMissingPdbObserver() {
         setPattern("Modules/Module" +
@@ -28,7 +26,8 @@ public class OpenCoverMissingPdbObserver extends OpenCoverObserver{
     @ElementMatcher(elementName="FullName")
     public void fullName(String value) {
         if(isMissing) {
-            missingPdbs.add(value);
+            LOG.error("Missing PDB file for " + value);
+            super.setError();
         }
         isMissing=false;
     }

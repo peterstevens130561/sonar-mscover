@@ -7,7 +7,15 @@ import java.util.regex.Pattern;
 public abstract class BaseParserObserver implements ParserObserver {
 
     private Pattern pattern;
+    private boolean hasError =false;
     
+    protected void setError() {
+        hasError=true;
+    }
+    
+    public boolean hasError() {
+        return hasError;
+    }
     public final boolean isMatch(String path) {
         if(pattern==null) {
             throw new IllegalArgumentException("No patterns defined (did you use setPattern in the creation of your observer?) ");
