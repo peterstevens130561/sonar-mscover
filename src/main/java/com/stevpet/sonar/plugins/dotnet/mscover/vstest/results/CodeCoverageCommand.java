@@ -77,7 +77,7 @@ public class CodeCoverageCommand implements ShellCommand {
             URL executableURL = CodeCoverageCommand.class
                     .getResource(binaryFolder);
             String archivePath = StringUtils.substringBefore(
-                    executableURL.getFile(), "!").substring(5);
+                    executableURL.getFile().replace("%20", " "), "!").substring(5);
             ZipUtils.extractArchiveFolderIntoDirectory(archivePath, binaryName,
                     tempFolder);
         } catch (IOException e) {

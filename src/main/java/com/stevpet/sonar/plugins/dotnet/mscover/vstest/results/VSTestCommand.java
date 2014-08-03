@@ -1,9 +1,11 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.sonar.api.utils.command.Command;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.opencover.OpenCoverTarget;
 
 public class VSTestCommand implements ShellCommand,OpenCoverTarget {
@@ -50,8 +52,9 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
     }
 
     public void setUnitTestAssembliesPath(List<String> unitTestAssemblyPaths) {
-        this.unitTestAssemblyPaths = unitTestAssemblyPaths;
+        this.unitTestAssemblyPaths = CommandHelper.parenthesizeArguments(unitTestAssemblyPaths);
     }
+    
     public String getExecutable() {
         return commandPath;
     }

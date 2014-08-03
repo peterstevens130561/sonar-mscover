@@ -11,6 +11,7 @@ import org.apache.commons.lang.NotImplementedException;
 import org.codehaus.plexus.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.DependedUpon;
 import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
@@ -42,6 +43,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestOutputParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 @DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
+@DependedUpon("OpenCoverRunningVsTest")
 public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
 
     private static String WONT_EXECUTE = "VsTest.Console using OpenCover.Console.Exe won't execute as ";
