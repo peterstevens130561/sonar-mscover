@@ -83,6 +83,10 @@ public class AssembliesFinder {
             throw new NoAssemblyDefinedMsCoverException(buildConfiguration,buildPlatform);
         }
         String assemblyPath=assemblyFile.getAbsolutePath();
+        if(!assemblyFile.exists()) {
+            LOG.error("Unit test assembly " + assemblyPath + " does not exist (fatal) Check .proj file for " + buildPlatform + "|" + buildConfiguration);
+        }
+
         assemblies.add(assemblyPath);
     }
     
