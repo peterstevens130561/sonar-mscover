@@ -26,7 +26,7 @@ public class OpenCoverMissingPdbObserver extends OpenCoverObserver{
     @ElementMatcher(elementName="FullName")
     public void fullName(String value) {
         if(isMissing) {
-            LOG.error("Missing PDB file for " + value);
+            LOG.error("Missing PDB file for " + value + "\n did you use a file reference instead of a project reference ?");
             super.setError();
         }
         isMissing=false;
