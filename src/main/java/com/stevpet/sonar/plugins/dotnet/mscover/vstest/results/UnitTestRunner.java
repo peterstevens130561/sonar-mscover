@@ -160,6 +160,8 @@ public class UnitTestRunner {
         vsTestCommand.setTestSettingsPath(testSettingsFile.getAbsolutePath());
         vsTestCommand.setUnitTestAssembliesPath(unitTestAssembliesPath);
         vsTestCommand.setCodeCoverage(doCodeCoverage);
+        String platform=propertiesHelper.getRequiredBuildPlatform();
+        vsTestCommand.setPlatform(platform);
         return vsTestCommand;
 
     }

@@ -3,6 +3,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.command.Command;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandHelper;
@@ -16,6 +17,7 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
     private String testSettingsPath;
     private List<String> unitTestAssemblyPaths;
     private boolean doCodeCoverage;
+    private String platform;
     
     private VSTestCommand() {
         commandPath=defaultPath;
@@ -36,6 +38,7 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
 
     public Command toCommand() {
         Command command = Command.create(commandPath);
+        addPlatformIfSpecified(command);
         command.addArguments(unitTestAssemblyPaths);
         command.addArgument("/Settings:" + testSettingsPath);
         if (doCodeCoverage) {
@@ -44,6 +47,18 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
         command.addArgument("/Logger:trx");
         return command;
     }
+    
+    private void addPlatformIfSpecified(Command command) {
+        if(StringUtils.isEmpty(platform)) {
+            return;
+        }
+        platform=platform.replaceAll("\\s", "");
+        if("anycpu".equalsIgnoreCase(platform)) {
+            platform="x64";
+        }
+        command.addArgument("/Platform:" + platform);
+    }
+    
     public String getTestSettingsPath() {
         return testSettingsPath;
     }
@@ -66,6 +81,10 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
     }
     public void setCodeCoverage(boolean doCodeCoverage) {
         this.doCodeCoverage=doCodeCoverage;
+    }
+    public void setPlatform(String platform) {
+        this.platform=platform;
+        
     }
 
 
