@@ -2,6 +2,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.opencover;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,6 +40,7 @@ public class OpenCoverCommandTest {
         testHelper.assertArgument("\"-targetdir:some/path/with/backslashes and spaces\"");
     }
 
+    
 
     @Test
     public void testSetFilter() {
@@ -57,5 +61,28 @@ public class OpenCoverCommandTest {
         openCoverCommand.setOutputPath(value);
         testHelper.assertArgument("\"-output:some/path/with/backslashes\"");
     }
-
+    
+    @Test
+    public void testSetExcludeByFileNull_NotInArguments() {
+        String value=null;
+        openCoverCommand.setExcludeByFileFilter(null);
+        testHelper.assertArgumentNotPresent("-excludebyfile");
+    }
+    
+    @Test
+    public void testSetExcludeByFileOneArg_ExpectOneArg() {
+        List<String> files = new ArrayList<String>();
+        files.add("*\\*.Designer.cs");
+        openCoverCommand.setExcludeByFileFilter(files);
+        testHelper.assertArgument("-excludebyfile:*\\*.Designer.cs");
+    }
+    
+    @Test
+    public void testSetExcludeByFileTowArg_ExpectTwoArgsSeperatedBySemic() {
+        List<String> files = new ArrayList<String>();
+        files.add("*\\*.Designer.cs");
+        files.add("johndoe.cs");
+        openCoverCommand.setExcludeByFileFilter(files);
+        testHelper.assertArgument("-excludebyfile:*\\*.Designer.cs;johndoe.cs");
+    }
 }

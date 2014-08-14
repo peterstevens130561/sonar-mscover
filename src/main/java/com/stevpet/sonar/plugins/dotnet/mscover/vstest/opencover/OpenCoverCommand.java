@@ -49,6 +49,12 @@ public class OpenCoverCommand implements ShellCommand {
         addSpacedArgument("filter",value);
     }
     
+    public void setExcludeByFileFilter(List<String> filters) {
+        addFileFilterArgument("excludebyfile",filters);
+        
+    }
+
+
     public void setOutputPath(String value) {
         addPathArgument("output",value);
     }
@@ -78,5 +84,17 @@ public class OpenCoverCommand implements ShellCommand {
         StringBuilder sb = new StringBuilder();
         sb.append("-").append(name).append(":").append(value);
         arguments.put(name, sb.toString());
+    }
+    
+    private void addFileFilterArgument(String option, List<String> filters) {
+        if(filters==null) {
+            return;
+        }
+        StringBuilder sb = new StringBuilder();
+        for(String filter: filters) {
+            sb.append(filter).append(";");
+        }
+        String filterArgument = sb.toString().replaceAll(";$","");
+        addArgument(option,filterArgument);
     }
 }
