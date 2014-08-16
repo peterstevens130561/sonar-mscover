@@ -38,13 +38,14 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
 
     public Command toCommand() {
         Command command = Command.create(commandPath);
-        addPlatformIfSpecified(command);
+
         command.addArguments(unitTestAssemblyPaths);
         command.addArgument("/Settings:" + testSettingsPath);
         if (doCodeCoverage) {
             command.addArgument("/EnableCodeCoverage");
         }
         command.addArgument("/Logger:trx");
+        addPlatformIfSpecified(command);
         return command;
     }
     

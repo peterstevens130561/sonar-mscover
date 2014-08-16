@@ -54,6 +54,9 @@ public class OpenCoverCommand implements ShellCommand {
         
     }
 
+    public void setExcludeFromCodeCoverageAttributeFilter() {
+        addArgument("excludebyattribute","*ExcludeFromCodeCoverage*");
+    }
 
     public void setOutputPath(String value) {
         addPathArgument("output",value);

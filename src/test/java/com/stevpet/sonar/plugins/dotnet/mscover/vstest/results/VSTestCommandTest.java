@@ -64,7 +64,7 @@ public class VSTestCommandTest {
         testCommand.setUnitTestAssembliesPath(paths);
         
         String commandLine = testCommand.toCommandLine();
-        String expected=EXECUTABLE + output + " \"test1\" \"test2\" /Settings:a/b /Logger:trx";
+        String expected=EXECUTABLE + " \"test1\" \"test2\" /Settings:a/b /Logger:trx" + output  ;
         assertEquals(expected,commandLine);
     }
     

@@ -85,4 +85,16 @@ public class OpenCoverCommandTest {
         openCoverCommand.setExcludeByFileFilter(files);
         testHelper.assertArgument("-excludebyfile:*\\*.Designer.cs;johndoe.cs");
     }
+    
+    @Test
+    public void testExcludeFromCodeCoverageNotSet_AttributeFilterNotInArgumentList() {
+        testHelper.assertArgumentNotPresent("-excludebyattribute");
+        
+    }
+    
+    @Test
+    public void testExcludeFromCodeCoverageSet_AttributeFilterInArgumentList() {
+        openCoverCommand.setExcludeFromCodeCoverageAttributeFilter();
+        testHelper.assertArgument("-excludebyattribute:*ExcludeFromCodeCoverage*");
+    }
 }

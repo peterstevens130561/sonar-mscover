@@ -139,6 +139,10 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
         openCoverCommand.setTargetDir(sonarWorkingDirPath);
         openCoverCommand.setMergeByHash();   
 
+        List<String> excludeFilters = new ArrayList<String>();
+        excludeFilters.add("*\\*.Designer.cs");
+        openCoverCommand.setExcludeByFileFilter(excludeFilters);
+        openCoverCommand.setExcludeFromCodeCoverageAttributeFilter();
         testEnvironment.setTestsHaveRun();
         openCoverCommand.setOutputPath(testEnvironment.getXmlCoveragePath());
         
