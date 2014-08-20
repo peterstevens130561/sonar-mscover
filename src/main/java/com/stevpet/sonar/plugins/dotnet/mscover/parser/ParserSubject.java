@@ -129,12 +129,12 @@ public abstract class ParserSubject implements Subject {
         Location location;
         try {
             location = elementCursor.getCursorLocation();
-            line = location.getLineNumber();
-            column = location.getColumnNumber();
+
         } catch (XMLStreamException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new MsCoverParserException("Exception thrown on getting location",e);
         }
+        line = location.getLineNumber();
+        column = location.getColumnNumber();
 
     }
 

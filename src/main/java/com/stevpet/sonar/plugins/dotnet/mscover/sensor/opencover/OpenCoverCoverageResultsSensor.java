@@ -51,12 +51,7 @@ public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
         if(!propertiesHelper.runOpenCover()) {
             return false;
         }
-        /*
-        if(!vsTestEnvironment.getTestsHaveRun()) {
-            LOG.info("Will not execute OpenCoverage results sensor, as tests have not run");
-            return false;
-        }
-        */
+
         LOG.info("Will execute " + project.getName());
         return true;
     }

@@ -47,7 +47,7 @@ public class VSTestResultsTests {
         try {
         String path=vsTestResults.getCoveragePath();
         } catch (SonarException e) {
-            assertEquals("Could not find area",e.getMessage());
+            assertEquals("Could not find area \\nAttachments:\\r?\\n  (.*\\.coverage)",e.getMessage());
             return;
         }
         fail("expected exception");

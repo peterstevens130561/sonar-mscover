@@ -37,15 +37,10 @@ public class VSTestOutputParser {
     private String getPieceFromResults(Pattern pattern)  {
         Matcher matcher = pattern.matcher(results);
         if(!matcher.find()) {
-            throw new SonarException("Could not find area");
+            throw new SonarException("Could not find area " + pattern.toString());
         }
         String result=matcher.group(1).trim();
         return result;
-    }
-
-
-    private boolean isWhiteSpace(char charAt) {
-        return charAt == '\t' || charAt == ' ' || charAt == '\r' || charAt == '\n' ;
     }
 
 

@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.unittestrunner;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -36,9 +37,10 @@ public class AssembliesFinderAssembliesTest {
         finder = AssembliesFinder.create(propertiesHelper);
     }
     
-    @Test(expected=NullPointerException.class)
+    @Test
     public void createAssembliesFinderWithNull_ExpectNullPointerException(){
-       finder = AssembliesFinder.create(null);        
+       finder = AssembliesFinder.create(null); 
+       assertNotNull(finder);
     }
     
     @Test (expected = SolutionHasNoProjectsSonarException.class)
@@ -69,7 +71,7 @@ public class AssembliesFinderAssembliesTest {
         VisualStudioProject project = mock(VisualStudioProject.class);
         
         String buildConfiguration="Debug";
-        String buildPlatform="Any CPU";
+        String buildPlatform="AnyCPU";
         String unitTestPath="C:\\a\\b\\c\\unittest.dll";
         
         when(project.isUnitTest()).thenReturn(true);

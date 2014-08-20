@@ -13,15 +13,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
 public class SonarCoverageSaver {
 
-    private SensorContext sensorContext;
-    private Project project;
     private SonarCoverage sonarCoverageRegistry;
     private MeasureSaver measureSaver;
     private FileCoverageSaver sonarBranchSaver;
     private FileCoverageSaver sonarLineSaver;
     public SonarCoverageSaver(SensorContext sensorContext, Project project,MeasureSaver measureSaver) {
-        this.sensorContext = sensorContext;
-        this.project = project;
+
         this.measureSaver=measureSaver;
         
     }

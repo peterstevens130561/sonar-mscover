@@ -151,9 +151,6 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
         openCoverCommand.setFilter(filter); 
   
         commandLineExecutor.execute(openCoverCommand);
-        //executeShellCommand(openCoverCommand);
-
-
     }
     
     
@@ -185,9 +182,7 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
     protected List<String> listCoveredAssemblies() {
         List<String> coveredAssemblyNames = new ArrayList<String>();
         for (VisualStudioProject visualProject : solution.getProjects()) {
-   //       if (!visualProject.isTest()) {
             coveredAssemblyNames.add(visualProject.getAssemblyName());
-   //       }
         }
         return coveredAssemblyNames;
       }

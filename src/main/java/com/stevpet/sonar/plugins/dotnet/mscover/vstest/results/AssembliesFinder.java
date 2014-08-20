@@ -18,9 +18,6 @@ public class AssembliesFinder {
     private static Logger LOG = LoggerFactory.getLogger(AssembliesFinder.class);
     
     public static AssembliesFinder create(PropertiesHelper propertiesHelper) {
-        if(propertiesHelper==null) {
-            throw new NullPointerException();
-        }
         return new AssembliesFinder(propertiesHelper) ;
     }
     private WildcardPattern[] inclusionMatchers;
@@ -78,6 +75,9 @@ public class AssembliesFinder {
     private void addUnitTestAssembly(VisualStudioProject project) {
         String buildConfiguration=propertiesHelper.getRequiredBuildConfiguration();
         String buildPlatform=propertiesHelper.getRequiredBuildPlatform();
+        if(!StringUtils.isEmpty(buildPlatform)) {
+            buildPlatform=buildPlatform.replace(" ", "");
+        }
         File assemblyFile=project.getArtifact(buildConfiguration, buildPlatform);
         if(assemblyFile==null) {
             throw new NoAssemblyDefinedMsCoverException(buildConfiguration,buildPlatform);
