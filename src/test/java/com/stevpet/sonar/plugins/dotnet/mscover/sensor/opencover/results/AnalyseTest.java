@@ -14,7 +14,7 @@ import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import org.sonar.plugins.dotnet.api.sensor.AbstractDotNetSensor;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.sensor.opencover.OpenCoverCoverageResultsSensor;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.OpenCoverCoverageResultsSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
 public class AnalyseTest {

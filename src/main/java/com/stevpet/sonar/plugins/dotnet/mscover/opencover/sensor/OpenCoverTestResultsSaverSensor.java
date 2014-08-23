@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.sensor.opencover;
+package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

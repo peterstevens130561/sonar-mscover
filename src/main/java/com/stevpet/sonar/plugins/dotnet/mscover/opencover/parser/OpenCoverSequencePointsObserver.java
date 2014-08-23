@@ -1,9 +1,9 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.opencover.OpenCoverSequencePoint;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.opencover.SequencePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.OpenCoverSequencePoint;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.SequencePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.AttributeMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
 

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.sonar.api.utils.SonarException;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.opencover.SequencePoint;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.SequencePoint;
 
 /**
  * Used to map the offset in branchpoints to lines. First load all the sequencepoints in the

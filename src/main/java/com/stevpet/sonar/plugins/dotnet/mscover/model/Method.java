@@ -2,7 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
 import java.util.List;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.opencover.OpenCoverSequencePoint;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.OpenCoverSequencePoint;
 
 public class Method {
     private int fileRef ;

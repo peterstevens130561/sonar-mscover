@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.model.opencover;
+package com.stevpet.sonar.plugins.dotnet.mscover.opencover.model;
 
 public class OpenCoverSequencePoint implements SequencePoint {
     private int line ;
