@@ -6,12 +6,12 @@ import java.io.File;
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLStreamException;
 
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsParserSubject;
 
 public class ResultsParserSubjectTest {
 

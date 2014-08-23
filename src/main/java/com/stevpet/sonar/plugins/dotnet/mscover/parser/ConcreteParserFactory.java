@@ -12,14 +12,14 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageParserSu
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodBlocksObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageSourceFileNamesObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.ResultsObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.ResultsParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.UnitTestObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.UnitTestResultObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.UnitTestObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.UnitTestResultObserver;
 
 public class ConcreteParserFactory implements ParserFactory {
     /* (non-Javadoc)

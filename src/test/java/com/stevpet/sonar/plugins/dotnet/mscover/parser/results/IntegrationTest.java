@@ -19,6 +19,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry.ForEachUnitTestFile;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.UnitTestObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.UnitTestResultObserver;
 
 public class IntegrationTest {
     MethodToSourceFileIdMap methodToSourceFileIdMap;

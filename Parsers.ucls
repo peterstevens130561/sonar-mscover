@@ -23,9 +23,9 @@
       <operations public="true" package="true" protected="false" private="false" static="false"/>    
     </display>  
   </interface>  
-  <class id="3" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.parser.results.ResultsParserSubject" 
+  <class id="3" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsParserSubject" 
     project="sonar-mscover-plugin" 
-    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/parser/results/ResultsParserSubject.java" 
+    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/vstest/trxparser/ResultsParserSubject.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="206" y="559"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -82,26 +82,22 @@
     <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="4"/>  
   </generalization>  
-  <generalization id="9">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
-  <association id="10">    
+  <association id="9">    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="11" name="observers"/>      
-      <multiplicity id="12" minimum="0" maximum="2147483647"/>    
+      <attribute id="10" name="observers"/>      
+      <multiplicity id="11" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="13">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="5"/>  
-  </realization>  
-  <realization id="14">    
+  <realization id="12">    
     <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="2"/>  
   </realization>  
+  <generalization id="13">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="false" private="false" static="false"/>    

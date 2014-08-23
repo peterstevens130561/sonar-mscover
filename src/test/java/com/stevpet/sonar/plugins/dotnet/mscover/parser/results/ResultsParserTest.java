@@ -10,6 +10,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.UnitTestObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.UnitTestResultObserver;
 
 public class ResultsParserTest {
     @Test

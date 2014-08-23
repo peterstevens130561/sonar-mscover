@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.parser.results;
+package com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser;
 
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
