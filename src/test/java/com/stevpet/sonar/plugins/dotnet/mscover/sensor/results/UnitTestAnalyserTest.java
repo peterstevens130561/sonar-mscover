@@ -22,6 +22,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.NullResource;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestUnitTestResultsAnalyser;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -55,7 +56,7 @@ public class UnitTestAnalyserTest {
     }
     @Test
     public void sunnyDay() {
-        UnitTestAnalyser analyser = new UnitTestAnalyser(project, context,measureSaver) ;
+        VsTestUnitTestResultsAnalyser analyser = new VsTestUnitTestResultsAnalyser(project, context,measureSaver) ;
         String coveragePath = TestUtils.getResource("Mileage/coverage.xml").getAbsolutePath();
         File resultsFile = TestUtils.getResource("Mileage/results.trx");
         String resultsPath=resultsFile.getAbsolutePath();
@@ -67,7 +68,7 @@ public class UnitTestAnalyserTest {
     public void sunnyOpenCoverDay() {
         String base="UnitTestAnalyser/OpenCover/";
         TestSeam testSeam = new TestSeam();
-        UnitTestAnalyser analyser = new UnitTestAnalyser(project, context,measureSaver, sourceFilePathHelper,resourceMediator) ;
+        VsTestUnitTestResultsAnalyser analyser = new VsTestUnitTestResultsAnalyser(project,measureSaver, sourceFilePathHelper,resourceMediator) ;
         when(resourceMediator.getSonarTestResource(any(File.class))).thenReturn(testSeam);
         String coveragePath = TestUtils.getResource(base+"coverage-report.xml").getAbsolutePath();
         File resultsFile = TestUtils.getResource(base + "testresults.trx");

@@ -9,6 +9,8 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
+
 public class VSTestCommandTest {
 
     private static String EXECUTABLE = "C:/Program Files (x86)/Microsoft Visual Studio 11.0/Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe";

@@ -13,10 +13,10 @@ import org.sonar.plugins.dotnet.api.sensor.AbstractDotNetSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
-import com.stevpet.sonar.plugins.dotnet.mscover.sensor.results.UnitTestAnalyser;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestUnitTestResultsAnalyser;
 @DependsUpon("OpenCoverRunningVsTest")
 public class OpenCoverTestResultsSaverSensor extends AbstractDotNetSensor {
 
@@ -66,7 +66,7 @@ public class OpenCoverTestResultsSaverSensor extends AbstractDotNetSensor {
         ResourceMediator resourceMediator = ResourceMediator.createWithFilters(sensorContext,project,timeMachine,propertiesHelper);            
         MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
         SourceFilePathHelper sourceFilePathHelper = new SourceFilePathHelper();
-        UnitTestAnalyser analyser = new UnitTestAnalyser(project, sensorContext,measureSaver, sourceFilePathHelper,resourceMediator) ;
+        VsTestUnitTestResultsAnalyser analyser = new VsTestUnitTestResultsAnalyser(project,measureSaver, sourceFilePathHelper,resourceMediator) ;
         String coveragePath = vsTestEnvironment.getXmlCoveragePath();
         String resultsPath = vsTestEnvironment.getXmlResultsPath();
         analyser.analyseOpenCoverTestResults(coveragePath, resultsPath);

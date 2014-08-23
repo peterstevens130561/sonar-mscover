@@ -15,7 +15,7 @@ public class VSTestResultsTests {
     public void ReadResults_GetCoverageFile() throws IOException {
         File resultsFile=TestUtils.getResource("com/stevpet/sonar/plugins/dotnet/mscover/vstest/results/log");
         Assert.assertTrue(resultsFile.exists());
-        VSTestOutputParser vsTestResults= new VSTestOutputParser();
+        VSTestStdOutParser vsTestResults= new VSTestStdOutParser();
         vsTestResults.setFile(resultsFile);
         String path=vsTestResults.getCoveragePath();
         Assert.assertNotNull(path);
@@ -26,7 +26,7 @@ public class VSTestResultsTests {
     public void ReadResults_GetResultsFile() throws IOException {
         File resultsFile=TestUtils.getResource("com/stevpet/sonar/plugins/dotnet/mscover/vstest/results/log");
         Assert.assertTrue(resultsFile.exists());
-        VSTestOutputParser vsTestResults= new VSTestOutputParser();
+        VSTestStdOutParser vsTestResults= new VSTestStdOutParser();
         vsTestResults.setFile(resultsFile);
         String path=vsTestResults.getTestResultsXmlPath();
         Assert.assertNotNull(path);
@@ -35,7 +35,7 @@ public class VSTestResultsTests {
     
     @Test
     public void ReadOpenCoverResults_GetResultsFile() throws IOException {
-        VSTestOutputParser vsTestResults = prepareForOpenCoverLog();
+        VSTestStdOutParser vsTestResults = prepareForOpenCoverLog();
         String path=vsTestResults.getTestResultsXmlPath();
         Assert.assertNotNull(path);
         Assert.assertEquals("C:\\Development\\Jewel.Release.Oahu\\JewelEarth\\Core\\ThinClient\\Common\\.sonar\\TestResults\\stevpet_RDSJ741TY1 2014-07-04 09_52_36.trx",path);
@@ -43,7 +43,7 @@ public class VSTestResultsTests {
 
     @Test
     public void ReadOpenCoverResults_NoCoverageFile() throws IOException {
-        VSTestOutputParser vsTestResults = prepareForOpenCoverLog();
+        VSTestStdOutParser vsTestResults = prepareForOpenCoverLog();
         try {
         String path=vsTestResults.getCoveragePath();
         } catch (SonarException e) {
@@ -55,10 +55,10 @@ public class VSTestResultsTests {
     }
     
     
-    private VSTestOutputParser prepareForOpenCoverLog() {
+    private VSTestStdOutParser prepareForOpenCoverLog() {
         File resultsFile=TestUtils.getResource("com/stevpet/sonar/plugins/dotnet/mscover/vstest/results/opencoverlog");
         Assert.assertTrue(resultsFile.exists());
-        VSTestOutputParser vsTestResults= new VSTestOutputParser();
+        VSTestStdOutParser vsTestResults= new VSTestStdOutParser();
         vsTestResults.setFile(resultsFile);
         return vsTestResults;
     }

@@ -20,6 +20,8 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerFactory;
 
 //@RunWith(PowerMockRunner.class)
 //@PrepareForTest(UnitTestRunner.class)
@@ -44,7 +46,7 @@ public class UnitTestRunnerFactoryTest {
         File sonarWorkingDir=new File(workingDirPath);
         when(moduleFileSystem.workingDir()).thenReturn(sonarWorkingDir);
         try {
-        UnitTestRunner unitTestRunner=UnitTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem, microsoftWindowsEnvironment);
+        VsTestRunner unitTestRunner=VsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem, microsoftWindowsEnvironment);
         } catch (SonarException e) {
             assertEquals(e.getMessage(),"No current solution");
             return;
@@ -65,7 +67,7 @@ public class UnitTestRunnerFactoryTest {
         VisualStudioSolution solution=mock(VisualStudioSolution.class);
         when(solution.getSolutionDir()).thenReturn(solutionDir);
         when(microsoftWindowsEnvironment.getCurrentSolution()).thenReturn(solution);
-        UnitTestRunner unitTestRunner=UnitTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem, microsoftWindowsEnvironment);
+        VsTestRunner unitTestRunner=VsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem, microsoftWindowsEnvironment);
         assertEquals(workingDirPath,unitTestRunner.getSonarPath());
         assertEquals(solutionDir.getAbsolutePath(),unitTestRunner.getSolutionDirectory().getAbsolutePath());
         assertEquals(workingDirPath + "/coverage.xml",unitTestRunner.getCoverageXmlPath());

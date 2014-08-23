@@ -1,6 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
-
-import java.io.File;
+package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +9,10 @@ import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 
-public class UnitTestRunnerFactory {
-    private static Logger LOG = LoggerFactory.getLogger(UnitTestRunnerFactory.class);
-    public static UnitTestRunner create() {
-        return UnitTestRunner.create();
+public class VsTestRunnerFactory {
+    private static Logger LOG = LoggerFactory.getLogger(VsTestRunnerFactory.class);
+    public static VsTestRunner create() {
+        return VsTestRunner.create();
     }
     
     /**
@@ -30,8 +28,8 @@ public class UnitTestRunnerFactory {
      * @param microsoftWindowsEnvironment - directory that holds the solution
      * @return
      */
-    public static UnitTestRunner createBasicTestRunnner(PropertiesHelper propertiesHelper, ModuleFileSystem moduleFileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
-            UnitTestRunner unitTestRunner = UnitTestRunner.create();
+    public static VsTestRunner createBasicTestRunnner(PropertiesHelper propertiesHelper, ModuleFileSystem moduleFileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+            VsTestRunner unitTestRunner = VsTestRunner.create();
             unitTestRunner.setPropertiesHelper(propertiesHelper);
             VisualStudioSolution solution=microsoftWindowsEnvironment.getCurrentSolution();
             if(solution == null) {

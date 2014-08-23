@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
+package com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +12,7 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.command.Command;
 import org.sonar.plugins.dotnet.api.utils.ZipUtils;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.helpers.SonarWindowsFileSystemHelper;
 
@@ -22,7 +23,7 @@ public class CodeCoverageCommand implements ShellCommand {
     private static String binaryName = "CodeCoverage";
     private static String binaryFolder = "/" + binaryName;
 
-    CodeCoverageCommand() {
+    public CodeCoverageCommand() {
     }
 
     public static CodeCoverageCommand create() {

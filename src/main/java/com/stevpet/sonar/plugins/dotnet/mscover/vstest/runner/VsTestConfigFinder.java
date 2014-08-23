@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
+package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
 import java.io.File;
 import java.io.IOException;

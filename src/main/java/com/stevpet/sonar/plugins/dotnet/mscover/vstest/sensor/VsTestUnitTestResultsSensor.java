@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.sensor.results;
+package com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -22,29 +22,29 @@ import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.SonarCoverageHelperFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 
 
-@DependsUpon({CPlusPlusImporterSensor.DEPENDS,VsTestSensor.DEPENDS,DotNetConstants.CORE_PLUGIN_EXECUTED})
-public class ResultsSensor implements Sensor {
+@DependsUpon({CPlusPlusImporterSensor.DEPENDS,VsTestExecutionSensor.DEPENDS,DotNetConstants.CORE_PLUGIN_EXECUTED})
+public class VsTestUnitTestResultsSensor implements Sensor {
     static final Logger LOG = LoggerFactory
-            .getLogger(ResultsSensor.class);
+            .getLogger(VsTestUnitTestResultsSensor.class);
     private PropertiesHelper propertiesHelper ;
-    private UnitTestRunner unitTestRunner;
+    private VsTestRunner unitTestRunner;
     private TimeMachine timeMachine;
     private VsTestEnvironment vsTestEnvironment;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 
    
     
-    public ResultsSensor(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
+    public VsTestUnitTestResultsSensor(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             Settings settings,TimeMachine timeMachine,
             VsTestEnvironment vsTestEnvironment) {
         this.microsoftWindowsEnvironment=microsoftWindowsEnvironment ;
         this.timeMachine = timeMachine;
         propertiesHelper = PropertiesHelper.create(settings);
-        unitTestRunner = UnitTestRunner.create();
+        unitTestRunner = VsTestRunner.create();
         unitTestRunner.setPropertiesHelper(propertiesHelper);
         this.vsTestEnvironment = vsTestEnvironment;
     }
@@ -74,7 +74,7 @@ public class ResultsSensor implements Sensor {
         ResourceMediator resourceMediator = ResourceMediator.createWithFilters(sensorContext,project,timeMachine,propertiesHelper);            
         MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
         SourceFilePathHelper sourcePathHelper = new SourceFilePathHelper();
-        UnitTestAnalyser unitTestAnalyser = new UnitTestAnalyser(project,sensorContext,measureSaver,sourcePathHelper,resourceMediator);     
+        VsTestUnitTestResultsAnalyser unitTestAnalyser = new VsTestUnitTestResultsAnalyser(project,measureSaver,sourcePathHelper,resourceMediator);     
         if(propertiesHelper.runVsTest()) {
             coveragePath=vsTestEnvironment.getXmlCoveragePath();
             resultsPath=vsTestEnvironment.getXmlResultsPath();

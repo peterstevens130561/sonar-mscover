@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.sensor.results;
+package com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor;
 
 import java.io.File;
 
@@ -13,28 +13,27 @@ import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.csharpsolutionfilesystem.CSharpSolutionFileSystem;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunner;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunnerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerFactory;
 
-@DependedUpon(VsTestSensor.DEPENDS)
-public class VsTestSensor implements Sensor {
+@DependedUpon(VsTestExecutionSensor.DEPENDS)
+public class VsTestExecutionSensor implements Sensor {
     
     public static final String DEPENDS="VsTestSensor";
     private static final Logger LOG = LoggerFactory
-            .getLogger(VsTestSensor.class);
+            .getLogger(VsTestExecutionSensor.class);
        
     private VsTestEnvironment vsTestEnvironment;
     private ModuleFileSystem moduleFileSystem;
-    private UnitTestRunner unitTestRunner;
+    private VsTestRunner unitTestRunner;
 
     private PropertiesHelper propertiesHelper;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     
     
-    public VsTestSensor(VsTestEnvironment vsTestEnvironment, Settings settings,ModuleFileSystem moduleFileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+    public VsTestExecutionSensor(VsTestEnvironment vsTestEnvironment, Settings settings,ModuleFileSystem moduleFileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         this.vsTestEnvironment = vsTestEnvironment;
         this.moduleFileSystem = moduleFileSystem;
         this.microsoftWindowsEnvironment=microsoftWindowsEnvironment;
@@ -65,7 +64,7 @@ public class VsTestSensor implements Sensor {
     }
 
     private String runUnitTests() {
-        unitTestRunner = UnitTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
+        unitTestRunner = VsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
         unitTestRunner.setDoCodeCoverage(true);
         unitTestRunner.runTests();
         return unitTestRunner.getCoverageXmlPath();

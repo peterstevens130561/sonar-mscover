@@ -12,18 +12,18 @@ import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
-import com.stevpet.sonar.plugins.dotnet.mscover.sensor.results.ResultsSensor;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestUnitTestResultsSensor;
 public class ShouldExecuteTest {
     
     private Settings settings ;
     private Project project ;
-    private ResultsSensor resultsSensor;
+    private VsTestUnitTestResultsSensor resultsSensor;
     
     @Before
     public void before() {
         settings = mock(Settings.class);
         project = mock(Project.class);
-        resultsSensor = new ResultsSensor(null, settings, null, null);
+        resultsSensor = new VsTestUnitTestResultsSensor(null, settings, null, null);
     }
     
     @Test

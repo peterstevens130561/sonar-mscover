@@ -12,6 +12,7 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

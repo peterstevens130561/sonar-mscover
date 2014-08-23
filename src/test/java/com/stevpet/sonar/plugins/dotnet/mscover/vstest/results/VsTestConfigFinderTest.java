@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.sonar.api.utils.SonarException;
 import org.sonar.test.TestUtils;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
+
 public class VsTestConfigFinderTest {
 
     private String ROOT = "VsTestConfigFinder";

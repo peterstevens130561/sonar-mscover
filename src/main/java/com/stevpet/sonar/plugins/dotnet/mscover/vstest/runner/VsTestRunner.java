@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
+package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
 import java.io.File;
 import java.util.List;
@@ -14,10 +14,14 @@ import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
+import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.CodeCoverageCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 
-public class UnitTestRunner {
+public class VsTestRunner {
     private static final Logger LOG = LoggerFactory
-            .getLogger(UnitTestRunner.class);
+            .getLogger(VsTestRunner.class);
     private PropertiesHelper propertiesHelper ;
     private File solutionDirectory ;
     private List<String> unitTestAssembliesPath;
@@ -32,11 +36,11 @@ public class UnitTestRunner {
     private boolean doCodeCoverage;
     private List<VisualStudioProject> projects;
     
-    private UnitTestRunner() {
+    private VsTestRunner() {
     }
     
-    public static UnitTestRunner create() {
-        return new UnitTestRunner();
+    public static VsTestRunner create() {
+        return new VsTestRunner();
     }
 
     public void setSonarPath(String path) {
@@ -132,7 +136,7 @@ public class UnitTestRunner {
      * parse test log to get paths to result files
      */
     public void getResultPaths() {
-        VSTestOutputParser vsTestResults = new VSTestOutputParser();
+        VSTestStdOutParser vsTestResults = new VSTestStdOutParser();
         vsTestResults.setResults(stdOut.toString());
         setCoveragePath(vsTestResults.getCoveragePath());
         setResultsPath(vsTestResults.getTestResultsXmlPath());     

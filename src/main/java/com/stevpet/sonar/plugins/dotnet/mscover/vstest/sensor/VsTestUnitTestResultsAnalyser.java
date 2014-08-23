@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.sensor.results;
+package com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,16 +24,15 @@ import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
-public class UnitTestAnalyser {
+public class VsTestUnitTestResultsAnalyser {
 
     static final Logger LOG = LoggerFactory
-            .getLogger(UnitTestAnalyser.class);
+            .getLogger(VsTestUnitTestResultsAnalyser.class);
     private UnitTestRegistry registry;
     private UnitTestFilesResultRegistry filesResultRegistry;
     private SourceFileNamesRegistry sourceFileNamesRegistry;
 
     private MethodToSourceFileIdMap map;
-    private SensorContext context;
     private Project project;
     private OpenCoverParserFactory openCoverParserFactory = new ConcreteOpenCoverParserFactory();
     private ParserFactory factory = new ConcreteParserFactory();
@@ -44,13 +43,12 @@ public class UnitTestAnalyser {
     /**
      * @deprecated Use {@link #UnitTestAnalyser(Project,SensorContext,MeasureSaver,SourceFilePathHelper)} instead
      */
-    public UnitTestAnalyser(Project project, SensorContext context,MeasureSaver measureSaver) {
-        this(project, context, measureSaver, new SourceFilePathHelper(),ResourceMediator.createWithEmptyFilters(context, project));
+    public VsTestUnitTestResultsAnalyser(Project project, SensorContext context,MeasureSaver measureSaver) {
+        this(project, measureSaver, new SourceFilePathHelper(),ResourceMediator.createWithEmptyFilters(context, project));
     }
 
-    public UnitTestAnalyser(Project project, SensorContext context,MeasureSaver measureSaver, SourceFilePathHelper sourceFilePathHelper,ResourceMediator resourceMediator) {
+    public VsTestUnitTestResultsAnalyser(Project project,MeasureSaver measureSaver, SourceFilePathHelper sourceFilePathHelper,ResourceMediator resourceMediator) {
         this.project = project;
-        this.context = context;
         this.measureSaver = measureSaver;
         this.sourceFilePathHelper = sourceFilePathHelper;
         this.resourceMediator = resourceMediator; 

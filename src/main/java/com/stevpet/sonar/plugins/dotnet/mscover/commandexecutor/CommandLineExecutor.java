@@ -1,6 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.ShellCommand;
 
 public interface CommandLineExecutor {
 

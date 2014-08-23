@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
+package com.stevpet.sonar.plugins.dotnet.mscover.vstest.command;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.command.Command;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverTarget;
 
 public class VSTestCommand implements ShellCommand,OpenCoverTarget {

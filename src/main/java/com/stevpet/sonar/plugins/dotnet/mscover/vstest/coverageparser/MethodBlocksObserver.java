@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage;
+package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.BlockModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;

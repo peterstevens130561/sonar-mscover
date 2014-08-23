@@ -4,12 +4,10 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 
-
 import org.junit.Before;
 import org.junit.Test;
 
-
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestConfigFinder;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

@@ -29,6 +29,7 @@ import org.sonar.plugins.dotnet.api.sensor.AbstractDotNetSensor;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
@@ -38,12 +39,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParser
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ConcreteParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.ShellCommand;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunner;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunnerFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestCommand;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestOutputParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerFactory;
 @DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
 @DependedUpon("OpenCoverRunningVsTest")
 public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
@@ -160,7 +160,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
      * parse test log to get paths to result files
      */
     public void getResultPaths() {
-        VSTestOutputParser vsTestResults = new VSTestOutputParser();
+        VSTestStdOutParser vsTestResults = new VSTestStdOutParser();
         String stdOut=commandLineExecutor.getStdOut();
         vsTestResults.setResults(stdOut);
         String resultsPath=vsTestResults.getTestResultsXmlPath(); 
@@ -168,7 +168,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     }
 
     private OpenCoverTarget prepareTestRunner() {
-        UnitTestRunner unitTestRunner = UnitTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
+        VsTestRunner unitTestRunner = VsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
         VSTestCommand testCommand=unitTestRunner.prepareTestCommand();
         return testCommand;
     }

@@ -15,9 +15,9 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.AssembliesFinder;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.NoAssemblyDefinedMsCoverException;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.SolutionHasNoProjectsSonarException;
+import com.stevpet.sonar.plugins.dotnet.mscover.exception.NoAssemblyDefinedMsCoverException;
+import com.stevpet.sonar.plugins.dotnet.mscover.exception.SolutionHasNoProjectsSonarException;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

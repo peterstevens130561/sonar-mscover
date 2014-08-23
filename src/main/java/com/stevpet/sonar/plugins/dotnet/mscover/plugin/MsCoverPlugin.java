@@ -30,9 +30,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.OpenCoverCovera
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.OpenCoverTestResultsSaverSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.OpenCoverTestExecutionCoverageSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.IntegrationTestCoverSensor;
-import com.stevpet.sonar.plugins.dotnet.mscover.sensor.results.ResultsSensor;
-import com.stevpet.sonar.plugins.dotnet.mscover.sensor.results.VsTestSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestExecutionSensor;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestUnitTestResultsSensor;
 
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
@@ -102,7 +102,7 @@ public List getExtensions() {
     return Arrays.asList(
             CPlusPlusImporterSensor.class,
             VsTestEnvironment.class,
-            VsTestSensor.class,
+            VsTestExecutionSensor.class,
             OpenCoverTestExecutionCoverageSensor.class,
             OpenCoverCoverageResultsSensor.class,
             OpenCoverTestResultsSaverSensor.class,
@@ -112,7 +112,7 @@ public List getExtensions() {
         IntegrationTestBlockDecorator.class,
         UnitTestBlockDecorator.class,
         UnitTestDecorator.class,
-        ResultsSensor.class
+        VsTestUnitTestResultsSensor.class
         );
   }
 }

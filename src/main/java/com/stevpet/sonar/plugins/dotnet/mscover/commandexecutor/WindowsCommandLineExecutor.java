@@ -6,8 +6,6 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.command.CommandExecutor;
 import org.sonar.api.utils.command.StreamConsumer;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.ShellCommand;
-
 /**
  * A simple commandline executer.
  *

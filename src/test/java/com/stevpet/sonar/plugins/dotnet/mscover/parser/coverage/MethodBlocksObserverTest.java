@@ -11,8 +11,9 @@ import org.sonar.test.TestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.BlockModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodBlocksObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.MethodBlocksObserver;
 
 public class MethodBlocksObserverTest {
     //Arrange

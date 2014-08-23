@@ -10,6 +10,8 @@ import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageSourceFileNamesObserver;
 
 public class SourceFileNamesObserverTest {
     
