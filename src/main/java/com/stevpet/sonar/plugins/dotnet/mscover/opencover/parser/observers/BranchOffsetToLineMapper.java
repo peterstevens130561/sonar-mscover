@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser;
+package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers;
 
 import java.util.ArrayList;
 import java.util.List;

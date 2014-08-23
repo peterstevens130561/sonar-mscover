@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.parser;
+package com.stevpet.sonar.plugins.dotnet.mscover.parser.exceptions;
 
 import java.io.File;
 

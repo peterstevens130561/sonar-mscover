@@ -13,11 +13,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarLinePoint;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverSequencePointsObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverSourceFileNamesObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverSequencePointsObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverSourceFileNamesObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 
 public class OpenCoverObserversTest {

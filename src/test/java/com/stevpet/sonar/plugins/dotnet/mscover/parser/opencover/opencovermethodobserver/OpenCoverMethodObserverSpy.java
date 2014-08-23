@@ -1,6 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.opencovermethodobserver;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverMethodObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverMethodObserver;
 
 public class OpenCoverMethodObserverSpy extends OpenCoverMethodObserver {
 

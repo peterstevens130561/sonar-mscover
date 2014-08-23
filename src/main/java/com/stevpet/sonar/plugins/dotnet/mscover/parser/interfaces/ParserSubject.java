@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.parser;
+package com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -18,6 +18,13 @@ import org.codehaus.staxmate.in.SMInputCursor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.SonarException;
+
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.PathMatcher;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.Subject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.exceptions.MsCoverParserException;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.exceptions.ParserSubjectErrorException;
 
 public abstract class ParserSubject implements Subject {
 

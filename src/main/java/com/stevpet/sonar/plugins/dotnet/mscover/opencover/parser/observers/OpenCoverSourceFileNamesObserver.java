@@ -1,7 +1,7 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser;
+package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.AttributeMatcher;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
 
 public class OpenCoverSourceFileNamesObserver extends OpenCoverObserver {
 

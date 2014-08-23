@@ -1,9 +1,9 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.AttributeMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.ElementMatcher;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
 
 /*

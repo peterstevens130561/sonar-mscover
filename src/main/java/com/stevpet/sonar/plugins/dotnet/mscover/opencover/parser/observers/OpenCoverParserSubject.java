@@ -1,6 +1,6 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser;
+package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
 
 
 public class OpenCoverParserSubject extends ParserSubject {

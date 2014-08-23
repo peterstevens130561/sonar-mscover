@@ -35,9 +35,9 @@
       <operations public="true" package="true" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject" 
+  <class id="4" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject" 
     project="sonar-mscover-plugin" 
-    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/parser/ParserSubject.java" 
+    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/parser/interfaces/ParserSubject.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="364" y="271"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -46,9 +46,9 @@
       <operations public="true" package="true" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <interface id="5" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserObserver" 
+  <interface id="5" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserObserver" 
     project="sonar-mscover-plugin" 
-    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/parser/ParserObserver.java" 
+    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/parser/interfaces/ParserObserver.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="99" width="219" x="604" y="133"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 

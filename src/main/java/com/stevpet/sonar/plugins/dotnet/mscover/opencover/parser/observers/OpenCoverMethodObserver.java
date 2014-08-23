@@ -1,14 +1,16 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser;
+package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
 
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.AttributeMatcher;
+
+
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.PathMatcher;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 
 /**
