@@ -36,10 +36,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverComma
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverTarget;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.ConcreteOpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.ConcreteParserFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
@@ -149,7 +149,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         openCoverCommand.setOutputPath(testEnvironment.getXmlCoveragePath());
         
         openCoverCommand.setTargetCommand(prepareTestRunner());
-        String filter = getFilter();
+        String filter = getAssembliesToIncludeInCoverageFilter();
         openCoverCommand.setFilter(filter); 
   
         commandLineExecutor.execute(openCoverCommand);
@@ -172,7 +172,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         VSTestCommand testCommand=unitTestRunner.prepareTestCommand();
         return testCommand;
     }
-    protected String getFilter() {
+    protected String getAssembliesToIncludeInCoverageFilter() {
         final StringBuilder filterBuilder = new StringBuilder();
         // We add all the covered assemblies
         for (String assemblyName : listCoveredAssemblies()) {
@@ -204,44 +204,5 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         }
     }
     
-    private List<File> findTestAssemblies() {
-        Set<File> assemblyFiles = Sets.newHashSet();
-
-        Collection<VisualStudioProject> testProjects = solution.getUnitTestProjects();
-        for (VisualStudioProject visualStudioProject : testProjects) {
-            addAssembly(assemblyFiles, visualStudioProject);
-        }
-
-        return Lists.newArrayList(assemblyFiles);
-    }
-      
-      private void addAssembly(Collection<File> assemblyFileList, VisualStudioProject visualStudioProject) {
-          String buildConfiguration = settings.getString(DotNetConstants.BUILD_CONFIGURATION_KEY);
-          String buildPlatform = settings.getString(DotNetConstants.BUILD_PLATFORM_KEY);
-          File assembly = visualStudioProject.getArtifact(buildConfiguration, buildPlatform);
-          if (assembly != null && assembly.isFile()) {
-            assemblyFileList.add(assembly);
-          } else {
-            LOG.warn("Test assembly not found at the following location: {}"
-              + "\n, using the following configuration:\n  - csproj file: {}\n  - build configuration: {}\n  - platform: {}",
-                new Object[] {assembly, visualStudioProject.getProjectFile(), buildConfiguration, buildPlatform});
-          }
-        }
-
-      class StringStreamConsumer implements StreamConsumer{
-          private StringBuilder log ;
-          StringStreamConsumer() {
-              log = new StringBuilder();
-          }
-          @Override
-          public String toString() {
-              return log.toString();
-          }
-        public void consumeLine(String line) {
-            LOG.info(line);
-            log.append(line);
-            log.append("\r\n");  
-        }
-          }
 
 }

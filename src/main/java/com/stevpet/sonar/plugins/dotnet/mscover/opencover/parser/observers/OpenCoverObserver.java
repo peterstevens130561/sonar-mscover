@@ -1,7 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObserver;
 
 public abstract class OpenCoverObserver extends BaseParserObserver {
 

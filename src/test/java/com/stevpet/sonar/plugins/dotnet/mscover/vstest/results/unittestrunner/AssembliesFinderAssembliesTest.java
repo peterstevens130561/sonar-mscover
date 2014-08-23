@@ -119,6 +119,6 @@ public class AssembliesFinderAssembliesTest {
     
     private List<String> fromBuildConfiguration(
             List<VisualStudioProject> projects) {
-        return finder.findAssembliesFromConfig(null, projects);
+        return finder.findUnitTestAssembliesFromConfig(null, projects);
     }
 }

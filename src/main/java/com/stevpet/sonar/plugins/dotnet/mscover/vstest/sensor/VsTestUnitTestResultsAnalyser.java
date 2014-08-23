@@ -11,8 +11,6 @@ import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.ConcreteOpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.ConcreteParserFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
@@ -23,6 +21,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ConcreteVsTestFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.VsTestFactory;
 

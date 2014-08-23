@@ -9,7 +9,7 @@ import org.sonar.test.TestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.MethodObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.MethodObserver;
 
 public class MethodToSourceFileIdMapTest {
     @Test

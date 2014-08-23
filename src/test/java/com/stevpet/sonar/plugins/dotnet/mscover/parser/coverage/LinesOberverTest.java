@@ -3,7 +3,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.LinesObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.LinesObserver;
 
 
 

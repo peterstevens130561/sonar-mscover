@@ -2,8 +2,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser;
 
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObserver;
 
 public class ResultsObserver extends BaseParserObserver {
 

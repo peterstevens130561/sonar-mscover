@@ -70,6 +70,6 @@ public class AssembliesFinderPatternTest {
     }
     
     private List<String> fromMSCoverProperty(File root) {
-        return finder.findAssembliesFromConfig(root, null);
+        return finder.findUnitTestAssembliesFromConfig(root, null);
     }
 }

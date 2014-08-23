@@ -173,7 +173,7 @@ public class VsTestRunner {
 
     private void findAssemblies() {
         AssembliesFinder assembliesFinder = AssembliesFinder.create(propertiesHelper) ;
-        unitTestAssembliesPath=assembliesFinder.findAssembliesFromConfig(solutionDirectory, projects);
+        unitTestAssembliesPath=assembliesFinder.findUnitTestAssembliesFromConfig(solutionDirectory, projects);
     }
 
     /**

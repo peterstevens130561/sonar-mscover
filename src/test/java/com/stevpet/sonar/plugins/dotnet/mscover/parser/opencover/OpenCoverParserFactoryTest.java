@@ -8,9 +8,9 @@ import org.sonar.test.TestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.ConcreteOpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.ConcreteParserFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ParserFactory;
 
 public class OpenCoverParserFactoryTest {
     @Test

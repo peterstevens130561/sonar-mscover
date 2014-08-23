@@ -32,7 +32,7 @@ public class AssembliesFinder {
         this.propertiesHelper=propertiesHelper;
     }
     
-    public List<String> findAssembliesFromConfig(File solutionDirectory, List<VisualStudioProject> projects) {
+    public List<String> findUnitTestAssembliesFromConfig(File solutionDirectory, List<VisualStudioProject> projects) {
         String assembliesPattern = propertiesHelper.getUnitTestsAssemblies();
         if(StringUtils.isEmpty(assembliesPattern)) {
             fromBuildConfiguration(projects);

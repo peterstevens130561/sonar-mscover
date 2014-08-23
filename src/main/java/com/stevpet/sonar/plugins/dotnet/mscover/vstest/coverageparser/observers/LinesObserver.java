@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser;
+package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -1,9 +1,7 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.parser;
+package com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserObserver;
 
 
 public abstract class BaseParserObserver implements ParserObserver {
