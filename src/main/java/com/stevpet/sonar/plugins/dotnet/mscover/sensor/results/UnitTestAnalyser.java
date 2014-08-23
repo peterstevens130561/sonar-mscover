@@ -9,6 +9,8 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.SonarException;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.ConcreteOpenCoverParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ConcreteParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
@@ -33,6 +35,7 @@ public class UnitTestAnalyser {
     private MethodToSourceFileIdMap map;
     private SensorContext context;
     private Project project;
+    private OpenCoverParserFactory openCoverParserFactory = new ConcreteOpenCoverParserFactory();
     private ParserFactory factory = new ConcreteParserFactory();
     private MeasureSaver measureSaver;
     private SourceFilePathHelper sourceFilePathHelper ;
@@ -88,7 +91,7 @@ public class UnitTestAnalyser {
     }
     
     private void parseOpenCoverFile(String openCoverFileName) {
-       ParserSubject parser = factory.createOpenCoverFileNamesParser(map, sourceFileNamesRegistry);
+       ParserSubject parser = openCoverParserFactory.createOpenCoverFileNamesParser(map, sourceFileNamesRegistry);
         
         File coverageFile = new File(openCoverFileName);
         parser.parseFile(coverageFile);       

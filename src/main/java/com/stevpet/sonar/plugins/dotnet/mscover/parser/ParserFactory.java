@@ -34,16 +34,5 @@ public interface ParserFactory {
     public ParserSubject createFileNamesParser(MethodToSourceFileIdMap map,
             SourceFileNamesRegistry sourceFileNamesRegistry);
 
-    public ParserSubject createOpenCoverParser(SonarCoverage registry);
 
-    /**
-     * Used to parse the opencover coverage file so that a unit test method can be linked to its source
-     * file
-     * @param map
-     * @param sourceFileNamesRegistry
-     * @return
-     */
-    public ParserSubject createOpenCoverFileNamesParser(
-            MethodToSourceFileIdMap map,
-            SourceFileNamesRegistry sourceFileNamesRegistry);
 }

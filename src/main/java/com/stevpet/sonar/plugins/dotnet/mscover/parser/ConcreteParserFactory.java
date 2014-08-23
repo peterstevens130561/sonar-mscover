@@ -85,35 +85,4 @@ public class ConcreteParserFactory implements ParserFactory {
         return parser;
     }
 
-    /**
-     * Creates the complete parser, with the observers registered
-     * @param registry initialized registry
-     */
-    public ParserSubject createOpenCoverParser(SonarCoverage registry) {
-        ParserSubject parser = new OpenCoverParserSubject();
-        OpenCoverObserver [] observers = { 
-                new OpenCoverSourceFileNamesObserver(),
-                new OpenCoverSequencePointsObserver(),
-                new OpenCoverMissingPdbObserver()};
-        for(OpenCoverObserver observer: observers) {
-            observer.setRegistry(registry);
-            parser.registerObserver(observer);
-        }
-        return parser;
-    }
-
-    public ParserSubject createOpenCoverFileNamesParser(
-            MethodToSourceFileIdMap map,
-            SourceFileNamesRegistry sourceFileNamesRegistry) {
-        ParserSubject parserSubject = new OpenCoverParserSubject();
-
-        OpenCoverMethodObserver methodObserver = new OpenCoverMethodObserver();
-        methodObserver.setRegistry(map);
-        parserSubject.registerObserver(methodObserver);
-
-        OpenCoverFileNamesAndIdObserver sourceFileNamesObserver = new OpenCoverFileNamesAndIdObserver();
-        sourceFileNamesObserver.setRegistry(sourceFileNamesRegistry);
-        parserSubject.registerObserver(sourceFileNamesObserver);
-        return parserSubject;
-    }
 }

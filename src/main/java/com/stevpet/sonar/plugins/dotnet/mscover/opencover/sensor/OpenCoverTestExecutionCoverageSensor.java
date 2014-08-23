@@ -33,6 +33,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLi
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverTarget;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.ConcreteOpenCoverParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ConcreteParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
@@ -123,7 +125,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     }
 
     private void parseCoverageFile(VsTestEnvironment testEnvironment) {
-        ParserFactory parserFactory = new ConcreteParserFactory();
+        OpenCoverParserFactory parserFactory = new ConcreteOpenCoverParserFactory();
         SonarCoverage sonarCoverageRegistry = new SonarCoverage();
         ParserSubject parser=parserFactory.createOpenCoverParser(sonarCoverageRegistry);
         parser.parseFile(new File(testEnvironment.getXmlCoveragePath()));

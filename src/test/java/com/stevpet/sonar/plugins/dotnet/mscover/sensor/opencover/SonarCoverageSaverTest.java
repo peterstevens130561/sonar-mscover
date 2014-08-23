@@ -15,6 +15,8 @@ import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.ConcreteOpenCoverParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ConcreteParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserFactory;
@@ -54,7 +56,7 @@ public class SonarCoverageSaverTest {
         sonarCoverageRegistry = new SonarCoverage();
         coverageSaver.setCoverageRegistry(sonarCoverageRegistry);
 
-        ParserFactory parserFactory = new ConcreteParserFactory();
+        OpenCoverParserFactory parserFactory = new ConcreteOpenCoverParserFactory();
         ParserSubject parser = parserFactory.createOpenCoverParser(sonarCoverageRegistry);
         File file = TestUtils.getResource("coverage-report.xml");
         parser.parseFile(file);   
