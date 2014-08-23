@@ -3,6 +3,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.opencover;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverTarget;
+
 public class SetTargetCommandTest {
     private  OpenCoverTestHelper testHelper = new OpenCoverTestHelper();
     private OpenCoverCommand openCoverCommand ;

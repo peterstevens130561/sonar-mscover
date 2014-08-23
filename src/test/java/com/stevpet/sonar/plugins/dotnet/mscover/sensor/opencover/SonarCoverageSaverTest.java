@@ -15,7 +15,7 @@ import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.SonarCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ConcreteParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;

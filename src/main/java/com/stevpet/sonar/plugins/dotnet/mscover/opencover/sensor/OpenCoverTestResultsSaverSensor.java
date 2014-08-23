@@ -2,6 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.config.Settings;
@@ -16,7 +17,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.sensor.results.UnitTestAnalyser;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
-
+@DependsUpon("OpenCoverRunningVsTest")
 public class OpenCoverTestResultsSaverSensor extends AbstractDotNetSensor {
 
     private static final Logger LOG = LoggerFactory.getLogger(OpenCoverCoverageResultsSensor.class);

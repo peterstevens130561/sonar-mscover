@@ -8,6 +8,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
+
 public class OpenCoverCommandTest {
 
     private  OpenCoverTestHelper testHelper = new OpenCoverTestHelper();

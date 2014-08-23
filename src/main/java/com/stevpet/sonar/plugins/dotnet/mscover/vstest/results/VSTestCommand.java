@@ -7,7 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.command.Command;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.opencover.OpenCoverTarget;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverTarget;
 
 public class VSTestCommand implements ShellCommand,OpenCoverTarget {
 

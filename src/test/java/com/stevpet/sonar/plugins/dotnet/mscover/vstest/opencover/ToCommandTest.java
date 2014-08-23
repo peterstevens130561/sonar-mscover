@@ -5,6 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.utils.command.Command;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverTarget;
+
 public class ToCommandTest {
     private  OpenCoverTestHelper testHelper = new OpenCoverTestHelper();
     private OpenCoverCommand openCoverCommand ;

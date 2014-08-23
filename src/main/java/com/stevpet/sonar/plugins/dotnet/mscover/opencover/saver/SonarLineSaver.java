@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
+package com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver;
 
 import java.io.File;
 import java.util.Map;

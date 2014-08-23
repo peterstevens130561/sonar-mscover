@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.vstest.opencover;
+package com.stevpet.sonar.plugins.dotnet.mscover.opencover.command;
 
 public interface OpenCoverTarget {
     /**

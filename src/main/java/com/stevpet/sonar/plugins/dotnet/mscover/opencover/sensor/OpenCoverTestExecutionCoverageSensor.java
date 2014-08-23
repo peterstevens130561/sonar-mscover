@@ -31,11 +31,11 @@ import com.google.common.collect.Sets;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverTarget;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ConcreteParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.opencover.OpenCoverCommand;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.opencover.OpenCoverTarget;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunnerFactory;
@@ -44,10 +44,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestOutputParse
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 @DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
 @DependedUpon("OpenCoverRunningVsTest")
-public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
+public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
 
     private static String WONT_EXECUTE = "VsTest.Console using OpenCover.Console.Exe won't execute as ";
-    private static final Logger LOG = LoggerFactory.getLogger(VsTestOpenCoverCoverageSensor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OpenCoverTestExecutionCoverageSensor.class);
     private VisualStudioSolution solution;
     private File workDir;
     private PropertiesHelper propertiesHelper ;
@@ -60,7 +60,7 @@ public class VsTestOpenCoverCoverageSensor extends AbstractDotNetSensor {
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 
     
-    public VsTestOpenCoverCoverageSensor(Settings settings, 
+    public OpenCoverTestExecutionCoverageSensor(Settings settings, 
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
             ModuleFileSystem moduleFileSystem,
             VsTestEnvironment testEnvironment) {
