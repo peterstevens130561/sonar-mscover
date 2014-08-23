@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover;
+package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;

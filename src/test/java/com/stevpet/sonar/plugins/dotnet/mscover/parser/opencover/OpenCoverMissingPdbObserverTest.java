@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverMissingPdbObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserSubjectErrorException;
 

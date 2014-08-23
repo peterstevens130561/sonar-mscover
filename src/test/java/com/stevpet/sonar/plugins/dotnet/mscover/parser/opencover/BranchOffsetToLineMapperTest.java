@@ -8,6 +8,7 @@ import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.opencover.OpenCoverSequencePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.opencover.SequencePoint;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.BranchOffsetToLineMapper;
 
 public class BranchOffsetToLineMapperTest {
     

@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverMethodObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverMethodObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 
 public class OpenCoverMethodObserverTest {

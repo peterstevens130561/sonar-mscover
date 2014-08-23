@@ -1,17 +1,17 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.parser;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverFileNamesAndIdObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverMethodObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverMissingPdbObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverSequencePointsObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverSourceFileNamesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodBlocksObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageSourceFileNamesObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverFileNamesAndIdObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverMethodObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverMissingPdbObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverSequencePointsObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverSourceFileNamesObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.OpenCoverParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.ResultsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.ResultsParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.results.UnitTestObserver;
