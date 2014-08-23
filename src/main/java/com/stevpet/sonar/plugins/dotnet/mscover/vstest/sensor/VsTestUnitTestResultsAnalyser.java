@@ -23,6 +23,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ConcreteVsTestFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.VsTestFactory;
 
 public class VsTestUnitTestResultsAnalyser {
 
@@ -126,8 +128,8 @@ public class VsTestUnitTestResultsAnalyser {
 
    
     private void parseUnitTestResultsFile(String resultsPath) {
-
-        ParserSubject resultsParser = factory.createUnitTestResultsParser(registry); 
+        VsTestFactory vsTestFactory = new ConcreteVsTestFactory();
+        ParserSubject resultsParser = vsTestFactory.createUnitTestResultsParser(registry); 
         
         File file = new File(resultsPath);
         if(!file.exists()) {
