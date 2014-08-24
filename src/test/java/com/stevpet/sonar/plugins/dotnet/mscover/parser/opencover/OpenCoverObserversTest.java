@@ -17,7 +17,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenC
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverSequencePointsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverSourceFileNamesObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 
 public class OpenCoverObserversTest {
@@ -28,7 +28,7 @@ public class OpenCoverObserversTest {
     @Test
     public void ReadFileNames_Expect31() {
         //Arrange
-        ParserSubject parser = initializeParser();
+        XmlParserSubject parser = initializeParser();
         File file = TestUtils.getResource("coverage-report.xml");
         //Act
         parser.parseFile(file);
@@ -83,15 +83,15 @@ public class OpenCoverObserversTest {
     }
     
     private void initializeCompleteParser() {
-        ParserSubject parser = initializeParser();
+        XmlParserSubject parser = initializeParser();
         OpenCoverObserver pointsObserver = new OpenCoverSequencePointsObserver();
         pointsObserver.setRegistry(registry);
         parser.registerObserver(pointsObserver);
         parser.parseFile(file);
     }
     
-    private ParserSubject initializeParser() {
-        ParserSubject parser = new OpenCoverParserSubject();
+    private XmlParserSubject initializeParser() {
+        XmlParserSubject parser = new OpenCoverParserSubject();
         OpenCoverObserver observer = new OpenCoverSourceFileNamesObserver();
         registry = new SonarCoverage();
         observer.setRegistry(registry);

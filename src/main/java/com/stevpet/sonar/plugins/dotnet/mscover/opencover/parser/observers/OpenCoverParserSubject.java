@@ -1,9 +1,9 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 
 
-public class OpenCoverParserSubject extends ParserSubject {
+public class OpenCoverParserSubject extends XmlParserSubject {
    
     @Override
     public String[] getHierarchy() {

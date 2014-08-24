@@ -10,14 +10,14 @@ import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.BlockModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.MethodBlocksObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageMethodBlocksToFileBlocksObserver;
 
 public class MethodBlocksObserverTest {
     //Arrange
-    MethodBlocksObserver observer = new MethodBlocksObserver();
+    CoverageMethodBlocksToFileBlocksObserver observer = new CoverageMethodBlocksToFileBlocksObserver();
     @Test 
     public void MatchBlocksCovered_ShouldMatch() {
         String path = "Module/NamespaceTable/Class/Method/BlocksCovered";
@@ -104,7 +104,7 @@ public class MethodBlocksObserverTest {
     @Test
     public void ParseFileWithObserver() throws XMLStreamException {
         //Arrange
-        ParserSubject parser = new CoverageParserSubject();
+        XmlParserSubject parser = new CoverageParserSubject();
         FileBlocksRegistry registry = new FileBlocksRegistry();
         observer.setRegistry(registry);
         parser.registerObserver(observer);

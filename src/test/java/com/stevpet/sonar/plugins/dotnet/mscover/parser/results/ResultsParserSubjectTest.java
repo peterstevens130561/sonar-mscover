@@ -10,20 +10,20 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsParserSubject;
 
 public class ResultsParserSubjectTest {
 
     @Test
     public void createParser_ShouldWork() {
-        ParserSubject parserSubject = new ResultsParserSubject();
+        XmlParserSubject parserSubject = new ResultsParserSubject();
         Assert.assertNotNull(parserSubject);
     }
     
     @Test
     public void createParser_ParseResultsFile() throws FactoryConfigurationError, XMLStreamException {
-        ParserSubject parserSubject = new ResultsParserSubject();
+        XmlParserSubject parserSubject = new ResultsParserSubject();
         File file = TestUtils.getResource("results.trx");
         parserSubject.parseFile(file);
     }

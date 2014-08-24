@@ -1,29 +1,29 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser;
 
 
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.MethodBlocksObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.MethodObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesToSourceFileNamesObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageMethodBlocksToFileBlocksObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.MethodToSourceFileIdMapObserver;
 
 
 public class ConcreteParserFactory implements ParserFactory {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageParserFactory#createDefault(com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry, com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry)
      */
-    public ParserSubject createCoverageParser(FileBlocksRegistry fileBlocksRegistry,
+    public XmlParserSubject createCoverageParser(FileBlocksRegistry fileBlocksRegistry,
             SourceFileNamesRegistry sourceFileNamesRegistry) {
 
-        ParserSubject parserSubject = new CoverageParserSubject();
+        XmlParserSubject parserSubject = new CoverageParserSubject();
 
-        MethodBlocksObserver methodBlocksObserver = new MethodBlocksObserver();
+        CoverageMethodBlocksToFileBlocksObserver methodBlocksObserver = new CoverageMethodBlocksToFileBlocksObserver();
         methodBlocksObserver.setRegistry(fileBlocksRegistry);
         parserSubject.registerObserver(methodBlocksObserver);
 
-        CoverageSourceFileNamesObserver sourceFileNamesObserver = new CoverageSourceFileNamesObserver();
+        CoverageSourceFileNamesToSourceFileNamesObserver sourceFileNamesObserver = new CoverageSourceFileNamesToSourceFileNamesObserver();
         sourceFileNamesObserver.setRegistry(sourceFileNamesRegistry);
         parserSubject.registerObserver(sourceFileNamesObserver);
         return parserSubject;
@@ -35,16 +35,16 @@ public class ConcreteParserFactory implements ParserFactory {
      * @param sourceFileNamesRegistry
      * @return
      */
-    public ParserSubject createFileNamesParser(MethodToSourceFileIdMap map,
+    public XmlParserSubject createFileNamesParser(MethodToSourceFileIdMap map,
             SourceFileNamesRegistry sourceFileNamesRegistry) {
 
-        ParserSubject parserSubject = new CoverageParserSubject();
+        XmlParserSubject parserSubject = new CoverageParserSubject();
 
-        MethodObserver methodObserver = new MethodObserver();
+        MethodToSourceFileIdMapObserver methodObserver = new MethodToSourceFileIdMapObserver();
         methodObserver.setRegistry(map);
         parserSubject.registerObserver(methodObserver);
 
-        CoverageSourceFileNamesObserver sourceFileNamesObserver = new CoverageSourceFileNamesObserver();
+        CoverageSourceFileNamesToSourceFileNamesObserver sourceFileNamesObserver = new CoverageSourceFileNamesToSourceFileNamesObserver();
         sourceFileNamesObserver.setRegistry(sourceFileNamesRegistry);
         parserSubject.registerObserver(sourceFileNamesObserver);
         return parserSubject;

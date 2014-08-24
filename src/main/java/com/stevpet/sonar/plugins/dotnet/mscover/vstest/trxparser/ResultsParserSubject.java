@@ -1,8 +1,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 
-public class ResultsParserSubject extends  ParserSubject {
+public class ResultsParserSubject extends  XmlParserSubject {
 
 
     @Override

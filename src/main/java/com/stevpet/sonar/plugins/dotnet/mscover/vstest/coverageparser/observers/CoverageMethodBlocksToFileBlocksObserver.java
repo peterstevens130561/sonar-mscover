@@ -4,13 +4,13 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.BlockModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 
-public class MethodBlocksObserver extends BaseParserObserver {
+public class CoverageMethodBlocksToFileBlocksObserver extends BaseParserObserver {
 
 
     private BlockModel block = new BlockModel();
     private FileBlocksRegistry registry;
     private boolean isActive = false;
-    public MethodBlocksObserver() {
+    public CoverageMethodBlocksToFileBlocksObserver() {
         setPattern("Module/NamespaceTable/Class/Method/((Blocks(Not)?Covered)|(Lines/SourceFileID)|(Lines/LnStart))");
     }
 

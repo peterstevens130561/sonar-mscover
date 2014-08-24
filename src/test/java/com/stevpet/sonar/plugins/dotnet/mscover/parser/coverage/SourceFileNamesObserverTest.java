@@ -8,10 +8,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesToSourceFileNamesObserver;
 
 public class SourceFileNamesObserverTest {
     
@@ -20,7 +20,7 @@ public class SourceFileNamesObserverTest {
     private static final String SOURCE_FILE_ID = "SourceFileID";
     private static final String SOURCE_FILE_NAME_PATH = SOURCE_FILE_NAMES + SOURCE_FILE_NAME;
     private static final String SOURCE_FILE_ID_PATH = SOURCE_FILE_NAMES + SOURCE_FILE_ID;
-    CoverageSourceFileNamesObserver observer = new CoverageSourceFileNamesObserver();
+    CoverageSourceFileNamesToSourceFileNamesObserver observer = new CoverageSourceFileNamesToSourceFileNamesObserver();
     @Test
     public void CompleteSourceFileID_ShouldGetSame() {
         String path = SOURCE_FILE_ID_PATH;
@@ -62,7 +62,7 @@ public class SourceFileNamesObserverTest {
     @Test
     public void ParseFileWithObserver() throws XMLStreamException {
         //Arrange
-        ParserSubject parser = new CoverageParserSubject();
+        XmlParserSubject parser = new CoverageParserSubject();
         SourceFileNamesRegistry registry = new SourceFileNamesRegistry();
         observer.setRegistry(registry);
         parser.registerObserver(observer);

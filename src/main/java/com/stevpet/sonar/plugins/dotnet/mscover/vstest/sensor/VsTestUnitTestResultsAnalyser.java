@@ -11,7 +11,7 @@ import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.ConcreteOpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
@@ -83,7 +83,7 @@ public class VsTestUnitTestResultsAnalyser {
         saveUnitTests();
     }
     private void parseCoverageFile(String coverageFileName) {
-        ParserSubject parser = factory.createFileNamesParser(map, sourceFileNamesRegistry);
+        XmlParserSubject parser = factory.createFileNamesParser(map, sourceFileNamesRegistry);
         
         LOG.info("MSCover Reading " + coverageFileName );
         File coverageFile = new File(coverageFileName);
@@ -91,7 +91,7 @@ public class VsTestUnitTestResultsAnalyser {
     }
     
     private void parseOpenCoverFile(String openCoverFileName) {
-       ParserSubject parser = openCoverParserFactory.createOpenCoverFileNamesParser(map, sourceFileNamesRegistry);
+       XmlParserSubject parser = openCoverParserFactory.createOpenCoverFileNamesParser(map, sourceFileNamesRegistry);
         
         File coverageFile = new File(openCoverFileName);
         parser.parseFile(coverageFile);       
@@ -129,7 +129,7 @@ public class VsTestUnitTestResultsAnalyser {
    
     private void parseUnitTestResultsFile(String resultsPath) {
         VsTestFactory vsTestFactory = new ConcreteVsTestFactory();
-        ParserSubject resultsParser = vsTestFactory.createUnitTestResultsParser(registry); 
+        XmlParserSubject resultsParser = vsTestFactory.createUnitTestResultsParser(registry); 
         
         File file = new File(resultsPath);
         if(!file.exists()) {

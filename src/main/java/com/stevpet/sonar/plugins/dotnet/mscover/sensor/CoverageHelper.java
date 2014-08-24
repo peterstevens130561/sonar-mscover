@@ -24,8 +24,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.listener.CoverageParserListener;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.SingleListenerParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
@@ -135,7 +135,7 @@ public class CoverageHelper {
      */    
     private void invokeParserSubject(FileBlocksRegistry fileBlocksRegistry, SourceFileNamesRegistry sourceFileNamesRegistry,String path) throws XMLStreamException {
         ParserFactory parserFactory = new ConcreteParserFactory();
-        ParserSubject parserSubject = parserFactory.createCoverageParser(fileBlocksRegistry, sourceFileNamesRegistry);
+        XmlParserSubject parserSubject = parserFactory.createCoverageParser(fileBlocksRegistry, sourceFileNamesRegistry);
         File file = getCoverageFile(path);
         parserSubject.parseFile(file);
     }

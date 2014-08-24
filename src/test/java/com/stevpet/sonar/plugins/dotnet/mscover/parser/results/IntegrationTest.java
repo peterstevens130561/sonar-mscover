@@ -10,15 +10,15 @@ import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry.ForEachUnitTestFile;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.MethodObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesToSourceFileNamesObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.MethodToSourceFileIdMapObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.UnitTestObserver;
@@ -56,14 +56,14 @@ public class IntegrationTest {
     }
 
     private void parseCoverageToGetMethodToSourceFileIdMap(String path) {
-        MethodObserver methodObserver = new MethodObserver();
+        MethodToSourceFileIdMapObserver methodObserver = new MethodToSourceFileIdMapObserver();
         methodObserver.setRegistry(methodToSourceFileIdMap);
 
         CoverageParserSubject coverageParser = new CoverageParserSubject();
         coverageParser.registerObserver(methodObserver);
         
 
-        CoverageSourceFileNamesObserver sourceFileNamesObserver = new CoverageSourceFileNamesObserver();
+        CoverageSourceFileNamesToSourceFileNamesObserver sourceFileNamesObserver = new CoverageSourceFileNamesToSourceFileNamesObserver();
         sourceFileNamesObserver.setRegistry(sourceFileNamesRegistry);
         coverageParser.registerObserver(sourceFileNamesObserver);
 
@@ -76,7 +76,7 @@ public class IntegrationTest {
 
         resultsObserver.setRegistry(testResultsModel);
        
-        ParserSubject resultsParser = new ResultsParserSubject();    
+        XmlParserSubject resultsParser = new ResultsParserSubject();    
         UnitTestResultObserver unitTestResultObserver = new UnitTestResultObserver();
 
         unitTestResultObserver.setRegistry(unitTestRegistry);

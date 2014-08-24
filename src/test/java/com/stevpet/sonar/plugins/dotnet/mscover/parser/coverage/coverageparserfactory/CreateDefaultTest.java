@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteParserFactory;
@@ -31,7 +31,7 @@ public class CreateDefaultTest {
         ParserFactory factory = new ConcreteParserFactory();
         FileBlocksRegistry fileBlocksRegistry = new FileBlocksRegistry();
         SourceFileNamesRegistry sourceFileNamesRegistry = new SourceFileNamesRegistry();
-        ParserSubject parser = factory.createCoverageParser(fileBlocksRegistry, sourceFileNamesRegistry);
+        XmlParserSubject parser = factory.createCoverageParser(fileBlocksRegistry, sourceFileNamesRegistry);
         
         File file=TestUtils.getResource("mscoverage.xml");
         //Act

@@ -8,7 +8,7 @@ import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsParserSubject;
@@ -18,7 +18,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.UnitTestResultO
 public class ResultsParserTest {
     @Test
     public void parser_GetCounters_ShouldMatch() {
-        ParserSubject parserSubject = new ResultsParserSubject();
+        XmlParserSubject parserSubject = new ResultsParserSubject();
         File file = TestUtils.getResource("results.trx");
         ResultsModel results = new ResultsModel();
         ResultsObserver resultsObserver = new ResultsObserver();
@@ -32,7 +32,7 @@ public class ResultsParserTest {
 
     @Test
     public void parser_GetResults_ShouldMatch() {
-        ParserSubject parserSubject = new ResultsParserSubject();
+        XmlParserSubject parserSubject = new ResultsParserSubject();
         File file = TestUtils.getResource("results.trx");
         UnitTestResultRegistry results = new UnitTestResultRegistry();
         UnitTestResultObserver resultsObserver = new UnitTestResultObserver();
@@ -45,7 +45,7 @@ public class ResultsParserTest {
     
     @Test
     public void parser_GetResultsWithError_ShouldMatch() {
-        ParserSubject parserSubject = new ResultsParserSubject();
+        XmlParserSubject parserSubject = new ResultsParserSubject();
         File file = TestUtils.getResource("ResultsWithError.trx");
         UnitTestResultRegistry results = new UnitTestResultRegistry();
         UnitTestResultObserver resultsObserver = new UnitTestResultObserver();
@@ -87,7 +87,7 @@ public class ResultsParserTest {
     }
     @Test
     public void parser_GetTest_ShouldMatch() {
-        ParserSubject parserSubject = new ResultsParserSubject();
+        XmlParserSubject parserSubject = new ResultsParserSubject();
         File file = TestUtils.getResource("results.trx");
         UnitTestResultRegistry results = new UnitTestResultRegistry();
         UnitTestResultObserver resultsObserver = new UnitTestResultObserver();

@@ -4,10 +4,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatche
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 
-public class MethodObserver extends BaseParserObserver {
+public class MethodToSourceFileIdMapObserver extends BaseParserObserver {
 
     private MethodToSourceFileIdMap registry;
-    public MethodObserver() {
+    public MethodToSourceFileIdMapObserver() {
         setPattern("(Module/ModuleName)|" +
                 "(Module/NamespaceTable/NamespaceName)|" +
                 "(Module/NamespaceTable/Class/ClassName)|" +

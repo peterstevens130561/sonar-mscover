@@ -11,8 +11,8 @@ import org.sonar.test.TestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverMissingPdbObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.exceptions.ParserSubjectErrorException;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
 
 public class OpenCoverMissingPdbObserverTest {
 
@@ -20,7 +20,7 @@ public class OpenCoverMissingPdbObserverTest {
     @Test(expected=ParserSubjectErrorException.class)
     public void reportWithTwoMissingPdbs_ExpectExepction() {
         //Arrange
-        ParserSubject parser = initializeParser();
+        XmlParserSubject parser = initializeParser();
         File file = TestUtils.getResource("coverage-report-missingPdbs.xml");
         //Act
         parser.parseFile(file);
@@ -29,15 +29,15 @@ public class OpenCoverMissingPdbObserverTest {
     @Test
     public void reportWithNoPdbsMissing_ExpectNone(){
         //Arrange
-        ParserSubject parser = initializeParser();
+        XmlParserSubject parser = initializeParser();
         File file = TestUtils.getResource("coverage-report.xml");
         //Act
         parser.parseFile(file);
         //no exception expected
     }
     
-    private ParserSubject initializeParser() {
-        ParserSubject parser = new OpenCoverParserSubject();
+    private XmlParserSubject initializeParser() {
+        XmlParserSubject parser = new OpenCoverParserSubject();
         observer = new OpenCoverMissingPdbObserver();
         observer.setRegistry(null);
         parser.registerObserver(observer);

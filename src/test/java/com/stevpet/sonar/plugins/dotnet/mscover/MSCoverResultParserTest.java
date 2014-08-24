@@ -65,13 +65,15 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.SingleListenerParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 //import com.google.inject.internal.util.Lists;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageLinesToCoverageObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesToCoverageObserver;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({File.class})
@@ -165,6 +167,44 @@ public class MSCoverResultParserTest {
         
   }
   
+  @Test 
+  public void ParseWithCoverageParser_ForValidFile_CheckRegistry() throws XMLStreamException {
+        //Arrange
+        File file = getResource("mscoverage.xml");
+        CoverageParserSubject parser = new CoverageParserSubject();
+
+        TestCoverageRegistry coverageRegistry = new TestCoverageRegistry() ;
+        CoverageLinesToCoverageObserver observer = new CoverageLinesToCoverageObserver();
+        observer.setRegistry(coverageRegistry);
+        
+        //Act
+        
+        parser.registerObserver(observer);
+        parser.parseFile(file);
+        //Assert
+        Assert.assertEquals(31,coverageRegistry.getVisitedLines());
+        
+  }  
+  
+  @Test 
+  public void ParseWithCoverageParser_ForValidFile_CheckFilesRegistry() throws XMLStreamException {
+      //Arrange
+      File file = getResource("mscoverage.xml");
+      CoverageParserSubject parser = new CoverageParserSubject();
+
+      TestCoverageRegistry coverageRegistry = new TestCoverageRegistry() ;
+      CoverageSourceFileNamesToCoverageObserver observer = new CoverageSourceFileNamesToCoverageObserver();
+      observer.setRegistry(coverageRegistry);
+      
+      //Act
+      
+      parser.registerObserver(observer);
+      parser.parseFile(file);
+      //Assert
+      Assert.assertEquals(8,coverageRegistry.getVisitedFiles());   
+}
+  
+
   
   @Test 
   public void Parse_ForValidFileWithRealRegistry_ShouldHaveCoveredItems() throws XMLStreamException {
