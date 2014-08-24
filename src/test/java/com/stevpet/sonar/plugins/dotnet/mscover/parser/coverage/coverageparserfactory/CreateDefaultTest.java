@@ -10,8 +10,11 @@ import org.junit.Test;
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ParserFactory;
 
@@ -29,16 +32,15 @@ public class CreateDefaultTest {
     public void test() {
         //Arrange
         ParserFactory factory = new ConcreteParserFactory();
-        FileBlocksRegistry fileBlocksRegistry = new FileBlocksRegistry();
-        SourceFileNamesRegistry sourceFileNamesRegistry = new SourceFileNamesRegistry();
-        XmlParserSubject parser = factory.createCoverageParser(fileBlocksRegistry, sourceFileNamesRegistry);
+        VsTestRegistry registry = new VsTestRegistry("C:\\users\\stevpet\\GitHub");
+        XmlParserSubject parser = factory.createCoverageParser(registry);
         
         File file=TestUtils.getResource("mscoverage.xml");
         //Act
         parser.parseFile(file);
         //Assert
-        assertEquals(8,fileBlocksRegistry.values().size());
-        assertEquals(8,sourceFileNamesRegistry.values().size());
+        assertEquals(8,registry.getFileBlocksRegistry().values().size());
+        assertEquals(8,registry.getSourceFileNamesRegistry().values().size());
     }
 
 }

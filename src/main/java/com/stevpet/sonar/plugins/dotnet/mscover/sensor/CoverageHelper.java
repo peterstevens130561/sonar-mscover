@@ -30,9 +30,14 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageLinesToCoverageObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesToCoverageObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesToSourceFileNamesObserver;
 
 @SuppressWarnings("deprecation")
 public class CoverageHelper {
@@ -99,31 +104,30 @@ public class CoverageHelper {
         LOG.info("MsCoverPlugin : directory=" + projectDirectory);
 
 
-
-        CoverageRegistry coverageRegistry = new FileCoverageRegistry(projectDirectory);
-        FileBlocksRegistry fileBlocksRegistry= new FileBlocksRegistry();
-        SourceFileNamesRegistry sourceFileNamesRegistry = new SourceFileNamesRegistry();
-
-        invokeSingleListenerParser(coverageRegistry, path);  
-        invokeParserSubject(fileBlocksRegistry,sourceFileNamesRegistry,path);
+        VsTestRegistry registry=new VsTestRegistry(projectDirectory);
+   
+        invokeParserSubject(registry,path);
         
-        saveLineMeasures(coverageRegistry);
+        saveLineMeasures(registry.getCoverageRegistry());
         
-        blockSaver.setSourceFileNamesRegistry(sourceFileNamesRegistry);
-        blockSaver.setFileBlocksRegistry(fileBlocksRegistry);
+        blockSaver.setSourceFileNamesRegistry(registry.getSourceFileNamesRegistry());
+        blockSaver.setFileBlocksRegistry(registry.getFileBlocksRegistry());
         blockSaver.save();
     }
 
 
-
     private void invokeSingleListenerParser(CoverageRegistry registry,
             String path) throws XMLStreamException {
-        CoverageParserListener parserListener = new CoverageParserListener();
-        parserListener.setRegistry(registry);   
-        Parser parser = new SingleListenerParser();
-        parser.setListener(parserListener);
-        SMInputCursor coverageCursor = getCoverageCursor(path);
-        parser.parse(coverageCursor);
+        CoverageSourceFileNamesToCoverageObserver sourceFileNamesObserver = new CoverageSourceFileNamesToCoverageObserver();
+        sourceFileNamesObserver.setRegistry(registry);
+        CoverageLinesToCoverageObserver linesObserver=new CoverageLinesToCoverageObserver();
+        linesObserver.setRegistry(registry);
+   
+        XmlParserSubject parser = new CoverageParserSubject();
+        parser.registerObserver(linesObserver);
+        parser.registerObserver(sourceFileNamesObserver);
+        File file = getCoverageFile(path);
+        parser.parseFile(file);
     }
 
     /**
@@ -133,9 +137,9 @@ public class CoverageHelper {
      * @param path- to coverage file
      * @throws XMLStreamException
      */    
-    private void invokeParserSubject(FileBlocksRegistry fileBlocksRegistry, SourceFileNamesRegistry sourceFileNamesRegistry,String path) throws XMLStreamException {
+    private void invokeParserSubject(VsTestRegistry registry,String path) throws XMLStreamException {
         ParserFactory parserFactory = new ConcreteParserFactory();
-        XmlParserSubject parserSubject = parserFactory.createCoverageParser(fileBlocksRegistry, sourceFileNamesRegistry);
+        XmlParserSubject parserSubject = parserFactory.createCoverageParser(registry);
         File file = getCoverageFile(path);
         parserSubject.parseFile(file);
     }
