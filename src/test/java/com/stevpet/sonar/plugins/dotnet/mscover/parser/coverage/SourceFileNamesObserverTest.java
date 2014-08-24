@@ -11,7 +11,7 @@ import org.sonar.test.TestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesToSourceFileNamesObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestSourceFileNamesToSourceFileNamesObserver;
 
 public class SourceFileNamesObserverTest {
     
@@ -20,7 +20,7 @@ public class SourceFileNamesObserverTest {
     private static final String SOURCE_FILE_ID = "SourceFileID";
     private static final String SOURCE_FILE_NAME_PATH = SOURCE_FILE_NAMES + SOURCE_FILE_NAME;
     private static final String SOURCE_FILE_ID_PATH = SOURCE_FILE_NAMES + SOURCE_FILE_ID;
-    CoverageSourceFileNamesToSourceFileNamesObserver observer = new CoverageSourceFileNamesToSourceFileNamesObserver();
+    VsTestSourceFileNamesToSourceFileNamesObserver observer = new VsTestSourceFileNamesToSourceFileNamesObserver();
     @Test
     public void CompleteSourceFileID_ShouldGetSame() {
         String path = SOURCE_FILE_ID_PATH;

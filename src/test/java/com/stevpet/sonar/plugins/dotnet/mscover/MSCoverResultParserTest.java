@@ -62,8 +62,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageLinesToCoverageObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesToCoverageObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestLinesToCoverageObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestSourceFileNamesToCoverageObserver;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({File.class})
@@ -114,7 +114,7 @@ public class MSCoverResultParserTest {
         CoverageParserSubject parser = new CoverageParserSubject();
 
         TestCoverageRegistry coverageRegistry = new TestCoverageRegistry() ;
-        CoverageLinesToCoverageObserver observer = new CoverageLinesToCoverageObserver();
+        VsTestLinesToCoverageObserver observer = new VsTestLinesToCoverageObserver();
         observer.setRegistry(coverageRegistry);
         
         //Act
@@ -133,7 +133,7 @@ public class MSCoverResultParserTest {
       CoverageParserSubject parser = new CoverageParserSubject();
 
       TestCoverageRegistry coverageRegistry = new TestCoverageRegistry() ;
-      CoverageSourceFileNamesToCoverageObserver observer = new CoverageSourceFileNamesToCoverageObserver();
+      VsTestSourceFileNamesToCoverageObserver observer = new VsTestSourceFileNamesToCoverageObserver();
       observer.setRegistry(coverageRegistry);
       
       //Act

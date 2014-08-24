@@ -9,7 +9,7 @@ import org.sonar.test.TestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.MethodToSourceFileIdMapObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestMethodToSourceFileIdMapObserver;
 
 public class MethodToSourceFileIdMapTest {
     @Test
@@ -45,7 +45,7 @@ public class MethodToSourceFileIdMapTest {
         XmlParserSubject parserSubject = new CoverageParserSubject();
         File file = TestUtils.getResource("coverage.xml");
         MethodToSourceFileIdMap results = new MethodToSourceFileIdMap();
-        MethodToSourceFileIdMapObserver methodObserver = new MethodToSourceFileIdMapObserver();
+        VsTestMethodToSourceFileIdMapObserver methodObserver = new VsTestMethodToSourceFileIdMapObserver();
         methodObserver.setRegistry(results);
         parserSubject.registerObserver(methodObserver);
         parserSubject.parseFile(file);

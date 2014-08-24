@@ -9,12 +9,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObse
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.LinesRegistry;
 
 
-public class CoverageLinesToLinesObserver extends BaseParserObserver{
+public class VsTestLinesToLinesObserver extends BaseParserObserver{
 
     private LinesRegistry registry ;
     private LineModel model = new LineModel();
 
-    public CoverageLinesToLinesObserver() {
+    public VsTestLinesToLinesObserver() {
         setPattern("Module/NamespaceTable/Class/Method/Lines/(LnStart|Coverage|SourceFileID)");
     }
 

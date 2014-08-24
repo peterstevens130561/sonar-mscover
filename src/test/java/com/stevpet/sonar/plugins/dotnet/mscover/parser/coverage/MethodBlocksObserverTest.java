@@ -13,11 +13,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.FileBlocks;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageMethodBlocksToFileBlocksObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestMethodBlocksToFileBlocksObserver;
 
 public class MethodBlocksObserverTest {
     //Arrange
-    CoverageMethodBlocksToFileBlocksObserver observer = new CoverageMethodBlocksToFileBlocksObserver();
+    VsTestMethodBlocksToFileBlocksObserver observer = new VsTestMethodBlocksToFileBlocksObserver();
     @Test 
     public void MatchBlocksCovered_ShouldMatch() {
         String path = "Module/NamespaceTable/Class/Method/BlocksCovered";

@@ -17,8 +17,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegi
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry.ForEachUnitTestFile;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesToSourceFileNamesObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.MethodToSourceFileIdMapObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestSourceFileNamesToSourceFileNamesObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestMethodToSourceFileIdMapObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.UnitTestObserver;
@@ -56,14 +56,14 @@ public class IntegrationTest {
     }
 
     private void parseCoverageToGetMethodToSourceFileIdMap(String path) {
-        MethodToSourceFileIdMapObserver methodObserver = new MethodToSourceFileIdMapObserver();
+        VsTestMethodToSourceFileIdMapObserver methodObserver = new VsTestMethodToSourceFileIdMapObserver();
         methodObserver.setRegistry(methodToSourceFileIdMap);
 
         CoverageParserSubject coverageParser = new CoverageParserSubject();
         coverageParser.registerObserver(methodObserver);
         
 
-        CoverageSourceFileNamesToSourceFileNamesObserver sourceFileNamesObserver = new CoverageSourceFileNamesToSourceFileNamesObserver();
+        VsTestSourceFileNamesToSourceFileNamesObserver sourceFileNamesObserver = new VsTestSourceFileNamesToSourceFileNamesObserver();
         sourceFileNamesObserver.setRegistry(sourceFileNamesRegistry);
         coverageParser.registerObserver(sourceFileNamesObserver);
 

@@ -7,11 +7,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageLinesToCoverageObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesToCoverageObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesToSourceFileNamesObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageMethodBlocksToFileBlocksObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.MethodToSourceFileIdMapObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestLinesToCoverageObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestSourceFileNamesToCoverageObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestSourceFileNamesToSourceFileNamesObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestMethodBlocksToFileBlocksObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestMethodToSourceFileIdMapObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestCoverageObserver;
 
 
@@ -24,10 +24,10 @@ public class ConcreteParserFactory implements ParserFactory {
         XmlParserSubject parserSubject = new CoverageParserSubject();
 
         VsTestCoverageObserver[] observers = {
-                new CoverageSourceFileNamesToCoverageObserver(),
-                new CoverageLinesToCoverageObserver(),
-                new CoverageMethodBlocksToFileBlocksObserver(),
-                new CoverageSourceFileNamesToSourceFileNamesObserver()
+                new VsTestSourceFileNamesToCoverageObserver(),
+                new VsTestLinesToCoverageObserver(),
+                new VsTestMethodBlocksToFileBlocksObserver(),
+                new VsTestSourceFileNamesToSourceFileNamesObserver()
         };
         
         for(VsTestCoverageObserver observer : observers) {
@@ -48,11 +48,11 @@ public class ConcreteParserFactory implements ParserFactory {
 
         XmlParserSubject parserSubject = new CoverageParserSubject();
 
-        MethodToSourceFileIdMapObserver methodObserver = new MethodToSourceFileIdMapObserver();
+        VsTestMethodToSourceFileIdMapObserver methodObserver = new VsTestMethodToSourceFileIdMapObserver();
         methodObserver.setRegistry(map);
         parserSubject.registerObserver(methodObserver);
 
-        CoverageSourceFileNamesToSourceFileNamesObserver sourceFileNamesObserver = new CoverageSourceFileNamesToSourceFileNamesObserver();
+        VsTestSourceFileNamesToSourceFileNamesObserver sourceFileNamesObserver = new VsTestSourceFileNamesToSourceFileNamesObserver();
         sourceFileNamesObserver.setRegistry(sourceFileNamesRegistry);
         parserSubject.registerObserver(sourceFileNamesObserver);
         return parserSubject;

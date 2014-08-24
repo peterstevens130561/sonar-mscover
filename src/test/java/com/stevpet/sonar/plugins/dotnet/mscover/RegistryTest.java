@@ -10,8 +10,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageLinesToCoverageObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesToCoverageObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestLinesToCoverageObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestSourceFileNamesToCoverageObserver;
 
 public class RegistryTest {
 
@@ -64,11 +64,11 @@ public class RegistryTest {
         XmlParserSubject parser = new CoverageParserSubject();
         
         TestCoverageRegistry coverageRegistry = new TestCoverageRegistry() ;
-        CoverageLinesToCoverageObserver linesObserver = new CoverageLinesToCoverageObserver();
+        VsTestLinesToCoverageObserver linesObserver = new VsTestLinesToCoverageObserver();
         linesObserver.setRegistry(coverageRegistry);
         parser.registerObserver(linesObserver);
         
-        CoverageSourceFileNamesToCoverageObserver fileNamesObserver = new CoverageSourceFileNamesToCoverageObserver();
+        VsTestSourceFileNamesToCoverageObserver fileNamesObserver = new VsTestSourceFileNamesToCoverageObserver();
         fileNamesObserver.setRegistry(coverageRegistry);
         parser.registerObserver(fileNamesObserver);
         

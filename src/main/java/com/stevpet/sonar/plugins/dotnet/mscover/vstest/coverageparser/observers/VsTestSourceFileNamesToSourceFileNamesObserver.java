@@ -6,11 +6,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
 
 
-public class CoverageSourceFileNamesToSourceFileNamesObserver extends VsTestCoverageObserver{
+public class VsTestSourceFileNamesToSourceFileNamesObserver extends VsTestCoverageObserver{
 
     private SourceFileNamesRegistry registry ;
     private SourceFileNamesModel model;
-    public CoverageSourceFileNamesToSourceFileNamesObserver() {
+    public VsTestSourceFileNamesToSourceFileNamesObserver() {
         setPattern("SourceFileNames/(SourceFileID|SourceFileName)");
     }
 

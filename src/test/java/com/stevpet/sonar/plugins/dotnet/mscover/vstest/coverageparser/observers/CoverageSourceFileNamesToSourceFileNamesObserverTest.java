@@ -26,7 +26,7 @@ public class CoverageSourceFileNamesToSourceFileNamesObserverTest {
         CoverageParserSubject parser = new CoverageParserSubject();
 
         TestCoverageRegistry coverageRegistry = new TestCoverageRegistry() ;
-        CoverageSourceFileNamesToCoverageObserver observer = new CoverageSourceFileNamesToCoverageObserver();
+        VsTestSourceFileNamesToCoverageObserver observer = new VsTestSourceFileNamesToCoverageObserver();
         observer.setRegistry(coverageRegistry);
         
         //Act
@@ -45,7 +45,7 @@ public class CoverageSourceFileNamesToSourceFileNamesObserverTest {
         CoverageParserSubject parser = new CoverageParserSubject();
 
         CoverageRegistry coverageRegistry = new FileCoverageRegistry("c:\\Users\\stevpet\\Documents\\GitHub\\tfsblame") ;
-        CoverageSourceFileNamesToCoverageObserver observer = new CoverageSourceFileNamesToCoverageObserver();
+        VsTestSourceFileNamesToCoverageObserver observer = new VsTestSourceFileNamesToCoverageObserver();
         observer.setRegistry(coverageRegistry);
 
         //Act

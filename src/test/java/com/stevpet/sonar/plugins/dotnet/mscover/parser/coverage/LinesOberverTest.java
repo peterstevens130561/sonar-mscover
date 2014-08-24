@@ -14,7 +14,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.LinesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageLinesToLinesObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestLinesToLinesObserver;
 
 
 
@@ -25,7 +25,7 @@ public class LinesOberverTest {
     private static final String PATTERN_LNSTART = "Module/NamespaceTable/Class/Method/Lines/LnStart";
     
     private FileLines fileLines;
-    CoverageLinesToLinesObserver observer = new CoverageLinesToLinesObserver();
+    VsTestLinesToLinesObserver observer = new VsTestLinesToLinesObserver();
     @Test 
     public void MatchLnStart_ShouldMatch() {
         String path = PATTERN_LNSTART;

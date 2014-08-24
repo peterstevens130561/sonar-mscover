@@ -8,12 +8,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObse
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
 
-public class CoverageLinesToCoverageObserver extends VsTestCoverageObserver {
+public class VsTestLinesToCoverageObserver extends VsTestCoverageObserver {
     private CoverageRegistry coverageRegistry;
     private CoveragePoint coveragePoint;
     private boolean covered;
 
-    public CoverageLinesToCoverageObserver() {
+    public VsTestLinesToCoverageObserver() {
         setPattern("Module/NamespaceTable/Class/Method/Lines/(LnStart|LnEnd|Coverage|SourceFileID)");
     }
 

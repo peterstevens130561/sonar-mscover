@@ -5,13 +5,13 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObse
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
 
-public class CoverageMethodBlocksToFileBlocksObserver extends VsTestCoverageObserver {
+public class VsTestMethodBlocksToFileBlocksObserver extends VsTestCoverageObserver {
 
 
     private BlockModel block = new BlockModel();
     private FileBlocksRegistry registry;
     private boolean isActive = false;
-    public CoverageMethodBlocksToFileBlocksObserver() {
+    public VsTestMethodBlocksToFileBlocksObserver() {
         setPattern("Module/NamespaceTable/Class/Method/((Blocks(Not)?Covered)|(Lines/SourceFileID)|(Lines/LnStart))");
     }
 
