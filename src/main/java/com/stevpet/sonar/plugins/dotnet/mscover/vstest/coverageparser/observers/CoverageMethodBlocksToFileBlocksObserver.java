@@ -3,8 +3,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers
 import com.stevpet.sonar.plugins.dotnet.mscover.model.BlockModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
 
-public class CoverageMethodBlocksToFileBlocksObserver extends BaseParserObserver {
+public class CoverageMethodBlocksToFileBlocksObserver extends VsTestCoverageObserver {
 
 
     private BlockModel block = new BlockModel();
@@ -35,6 +36,11 @@ public class CoverageMethodBlocksToFileBlocksObserver extends BaseParserObserver
             return;
         }
                
+    }
+
+    @Override
+    public void setVsTestRegistry(VsTestRegistry vsTestRegistry) {
+        this.registry=vsTestRegistry.getFileBlocksRegistry();
     }
 
 }

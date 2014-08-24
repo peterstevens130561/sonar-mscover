@@ -6,8 +6,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.CoveragePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
 
-public class CoverageLinesToCoverageObserver extends BaseParserObserver {
+public class CoverageLinesToCoverageObserver extends VsTestCoverageObserver {
     private CoverageRegistry coverageRegistry;
     private CoveragePoint coveragePoint;
     private boolean covered;
@@ -18,6 +19,11 @@ public class CoverageLinesToCoverageObserver extends BaseParserObserver {
 
     public void setRegistry(CoverageRegistry coverageRegistry) {
         this.coverageRegistry=coverageRegistry;     
+    }
+    
+    @Override
+    public void setVsTestRegistry(VsTestRegistry vsTestRegistry) {
+        this.coverageRegistry=vsTestRegistry.getCoverageRegistry();      
     }
     
     @ElementMatcher(elementName="LnStart")
@@ -47,5 +53,7 @@ public class CoverageLinesToCoverageObserver extends BaseParserObserver {
             coverageRegistry.addUnCoveredLine(sourceFileID,coveragePoint);
         }
     }
+
+
     
 }

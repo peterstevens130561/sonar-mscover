@@ -4,6 +4,7 @@ public class VsTestRegistry {
     
     private FileBlocksRegistry fileBlocksRegistry= new FileBlocksRegistry();
     private SourceFileNamesRegistry sourceFileNamesRegistry = new SourceFileNamesRegistry();
+    private MethodToSourceFileIdMap methodToSourceFileIdMap = new MethodToSourceFileIdMap();
     private CoverageRegistry coverageRegistry ;
 
     public VsTestRegistry(String projectDirectory) {
@@ -20,5 +21,9 @@ public class VsTestRegistry {
     
     public CoverageRegistry getCoverageRegistry() {
         return coverageRegistry;
+    }
+
+    public MethodToSourceFileIdMap getMethodToSourceFileIdMap() {
+        return methodToSourceFileIdMap;
     }
 }

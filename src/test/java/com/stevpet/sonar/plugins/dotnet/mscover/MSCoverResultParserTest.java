@@ -54,14 +54,13 @@ import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationTestBlockSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.listener.ParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageLinesToCoverageObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesToCoverageObserver;
@@ -179,32 +178,6 @@ public class MSCoverResultParserTest {
         verify(lineSaver,times(8)).saveMeasures(any(FileCoverage.class), any(File.class));
   }
 
-
-  private class TestCoverageParserListener implements ParserObserver {
-
-    private int visitedLines;
-    private int visitedFiles;
-
-    int getVisitedLines() {
-        return visitedLines;
-    }
-    
-    int getVisitedFiles() {
-        return visitedFiles;
-    }
-    public void onLine(SMInputCursor cursor) {
-        visitedLines++;
-    }
-
-    public void onSourceFileNames(SMInputCursor cursor) {
-        visitedFiles++;
-    }
-
-    public boolean onModuleName(SMInputCursor cursor) {
-        return true;
-    }
-      
-  }
   
 
 private File getResource(String resourcePath) {

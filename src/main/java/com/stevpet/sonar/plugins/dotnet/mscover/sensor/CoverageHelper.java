@@ -3,14 +3,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.sensor;
 import java.io.File;
 import java.io.IOException;
 
-import javax.xml.stream.FactoryConfigurationError;
-import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.staxmate.SMInputFactory;
-import org.codehaus.staxmate.in.SMHierarchicCursor;
-import org.codehaus.staxmate.in.SMInputCursor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.resources.Project;
@@ -21,22 +16,13 @@ import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.listener.CoverageParserListener;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteParserFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ParserFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageLinesToCoverageObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesToCoverageObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesToSourceFileNamesObserver;
 
 @SuppressWarnings("deprecation")
 public class CoverageHelper {
@@ -115,20 +101,6 @@ public class CoverageHelper {
     }
 
 
-    private void invokeSingleListenerParser(CoverageRegistry registry,
-            String path) throws XMLStreamException {
-        CoverageSourceFileNamesToCoverageObserver sourceFileNamesObserver = new CoverageSourceFileNamesToCoverageObserver();
-        sourceFileNamesObserver.setRegistry(registry);
-        CoverageLinesToCoverageObserver linesObserver=new CoverageLinesToCoverageObserver();
-        linesObserver.setRegistry(registry);
-   
-        XmlParserSubject parser = new CoverageParserSubject();
-        parser.registerObserver(linesObserver);
-        parser.registerObserver(sourceFileNamesObserver);
-        File file = getCoverageFile(path);
-        parser.parseFile(file);
-    }
-
     /**
      * Parse the coverage file, with loading the block coverage, sourcefilenames observers
      * @param fileBlocksRegistry - block coverage
@@ -145,19 +117,6 @@ public class CoverageHelper {
 
     private MicrosoftWindowsEnvironment getMicrosoftWindowsEnvironment() {
         return microsoftWindowsEnvironment;
-    }
-
-    private SMInputCursor getCoverageCursor(String path)
-            throws XMLStreamException {
-        File file = getCoverageFile(path);
-        return getCursor(file);
-    }
-
-    private SMInputCursor getCursor(File file)
-            throws FactoryConfigurationError, XMLStreamException {
-        SMInputFactory inf = new SMInputFactory(XMLInputFactory.newInstance());
-        SMHierarchicCursor rootCursor = inf.rootElementCursor(file);
-        return rootCursor.advance();
     }
 
     private File getCoverageFile(String path) {

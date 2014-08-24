@@ -1,11 +1,11 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
 
-public class CoverageSourceFileNamesToCoverageObserver extends BaseParserObserver {
-    private CoverageRegistry registry;
+public class CoverageSourceFileNamesToCoverageObserver extends VsTestCoverageObserver {
+    CoverageRegistry registry;
     private int fileId;
     public CoverageSourceFileNamesToCoverageObserver()  {
         setPattern("SourceFileNames/(SourceFileID|SourceFileName)");
@@ -23,5 +23,10 @@ public class CoverageSourceFileNamesToCoverageObserver extends BaseParserObserve
     @ElementMatcher(elementName="SourceFileName")
     public void sourceFileNameMatcher(String sourceFileName){
         registry.addFile(fileId, sourceFileName);  
+    }
+
+    @Override
+    public void setVsTestRegistry(VsTestRegistry vsTestRegistry) {
+        this.registry =vsTestRegistry.getCoverageRegistry();
     }
 }

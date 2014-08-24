@@ -12,6 +12,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesToSourceFileNamesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageMethodBlocksToFileBlocksObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.MethodToSourceFileIdMapObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestCoverageObserver;
 
 
 public class ConcreteParserFactory implements ParserFactory {
@@ -22,21 +23,17 @@ public class ConcreteParserFactory implements ParserFactory {
 
         XmlParserSubject parserSubject = new CoverageParserSubject();
 
-        CoverageSourceFileNamesToCoverageObserver sourceFileNamesObserver = new CoverageSourceFileNamesToCoverageObserver();
-        sourceFileNamesObserver.setRegistry(registry.getCoverageRegistry());
-        parserSubject.registerObserver(sourceFileNamesObserver);
+        VsTestCoverageObserver[] observers = {
+                new CoverageSourceFileNamesToCoverageObserver(),
+                new CoverageLinesToCoverageObserver(),
+                new CoverageMethodBlocksToFileBlocksObserver(),
+                new CoverageSourceFileNamesToSourceFileNamesObserver()
+        };
         
-        CoverageLinesToCoverageObserver linesObserver=new CoverageLinesToCoverageObserver();
-        linesObserver.setRegistry(registry.getCoverageRegistry());
-        parserSubject.registerObserver(linesObserver);
-        
-        CoverageMethodBlocksToFileBlocksObserver methodBlocksObserver = new CoverageMethodBlocksToFileBlocksObserver();
-        methodBlocksObserver.setRegistry(registry.getFileBlocksRegistry());
-        parserSubject.registerObserver(methodBlocksObserver);
-
-        CoverageSourceFileNamesToSourceFileNamesObserver sourceFileNamesObserver2 = new CoverageSourceFileNamesToSourceFileNamesObserver();
-        sourceFileNamesObserver2.setRegistry(registry.getSourceFileNamesRegistry());
-        parserSubject.registerObserver(sourceFileNamesObserver2);
+        for(VsTestCoverageObserver observer : observers) {
+            observer.setVsTestRegistry(registry);
+            parserSubject.registerObserver(observer);            
+        }
         return parserSubject;
     }
 
