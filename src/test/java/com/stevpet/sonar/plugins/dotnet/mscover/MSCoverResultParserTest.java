@@ -30,12 +30,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-import javax.xml.stream.FactoryConfigurationError;
-import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 
-import org.codehaus.staxmate.SMInputFactory;
-import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.junit.Assert;
 import org.junit.Before;
@@ -58,19 +54,14 @@ import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationTestBlockSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.listener.CoverageParserListener;
 import com.stevpet.sonar.plugins.dotnet.mscover.listener.ParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.SingleListenerParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
-//import com.google.inject.internal.util.Lists;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageLinesToCoverageObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesToCoverageObserver;
@@ -115,57 +106,7 @@ public class MSCoverResultParserTest {
     
   }
 
-  @Test 
-  public void IsCompatible_ForValidFile_True() throws XMLStreamException {
-	  // given a proper coverage file
-	    File file = getResource("mscoverage.xml");
-	    Parser parser = new SingleListenerParser();
-	    SMInputFactory inf = new SMInputFactory(XMLInputFactory.newInstance());
-	    SMHierarchicCursor rootCursor = inf.rootElementCursor(file);
-	    SMInputCursor root = rootCursor.advance();
-	    // verify that it is compatible
-	    boolean isCompatible=parser.isCompatible(root);
-	    Assert.assertTrue(isCompatible);
-  }
-  
-  @Test 
-  public void Parse_ForValidFile_CheckFiles() throws XMLStreamException {
-	    //Arrange
-	    File file = getResource("mscoverage.xml");
-	    Parser parser = new SingleListenerParser();
-	    SMInputFactory inf = new SMInputFactory(XMLInputFactory.newInstance());
-	    SMHierarchicCursor rootCursor = inf.rootElementCursor(file);
-	    SMInputCursor root = rootCursor.advance();	    
-	    TestCoverageParserListener parserListener = new TestCoverageParserListener();
-	    parser.setListener(parserListener);
-	    //Act
-	    parser.parse(root);
-	    //Assert
-        Assert.assertEquals(8, parserListener.getVisitedFiles());
-	    Assert.assertEquals(334,parserListener.getVisitedLines());
-  }
-  
-  @Test 
-  public void Parse_ForValidFile_CheckRegistry() throws XMLStreamException {
-        //Arrange
-        File file = getResource("mscoverage.xml");
-        Parser parser = new SingleListenerParser();
-        SMInputFactory inf = new SMInputFactory(XMLInputFactory.newInstance());
-        SMHierarchicCursor rootCursor = inf.rootElementCursor(file);
-        SMInputCursor root = rootCursor.advance();
-        
-        CoverageParserListener parserListener = new CoverageParserListener();
-        TestCoverageRegistry coverageRegistry = new TestCoverageRegistry() ;
-        parserListener.setRegistry(coverageRegistry);
-        
-        //Act
-        parser.setListener(parserListener);
-        parser.parse(root);
-        //Assert
-        Assert.assertEquals(8, coverageRegistry.getVisitedFiles());
-        Assert.assertEquals(31,coverageRegistry.getVisitedLines());
-        
-  }
+
   
   @Test 
   public void ParseWithCoverageParser_ForValidFile_CheckRegistry() throws XMLStreamException {
@@ -204,21 +145,7 @@ public class MSCoverResultParserTest {
       Assert.assertEquals(8,coverageRegistry.getVisitedFiles());   
 }
   
-
-  
-  @Test 
-  public void Parse_ForValidFileWithRealRegistry_ShouldHaveCoveredItems() throws XMLStreamException {
-          //Arrange
-        File file = getResource("mscoverage.xml");
-        //Act
-        CoverageRegistry coverageRegistry = parseFile(file);
-        //Assert
-        Assert.assertEquals(8, coverageRegistry.getFileCount());
-        Assert.assertEquals(31, coverageRegistry.getCoveredLineCount());
-        Assert.assertEquals(167,coverageRegistry.getLineCount());
-  }
-  
-
+ 
   
   @Test 
   public void Parse_ForValidSmallFileWithRealRegistrySave_ShouldHaveRightDetailsAndSummary() throws XMLStreamException, IOException {
@@ -252,21 +179,7 @@ public class MSCoverResultParserTest {
         verify(lineSaver,times(8)).saveMeasures(any(FileCoverage.class), any(File.class));
   }
 
-  private CoverageRegistry parseFile(File file) throws FactoryConfigurationError,
-        XMLStreamException {
-    Parser parser = new SingleListenerParser();
-    SMInputFactory inf = new SMInputFactory(XMLInputFactory.newInstance());
-    SMHierarchicCursor rootCursor = inf.rootElementCursor(file);
-    SMInputCursor root = rootCursor.advance();
-    // verify that it is compatible
-    CoverageParserListener parserListener = new CoverageParserListener();
-    String projectDir = getResource("TfsBlame/tfsblame/tfsblame").getAbsolutePath();
-    CoverageRegistry coverageRegistry = new FileCoverageRegistry(projectDir) ;
-    parserListener.setRegistry(coverageRegistry);
-    parser.setListener(parserListener);
-    parser.parse(root);
-    return coverageRegistry;
-}
+
   private class TestCoverageParserListener implements ParserObserver {
 
     private int visitedLines;

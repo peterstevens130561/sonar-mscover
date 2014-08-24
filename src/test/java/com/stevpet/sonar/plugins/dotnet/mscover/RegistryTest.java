@@ -16,11 +16,19 @@ import org.junit.Test;
 
 
 
+
+
+
+
 import com.stevpet.sonar.plugins.dotnet.mscover.listener.CoverageParserListener;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.Parser;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.SingleListenerParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageLinesToCoverageObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesToCoverageObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.CoverageSourceFileNamesToSourceFileNamesObserver;
 
 public class RegistryTest {
 
@@ -70,18 +78,20 @@ public class RegistryTest {
 
     private TestCoverageRegistry arrange(String coverageName) throws XMLStreamException {
         File file = Helper.getResource(coverageName);
-        Parser parser = new SingleListenerParser();
-        SMInputFactory inf = new SMInputFactory(XMLInputFactory.newInstance());
-        SMHierarchicCursor rootCursor = inf.rootElementCursor(file);
-        SMInputCursor root = rootCursor.advance();
+        XmlParserSubject parser = new CoverageParserSubject();
         
-        CoverageParserListener parserListener = new CoverageParserListener();
         TestCoverageRegistry coverageRegistry = new TestCoverageRegistry() ;
-        parserListener.setRegistry(coverageRegistry);
+        CoverageLinesToCoverageObserver linesObserver = new CoverageLinesToCoverageObserver();
+        linesObserver.setRegistry(coverageRegistry);
+        parser.registerObserver(linesObserver);
+        
+        CoverageSourceFileNamesToCoverageObserver fileNamesObserver = new CoverageSourceFileNamesToCoverageObserver();
+        fileNamesObserver.setRegistry(coverageRegistry);
+        parser.registerObserver(fileNamesObserver);
         
         //Act
-        parser.setListener(parserListener);
-        parser.parse(root);
+
+        parser.parseFile(file);
         return coverageRegistry;
     }
 
