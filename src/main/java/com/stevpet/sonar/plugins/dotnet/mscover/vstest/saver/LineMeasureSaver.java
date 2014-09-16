@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.saver.line;
+package com.stevpet.sonar.plugins.dotnet.mscover.vstest.saver;
 
 import java.io.File;
 

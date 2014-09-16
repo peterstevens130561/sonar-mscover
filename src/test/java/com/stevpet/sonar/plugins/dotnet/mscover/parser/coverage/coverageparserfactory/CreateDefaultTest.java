@@ -15,8 +15,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteParserFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteVsTestParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestParserFactory;
 
 public class CreateDefaultTest {
 
@@ -31,7 +31,7 @@ public class CreateDefaultTest {
     @Test
     public void test() {
         //Arrange
-        ParserFactory factory = new ConcreteParserFactory();
+        VsTestParserFactory factory = new ConcreteVsTestParserFactory();
         VsTestRegistry registry = new VsTestRegistry("C:\\users\\stevpet\\GitHub");
         XmlParserSubject parser = factory.createCoverageParser(registry);
         

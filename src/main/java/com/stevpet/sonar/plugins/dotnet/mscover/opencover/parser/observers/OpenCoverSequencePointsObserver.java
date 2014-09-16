@@ -5,7 +5,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.OpenCoverSequencePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.SequencePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObserver;
 
 public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
 
@@ -58,7 +57,7 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
             coveredFile.addLinePoint(line, lineVisited);
         }
         
-        @AttributeMatcher(attributeName = "vc", elementName = "BranchPoint")
+        @AttributeMatcher(attributeName ="vc", elementName = "BranchPoint")
         public void visitedBranchCountMatcher(String attributeValue) {
             branchVisited = !"0".equals(attributeValue);
 
@@ -68,7 +67,10 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         public void offsetBranchPointMatcher(String attributeValue) {
             int offset=Integer.parseInt(attributeValue);
             int branchLine=offsetToLineMapper.mapOffsetToLine(offset);
-            coveredFile.addBranchPoint(branchLine,branchVisited);
+            if(branchLine != -1) {
+                coveredFile.addBranchPoint(branchLine,branchVisited);
+            }
+
         }
         
 

@@ -18,14 +18,16 @@ public class BranchOffsetToLineMapperTest {
         mapper = new BranchOffsetToLineMapper() ;
     }
     
-    @Test(expected=SonarException.class)
+    @Test
     public void requestMapWithoutSequencePoint_ShouldThrowException() {
-        mapper.mapOffsetToLine(20);  
+        int line=mapper.mapOffsetToLine(20);
+        assertEquals(-1, line);
     }
     
-    @Test(expected=SonarException.class)
+    @Test
     public void requestMapAftrerStart_ShouldThrowException() {
-        mapper.mapOffsetToLine(20);  
+        int line=mapper.mapOffsetToLine(20); 
+        assertEquals(-1, line);
     }
     
     @Test
@@ -61,13 +63,14 @@ public class BranchOffsetToLineMapperTest {
         assertEquals(lineFound,64);               
     }
     
-    @Test(expected=SonarException.class)
+    @Test
     public void startAfterSeveralPointsFollowedByClear_ExpectEmptyList() {
         addPoint("0","64");
         addPoint("10","66");
         mapper.start();
         
-       mapper.mapOffsetToLine(10);
+       int line=mapper.mapOffsetToLine(10);
+       assertEquals(-1,line);
     }
     
     @Test

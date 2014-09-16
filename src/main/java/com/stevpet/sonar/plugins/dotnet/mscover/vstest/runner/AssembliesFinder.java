@@ -14,6 +14,7 @@ import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.NoAssemblyDefinedMsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.SolutionHasNoProjectsSonarException;
+import com.stevpet.sonar.plugins.dotnet.mscover.exceptions.MsCoverUnitTestAssemblyDoesNotExistException;
 
 public class AssembliesFinder {
 
@@ -86,12 +87,25 @@ public class AssembliesFinder {
         }
         String assemblyPath=assemblyFile.getAbsolutePath();
         if(!assemblyFile.exists()) {
-            LOG.error("Unit test assembly " + assemblyPath + " does not exist (fatal) Check .proj file for " + buildPlatform + "|" + buildConfiguration);
+            LOG.info("Unit test assembly " + assemblyPath + " does not exist Check .proj file for " + buildPlatform + "|" + buildConfiguration);
+            assemblyPath=createPath(project,buildConfiguration);
+            LOG.info("Unit test assembly defaulting to " + assemblyPath);
         }
 
         assemblies.add(assemblyPath);
     }
     
+
+    private String createPath(VisualStudioProject project,
+            String buildConfiguration) {
+        File artifactDirectory=project.getDirectory();
+        String artifactPath = "bin/" + buildConfiguration + "/" + project.getArtifactName();
+        File artifactFile=new File(artifactDirectory, artifactPath);
+        if(!artifactFile.exists()) {
+            throw new MsCoverUnitTestAssemblyDoesNotExistException(artifactFile);
+        }
+        return artifactFile.getAbsolutePath();
+    }
 
     public void checkDirectory(File directory)  {
         for(File file :directory.listFiles()) {

@@ -1,14 +1,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.lang.NotImplementedException;
-import org.codehaus.plexus.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.DependedUpon;
@@ -18,18 +12,13 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.SonarException;
-import org.sonar.api.utils.command.CommandExecutor;
-import org.sonar.api.utils.command.StreamConsumer;
 import org.sonar.plugins.dotnet.api.DotNetConstants;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 import org.sonar.plugins.dotnet.api.sensor.AbstractDotNetSensor;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
@@ -38,8 +27,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.ConcreteOpenCov
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteParserFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
@@ -60,6 +47,8 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private String sonarWorkingDirPath;
     WindowsCommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
+    private VsTestRunner unitTestRunner;
+    private OpenCoverCommand openCoverCommand;
 
     
     public OpenCoverTestExecutionCoverageSensor(Settings settings, 
@@ -112,6 +101,10 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         sonarWorkingDirPath = project.getFileSystem().getSonarWorkingDirectory().getAbsolutePath();
         openCoverCoveragePath= sonarWorkingDirPath + "\\coverage-report.xml";
         testEnvironment.setCoverageXmlPath(openCoverCoveragePath);
+        unitTestRunner = VsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
+        String openCoverPath = settings.getString("sonar.opencover.installDirectory");
+        openCoverCommand = new OpenCoverCommand(openCoverPath);
+        
         getSolution();
         ensureWorkDirExists();
         
@@ -134,8 +127,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
 
     
     private void executeVsTestOpenCoverRunner(Project project) {
-        String openCoverPath = settings.getString("sonar.opencover.installDirectory");
-        OpenCoverCommand openCoverCommand = new OpenCoverCommand(openCoverPath) ;
+
         openCoverCommand.setRegister("user");
         
         openCoverCommand.setTargetDir(sonarWorkingDirPath);
@@ -151,7 +143,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         openCoverCommand.setTargetCommand(prepareTestRunner());
         String filter = getAssembliesToIncludeInCoverageFilter();
         openCoverCommand.setFilter(filter); 
-  
+        unitTestRunner.clean();
         commandLineExecutor.execute(openCoverCommand);
     }
     
@@ -168,7 +160,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     }
 
     private OpenCoverTarget prepareTestRunner() {
-        VsTestRunner unitTestRunner = VsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
+
         VSTestCommand testCommand=unitTestRunner.prepareTestCommand();
         return testCommand;
     }

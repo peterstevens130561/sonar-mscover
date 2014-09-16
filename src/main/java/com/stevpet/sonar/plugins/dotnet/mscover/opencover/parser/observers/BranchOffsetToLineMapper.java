@@ -3,6 +3,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.SequencePoint;
@@ -13,6 +15,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.SequencePoint;
  * branchpoint in the same order.
  */
 public class BranchOffsetToLineMapper {
+    private static final Logger LOG = LoggerFactory.getLogger(BranchOffsetToLineMapper.class);
     List<SequencePoint> sequencePoints;
     public void addSequencePoint(SequencePoint sequencePoint) {
         if(sequencePoint.getOffset()==0) {
@@ -21,9 +24,15 @@ public class BranchOffsetToLineMapper {
         sequencePoints.add(sequencePoint);
     }
 
+    /**
+     * Map a branchpoint offset to a line. In some cases there are branchpoints without sequence points
+     * @param offset
+     * @return -1 if no map is possible
+     */
     public int mapOffsetToLine(int offset) {
         if(sequencePoints == null || sequencePoints.size() == 0) {
-            throw new SonarException("Can't map branch offset to line, as there are no sequence points. Programmer error or corrupted coverage file?");
+            LOG.debug("Can't map branch offset to line, as there are no sequence points. Programmer error or corrupted coverage file?");
+            return -1;
         }
         for(int pointIndex=0;pointIndex<sequencePoints.size();pointIndex++) {
             SequencePoint currentPoint = sequencePoints.get(pointIndex);

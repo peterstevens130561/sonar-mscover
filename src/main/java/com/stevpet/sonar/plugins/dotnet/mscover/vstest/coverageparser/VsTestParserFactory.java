@@ -7,7 +7,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
 
-public interface ParserFactory {
+public interface VsTestParserFactory {
 
     /***
      * Creates the standard parser with all registries for the coverage file

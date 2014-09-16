@@ -21,8 +21,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteParserFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteVsTestParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ConcreteVsTestFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.VsTestFactory;
 
@@ -37,7 +37,7 @@ public class VsTestUnitTestResultsAnalyser {
     private MethodToSourceFileIdMap map;
     private Project project;
     private OpenCoverParserFactory openCoverParserFactory = new ConcreteOpenCoverParserFactory();
-    private ParserFactory factory = new ConcreteParserFactory();
+    private VsTestParserFactory factory = new ConcreteVsTestParserFactory();
     private MeasureSaver measureSaver;
     private SourceFilePathHelper sourceFilePathHelper ;
     private ResourceMediator resourceMediator;

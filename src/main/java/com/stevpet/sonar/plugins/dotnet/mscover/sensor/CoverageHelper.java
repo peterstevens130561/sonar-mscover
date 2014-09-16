@@ -20,9 +20,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteParserFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteVsTestParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.saver.LineMeasureSaver;
 
 @SuppressWarnings("deprecation")
 public class CoverageHelper {
@@ -109,7 +109,7 @@ public class CoverageHelper {
      * @throws XMLStreamException
      */    
     private void invokeParserSubject(VsTestRegistry registry,String path) throws XMLStreamException {
-        ParserFactory parserFactory = new ConcreteParserFactory();
+        VsTestParserFactory parserFactory = new ConcreteVsTestParserFactory();
         XmlParserSubject parserSubject = parserFactory.createCoverageParser(registry);
         File file = getCoverageFile(path);
         parserSubject.parseFile(file);

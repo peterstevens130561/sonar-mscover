@@ -1,8 +1,9 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.saver.line;
+package com.stevpet.sonar.plugins.dotnet.mscover.vstest.saver;
 
-import java.io.File;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
@@ -13,33 +14,35 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceLine;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
-public class UnitTestLineSaver implements LineMeasureSaver {
-
+public class IntegrationTestLineSaver implements LineMeasureSaver {
+    
     private MeasureSaver measureSaver;
 
 
-    private UnitTestLineSaver(MeasureSaver measureSaver) {
+    private IntegrationTestLineSaver(MeasureSaver measureSaver) {
         this.measureSaver = measureSaver ;
     }
     
-    public static UnitTestLineSaver create(MeasureSaver measureSaver) {
-        return new UnitTestLineSaver(measureSaver);
+    public static IntegrationTestLineSaver create(MeasureSaver measureSaver) {
+        return new IntegrationTestLineSaver(measureSaver);
     }
+    private static final Logger LOG = LoggerFactory
+            .getLogger(IntegrationTestLineSaver.class);
+    
     private final PropertiesBuilder<String, Integer> lineHitsBuilder = new PropertiesBuilder<String, Integer>(
-            CoreMetrics.COVERAGE_LINE_HITS_DATA);
+            CoreMetrics.IT_COVERAGE_LINE_HITS_DATA);
     
 
-    public void saveMeasures(
-            FileCoverage coverageData, File file) {
-        measureSaver.setFile(file);
+    public void saveMeasures(FileCoverage coverageData, java.io.File file) {
+
         double coverage = coverageData.getCoverage();
-        measureSaver.setIgnoreTwiceSameMeasure();
-        measureSaver.saveFileMeasure(CoreMetrics.LINES, (double) coverageData.getCountLines());
-        measureSaver.setExceptionOnTwiceSameMeasure();
-        measureSaver.saveFileMeasure( CoreMetrics.LINES_TO_COVER, (double) coverageData.getCountLines());
-        measureSaver.saveFileMeasure( CoreMetrics.UNCOVERED_LINES, (double) coverageData.getCountLines() - coverageData.getCoveredLines());
-        measureSaver.saveFileMeasure( CoreMetrics.COVERAGE, convertPercentage(coverage));
-        measureSaver.saveFileMeasure( CoreMetrics.LINE_COVERAGE, convertPercentage(coverage));
+        measureSaver.setFile(file);
+        measureSaver.saveFileMeasure(CoreMetrics.IT_LINES_TO_COVER,(double) coverageData.getCountLines());
+
+        measureSaver.saveFileMeasure(CoreMetrics.IT_UNCOVERED_LINES,(double) coverageData.getCountLines()
+                        - coverageData.getCoveredLines());
+        measureSaver.saveFileMeasure(CoreMetrics.IT_COVERAGE,convertPercentage(coverage));
+        measureSaver.saveFileMeasure(CoreMetrics.IT_LINE_COVERAGE,convertPercentage(coverage));
         Measure lineMeasures=getHitData(coverageData);
         measureSaver.saveFileMeasure(lineMeasures);
     }
@@ -60,10 +63,11 @@ public class UnitTestLineSaver implements LineMeasureSaver {
         }
         return hitsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
     }
-    
     protected double convertPercentage(Number percentage) {
         return ParsingUtils.scaleValue(percentage.doubleValue() * 100.0);
     }
 
-}
 
+
+
+}

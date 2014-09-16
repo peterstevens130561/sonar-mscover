@@ -15,7 +15,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestCoverageObserver;
 
 
-public class ConcreteParserFactory implements ParserFactory {
+public class ConcreteVsTestParserFactory implements VsTestParserFactory {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageParserFactory#createDefault(com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry, com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry)
      */
