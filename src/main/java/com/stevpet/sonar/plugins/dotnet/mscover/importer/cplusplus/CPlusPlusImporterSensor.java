@@ -27,10 +27,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFac
 @DependedUpon(CPlusPlusImporterSensor.DEPENDS)
 public class CPlusPlusImporterSensor implements Sensor {
 
-    public static final String DEPENDS="CPlusPlusImporterSensor";
+    public static final String DEPENDS = "CPlusPlusImporterSensor";
     private static final Logger LOG = LoggerFactory
             .getLogger(CPlusPlusImporterSensor.class);
-    private final PropertiesHelper propertiesHelper ;
+    private final PropertiesHelper propertiesHelper;
     private final Settings settings;
     private Language language;
     private ModuleFileSystem moduleFileSystem;
@@ -42,58 +42,63 @@ public class CPlusPlusImporterSensor implements Sensor {
     private boolean enabled;
     private ResourceFilter filter;
 
-    
-    public CPlusPlusImporterSensor(Settings settings,ModuleFileSystem moduleFileSystem) {
+    public CPlusPlusImporterSensor(Settings settings,
+            ModuleFileSystem moduleFileSystem) {
         this.settings = settings;
         this.moduleFileSystem = moduleFileSystem;
-        this.charsetName=moduleFileSystem.sourceCharset().name();
+        this.charsetName = moduleFileSystem.sourceCharset().name();
         propertiesHelper = PropertiesHelper.create(settings);
-        filter = ResourceFilterFactory.createUnitTestAssembliesFilter(propertiesHelper);
+        filter = ResourceFilterFactory
+                .createUnitTestAssembliesFilter(propertiesHelper);
     }
+
     public boolean shouldExecuteOnProject(Project project) {
         return propertiesHelper.getRunMode() != RunMode.SKIP;
     }
 
     public void analyse(Project project, SensorContext context) {
-        this.context=context;
-        this.enabled= isEnabled();
+        this.context = context;
+        this.enabled = isEnabled();
         cppProjectDirs = new ArrayList<File>();
         unitTestPaths = new ArrayList<String>();
         try {
-        findCppProjects(moduleFileSystem.baseDir());
-        List<File> sourceDirs = new ArrayList<File>() ;
-        sourceDirs.add(moduleFileSystem.baseDir()); 
-        LOG.debug("MSCover sourcedir {}",moduleFileSystem.baseDir().getAbsolutePath());
+            findCppProjects(moduleFileSystem.baseDir());
+            List<File> sourceDirs = new ArrayList<File>();
+            sourceDirs.add(moduleFileSystem.baseDir());
+            LOG.debug("MSCover sourcedir {}", moduleFileSystem.baseDir()
+                    .getAbsolutePath());
 
-        for(File dir:cppProjectDirs) {
-            loadSourcesFromDir(dir,sourceDirs);
-        } 
-        } catch (Exception e)  {
-            throw new SonarException("CPlusPlusImporter terminated with exception " + e.getMessage(),e);
+            for (File dir : cppProjectDirs) {
+                loadSourcesFromDir(dir, sourceDirs);
+            }
+        } catch (Exception e) {
+            throw new SonarException(
+                    "CPlusPlusImporter terminated with exception "
+                            + e.getMessage(), e);
         }
-      }
+    }
 
-    private void loadSourcesFromDir(File projectDir,List<File> sourceDirs) {
+    private void loadSourcesFromDir(File projectDir, List<File> sourceDirs) {
 
         for (File file : projectDir.listFiles()) {
             if (isCppFile(file)) {
-                indexCppSourceFile(file,sourceDirs);
+                indexCppSourceFile(file, sourceDirs);
             }
-            if(file.isDirectory()) {
-                loadSourcesFromDir(file,sourceDirs);
+            if (file.isDirectory()) {
+                loadSourcesFromDir(file, sourceDirs);
             }
         }
     }
-    
-    
+
     private boolean isCppFile(File file) {
-        String name=file.getName();
-        boolean result=name.endsWith(".h") || name.endsWith(".cpp");
+        String name = file.getName();
+        boolean result = name.endsWith(".h") || name.endsWith(".cpp");
         return result;
     }
-    private void indexCppSourceFile(File file,List<File> sourceDirs) {
-        
-        Resource<?> resource = createResource(file,sourceDirs);
+
+    private void indexCppSourceFile(File file, List<File> sourceDirs) {
+
+        Resource<?> resource = createResource(file, sourceDirs);
         if (resource != null) {
             try {
                 context.index(resource);
@@ -105,51 +110,57 @@ public class CPlusPlusImporterSensor implements Sensor {
             } catch (Exception e) {
                 throw new SonarException(
                         "Unable to read and import the source file : '"
-                                + file.getAbsolutePath(),e);
+                                + file.getAbsolutePath(), e);
             }
         }
     }
 
-      private void findCppProjects(File root) {
-          for(File file:root.listFiles()) {
-              if(file.isDirectory()) {
-                  findCppProjects(file);
-              }
-              if(file.getName().endsWith(".dll") && filter.isIncluded(file.getAbsolutePath())) {
-                      String directoryPath = file.getParentFile().getParentFile().getAbsolutePath();
-                      LOG.debug("Adding unit test directory {}", directoryPath);
-                      unitTestPaths.add(directoryPath);
-              }
-              if( file.getAbsolutePath().endsWith(".vcxproj")) {
-                  File directory=file.getParentFile();
-                  LOG.debug("Adding source directory {}", directory.getName());
-                  cppProjectDirs.add(directory);
-              }
-          }
-      }
-      protected Resource<?> createResource(File file,List<File> sourceDirs) {
+    private void findCppProjects(File root) {
+        for (File file : root.listFiles()) {
+            if (file.isDirectory()) {
+                findCppProjects(file);
+            }
+            if (file.getName().endsWith(".dll")
+                    && filter.isIncluded(file.getAbsolutePath())) {
+                String directoryPath = file.getParentFile().getParentFile()
+                        .getAbsolutePath();
+                LOG.debug("Adding unit test directory {}", directoryPath);
+                unitTestPaths.add(directoryPath);
+            }
+            if (file.getAbsolutePath().endsWith(".vcxproj")) {
+                File directory = file.getParentFile();
+                LOG.debug("Adding source directory {}", directory.getName());
+                cppProjectDirs.add(directory);
+            }
+        }
+    }
 
-        org.sonar.api.resources.File resource = org.sonar.api.resources.File.fromIOFile(file, sourceDirs);
-        if (resource != null) {
-          //resource.setLanguage(language);
-          String projectDir=file.getParent();
-          if (unitTestPaths.contains(projectDir)) {
-            resource.setQualifier(Qualifiers.UNIT_TEST_FILE);
-          }
-          LOG.debug("Created resource {}",resource.getKey());
+    protected Resource<?> createResource(File file, List<File> sourceDirs) {
+        org.sonar.api.resources.File resource = org.sonar.api.resources.File
+                .fromIOFile(file, sourceDirs);
+
+        if (resource == null) {
+            LOG.debug("Could not create resource for {}", file.getName());
+        } else {
+            String projectDir = file.getParent();
+            if (unitTestPaths.contains(projectDir)) {
+                resource.setQualifier(Qualifiers.UNIT_TEST_FILE);
+            }
+            LOG.debug("Created resource {}", resource.getKey());
         }
         return resource;
-      }
+    }
 
-      protected boolean isEnabled() {
-        String value=settings.getString(CoreProperties.CORE_IMPORT_SOURCES_PROPERTY);
+    protected boolean isEnabled() {
+        String value = settings
+                .getString(CoreProperties.CORE_IMPORT_SOURCES_PROPERTY);
         return StringUtils.isEmpty(value) || Boolean.parseBoolean(value);
-      }
+    }
 
-      /**
-       * @return the language
-       */
-      public Language getLanguage() {
+    /**
+     * @return the language
+     */
+    public Language getLanguage() {
         return language;
-      }
+    }
 }
