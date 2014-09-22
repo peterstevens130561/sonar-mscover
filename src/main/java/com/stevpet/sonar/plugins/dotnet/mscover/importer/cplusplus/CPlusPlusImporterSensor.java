@@ -136,8 +136,8 @@ public class CPlusPlusImporterSensor implements Sensor {
           if (unitTestPaths.contains(projectDir)) {
             resource.setQualifier(Qualifiers.UNIT_TEST_FILE);
           }
+          LOG.debug("Created resource {}",resource.getKey());
         }
-        LOG.debug("Created resource {}",resource.getKey());
         return resource;
       }
 

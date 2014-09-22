@@ -32,7 +32,7 @@ public class PropertiesHelper {
     public static final String MSCOVER_UNITTEST_ASSEMBLIES = MSCOVER + "unittests.assemblies";
     public static final String MSCOVER_TESTSETTINGS = MSCOVER + "vstest.testsettings";
     public static final String MSCOVER_COVERAGETOOL = MSCOVER + "coveragetool";
-    public static final String MSCOVER_IGNOREMISSING = MSCOVER + "ignoremissing";
+    public static final String MSCOVER_IGNOREMISSING = MSCOVER + "vstest.ignoremissingdlls";
     
     @Deprecated
     public PropertiesHelper(Settings settings) {
