@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,6 +32,7 @@ public class PropertiesHelper {
     public static final String MSCOVER_UNITTEST_ASSEMBLIES = MSCOVER + "unittests.assemblies";
     public static final String MSCOVER_TESTSETTINGS = MSCOVER + "vstest.testsettings";
     public static final String MSCOVER_COVERAGETOOL = MSCOVER + "coveragetool";
+    public static final String MSCOVER_IGNOREMISSING = MSCOVER + "ignoremissing";
     
     @Deprecated
     public PropertiesHelper(Settings settings) {
@@ -163,12 +165,29 @@ public class PropertiesHelper {
         return getRequiredProperty("sonar.dotnet.buildPlatform");
     }
     
+    /**
+     * Gets the array of unit tests dlls that can be ignored if missing (A warning will still occur)
+     * @return
+     */
+    public Collection<String> getUnitTestAssembliesThatCanBeIgnoredIfMissing() {
+        String[] names=settings.getStringArrayBySeparator(MSCOVER_IGNOREMISSING, ",");
+        Collection<String> collection = new ArrayList<String>() ;
+        for(String name:names) {
+            collection.add(name);
+        }
+        return collection;
+    }
+    
     private String getRequiredProperty(String property) {
         String value = settings.getString(property);
         if(StringUtils.isEmpty(value)) {
             throw new MsCoverRequiredPropertyMissingException(property);
         }
         return value;
+    }
+
+    public boolean isIgnoreMissingUnitTestAssembliesSpecified() {
+        return getUnitTestAssembliesThatCanBeIgnoredIfMissing().size()>0;
     }
     
 }

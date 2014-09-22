@@ -12,11 +12,13 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AbstractAssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.anyString;
 
 public class AssembliesFinderPatternTest {
     private Settings settings;
@@ -26,8 +28,9 @@ public class AssembliesFinderPatternTest {
     @Before()
     public void before() {
         settings=mock(Settings.class);
+        when(settings.getStringArrayBySeparator(anyString(), anyString())).thenCallRealMethod();
         propertiesHelper = PropertiesHelper.create(settings);
-        finder = AssembliesFinder.create(propertiesHelper);
+        finder = AbstractAssembliesFinder.create(propertiesHelper);
     }
     @Test
     public void simpleFinder() throws IOException {

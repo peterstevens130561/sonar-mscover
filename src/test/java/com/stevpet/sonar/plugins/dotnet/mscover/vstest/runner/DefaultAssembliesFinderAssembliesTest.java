@@ -1,10 +1,10 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.unittestrunner;
+package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,40 +13,30 @@ import org.junit.Test;
 import org.sonar.api.config.Settings;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
-import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.NoAssemblyDefinedMsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.SolutionHasNoProjectsSonarException;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
-
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AbstractAssembliesFinder;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
 
 
-
-public class AssembliesFinderAssembliesTest {
+public class DefaultAssembliesFinderAssembliesTest extends AssembliesFinderTestUtils {
     
-    
-    private PropertiesHelper propertiesHelper;
-    private AssembliesFinder finder ;
-    private List<VisualStudioProject> projects;
-    private VisualStudioProject project;
-    private String buildConfiguration="Debug";
-    private String buildPlatform="AnyCPU";
     
     @Before
     public void before() {
         propertiesHelper = mock(PropertiesHelper.class);
-        finder = AssembliesFinder.create(propertiesHelper);
+        finder = AbstractAssembliesFinder.create(propertiesHelper);
         projects = new ArrayList<VisualStudioProject>();
         project = mock(VisualStudioProject.class);
     }
     
     @Test
     public void createAssembliesFinderWithNull_ExpectNullPointerException(){
-       finder = AssembliesFinder.create(null); 
+       finder = AbstractAssembliesFinder.create(null); 
        assertNotNull(finder);
     }
     
@@ -69,15 +59,11 @@ public class AssembliesFinderAssembliesTest {
         assertEquals(0,assemblies.size());
     }
 
-    private void projectIsNotAUnitTestProject() {
-        when(project.isUnitTest()).thenReturn(false);
-    }
-    
     @Test
     public void oneProjectIsTestProjectKnownConfig_ExpectInList() {
         //Arrange    
         String unitTestPath = getPathToExistingUnitTestDll();    
-        projectIsUnitTestProject();
+        projectIsUnitTestProject("TestDll.txt");
         projectExistsForConfigurationAndPlatform(unitTestPath);
         mockSettingsToUseConfiguration();
         
@@ -91,25 +77,13 @@ public class AssembliesFinderAssembliesTest {
     }
 
 
-
-    private void mockSettingsToUseConfiguration() {
-        when(propertiesHelper.getRequiredBuildConfiguration()).thenReturn(buildConfiguration);
-        when(propertiesHelper.getRequiredBuildPlatform()).thenReturn(buildPlatform);
-    }
-
-
-    private void projectIsUnitTestProject() {
-        when(project.isUnitTest()).thenReturn(true);
-    }
-    
-
-
     @Test(expected=NoAssemblyDefinedMsCoverException.class)
     public void oneProjectIsTestProjectUnknownConfig_ExpectException() {
-        //Arrange      
-        String unitTestPath = getPathToANonExistingDll();
+        //Arrange
+        String name="DoesNotExist.txt";
+        String unitTestPath = getPathToANonExistingDll(name);
         
-        projectIsUnitTestProject();
+        projectIsUnitTestProject(name);
         projectDoesNotExistForConfigurationAndPlatform();
         
         mockSettingsToUseConfiguration();
@@ -121,30 +95,5 @@ public class AssembliesFinderAssembliesTest {
         //Assert
         assertEquals(1,assemblies.size());
         assertEquals(unitTestPath,assemblies.get(0));
-    }
-
-    private void projectDoesNotExistForConfigurationAndPlatform() {
-        when(project.getArtifact(eq(buildConfiguration), eq(buildPlatform))).thenReturn(null);
-    }
-
-    private void projectExistsForConfigurationAndPlatform( String unitTestPath) {
-        when(project.getArtifact(eq(buildConfiguration), eq(buildPlatform))).thenReturn(new File(unitTestPath));
-    }
-
-    private String getPathToANonExistingDll() {
-        File unitTestDll=TestUtils.getResource("AssembliesFinder\\TestDll.txt");
-        String unitTestPath=unitTestDll.getParent() + "\\DoesNotExist.txt";
-        return unitTestPath;
-    }
-    
-    private String getPathToExistingUnitTestDll() {
-        File unitTestDll=TestUtils.getResource("AssembliesFinder\\TestDll.txt");
-        String unitTestPath=unitTestDll.getAbsolutePath();
-        return unitTestPath;
-    }
-    
-    private List<String> fromBuildConfiguration(
-            List<VisualStudioProject> projects) {
-        return finder.findUnitTestAssembliesFromConfig(null, projects);
     }
 }
