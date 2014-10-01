@@ -41,7 +41,7 @@ public class GetIgnoredTest {
     
     
     private void mockSettingsThenExpect(String []list,int size) {
-        when(settings.getStringArrayBySeparator(PropertiesHelper.MSCOVER_IGNOREMISSING,",")).thenReturn(list);
+        when(settings.getStringArrayBySeparator(PropertiesHelper.MSCOVER_IGNOREMISSING_DLL,",")).thenReturn(list);
 
         Collection<String> ignoreMissing = propertiesHelper.getUnitTestAssembliesThatCanBeIgnoredIfMissing();
         assertNotNull(ignoreMissing);

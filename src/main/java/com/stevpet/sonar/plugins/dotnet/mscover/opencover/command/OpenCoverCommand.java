@@ -13,10 +13,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 
 public class OpenCoverCommand implements ShellCommand {
 
-    Command command ;
+    private final String path;
+
     Map<String,String> arguments = Maps.newHashMap();
     public OpenCoverCommand(String path) {
-        command = Command.create(path + "/OpenCover.Console.Exe");
+        this.path=path;
+
     }
     
     public void setRegister(String value) {
@@ -73,6 +75,7 @@ public class OpenCoverCommand implements ShellCommand {
 
     public Command toCommand() {
         List<String> list = Lists.newArrayList(arguments.values());
+        Command command =Command.create(path + "/OpenCover.Console.Exe");
         command.addArguments(list);
         return command ;
     }

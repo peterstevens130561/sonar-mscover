@@ -90,7 +90,7 @@ import java.util.List;
             name = "regular expression to match files that should be excluded",
             defaultValue="",global=false,project=true,type = PropertyType.STRING),
     @Property(
-            key=PropertiesHelper.MSCOVER_IGNOREMISSING,
+            key=PropertiesHelper.MSCOVER_IGNOREMISSING_DLL,
             name="list of dlls that may be ignored if missing",
             defaultValue="",global=false,project=true,type=PropertyType.STRING)
     }

@@ -32,7 +32,8 @@ public class PropertiesHelper {
     public static final String MSCOVER_UNITTEST_ASSEMBLIES = MSCOVER + "unittests.assemblies";
     public static final String MSCOVER_TESTSETTINGS = MSCOVER + "vstest.testsettings";
     public static final String MSCOVER_COVERAGETOOL = MSCOVER + "coveragetool";
-    public static final String MSCOVER_IGNOREMISSING = MSCOVER + "vstest.ignoremissingdlls";
+    public static final String MSCOVER_IGNOREMISSING_DLL = MSCOVER + "vstest.ignoremissingdlls";
+    public static final String MSCOVER_IGNOREMISSING_PDB = MSCOVER + "opencover.ignoremissingpdbs";
     
     @Deprecated
     public PropertiesHelper(Settings settings) {
@@ -170,12 +171,20 @@ public class PropertiesHelper {
      * @return
      */
     public Collection<String> getUnitTestAssembliesThatCanBeIgnoredIfMissing() {
-        String[] names=settings.getStringArrayBySeparator(MSCOVER_IGNOREMISSING, ",");
+        return getCollection(MSCOVER_IGNOREMISSING_DLL);
+    }
+    
+    public Collection<String> getPdbsThatMayBeIgnoredWhenMissing() {
+        return getCollection(MSCOVER_IGNOREMISSING_PDB);
+    }
+    
+    private Collection<String> getCollection(String name) {
+        String[] values=settings.getStringArrayBySeparator(name, ",");
         Collection<String> collection = new ArrayList<String>() ;
-        for(String name:names) {
-            collection.add(name);
+        for(String value:values) {
+            collection.add(value);
         }
-        return collection;
+        return collection;        
     }
     
     private String getRequiredProperty(String property) {

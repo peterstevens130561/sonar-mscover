@@ -1,9 +1,13 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser;
 
+import java.util.Collection;
+import java.util.List;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverFileNamesAndIdObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverMethodObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverMissingPdbObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverSequencePointsObserver;
@@ -43,5 +47,21 @@ public class ConcreteOpenCoverParserFactory implements OpenCoverParserFactory {
         sourceFileNamesObserver.setRegistry(sourceFileNamesRegistry);
         parserSubject.registerObserver(sourceFileNamesObserver);
         return parserSubject;
+    }
+
+    public XmlParserSubject createOpenCoverParser(SonarCoverage registry,
+            Collection<String> missingPdbsThatCanBeIgnored) {
+        XmlParserSubject parser = new OpenCoverParserSubject();
+        OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs  missingPdbObserver = new OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs() ;
+        missingPdbObserver.setPdbsThatCanBeIgnoredIfMissing(missingPdbsThatCanBeIgnored);
+        OpenCoverObserver [] observers = { 
+                new OpenCoverSourceFileNamesObserver(),
+                new OpenCoverSequencePointsObserver(),
+                missingPdbObserver};
+        for(OpenCoverObserver observer: observers) {
+            observer.setRegistry(registry);
+            parser.registerObserver(observer);
+        }
+        return parser;
     }
 }

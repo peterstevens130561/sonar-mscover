@@ -2,7 +2,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.DependedUpon;
@@ -120,7 +122,8 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private void parseCoverageFile(VsTestEnvironment testEnvironment) {
         OpenCoverParserFactory parserFactory = new ConcreteOpenCoverParserFactory();
         SonarCoverage sonarCoverageRegistry = new SonarCoverage();
-        XmlParserSubject parser=parserFactory.createOpenCoverParser(sonarCoverageRegistry);
+        Collection<String> pdbsThatCanBeIgnoredWhenMissing = propertiesHelper.getPdbsThatMayBeIgnoredWhenMissing();
+        XmlParserSubject parser=parserFactory.createOpenCoverParser(sonarCoverageRegistry,pdbsThatCanBeIgnoredWhenMissing);
         parser.parseFile(new File(testEnvironment.getXmlCoveragePath()));
         testEnvironment.setSonarCoverage(sonarCoverageRegistry);
     }

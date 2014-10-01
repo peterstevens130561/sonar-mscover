@@ -31,7 +31,7 @@ public abstract class XmlParserSubject implements ParserSubject {
 
     private static final Logger LOG = LoggerFactory
             .getLogger(XmlParserSubject.class);
-    List<ParserObserver> observers = new ArrayList<ParserObserver>();
+    private List<ParserObserver> observers = new ArrayList<ParserObserver>();
 
     List<String> parentElements = new ArrayList<String>();
     private int line;
@@ -44,6 +44,9 @@ public abstract class XmlParserSubject implements ParserSubject {
         }
     }
 
+    public List<ParserObserver> getObservers() {
+        return observers ;
+    }
     public abstract String[] getHierarchy();
 
     public void parseFile(File file) {

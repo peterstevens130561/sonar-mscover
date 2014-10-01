@@ -5,7 +5,7 @@
   <groupId>com.stevpet.sonar</groupId>
   <artifactId>sonar-mscover-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.3-SNAPSHOT</version>
 
   <name>Sonar Integration Test Plugin MSCover</name>
 
@@ -140,4 +140,9 @@
 	<url>scm:git:https://github.com/peterstevens130561/sonar-mscover</url>
   	<developerConnection>scm:git:https://github.com/peterstevens130561/sonar-mscover</developerConnection>
   </scm>
+  <url>https://github.com/peterstevens130561/sonar-mscover</url>
+  <organization>
+  	<name>Baker Hughes Reservoir Software B.V. Delft Netherlands</name>
+  	<url>www.bakerhughes.com</url>
+  </organization>
 </project>

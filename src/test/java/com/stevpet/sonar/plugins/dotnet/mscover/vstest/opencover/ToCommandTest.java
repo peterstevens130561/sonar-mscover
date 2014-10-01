@@ -1,5 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.opencover;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +31,15 @@ public class ToCommandTest {
         Assert.assertTrue(commandLine.contains(" \"-output:output path\" "));
         Assert.assertTrue(commandLine.contains("jippie"));
         
+    }
+    
+    @Test
+    public void invokeCommandTwice_shouldBeSame() {
+        openCoverCommand.setFilter("myfilter");
+        
+        String firstCommand = openCoverCommand.toCommandLine();
+        String secondCommand = openCoverCommand.toCommandLine();
+        assertEquals(firstCommand,secondCommand);
     }
     
         private class Target implements OpenCoverTarget {
