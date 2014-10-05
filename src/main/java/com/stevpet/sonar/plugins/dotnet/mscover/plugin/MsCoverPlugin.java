@@ -105,6 +105,7 @@ public List getExtensions() {
     return Arrays.asList(
             CPlusPlusImporterSensor.class,
             VsTestEnvironment.class,
+            PropertiesHelper.class,
             VsTestExecutionSensor.class,
             OpenCoverTestExecutionCoverageSensor.class,
             OpenCoverCoverageResultsSensor.class,

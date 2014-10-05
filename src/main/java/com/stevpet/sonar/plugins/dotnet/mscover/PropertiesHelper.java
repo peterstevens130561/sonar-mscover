@@ -5,12 +5,14 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.sonar.api.BatchExtension;
+import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.api.config.Settings;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverRequiredPropertyMissingException;
-
-public class PropertiesHelper {
+@InstantiationStrategy(InstantiationStrategy.PER_BATCH)
+public class PropertiesHelper implements BatchExtension  {
 
     public enum RunMode {
         SKIP,
