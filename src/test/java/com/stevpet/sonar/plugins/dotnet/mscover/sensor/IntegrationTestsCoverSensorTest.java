@@ -17,6 +17,7 @@ import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
@@ -36,7 +37,7 @@ import static org.mockito.Matchers.anyDouble;
 
 public class IntegrationTestsCoverSensorTest {
 
-    Settings settings ;
+    MsCoverProperties propertiesHelper;
     Sensor sensor;
     Project project ;
     SensorContext context ;
@@ -44,13 +45,13 @@ public class IntegrationTestsCoverSensorTest {
     
     @Before
     public void before() {
-        settings = mock(Settings.class);
+        propertiesHelper = mock(PropertiesHelper.class);
         project = mock(Project.class);
         context = mock(SensorContext.class);
         microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
-        sensor = new IntegrationTestsCoverSensorStub(settings,null,null);
+        sensor = new IntegrationTestsCoverSensorStub(propertiesHelper,null,null);
         when(project.getFileSystem()).thenReturn( new DummyFileSystem());
-        when(settings.getString(PropertiesHelper.MSCOVER_MODE)).thenReturn("reuse");
+        when(propertiesHelper.getMode()).thenReturn("reuse");
         
     }
     
@@ -58,7 +59,7 @@ public class IntegrationTestsCoverSensorTest {
     @Test
     public void IntegrationTestsSensor_PathNotSet_NotEnabled() {
         //Arrange
-        when(settings.getString(anyString())).thenReturn(null);
+        //when(settings.getString(anyString())).thenReturn(null);
         when(project.isRoot()).thenReturn(false);
         //Act
         boolean shouldExecute=sensor.shouldExecuteOnProject(project);
@@ -69,7 +70,7 @@ public class IntegrationTestsCoverSensorTest {
     @Test
     public void IntegrationTestsSensor_PathSet_Enabled() {
         //Arrange
-        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn("a/b");
+        when(propertiesHelper.getIntegrationTestsPath()).thenReturn("a/b");
         when(project.isRoot()).thenReturn(false);
         //Act
         boolean shouldExecute=sensor.shouldExecuteOnProject(project);
@@ -81,7 +82,8 @@ public class IntegrationTestsCoverSensorTest {
 
     public void IntegrationTestsSensor_Analyse_Enabled() {
         //Arrange
-        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn("mscover.xml");
+        when(propertiesHelper.getIntegrationTestsPath()).thenReturn("mscover.xml");
+        //when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn("mscover.xml");
         when(project.isRoot()).thenReturn(false);
         when(project.getName()).thenReturn("tfsblame");
         VisualStudioProject vsProject = mock(VisualStudioProject.class);
@@ -98,7 +100,8 @@ public class IntegrationTestsCoverSensorTest {
     
     public void UnitTestsSensor_Analyse_Enabled() {
         //Arrange
-        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH)).thenReturn("mscover.xml");
+        when(propertiesHelper.getUnitTestCoveragePath()).thenReturn("mscover.xml");
+        //when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH)).thenReturn("mscover.xml");
         when(project.isRoot()).thenReturn(false);
         when(project.getName()).thenReturn("tfsblame");
         VisualStudioProject vsProject = mock(VisualStudioProject.class);
@@ -128,10 +131,10 @@ public class IntegrationTestsCoverSensorTest {
         
     }
     private class IntegrationTestsCoverSensorStub extends IntegrationTestCoverSensor {
-        public  IntegrationTestsCoverSensorStub(Settings settings,
+        public  IntegrationTestsCoverSensorStub(MsCoverProperties propertiesHelper,
                 MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
                 TimeMachine timeMachine) {
-            super(settings, microsoftWindowsEnvironment, timeMachine);
+            super(propertiesHelper, microsoftWindowsEnvironment, timeMachine);
         }
     }
 }

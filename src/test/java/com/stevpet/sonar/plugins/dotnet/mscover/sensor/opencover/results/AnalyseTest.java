@@ -14,6 +14,8 @@ import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import org.sonar.plugins.dotnet.api.sensor.AbstractDotNetSensor;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.OpenCoverCoverageResultsSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
@@ -22,7 +24,7 @@ public class AnalyseTest {
     private AbstractDotNetSensor sensor;
     private VisualStudioProject vsProject;
     private Project project; 
-    private Settings settings;
+    private MsCoverProperties propertiesHelper;
     private SensorContext context;
     @Before
     public void before() {
@@ -30,9 +32,9 @@ public class AnalyseTest {
         MicrosoftWindowsEnvironment microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
         vsProject = mock(VisualStudioProject.class);
         when(microsoftWindowsEnvironment.getCurrentProject(anyString())).thenReturn(vsProject);
-        settings = mock(Settings.class);
+        propertiesHelper = mock(PropertiesHelper.class);
         VsTestEnvironment vsTestEnvironment = new VsTestEnvironment();
-        sensor = new OpenCoverCoverageResultsSensor(microsoftWindowsEnvironment,settings, vsTestEnvironment, null);
+        sensor = new OpenCoverCoverageResultsSensor(microsoftWindowsEnvironment,propertiesHelper, vsTestEnvironment, null);
           
     }
     

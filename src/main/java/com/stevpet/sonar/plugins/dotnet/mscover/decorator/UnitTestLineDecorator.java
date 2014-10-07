@@ -27,7 +27,7 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 
 import java.util.Arrays;
@@ -62,9 +62,8 @@ public class UnitTestLineDecorator extends BaseDecorator {
   }
 
 @Override
-public boolean shouldExecuteDecorator(Project project, Settings settings) {
-    PropertiesHelper helper = PropertiesHelper.create(settings);
-    return helper.isUnitTestsEnabled();
+public boolean shouldExecuteDecorator(Project project, MsCoverProperties propertiesHelper) {
+    return propertiesHelper.isUnitTestsEnabled();
 }
 
 }

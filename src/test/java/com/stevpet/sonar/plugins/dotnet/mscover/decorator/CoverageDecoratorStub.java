@@ -5,6 +5,7 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
 class CoverageDecoratorStub extends BaseDecorator {
 
@@ -18,7 +19,7 @@ class CoverageDecoratorStub extends BaseDecorator {
 
     @Override
     public boolean shouldExecuteDecorator(Project project, Settings settings) {
-        PropertiesHelper helper = PropertiesHelper.create(settings);
+        MsCoverProperties helper = PropertiesHelper.create(settings);
         return helper.isIntegrationTestsEnabled();
     }
 

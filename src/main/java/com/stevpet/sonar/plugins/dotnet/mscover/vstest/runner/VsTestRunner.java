@@ -19,6 +19,7 @@ import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.CodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
@@ -37,10 +38,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParse
 public class VsTestRunner {
     private static final Logger LOG = LoggerFactory
             .getLogger(VsTestRunner.class);
-    private PropertiesHelper propertiesHelper ;
+    private MsCoverProperties propertiesHelper ;
     private File solutionDirectory ;
     private List<String> unitTestAssembliesPath;
-    private StreamConsumer stdOut;
     private String coveragePath;
     private String resultsPath;
     private File testSettingsFile;
@@ -65,7 +65,7 @@ public class VsTestRunner {
     public String getSonarPath() {
         return sonarPath;
     }
-    public void setPropertiesHelper(PropertiesHelper propertiesHelper) {
+    public void setPropertiesHelper(MsCoverProperties propertiesHelper) {
         this.propertiesHelper = propertiesHelper;
     }
     
@@ -165,9 +165,6 @@ public class VsTestRunner {
     }
     
     
-    /**
-     * run the test. if the tests were done, stdOut holds the log data
-     */
     private VSTestCommand buildVSTestCommand() {
         VSTestCommand vsTestCommand = VSTestCommand.create();
         vsTestCommand.setTestSettingsPath(testSettingsFile.getAbsolutePath());

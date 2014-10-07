@@ -10,7 +10,7 @@ import static org.mockito.Mockito.when;
 public class PropertiesHelperTest {
 
     private Settings settings ;
-    private PropertiesHelper helper ;
+    private MsCoverProperties helper ;
     
     @Before
     public void before() {

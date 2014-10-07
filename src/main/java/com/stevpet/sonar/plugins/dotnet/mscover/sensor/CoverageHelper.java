@@ -14,7 +14,7 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
@@ -29,7 +29,7 @@ public class CoverageHelper {
 
     static final Logger LOG = LoggerFactory
             .getLogger(CoverageHelper.class);
-    private final PropertiesHelper propertiesHelper;
+    private final MsCoverProperties propertiesHelper;
     private final MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private LineMeasureSaver lineSaver;
     private BlockSaver blockSaver;
@@ -49,14 +49,14 @@ public class CoverageHelper {
      * @param microsoftWindowsEnvironment
      * @param timeMachine
      */
-    CoverageHelper(PropertiesHelper propertiesHelper,
+    CoverageHelper(MsCoverProperties propertiesHelper,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         this.propertiesHelper = propertiesHelper ;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
     }
 
 
-    public static CoverageHelper create(PropertiesHelper propertiesHelper,
+    public static CoverageHelper create(MsCoverProperties propertiesHelper,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         // TODO Auto-generated method stub
         return new CoverageHelper(propertiesHelper, microsoftWindowsEnvironment);

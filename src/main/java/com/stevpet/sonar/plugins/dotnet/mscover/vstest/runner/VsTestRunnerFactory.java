@@ -7,7 +7,7 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
 public class VsTestRunnerFactory {
     private static Logger LOG = LoggerFactory.getLogger(VsTestRunnerFactory.class);
@@ -28,7 +28,7 @@ public class VsTestRunnerFactory {
      * @param microsoftWindowsEnvironment - directory that holds the solution
      * @return
      */
-    public static VsTestRunner createBasicTestRunnner(PropertiesHelper propertiesHelper, ModuleFileSystem moduleFileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+    public static VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper, ModuleFileSystem moduleFileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
             VsTestRunner unitTestRunner = VsTestRunner.create();
             unitTestRunner.setPropertiesHelper(propertiesHelper);
             VisualStudioSolution solution=microsoftWindowsEnvironment.getCurrentSolution();

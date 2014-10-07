@@ -12,8 +12,8 @@ import org.sonar.api.resources.Project;
 import org.sonar.plugins.dotnet.api.DotNetConstants;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.importer.cplusplus.CPlusPlusImporterSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
@@ -30,7 +30,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 public class VsTestUnitTestResultsSensor implements Sensor {
     static final Logger LOG = LoggerFactory
             .getLogger(VsTestUnitTestResultsSensor.class);
-    private PropertiesHelper propertiesHelper ;
+    private MsCoverProperties propertiesHelper ;
     private VsTestRunner unitTestRunner;
     private TimeMachine timeMachine;
     private VsTestEnvironment vsTestEnvironment;
@@ -39,11 +39,11 @@ public class VsTestUnitTestResultsSensor implements Sensor {
    
     
     public VsTestUnitTestResultsSensor(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-            Settings settings,TimeMachine timeMachine,
+            MsCoverProperties propertiesHelper,TimeMachine timeMachine,
             VsTestEnvironment vsTestEnvironment) {
         this.microsoftWindowsEnvironment=microsoftWindowsEnvironment ;
         this.timeMachine = timeMachine;
-        propertiesHelper = PropertiesHelper.create(settings);
+        this.propertiesHelper = propertiesHelper;
         unitTestRunner = VsTestRunner.create();
         unitTestRunner.setPropertiesHelper(propertiesHelper);
         this.vsTestEnvironment = vsTestEnvironment;

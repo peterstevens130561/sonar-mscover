@@ -74,7 +74,7 @@ public class MSCoverResultParserTest {
   private Project project;
   private VisualStudioSolution solution;
   private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-  private PropertiesHelper propertiesHelper;
+  private MsCoverProperties propertiesHelper;
   private Settings settings ;
   
 

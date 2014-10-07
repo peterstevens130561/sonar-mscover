@@ -20,6 +20,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerFactory;
 
@@ -29,7 +30,7 @@ public class UnitTestRunnerFactoryTest {
     
     private ModuleFileSystem moduleFileSystem;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-    private PropertiesHelper propertiesHelper;
+    private MsCoverProperties propertiesHelper;
     private Settings settings;
 
     @Before()

@@ -10,7 +10,7 @@ import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Qualifiers;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.helpers.SonarResourceHelper;
@@ -43,7 +43,7 @@ public class ResourceMediator {
 
     public static ResourceMediator createWithFilters(
             SensorContext sensorContext, Project project,TimeMachine timeMachine,
-            PropertiesHelper propertiesHelper) {
+            MsCoverProperties propertiesHelper) {
         ResourceMediator resourceMediator = create(sensorContext,project);
         resourceMediator.setDateFilter(DateFilterFactory.createCutOffDateFilter(timeMachine, propertiesHelper));
         resourceMediator.setResourceFilter(ResourceFilterFactory.createAntPatternResourceFilter(propertiesHelper));

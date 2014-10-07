@@ -11,6 +11,7 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
 
@@ -24,7 +25,7 @@ public class CreateWithFilters {
         when(project.getFileSystem()).thenReturn(new DummyFileSystem());
         TimeMachine timeMachine = mock(TimeMachine.class);
         Settings settings = mock(Settings.class);
-        PropertiesHelper propertiesHelper = PropertiesHelper.create(settings);
+        MsCoverProperties propertiesHelper = PropertiesHelper.create(settings);
         ResourceMediator resourceMediator = ResourceMediator.createWithFilters(sensorContext, project, timeMachine, propertiesHelper);
         assertNotNull(resourceMediator);
     }

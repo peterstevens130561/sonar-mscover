@@ -6,13 +6,14 @@ import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
 public class SonarShouldExecuteHelper implements ShouldExecuteHelper {
     
     static final Logger LOG = LoggerFactory
             .getLogger(SonarShouldExecuteHelper.class);
-    private PropertiesHelper propertiesHelper;
-    public SonarShouldExecuteHelper(PropertiesHelper propertiesHelper) {
+    private MsCoverProperties propertiesHelper;
+    public SonarShouldExecuteHelper(MsCoverProperties propertiesHelper) {
         this.propertiesHelper = propertiesHelper;
     }
     

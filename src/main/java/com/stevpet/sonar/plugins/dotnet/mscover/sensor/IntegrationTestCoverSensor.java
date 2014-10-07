@@ -28,7 +28,7 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.SonarProjectSeam;
@@ -40,7 +40,7 @@ public class IntegrationTestCoverSensor implements Sensor {
     static final Logger LOG = LoggerFactory
             .getLogger(IntegrationTestCoverSensor.class);
 
-    private final PropertiesHelper propertiesHelper ;
+    private final MsCoverProperties propertiesHelper ;
     private TimeMachine timeMachine;
     private CoverageHelper coverageHelper;
     private AbstractCoverageHelperFactory coverageHelperFactory ;
@@ -51,10 +51,10 @@ public class IntegrationTestCoverSensor implements Sensor {
     /**
      * Use of IoC to get Settings
      */
-    public IntegrationTestCoverSensor(Settings settings,
+    public IntegrationTestCoverSensor(MsCoverProperties propertiesHelper,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             TimeMachine timeMachine) {
-        propertiesHelper = PropertiesHelper.create(settings);
+        this.propertiesHelper = propertiesHelper;
         this.timeMachine=timeMachine;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment ;
         this.coverageHelperFactory = new SonarCoverageHelperFactory();

@@ -10,7 +10,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.dotnet.api.sensor.AbstractDotNetSensor;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
@@ -21,17 +21,17 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment
 public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
 
     private static final Logger LOG = LoggerFactory.getLogger(OpenCoverCoverageResultsSensor.class);
-    private PropertiesHelper propertiesHelper;
+    private MsCoverProperties propertiesHelper;
     private VsTestEnvironment vsTestEnvironment;
     private TimeMachine timeMachine;
 
     public OpenCoverCoverageResultsSensor(
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-            Settings settings,
+            MsCoverProperties propertiesHelper,
             VsTestEnvironment vsTestEnvironment,
             TimeMachine timeMachine) {
-        super(microsoftWindowsEnvironment, "OpenCover", settings.getString(PropertiesHelper.MSCOVER_MODE));
-        propertiesHelper = PropertiesHelper.create(settings);
+        super(microsoftWindowsEnvironment, "OpenCover", propertiesHelper.getMode());
+        this.propertiesHelper = propertiesHelper;
         this.vsTestEnvironment=vsTestEnvironment;
         this.timeMachine = timeMachine;
     }

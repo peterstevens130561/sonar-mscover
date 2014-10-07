@@ -9,13 +9,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.ImmutableCollection;
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.exceptions.MsCoverUnitTestAssemblyDoesNotExistException;
 
 public class IgnoreMissingAssembliesFinder extends AbstractAssembliesFinder implements AssembliesFinder {
     private Logger log = LoggerFactory.getLogger(getClass());
-    private PropertiesHelper propertiesHelper ;
-    public IgnoreMissingAssembliesFinder(PropertiesHelper propertiesHelper) {
+    private MsCoverProperties propertiesHelper ;
+    public IgnoreMissingAssembliesFinder(MsCoverProperties propertiesHelper) {
         super(propertiesHelper);
         this.propertiesHelper = propertiesHelper;
     }

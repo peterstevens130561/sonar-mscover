@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.sonar.api.config.Settings;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -19,7 +20,7 @@ public class GetIgnoredTest {
     String[] listWithTwo = { "one","two" };
     
     Settings settings = mock(Settings.class);
-    PropertiesHelper propertiesHelper = PropertiesHelper.create(settings);
+    MsCoverProperties propertiesHelper = PropertiesHelper.create(settings);
     @Before
     public void before() {
         

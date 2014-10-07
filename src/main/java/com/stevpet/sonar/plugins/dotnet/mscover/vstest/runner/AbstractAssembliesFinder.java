@@ -11,7 +11,7 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.WildcardPattern;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.NoAssemblyDefinedMsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.SolutionHasNoProjectsSonarException;
 
@@ -19,7 +19,7 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
 
     private static Logger LOG = LoggerFactory.getLogger(DefaultAssembliesFinder.class);
 
-    public static AssembliesFinder create(PropertiesHelper propertiesHelper) {
+    public static AssembliesFinder create(MsCoverProperties propertiesHelper) {
         AssembliesFinder finder;
         if(propertiesHelper!=null && propertiesHelper.isIgnoreMissingUnitTestAssembliesSpecified()) {
             finder=new IgnoreMissingAssembliesFinder(propertiesHelper) ;
@@ -31,9 +31,9 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
 
     private WildcardPattern[] inclusionMatchers;
     private List<String> assemblies;
-    protected PropertiesHelper propertiesHelper;
+    protected MsCoverProperties propertiesHelper;
 
-    public AbstractAssembliesFinder(PropertiesHelper propertiesHelper) {
+    public AbstractAssembliesFinder(MsCoverProperties propertiesHelper) {
         this.propertiesHelper=propertiesHelper;
     }
 

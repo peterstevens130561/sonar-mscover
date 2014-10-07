@@ -3,13 +3,16 @@ package com.stevpet.sonar.plugins.dotnet.mscover.propertieshelper.isCPlusPlus;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.config.Settings;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 public class IsCPlusPlusTest {
     Settings settings;
-    PropertiesHelper propertiesHelper;
+    MsCoverProperties propertiesHelper;
     private boolean isCPlusPlus;
     
     @Before

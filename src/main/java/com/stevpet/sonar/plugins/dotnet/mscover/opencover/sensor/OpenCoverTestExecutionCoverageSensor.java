@@ -20,7 +20,7 @@ import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 import org.sonar.plugins.dotnet.api.sensor.AbstractDotNetSensor;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
@@ -41,9 +41,8 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private static final Logger LOG = LoggerFactory.getLogger(OpenCoverTestExecutionCoverageSensor.class);
     private VisualStudioSolution solution;
     private File workDir;
-    private PropertiesHelper propertiesHelper ;
-    private final Settings settings;
-    private ModuleFileSystem moduleFileSystem;
+    private final MsCoverProperties propertiesHelper ;
+    private final ModuleFileSystem moduleFileSystem;
     private String openCoverCoveragePath;
     private VsTestEnvironment testEnvironment;
     private String sonarWorkingDirPath;
@@ -53,13 +52,12 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private OpenCoverCommand openCoverCommand;
 
     
-    public OpenCoverTestExecutionCoverageSensor(Settings settings, 
+    public OpenCoverTestExecutionCoverageSensor(MsCoverProperties propertiesHelper, 
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
             ModuleFileSystem moduleFileSystem,
             VsTestEnvironment testEnvironment) {
-        super(microsoftWindowsEnvironment, "OpenCover", PropertiesHelper.MSCOVER_MODE);
-        propertiesHelper = PropertiesHelper.create(settings);
-        this.settings = settings;
+        super(microsoftWindowsEnvironment, "OpenCover", propertiesHelper.getMode());
+        this.propertiesHelper = propertiesHelper;
         this.moduleFileSystem = moduleFileSystem;
         this.testEnvironment = testEnvironment;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
@@ -104,7 +102,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         openCoverCoveragePath= sonarWorkingDirPath + "\\coverage-report.xml";
         testEnvironment.setCoverageXmlPath(openCoverCoveragePath);
         unitTestRunner = VsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
-        String openCoverPath = settings.getString("sonar.opencover.installDirectory");
+        String openCoverPath = propertiesHelper.getOpenCoverInstallPath();
         openCoverCommand = new OpenCoverCommand(openCoverPath);
         
         getSolution();

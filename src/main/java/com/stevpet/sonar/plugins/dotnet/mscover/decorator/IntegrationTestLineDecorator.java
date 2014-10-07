@@ -30,7 +30,7 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 
 /**
@@ -65,9 +65,8 @@ public class IntegrationTestLineDecorator extends BaseDecorator {
 
 
 @Override
-public boolean shouldExecuteDecorator(Project project, Settings settings) {
-    PropertiesHelper helper = PropertiesHelper.create(settings);
-    return helper.isIntegrationTestsEnabled();
+public boolean shouldExecuteDecorator(Project project, MsCoverProperties propertiesHelper) {
+    return propertiesHelper.isIntegrationTestsEnabled();
 }
 
 }

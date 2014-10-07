@@ -8,22 +8,24 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class IntegrationTestCoverSensorTest {
-    private Settings settings;
+    private MsCoverProperties propertiesHelper;
     private Project project;
     private Sensor sensor;
     @Before
     public void before() {       
 
         project = mock(Project.class);
-        settings= mock(Settings.class);
-        sensor= new IntegrationTestCoverSensor(settings,null,null);
-        when(settings.getString(PropertiesHelper.MSCOVER_MODE)).thenReturn("reuse");
-        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn("hi");
+        propertiesHelper = mock(PropertiesHelper.class);
+        sensor= new IntegrationTestCoverSensor(propertiesHelper,null,null);
+        when(propertiesHelper.getMode()).thenReturn("reuse");
+        when(propertiesHelper.getIntegrationTestsPath()).thenReturn("hi");
+        //when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn("hi");
     }
     
     @Test
@@ -59,8 +61,8 @@ public class IntegrationTestCoverSensorTest {
         Assert.assertTrue(shouldExecute);
     }
     boolean arrangeAndActisRootExecuteRoot(boolean isRoot, boolean executeRoot) {
-        when(project.isRoot()).thenReturn(isRoot);    
-        when(settings.getBoolean(PropertiesHelper.MSCOVER_EXECUTEROOT)).thenReturn(executeRoot);
+        when(project.isRoot()).thenReturn(isRoot);  
+        when(propertiesHelper.excuteRoot()).thenReturn(isRoot);
         return sensor.shouldExecuteOnProject(project);          
     }
     

@@ -3,9 +3,12 @@ package com.stevpet.sonar.plugins.dotnet.mscover.datefilter;
 import org.junit.Assert;
 import org.junit.Test;
 import org.sonar.api.batch.TimeMachine;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
 
 
@@ -25,7 +28,7 @@ public class DateFilterFactoryTest {
     public void createCutOffDateFilterNoDate_AlwaysPassThrough() {
         //Arrange
         TimeMachine timeMachine = mock(TimeMachine.class);
-        PropertiesHelper propertiesHelper = mock(PropertiesHelper.class);
+        MsCoverProperties propertiesHelper = mock(PropertiesHelper.class);
         when(propertiesHelper.getCutOffDate()).thenReturn(null);
         
         //Act
@@ -38,7 +41,7 @@ public class DateFilterFactoryTest {
     public void createCutOffDateFilterWithFilter_GetCutoff() {
         //Arrange
         TimeMachine timeMachine = mock(TimeMachine.class);
-        PropertiesHelper propertiesHelper = mock(PropertiesHelper.class);
+        MsCoverProperties propertiesHelper = mock(PropertiesHelper.class);
         when(propertiesHelper.getCutOffDate()).thenReturn("2014-03-01");
         
         //Act

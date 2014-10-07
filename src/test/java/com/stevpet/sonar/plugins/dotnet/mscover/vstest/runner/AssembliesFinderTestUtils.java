@@ -10,12 +10,12 @@ import java.util.List;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 
 public class AssembliesFinderTestUtils {
 
-    protected PropertiesHelper propertiesHelper;
+    protected MsCoverProperties propertiesHelper;
     protected AssembliesFinder finder;
     protected List<VisualStudioProject> projects;
     protected VisualStudioProject project;

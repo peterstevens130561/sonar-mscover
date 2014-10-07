@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.sonar.api.config.Settings;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -15,7 +16,7 @@ import static org.mockito.Mockito.when;
 public class GetLanguagesTest {
     
     Settings settings;
-    PropertiesHelper propertiesHelper;
+    MsCoverProperties propertiesHelper;
     private List<String> languages;
     @Before
     public void before() {

@@ -36,6 +36,7 @@ import org.sonar.api.resources.ResourceUtils;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.AlwaysPassThroughDateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
@@ -56,22 +57,25 @@ public abstract class BaseDecorator implements Decorator {
     protected Set<String> excludedAssemblies;
     protected Metric testMetric;
 
-    private final Settings settings;
 
-    private PropertiesHelper propertiesHelper;
+    private MsCoverProperties propertiesHelper;
 
     private ResourceFilter fileFilter;
 
     private DateFilter dateFilter = new AlwaysPassThroughDateFilter();
 
-    protected BaseDecorator(Settings settings,TimeMachine timeMachine) {
-        this.settings = settings; 
-        propertiesHelper=PropertiesHelper.create(settings);
+    protected BaseDecorator(MsCoverProperties propertiesHelper,TimeMachine timeMachine) {
+        this.propertiesHelper=propertiesHelper;
         dateFilter = DateFilterFactory.createCutOffDateFilter(timeMachine, propertiesHelper);
         fileFilter = ResourceFilterFactory.createAntPatternResourceFilter(propertiesHelper);
     }
     
-    public void setPropertiesHelper(PropertiesHelper helper) {
+    protected BaseDecorator(Settings settings,TimeMachine timeMachine) {
+        this.propertiesHelper=PropertiesHelper.create(settings);
+        dateFilter = DateFilterFactory.createCutOffDateFilter(timeMachine, propertiesHelper);
+        fileFilter = ResourceFilterFactory.createAntPatternResourceFilter(propertiesHelper);
+    }
+    public void setPropertiesHelper(MsCoverProperties helper) {
         this.propertiesHelper = helper;
     }
     
@@ -80,7 +84,7 @@ public abstract class BaseDecorator implements Decorator {
      * {@inheritDoc}
      */
     public boolean shouldExecuteOnProject(Project project) {
-        return shouldExecuteDecorator(project, settings);
+        return shouldExecuteDecorator(project, propertiesHelper);
     }
 
     /**
@@ -88,7 +92,7 @@ public abstract class BaseDecorator implements Decorator {
      * Will only be invoked if the plugin is enabled.
      */
     public abstract boolean shouldExecuteDecorator(Project project,
-            Settings settings);
+            MsCoverProperties propertiesHelper);
 
     /**
      * {@inheritDoc}

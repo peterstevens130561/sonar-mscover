@@ -7,6 +7,7 @@ import org.sonar.api.config.Settings;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 
 import static org.mockito.Mockito.mock ;
@@ -15,7 +16,7 @@ import static org.mockito.Mockito.when ;
 public class GetRunModeTest {
     
     private Settings settings;
-    private PropertiesHelper propertiesHelper ;
+    private MsCoverProperties propertiesHelper ;
     @Before
     public void before() {
         settings = mock(Settings.class);

@@ -2,14 +2,14 @@ package com.stevpet.sonar.plugins.dotnet.mscover.datefilter;
 
 import org.sonar.api.batch.TimeMachine;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
 public class DateFilterFactory {
     private DateFilterFactory() {
         
     }
     public static DateFilter createCutOffDateFilter(TimeMachine timeMachine,
-            PropertiesHelper helper) {
+            MsCoverProperties helper) {
         String cutOffDate = helper.getCutOffDate();
         DateFilter filter;
         if (cutOffDate == null) {

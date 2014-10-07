@@ -12,7 +12,7 @@ import org.sonar.api.config.Settings;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverRequiredPropertyMissingException;
 @InstantiationStrategy(InstantiationStrategy.PER_BATCH)
-public class PropertiesHelper implements BatchExtension  {
+public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
 
     public enum RunMode {
         SKIP,
@@ -42,58 +42,100 @@ public class PropertiesHelper implements BatchExtension  {
         this.settings = settings;
     }
     
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#isIntegrationTestsEnabled()
+     */
     public boolean isIntegrationTestsEnabled() {
         return StringUtils.isNotEmpty(getIntegrationTestsPath());
     }
     
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#isUnitTestsEnabled()
+     */
     public boolean isUnitTestsEnabled() {
         return StringUtils.isNotEmpty(getUnitTestCoveragePath());
     }
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getIntegrationTestsPath()
+     */
     public String getIntegrationTestsPath() {
         return settings.getString(MSCOVER_INTEGRATION_COVERAGEXML_PATH);
     }
     
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#excuteRoot()
+     */
     public boolean excuteRoot() {
         return settings.getBoolean(MSCOVER_EXECUTEROOT);
     }
     
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getUnitTestCoveragePath()
+     */
     public String getUnitTestCoveragePath() {
         return settings.getString(MSCOVER_UNIT_COVERAGEXML_PATH);
     }
 
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getExclusions()
+     */
     public String getExclusions() {
         return settings.getString(MSCOVER_EXCLUSIONS);
     }
     
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#isPluginEnabled()
+     */
     public boolean isPluginEnabled() {
         return isUnitTestsEnabled() || isIntegrationTestsEnabled();
     }
 
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getInclusions()
+     */
     public String getInclusions() {
         return settings.getString(MSCOVER_INCLUSIONS);
     }
     
  
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getCutOffDate()
+     */
     public String getCutOffDate() {
         return settings.getString(MSCOVER_CUTOFFDATE);
     }
 
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getIntegrationTestResultsPath()
+     */
     public String getIntegrationTestResultsPath() {
         return settings.getString(MSCOVER_INTEGRATION_RESULTS);
     }
     
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getUnitTestResultsPath()
+     */
     public String getUnitTestResultsPath() {
         return settings.getString(MSCOVER_UNIT_RESULTS);
     }
 
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getMode()
+     */
     public String getMode() {
         return settings.getString(MSCOVER_MODE);
     }
     
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getUnitTestsAssemblies()
+     */
     public String getUnitTestsAssemblies() {
         return settings.getString(MSCOVER_UNITTEST_ASSEMBLIES);
     }
 
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getTestSettings()
+     */
     public String getTestSettings() {
         return settings.getString(MSCOVER_TESTSETTINGS);
     }
@@ -101,19 +143,28 @@ public class PropertiesHelper implements BatchExtension  {
     /**
      * Preferred constructor
      */
-    public static PropertiesHelper create(Settings settings) {
+    public static MsCoverProperties create(Settings settings) {
         return new PropertiesHelper(settings);
     }
 
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#shouldMsCoverRun()
+     */
     public boolean shouldMsCoverRun() {
         String mode = getMode();
         return StringUtils.isNotEmpty(mode) && !"skip".equals(mode);
     }
     
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#isCPlusPlus()
+     */
     public boolean isCPlusPlus() {
         return getLanguages().contains("c++");
     }
 
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getLanguages()
+     */
     public List<String> getLanguages() {
         List<String> languages = new ArrayList<String>();
         String[] languageSetting = settings.getStringArrayBySeparator(
@@ -127,6 +178,9 @@ public class PropertiesHelper implements BatchExtension  {
         return languages;
     }
     
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getRunMode()
+     */
     public RunMode getRunMode() {
         String name=settings.getString(MSCOVER_MODE);
         if(StringUtils.isEmpty(name)) {
@@ -141,41 +195,48 @@ public class PropertiesHelper implements BatchExtension  {
         return runMode;
     }
 
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#runOpenCover()
+     */
     public boolean runOpenCover() {
         String msCoverMode = settings.getString(MSCOVER_MODE);
         
         return getRunMode().equals(RunMode.RUNVSTEST) && "opencover".equalsIgnoreCase(settings.getString(MSCOVER_COVERAGETOOL));
     }
 
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#runVsTest()
+     */
     public boolean runVsTest() {
         String msCoverMode = settings.getString(MSCOVER_MODE);
         
         return getRunMode().equals(RunMode.RUNVSTEST) && "vstest".equalsIgnoreCase(settings.getString(MSCOVER_COVERAGETOOL));
     }
 
-    /**
-     * gets the value of sonar.dotnet.buildConfiguration. If the value is not set exception is thrown
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getRequiredBuildConfiguration()
      */
     public String getRequiredBuildConfiguration() {
         return getRequiredProperty("sonar.dotnet.buildConfiguration");
     }
     
-    /**
-     * gets the value of sonar.dotnet.buildPlatform. If the value is not set exception is thrown
-     * @return
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getRequiredBuildPlatform()
      */
     public String getRequiredBuildPlatform() {
         return getRequiredProperty("sonar.dotnet.buildPlatform");
     }
     
-    /**
-     * Gets the array of unit tests dlls that can be ignored if missing (A warning will still occur)
-     * @return
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getUnitTestAssembliesThatCanBeIgnoredIfMissing()
      */
     public Collection<String> getUnitTestAssembliesThatCanBeIgnoredIfMissing() {
         return getCollection(MSCOVER_IGNOREMISSING_DLL);
     }
     
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getPdbsThatMayBeIgnoredWhenMissing()
+     */
     public Collection<String> getPdbsThatMayBeIgnoredWhenMissing() {
         return getCollection(MSCOVER_IGNOREMISSING_PDB);
     }
@@ -197,8 +258,18 @@ public class PropertiesHelper implements BatchExtension  {
         return value;
     }
 
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#isIgnoreMissingUnitTestAssembliesSpecified()
+     */
     public boolean isIgnoreMissingUnitTestAssembliesSpecified() {
         return getUnitTestAssembliesThatCanBeIgnoredIfMissing().size()>0;
+    }
+
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getOpenCoverInstallPath()
+     */
+    public String getOpenCoverInstallPath() {
+        return settings.getString("sonar.opencover.installDirectory");
     }
     
 }

@@ -12,18 +12,19 @@ import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestUnitTestResultsSensor;
 public class ShouldExecuteTest {
     
-    private Settings settings ;
+    private MsCoverProperties propertiesHelper;
     private Project project ;
     private VsTestUnitTestResultsSensor resultsSensor;
     
     @Before
     public void before() {
-        settings = mock(Settings.class);
+        propertiesHelper = mock(PropertiesHelper.class);
         project = mock(Project.class);
-        resultsSensor = new VsTestUnitTestResultsSensor(null, settings, null, null);
+        resultsSensor = new VsTestUnitTestResultsSensor(null, propertiesHelper, null, null);
     }
     
     @Test
@@ -79,9 +80,14 @@ public class ShouldExecuteTest {
         String runModeValue=runMode.toString();
         when(settings.getString(PropertiesHelper.MSCOVER_COVERAGETOOL)).thenReturn("vstest");
         when(settings.getString(PropertiesHelper.MSCOVER_MODE)).thenReturn(runModeValue);
+
         when(settings.getBoolean(PropertiesHelper.MSCOVER_EXECUTEROOT)).thenReturn(executeRoot);
         when(project.isRoot()).thenReturn(isRoot);
         when(settings.getString(PropertiesHelper.MSCOVER_UNIT_RESULTS)).thenReturn(path);
+        
+        when(propertiesHelper.excuteRoot()).thenReturn(executeRoot);
+        when(propertiesHelper.getMode()).thenReturn(runModeValue);
+        when(propertiesHelper.getUnitTestResultsPath()).thenReturn(path);
         boolean shouldExecute = resultsSensor.shouldExecuteOnProject(project);
         Assert.assertEquals(expected,shouldExecute);      
     }

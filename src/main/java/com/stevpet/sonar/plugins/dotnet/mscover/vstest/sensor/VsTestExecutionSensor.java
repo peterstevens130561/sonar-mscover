@@ -12,7 +12,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.csharpsolutionfilesystem.CSharpSolutionFileSystem;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
@@ -29,16 +29,15 @@ public class VsTestExecutionSensor implements Sensor {
     private ModuleFileSystem moduleFileSystem;
     private VsTestRunner unitTestRunner;
 
-    private PropertiesHelper propertiesHelper;
+    private MsCoverProperties propertiesHelper;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     
     
-    public VsTestExecutionSensor(VsTestEnvironment vsTestEnvironment, Settings settings,ModuleFileSystem moduleFileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+    public VsTestExecutionSensor(VsTestEnvironment vsTestEnvironment, MsCoverProperties propertiesHelper,ModuleFileSystem moduleFileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         this.vsTestEnvironment = vsTestEnvironment;
         this.moduleFileSystem = moduleFileSystem;
         this.microsoftWindowsEnvironment=microsoftWindowsEnvironment;
-        propertiesHelper = PropertiesHelper.create(settings);
-
+        this.propertiesHelper = propertiesHelper;
     }
 
 

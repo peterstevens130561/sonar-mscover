@@ -1,6 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
 public class ResourceFilterFactory {
 
@@ -14,7 +14,7 @@ public class ResourceFilterFactory {
      * @return populated filter
      */
     public static ResourceFilter createAntPatternResourceFilter(
-            PropertiesHelper propertiesHelper) {
+            MsCoverProperties propertiesHelper) {
         ResourceFilter filter= new AntPatternResourceFilter();
         String exclusions = propertiesHelper.getExclusions();
         filter.setExclusions(exclusions);
@@ -28,7 +28,7 @@ public class ResourceFilterFactory {
      * @param propertiesHelper
      * @return
      */
-    public static ResourceFilter createUnitTestAssembliesFilter(PropertiesHelper propertiesHelper) {
+    public static ResourceFilter createUnitTestAssembliesFilter(MsCoverProperties propertiesHelper) {
         ResourceFilter filter= new AntPatternResourceFilter();
         String inclusions=propertiesHelper.getUnitTestsAssemblies();
         filter.setInclusions(inclusions);

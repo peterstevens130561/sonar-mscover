@@ -2,7 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.sensor;
 
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationTestBlockSaver;
@@ -18,7 +18,7 @@ public class SonarCoverageHelperFactory implements
     private CoverageHelper coverageHelper ;
     private LineMeasureSaver lineSaver;
     public CoverageHelper createIntegrationTestCoverageHelper(
-            PropertiesHelper propertiesHelper,
+            MsCoverProperties propertiesHelper,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             MeasureSaver measureSaver) {
         createCoverageHelper(propertiesHelper, microsoftWindowsEnvironment);
@@ -29,7 +29,7 @@ public class SonarCoverageHelperFactory implements
         
     }
 
-    public CoverageHelper createUnitTestCoverageHelper(PropertiesHelper propertiesHelper,
+    public CoverageHelper createUnitTestCoverageHelper(MsCoverProperties propertiesHelper,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             MeasureSaver measureSaver) {
             createCoverageHelper(propertiesHelper, microsoftWindowsEnvironment);
@@ -40,7 +40,7 @@ public class SonarCoverageHelperFactory implements
     }
     
 
-   private void createCoverageHelper(PropertiesHelper propertiesHelper,
+   private void createCoverageHelper(MsCoverProperties propertiesHelper,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         coverageHelper = new CoverageHelper(propertiesHelper,microsoftWindowsEnvironment);
     }
@@ -53,7 +53,7 @@ public class SonarCoverageHelperFactory implements
     }
 
     public  ShouldExecuteHelper createShouldExecuteHelper(
-            PropertiesHelper propertiesHelper) {
+            MsCoverProperties propertiesHelper) {
         // TODO Auto-generated method stub
         return new SonarShouldExecuteHelper(propertiesHelper);
     }
