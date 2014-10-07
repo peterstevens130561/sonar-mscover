@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 
-public class SonarMsCoverProperties implements MsCoverProperties {
+public class MsCoverPropertiesStub implements MsCoverProperties {
 
     private boolean integrationTestsEnabled;
     private boolean unitTestsEnabled;

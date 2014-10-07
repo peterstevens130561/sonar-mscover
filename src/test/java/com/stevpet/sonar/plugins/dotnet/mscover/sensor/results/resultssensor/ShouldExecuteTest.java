@@ -10,19 +10,20 @@ import org.junit.Test ;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesStub;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestUnitTestResultsSensor;
 public class ShouldExecuteTest {
     
-    private MsCoverProperties propertiesHelper;
+    private MsCoverPropertiesStub propertiesHelper;
     private Project project ;
     private VsTestUnitTestResultsSensor resultsSensor;
     
     @Before
     public void before() {
-        propertiesHelper = mock(PropertiesHelper.class);
+        propertiesHelper = new MsCoverPropertiesStub();
         project = mock(Project.class);
         resultsSensor = new VsTestUnitTestResultsSensor(null, propertiesHelper, null, null);
     }
@@ -76,18 +77,24 @@ public class ShouldExecuteTest {
         test(false,RunMode.SKIP,executeRoot,isRoot,path);       
     }
     
-    private void test(boolean expected,RunMode runMode,boolean executeRoot,boolean isRoot,String path) {
+    private void test(boolean expected,RunMode runMode,boolean executeRoot,boolean isRoot,String unitTestResultsPath) {
         String runModeValue=runMode.toString();
+        propertiesHelper.setRunVsTest(true);
+        propertiesHelper.setExecuteRoot(executeRoot);
+        propertiesHelper.setUnitTestResultsPath(unitTestResultsPath);
+        propertiesHelper.setRunMode(runMode);
+        /*
         when(settings.getString(PropertiesHelper.MSCOVER_COVERAGETOOL)).thenReturn("vstest");
         when(settings.getString(PropertiesHelper.MSCOVER_MODE)).thenReturn(runModeValue);
 
         when(settings.getBoolean(PropertiesHelper.MSCOVER_EXECUTEROOT)).thenReturn(executeRoot);
-        when(project.isRoot()).thenReturn(isRoot);
-        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_RESULTS)).thenReturn(path);
+
         
         when(propertiesHelper.excuteRoot()).thenReturn(executeRoot);
         when(propertiesHelper.getMode()).thenReturn(runModeValue);
         when(propertiesHelper.getUnitTestResultsPath()).thenReturn(path);
+        */
+                when(project.isRoot()).thenReturn(isRoot);
         boolean shouldExecute = resultsSensor.shouldExecuteOnProject(project);
         Assert.assertEquals(expected,shouldExecute);      
     }
