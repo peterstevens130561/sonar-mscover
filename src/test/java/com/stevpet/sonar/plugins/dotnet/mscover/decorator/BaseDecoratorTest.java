@@ -13,6 +13,9 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.resources.Scopes;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesStub;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -20,17 +23,20 @@ public class BaseDecoratorTest {
     private Settings settings;
     private Resource<?> resource;
     private DecoratorContext context;
+    private PrimitiveDecorator decorator;
+    private MsCoverPropertiesStub msCoverPropertiesStub;
     @Before
     public void before() {
        settings = mock(Settings.class) ;
        resource = mock(Resource.class) ;
        context = mock(DecoratorContext.class);
+       PrimitiveDecorator decorator = new PrimitiveDecorator(msCoverPropertiesStub, null);
     }
     
     
     @Test
     public void sunnyDay() {
-        PrimitiveDecorator decorator = new PrimitiveDecorator(settings, null);
+
         when(resource.getScope()).thenReturn(Scopes.FILE);
         when(resource.getLongName()).thenReturn("somename");
         setNcLoc(10.0);
@@ -41,7 +47,6 @@ public class BaseDecoratorTest {
     
     @Test
     public void NoStatements_NotCalled() {
-        PrimitiveDecorator decorator = new PrimitiveDecorator(settings, null);
         when(resource.getScope()).thenReturn(Scopes.FILE);
         setNcLoc(10.0);
         setStatements(0.0);
@@ -51,7 +56,6 @@ public class BaseDecoratorTest {
 
     @Test
     public void NcLocUndefined_NotCalled() {
-        PrimitiveDecorator decorator = new PrimitiveDecorator(settings, null);
         when(resource.getScope()).thenReturn(Scopes.FILE);
         setStatements(0.0);
         decorator.decorate(resource, context);
@@ -60,7 +64,6 @@ public class BaseDecoratorTest {
     
     @Test
     public void StatementsUndefined_NotCalled() {
-        PrimitiveDecorator decorator = new PrimitiveDecorator(settings, null);
         when(resource.getScope()).thenReturn(Scopes.FILE);
         setNcLoc(10.0);
         decorator.decorate(resource, context);
@@ -83,14 +86,8 @@ public class BaseDecoratorTest {
 
         private boolean called=false;
         
-        protected PrimitiveDecorator(Settings settings, TimeMachine timeMachine) {
-            super(settings, timeMachine);
-        }
-
-        @Override
-        public boolean shouldExecuteDecorator(Project project, Settings settings) {
-
-            return false;
+        protected PrimitiveDecorator(MsCoverProperties msCoverProperties, TimeMachine timeMachine) {
+            super(msCoverProperties, timeMachine);
         }
 
         @Override
@@ -105,6 +102,12 @@ public class BaseDecoratorTest {
 
         public void setCalled(boolean called) {
             this.called = called;
+        }
+
+        @Override
+        public boolean shouldExecuteDecorator(Project project,
+                MsCoverProperties propertiesHelper) {
+            return false;
         }
         
     }

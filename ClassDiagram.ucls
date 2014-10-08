@@ -78,9 +78,9 @@
       <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.saver.line.IntegrationTestLineSaver" 
+  <class id="8" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.vstest.saver.IntegrationTestLineSaver" 
     project="sonar-mscover-plugin" 
-    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/saver/line/IntegrationTestLineSaver.java" 
+    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/vstest/saver/IntegrationTestLineSaver.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="85" width="211" x="41" y="37"/>    
     <display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" accessors="true" 
@@ -89,9 +89,9 @@
       <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.saver.line.UnitTestLineSaver" 
+  <class id="9" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.vstest.saver.UnitTestLineSaver" 
     project="sonar-mscover-plugin" 
-    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/saver/line/UnitTestLineSaver.java" 
+    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/vstest/saver/UnitTestLineSaver.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="85" width="211" x="292" y="37"/>    
     <display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" accessors="true" 
@@ -123,11 +123,11 @@
     </display>  
   </class>  
   <association id="12">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="13" name="lines"/>      
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="13" name="registry"/>      
       <multiplicity id="14" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
+    <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="15">    
@@ -139,11 +139,11 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="18">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="19" name="registry"/>      
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="19" name="lines"/>      
       <multiplicity id="20" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
+    <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <realization id="21">    

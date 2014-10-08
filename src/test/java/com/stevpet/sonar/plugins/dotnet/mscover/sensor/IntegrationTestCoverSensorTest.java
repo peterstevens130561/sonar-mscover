@@ -25,6 +25,7 @@ public class IntegrationTestCoverSensorTest {
         sensor= new IntegrationTestCoverSensor(propertiesHelper,null,null);
         when(propertiesHelper.getMode()).thenReturn("reuse");
         when(propertiesHelper.getIntegrationTestsPath()).thenReturn("hi");
+        when(propertiesHelper.isIntegrationTestsEnabled()).thenReturn(true);
         //when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn("hi");
     }
     
@@ -62,7 +63,7 @@ public class IntegrationTestCoverSensorTest {
     }
     boolean arrangeAndActisRootExecuteRoot(boolean isRoot, boolean executeRoot) {
         when(project.isRoot()).thenReturn(isRoot);  
-        when(propertiesHelper.excuteRoot()).thenReturn(isRoot);
+        when(propertiesHelper.excuteRoot()).thenReturn(executeRoot);
         return sensor.shouldExecuteOnProject(project);          
     }
     

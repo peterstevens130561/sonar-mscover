@@ -10,6 +10,7 @@ import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.Metric;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesStub;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 
 import static org.mockito.Mockito.mock;
@@ -19,47 +20,46 @@ import static org.mockito.Mockito.times;
 
 public class UnitTestBlockDecoratorTest {
     TimeMachine timeMachine;
-    Settings settings;
+    MsCoverPropertiesStub propertiesStub = new MsCoverPropertiesStub();
     DecoratorContext context;
     @Before
     public void before() {
         timeMachine = mock(TimeMachine.class);
-        settings = mock(Settings.class);
         context = mock(DecoratorContext.class);
     }
     
     @Test 
     public void createDecorator() {
-        BaseDecorator decorator = new UnitTestLineDecorator(settings,timeMachine) ;
+        BaseDecorator decorator = new UnitTestLineDecorator(propertiesStub,timeMachine) ;
         Assert.assertNotNull(decorator);
     }
     
     @Test
     public void shouldExecute_Set_ExpectTrue() {
-        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH)).thenReturn("a/b/c");
-        BaseDecorator decorator = new UnitTestLineDecorator(settings,timeMachine) ;
-        boolean shouldExecute = decorator.shouldExecuteDecorator(null, settings);
+        propertiesStub.setUnitTestsEnabled(true);
+        BaseDecorator decorator = new UnitTestLineDecorator(propertiesStub,timeMachine) ;
+        boolean shouldExecute = decorator.shouldExecuteDecorator(null, propertiesStub);
         Assert.assertTrue(shouldExecute);
     }
     
     @Test
     public void shouldExecute_NotSet_ExpectFalse() {
-        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH)).thenReturn(null);
-        BaseDecorator decorator = new UnitTestLineDecorator(settings,timeMachine) ;
-        boolean shouldExecute = decorator.shouldExecuteDecorator(null, settings);
+        propertiesStub.setUnitTestsEnabled(false);
+        BaseDecorator decorator = new UnitTestLineDecorator(propertiesStub,timeMachine) ;
+        boolean shouldExecute = decorator.shouldExecuteDecorator(null, propertiesStub);
         Assert.assertFalse(shouldExecute);
     }
     
     @Test 
     public void handleUncoveredResource_ShouldSaveMeasures() {
-        BaseDecorator decorator = new UnitTestLineDecorator(settings,timeMachine) ;  
+        BaseDecorator decorator = new UnitTestLineDecorator(propertiesStub,timeMachine) ;
         decorator.handleUncoveredResource(context, 4.0);
         verify(context,times(4)).saveMeasure(Matchers.any(Metric.class), Matchers.any(Double.class));
     }
     
     @Test
     public void generatesCoverageMetrics_ShouldHaveAll() {
-        UnitTestLineDecorator decorator = new UnitTestLineDecorator(settings,timeMachine) ;  
+        UnitTestLineDecorator decorator = new UnitTestLineDecorator(propertiesStub,timeMachine) ; ;  
         List<Metric> metrics = decorator.generatesCoverageMetrics();
         Assert.assertEquals(4,metrics.size());
     }

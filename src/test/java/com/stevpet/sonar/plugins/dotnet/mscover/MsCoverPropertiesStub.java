@@ -32,6 +32,7 @@ public class MsCoverPropertiesStub implements MsCoverProperties {
     private boolean pluginEnabled;
     private String exclusions;
     private String unitTestCoveragePath;
+    private String inclusions;
 
     public boolean isIntegrationTestsEnabled() {
 
@@ -65,7 +66,7 @@ public class MsCoverPropertiesStub implements MsCoverProperties {
     }
 
     public String getInclusions() {
-        return getInclusions();
+        return inclusions;
     }
 
     public String getCutOffDate() {

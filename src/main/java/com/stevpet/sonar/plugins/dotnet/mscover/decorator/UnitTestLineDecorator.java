@@ -28,6 +28,7 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesStub;
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 
 import java.util.Arrays;
@@ -40,9 +41,9 @@ import java.util.List;
 @Extension
 public class UnitTestLineDecorator extends BaseDecorator {
 
-  public UnitTestLineDecorator(Settings settings,TimeMachine timeMachine) {
+  public UnitTestLineDecorator(MsCoverProperties properties,TimeMachine timeMachine) {
 
-    super(settings,timeMachine);
+    super(properties,timeMachine);
 
     this.executionMode="active";
     this.testMetric = CoreMetrics.COVERAGE;

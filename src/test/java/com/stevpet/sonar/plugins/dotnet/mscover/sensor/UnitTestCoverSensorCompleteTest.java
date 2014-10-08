@@ -11,6 +11,8 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.test.TestUtils;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunnerTestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
@@ -31,8 +33,8 @@ public class UnitTestCoverSensorCompleteTest {
 
     @Test
     public void projectIsRootPropertyExecuteRootIsTrue_ShouldNotExecute() {
-        Settings settings = UnitTestRunnerTestUtils.mockUnitTestRunnerSettingsToRun();
-        VsTestUnitTestResultsSensor sensor = new VsTestUnitTestResultsSensor(null,settings, null,vsTestEnvironment);
+        MsCoverProperties propertiesHelper = UnitTestRunnerTestUtils.mockUnitTestRunnerSettingsToRun();
+        VsTestUnitTestResultsSensor sensor = new VsTestUnitTestResultsSensor(null,propertiesHelper, null,vsTestEnvironment);
         when(project.isRoot()).thenReturn(true);
         
         boolean shouldExecute=sensor.shouldExecuteOnProject(project);
@@ -41,8 +43,8 @@ public class UnitTestCoverSensorCompleteTest {
     
     @Test
     public void runTestsNotRoot_ShouldExecute() {
-        Settings settings = UnitTestRunnerTestUtils.mockUnitTestRunnerSettingsToRun();
-        VsTestUnitTestResultsSensor sensor = new VsTestUnitTestResultsSensor(null,settings, null,vsTestEnvironment);
+        MsCoverProperties propertiesHelper = UnitTestRunnerTestUtils.mockUnitTestRunnerSettingsToRun();
+        VsTestUnitTestResultsSensor sensor = new VsTestUnitTestResultsSensor(null,propertiesHelper, null,vsTestEnvironment);
         when(project.isRoot()).thenReturn(false);
         boolean shouldExecute=sensor.shouldExecuteOnProject(project);
         Assert.assertTrue(shouldExecute);

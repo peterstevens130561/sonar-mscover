@@ -10,6 +10,7 @@ import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.Metric;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesStub;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 
 import static org.mockito.Mockito.mock;
@@ -20,6 +21,7 @@ import static org.mockito.Mockito.times;
 public class IntegrationTestLineDecoratorTest {
     TimeMachine timeMachine;
     Settings settings;
+    MsCoverPropertiesStub propertiesStub = new MsCoverPropertiesStub();
     DecoratorContext context;
     @Before
     public void before() {
@@ -37,16 +39,18 @@ public class IntegrationTestLineDecoratorTest {
     @Test
     public void shouldExecute_Set_ExpectTrue() {
         when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn("a/b/c");
+        propertiesStub.setIntegrationTestsPath("a/b/c");
         BaseDecorator decorator = new IntegrationTestLineDecorator(settings,timeMachine) ;
-        boolean shouldExecute = decorator.shouldExecuteDecorator(null, settings);
+        boolean shouldExecute = decorator.shouldExecuteDecorator(null, propertiesStub);
         Assert.assertTrue(shouldExecute);
     }
     
     @Test
     public void shouldExecute_NotSet_ExpectFalse() {
         when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn(null);
+        propertiesStub.setIntegrationTestsPath(null);
         BaseDecorator decorator = new IntegrationTestLineDecorator(settings,timeMachine) ;
-        boolean shouldExecute = decorator.shouldExecuteDecorator(null, settings);
+        boolean shouldExecute = decorator.shouldExecuteDecorator(null, propertiesStub);
         Assert.assertFalse(shouldExecute);
     }
     

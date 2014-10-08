@@ -17,17 +17,17 @@ class CoverageDecoratorStub extends BaseDecorator {
         super(settings,null);
     }
 
-    @Override
-    public boolean shouldExecuteDecorator(Project project, Settings settings) {
-        MsCoverProperties helper = PropertiesHelper.create(settings);
-        return helper.isIntegrationTestsEnabled();
-    }
 
     @Override
     protected void handleUncoveredResource(DecoratorContext context,
             double lines) {
            ++calls;
         
+    }
+    @Override
+    public boolean shouldExecuteDecorator(Project project,
+            MsCoverProperties propertiesHelper) {
+        return propertiesHelper.isIntegrationTestsEnabled();
     }
     
 }

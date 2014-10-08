@@ -14,12 +14,11 @@ public class UnitTestRunnerTest {
 
     public void runTests_ShouldHaveFiles() {
         //Arrange
-        Settings settings=UnitTestRunnerTestUtils.mockUnitTestRunnerSettingsToRun();
+        MsCoverProperties properties=UnitTestRunnerTestUtils.mockUnitTestRunnerSettingsToRun();
 
         //Act
         VsTestRunner unitTestRunner = VsTestRunner.create();
-        MsCoverProperties propertiesHelper = PropertiesHelper.create(settings);
-        unitTestRunner.setPropertiesHelper(propertiesHelper);
+        unitTestRunner.setPropertiesHelper(properties);
         File solutionDirectory = TestUtils.getResource("Mileage");
         unitTestRunner.setSolutionDirectory(solutionDirectory);
         String sonarPath=TestUtils.getResource("Mileage/.sonar").getAbsolutePath();
