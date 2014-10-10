@@ -23,6 +23,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsObserver
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.UnitTestObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.UnitTestResultObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.MsCoverCanNotFindSourceFileForMethodException;
 
 public class IntegrationTest {
     MethodToSourceFileIdMap methodToSourceFileIdMap;
@@ -55,6 +56,25 @@ public class IntegrationTest {
         
     }
 
+    @Test(expected=MsCoverCanNotFindSourceFileForMethodException.class)
+    public void CompleteTest_DuplicatedTest_ShouldThrowException() {
+
+        UnitTestFilesResultRegistry filesResultRegistry = new UnitTestFilesResultRegistry();
+        UnitTestResultRegistry unitTestRegistry = new UnitTestResultRegistry();
+        
+        ResultsModel resultsModel = parseResults(unitTestRegistry,"Mileage/results_duplicate.trx");
+        
+        Assert.assertEquals(4,resultsModel.getExecutedTests());
+        Assert.assertEquals(1,resultsModel.getFailedTests());
+        Assert.assertEquals(0,(int)resultsModel.getErroredTests());
+      
+        parseCoverageToGetMethodToSourceFileIdMap("Mileage/coverage.xml");
+
+        filesResultRegistry.mapResults(unitTestRegistry,methodToSourceFileIdMap);
+        //Assert
+        filesResultRegistry.forEachUnitTestFile(new checkUnitTest());
+        
+    }
     private void parseCoverageToGetMethodToSourceFileIdMap(String path) {
         VsTestMethodToSourceFileIdMapObserver methodObserver = new VsTestMethodToSourceFileIdMapObserver();
         methodObserver.setRegistry(methodToSourceFileIdMap);

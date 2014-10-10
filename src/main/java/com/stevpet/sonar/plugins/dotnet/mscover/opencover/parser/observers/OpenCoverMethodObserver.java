@@ -112,9 +112,6 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
             return;
         }
         this.methodName = matcher.group(1); 
-        if("GetWellborePerforations_NullWellId_ThrowsArgumentNullException".equals(methodName)) {
-            Log.error("gotjah");
-        }
     }
    
 
