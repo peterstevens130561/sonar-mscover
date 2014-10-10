@@ -9,6 +9,9 @@ import java.util.regex.Pattern;
 
 
 
+
+import org.jfree.util.Log;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.PathMatcher;
@@ -109,6 +112,9 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
             return;
         }
         this.methodName = matcher.group(1); 
+        if("GetWellborePerforations_NullWellId_ThrowsArgumentNullException".equals(methodName)) {
+            Log.error("gotjah");
+        }
     }
    
 
