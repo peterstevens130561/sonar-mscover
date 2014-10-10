@@ -16,6 +16,7 @@ import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import org.sonar.test.TestUtils;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesStub;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
@@ -37,7 +38,7 @@ import static org.mockito.Matchers.anyDouble;
 
 public class IntegrationTestsCoverSensorTest {
 
-    MsCoverProperties propertiesHelper;
+    MsCoverPropertiesStub propertiesHelper;
     Sensor sensor;
     Project project ;
     SensorContext context ;
@@ -45,13 +46,14 @@ public class IntegrationTestsCoverSensorTest {
     
     @Before
     public void before() {
-        propertiesHelper = mock(PropertiesHelper.class);
+        propertiesHelper = new MsCoverPropertiesStub();
         project = mock(Project.class);
         context = mock(SensorContext.class);
         microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
         sensor = new IntegrationTestsCoverSensorStub(propertiesHelper,null,null);
         when(project.getFileSystem()).thenReturn( new DummyFileSystem());
-        when(propertiesHelper.getMode()).thenReturn("reuse");
+        propertiesHelper.setMode("reuse");
+
         
     }
     
@@ -59,7 +61,6 @@ public class IntegrationTestsCoverSensorTest {
     @Test
     public void IntegrationTestsSensor_PathNotSet_NotEnabled() {
         //Arrange
-        //when(settings.getString(anyString())).thenReturn(null);
         when(project.isRoot()).thenReturn(false);
         //Act
         boolean shouldExecute=sensor.shouldExecuteOnProject(project);
@@ -70,16 +71,14 @@ public class IntegrationTestsCoverSensorTest {
     @Test
     public void IntegrationTestsSensor_PathSet_Enabled() {
         //Arrange
-        when(propertiesHelper.getIntegrationTestsPath()).thenReturn("a/b");
+        propertiesHelper.setIntegrationTestsEnabled(true);
         when(project.isRoot()).thenReturn(false);
         //Act
         boolean shouldExecute=sensor.shouldExecuteOnProject(project);
         //Assert
         assertTrue(shouldExecute); 
-
     }
     
-
     public void IntegrationTestsSensor_Analyse_Enabled() {
         //Arrange
         when(propertiesHelper.getIntegrationTestsPath()).thenReturn("mscover.xml");

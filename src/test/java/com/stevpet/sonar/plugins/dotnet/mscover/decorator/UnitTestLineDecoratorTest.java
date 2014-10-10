@@ -10,6 +10,7 @@ import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.Metric;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesStub;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
@@ -21,13 +22,15 @@ import static org.mockito.Mockito.times;
 public class UnitTestLineDecoratorTest {
     TimeMachine timeMachine;
     Settings settings;
-    MsCoverProperties propertiesHelper;
+    MsCoverPropertiesStub propertiesHelper;
     DecoratorContext context;
     @Before
     public void before() {
         timeMachine = mock(TimeMachine.class);
         settings = mock(Settings.class);
         context = mock(DecoratorContext.class);
+        propertiesHelper = new MsCoverPropertiesStub();
+        propertiesHelper.setUnitTestsEnabled(false);
     }
     
     @Test 
@@ -38,7 +41,7 @@ public class UnitTestLineDecoratorTest {
     
     @Test
     public void shouldExecute_Set_ExpectTrue() {
-        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH)).thenReturn("a/b/c");
+        propertiesHelper.setUnitTestsEnabled(true);
         BaseDecorator decorator = new UnitTestBlockDecorator(propertiesHelper,timeMachine) ;
         boolean shouldExecute = decorator.shouldExecuteDecorator(null, propertiesHelper);
         Assert.assertTrue(shouldExecute);
@@ -46,7 +49,7 @@ public class UnitTestLineDecoratorTest {
     
     @Test
     public void shouldExecute_NotSet_ExpectFalse() {
-        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH)).thenReturn(null);
+
         BaseDecorator decorator = new UnitTestBlockDecorator(propertiesHelper,timeMachine) ;
         boolean shouldExecute = decorator.shouldExecuteDecorator(null, propertiesHelper);
         Assert.assertFalse(shouldExecute);

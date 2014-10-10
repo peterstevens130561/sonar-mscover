@@ -30,7 +30,8 @@ public class BaseDecoratorTest {
        settings = mock(Settings.class) ;
        resource = mock(Resource.class) ;
        context = mock(DecoratorContext.class);
-       PrimitiveDecorator decorator = new PrimitiveDecorator(msCoverPropertiesStub, null);
+       msCoverPropertiesStub = new MsCoverPropertiesStub();
+       decorator = new PrimitiveDecorator(msCoverPropertiesStub, null);
     }
     
     

@@ -11,6 +11,7 @@ import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.Metric;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesStub;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
@@ -22,25 +23,31 @@ import static org.mockito.Mockito.when;
 public class IntegrationTestBlockDecoratorTest {
     TimeMachine timeMachine;
     Settings settings;
-    MsCoverProperties propertiesHelper;
+    MsCoverPropertiesStub propertiesHelper;
     DecoratorContext context;
+    BaseDecorator decorator;
     @Before
     public void before() {
         timeMachine = mock(TimeMachine.class);
-        propertiesHelper = mock(PropertiesHelper.class);
+        propertiesHelper = new MsCoverPropertiesStub();
         context = mock(DecoratorContext.class);
+        settings =mock(Settings.class);
     }
     
     @Test 
     public void CreateDecorator() {
-        BaseDecorator decorator = new IntegrationTestBlockDecorator(settings,timeMachine) ;
+        createDecorator();
         Assert.assertNotNull(decorator);
+    }
+
+    private void createDecorator() {
+        decorator = new IntegrationTestBlockDecorator(propertiesHelper,timeMachine) ;
     }
     
     @Test
     public void ShouldExecute_Set_ExpectTrue() {
-        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn("a/b/c");
-        BaseDecorator decorator = new IntegrationTestBlockDecorator(settings,timeMachine) ;
+        propertiesHelper.setIntegrationTestsEnabled(true);
+        createDecorator();
         boolean shouldExecute = decorator.shouldExecuteDecorator(null, propertiesHelper);
         Assert.assertTrue(shouldExecute);
     }
@@ -48,22 +55,22 @@ public class IntegrationTestBlockDecoratorTest {
     @Test
     public void ShouldExecute_NotSet_ExpectFalse() {
         when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn(null);
-        BaseDecorator decorator = new IntegrationTestBlockDecorator(settings,timeMachine) ;
+        createDecorator();
         boolean shouldExecute = decorator.shouldExecuteDecorator(null, propertiesHelper);
         Assert.assertFalse(shouldExecute);
     }
     
     @Test 
     public void handleUncoveredResource_ShouldSaveMeasures() {
-        BaseDecorator decorator = new IntegrationTestBlockDecorator(settings,timeMachine) ;  
+        createDecorator();
         decorator.handleUncoveredResource(context, 4.0);
         verify(context,times(3)).saveMeasure(Matchers.any(Metric.class), Matchers.any(Double.class));
     }
     
     @Test
     public void generatesCoverageMetrics_ShouldHaveAll() {
-        IntegrationTestBlockDecorator decorator = new IntegrationTestBlockDecorator(settings,timeMachine) ;  
-        List<Metric> metrics = decorator.generatesCoverageMetrics();
+        createDecorator(); 
+        List<Metric> metrics = ((IntegrationTestBlockDecorator)decorator).generatesCoverageMetrics();
         Assert.assertEquals(5,metrics.size());
     }
 }

@@ -12,13 +12,14 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesStub;
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 
 @Extension
 public class IntegrationTestBlockDecorator extends BaseDecorator {
-    public IntegrationTestBlockDecorator(Settings settings,
+    public IntegrationTestBlockDecorator(MsCoverPropertiesStub propertiesHelper,
             TimeMachine timeMachine) {
-        super(settings, timeMachine);
+        super(propertiesHelper, timeMachine);
         this.executionMode="active";
         this.testMetric = CoreMetrics.IT_BRANCH_COVERAGE;
     }

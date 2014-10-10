@@ -70,6 +70,7 @@ public abstract class BaseDecorator implements Decorator {
         fileFilter = ResourceFilterFactory.createAntPatternResourceFilter(propertiesHelper);
     }
     
+    @Deprecated
     protected BaseDecorator(Settings settings,TimeMachine timeMachine) {
         this.propertiesHelper=PropertiesHelper.create(settings);
         dateFilter = DateFilterFactory.createCutOffDateFilter(timeMachine, propertiesHelper);
