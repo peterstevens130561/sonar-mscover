@@ -70,4 +70,5 @@ public interface MsCoverProperties {
 
     public abstract String getOpenCoverInstallPath();
 
+
 }
