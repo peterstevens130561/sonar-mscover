@@ -3,6 +3,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jfree.util.Log;
 import org.sonar.api.utils.SonarException;
 
 public final class MethodIdModel {
@@ -21,6 +22,13 @@ public final class MethodIdModel {
         setMethodName(methodName);
     }
     
+    public MethodIdModel(MethodIdModel methodId) {
+        setModuleName(methodId.getModuleName());
+        setNamespaceName(methodId.getNamespaceName());
+        setClassName(methodId.getClassName());
+        setMethodName(methodId.getMethodName());
+    }
+
     public String getModuleName() {
         return moduleName;
     }
@@ -72,9 +80,19 @@ public final class MethodIdModel {
     }
 
     public void setMethodName(String methodName) {
-        this.methodName = methodName;
+        this.methodName = removeArgumentList(methodName);
     }
     
+    private String removeArgumentList(String method) {
+        String result ;
+        int pos=method.indexOf("(");
+        if(pos>0) {
+            result=method.substring(0, pos);
+        } else {
+            result=method;
+        }
+        return result;
+    }
     public String getId() {
         String id=moduleName + ":" + namespaceName + "." + className + "!" + methodName;  
         return id.toLowerCase();
@@ -82,5 +100,40 @@ public final class MethodIdModel {
 
     public static MethodIdModel create() {
         return new MethodIdModel();
+    }
+
+    @Override
+    public int hashCode() {
+        int result= getId().hashCode();
+        return result;
+    }
+    
+    @Override
+    /**
+     * Compare the methodIds, case of modulename is ignored, 
+     * as it is a filename, of which the case is irrelevant
+     */
+    public boolean equals(Object o) {
+        if(this == o) {
+            return true;
+        }
+        if(null == o) {
+            return false;
+        }
+        MethodIdModel otherMethodId = (MethodIdModel)o;
+        return className.equals(otherMethodId.getClassName()) && 
+                moduleName.equalsIgnoreCase(otherMethodId.getModuleName()) && 
+                namespaceName.equals(otherMethodId.getNamespaceName()) &&
+                methodName.equals(otherMethodId.getMethodName());      
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("module :").append(moduleName)
+        .append(" namespace:").append(namespaceName)
+        .append(" class:").append(className)
+        .append(" method:").append(methodName)
+        .append(" hash:").append(hashCode());
+        return sb.toString();
     }
 }

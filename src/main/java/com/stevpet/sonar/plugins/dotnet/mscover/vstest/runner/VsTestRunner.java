@@ -24,7 +24,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.CodeCoverag
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverCouldNotDeleteFileException;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverProgrammerException;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.exceptions.MsCoverInvalidSonarWorkingDir;

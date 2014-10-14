@@ -1,5 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIdModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
@@ -8,6 +9,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
 public class VsTestMethodToSourceFileIdMapObserver extends VsTestCoverageObserver {
 
     private MethodToSourceFileIdMap registry;
+    private MethodIdModel methodId;
     public VsTestMethodToSourceFileIdMapObserver() {
         setPattern("(Module/ModuleName)|" +
                 "(Module/NamespaceTable/NamespaceName)|" +
@@ -23,30 +25,29 @@ public class VsTestMethodToSourceFileIdMapObserver extends VsTestCoverageObserve
  
     @ElementMatcher(elementName="ModuleName")
     public void moduleName(String value) {
-        registry.setModuleName(value);
+        methodId=new MethodIdModel();
+        methodId.setModuleName(value);
     }
     
     @ElementMatcher(elementName="NamespaceName")
     public void namespaceName(String value) {
-        registry.setNamespaceName(value);
+        methodId.setNamespaceName(value);
     }
     
     @ElementMatcher(elementName="ClassName")
     public void className(String value){
-        registry.setClassName(value);
-        
+        methodId.setClassName(value);
     }
 
     @ElementMatcher(elementName="MethodName") 
     public void methodName(String value) { 
-        registry.setMethodName(value);
+        methodId.setMethodName(value);
     }
     
     
     @ElementMatcher(elementName="SourceFileID") 
-    public void sourceFileID(String value) {
-        registry.setSourceFileID(value);
-        registry.register();
+    public void sourceFileID(String sourceFileId) {
+        registry.add(methodId,sourceFileId);
     }
 
     @Override

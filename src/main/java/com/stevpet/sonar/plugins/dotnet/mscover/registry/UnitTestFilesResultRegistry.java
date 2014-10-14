@@ -29,9 +29,7 @@ public class UnitTestFilesResultRegistry {
         Collection<UnitTestResultModel>unitTests=unitTestRegistry.values();
         for(UnitTestResultModel unitTest:unitTests) {
             MethodIdModel methodId=unitTest.getMethodId();
-            map.setMethodId(methodId);
-
-            String fileId = map.getSourceFileID();
+            String fileId = map.get(methodId);
             if(fileId==null) {
                 map.dumpMap();
                 String msg = createPrettyMessage(methodId);
@@ -54,6 +52,7 @@ public class UnitTestFilesResultRegistry {
         sb.append("\nnamespace :").append(methodId.getNamespaceName());
         sb.append("\nclass     :").append(methodId.getClassName());
         sb.append("\nmethod    :").append(methodId.getMethodName());
+        sb.append("\nhash      :").append(methodId.hashCode());
         return sb.toString();
     }
 

@@ -10,8 +10,10 @@ import java.util.regex.Pattern;
 
 
 
+
 import org.jfree.util.Log;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIdModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.PathMatcher;
@@ -122,17 +124,18 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
      * @param value
      */
     @AttributeMatcher(elementName="FileRef",attributeName="uid")
-    public void setFileId(String value) {
+    public void setFileId(String sourceFileId) {
         if(scanMode == ScanMode.SKIP) {
             scanMode=ScanMode.SCAN;
             return;
         }
-        registry.setClassName(className);
-        registry.setMethodName(methodName);
-        registry.setModuleName(moduleName);
-        registry.setNamespaceName(nameSpaceName);
-        registry.setSourceFileID(value);
-        registry.register();
+        MethodIdModel method = new MethodIdModel();
+        method.setClassName(className);
+        method.setMethodName(methodName);
+        method.setModuleName(moduleName);
+        method.setNamespaceName(nameSpaceName);
+       
+        registry.add(method, sourceFileId);
     }
     
 
