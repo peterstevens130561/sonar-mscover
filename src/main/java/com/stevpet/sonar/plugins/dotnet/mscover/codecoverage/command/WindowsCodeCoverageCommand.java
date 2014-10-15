@@ -16,7 +16,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.helpers.SonarWindowsFileSystemHelper;
 
-public class WindowsCodeCoverageCommand implements ShellCommand, CodeCoverageCommand {
+public class WindowsCodeCoverageCommand implements CodeCoverageCommand {
     private String coveragePath;
     private String outputPath;
     private String sonarPath;

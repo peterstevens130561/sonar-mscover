@@ -1,6 +1,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command;
 
-public interface CodeCoverageCommand {
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
+
+public interface CodeCoverageCommand extends ShellCommand{
 
     public abstract void setCoveragePath(String path);
 

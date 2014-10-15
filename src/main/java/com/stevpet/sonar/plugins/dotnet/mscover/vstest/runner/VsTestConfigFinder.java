@@ -20,16 +20,15 @@ public class VsTestConfigFinder implements TestConfigFinder {
     private String configRegex = ".*\\.test(settings)|(runconfig)$";
     private Pattern configPattern= Pattern.compile(configRegex) ;
 
-    private File solutionDirectory;
     
-    public VsTestConfigFinder(File solutionDirectory) {
-        this.solutionDirectory=solutionDirectory;
+    public VsTestConfigFinder() {
+
     }
     
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.TestConfigFinder#getTestSettingsFileOrDie(java.lang.String)
      */
-    public File getTestSettingsFileOrDie(String testSettings) {
+    public File getTestSettingsFileOrDie(File solutionDirectory,String testSettings) {
         String msg;
         File testSettingsFile;
         if(StringUtils.isEmpty(testSettings)) {
@@ -38,7 +37,7 @@ public class VsTestConfigFinder implements TestConfigFinder {
 
         } else {
             msg=PropertiesHelper.MSCOVER_TESTSETTINGS + "=" + testSettings + " not found";
-            testSettingsFile= findSameFileUpwards(testSettings);
+            testSettingsFile= findSameFileUpwards(solutionDirectory,testSettings);
         }
 
         if(testSettingsFile == null || !testSettingsFile.exists()) {
@@ -85,7 +84,7 @@ public class VsTestConfigFinder implements TestConfigFinder {
         return matchingFile;
     }
 
-    public File findSameFileUpwards(String setting) {
+    private File findSameFileUpwards(File solutionDirectory,String setting) {
         String fullPath=solutionDirectory.getAbsolutePath() + "\\" + setting ;
         File file = new File(fullPath);
         

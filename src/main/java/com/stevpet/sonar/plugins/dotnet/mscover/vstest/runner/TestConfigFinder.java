@@ -4,6 +4,6 @@ import java.io.File;
 
 public interface TestConfigFinder {
 
-    public abstract File getTestSettingsFileOrDie(String testSettings);
+    public abstract File getTestSettingsFileOrDie(File solutionDirectory,String testSettings);
 
 }

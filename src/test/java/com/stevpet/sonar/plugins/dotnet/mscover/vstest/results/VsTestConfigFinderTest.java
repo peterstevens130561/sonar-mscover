@@ -11,13 +11,15 @@ import org.sonar.test.TestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
 
 public class VsTestConfigFinderTest {
-
+    private VsTestConfigFinder finder = new VsTestConfigFinder();
     private String ROOT = "VsTestConfigFinder";
+    private File solutionDir;
+
     @Test
     public void test() {
-        File solutionDir = TestUtils.getResource(ROOT + "/default");
-        VsTestConfigFinder finder = new VsTestConfigFinder(solutionDir);
-        File settingsFile=finder.getTestSettingsFileOrDie(null);
+        solutionDir = TestUtils.getResource(ROOT + "/default");
+
+        File settingsFile=finder.getTestSettingsFileOrDie(solutionDir,null);
         assertNotNull(settingsFile);
         assertEquals("default.testrunconfig",settingsFile.getName());
     }
@@ -25,9 +27,9 @@ public class VsTestConfigFinderTest {
     @Test
     public void inProject_expectConfigInSolution() {
         File projectDir = TestUtils.getResource(ROOT + "\\default\\project");
-        File solutionDir = TestUtils.getResource(ROOT + "\\default");
-        VsTestConfigFinder finder = new VsTestConfigFinder(projectDir);
-        File settingsFile=finder.getTestSettingsFileOrDie(null);
+        solutionDir = TestUtils.getResource(ROOT + "\\default");
+
+        File settingsFile=finder.getTestSettingsFileOrDie(solutionDir,null);
         assertNotNull(settingsFile);
         assertEquals("default.testrunconfig",settingsFile.getName());
         assertEquals(solutionDir.getAbsolutePath(),settingsFile.getParent());
@@ -36,11 +38,10 @@ public class VsTestConfigFinderTest {
     @Test
     public void notProject_expectException() {
 
-        File solutionDir = TestUtils.getResource(ROOT + "\\notInProject_expectException");
-        VsTestConfigFinder finder = new VsTestConfigFinder(solutionDir);
+        solutionDir = TestUtils.getResource(ROOT + "\\notInProject_expectException");
         File settingsFile=null;
         try {
-            settingsFile=finder.getTestSettingsFileOrDie(null);
+            settingsFile=finder.getTestSettingsFileOrDie(solutionDir,null);
         } catch (SonarException e ) {
             assertEquals("sonar.mscover.vstest.testsettings not set, and no testsettings file found",e.getMessage());
             return;
@@ -50,10 +51,8 @@ public class VsTestConfigFinderTest {
     
     @Test
     public void setInProject_expectFile() {
-
-        File solutionDir = TestUtils.getResource(ROOT + "\\InProject_ExpectFile");
-        VsTestConfigFinder finder = new VsTestConfigFinder(solutionDir);
-        File settingsFile=finder.getTestSettingsFileOrDie("mystic.conftxt");
+        solutionDir = TestUtils.getResource(ROOT + "\\InProject_ExpectFile");
+        File settingsFile=finder.getTestSettingsFileOrDie(solutionDir,"mystic.conftxt");
         assertNotNull(settingsFile);
         assertEquals("mystic.conftxt",settingsFile.getName());
         assertEquals(solutionDir.getAbsolutePath().toUpperCase(),settingsFile.getParentFile().getAbsolutePath().toUpperCase());
@@ -61,9 +60,8 @@ public class VsTestConfigFinderTest {
     
     @Test
     public void setInProject_relativeInRoot() {
-        File solutionDir = TestUtils.getResource(ROOT + "\\relative\\solutions\\solution");
-        VsTestConfigFinder finder = new VsTestConfigFinder(solutionDir);
-        File settingsFile=finder.getTestSettingsFileOrDie("../../intop.cfg");
+        solutionDir = TestUtils.getResource(ROOT + "\\relative\\solutions\\solution");
+        File settingsFile=finder.getTestSettingsFileOrDie(solutionDir,"../../intop.cfg");
         assertNotNull(settingsFile);
         assertEquals("intop.cfg",settingsFile.getName());
         File expectedDir=TestUtils.getResource(ROOT + "\\relative");
@@ -72,11 +70,11 @@ public class VsTestConfigFinderTest {
     @Test
     public void setInProject_notThere_expectException() {
 
-        File solutionDir = TestUtils.getResource(ROOT + "\\InProject_ExpectFile");
-        VsTestConfigFinder finder = new VsTestConfigFinder(solutionDir);
+        solutionDir = TestUtils.getResource(ROOT + "\\InProject_ExpectFile");
+
         File settingsFile=null;
         try {
-            settingsFile=finder.getTestSettingsFileOrDie("bmyst.conftxt");
+            settingsFile=finder.getTestSettingsFileOrDie(solutionDir,"bmyst.conftxt");
         } catch (SonarException e ) {
             assertEquals("sonar.mscover.vstest.testsettings=bmyst.conftxt not found",e.getMessage());
             return;

@@ -20,6 +20,7 @@ import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.CodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
@@ -49,6 +50,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
     private boolean doCodeCoverage;
     private List<VisualStudioProject> projects;
     private String stdOutString;
+    private CodeCoverageCommand command = new WindowsCodeCoverageCommand();
     
     private WindowsVsTestRunner() {
     }
@@ -153,7 +155,6 @@ public class WindowsVsTestRunner implements VsTestRunner {
     
     
     private void convertCoverageFileToXml() {
-            WindowsCodeCoverageCommand command = new WindowsCodeCoverageCommand();
             command.setSonarPath(sonarPath);
             command.setCoveragePath(coveragePath);
             command.setOutputPath(getCoverageXmlPath());
@@ -172,8 +173,8 @@ public class WindowsVsTestRunner implements VsTestRunner {
     
     private void requireTestSettings() {
         String testSettings = propertiesHelper.getTestSettings();
-        TestConfigFinder configFinder = new VsTestConfigFinder(solutionDirectory);
-        testSettingsFile = configFinder.getTestSettingsFileOrDie(testSettings);
+        TestConfigFinder configFinder = new VsTestConfigFinder();
+        testSettingsFile = configFinder.getTestSettingsFileOrDie(solutionDirectory,testSettings);
   
     }
 
@@ -278,6 +279,14 @@ public class WindowsVsTestRunner implements VsTestRunner {
             FileUtils.deleteQuietly(testResultsDir);
         }
 
+    }
+    
+    /**
+     * Set the coveragecommand (testing purposes only)
+     * @param command
+     */
+    void setCoverageCommand(CodeCoverageCommand command) {
+        this.command = command;
     }
 }
     
