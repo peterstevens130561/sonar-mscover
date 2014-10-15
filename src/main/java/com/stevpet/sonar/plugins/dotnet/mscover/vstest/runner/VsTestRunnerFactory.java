@@ -12,7 +12,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 public class VsTestRunnerFactory {
     private static Logger LOG = LoggerFactory.getLogger(VsTestRunnerFactory.class);
     public static VsTestRunner create() {
-        return VsTestRunner.create();
+        return WindowsVsTestRunner.create();
     }
     
     /**
@@ -29,7 +29,7 @@ public class VsTestRunnerFactory {
      * @return
      */
     public static VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper, ModuleFileSystem moduleFileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
-            VsTestRunner unitTestRunner = VsTestRunner.create();
+            VsTestRunner unitTestRunner = WindowsVsTestRunner.create();
             unitTestRunner.setPropertiesHelper(propertiesHelper);
             VisualStudioSolution solution=microsoftWindowsEnvironment.getCurrentSolution();
             if(solution == null) {

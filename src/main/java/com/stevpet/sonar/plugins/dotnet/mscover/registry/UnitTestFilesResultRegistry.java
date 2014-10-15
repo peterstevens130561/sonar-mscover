@@ -25,22 +25,32 @@ public class UnitTestFilesResultRegistry {
     Logger LOG = LoggerFactory.getLogger(UnitTestFilesResultRegistry.class);
     Map<String,UnitTestFileResultModel> unitTestFilesResultRegistry = new HashMap<String,UnitTestFileResultModel>();
 
+    /**
+     * Map unit tests to sourcefiles
+     * @param unitTestRegistry - holds unit tests
+     * @param map - holds map from method to source file id 
+     */
     public void mapResults(UnitTestResultRegistry unitTestRegistry, MethodToSourceFileIdMap map) {
         Collection<UnitTestResultModel>unitTests=unitTestRegistry.values();
         for(UnitTestResultModel unitTest:unitTests) {
             MethodIdModel methodId=unitTest.getMethodId();
             String fileId = map.get(methodId);
-            if(fileId==null) {
-                map.dumpMap();
-                String msg = createPrettyMessage(methodId);
-                LOG.error(msg);
-                throw new MsCoverCanNotFindSourceFileForMethodException(msg);
-            }
+            bailOutOnNotFound(map, methodId, fileId);
             if(!unitTestFilesResultRegistry.containsKey(fileId)) {
                 unitTestFilesResultRegistry.put(fileId, new UnitTestFileResultModel());
             }
             UnitTestFileResultModel unitTestFileResults = unitTestFilesResultRegistry.get(fileId);
             unitTestFileResults.add(unitTest);
+        }
+    }
+
+    private void bailOutOnNotFound(MethodToSourceFileIdMap map,
+            MethodIdModel methodId, String fileId) {
+        if(fileId==null) {
+            map.dumpMap();
+            String msg = createPrettyMessage(methodId);
+            LOG.error(msg);
+            throw new MsCoverCanNotFindSourceFileForMethodException(msg);
         }
     }
 

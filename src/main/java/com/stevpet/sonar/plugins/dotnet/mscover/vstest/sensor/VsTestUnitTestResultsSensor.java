@@ -24,6 +24,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
 
 
 @DependsUpon({CPlusPlusImporterSensor.DEPENDS,VsTestExecutionSensor.DEPENDS,DotNetConstants.CORE_PLUGIN_EXECUTED})
@@ -44,7 +45,7 @@ public class VsTestUnitTestResultsSensor implements Sensor {
         this.microsoftWindowsEnvironment=microsoftWindowsEnvironment ;
         this.timeMachine = timeMachine;
         this.propertiesHelper = propertiesHelper;
-        unitTestRunner = VsTestRunner.create();
+        unitTestRunner = WindowsVsTestRunner.create();
         unitTestRunner.setPropertiesHelper(propertiesHelper);
         this.vsTestEnvironment = vsTestEnvironment;
     }

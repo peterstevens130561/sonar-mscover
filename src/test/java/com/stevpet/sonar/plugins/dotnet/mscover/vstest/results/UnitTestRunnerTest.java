@@ -8,6 +8,7 @@ import org.sonar.test.TestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
 
 public class UnitTestRunnerTest {
 
@@ -17,7 +18,7 @@ public class UnitTestRunnerTest {
         MsCoverProperties properties=UnitTestRunnerTestUtils.mockUnitTestRunnerSettingsToRun();
 
         //Act
-        VsTestRunner unitTestRunner = VsTestRunner.create();
+        VsTestRunner unitTestRunner = WindowsVsTestRunner.create();
         unitTestRunner.setPropertiesHelper(properties);
         File solutionDirectory = TestUtils.getResource("Mileage");
         unitTestRunner.setSolutionDirectory(solutionDirectory);
