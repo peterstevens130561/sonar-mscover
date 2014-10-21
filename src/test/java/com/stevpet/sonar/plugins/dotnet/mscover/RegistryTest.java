@@ -87,9 +87,10 @@ public class RegistryTest {
         }
              
         public FileCoverage getFileCoverageByName(String name) {
+            String lowerCaseName=name.toLowerCase();
             for(FileCoverage coverage : getRegistry().values()) {
                 File file = coverage.getFile();
-                if(file!=null && file.getName().endsWith(name)) {
+                if(file!=null && file.getName().toLowerCase().endsWith(lowerCaseName)) {
                     return coverage ;
                 }
             }

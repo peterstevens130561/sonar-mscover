@@ -1,25 +1,19 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.DirectoryFileFilter;
-import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.SonarException;
-import org.sonar.api.utils.command.CommandExecutor;
-import org.sonar.api.utils.command.StreamConsumer;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.CodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
@@ -67,7 +61,6 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setSonarPath(java.lang.String)
      */
-    @Override
     public void setSonarPath(String path) {
         this.sonarPath = path;
     }
@@ -75,14 +68,12 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#getSonarPath()
      */
-    @Override
     public String getSonarPath() {
         return sonarPath;
     }
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setPropertiesHelper(com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties)
-     */
-    @Override
+     *
     public void setPropertiesHelper(MsCoverProperties propertiesHelper) {
         this.propertiesHelper = propertiesHelper;
     }
@@ -90,7 +81,6 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setSolution(org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution)
      */
-    @Override
     public void setSolution(VisualStudioSolution solution) {
         this.solutionDirectory = solution.getSolutionDir();
         this.projects = solution.getProjects();
@@ -99,7 +89,6 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setSolutionDirectory(java.io.File)
      */
-    @Override
     @Deprecated
     public void setSolutionDirectory(File solutionDirectory) {
         this.solutionDirectory = solutionDirectory;
@@ -108,7 +97,6 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#getSolutionDirectory()
      */
-    @Override
     public File getSolutionDirectory() {
         return solutionDirectory;
     }
@@ -116,14 +104,12 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setDoCodeCoverage(boolean)
      */
-    @Override
     public void setDoCodeCoverage(boolean doCodeCoverage) {
         this.doCodeCoverage=doCodeCoverage;
     }
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#shouldRun()
      */
-    @Override
     public boolean shouldRun() {
         boolean shouldRun=propertiesHelper.getRunMode() == RunMode.RUNVSTEST;
         LOG.debug("shouldRun ->{}",shouldRun);
@@ -132,7 +118,6 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#runTests()
      */
-    @Override
     public void runTests() {
         VSTestCommand vsTestCommand=prepareTestCommand();
         executeShellCommand(vsTestCommand);
@@ -146,7 +131,6 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#prepareTestCommand()
      */
-    @Override
     public VSTestCommand prepareTestCommand() {
         requireTestSettings();
         requireOutputPath();
@@ -186,7 +170,6 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#getResultPaths()
      */
-    @Override
     public void getResultPaths() {
         vsTestResultsParser.setResults(stdOutString);
         setCoveragePath(vsTestResultsParser.getCoveragePath());
@@ -219,7 +202,6 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#getCoveragePath()
      */
-    @Override
     public String getCoveragePath() {
         return coveragePath;
     }
@@ -227,7 +209,6 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setCoveragePath(java.lang.String)
      */
-    @Override
     public void setCoveragePath(String coveragePath) {
         this.coveragePath = coveragePath;
     }
@@ -236,14 +217,12 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#getResultsXmlPath()
      */
-    @Override
     public String getResultsXmlPath() {
         return resultsPath;
     }
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setResultsPath(java.lang.String)
      */
-    @Override
     public void setResultsPath(String resultsPath) {
         this.resultsPath = resultsPath;
     }
@@ -252,14 +231,12 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#getCoverageXmlPath()
      */
-    @Override
     public String getCoverageXmlPath() {
         return outputPath;
     }
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setCoverageXmlPath(java.lang.String)
      */
-    @Override
     public void setCoverageXmlPath(String outputPath) {
         this.outputPath = outputPath;
     }
@@ -271,7 +248,6 @@ public class WindowsVsTestRunner implements VsTestRunner {
     void setTestConfigFinder(TestConfigFinder testConfigFinder) {
         this.testConfigFinder = testConfigFinder;
     }
-    @Override
     public void clean() {
         if(StringUtils.isEmpty(sonarPath)) {
             throw new MsCoverProgrammerException("sonarPath not set");
@@ -322,6 +298,11 @@ public class WindowsVsTestRunner implements VsTestRunner {
      */
     public void setVsTestResultsParser(VSTestStdOutParser vsTestResultsParser) {
         this.vsTestResultsParser = vsTestResultsParser;
+    }
+
+    public void setPropertiesHelper(MsCoverProperties propertiesHelper) {
+        // TODO Auto-generated method stub
+        
     }
 }
     

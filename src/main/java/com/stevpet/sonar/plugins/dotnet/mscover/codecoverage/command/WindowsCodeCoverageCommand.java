@@ -33,7 +33,6 @@ public class WindowsCodeCoverageCommand implements CodeCoverageCommand {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.CodeCoverageCommand#setCoveragePath(java.lang.String)
      */
-    @Override
     public void setCoveragePath(String path) {
         SonarWindowsFileSystemHelper.dieOnInvalidPath(path);
         this.coveragePath = SonarWindowsFileSystemHelper.createQualifiedPath(path);
@@ -42,7 +41,6 @@ public class WindowsCodeCoverageCommand implements CodeCoverageCommand {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.CodeCoverageCommand#setOutputPath(java.lang.String)
      */
-    @Override
     public void setOutputPath(String path) {
         SonarWindowsFileSystemHelper.dieOnInvalidPath(path);
         this.outputPath = SonarWindowsFileSystemHelper.createQualifiedPath(path);
@@ -52,7 +50,6 @@ public class WindowsCodeCoverageCommand implements CodeCoverageCommand {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.CodeCoverageCommand#setSonarPath(java.lang.String)
      */
-    @Override
     public void setSonarPath(String path) {
         this.sonarPath = path;
     }
@@ -96,7 +93,6 @@ public class WindowsCodeCoverageCommand implements CodeCoverageCommand {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.CodeCoverageCommand#install()
      */
-    @Override
     public void install() {
         String commandFolderPath = null;
         if (StringUtils.isEmpty(sonarPath)) {
