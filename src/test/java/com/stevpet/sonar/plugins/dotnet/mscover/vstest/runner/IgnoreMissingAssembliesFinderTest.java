@@ -24,7 +24,7 @@ public class IgnoreMissingAssembliesFinderTest extends AssembliesFinderTestUtils
     @Before
     public void before() {
         propertiesHelper = mock(PropertiesHelper.class);
-        finder = AbstractAssembliesFinder.create(propertiesHelper);
+        finder = new AssembliesFinderFactory().create(propertiesHelper);
         projects = new ArrayList<VisualStudioProject>();
         project = mock(VisualStudioProject.class);
     }
@@ -35,7 +35,7 @@ public class IgnoreMissingAssembliesFinderTest extends AssembliesFinderTestUtils
         String name="DoesNotExist.txt";
         String unitTestPath = getPathToANonExistingDll(name);
         addNonExistingDllToIgnoreMissingList(name);
-        finder = AbstractAssembliesFinder.create(propertiesHelper);
+        finder = new AssembliesFinderFactory().create(propertiesHelper);
         Logger myLog = mock(Logger.class);
         IgnoreMissingAssembliesFinder myFinder = (IgnoreMissingAssembliesFinder) finder;
         myFinder.setLogger(myLog);
@@ -61,7 +61,7 @@ public class IgnoreMissingAssembliesFinderTest extends AssembliesFinderTestUtils
 
         String unitTestPath = getPathToANonExistingDll(name);
         addNonExistingDllToIgnoreMissingList("SomeOtherName.dll");
-        finder = AbstractAssembliesFinder.create(propertiesHelper);
+        finder = new AssembliesFinderFactory().create(propertiesHelper);
         IgnoreMissingAssembliesFinder myFinder = (IgnoreMissingAssembliesFinder) finder;
         Logger myLog = mock(Logger.class);
         myFinder.setLogger(myLog);

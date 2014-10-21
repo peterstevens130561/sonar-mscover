@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import org.jfree.util.Log;
 import org.sonar.api.utils.SonarException;
 
-public final class MethodIdModel {
+public final class MethodIdModel  {
     private String moduleName,namespaceName,className,methodName;
     Pattern pattern = Pattern.compile("[^a-zA-Z0-9\\._-]");
     Pattern moduleSuffixPattern = Pattern.compile("\\.(exe|dll)");
@@ -23,10 +23,10 @@ public final class MethodIdModel {
     }
     
     public MethodIdModel(MethodIdModel methodId) {
-        setModuleName(methodId.getModuleName());
-        setNamespaceName(methodId.getNamespaceName());
-        setClassName(methodId.getClassName());
-        setMethodName(methodId.getMethodName());
+        setModuleName(new String(methodId.getModuleName()));
+        setNamespaceName(new String(methodId.getNamespaceName()));
+        setClassName(new String(methodId.getClassName()));
+        setMethodName(new String(methodId.getMethodName()));
     }
 
     public String getModuleName() {
@@ -135,5 +135,10 @@ public final class MethodIdModel {
         .append(" method:").append(methodName)
         .append(" hash:").append(hashCode());
         return sb.toString();
+    }
+    
+    public MethodIdModel deepClone(){
+        MethodIdModel clone = new MethodIdModel(this);
+        return clone;
     }
 }

@@ -22,7 +22,7 @@ public class MethodToSourceFileIdMap {
 
    
     public void add(MethodIdModel methodId,String sourceFileId) {
-        MethodIdModel methodClone = new MethodIdModel(methodId);
+        MethodIdModel methodClone = methodId.deepClone();
         methodRegistry.put(methodClone, sourceFileId);
     }
     

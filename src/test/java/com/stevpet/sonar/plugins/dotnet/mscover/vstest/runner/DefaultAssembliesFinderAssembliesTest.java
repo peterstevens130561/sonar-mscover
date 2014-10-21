@@ -29,14 +29,14 @@ public class DefaultAssembliesFinderAssembliesTest extends AssembliesFinderTestU
     @Before
     public void before() {
         propertiesHelper = mock(PropertiesHelper.class);
-        finder = AbstractAssembliesFinder.create(propertiesHelper);
+        finder = new AssembliesFinderFactory().create(propertiesHelper);
         projects = new ArrayList<VisualStudioProject>();
         project = mock(VisualStudioProject.class);
     }
     
     @Test
     public void createAssembliesFinderWithNull_ExpectNullPointerException(){
-       finder = AbstractAssembliesFinder.create(null); 
+       finder = new AssembliesFinderFactory().create(null); 
        assertNotNull(finder);
     }
     

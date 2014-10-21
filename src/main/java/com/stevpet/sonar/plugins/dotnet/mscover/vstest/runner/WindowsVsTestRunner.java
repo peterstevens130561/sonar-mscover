@@ -51,7 +51,9 @@ public class WindowsVsTestRunner implements VsTestRunner {
     private List<VisualStudioProject> projects;
     private String stdOutString;
     private CodeCoverageCommand command = new WindowsCodeCoverageCommand();
-    
+    private TestConfigFinder testConfigFinder = new VsTestConfigFinder();
+    private AssembliesFinder assembliesFinder;
+    private AbstractAssembliesFinderFactory assembliesFinderFactory =  new AssembliesFinderFactory();
     private WindowsVsTestRunner() {
     }
     
@@ -173,8 +175,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
     
     private void requireTestSettings() {
         String testSettings = propertiesHelper.getTestSettings();
-        TestConfigFinder configFinder = new VsTestConfigFinder();
-        testSettingsFile = configFinder.getTestSettingsFileOrDie(solutionDirectory,testSettings);
+        testSettingsFile = testConfigFinder.getTestSettingsFileOrDie(solutionDirectory,testSettings);
   
     }
 
@@ -210,7 +211,8 @@ public class WindowsVsTestRunner implements VsTestRunner {
     
 
     private void findAssemblies() {
-        AssembliesFinder assembliesFinder = DefaultAssembliesFinder.create(propertiesHelper) ;
+
+        assembliesFinder = assembliesFinderFactory.create(propertiesHelper) ;
         unitTestAssembliesPath=assembliesFinder.findUnitTestAssembliesFromConfig(solutionDirectory, projects);
     }
 
@@ -265,6 +267,10 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#clean()
      */
+    
+    void setTestConfigFinder(TestConfigFinder testConfigFinder) {
+        this.testConfigFinder = testConfigFinder;
+    }
     @Override
     public void clean() {
         if(StringUtils.isEmpty(sonarPath)) {
@@ -287,6 +293,14 @@ public class WindowsVsTestRunner implements VsTestRunner {
      */
     void setCoverageCommand(CodeCoverageCommand command) {
         this.command = command;
+    }
+
+    /**
+     * @param assembliesFinderFactory the assembliesFinderFactory to set
+     */
+    public void setAssembliesFinderFactory(
+            AbstractAssembliesFinderFactory assembliesFinderFactory) {
+        this.assembliesFinderFactory = assembliesFinderFactory;
     }
 }
     

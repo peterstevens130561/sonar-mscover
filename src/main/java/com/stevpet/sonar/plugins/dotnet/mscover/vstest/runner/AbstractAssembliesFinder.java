@@ -19,15 +19,6 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
 
     private static Logger LOG = LoggerFactory.getLogger(DefaultAssembliesFinder.class);
 
-    public static AssembliesFinder create(MsCoverProperties propertiesHelper) {
-        AssembliesFinder finder;
-        if(propertiesHelper!=null && propertiesHelper.isIgnoreMissingUnitTestAssembliesSpecified()) {
-            finder=new IgnoreMissingAssembliesFinder(propertiesHelper) ;
-        } else {
-            finder=new DefaultAssembliesFinder(propertiesHelper) ;
-        }
-        return finder;
-    }
 
     private WildcardPattern[] inclusionMatchers;
     private List<String> assemblies;
