@@ -2,6 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class VSTestCommandTest {
      
     private void platformTest(String input, String output) {
         testCommand.setPlatform(input);
-        testCommand.setTestSettingsPath("a/b");
+        testCommand.setTestSettingsFile(new File("a/b"));
         List<String> paths = new ArrayList<String>();
         paths.add("test1");
         paths.add("test2");
@@ -71,7 +72,7 @@ public class VSTestCommandTest {
     }
     
     private void checkCodeCoverage(String output) {
-        testCommand.setTestSettingsPath("");
+        testCommand.setTestSettingsFile(new File(""));
         List<String> paths = new ArrayList<String>();
         testCommand.setUnitTestAssembliesPath(paths);
         

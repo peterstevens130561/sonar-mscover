@@ -201,7 +201,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
     
     private VSTestCommand buildVSTestCommand() {
         VSTestCommand vsTestCommand = VSTestCommand.create();
-        vsTestCommand.setTestSettingsPath(testSettingsFile.getAbsolutePath());
+        vsTestCommand.setTestSettingsFile(testSettingsFile);
         vsTestCommand.setUnitTestAssembliesPath(unitTestAssembliesPath);
         vsTestCommand.setCodeCoverage(doCodeCoverage);
         String platform=propertiesHelper.getRequiredBuildPlatform();

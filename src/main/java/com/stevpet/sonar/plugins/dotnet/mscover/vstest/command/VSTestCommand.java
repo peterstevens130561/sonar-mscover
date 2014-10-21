@@ -1,5 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.command;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,8 +65,8 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
     public String getTestSettingsPath() {
         return testSettingsPath;
     }
-    public void setTestSettingsPath(String testSettingsPath) {
-        this.testSettingsPath = testSettingsPath;
+    public void setTestSettingsFile(File testSettingsFile) {
+        this.testSettingsPath = testSettingsFile.getAbsolutePath();
     }
 
     public void setUnitTestAssembliesPath(List<String> unitTestAssemblyPaths) {
