@@ -301,8 +301,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
     }
 
     public void setPropertiesHelper(MsCoverProperties propertiesHelper) {
-        // TODO Auto-generated method stub
-        
+        this.propertiesHelper=propertiesHelper;
     }
 }
     
