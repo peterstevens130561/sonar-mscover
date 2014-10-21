@@ -55,6 +55,8 @@ public class WindowsVsTestRunner implements VsTestRunner {
     private AssembliesFinder assembliesFinder;
     private AbstractAssembliesFinderFactory assembliesFinderFactory =  new AssembliesFinderFactory();
     private VSTestCommand vsTestCommand = VSTestCommand.create();
+    private CommandLineExecutor executor = new WindowsCommandLineExecutor();
+    private VSTestStdOutParser vsTestResultsParser = new VSTestStdOutParser();
     private WindowsVsTestRunner() {
     }
     
@@ -186,14 +188,12 @@ public class WindowsVsTestRunner implements VsTestRunner {
      */
     @Override
     public void getResultPaths() {
-        VSTestStdOutParser vsTestResults = new VSTestStdOutParser();
-        vsTestResults.setResults(stdOutString);
-        setCoveragePath(vsTestResults.getCoveragePath());
-        setResultsPath(vsTestResults.getTestResultsXmlPath());     
+        vsTestResultsParser.setResults(stdOutString);
+        setCoveragePath(vsTestResultsParser.getCoveragePath());
+        setResultsPath(vsTestResultsParser.getTestResultsXmlPath());     
     }
 
     private int executeShellCommand(ShellCommand command) {
-        CommandLineExecutor executor = new WindowsCommandLineExecutor();
         int exitCode= executor.execute(command);
         stdOutString=executor.getStdOut();
         return exitCode;
@@ -308,6 +308,20 @@ public class WindowsVsTestRunner implements VsTestRunner {
      */
     public void setVsTestCommand(VSTestCommand vsTestCommand) {
         this.vsTestCommand = vsTestCommand;
+    }
+
+    /**
+     * @param commandLineExecutor the executor to set
+     */
+    public void setExecutor(CommandLineExecutor commandLineExecutor) {
+        this.executor = commandLineExecutor;
+    }
+
+    /**
+     * @param vsTestResultsParser the vsTestResultsParser to set
+     */
+    public void setVsTestResultsParser(VSTestStdOutParser vsTestResultsParser) {
+        this.vsTestResultsParser = vsTestResultsParser;
     }
 }
     

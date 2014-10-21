@@ -9,6 +9,9 @@ import org.junit.Test;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -37,14 +40,25 @@ public class WindowsVsTestRunnerTest {
         createRunner();
         PropertiesHelper propertiesHelper = mock(PropertiesHelper.class);
         runner.setPropertiesHelper(propertiesHelper);
+        
         testConfigFinder=mock(TestConfigFinder.class);
         ((WindowsVsTestRunner)runner).setTestConfigFinder(testConfigFinder);
         VisualStudioSolution solution = mock(VisualStudioSolution.class);
         runner.setSolution(solution);
+        
         AssembliesFinder assembliesFinder = mock(AssembliesFinder.class);
         AbstractAssembliesFinderFactory factory = mock(AbstractAssembliesFinderFactory.class);
         when(factory.create(any(PropertiesHelper.class))).thenReturn(assembliesFinder);
         ((WindowsVsTestRunner)runner).setAssembliesFinderFactory(factory);
+        
+        VSTestCommand vsTestCommand = mock(VSTestCommand.class);
+        ((WindowsVsTestRunner)runner).setVsTestCommand(vsTestCommand);
+        
+        CommandLineExecutor commandLineExecutor= mock(CommandLineExecutor.class);
+        ((WindowsVsTestRunner)runner).setExecutor(commandLineExecutor);
+        
+        VSTestStdOutParser vsTestResultsParser = mock(VSTestStdOutParser.class);
+        ((WindowsVsTestRunner)runner).setVsTestResultsParser(vsTestResultsParser);
         
         List<String> unitTestPaths= new ArrayList();
         when(assembliesFinder.findUnitTestAssembliesFromConfig(any(File.class), anyList())).thenReturn(unitTestPaths);
@@ -53,6 +67,8 @@ public class WindowsVsTestRunnerTest {
         runner.setCoverageXmlPath(coverageXmlPath);
         runner.setSonarPath(sonarWorkingDirectory);
         runner.runTests();
+        
+        //Testing happens here
     }
 
     private void expectRunnerIsValid() {
