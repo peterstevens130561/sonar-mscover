@@ -60,24 +60,27 @@ public class VSTestCommandTest {
      
     private void platformTest(String input, String output) {
         testCommand.setPlatform(input);
-        testCommand.setTestSettingsFile(new File("a/b"));
+        
+        File testSettingsFile = new File("a/b");
+        testCommand.setTestSettingsFile(testSettingsFile);
         List<String> paths = new ArrayList<String>();
         paths.add("test1");
         paths.add("test2");
         testCommand.setUnitTestAssembliesPath(paths);
         
         String commandLine = testCommand.toCommandLine();
-        String expected=EXECUTABLE + " \"test1\" \"test2\" /Settings:a/b /Logger:trx" + output  ;
+        String expected=EXECUTABLE + " \"test1\" \"test2\" /Settings:" + testSettingsFile.getAbsolutePath() + " /Logger:trx" + output  ;
         assertEquals(expected,commandLine);
     }
     
     private void checkCodeCoverage(String output) {
-        testCommand.setTestSettingsFile(new File(""));
+        File testSettingsFile = new File("a");
+        testCommand.setTestSettingsFile(testSettingsFile);
         List<String> paths = new ArrayList<String>();
         testCommand.setUnitTestAssembliesPath(paths);
         
         String commandLine = testCommand.toCommandLine();
-        String expected=EXECUTABLE + " /Settings: " + output + "/Logger:trx";
+        String expected=EXECUTABLE + " /Settings:" + testSettingsFile.getAbsolutePath() + " "+ output + "/Logger:trx";
         assertEquals(expected,commandLine);   
         }
 

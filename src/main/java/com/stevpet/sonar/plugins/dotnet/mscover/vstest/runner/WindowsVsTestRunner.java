@@ -54,6 +54,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
     private TestConfigFinder testConfigFinder = new VsTestConfigFinder();
     private AssembliesFinder assembliesFinder;
     private AbstractAssembliesFinderFactory assembliesFinderFactory =  new AssembliesFinderFactory();
+    private VSTestCommand vsTestCommand = VSTestCommand.create();
     private WindowsVsTestRunner() {
     }
     
@@ -200,7 +201,6 @@ public class WindowsVsTestRunner implements VsTestRunner {
     
     
     private VSTestCommand buildVSTestCommand() {
-        VSTestCommand vsTestCommand = VSTestCommand.create();
         vsTestCommand.setTestSettingsFile(testSettingsFile);
         vsTestCommand.setUnitTestAssembliesPath(unitTestAssembliesPath);
         vsTestCommand.setCodeCoverage(doCodeCoverage);
@@ -301,6 +301,13 @@ public class WindowsVsTestRunner implements VsTestRunner {
     public void setAssembliesFinderFactory(
             AbstractAssembliesFinderFactory assembliesFinderFactory) {
         this.assembliesFinderFactory = assembliesFinderFactory;
+    }
+
+    /**
+     * @param vsTestCommand the vsTestCommand to set
+     */
+    public void setVsTestCommand(VSTestCommand vsTestCommand) {
+        this.vsTestCommand = vsTestCommand;
     }
 }
     
