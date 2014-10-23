@@ -69,7 +69,7 @@ public class CoverageSourceFileNamesToSourceFileNamesObserverTest {
         for (FileCoverage fileCoverage : fileCoverageCollection) {
             File coverageFile = fileCoverage.getFile();
             Assert.assertNotNull(coverageFile);
-            Assert.assertEquals(fileNames[collectionIndex], coverageFile.getAbsolutePath());
+            Assert.assertEquals(fileNames[collectionIndex].toLowerCase(), coverageFile.getAbsolutePath().toLowerCase());
             collectionIndex++;
         }
   }

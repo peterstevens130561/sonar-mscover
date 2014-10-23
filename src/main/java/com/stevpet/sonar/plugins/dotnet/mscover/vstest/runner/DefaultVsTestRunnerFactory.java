@@ -9,8 +9,8 @@ import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
-public class VsTestRunnerFactory {
-    private static Logger LOG = LoggerFactory.getLogger(VsTestRunnerFactory.class);
+public class DefaultVsTestRunnerFactory {
+    private static Logger LOG = LoggerFactory.getLogger(DefaultVsTestRunnerFactory.class);
     public static VsTestRunner create() {
         return WindowsVsTestRunner.create();
     }

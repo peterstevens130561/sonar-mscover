@@ -21,6 +21,7 @@ import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 import org.sonar.plugins.dotnet.api.sensor.AbstractDotNetSensor;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
@@ -32,7 +33,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultVsTestRunnerFactory;
 @DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
 @DependedUpon("OpenCoverRunningVsTest")
 public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
@@ -46,7 +47,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private String openCoverCoveragePath;
     private VsTestEnvironment testEnvironment;
     private String sonarWorkingDirPath;
-    WindowsCommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
+    CommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private VsTestRunner unitTestRunner;
     private OpenCoverCommand openCoverCommand;
@@ -101,7 +102,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         sonarWorkingDirPath = project.getFileSystem().getSonarWorkingDirectory().getAbsolutePath();
         openCoverCoveragePath= sonarWorkingDirPath + "\\coverage-report.xml";
         testEnvironment.setCoverageXmlPath(openCoverCoveragePath);
-        unitTestRunner = VsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
+        unitTestRunner = DefaultVsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
         String openCoverPath = propertiesHelper.getOpenCoverInstallPath();
         openCoverCommand = new OpenCoverCommand(openCoverPath);
         

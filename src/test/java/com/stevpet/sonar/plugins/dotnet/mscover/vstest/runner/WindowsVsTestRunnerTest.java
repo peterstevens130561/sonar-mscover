@@ -18,12 +18,19 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.anyList;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
 
 public class WindowsVsTestRunnerTest {
 
     private VsTestRunner runner;
     private TestConfigFinder testConfigFinder;
+    private WindowsVsTestRunner windowsVsTestRunner;
+    private CommandLineExecutor commandLineExecutor= mock(CommandLineExecutor.class);
+    private VSTestCommand vsTestCommand= mock(VSTestCommand.class);
+    private VSTestStdOutParser vsTestResultsParser= mock(VSTestStdOutParser.class);
     @Before
     public void before() {
         
@@ -37,38 +44,115 @@ public class WindowsVsTestRunnerTest {
     
     @Test
     public void simpleRunner_verifyInvocation() {
+
+  
+        File testSettingsFile=new File("testSettings");
+        File solutionDir = null;
+        List<String> unitTestAssemblies = new ArrayList<String>() ;
+        unitTestAssemblies.add("a");
+        String testResult = "Oh jeh";
+        String resultsPath = "results.trx";
         createRunner();
-        PropertiesHelper propertiesHelper = mock(PropertiesHelper.class);
-        runner.setPropertiesHelper(propertiesHelper);
         
-        testConfigFinder=mock(TestConfigFinder.class);
-        ((WindowsVsTestRunner)runner).setTestConfigFinder(testConfigFinder);
-        VisualStudioSolution solution = mock(VisualStudioSolution.class);
-        runner.setSolution(solution);
+        givenTestSettingsFile(testSettingsFile);     
+        givenSolutionDir(solutionDir);    
+        givenUnitTestAssemblies(unitTestAssemblies);
+        givenNoSettings();
+        givenTestResultsFile(resultsPath);      
+        givenVsTestReturns(testResult);
         
-        AssembliesFinder assembliesFinder = mock(AssembliesFinder.class);
-        AbstractAssembliesFinderFactory factory = mock(AbstractAssembliesFinderFactory.class);
-        when(factory.create(any(PropertiesHelper.class))).thenReturn(assembliesFinder);
-        ((WindowsVsTestRunner)runner).setAssembliesFinderFactory(factory);
+        injectCommandLineExecutor();
+        injectVsTestCommand();
+        injectResultsParser();
+
         
-        VSTestCommand vsTestCommand = mock(VSTestCommand.class);
-        ((WindowsVsTestRunner)runner).setVsTestCommand(vsTestCommand);
-        
-        CommandLineExecutor commandLineExecutor= mock(CommandLineExecutor.class);
-        ((WindowsVsTestRunner)runner).setExecutor(commandLineExecutor);
-        
-        VSTestStdOutParser vsTestResultsParser = mock(VSTestStdOutParser.class);
-        ((WindowsVsTestRunner)runner).setVsTestResultsParser(vsTestResultsParser);
-        
-        List<String> unitTestPaths= new ArrayList();
-        when(assembliesFinder.findUnitTestAssembliesFromConfig(any(File.class), anyList())).thenReturn(unitTestPaths);
         String sonarWorkingDirectory="bogus";
         String coverageXmlPath =sonarWorkingDirectory + "/coverage.xml";
         runner.setCoverageXmlPath(coverageXmlPath);
         runner.setSonarPath(sonarWorkingDirectory);
         runner.runTests();
+
+        assertThatVsTestCommandIsBuilt(testSettingsFile, unitTestAssemblies,
+                vsTestCommand);
         
-        //Testing happens here
+        assertThatCommandLineExecutorIsInvoked(vsTestCommand,
+                commandLineExecutor);
+        
+        assertResultsParserIsInvoked(testResult);
+        
+    }
+
+
+
+    private void injectResultsParser() {
+        windowsVsTestRunner.setVsTestResultsParser(vsTestResultsParser);
+    }
+
+    private void givenTestResultsFile(String resultsPath) {
+        when(vsTestResultsParser.getTestResultsXmlPath()).thenReturn(resultsPath);
+    }
+
+    private CommandLineExecutor injectCommandLineExecutor() {
+        when(commandLineExecutor.execute(vsTestCommand)).thenReturn(0);
+        windowsVsTestRunner.setExecutor(commandLineExecutor);
+        return commandLineExecutor;
+    }
+
+    private VSTestCommand injectVsTestCommand() {
+        windowsVsTestRunner.setVsTestCommand(vsTestCommand);
+        return vsTestCommand;
+    }
+
+    private void assertThatCommandLineExecutorIsInvoked(
+            VSTestCommand vsTestCommand, CommandLineExecutor commandLineExecutor) {
+        verify(commandLineExecutor,times(1)).execute(vsTestCommand);
+        verify(commandLineExecutor,times(1)).getStdOut();
+    }
+
+    private void assertResultsParserIsInvoked(String testResult) {
+        verify(vsTestResultsParser,times(1)).getCoveragePath();
+        verify(vsTestResultsParser,times(1)).getTestResultsXmlPath();
+        verify(vsTestResultsParser,times(1)).setResults(testResult);
+        verify(vsTestResultsParser,times(1)).getTestResultsXmlPath();
+        verify(vsTestResultsParser,times(1)).getCoveragePath();
+    }
+    private void assertThatVsTestCommandIsBuilt(File testSettingsFile,
+            List<String> unitTestAssemblies, VSTestCommand vsTestCommand) {
+        verify(vsTestCommand,times(1)).setUnitTestAssembliesPath(unitTestAssemblies);
+        verify(vsTestCommand,times(1)).setTestSettingsFile(testSettingsFile);
+        verify(vsTestCommand,times(1)).setCodeCoverage(false);
+        verify(vsTestCommand,times(0)).toCommand();
+        verify(vsTestCommand,times(0)).toCommandLine();
+    }
+
+    private void givenNoSettings() {
+        PropertiesHelper propertiesHelper = mock(PropertiesHelper.class);
+        runner.setPropertiesHelper(propertiesHelper);
+    }
+
+    private void givenVsTestReturns(String testResult) {
+        when(commandLineExecutor.getStdOut()).thenReturn(testResult);
+    }
+    
+    private void givenSolutionDir(File solutionDir) {
+        VisualStudioSolution solution = mock(VisualStudioSolution.class);
+        when(solution.getSolutionDir()).thenReturn(solutionDir);
+        runner.setSolution(solution);
+    }
+
+    private void givenUnitTestAssemblies(List<String> unitTestAssemblies) {
+        AssembliesFinder assembliesFinder = mock(AssembliesFinder.class);
+        when(assembliesFinder.findUnitTestAssembliesFromConfig(any(File.class), anyList())).thenReturn(unitTestAssemblies);
+        AbstractAssembliesFinderFactory factory = mock(AbstractAssembliesFinderFactory.class);
+        when(factory.create(any(PropertiesHelper.class))).thenReturn(assembliesFinder);
+        windowsVsTestRunner.setAssembliesFinderFactory(factory);
+    }
+
+    private void givenTestSettingsFile(File testSettingsFile) {
+        testConfigFinder=mock(TestConfigFinder.class);
+        when(testConfigFinder.getTestSettingsFileOrDie(any(File.class),anyString())).thenReturn(testSettingsFile);
+
+        windowsVsTestRunner.setTestConfigFinder(testConfigFinder);
     }
 
     private void expectRunnerIsValid() {
@@ -78,5 +162,6 @@ public class WindowsVsTestRunnerTest {
 
     private void createRunner() {
         runner=WindowsVsTestRunner.create();
+        windowsVsTestRunner = (WindowsVsTestRunner)runner;
     }
 }
