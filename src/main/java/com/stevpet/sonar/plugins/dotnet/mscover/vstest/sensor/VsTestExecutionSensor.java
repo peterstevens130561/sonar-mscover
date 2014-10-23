@@ -15,6 +15,7 @@ import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.csharpsolutionfilesystem.CSharpSolutionFileSystem;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AbstractVsTestRunnerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultVsTestRunnerFactory;
 
@@ -31,7 +32,7 @@ public class VsTestExecutionSensor implements Sensor {
 
     private MsCoverProperties propertiesHelper;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-    
+    private AbstractVsTestRunnerFactory vsTestRunnerFactory = new DefaultVsTestRunnerFactory();
     
     public VsTestExecutionSensor(VsTestEnvironment vsTestEnvironment, MsCoverProperties propertiesHelper,ModuleFileSystem moduleFileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         this.vsTestEnvironment = vsTestEnvironment;
@@ -63,7 +64,7 @@ public class VsTestExecutionSensor implements Sensor {
     }
 
     private String runUnitTests() {
-        unitTestRunner = new DefaultVsTestRunnerFactory().createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
+        unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
         unitTestRunner.setDoCodeCoverage(true);
         unitTestRunner.runTests();
         return unitTestRunner.getCoverageXmlPath();
@@ -80,6 +81,15 @@ public class VsTestExecutionSensor implements Sensor {
         LOG.info("MsCover : running tests completed");
         LOG.info("MsCover : coverage in {}",coverageXmlPath);
         LOG.info("MsCover : results in {}",testResultsPath);
+    }
+
+
+    /**
+     * @param vsTestRunnerFactory the vsTestRunnerFactory to set
+     */
+    public void setVsTestRunnerFactory(
+            AbstractVsTestRunnerFactory vsTestRunnerFactory) {
+        this.vsTestRunnerFactory = vsTestRunnerFactory;
     }
 
 
