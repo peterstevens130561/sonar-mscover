@@ -102,7 +102,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         sonarWorkingDirPath = project.getFileSystem().getSonarWorkingDirectory().getAbsolutePath();
         openCoverCoveragePath= sonarWorkingDirPath + "\\coverage-report.xml";
         testEnvironment.setCoverageXmlPath(openCoverCoveragePath);
-        unitTestRunner = DefaultVsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
+        unitTestRunner = new DefaultVsTestRunnerFactory().createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
         String openCoverPath = propertiesHelper.getOpenCoverInstallPath();
         openCoverCommand = new OpenCoverCommand(openCoverPath);
         

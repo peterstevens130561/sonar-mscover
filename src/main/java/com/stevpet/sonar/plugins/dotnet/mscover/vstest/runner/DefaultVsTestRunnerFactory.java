@@ -9,9 +9,11 @@ import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
-public class DefaultVsTestRunnerFactory {
+public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
     private static Logger LOG = LoggerFactory.getLogger(DefaultVsTestRunnerFactory.class);
-    public static VsTestRunner create() {
+    
+    
+    public VsTestRunner create() {
         return WindowsVsTestRunner.create();
     }
     
@@ -28,7 +30,7 @@ public class DefaultVsTestRunnerFactory {
      * @param microsoftWindowsEnvironment - directory that holds the solution
      * @return
      */
-    public static VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper, ModuleFileSystem moduleFileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+    public VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper, ModuleFileSystem moduleFileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
             VsTestRunner unitTestRunner = WindowsVsTestRunner.create();
             unitTestRunner.setPropertiesHelper(propertiesHelper);
             VisualStudioSolution solution=microsoftWindowsEnvironment.getCurrentSolution();

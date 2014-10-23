@@ -47,7 +47,7 @@ public class UnitTestRunnerFactoryTest {
         File sonarWorkingDir=new File(workingDirPath);
         when(moduleFileSystem.workingDir()).thenReturn(sonarWorkingDir);
         try {
-        VsTestRunner unitTestRunner=DefaultVsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem, microsoftWindowsEnvironment);
+        VsTestRunner unitTestRunner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(propertiesHelper, moduleFileSystem, microsoftWindowsEnvironment);
         } catch (SonarException e) {
             assertEquals(e.getMessage(),"No current solution");
             return;
@@ -68,7 +68,7 @@ public class UnitTestRunnerFactoryTest {
         VisualStudioSolution solution=mock(VisualStudioSolution.class);
         when(solution.getSolutionDir()).thenReturn(solutionDir);
         when(microsoftWindowsEnvironment.getCurrentSolution()).thenReturn(solution);
-        VsTestRunner unitTestRunner=DefaultVsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem, microsoftWindowsEnvironment);
+        VsTestRunner unitTestRunner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(propertiesHelper, moduleFileSystem, microsoftWindowsEnvironment);
         assertEquals(workingDirPath,unitTestRunner.getSonarPath());
         assertEquals(solutionDir.getAbsolutePath(),unitTestRunner.getSolutionDirectory().getAbsolutePath());
         assertEquals(workingDirPath + "/coverage.xml",unitTestRunner.getCoverageXmlPath());

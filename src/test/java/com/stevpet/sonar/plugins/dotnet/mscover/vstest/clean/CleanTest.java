@@ -16,22 +16,23 @@ import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverProgrammerException;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.exceptions.MsCoverInvalidSonarWorkingDir;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AbstractVsTestRunnerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultVsTestRunnerFactory;
 
 public class CleanTest {
     private static final String CLEAN_TEST_EMPTY_PLACE_HOLDER_TXT = "CleanTest\\Empty\\PlaceHolder.txt";
     private static final String CLEAN_TEST_WITHFILES_PLACE_HOLDER_TXT = "CleanTest\\WithFiles\\PlaceHolder.txt";
-
+    private static final AbstractVsTestRunnerFactory vsTestRunnerFactory = new DefaultVsTestRunnerFactory();
     @Test(expected=MsCoverProgrammerException.class)
     public void PathNotSet_RaiseException() {
-        VsTestRunner runner=DefaultVsTestRunnerFactory.create();
+        VsTestRunner runner = givenANewRunner();
         runner.clean();
     }
     
     @Test(expected=MsCoverInvalidSonarWorkingDir.class)
     public void InvalidDir_RaiseException() {
-        VsTestRunner runner=DefaultVsTestRunnerFactory.create();
+        VsTestRunner runner = givenANewRunner();
         File testDir=TestUtils.getResource(CLEAN_TEST_EMPTY_PLACE_HOLDER_TXT);
         runner.setSonarPath(testDir.getAbsolutePath());
         runner.clean();
@@ -39,7 +40,7 @@ public class CleanTest {
     
     @Test
     public void CorrectDirNoFiles_Ignore() throws IOException {
-        VsTestRunner runner=DefaultVsTestRunnerFactory.create();
+        VsTestRunner runner = givenANewRunner();
         File placeHolder=TestUtils.getResource(CLEAN_TEST_EMPTY_PLACE_HOLDER_TXT);
         File testDir=new File(placeHolder.getParentFile(),".sonar");
         FileUtils.forceMkdir(testDir);
@@ -50,7 +51,7 @@ public class CleanTest {
     
     @Test
     public void CorrectDirWithFiles_ExpectDeleted() throws IOException {
-        VsTestRunner runner=DefaultVsTestRunnerFactory.create();
+        VsTestRunner runner = givenANewRunner();
         File placeHolder=TestUtils.getResource(CLEAN_TEST_WITHFILES_PLACE_HOLDER_TXT);
         File testDir=new File(placeHolder.getParentFile(),".sonar");
         File testResultsDir=new File(testDir,"TestResults");
@@ -66,6 +67,11 @@ public class CleanTest {
         assertTrue(testDir.exists());
         expectFilesInDir(testDir,1);
         assertFalse(testResultsDir.exists());
+    }
+
+    private VsTestRunner givenANewRunner() {
+        VsTestRunner runner=vsTestRunnerFactory.create();
+        return runner;
     }
 
     private void expectFilesInDir(File testDir, int count) {
