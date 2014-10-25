@@ -14,29 +14,73 @@ public class VsTestExecutionSensorTest  {
     }
     
     @Test
-    public void runAnalysisForEmptyProject() {
+    public void runAnalysisForCSharpProjectTestsHaveNotRun_TestsShouldBeRun() {
+        String resultsPath="results.path";
+        String coveragePath="coverage.path";
+        bd.givenANewTestExecutionSensor();
+        bd.givenTestsHaveNotExecuted();
+        bd.givenAnalysedProjectIsCSharpProject();
+        bd.givenStubbedVsTestRunner();
+        bd.givenTestResultsPath(resultsPath);
+        bd.givenCoveragePath(coveragePath);
+     
+        bd.analyseProject();
+        
+        bd.verifyTestsHaveRun();
+        bd.verifyTestResultsPathIs(resultsPath);
+        bd.verifyCoveragePathIs(coveragePath);
+        
+    }
+    
+    @Test
+    public void runAnalysisForRootProjectTestsHaveNotRun_TestsShouldBeRun() {
+        String resultsPath="results.path";
+        String coveragePath="coverage.path";
+        bd.givenANewTestExecutionSensor();
+        bd.givenTestsHaveNotExecuted();
+        bd.givenAnalysedProjectIsRootProject();
+        bd.givenStubbedVsTestRunner();
+        bd.givenTestResultsPath(resultsPath);
+        bd.givenCoveragePath(coveragePath);
+     
+        bd.analyseProject();
+        
+        bd.verifyTestsHaveRun();
+        bd.verifyTestResultsPathIs(resultsPath);
+        bd.verifyCoveragePathIs(coveragePath);
+        
+    }
+    
+    @Test
+    public void runAnalysisForCSharpProjectTestsHaveRun_TestsShouldNotBeRun() {
+        String resultsPath="results.path";
+        String coveragePath="coverage.path";
         bd.givenANewTestExecutionSensor();
         bd.givenTestsHaveExecuted();
         bd.givenAnalysedProjectIsCSharpProject();
         bd.givenStubbedVsTestRunner();
+        bd.givenTestResultsPath(resultsPath);
+        bd.givenCoveragePath(coveragePath);
      
         bd.analyseProject();
         
+        bd.verifyTestsHaveNotRun();
+        bd.verifyTestEnvironmentPathsNotSet();
+        bd.verifyTestRunnerPathsNotRequested();
     }
 
     @Test
-    public void testShouldExecuteOnProject() {
-        fail("Not yet implemented");
+    public void testRunPropertyNotSet_ShouldNotRun() {
+        bd.givenRunVsTestPropertyNotSet();
+        bd.givenANewTestExecutionSensor();
+        bd.verifySensorShouldNotRun();
     }
-
+    
     @Test
-    public void testAnalyse() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testSetVsTestRunnerFactory() {
-        fail("Not yet implemented");
+    public void testRunPropertySet_ShouldRun() {
+        bd.givenRunVsTestPropertySet();
+        bd.givenANewTestExecutionSensor();
+        bd.verifySensorShouldRun();       
     }
 
 }

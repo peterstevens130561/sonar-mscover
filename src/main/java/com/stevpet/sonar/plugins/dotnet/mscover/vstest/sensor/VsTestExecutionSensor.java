@@ -59,8 +59,8 @@ public class VsTestExecutionSensor implements Sensor {
         
         LOG.info("MsCover : started running tests");
 
-        String coverageXmlPath = runUnitTests();   
-        updateTestEnvironment(coverageXmlPath);
+        runUnitTests();   
+        updateTestEnvironment();
     }
 
     private String runUnitTests() {
@@ -72,9 +72,11 @@ public class VsTestExecutionSensor implements Sensor {
 
 
     
-    private void updateTestEnvironment(String coverageXmlPath) {
+    private void updateTestEnvironment() {
         String testResultsPath=unitTestRunner.getResultsXmlPath();
         vsTestEnvironment.setTestResultsXmlPath(testResultsPath);
+        
+        String coverageXmlPath=unitTestRunner.getCoverageXmlPath();
         vsTestEnvironment.setCoverageXmlPath(coverageXmlPath);
         vsTestEnvironment.setTestsHaveRun();
         

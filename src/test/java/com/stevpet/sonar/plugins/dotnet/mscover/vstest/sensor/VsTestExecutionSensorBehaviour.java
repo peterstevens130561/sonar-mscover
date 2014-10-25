@@ -2,11 +2,15 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
+import org.junit.Assert;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
@@ -29,7 +33,6 @@ public class VsTestExecutionSensorBehaviour {
     private SensorContext context = mock(SensorContext.class);
     private AbstractVsTestRunnerFactory vsTestRunnerFactory = mock(AbstractVsTestRunnerFactory.class);
     private VsTestRunner vsTestRunner = mock(VsTestRunner.class);
-    private MsCoverProperties propertiesHelper;
 
     public VsTestExecutionSensorBehaviour() {
         super();
@@ -51,10 +54,19 @@ public class VsTestExecutionSensorBehaviour {
         when(project.isRoot()).thenReturn(false);
         when(moduleFileSystem.baseDir()).thenReturn(new File("mysolution/myproject"));
     }
-
-    protected void givenTestsHaveExecuted() {
+    
+    public void givenAnalysedProjectIsRootProject() {
+        when(project.isRoot()).thenReturn(true);
     }
 
+    protected void givenTestsHaveExecuted() {
+        when(vsTestEnvironment.getTestsHaveRun()).thenReturn(true);
+    }
+
+    public void givenTestsHaveNotExecuted() {
+        when(vsTestEnvironment.getTestsHaveRun()).thenReturn(false);       // TODO Auto-generated method stub
+        
+    }
     protected void verifyThatTheTestExecutionSensorExists() {
         assertNotNull(sensor);
     }
@@ -63,5 +75,59 @@ public class VsTestExecutionSensorBehaviour {
         sensor=new VsTestExecutionSensor(vsTestEnvironment,msCoverProperties,moduleFileSystem,microsoftWindowsEnvironment);
         sensor.setVsTestRunnerFactory(vsTestRunnerFactory);
     }
+
+    public void givenTestResultsPath(String resultsPath) {
+        when(vsTestRunner.getResultsXmlPath()).thenReturn(resultsPath);
+    }
+
+    public void verifyTestsHaveRun() {
+        verify(vsTestEnvironment,times(1)).setTestsHaveRun();
+        verify(vsTestRunner,times(1)).runTests();
+    }
+    public void verifyTestsHaveNotRun() {
+        verify(vsTestEnvironment,times(0)).setTestsHaveRun();
+        verify(vsTestRunner,times(0)).runTests();
+    }
+    public void verifyTestResultsPathIs(String resultsPath) {
+        verify(vsTestEnvironment,times(1)).setTestResultsXmlPath(resultsPath);
+    }
+
+    public void verifyCoveragePathIs(String coveragePath) {
+        verify(vsTestEnvironment,times(1)).setCoverageXmlPath(coveragePath);
+    }
+
+    public void givenCoveragePath(String coveragePath) {
+        when(vsTestRunner.getCoverageXmlPath()).thenReturn(coveragePath);
+    }
+
+    public void verifyTestEnvironmentPathsNotSet() {
+        verify(vsTestEnvironment,times(0)).setCoverageXmlPath(anyString());
+        verify(vsTestEnvironment,times(0)).setTestResultsXmlPath(anyString());
+    }
+
+    public void verifyTestRunnerPathsNotRequested() {
+        verify(vsTestRunner,times(0)).getResultsXmlPath();
+        verify(vsTestRunner,times(0)).getCoverageXmlPath();
+    }
+
+    public void givenRunVsTestPropertyNotSet() {
+        when(msCoverProperties.runVsTest()).thenReturn(false);
+    }
+
+    public void givenRunVsTestPropertySet() {
+        when(msCoverProperties.runVsTest()).thenReturn(true);
+    }
+
+    public void verifySensorShouldNotRun() {
+        Assert.assertFalse(sensor.shouldExecuteOnProject(project));
+    }
+
+    public void verifySensorShouldRun() {
+        boolean result=sensor.shouldExecuteOnProject(project);
+        Assert.assertTrue(result);
+    }
+
+
+
 
 }
