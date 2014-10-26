@@ -43,4 +43,5 @@ public class VsTestEnvironment implements BatchExtension {
     public SonarCoverage getSonarCoverage() {
         return sonarCoverage;
     }
+
 }

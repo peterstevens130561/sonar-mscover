@@ -1,5 +1,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import java.io.File;
 
 import org.slf4j.Logger;
@@ -93,6 +96,7 @@ public class VsTestExecutionSensor implements Sensor {
             AbstractVsTestRunnerFactory vsTestRunnerFactory) {
         this.vsTestRunnerFactory = vsTestRunnerFactory;
     }
+
 
 
 }

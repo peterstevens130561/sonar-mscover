@@ -2,7 +2,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
@@ -25,8 +24,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 public class VsTestExecutionSensorBehaviour {
 
     VsTestExecutionSensor sensor;
+    private VsTestEnvironmentMock vsTestEnvironmentMock = new VsTestEnvironmentMock();
     private MsCoverProperties msCoverProperties = mock(MsCoverProperties.class);
-    private VsTestEnvironment vsTestEnvironment = mock(VsTestEnvironment.class);
+    public VsTestEnvironment vsTestEnvironment = mock(VsTestEnvironment.class);
     private ModuleFileSystem moduleFileSystem = mock(ModuleFileSystem.class);
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
     private Project project = mock(Project.class);
@@ -34,9 +34,6 @@ public class VsTestExecutionSensorBehaviour {
     private AbstractVsTestRunnerFactory vsTestRunnerFactory = mock(AbstractVsTestRunnerFactory.class);
     private VsTestRunner vsTestRunner = mock(VsTestRunner.class);
 
-    public VsTestExecutionSensorBehaviour() {
-        super();
-    }
 
     protected void givenStubbedVsTestRunner() {
         when(vsTestRunnerFactory.createBasicTestRunnner(any(PropertiesHelper.class), 
@@ -59,20 +56,26 @@ public class VsTestExecutionSensorBehaviour {
         when(project.isRoot()).thenReturn(true);
     }
 
+    /**
+     * @deprecated Use {@link com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock#givenTestsHaveExecuted(com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestExecutionSensorBehaviour)} instead
+     */
     protected void givenTestsHaveExecuted() {
-        when(vsTestEnvironment.getTestsHaveRun()).thenReturn(true);
+        vsTestEnvironmentMock.givenTestsHaveExecuted();
     }
 
+    /**
+     * @deprecated Use {@link com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock#givenTestsHaveNotExecuted(com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestExecutionSensorBehaviour)} instead
+     */
     public void givenTestsHaveNotExecuted() {
-        when(vsTestEnvironment.getTestsHaveRun()).thenReturn(false);       // TODO Auto-generated method stub
-        
+        vsTestEnvironmentMock.givenTestsHaveNotExecuted();
     }
+    
     protected void verifyThatTheTestExecutionSensorExists() {
         assertNotNull(sensor);
     }
 
-    protected void givenANewTestExecutionSensor() {
-        sensor=new VsTestExecutionSensor(vsTestEnvironment,msCoverProperties,moduleFileSystem,microsoftWindowsEnvironment);
+    protected void givenANewSensor() {
+        sensor=new VsTestExecutionSensor(vsTestEnvironmentMock.getMock(),msCoverProperties,moduleFileSystem,microsoftWindowsEnvironment);
         sensor.setVsTestRunnerFactory(vsTestRunnerFactory);
     }
 
@@ -80,29 +83,36 @@ public class VsTestExecutionSensorBehaviour {
         when(vsTestRunner.getResultsXmlPath()).thenReturn(resultsPath);
     }
 
-    public void verifyTestsHaveRun() {
-        verify(vsTestEnvironment,times(1)).setTestsHaveRun();
+    public void verifyTestRunnerHasRun() {
         verify(vsTestRunner,times(1)).runTests();
     }
     public void verifyTestsHaveNotRun() {
         verify(vsTestEnvironment,times(0)).setTestsHaveRun();
         verify(vsTestRunner,times(0)).runTests();
     }
+    /**
+     * @deprecated Use {@link com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock#verifyTestResultsPathIs(com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestExecutionSensorBehaviour,String)} instead
+     */
     public void verifyTestResultsPathIs(String resultsPath) {
-        verify(vsTestEnvironment,times(1)).setTestResultsXmlPath(resultsPath);
+        vsTestEnvironmentMock.verifyTestResultsPathIs(resultsPath);
     }
 
+    /**
+     * @deprecated Use {@link com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestExecutionSensor#verifyCoveragePathIs(com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestExecutionSensorBehaviour,String)} instead
+     */
     public void verifyCoveragePathIs(String coveragePath) {
-        verify(vsTestEnvironment,times(1)).setCoverageXmlPath(coveragePath);
+        vsTestEnvironmentMock.verifyCoveragePathIs(coveragePath);
     }
 
     public void givenCoveragePath(String coveragePath) {
         when(vsTestRunner.getCoverageXmlPath()).thenReturn(coveragePath);
     }
 
+    /**
+     * @deprecated Use {@link com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock#verifyTestEnvironmentPathsNotSet(com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestExecutionSensorBehaviour)} instead
+     */
     public void verifyTestEnvironmentPathsNotSet() {
-        verify(vsTestEnvironment,times(0)).setCoverageXmlPath(anyString());
-        verify(vsTestEnvironment,times(0)).setTestResultsXmlPath(anyString());
+        vsTestEnvironmentMock.verifyTestEnvironmentPathsNotSet();
     }
 
     public void verifyTestRunnerPathsNotRequested() {
@@ -125,6 +135,10 @@ public class VsTestExecutionSensorBehaviour {
     public void verifySensorShouldRun() {
         boolean result=sensor.shouldExecuteOnProject(project);
         Assert.assertTrue(result);
+    }
+
+    public VsTestEnvironmentMock getTestEnvironment() {
+        return vsTestEnvironmentMock;
     }
 
 
