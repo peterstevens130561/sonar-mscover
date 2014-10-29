@@ -13,14 +13,24 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 
 public class OpenCoverCommand implements ShellCommand {
 
-    private final String path;
+    private  String path;
 
     Map<String,String> arguments = Maps.newHashMap();
+    
+    public OpenCoverCommand() {
+        
+    }
+    
+
     public OpenCoverCommand(String path) {
         this.path=path;
 
     }
     
+    public void setCommandPath(String path) {
+        this.path=path;
+        
+    }
     public void setRegister(String value) {
         addArgument("register",value);
     }

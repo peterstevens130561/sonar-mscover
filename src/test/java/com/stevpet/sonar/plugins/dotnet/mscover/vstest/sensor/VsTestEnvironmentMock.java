@@ -29,7 +29,7 @@ public class VsTestEnvironmentMock {
     }
 
     public void verifyTestsHaveRun() {
-        verify(vsTestEnvironment,times(0)).setTestsHaveRun();
+        verify(vsTestEnvironment,times(1)).setTestsHaveRun();
     }
     
     public void verifyCoveragePathIs( String coveragePath) {

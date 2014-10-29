@@ -29,9 +29,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverTarge
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.ConcreteOpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.seams.ProjectSeam;
+import com.stevpet.sonar.plugins.dotnet.mscover.seams.SonarProjectSeam;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AbstractVsTestRunnerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultVsTestRunnerFactory;
 @DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
@@ -50,8 +53,9 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     CommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private VsTestRunner unitTestRunner;
-    private OpenCoverCommand openCoverCommand;
-
+    private OpenCoverCommand openCoverCommand = new OpenCoverCommand();
+    private AbstractVsTestRunnerFactory vsTestRunnerFactory = new DefaultVsTestRunnerFactory();
+    private ProjectSeam projectSeam = new SonarProjectSeam();
     
     public OpenCoverTestExecutionCoverageSensor(MsCoverProperties propertiesHelper, 
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
@@ -84,7 +88,9 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
             logReasonToNotExecute("there are no test projects.");
             return false;
         }
-        if (project.isRoot() || !"cs".equals(project.getLanguageKey())) {
+        boolean isRoot=project.isRoot();
+        String language=project.getLanguageKey();
+        if (isRoot || !"cs".equals(language)) {
             return false;
         }
         if (propertiesHelper.runOpenCover()) {
@@ -99,12 +105,13 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
 
     @Override
     public void analyse(Project project, SensorContext context) {
-        sonarWorkingDirPath = project.getFileSystem().getSonarWorkingDirectory().getAbsolutePath();
-        openCoverCoveragePath= sonarWorkingDirPath + "\\coverage-report.xml";
+        projectSeam.setProject(project);
+        File opencoverCoverageFile= projectSeam.getSonarFile("coverage-report.xml");
+        openCoverCoveragePath= opencoverCoverageFile.getAbsolutePath();
         testEnvironment.setCoverageXmlPath(openCoverCoveragePath);
-        unitTestRunner = new DefaultVsTestRunnerFactory().createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
+        unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
         String openCoverPath = propertiesHelper.getOpenCoverInstallPath();
-        openCoverCommand = new OpenCoverCommand(openCoverPath);
+        openCoverCommand.setCommandPath(openCoverPath);
         
         getSolution();
         ensureWorkDirExists();
@@ -196,6 +203,18 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         if (!workDir.exists()) {
           workDir.mkdirs();
         }
+    }
+
+    /**
+     * @param vsTestRunnerFactory the vsTestRunnerFactory to set
+     */
+    public void setVsTestRunnerFactory(
+            AbstractVsTestRunnerFactory vsTestRunnerFactory) {
+        this.vsTestRunnerFactory = vsTestRunnerFactory;
+    }
+
+    public void setOpenCoverCommand(OpenCoverCommand openCoverCommand) {
+       this.openCoverCommand = openCoverCommand;
     }
     
 

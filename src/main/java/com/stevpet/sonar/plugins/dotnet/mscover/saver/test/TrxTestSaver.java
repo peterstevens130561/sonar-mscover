@@ -23,10 +23,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.NullResource;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
-public class TestSaver {
+public class TrxTestSaver {
 
     private static final Logger LOG = LoggerFactory
-            .getLogger(TestSaver.class);
+            .getLogger(TrxTestSaver.class);
     
     private SourceFileNamesRegistry sourceFileNamesRegistry ;
     private UnitTestFilesResultRegistry unitTestFilesResultRegistry;
@@ -39,10 +39,10 @@ public class TestSaver {
     /**
      * @deprecated Use {@link #TestSaver(ResourceMediator,MeasureSaver)} instead
      */
-    public TestSaver(SensorContext context,ResourceMediator resourceMediator,MeasureSaver measureSaver) {
+    public TrxTestSaver(SensorContext context,ResourceMediator resourceMediator,MeasureSaver measureSaver) {
         this(resourceMediator, measureSaver);
     }
-    public TestSaver(ResourceMediator resourceMediator,MeasureSaver measureSaver) {
+    public TrxTestSaver(ResourceMediator resourceMediator,MeasureSaver measureSaver) {
         this.resourceMediator = resourceMediator;
         this.measureSaver = measureSaver;
     }

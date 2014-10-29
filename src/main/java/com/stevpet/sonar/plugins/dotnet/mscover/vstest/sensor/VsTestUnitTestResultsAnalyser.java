@@ -19,7 +19,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegi
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TrxTestSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteVsTestParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestParserFactory;
@@ -105,7 +105,7 @@ public class VsTestUnitTestResultsAnalyser {
         UnitTestResultRegistry unitTestResultRegistry = registry.getResults();
         filesResultRegistry.mapResults(unitTestResultRegistry, map);
        
-        TestSaver testSaver = new TestSaver(resourceMediator,measureSaver);
+        TrxTestSaver testSaver = new TrxTestSaver(resourceMediator,measureSaver);
 
         testSaver.setUnitTestFilesResultRegistry(filesResultRegistry);
         testSaver.setSourceFileNamesRegistry(sourceFileNamesRegistry);
