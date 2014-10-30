@@ -33,6 +33,15 @@ public class SourceFilePathHelper {
       private String projectPath;
       private String projectFolder;
       private String sourceFilePath;
+      
+      public void setProjectFile(File file) {
+          try {
+              String canonicalPath=file.getCanonicalPath();
+            setProjectPath(canonicalPath);
+        } catch (IOException e) {
+            throw new SonarException("could not get canonicalPath for " + file.getName(),e);
+        }
+      }
       public void setProjectPath(String path) {
           projectPath=path.trim().toLowerCase();
           String[] projectFolders = projectPath.split("\\\\");

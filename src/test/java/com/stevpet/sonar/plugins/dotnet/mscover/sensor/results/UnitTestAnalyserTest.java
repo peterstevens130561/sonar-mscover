@@ -14,6 +14,7 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
+import org.sonar.api.utils.SonarException;
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
@@ -43,6 +44,7 @@ public class UnitTestAnalyserTest {
     private SourceFilePathHelper sourceFilePathHelper;
     private ResourceMediator resourceMediator;
     private ResourceSeam testResourceSeam;
+    private DummyFileSystem fileSystem = new DummyFileSystem();
 
     @Before
     public void before() {
@@ -65,7 +67,7 @@ public class UnitTestAnalyserTest {
     }
     
     @Test
-    public void sunnyOpenCoverDay() {
+    public void sunnyOpenCoverDay()  {
         String base="UnitTestAnalyser/OpenCover/";
         TestSeam testSeam = new TestSeam();
         VsTestUnitTestResultsAnalyser analyser = new VsTestUnitTestResultsAnalyser(project,measureSaver, sourceFilePathHelper,resourceMediator) ;
@@ -73,12 +75,43 @@ public class UnitTestAnalyserTest {
         String coveragePath = TestUtils.getResource(base+"coverage-report.xml").getAbsolutePath();
         File resultsFile = TestUtils.getResource(base + "testresults.trx");
         String resultsPath=resultsFile.getAbsolutePath();
+
+        when(project.getFileSystem()).thenReturn(new DummyFileSystem());
+        analyser.analyseOpenCoverTestResults(coveragePath, resultsPath);
+        verify(measureSaver,times(3)).saveSummaryMeasure(any(Metric.class),anyDouble());
+        assertEquals(4,testSeam.getSaveMeasureCnt());
+        assertEquals(24,testSeam.getMetricValueCnt());
+
+    }
+    
+    @Test(expected=SonarException.class)
+    public void projectNotFound_ExpectSonarException() throws IOException {
+        String base="UnitTestAnalyser/OpenCover/";
+        TestSeam testSeam = new TestSeam();
+
+        VsTestUnitTestResultsAnalyser analyser = new VsTestUnitTestResultsAnalyser(project,measureSaver, sourceFilePathHelper,resourceMediator) ;
+        when(resourceMediator.getSonarTestResource(any(File.class))).thenReturn(testSeam);
+        String coveragePath = TestUtils.getResource(base+"coverage-report.xml").getAbsolutePath();
+        File resultsFile = TestUtils.getResource(base + "testresults.trx");
+        String resultsPath=resultsFile.getAbsolutePath();
+
+
+        givenProjectHasNoCanonicalPath();
+        
         analyser.analyseOpenCoverTestResults(coveragePath, resultsPath);
         verify(measureSaver,times(3)).saveSummaryMeasure(any(Metric.class),anyDouble());
         assertEquals(4,testSeam.getSaveMeasureCnt());
         assertEquals(24,testSeam.getMetricValueCnt());
     }
-    
+    private void givenProjectHasNoCanonicalPath()
+            throws IOException {
+        File exceptionThrowingFile = mock(File.class);
+        File baseDir = mock(File.class);
+        when(exceptionThrowingFile.getCanonicalPath()).thenThrow(new IOException());
+        fileSystem=mock(DummyFileSystem.class);
+        when(fileSystem.getBasedir()).thenReturn(exceptionThrowingFile);
+        when(project.getFileSystem()).thenReturn(fileSystem);
+    }
     
     private class FileMatcher extends ArgumentMatcher<File> {
 

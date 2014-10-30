@@ -99,8 +99,8 @@ public class VsTestUnitTestResultsAnalyser {
 
     private void saveUnitTests() {
 
-        String projectDirectory = getProjectDirectory(project);
-        sourceFilePathHelper.setProjectPath(projectDirectory);
+        File projectDirectory =  project.getFileSystem().getBasedir();
+        sourceFilePathHelper.setProjectFile(projectDirectory);
         
         UnitTestResultRegistry unitTestResultRegistry = registry.getResults();
         filesResultRegistry.mapResults(unitTestResultRegistry, map);
@@ -114,17 +114,6 @@ public class VsTestUnitTestResultsAnalyser {
         testSaver.save();
     }
 
-    private String getProjectDirectory(Project project) {
-        String projectDirectory = null;
-        try {
-            projectDirectory = project.getFileSystem().getBasedir().getCanonicalPath();
-        } catch (IOException e) {
-            String msg="Could not get path to project directory";
-            LOG.error(msg);
-            throw new SonarException(msg,e);
-        }
-        return projectDirectory;
-    }
 
    
     private void parseUnitTestResultsFile(String resultsPath) {
