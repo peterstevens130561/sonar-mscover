@@ -12,31 +12,34 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MsCoverProperti
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.ProjectMock;
 
 public class BinConfigAssemblyResolverTest {
-
-    MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
+    private AssemblyResolverTestUtils utils = new AssemblyResolverTestUtils();
+    private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
+    private String artifactName = "somename.dll";
+    VisualStudioProjectMock visualStudioProjectMock = new VisualStudioProjectMock();
+    
+    private AssemblyResolver assemblyResolver = new BinConfigAssemblyResolver();
     ProjectMock projectMock = new ProjectMock();
     
     @Before() 
     public void before() {
-        
+        assemblyResolver.setMsCoverProperties(msCoverPropertiesMock.getMock());
+        utils.setAssemblyResolver(assemblyResolver);
+        utils.setVisualStudioProject(visualStudioProjectMock.getMock());
     }
     @Test
     public void resolveAssembly_SimpleConfig_PathIncludesConfig() {
-        AssemblyResolver assemblyResolver = new BinConfigAssemblyResolver();
-        assemblyResolver.setMsCoverProperties(msCoverPropertiesMock.getMock());
-        File assemblyFile = null;
+
+        utils.givenAssembly(null);
+
         String buildConfiguration="Reality";
-        VisualStudioProjectMock visualStudioProjectMock = new VisualStudioProjectMock();
         File directory = new File("hoi");
+        
         visualStudioProjectMock.givenDirectory(directory);
-        String artifactName = "somename.dll";
         visualStudioProjectMock.givenArtifactName(artifactName);
-        File result=assemblyResolver.resolveAssembly(assemblyFile, visualStudioProjectMock.getMock(), buildConfiguration);
-        assertNotNull(result);
-        String createdName=result.getName();
-        assertEquals(artifactName,createdName);
-        String path=result.getPath();
-        assertEquals("hoi\\bin\\Reality\\somename.dll",path);
+        utils.setBuildConfiguration(buildConfiguration);
+        utils.resolveAssembly();
+        utils.verifyResolvedAs("hoi\\bin\\Reality\\somename.dll");
+
         
     }
 }

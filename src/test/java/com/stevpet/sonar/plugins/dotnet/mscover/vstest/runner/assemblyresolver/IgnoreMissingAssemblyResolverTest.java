@@ -1,9 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -16,30 +12,31 @@ public class IgnoreMissingAssemblyResolverTest {
 
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     private AssemblyResolver assemblyResolver = new IgnoreMissingAssemblyResolver();
-    private File assemblyFile;
-    private File resultFile;
+    private AssemblyResolverTestUtils utils = new AssemblyResolverTestUtils();
+
     private String fileName="unittest.dll";
     Collection<String> list;
     
     @Before
     public void before() {
         assemblyResolver.setMsCoverProperties(msCoverPropertiesMock.getMock());
-
-        givenAssembly(fileName);
+        utils.setAssemblyResolver(assemblyResolver);
+        utils.givenAssembly(fileName);
+        msCoverPropertiesMock.givenUnitTestAssembliesThatCanBeIgnoredIfMissing(null);
     }
     
     @Test
     public void resolveAssembly_PropertyNotSet_ExpectNotResolved() {      
-        resolveAssembly();
-        verifyNotResolved();
+        utils.resolveAssembly();
+        utils.verifyNotResolved();
     }
   
     @Test
     public void resolveAssembly_PropertyDoesNotContain_ExpectNotResolved() {
         givenAssemblyThatCanBeIgnored("different");
 
-        resolveAssembly();       
-        verifyNotResolved();    
+        utils.resolveAssembly();       
+        utils.verifyNotResolved();    
     }
     
     @Test
@@ -48,8 +45,8 @@ public class IgnoreMissingAssemblyResolverTest {
         givenAssemblyThatCanBeIgnored("different");
         givenAssemblyThatCanBeIgnored(fileName); // the match
         
-        resolveAssembly();
-        verifyShouldBeIgnored();       
+        utils.resolveAssembly();
+        utils.verifyShouldBeIgnored();       
     }
 
     private void givenAssemblyThatCanBeIgnored(String name) {
@@ -57,22 +54,9 @@ public class IgnoreMissingAssemblyResolverTest {
             list=new ArrayList<String>();
         }
         list.add(name);
-    }
-    
-    private void givenAssembly(String fileName) {
-        assemblyFile = new File(fileName);
-    }
-    
-    private void resolveAssembly() {
         msCoverPropertiesMock.givenUnitTestAssembliesThatCanBeIgnoredIfMissing(list);
-        resultFile=assemblyResolver.resolveAssembly(assemblyFile, null, null);
     }
     
-    private void verifyShouldBeIgnored() {
-        assertNull(resultFile);
-    }
     
-    private void verifyNotResolved() {
-        assertEquals(assemblyFile,resultFile);
-    }
+
 }
