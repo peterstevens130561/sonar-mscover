@@ -319,4 +319,9 @@ public class MsCoverPropertiesStub implements MsCoverProperties {
         this.unitTestCoveragePath = unitTestCoveragePath;
     }
 
+    public String getUnitTestHintPath() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

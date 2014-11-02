@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 
 import com.google.common.collect.ImmutableCollection;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
@@ -20,7 +21,9 @@ public class IgnoreMissingAssembliesFinder extends AbstractAssembliesFinder impl
         this.propertiesHelper = propertiesHelper;
     }
 
-    public void onNonExistingFile(File assemblyFile) {
+    public File searchNonExistingFile(File assemblyFile,
+            VisualStudioProject project, String buildConfiguration)  {
+        
         String assemblyName = assemblyFile.getName();
         Collection<String> canBeIgnoredIfMissing = new ArrayList<String>();
         canBeIgnoredIfMissing = propertiesHelper.getUnitTestAssembliesThatCanBeIgnoredIfMissing();
@@ -31,9 +34,11 @@ public class IgnoreMissingAssembliesFinder extends AbstractAssembliesFinder impl
             log.error("unit test assembly {} does not exist",assemblyPath);
             throw new MsCoverUnitTestAssemblyDoesNotExistException(assemblyFile);
         }
+        return assemblyFile;
     }
     
     void setLogger(Logger log) {
         this.log=log;
     }
+
 }

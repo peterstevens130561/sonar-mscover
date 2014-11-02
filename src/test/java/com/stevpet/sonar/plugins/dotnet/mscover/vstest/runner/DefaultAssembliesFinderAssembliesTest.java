@@ -53,7 +53,7 @@ public class DefaultAssembliesFinderAssembliesTest extends AssembliesFinderTestU
     
     @Test
     public void oneProjectNotTestProject_ExpectEmptyList() {
-        projectIsNotAUnitTestProject();
+        givenProjectIsNotAUnitTestProject();
         projects.add(project);
         List<String> assemblies = fromBuildConfiguration(projects);
         assertEquals(0,assemblies.size());
@@ -63,8 +63,8 @@ public class DefaultAssembliesFinderAssembliesTest extends AssembliesFinderTestU
     public void oneProjectIsTestProjectKnownConfig_ExpectInList() {
         //Arrange    
         String unitTestPath = getPathToExistingUnitTestDll();    
-        projectIsUnitTestProject("TestDll.txt");
-        projectExistsForConfigurationAndPlatform(unitTestPath);
+        givenProjectIsUnitTestProject("TestDll.txt");
+        givenProjectExistsForConfigurationAndPlatform(unitTestPath);
         mockSettingsToUseConfiguration();
         
         projects.add(project);
@@ -83,8 +83,8 @@ public class DefaultAssembliesFinderAssembliesTest extends AssembliesFinderTestU
         String name="DoesNotExist.txt";
         String unitTestPath = getPathToANonExistingDll(name);
         
-        projectIsUnitTestProject(name);
-        projectDoesNotExistForConfigurationAndPlatform();
+        givenProjectIsUnitTestProject(name);
+        givenProjectDoesNotExistForConfigurationAndPlatform();
         
         mockSettingsToUseConfiguration();
         

@@ -35,12 +35,12 @@ public class IgnoreMissingAssembliesFinderTest extends AssembliesFinderTestUtils
         String name="DoesNotExist.txt";
         String unitTestPath = getPathToANonExistingDll(name);
         addNonExistingDllToIgnoreMissingList(name);
-        finder = new AssembliesFinderFactory().create(propertiesHelper);
+        finder = new IgnoreMissingAssembliesFinder(propertiesHelper);
         Logger myLog = mock(Logger.class);
         IgnoreMissingAssembliesFinder myFinder = (IgnoreMissingAssembliesFinder) finder;
         myFinder.setLogger(myLog);
-        projectIsUnitTestProject(name);
-        projectExistsForConfigurationAndPlatform(unitTestPath);
+        givenProjectIsUnitTestProject(name);
+        givenProjectExistsForConfigurationAndPlatform(unitTestPath);
         mockSettingsToUseConfiguration();
         
         projects.add(project);
@@ -61,12 +61,12 @@ public class IgnoreMissingAssembliesFinderTest extends AssembliesFinderTestUtils
 
         String unitTestPath = getPathToANonExistingDll(name);
         addNonExistingDllToIgnoreMissingList("SomeOtherName.dll");
-        finder = new AssembliesFinderFactory().create(propertiesHelper);
+        finder = new IgnoreMissingAssembliesFinder(propertiesHelper);
         IgnoreMissingAssembliesFinder myFinder = (IgnoreMissingAssembliesFinder) finder;
         Logger myLog = mock(Logger.class);
         myFinder.setLogger(myLog);
-        projectIsUnitTestProject(name);
-        projectExistsForConfigurationAndPlatform(unitTestPath);
+        givenProjectIsUnitTestProject(name);
+        givenProjectExistsForConfigurationAndPlatform(unitTestPath);
         mockSettingsToUseConfiguration();
         
         projects.add(project);

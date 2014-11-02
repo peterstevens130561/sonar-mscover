@@ -32,6 +32,7 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
     public static final String MSCOVER_UNIT_RESULTS= MSCOVER + "unittests.results";
     public static final String MSCOVER_MODE = MSCOVER + "mode";
     public static final String MSCOVER_UNITTEST_ASSEMBLIES = MSCOVER + "unittests.assemblies";
+    public static final String MSCOVER_UNITTEST_HINTPATH = MSCOVER + "unittests.hintpath";
     public static final String MSCOVER_TESTSETTINGS = MSCOVER + "vstest.testsettings";
     public static final String MSCOVER_COVERAGETOOL = MSCOVER + "coveragetool";
     public static final String MSCOVER_IGNOREMISSING_DLL = MSCOVER + "vstest.ignoremissingdlls";
@@ -277,6 +278,10 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
      */
     public String getOpenCoverInstallPath() {
         return settings.getString("sonar.opencover.installDirectory");
+    }
+
+    public String getUnitTestHintPath() {
+        return settings.getString(MSCOVER_UNITTEST_HINTPATH);
     }
     
 }

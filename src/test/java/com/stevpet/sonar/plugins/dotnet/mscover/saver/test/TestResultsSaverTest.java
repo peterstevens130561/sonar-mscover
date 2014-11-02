@@ -65,4 +65,13 @@ public class TestResultsSaverTest {
         sonarFile.verifySaveMetricValue(CoreMetrics.TEST_FAILURES,failed);
         sonarFile.verifySaveMetricValue(CoreMetrics.TESTS, tests);
     }
+    
+    @Test
+    public void saveTestCaseMeasures_EmptyResults_MinimalDetail() {
+        UnitTestFileResultModel fileResults = new UnitTestFileResultModel();
+        ResourceSeamMock sonarFile = new ResourceSeamMock();
+        saver.saveTestCaseMeasures(fileResults, sonarFile.getMock());
+        String expected="<tests-details></tests-detailsX>";
+        sonarFile.verifySaveMeasure(CoreMetrics.TEST_DATA,expected);
+    }
 }

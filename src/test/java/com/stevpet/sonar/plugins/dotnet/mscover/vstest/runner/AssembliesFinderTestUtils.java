@@ -22,11 +22,8 @@ public class AssembliesFinderTestUtils {
     private String buildConfiguration = "Debug";
     private String buildPlatform = "AnyCPU";
 
-    public AssembliesFinderTestUtils() {
-        super();
-    }
 
-    protected void projectIsNotAUnitTestProject() {
+    protected void givenProjectIsNotAUnitTestProject() {
         when(project.isUnitTest()).thenReturn(false);
     }
 
@@ -35,16 +32,16 @@ public class AssembliesFinderTestUtils {
         when(propertiesHelper.getRequiredBuildPlatform()).thenReturn(buildPlatform);
     }
 
-    protected void projectIsUnitTestProject(String projectName) {
+    protected void givenProjectIsUnitTestProject(String projectName) {
         when(project.isUnitTest()).thenReturn(true);
         when(project.getArtifactName()).thenReturn(projectName);
     }
 
-    protected void projectDoesNotExistForConfigurationAndPlatform() {
+    protected void givenProjectDoesNotExistForConfigurationAndPlatform() {
         when(project.getArtifact(eq(buildConfiguration), eq(buildPlatform))).thenReturn(null);
     }
 
-    protected void projectExistsForConfigurationAndPlatform(String unitTestPath) {
+    protected void givenProjectExistsForConfigurationAndPlatform(String unitTestPath) {
         when(project.getArtifact(eq(buildConfiguration), eq(buildPlatform))).thenReturn(new File(unitTestPath));
     }
 

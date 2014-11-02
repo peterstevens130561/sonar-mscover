@@ -19,7 +19,6 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
 
     private static Logger LOG = LoggerFactory.getLogger(DefaultAssembliesFinder.class);
 
-
     private WildcardPattern[] inclusionMatchers;
     private List<String> assemblies;
     protected MsCoverProperties propertiesHelper;
@@ -27,6 +26,7 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
     public AbstractAssembliesFinder(MsCoverProperties propertiesHelper) {
         this.propertiesHelper=propertiesHelper;
     }
+
 
     public List<String> findUnitTestAssembliesFromConfig(File solutionDirectory, List<VisualStudioProject> projects) {
         String assembliesPattern = propertiesHelper.getUnitTestsAssemblies();
@@ -87,7 +87,7 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
             LOG.info("Unit test assembly defaulting to " + assemblyPath);
         }
         if(!assemblyFile.exists() ) {
-            onNonExistingFile(assemblyFile);            
+            searchNonExistingFile(assemblyFile,project,buildConfiguration);            
         }
         assemblyPath= assemblyFile.getAbsolutePath();
         if(assemblyFile.exists()) {
@@ -95,12 +95,23 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
         }
     }
 
+
     private File createPathToUnitTestFile(VisualStudioProject project, String buildConfiguration) {
         File artifactDirectory=project.getDirectory();
         String artifactPath = "bin/" + buildConfiguration + "/" + project.getArtifactName();
         return new File(artifactDirectory, artifactPath);
     }
 
+    /**
+     * Start finding the patterns defined in setPattern from the specified directory
+     * @param directory
+     * @return list of absolute paths matching the patterns
+     */
+    private List<String> findAssemblies(File directory) {
+        assemblies=new ArrayList<String>();
+        checkDirectory(directory);
+        return assemblies;
+    }
     public void checkDirectory(File directory) {
         for(File file :directory.listFiles()) {
             checkFile(file);
@@ -118,16 +129,7 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
         }
     }
 
-    /**
-     * Start finding the patterns defined in setPattern from the specified directory
-     * @param directory
-     * @return list of absolute paths matching the patterns
-     */
-    private List<String> findAssemblies(File directory) {
-        assemblies=new ArrayList<String>();
-        checkDirectory(directory);
-        return assemblies;
-    }
+
 
     /**
      * @param patternSequence commaseperated sequence of patterns to look for

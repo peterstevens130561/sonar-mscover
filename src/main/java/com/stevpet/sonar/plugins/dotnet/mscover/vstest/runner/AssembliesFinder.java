@@ -9,6 +9,8 @@ public interface AssembliesFinder {
 
     List<String> findUnitTestAssembliesFromConfig(File solutionDirectory,
             List<VisualStudioProject> projects);
-    void onNonExistingFile(File assemblyFile);
+    
+    File searchNonExistingFile(File assemblyFile, VisualStudioProject project, String buildConfiguration);
+    
 
 }
