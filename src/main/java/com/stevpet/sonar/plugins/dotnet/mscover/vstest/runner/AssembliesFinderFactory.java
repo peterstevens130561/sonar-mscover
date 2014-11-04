@@ -8,15 +8,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.H
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.IgnoreMissingAssemblyResolver;
 
 public class AssembliesFinderFactory implements AbstractAssembliesFinderFactory {
-    public  AssembliesFinder createOld(MsCoverProperties propertiesHelper) {
-        AssembliesFinder finder;
-        if(propertiesHelper!=null && propertiesHelper.isIgnoreMissingUnitTestAssembliesSpecified()) {
-            finder=new IgnoreMissingAssembliesFinder(propertiesHelper) ;
-        } else {
-            finder=new DefaultAssembliesFinder(propertiesHelper) ;
-        }
-        return finder;
-    }
+
     
     public AssembliesFinder create(MsCoverProperties propertiesHelper) {
        AssemblyResolver[] assembliesFinders = {

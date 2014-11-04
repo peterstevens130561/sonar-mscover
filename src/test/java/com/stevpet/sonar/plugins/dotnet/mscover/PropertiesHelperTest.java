@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.config.Settings;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 public class PropertiesHelperTest {
@@ -171,6 +173,29 @@ public class PropertiesHelperTest {
      Assert.assertTrue(actual);
  }
     
+ 
+ @Test
+ public void hintPathNotSet_Null() {
+     String actual = helper.getUnitTestHintPath();
+     assertNull(actual);
+ }
+ 
+ @Test
+ public void hintPathSet_Value() {
+     String path="C:/Development/Jewel.Release.Oahu/JewelEarth/bin";
+     setSetting(PropertiesHelper.MSCOVER_UNITTEST_HINTPATH,path);
+     String actual = helper.getUnitTestHintPath();
+     assertEquals(path,actual);
+     
+ }
+ 
+ @Test
+ public void hintPathMulti_Ignored() {
+     String path="C:/Development/Jewel.Release.Oahu/JewelEarth/bin,SomeOtherPath";
+     setSetting(PropertiesHelper.MSCOVER_UNITTEST_HINTPATH,path);
+     String actual = helper.getUnitTestHintPath();
+     assertEquals(path,actual);   
+ }
     private void setSetting(String property,String value) {
         when(settings.getString(property)).thenReturn(value);       
     }

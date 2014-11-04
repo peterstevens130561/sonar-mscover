@@ -17,7 +17,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.exception.SolutionHasNoProjectsS
 
 public abstract class AbstractAssembliesFinder implements AssembliesFinder {
 
-    private static Logger LOG = LoggerFactory.getLogger(DefaultAssembliesFinder.class);
+    private static Logger LOG = LoggerFactory.getLogger(AbstractAssembliesFinder.class);
 
     private WildcardPattern[] inclusionMatchers;
     private List<String> assemblies;
@@ -28,6 +28,15 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
     }
 
 
+    /**
+     * If no assembliesPattern is defined, then find through the projects, otherwise use the pattern starting in the
+     * solutiondirectory
+     * 
+     * @exception SonarException is thrown when no assemblies are found while pattern is defined.
+     * @return the list of assemblies
+     * 
+     * exception is thrown when no assemblies are found while pattern is defined.
+     */
     public List<String> findUnitTestAssembliesFromConfig(File solutionDirectory, List<VisualStudioProject> projects) {
         String assembliesPattern = propertiesHelper.getUnitTestsAssemblies();
         if(StringUtils.isEmpty(assembliesPattern)) {
@@ -80,18 +89,13 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
         if(assemblyFile==null) {
             throw new NoAssemblyDefinedMsCoverException(buildConfiguration,buildPlatform);
         }
-        String assemblyPath=assemblyFile.getAbsolutePath();
-        if(!assemblyFile.exists()) {
-            LOG.info("Unit test assembly " + assemblyPath + " does not exist Check .proj file for " + buildPlatform + "|" + buildConfiguration);
-            assemblyFile =createPathToUnitTestFile(project,buildConfiguration);
-            LOG.info("Unit test assembly defaulting to " + assemblyPath);
-        }
+
         if(!assemblyFile.exists() ) {
-            searchNonExistingFile(assemblyFile,project,buildConfiguration);            
+            assemblyFile=searchNonExistingFile(assemblyFile,project,buildConfiguration);            
         }
-        assemblyPath= assemblyFile.getAbsolutePath();
-        if(assemblyFile.exists()) {
-            assemblies.add(assemblyPath);
+
+        if(assemblyFile!=null && assemblyFile.exists()) {
+            assemblies.add(assemblyFile.getAbsolutePath());
         }
     }
 

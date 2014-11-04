@@ -25,4 +25,12 @@ public class MsCoverPropertiesMock {
     public void givenUnitTestAssembliesThatCanBeIgnoredIfMissing(Collection<String> list) {
         when(properties.getUnitTestAssembliesThatCanBeIgnoredIfMissing()).thenReturn(list);
     }
+
+    public void givenRequiredBuildPlatform(String buildPlatform) {
+        when(properties.getRequiredBuildPlatform()).thenReturn(buildPlatform);
+    }
+
+    public void givenRequiredBuildConfiguration(String buildConfiguration) {
+        when(properties.getRequiredBuildConfiguration()).thenReturn(buildConfiguration);
+    }
  }

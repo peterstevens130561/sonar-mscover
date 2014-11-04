@@ -1,7 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 

@@ -92,6 +92,10 @@ import java.util.List;
     @Property(
             key=PropertiesHelper.MSCOVER_IGNOREMISSING_DLL,
             name="list of dlls that may be ignored if missing",
+            defaultValue="",global=false,project=true,type=PropertyType.STRING),
+    @Property(
+            key=PropertiesHelper.MSCOVER_UNITTEST_HINTPATH,
+            name="hintpath for unit testing dlls",
             defaultValue="",global=false,project=true,type=PropertyType.STRING)
     }
 )

@@ -37,7 +37,7 @@ public class BaseAssembliesFinder extends AbstractAssembliesFinder implements As
     }
 
     public void setResolver(AssemblyResolver assemblyResolver) {
-        assemblyResolver.setResolver(assemblyResolver);
+        this.assemblyResolver.setResolver(assemblyResolver);
     }
 
     public void setMsCoverProperties(MsCoverProperties msCoverProperties) {

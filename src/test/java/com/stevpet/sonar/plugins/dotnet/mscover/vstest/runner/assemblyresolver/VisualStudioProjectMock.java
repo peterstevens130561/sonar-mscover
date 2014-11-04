@@ -21,4 +21,26 @@ public class VisualStudioProjectMock extends GenericClassMock<VisualStudioProjec
     public void givenArtifactName(String artifactName) {
         when(instance.getArtifactName()).thenReturn(artifactName);
     }
+
+    public void givenIsUnitTest(boolean b) {
+        when(instance.isUnitTest()).thenReturn(b);
+    }
+
+    public void givenArtifact(String buildConfiguration, String buildPlatform,
+            String artifact) {
+        when(instance.getArtifact(buildConfiguration, buildPlatform)).thenReturn(new File(artifact));
+    }
+    
+    public void givenArtifact(String buildConfiguration, String buildPlatform,
+            File artifactFile) {
+        when(instance.getArtifact(buildConfiguration, buildPlatform)).thenReturn(artifactFile);
+    }
+    /**
+     * wraps getArtifactName
+     * @param artifactFile
+     */
+    public void givenArtifactName(File artifactFile) {
+        String name= artifactFile==null?null:artifactFile.getName();
+        when(instance.getArtifactName()).thenReturn(name);
+    }
 }
