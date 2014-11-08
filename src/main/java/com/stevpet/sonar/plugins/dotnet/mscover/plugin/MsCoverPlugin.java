@@ -96,7 +96,11 @@ import java.util.List;
     @Property(
             key=PropertiesHelper.MSCOVER_UNITTEST_HINTPATH,
             name="hintpath for unit testing dlls",
-            defaultValue="",global=false,project=true,type=PropertyType.STRING)
+            defaultValue="",global=false,project=true,type=PropertyType.STRING),
+    @Property(
+            key=PropertiesHelper.MSCOVER_OPENCOVER_SKIPAUTOPROPS,
+            name="skip autoproperties",
+            defaultValue="true",global=true,project=true,type=PropertyType.BOOLEAN)
     }
 )
             

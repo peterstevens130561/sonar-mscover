@@ -1,12 +1,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.command;
 
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.sonar.api.utils.command.Command;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
@@ -48,6 +44,9 @@ public class OpenCoverCommand implements ShellCommand {
         addSpacedArgument("target",value);
     }
     
+    public void setSkipAutoProps() {
+       addOption("skipautoprops");
+    }
     private void setTargetArgs( String value) {
         String escapedArg=value.replaceAll("\\\"", "\\\\\"");
         addSpacedArgument("targetargs",escapedArg );
@@ -99,6 +98,12 @@ public class OpenCoverCommand implements ShellCommand {
     private void addArgument(String name, String value) {
         StringBuilder sb = new StringBuilder();
         sb.append("-").append(name).append(":").append(value);
+        arguments.put(name, sb.toString());
+    }
+    
+    private void addOption(String name) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("-").append(name);
         arguments.put(name, sb.toString());
     }
     

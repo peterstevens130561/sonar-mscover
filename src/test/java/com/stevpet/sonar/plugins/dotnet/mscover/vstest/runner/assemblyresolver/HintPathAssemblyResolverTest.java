@@ -3,7 +3,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MsCoverPropertiesMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 
 public class HintPathAssemblyResolverTest {
 

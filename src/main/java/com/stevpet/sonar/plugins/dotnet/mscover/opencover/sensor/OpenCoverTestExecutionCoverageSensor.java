@@ -49,13 +49,13 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private final ModuleFileSystem moduleFileSystem;
     private String openCoverCoveragePath;
     private VsTestEnvironment testEnvironment;
-    private String sonarWorkingDirPath;
     CommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private VsTestRunner unitTestRunner;
     private OpenCoverCommand openCoverCommand = new OpenCoverCommand();
     private AbstractVsTestRunnerFactory vsTestRunnerFactory = new DefaultVsTestRunnerFactory();
     private ProjectSeam projectSeam = new SonarProjectSeam();
+    private OpenCoverFilterBuilder openCoverFilterBuilder = new OpenCoverFilterBuilder();
     
     public OpenCoverTestExecutionCoverageSensor(MsCoverProperties propertiesHelper, 
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
@@ -136,24 +136,31 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
 
     
     private void executeVsTestOpenCoverRunner(Project project) {
-
+        unitTestRunner.clean();
+        VSTestCommand testCommand=unitTestRunner.prepareTestCommand();
         openCoverCommand.setRegister("user");
-        
+        String sonarWorkingDirPath = project.getFileSystem().getSonarWorkingDirectory().getAbsolutePath();
         openCoverCommand.setTargetDir(sonarWorkingDirPath);
         openCoverCommand.setMergeByHash();   
-
+        if(propertiesHelper.getOpenCoverSkipAutoProps()) {
+            openCoverCommand.setSkipAutoProps();
+        }
+        openCoverCommand.setOutputPath(testEnvironment.getXmlCoveragePath());
+        openCoverCommand.setTargetCommand(testCommand);
+        
+        openCoverFilterBuilder.setSolution(solution);
+        openCoverFilterBuilder.setOpenCoverCommand(openCoverCommand);
+        openCoverFilterBuilder.build();
+        /*
         List<String> excludeFilters = new ArrayList<String>();
         excludeFilters.add("*\\*.Designer.cs");
         openCoverCommand.setExcludeByFileFilter(excludeFilters);
         openCoverCommand.setExcludeFromCodeCoverageAttributeFilter();
-        testEnvironment.setTestsHaveRun();
-        openCoverCommand.setOutputPath(testEnvironment.getXmlCoveragePath());
-        
-        openCoverCommand.setTargetCommand(prepareTestRunner());
         String filter = getAssembliesToIncludeInCoverageFilter();
         openCoverCommand.setFilter(filter); 
-        unitTestRunner.clean();
+        */
         commandLineExecutor.execute(openCoverCommand);
+        testEnvironment.setTestsHaveRun();
     }
     
     
@@ -168,11 +175,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         testEnvironment.setTestResultsXmlPath(resultsPath);
     }
 
-    private OpenCoverTarget prepareTestRunner() {
 
-        VSTestCommand testCommand=unitTestRunner.prepareTestCommand();
-        return testCommand;
-    }
     protected String getAssembliesToIncludeInCoverageFilter() {
         final StringBuilder filterBuilder = new StringBuilder();
         // We add all the covered assemblies

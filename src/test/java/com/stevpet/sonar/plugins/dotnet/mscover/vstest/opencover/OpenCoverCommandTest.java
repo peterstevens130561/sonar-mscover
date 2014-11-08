@@ -99,4 +99,15 @@ public class OpenCoverCommandTest {
         openCoverCommand.setExcludeFromCodeCoverageAttributeFilter();
         testHelper.assertArgument("-excludebyattribute:*ExcludeFromCodeCoverage*");
     }
+    
+    @Test
+    public void testSkipAutoPropsSet_SkipAutoPropsInArgumentList() {
+        openCoverCommand.setSkipAutoProps();
+        testHelper.assertArgument("-skipautoprops");
+    }
+    
+    @Test
+    public void testSkipAutoPropsNotSet_SkipAutoPropsNotInArgumentList() {
+        testHelper.assertNoArgument();
+    }
 }

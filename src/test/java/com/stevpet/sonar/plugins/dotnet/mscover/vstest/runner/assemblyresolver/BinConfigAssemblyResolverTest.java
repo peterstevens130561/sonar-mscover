@@ -6,7 +6,7 @@ import java.io.File;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MsCoverPropertiesMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.ProjectMock;
 
 public class BinConfigAssemblyResolverTest {

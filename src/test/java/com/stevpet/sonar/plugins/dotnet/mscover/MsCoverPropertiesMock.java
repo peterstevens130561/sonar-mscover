@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
+package com.stevpet.sonar.plugins.dotnet.mscover;
 
 import java.util.Collection;
 
@@ -32,5 +32,9 @@ public class MsCoverPropertiesMock {
 
     public void givenRequiredBuildConfiguration(String buildConfiguration) {
         when(properties.getRequiredBuildConfiguration()).thenReturn(buildConfiguration);
+    }
+    
+    public void givenOpenCoverSkipAutoProps(boolean value) {
+        when(properties.getOpenCoverSkipAutoProps()).thenReturn(value);
     }
  }

@@ -43,4 +43,8 @@ public class VisualStudioProjectMock extends GenericClassMock<VisualStudioProjec
         String name= artifactFile==null?null:artifactFile.getName();
         when(instance.getArtifactName()).thenReturn(name);
     }
+
+    public void givenAssemblyName(String name) {
+        when(instance.getAssemblyName()).thenReturn(name);
+    }
 }

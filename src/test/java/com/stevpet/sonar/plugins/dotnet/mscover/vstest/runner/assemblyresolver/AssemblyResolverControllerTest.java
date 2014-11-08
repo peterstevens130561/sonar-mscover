@@ -6,9 +6,10 @@ import java.io.File;
 
 import org.junit.Test;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
+
 import static org.mockito.Mockito.verify;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MsCoverPropertiesMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 
 public class AssemblyResolverControllerTest {
     @Test

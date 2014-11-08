@@ -33,4 +33,10 @@ public class OpenCoverTestHelper {
         return openCoverCommand;
     }
 
+    public void assertNoArgument() {
+        String commandLine=openCoverCommand.toCommandLine();
+        assertNotNull(commandLine);
+        assertEquals(EXECUTABLE + "/OpenCover.Console.Exe",commandLine);      
+    }
+
 }

@@ -324,4 +324,9 @@ public class MsCoverPropertiesStub implements MsCoverProperties {
         return null;
     }
 
+    public boolean getOpenCoverSkipAutoProps() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

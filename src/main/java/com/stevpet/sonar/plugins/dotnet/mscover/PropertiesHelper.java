@@ -37,6 +37,7 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
     public static final String MSCOVER_COVERAGETOOL = MSCOVER + "coveragetool";
     public static final String MSCOVER_IGNOREMISSING_DLL = MSCOVER + "vstest.ignoremissingdlls";
     public static final String MSCOVER_IGNOREMISSING_PDB = MSCOVER + "opencover.ignoremissingpdbs";
+    public static final String MSCOVER_OPENCOVER_SKIPAUTOPROPS = MSCOVER + "opencover.skipautoprops";
     
     @Deprecated
     public PropertiesHelper(Settings settings) {
@@ -282,6 +283,10 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
 
     public String getUnitTestHintPath() {
         return settings.getString(MSCOVER_UNITTEST_HINTPATH);
+    }
+    
+    public boolean getOpenCoverSkipAutoProps() {
+        return settings.getBoolean(MSCOVER_OPENCOVER_SKIPAUTOPROPS);
     }
     
 }

@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestExecutionSensorBehaviour;
 
@@ -94,7 +95,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         bd.givenANewSensor();
         bd.setOpenCoverCommand(openCoverCommand.getMock());
         microsoftWindowsEnvironment.givenHasSolutionWithProject(1);
-        bd.analyse();
+        //bd.analyse();
         //testEnvironment.verifyTestsHaveRun();
         //TODO: fix unit test
     }

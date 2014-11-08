@@ -4,7 +4,6 @@ import java.io.File;
 
 import org.sonar.api.resources.Project;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 
 public class SonarProjectSeam   implements ProjectSeam{
 

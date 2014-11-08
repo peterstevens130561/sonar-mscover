@@ -71,6 +71,8 @@ public interface MsCoverProperties {
     public abstract String getOpenCoverInstallPath();
 
     public abstract String getUnitTestHintPath();
+    
+    public abstract boolean getOpenCoverSkipAutoProps();
 
 
 }
