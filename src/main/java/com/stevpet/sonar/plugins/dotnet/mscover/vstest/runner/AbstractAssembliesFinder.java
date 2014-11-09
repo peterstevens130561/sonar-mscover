@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.WildcardPattern;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
+import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.NoAssemblyDefinedMsCoverException;
@@ -27,7 +28,15 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
         this.propertiesHelper=propertiesHelper;
     }
 
-
+    public String findUnitTestAssembliesDir(VisualStudioSolution solution) {
+        File solutionDirectory=solution.getSolutionDir();
+        List<VisualStudioProject> projects=solution.getProjects();
+        List<String> assemblies = findUnitTestAssembliesFromConfig(solutionDirectory,projects);
+        File firstAssembly= new File(assemblies.get(0));
+        return firstAssembly.getParent();
+        
+        
+    }
     /**
      * If no assembliesPattern is defined, then find through the projects, otherwise use the pattern starting in the
      * solutiondirectory
@@ -100,11 +109,6 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
     }
 
 
-    private File createPathToUnitTestFile(VisualStudioProject project, String buildConfiguration) {
-        File artifactDirectory=project.getDirectory();
-        String artifactPath = "bin/" + buildConfiguration + "/" + project.getArtifactName();
-        return new File(artifactDirectory, artifactPath);
-    }
 
     /**
      * Start finding the patterns defined in setPattern from the specified directory

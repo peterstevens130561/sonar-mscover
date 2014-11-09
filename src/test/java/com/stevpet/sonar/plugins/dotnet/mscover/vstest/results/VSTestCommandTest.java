@@ -42,6 +42,14 @@ public class VSTestCommandTest {
     }
     
     @Test
+    public void setAssembliesDir() {
+        String given="mydir";
+        testCommand.setUnitTestAssembliesDir(given);
+        String actual=testCommand.getAssembliesDir();
+        assertEquals(given,actual);
+    }
+    
+    @Test
     public void noCodeCoverage_expectNotInCommandLine() {
         checkCodeCoverage("");
     }

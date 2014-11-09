@@ -55,7 +55,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private OpenCoverCommand openCoverCommand = new OpenCoverCommand();
     private AbstractVsTestRunnerFactory vsTestRunnerFactory = new DefaultVsTestRunnerFactory();
     private ProjectSeam projectSeam = new SonarProjectSeam();
-    private OpenCoverFilterBuilder openCoverFilterBuilder = new OpenCoverFilterBuilder();
+    private OpenCoverCommandBuilder openCoverCommandBuilder = new OpenCoverCommandBuilder();
     
     public OpenCoverTestExecutionCoverageSensor(MsCoverProperties propertiesHelper, 
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
@@ -116,7 +116,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         getSolution();
         ensureWorkDirExists();
         
-        executeVsTestOpenCoverRunner(project);
+        executeVsTestOpenCoverRunner();
         getResultPaths();
         // tell that tests were executed so that no other project tries to launch them a second time
         getMicrosoftWindowsEnvironment().setTestExecutionDone();
@@ -135,30 +135,16 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     }
 
     
-    private void executeVsTestOpenCoverRunner(Project project) {
+    private void executeVsTestOpenCoverRunner() {
         unitTestRunner.clean();
-        VSTestCommand testCommand=unitTestRunner.prepareTestCommand();
-        openCoverCommand.setRegister("user");
-        String sonarWorkingDirPath = project.getFileSystem().getSonarWorkingDirectory().getAbsolutePath();
-        openCoverCommand.setTargetDir(sonarWorkingDirPath);
-        openCoverCommand.setMergeByHash();   
-        if(propertiesHelper.getOpenCoverSkipAutoProps()) {
-            openCoverCommand.setSkipAutoProps();
-        }
-        openCoverCommand.setOutputPath(testEnvironment.getXmlCoveragePath());
-        openCoverCommand.setTargetCommand(testCommand);
+    
+        openCoverCommandBuilder.setOpenCoverCommand(openCoverCommand)
+        .setSolution(solution)
+        .setMsCoverProperties(propertiesHelper)
+        .setTestRunner(unitTestRunner)
+        .setTestEnvironment(testEnvironment)
+        .build();
         
-        openCoverFilterBuilder.setSolution(solution);
-        openCoverFilterBuilder.setOpenCoverCommand(openCoverCommand);
-        openCoverFilterBuilder.build();
-        /*
-        List<String> excludeFilters = new ArrayList<String>();
-        excludeFilters.add("*\\*.Designer.cs");
-        openCoverCommand.setExcludeByFileFilter(excludeFilters);
-        openCoverCommand.setExcludeFromCodeCoverageAttributeFilter();
-        String filter = getAssembliesToIncludeInCoverageFilter();
-        openCoverCommand.setFilter(filter); 
-        */
         commandLineExecutor.execute(openCoverCommand);
         testEnvironment.setTestsHaveRun();
     }
@@ -174,25 +160,6 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         String resultsPath=vsTestResults.getTestResultsXmlPath(); 
         testEnvironment.setTestResultsXmlPath(resultsPath);
     }
-
-
-    protected String getAssembliesToIncludeInCoverageFilter() {
-        final StringBuilder filterBuilder = new StringBuilder();
-        // We add all the covered assemblies
-        for (String assemblyName : listCoveredAssemblies()) {
-          filterBuilder.append("+[" + assemblyName + "]* ");
-        }
-        return filterBuilder.toString();
-    }
-    
-    protected List<String> listCoveredAssemblies() {
-        List<String> coveredAssemblyNames = new ArrayList<String>();
-        for (VisualStudioProject visualProject : solution.getProjects()) {
-            coveredAssemblyNames.add(visualProject.getAssemblyName());
-        }
-        return coveredAssemblyNames;
-      }
-
 
     private void getSolution() {
         solution = getMicrosoftWindowsEnvironment().getCurrentSolution();

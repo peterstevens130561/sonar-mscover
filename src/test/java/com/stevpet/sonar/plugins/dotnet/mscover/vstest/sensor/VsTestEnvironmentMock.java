@@ -40,4 +40,8 @@ public class VsTestEnvironmentMock {
         return vsTestEnvironment;
     }
 
+    public void givenXmlCoveragePath(String string) {
+        when(vsTestEnvironment.getXmlCoveragePath()).thenReturn(string);
+    }
+
 }

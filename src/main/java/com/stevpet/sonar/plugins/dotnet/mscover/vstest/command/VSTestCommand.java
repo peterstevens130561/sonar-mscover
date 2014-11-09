@@ -20,6 +20,7 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
     private List<String> unitTestAssemblyPaths;
     private boolean doCodeCoverage;
     private String platform;
+    private String assembliesDir;
     
     private VSTestCommand() {
         commandPath=defaultPath;
@@ -68,8 +69,12 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
     public void setTestSettingsFile(File testSettingsFile) {
         this.testSettingsPath = testSettingsFile.getAbsolutePath();
     }
-
+    
+    public void setUnitTestAssembliesDir(String assembliesDir) {
+        this.assembliesDir = assembliesDir;
+    }
     public void setUnitTestAssembliesPath(List<String> unitTestAssemblyPaths) {
+
         this.unitTestAssemblyPaths = CommandHelper.parenthesizeArguments(unitTestAssemblyPaths);
     }
     
@@ -88,6 +93,9 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
     public void setPlatform(String platform) {
         this.platform=platform;
         
+    }
+    public String getAssembliesDir() {
+        return assembliesDir;
     }
 
 
