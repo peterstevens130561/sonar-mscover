@@ -108,11 +108,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
 
     @Override
     public void analyse(Project project, SensorContext context) {
-        /* projectSeam.setProject(project);
-        File opencoverCoverageFile= projectSeam.getSonarFile("coverage-report.xml");
-        openCoverCoveragePath= opencoverCoverageFile.getAbsolutePath();
-        testEnvironment.setCoverageXmlPath(openCoverCoveragePath);
-        */
+
         testEnvironment.setCoverageXmlFile(project,"coverage-report.xml");
         unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
         String openCoverPath = propertiesHelper.getOpenCoverInstallPath();

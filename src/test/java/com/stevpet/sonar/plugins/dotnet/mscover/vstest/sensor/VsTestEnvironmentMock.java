@@ -1,8 +1,10 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -42,6 +44,11 @@ public class VsTestEnvironmentMock {
 
     public void givenXmlCoveragePath(String string) {
         when(vsTestEnvironment.getXmlCoveragePath()).thenReturn(string);
+    }
+
+    public void verifySonarCoverageSet() {
+        verify(vsTestEnvironment,times(1)).setSonarCoverage(any(SonarCoverage.class));
+        
     }
 
 }

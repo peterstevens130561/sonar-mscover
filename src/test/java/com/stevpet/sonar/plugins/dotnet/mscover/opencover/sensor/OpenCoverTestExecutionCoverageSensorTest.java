@@ -126,7 +126,10 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         classUnderTest.setOpenCoverCommand(openCoverCommand.getMock());
         microsoftWindowsEnvironmentMock.givenHasSolutionWithProject(1);
         classUnderTest.analyse();
-        //testEnvironment.verifyTestsHaveRun();
+        
+        xmlParserSubjectMock.verifyParseFile("coverage.xml");
+        testEnvironmentMock.verifyTestsHaveRun();
+        testEnvironmentMock.verifySonarCoverageSet();
         //TODO: fix unit test
     }
 
