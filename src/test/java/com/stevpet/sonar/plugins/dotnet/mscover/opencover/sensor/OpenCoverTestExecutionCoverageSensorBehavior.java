@@ -10,6 +10,7 @@ import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.OpenCoverCommandBuilderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutorMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactoryMock;

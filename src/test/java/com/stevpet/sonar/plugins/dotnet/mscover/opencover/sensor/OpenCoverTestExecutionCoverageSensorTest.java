@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.OpenCoverCommandBuilderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutorMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactoryMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubjectMock;
