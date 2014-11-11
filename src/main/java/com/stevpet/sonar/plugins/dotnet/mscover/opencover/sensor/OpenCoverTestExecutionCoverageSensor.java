@@ -35,6 +35,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AbstractVsTestRunnerFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultVsTestRunnerFactory;
 @DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
@@ -47,15 +49,16 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private File workDir;
     private final MsCoverProperties propertiesHelper ;
     private final ModuleFileSystem moduleFileSystem;
-    private String openCoverCoveragePath;
     private VsTestEnvironment testEnvironment;
-    CommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
+    private CommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private VsTestRunner unitTestRunner;
     private OpenCoverCommand openCoverCommand = new OpenCoverCommand();
     private AbstractVsTestRunnerFactory vsTestRunnerFactory = new DefaultVsTestRunnerFactory();
-    private ProjectSeam projectSeam = new SonarProjectSeam();
     private OpenCoverCommandBuilder openCoverCommandBuilder = new OpenCoverCommandBuilder();
+    private AssembliesFinderFactory assembliesFinderFactory = new AssembliesFinderFactory();
+    private VSTestStdOutParser vsTestStdOutParser = new VSTestStdOutParser();
+    private OpenCoverParserFactory openCoverParserFactory = new ConcreteOpenCoverParserFactory();
     
     public OpenCoverTestExecutionCoverageSensor(MsCoverProperties propertiesHelper, 
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
@@ -105,10 +108,12 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
 
     @Override
     public void analyse(Project project, SensorContext context) {
-        projectSeam.setProject(project);
+        /* projectSeam.setProject(project);
         File opencoverCoverageFile= projectSeam.getSonarFile("coverage-report.xml");
         openCoverCoveragePath= opencoverCoverageFile.getAbsolutePath();
         testEnvironment.setCoverageXmlPath(openCoverCoveragePath);
+        */
+        testEnvironment.setCoverageXmlFile(project,"coverage-report.xml");
         unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
         String openCoverPath = propertiesHelper.getOpenCoverInstallPath();
         openCoverCommand.setCommandPath(openCoverPath);
@@ -121,15 +126,12 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         // tell that tests were executed so that no other project tries to launch them a second time
         getMicrosoftWindowsEnvironment().setTestExecutionDone();
         parseCoverageFile(testEnvironment);
-        
-     
     }
 
     private void parseCoverageFile(VsTestEnvironment testEnvironment) {
-        OpenCoverParserFactory parserFactory = new ConcreteOpenCoverParserFactory();
         SonarCoverage sonarCoverageRegistry = new SonarCoverage();
         Collection<String> pdbsThatCanBeIgnoredWhenMissing = propertiesHelper.getPdbsThatMayBeIgnoredWhenMissing();
-        XmlParserSubject parser=parserFactory.createOpenCoverParser(sonarCoverageRegistry,pdbsThatCanBeIgnoredWhenMissing);
+        XmlParserSubject parser=openCoverParserFactory.createOpenCoverParser(sonarCoverageRegistry,pdbsThatCanBeIgnoredWhenMissing);
         parser.parseFile(new File(testEnvironment.getXmlCoveragePath()));
         testEnvironment.setSonarCoverage(sonarCoverageRegistry);
     }
@@ -137,13 +139,17 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     
     private void executeVsTestOpenCoverRunner() {
         unitTestRunner.clean();
-    
-        openCoverCommandBuilder.setOpenCoverCommand(openCoverCommand)
-        .setSolution(solution)
-        .setMsCoverProperties(propertiesHelper)
-        .setTestRunner(unitTestRunner)
-        .setTestEnvironment(testEnvironment)
-        .build();
+
+        openCoverCommandBuilder.setOpenCoverCommand(openCoverCommand);
+        openCoverCommandBuilder.setSolution(solution);
+        openCoverCommandBuilder.setMsCoverProperties(propertiesHelper);
+        openCoverCommandBuilder.setTestRunner(unitTestRunner);
+        openCoverCommandBuilder.setTestEnvironment(testEnvironment);
+        openCoverCommandBuilder.build();
+        
+        AssembliesFinder finder = assembliesFinderFactory.create(propertiesHelper);
+        String targetDir=finder.findUnitTestAssembliesDir(solution);
+        openCoverCommand.setTargetDir(targetDir);
         
         commandLineExecutor.execute(openCoverCommand);
         testEnvironment.setTestsHaveRun();
@@ -154,10 +160,10 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
      * parse test log to get paths to result files
      */
     public void getResultPaths() {
-        VSTestStdOutParser vsTestResults = new VSTestStdOutParser();
+
         String stdOut=commandLineExecutor.getStdOut();
-        vsTestResults.setResults(stdOut);
-        String resultsPath=vsTestResults.getTestResultsXmlPath(); 
+        vsTestStdOutParser.setResults(stdOut);
+        String resultsPath=vsTestStdOutParser.getTestResultsXmlPath(); 
         testEnvironment.setTestResultsXmlPath(resultsPath);
     }
 
@@ -186,6 +192,40 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     public void setOpenCoverCommand(OpenCoverCommand openCoverCommand) {
        this.openCoverCommand = openCoverCommand;
     }
-    
+    /**
+     * @param projectSeam the projectSeam to set
+     */
+    public void setProjectSeam(ProjectSeam projectSeam) {
+        //this.projectSeam = projectSeam;
+    }
+
+    public void setOpenCoverCommandBuilder(OpenCoverCommandBuilder mock) {
+        this.openCoverCommandBuilder=mock;
+        
+    }
+
+    public void setAssembliesFinderFactory(AssembliesFinderFactory assembliesFinderFactory) {
+        this.assembliesFinderFactory=assembliesFinderFactory;
+    }
+ 
+    public void setCommandLineExecutor(CommandLineExecutor commandLineExecutor) {
+        this.commandLineExecutor = commandLineExecutor;
+    }
+
+    /**
+     * @param vsTestStdOutParser the vsTestStdOutParser to set
+     */
+    public void setVsTestStdOutParser(VSTestStdOutParser vsTestStdOutParser) {
+        this.vsTestStdOutParser = vsTestStdOutParser;
+    }
+
+    /**
+     * @param openCoverParserFactory the openCoverParserFactory to set
+     */
+    public void setOpenCoverParserFactory(
+            OpenCoverParserFactory openCoverParserFactory) {
+        this.openCoverParserFactory = openCoverParserFactory;
+    }
+
 
 }

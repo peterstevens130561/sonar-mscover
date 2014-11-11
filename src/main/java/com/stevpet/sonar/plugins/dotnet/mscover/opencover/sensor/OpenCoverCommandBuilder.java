@@ -65,10 +65,13 @@ public class OpenCoverCommandBuilder {
         VSTestCommand testCommand=unitTestRunner.prepareTestCommand();
         openCoverCommand.setTargetCommand(testCommand);
         
+        String path=msCoverProperties.getOpenCoverInstallPath();
+        openCoverCommand.setCommandPath(path);
         
         List<String> excludeFilters = new ArrayList<String>();
         excludeFilters.add("*\\*.Designer.cs");
         openCoverCommand.setExcludeByFileFilter(excludeFilters);
+        
         openCoverCommand.setExcludeFromCodeCoverageAttributeFilter();
         String filter = getAssembliesToIncludeInCoverageFilter();
         openCoverCommand.setFilter(filter); 

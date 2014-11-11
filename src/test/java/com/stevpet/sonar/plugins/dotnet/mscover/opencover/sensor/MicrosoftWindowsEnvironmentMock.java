@@ -7,29 +7,31 @@ import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-public class MicrosoftWindowsEnvironmentMock {
-    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
+public class MicrosoftWindowsEnvironmentMock extends GenericClassMock<MicrosoftWindowsEnvironment>{
     private VisualStudioSolution solution = mock(VisualStudioSolution.class);
 
+    public MicrosoftWindowsEnvironmentMock() {
+        super(MicrosoftWindowsEnvironment.class);
+        when(instance.getWorkingDirectory()).thenReturn(".sonar");
+    }
 
     public void givenHasNoTestProjects() {
-        when(microsoftWindowsEnvironment.getCurrentSolution()).thenReturn(solution);
+        when(instance.getCurrentSolution()).thenReturn(solution);
         List<VisualStudioProject> value = new ArrayList<VisualStudioProject>();
         when(solution.getUnitTestProjects()).thenReturn(value);
     }
     
-    public MicrosoftWindowsEnvironment getMock() {
-        return microsoftWindowsEnvironment;
-    }
 
     public void givenTestsHaveExecuted(boolean flag) {
-        when(microsoftWindowsEnvironment.isTestExecutionDone()).thenReturn(flag);
+        when(instance.isTestExecutionDone()).thenReturn(flag);
     }
 
     public void givenHasTestProject() {
-        when(microsoftWindowsEnvironment.getCurrentSolution()).thenReturn(solution);
+        when(instance.getCurrentSolution()).thenReturn(solution);
         List<VisualStudioProject> unitTestProjects = new ArrayList<VisualStudioProject>();
         VisualStudioProject vsProject = new VisualStudioProject();
         unitTestProjects.add(vsProject);
@@ -37,11 +39,11 @@ public class MicrosoftWindowsEnvironmentMock {
     }
     
     public void givenHasSolution(VisualStudioSolution solution) {
-        when(microsoftWindowsEnvironment.getCurrentSolution()).thenReturn(solution);
+        when(instance.getCurrentSolution()).thenReturn(solution);
     }
 
     public void givenHasSolutionWithProject(int count) {
-        when(microsoftWindowsEnvironment.getCurrentSolution()).thenReturn(solution);
+        when(instance.getCurrentSolution()).thenReturn(solution);
         List<VisualStudioProject> projects = new ArrayList<VisualStudioProject>();
         for(int projectIndex=0;projectIndex<count;projectIndex++) {
             VisualStudioProject vsProject = mock(VisualStudioProject.class);

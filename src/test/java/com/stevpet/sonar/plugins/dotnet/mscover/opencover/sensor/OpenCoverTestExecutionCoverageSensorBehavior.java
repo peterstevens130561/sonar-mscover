@@ -10,7 +10,13 @@ import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutorMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactoryMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.seams.ProjectSeamMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.ModuleFileSystemMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParserMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactoryMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock;
 
 public class OpenCoverTestExecutionCoverageSensorBehavior {
@@ -23,6 +29,9 @@ public class OpenCoverTestExecutionCoverageSensorBehavior {
     private SensorContext context = mock(SensorContext.class);
 
     
+    public void setModuleFileSystem(ModuleFileSystemMock moduleFileSystemMock ) {
+        moduleFileSystem = moduleFileSystemMock.getMock();
+    }
 
     public void givenANewSensor() {
         sensor=new OpenCoverTestExecutionCoverageSensor(msCoverProperties, 
@@ -62,5 +71,33 @@ public class OpenCoverTestExecutionCoverageSensorBehavior {
 
     public void analyse() {
         sensor.analyse(project, context);      
+    }
+
+    public void givenProjectSeam(ProjectSeamMock projectSeamMock) {
+        sensor.setProjectSeam(projectSeamMock.getMock());
+    }
+
+    public void givenOpenCoverCommandBuilder(
+            OpenCoverCommandBuilderMock openCoverCommandBuilderMock) {
+        sensor.setOpenCoverCommandBuilder(openCoverCommandBuilderMock.getMock());
+    }
+
+    public void givenAssembliesFinderFactory(
+            AssembliesFinderFactoryMock assembliesFinderFactoryMock) {
+        sensor.setAssembliesFinderFactory(assembliesFinderFactoryMock.getMock());
+    }
+
+    public void givenCommandLineExecutor(
+            CommandLineExecutorMock commandLineExecutorMock) {
+        sensor.setCommandLineExecutor(commandLineExecutorMock.getMock());
+    }
+
+    public void givenVsTestStdOutParser(VSTestStdOutParserMock vsTestStdOutParserMock) {
+        sensor.setVsTestStdOutParser(vsTestStdOutParserMock.getMock());
+    }
+
+    public void givenOpenCoverParserFactory(
+            OpenCoverParserFactoryMock openCoverParserFactoryMock) {
+        sensor.setOpenCoverParserFactory(openCoverParserFactoryMock.getMock());
     };
 }
