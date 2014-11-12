@@ -18,6 +18,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.seams.ProjectSeamMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.ModuleFileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParserMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactoryMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerFactoryMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock;
 
 public class OpenCoverTestExecutionCoverageSensorBehavior {
@@ -100,5 +101,10 @@ public class OpenCoverTestExecutionCoverageSensorBehavior {
     public void givenOpenCoverParserFactory(
             OpenCoverParserFactoryMock openCoverParserFactoryMock) {
         sensor.setOpenCoverParserFactory(openCoverParserFactoryMock.getMock());
+    }
+
+    public void givenTestRunnerFactory(
+            VsTestRunnerFactoryMock vsTestRunnerFactoryMock) {
+        sensor.setVsTestRunnerFactory(vsTestRunnerFactoryMock.getMock());
     };
 }

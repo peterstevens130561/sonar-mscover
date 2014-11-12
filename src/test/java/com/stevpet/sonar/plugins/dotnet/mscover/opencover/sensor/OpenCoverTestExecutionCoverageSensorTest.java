@@ -15,6 +15,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.seams.ProjectSeamMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.ModuleFileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParserMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactoryMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerFactoryMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestExecutionSensorBehaviour;
 
@@ -22,10 +23,10 @@ public class OpenCoverTestExecutionCoverageSensorTest {
 
     public OpenCoverTestExecutionCoverageSensorBehavior classUnderTest = new OpenCoverTestExecutionCoverageSensorBehavior();
     private VsTestEnvironmentMock testEnvironmentMock;
-    private MsCoverPropertiesMock properties = new MsCoverPropertiesMock();
+    private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     private ProjectMock project = new ProjectMock();
     private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
-    private OpenCoverCommandMock openCoverCommand = new OpenCoverCommandMock();
+    private OpenCoverCommandMock openCoverCommandMock = new OpenCoverCommandMock();
     private ProjectSeamMock projectSeamMock = new ProjectSeamMock();
     private ModuleFileSystemMock moduleFileSystemMock = new ModuleFileSystemMock();
     private OpenCoverCommandBuilderMock openCoverCommandBuilderMock = new OpenCoverCommandBuilderMock();
@@ -35,13 +36,15 @@ public class OpenCoverTestExecutionCoverageSensorTest {
     private VSTestStdOutParserMock vsTestStdOutParserMock = new VSTestStdOutParserMock();
     private OpenCoverParserFactoryMock openCoverParserFactoryMock = new OpenCoverParserFactoryMock();
     private XmlParserSubjectMock xmlParserSubjectMock = new XmlParserSubjectMock();
+    private VsTestRunnerFactoryMock vsTestRunnerFactoryMock = new VsTestRunnerFactoryMock();
+    private VsTestRunnerMock vsTestRunnerMock = new VsTestRunnerMock();
     
     @Before
     public void before() {
         testEnvironmentMock = classUnderTest.getVsTestEnvironmentMock();
         classUnderTest.setMicrosoftWindowsEnvironment(microsoftWindowsEnvironmentMock.getMock());
         classUnderTest.setProject(project.getMock());
-        classUnderTest.setMsCoverProperties(properties.getMock());
+        classUnderTest.setMsCoverProperties(msCoverPropertiesMock.getMock());
        
     }
     @Test
@@ -58,7 +61,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         microsoftWindowsEnvironmentMock.givenHasTestProject();
         project.givenIsRootProject(false);
         project.givenIsCSharpProject(true);
-        properties.givenRunOpenCover(true);
+        msCoverPropertiesMock.givenRunOpenCover(true);
 
         classUnderTest.verifyShouldAnalyseReturns(false);
     }
@@ -71,7 +74,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         microsoftWindowsEnvironmentMock.givenTestsHaveExecuted(false);
         project.givenIsRootProject(false);
         project.givenIsCSharpProject(false);
-        properties.givenRunOpenCover(true);
+        msCoverPropertiesMock.givenRunOpenCover(true);
 
         classUnderTest.verifyShouldAnalyseReturns(false);
     }
@@ -82,7 +85,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         microsoftWindowsEnvironmentMock.givenHasNoTestProjects();
         project.givenIsRootProject(false);
         project.givenIsCSharpProject(true);
-        properties.givenRunOpenCover(true);
+        msCoverPropertiesMock.givenRunOpenCover(true);
         classUnderTest.verifyShouldAnalyseReturns(false);
     }
     
@@ -93,7 +96,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         microsoftWindowsEnvironmentMock.givenHasTestProject();
         project.givenIsRootProject(false);
         project.givenIsCSharpProject(true);
-        properties.givenRunOpenCover(false);
+        msCoverPropertiesMock.givenRunOpenCover(false);
         classUnderTest.verifyShouldAnalyseReturns(false);
     }
     @Test
@@ -103,12 +106,13 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         microsoftWindowsEnvironmentMock.givenHasTestProject();
         project.givenIsCSharpProject(true);
         project.givenIsRootProject(false);
-        properties.givenRunOpenCover(true);
+        msCoverPropertiesMock.givenRunOpenCover(true);
         classUnderTest.verifyShouldAnalyseReturns(true);
     }
     
     @Test
     public void analyseSimpleSolution() {
+        String targetDir="OpenCoverTestExecutionCoverageSensorTest/assemblies";
         moduleFileSystemMock.givenWorkingDir("OpenCoverTestExecutionCoverageSensorTest/.sonar");
         testEnvironmentMock.givenXmlCoveragePath("coverage.xml");
         classUnderTest.setModuleFileSystem(moduleFileSystemMock);
@@ -116,18 +120,29 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         classUnderTest.givenOpenCoverCommandBuilder(openCoverCommandBuilderMock);
         classUnderTest.givenCommandLineExecutor(commandLineExecutorMock);
         classUnderTest.givenVsTestStdOutParser(vsTestStdOutParserMock);
+        
+        classUnderTest.givenTestRunnerFactory(vsTestRunnerFactoryMock);
+        vsTestRunnerFactoryMock.onCreate(vsTestRunnerMock);
+        
         openCoverParserFactoryMock.givenXmlParserSubject(xmlParserSubjectMock);
         classUnderTest.givenOpenCoverParserFactory(openCoverParserFactoryMock);
-        assembliesFinderMock.onFindUnitTestAssembliesDir("OpenCoverTestExecutionCoverageSensorTest/assemblies");
+        assembliesFinderMock.onFindUnitTestAssembliesDir(targetDir);
         
-        assembliesFinderFactoryMock.onCreate(properties,assembliesFinderMock);
+        assembliesFinderFactoryMock.onCreate(msCoverPropertiesMock,assembliesFinderMock);
         classUnderTest.givenAssembliesFinderFactory(assembliesFinderFactoryMock);
         classUnderTest.givenProjectSeam(projectSeamMock);
-        classUnderTest.setOpenCoverCommand(openCoverCommand.getMock());
+        classUnderTest.setOpenCoverCommand(openCoverCommandMock.getMock());
         microsoftWindowsEnvironmentMock.givenHasSolutionWithProject(1);
         classUnderTest.analyse();
         
+        
         xmlParserSubjectMock.verifyParseFile("coverage.xml");
+        openCoverCommandMock.verifySetTargetDir(targetDir);
+        openCoverCommandBuilderMock.verifySetOpenCovercommand(openCoverCommandMock);
+        openCoverCommandBuilderMock.verifySetSolution();
+        openCoverCommandBuilderMock.verifySetMsCoverProperties(msCoverPropertiesMock);
+        openCoverCommandBuilderMock.verifySetTestRunner(vsTestRunnerMock);
+        
         testEnvironmentMock.verifyTestsHaveRun();
         testEnvironmentMock.verifySonarCoverageSet();
         //TODO: fix unit test

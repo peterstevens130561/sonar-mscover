@@ -1,8 +1,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser;
 
 import java.util.Collection;
-import java.util.List;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverFileNamesAndIdObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverMethodObserver;
@@ -50,10 +50,11 @@ public class ConcreteOpenCoverParserFactory implements OpenCoverParserFactory {
     }
 
     public XmlParserSubject createOpenCoverParser(SonarCoverage registry,
-            Collection<String> missingPdbsThatCanBeIgnored) {
+            MsCoverProperties msCoverProperties) {
+        Collection<String> pdbsThatCanBeIgnoredWhenMissing = msCoverProperties.getPdbsThatMayBeIgnoredWhenMissing();
         XmlParserSubject parser = new OpenCoverParserSubject();
         OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs  missingPdbObserver = new OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs() ;
-        missingPdbObserver.setPdbsThatCanBeIgnoredIfMissing(missingPdbsThatCanBeIgnored);
+        missingPdbObserver.setPdbsThatCanBeIgnoredIfMissing(pdbsThatCanBeIgnoredWhenMissing);
         OpenCoverObserver [] observers = { 
                 new OpenCoverSourceFileNamesObserver(),
                 new OpenCoverSequencePointsObserver(),

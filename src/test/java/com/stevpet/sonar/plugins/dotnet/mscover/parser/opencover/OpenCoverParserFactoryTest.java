@@ -12,6 +12,7 @@ import java.util.List;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.ConcreteOpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactory;
@@ -65,7 +66,9 @@ public class OpenCoverParserFactoryTest {
         OpenCoverParserFactory parserFactory = new ConcreteOpenCoverParserFactory();
         SonarCoverage registry = new SonarCoverage();
         List<String> missingPdbsThatCanBeIgnored = new ArrayList<String>();
-        XmlParserSubject parser = parserFactory.createOpenCoverParser(registry,missingPdbsThatCanBeIgnored);
+        MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
+        msCoverPropertiesMock.givenUnitTestAssembliesThatCanBeIgnoredIfMissing(missingPdbsThatCanBeIgnored);
+        XmlParserSubject parser = parserFactory.createOpenCoverParser(registry,msCoverPropertiesMock.getMock());
         List<ParserObserver> observers=parser.getObservers();
         assertEquals(3,observers.size());
         boolean foundOrig=checkFound(observers,OpenCoverMissingPdbObserver.class);

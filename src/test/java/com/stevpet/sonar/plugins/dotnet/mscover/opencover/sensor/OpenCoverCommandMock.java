@@ -25,4 +25,8 @@ public class OpenCoverCommandMock extends GenericClassMock<OpenCoverCommand> {
         verify(instance,times(1)).setFilter(filter);     
     }
 
+    public void verifySetTargetDir(String targetDir) {
+        verify(instance,times(1)).setTargetDir(targetDir);
+    }
+
 }

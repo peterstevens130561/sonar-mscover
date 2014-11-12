@@ -108,12 +108,8 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
 
     @Override
     public void analyse(Project project, SensorContext context) {
-
         testEnvironment.setCoverageXmlFile(project,"coverage-report.xml");
-        unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
-        String openCoverPath = propertiesHelper.getOpenCoverInstallPath();
-        openCoverCommand.setCommandPath(openCoverPath);
-        
+
         getSolution();
         ensureWorkDirExists();
         
@@ -126,14 +122,15 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
 
     private void parseCoverageFile(VsTestEnvironment testEnvironment) {
         SonarCoverage sonarCoverageRegistry = new SonarCoverage();
-        Collection<String> pdbsThatCanBeIgnoredWhenMissing = propertiesHelper.getPdbsThatMayBeIgnoredWhenMissing();
-        XmlParserSubject parser=openCoverParserFactory.createOpenCoverParser(sonarCoverageRegistry,pdbsThatCanBeIgnoredWhenMissing);
+
+        XmlParserSubject parser=openCoverParserFactory.createOpenCoverParser(sonarCoverageRegistry,propertiesHelper);
         parser.parseFile(new File(testEnvironment.getXmlCoveragePath()));
         testEnvironment.setSonarCoverage(sonarCoverageRegistry);
     }
 
     
     private void executeVsTestOpenCoverRunner() {
+        unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
         unitTestRunner.clean();
 
         openCoverCommandBuilder.setOpenCoverCommand(openCoverCommand);

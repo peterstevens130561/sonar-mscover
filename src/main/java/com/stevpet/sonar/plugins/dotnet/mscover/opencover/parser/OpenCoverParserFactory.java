@@ -3,6 +3,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser;
 import java.util.Collection;
 import java.util.List;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
@@ -23,5 +24,5 @@ public interface OpenCoverParserFactory {
             SourceFileNamesRegistry sourceFileNamesRegistry);
 
     XmlParserSubject createOpenCoverParser(SonarCoverage registry,
-            Collection<String> pdbsThatCanBeIgnoredWhenMissing);
+            MsCoverProperties msCoverProperties);
 }
