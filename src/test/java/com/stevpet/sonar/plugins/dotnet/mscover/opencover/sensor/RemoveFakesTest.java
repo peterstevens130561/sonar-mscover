@@ -45,14 +45,5 @@ public class RemoveFakesTest {
         fakesRemover.removeFakes(emptyDir);
         
     }
-    private void expectExists(String root,String name) {
-        File noFile = TestUtils.getResource(root + "/" + name);
-        assertTrue(name,noFile.exists());
-    }
-    
-    private void expectDoesNotExist(String root,String name) {
-        File noFile = TestUtils.getResource(root + "/" + name);
-        assertEquals(name,false,noFile.exists());
-    }
 
 }
