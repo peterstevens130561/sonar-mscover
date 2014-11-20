@@ -8,30 +8,28 @@ import org.slf4j.LoggerFactory;
 
 public class DefaultFakesRemover implements FakesRemover {
 
+    FilenameFilter fakesFilter = new FakesFilter();
     private static Logger LOG = LoggerFactory.getLogger(DefaultFakesRemover.class);
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.RemoveFakes#removeFakes(java.io.File)
      */
-    public void removeFakes(File myDir) {
+    public int removeFakes(File myDir) {
+
         if(myDir==null) {
-            return;
+            return 0;
         }
-        File [] files = myDir.listFiles(new FakesFilter());
+        File [] files = myDir.listFiles(fakesFilter);
         if(files==null) {
-            return;
+            return 0;
         }
+        int removed=0;
         for (File file : files) {
             LOG.warn("Removing fakes file {}",file.getName());
             file.delete();
+            removed++;
         }
+        return removed;
     }
     
-    private class FakesFilter implements FilenameFilter {
-
-        public boolean accept(File dir, String name) {
-            return name.contains("fakes");
-        }
-        
-    }
 
 }

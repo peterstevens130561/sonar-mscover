@@ -10,6 +10,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.any;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+
 
 public class RemoveFakesTest {
     FakesRemover fakesRemover = new DefaultFakesRemover();
@@ -26,13 +28,11 @@ public class RemoveFakesTest {
     public void FakesInUnitTestDir_Removed() {
         String root = "FakesRemover/SomeFiles";
         File testDir=TestUtils.getResource(root);
-        fakesRemover.removeFakes(testDir);
-        expectExists(root,"cfake.txt");
-        expectExists(root,"valid.cs");
-        expectDoesNotExist(root,"fakea.dll");
-        expectDoesNotExist(root,"fakeb.xml");
+        int removed=fakesRemover.removeFakes(testDir);
+        assertEquals(2,removed);
     }
 
+    
     @Test
     public void FakesNoTestDir_Return() {
         fakesRemover.removeFakes(null);        
@@ -53,11 +53,6 @@ public class RemoveFakesTest {
     private void expectDoesNotExist(String root,String name) {
         File noFile = TestUtils.getResource(root + "/" + name);
         assertEquals(name,false,noFile.exists());
-    }
-
-    private void assertEquals(String name, boolean b, boolean exists) {
-        // TODO Auto-generated method stub
-        
     }
 
 }

@@ -4,6 +4,6 @@ import java.io.File;
 
 public interface FakesRemover {
 
-    void removeFakes(File myDir);
+    int removeFakes(File myDir);
 
 }
