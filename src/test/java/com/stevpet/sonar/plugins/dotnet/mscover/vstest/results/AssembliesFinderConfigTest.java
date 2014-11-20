@@ -1,6 +1,9 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -11,7 +14,6 @@ import org.junit.Test;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.SolutionHasNoProjectsSonarException;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;

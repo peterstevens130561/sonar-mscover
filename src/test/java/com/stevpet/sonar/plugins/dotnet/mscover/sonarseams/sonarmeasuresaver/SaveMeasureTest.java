@@ -6,14 +6,13 @@ package com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.sonarmeasuresaver;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyDouble;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
-import java.nio.charset.Charset;
 
 import org.junit.Before;
 import org.junit.Test;

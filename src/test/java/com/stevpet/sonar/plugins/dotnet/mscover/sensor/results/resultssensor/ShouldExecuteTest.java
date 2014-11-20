@@ -1,19 +1,16 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.sensor.results.resultssensor;
 
-import static org.mockito.Mockito.mock ;
-import static org.mockito.Mockito.when ;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test ;
-import org.sonar.api.config.Settings;
+import org.junit.Test;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesStub;
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestUnitTestResultsSensor;
 public class ShouldExecuteTest {
     

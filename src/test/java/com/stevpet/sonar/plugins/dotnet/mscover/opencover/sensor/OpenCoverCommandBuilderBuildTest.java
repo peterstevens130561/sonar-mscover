@@ -2,7 +2,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;

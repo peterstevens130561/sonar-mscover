@@ -5,8 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.sonar.api.utils.SonarException;
-
 public class SetNameSpaceAndClassNameTest {
     private OpenCoverMethodObserverSpy spy = new OpenCoverMethodObserverSpy();
     @Before

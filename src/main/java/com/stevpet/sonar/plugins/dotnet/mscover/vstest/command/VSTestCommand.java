@@ -1,7 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.command;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;

@@ -5,17 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-
-
-
-
-
-
-
-import org.jfree.util.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIdModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;

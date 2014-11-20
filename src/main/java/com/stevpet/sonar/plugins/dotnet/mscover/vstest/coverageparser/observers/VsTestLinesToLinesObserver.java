@@ -1,7 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.LineModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;

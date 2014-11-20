@@ -6,11 +6,9 @@ import java.nio.charset.Charset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Qualifiers;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.helpers.SonarResourceHelper;
@@ -37,25 +35,7 @@ public class ResourceMediator {
         resourceSeamFactory = new SonarResourceSeamFactory(context);
     }
     
-    public static ResourceMediator create(SensorContext context,Project project) {
-        return new ResourceMediator(context,project);
-    }
 
-    public static ResourceMediator createWithFilters(
-            SensorContext sensorContext, Project project,TimeMachine timeMachine,
-            MsCoverProperties propertiesHelper) {
-        ResourceMediator resourceMediator = create(sensorContext,project);
-        resourceMediator.setDateFilter(DateFilterFactory.createCutOffDateFilter(timeMachine, propertiesHelper));
-        resourceMediator.setResourceFilter(ResourceFilterFactory.createAntPatternResourceFilter(propertiesHelper));
-        return resourceMediator;
-    }
-    
-    public static ResourceMediator createWithEmptyFilters(SensorContext sensorContext, Project project) {
-        ResourceMediator resourceMediator = create(sensorContext,project);
-        resourceMediator.setResourceFilter(ResourceFilterFactory.createEmptyFilter());
-        resourceMediator.setDateFilter(DateFilterFactory.createEmptyDateFilter());
-        return resourceMediator;
-    }
     private void setCharset(Project project) {
         String charsetName;
         if(project==null) {

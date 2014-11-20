@@ -1,6 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.coverageparserfactory;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 
@@ -10,10 +10,6 @@ import org.junit.Test;
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteVsTestParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestParserFactory;

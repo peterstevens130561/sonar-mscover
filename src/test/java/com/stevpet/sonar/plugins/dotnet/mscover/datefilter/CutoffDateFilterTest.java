@@ -1,5 +1,10 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.datefilter;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.sonar.api.measures.CoreMetrics;
@@ -9,6 +14,8 @@ import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.CutOffDateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
+import com.stevpet.sonar.plugins.dotnet.mscover.mock.ResourceMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.TimeMachineMock;
 
 public class CutoffDateFilterTest {
     @Test
@@ -129,6 +136,53 @@ public class CutoffDateFilterTest {
         dateFilter.setCutOffDate("2014-01-01");  
         //Assert
         Assert.assertTrue(dateFilter.isIncludedInResults());
+    }
+    
+    @Test
+    public void isResourceIncluded_noHistory_included() {
+        DateFilter dateFilter = new CutOffDateFilter();
+        ResourceMock resourceMock = new ResourceMock();
+        TimeMachineMock timeMachineMock  = new TimeMachineMock();
+
+        dateFilter.setTimeMachine(timeMachineMock.getMock());
+        List<Measure> measures = new ArrayList<Measure>() ;
+        timeMachineMock.givenQuery(measures);
+        boolean actual=dateFilter.isResourceIncludedInResults(resourceMock.getMock());
+        assertTrue(actual);
+    }
+    
+    @Test
+    public void isResourceIncluded_history_cutOffBeforeCommit_included() {
+        DateFilter dateFilter = new CutOffDateFilter();
+        ResourceMock resourceMock = new ResourceMock();
+        TimeMachineMock timeMachineMock  = new TimeMachineMock();
+
+        dateFilter.setTimeMachine(timeMachineMock.getMock());
+        List<Measure> measures = new ArrayList<Measure>() ;
+        Measure measure = new Measure();
+        measure.setData("10=2014-07-01;12=2014-08-01");
+        measures.add(measure);
+        timeMachineMock.givenQuery(measures);
+        dateFilter.setCutOffDate("2014-01-01");
+        boolean actual=dateFilter.isResourceIncludedInResults(resourceMock.getMock());
+        assertTrue(actual);
+    }
+    
+    @Test
+    public void isResourceIncluded_history_cutOffAfterCommit_notIncluded() {
+        DateFilter dateFilter = new CutOffDateFilter();
+        ResourceMock resourceMock = new ResourceMock();
+        TimeMachineMock timeMachineMock  = new TimeMachineMock();
+
+        dateFilter.setTimeMachine(timeMachineMock.getMock());
+        List<Measure> measures = new ArrayList<Measure>() ;
+        Measure measure = new Measure();
+        measure.setData("10=2014-07-01;12=2014-08-01");
+        measures.add(measure);
+        timeMachineMock.givenQuery(measures);
+        dateFilter.setCutOffDate("2014-09-02");
+        boolean actual=dateFilter.isResourceIncludedInResults(resourceMock.getMock());
+        assertFalse(actual);
     }
     private boolean isFileIncludedForCutOffDate(String date) {
         PropertiesBuilder<Integer, String> dates = new PropertiesBuilder<Integer,String>(CoreMetrics.SCM_LAST_COMMIT_DATETIMES_BY_LINE);

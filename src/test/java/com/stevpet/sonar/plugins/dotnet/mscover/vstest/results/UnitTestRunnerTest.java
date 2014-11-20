@@ -2,10 +2,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
 
 import java.io.File;
 
-import org.sonar.api.config.Settings;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;

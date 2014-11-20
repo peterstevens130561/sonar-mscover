@@ -24,14 +24,14 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
-import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
-import com.stevpet.sonar.plugins.dotnet.mscover.seams.SonarProjectSeam;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 @Extension
@@ -44,7 +44,7 @@ public class IntegrationTestCoverSensor implements Sensor {
     private TimeMachine timeMachine;
     private CoverageHelper coverageHelper;
     private AbstractCoverageHelperFactory coverageHelperFactory ;
-
+    private ResourceMediatorFactory resourceMediatorFactory = new DefaultResourceMediatorFactory();
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 
     private ShouldExecuteHelper shouldExecuteHelper;
@@ -68,7 +68,7 @@ public class IntegrationTestCoverSensor implements Sensor {
 
     public void analyse(Project project, SensorContext sensorContext) {
 
-        ResourceMediator resourceMediator = ResourceMediator.createWithFilters(sensorContext, project, timeMachine, propertiesHelper);
+        ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(sensorContext, project, timeMachine, propertiesHelper);
         MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
         coverageHelper = coverageHelperFactory.createIntegrationTestCoverageHelper(propertiesHelper, microsoftWindowsEnvironment, measureSaver);
         String coveragePath=propertiesHelper.getIntegrationTestsPath();

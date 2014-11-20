@@ -1,13 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import org.sonar.api.config.Settings;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesStub;
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 
 public class UnitTestRunnerTestUtils {
 

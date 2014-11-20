@@ -1,22 +1,17 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.DependedUpon;
 import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.dotnet.api.DotNetConstants;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
-import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 import org.sonar.plugins.dotnet.api.sensor.AbstractDotNetSensor;
 
@@ -25,20 +20,17 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecu
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverTarget;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.ConcreteOpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.ProjectSeam;
-import com.stevpet.sonar.plugins.dotnet.mscover.seams.SonarProjectSeam;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AbstractVsTestRunnerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultVsTestRunnerFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 @DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
 @DependedUpon("OpenCoverRunningVsTest")
 public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
@@ -59,6 +51,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private AssembliesFinderFactory assembliesFinderFactory = new AssembliesFinderFactory();
     private VSTestStdOutParser vsTestStdOutParser = new VSTestStdOutParser();
     private OpenCoverParserFactory openCoverParserFactory = new ConcreteOpenCoverParserFactory();
+    private FakesRemover fakesRemover = new DefaultFakesRemover();
     
     public OpenCoverTestExecutionCoverageSensor(MsCoverProperties propertiesHelper, 
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
@@ -143,7 +136,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         AssembliesFinder finder = assembliesFinderFactory.create(propertiesHelper);
         String targetDir=finder.findUnitTestAssembliesDir(solution);
         openCoverCommand.setTargetDir(targetDir);
-        
+        fakesRemover.removeFakes(new File(targetDir));
         commandLineExecutor.execute(openCoverCommand);
         testEnvironment.setTestsHaveRun();
     }
@@ -218,6 +211,13 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     public void setOpenCoverParserFactory(
             OpenCoverParserFactory openCoverParserFactory) {
         this.openCoverParserFactory = openCoverParserFactory;
+    }
+
+    /**
+     * @param fakesRemover the fakesRemover to set
+     */
+    public void setFakesRemover(FakesRemover fakesRemover) {
+        this.fakesRemover = fakesRemover;
     }
 
 

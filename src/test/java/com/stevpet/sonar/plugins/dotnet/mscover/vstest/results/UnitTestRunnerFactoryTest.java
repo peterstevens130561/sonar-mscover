@@ -1,28 +1,25 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
 
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 import org.sonar.api.config.Settings;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.mock;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultVsTestRunnerFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 
 //@RunWith(PowerMockRunner.class)
 //@PrepareForTest(UnitTestRunner.class)

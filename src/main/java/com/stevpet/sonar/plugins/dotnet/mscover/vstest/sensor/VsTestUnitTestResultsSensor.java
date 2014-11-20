@@ -7,16 +7,16 @@ import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
-import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.dotnet.api.DotNetConstants;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.importer.cplusplus.CPlusPlusImporterSensor;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.AbstractCoverageHelperFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.SonarCoverageHelperFactory;
@@ -28,7 +28,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunne
 
 
 @DependsUpon({CPlusPlusImporterSensor.DEPENDS,VsTestExecutionSensor.DEPENDS,DotNetConstants.CORE_PLUGIN_EXECUTED})
-public class VsTestUnitTestResultsSensor implements Sensor {
+public class VsTestUnitTestResultsSensor implements Sensor {;
     static final Logger LOG = LoggerFactory
             .getLogger(VsTestUnitTestResultsSensor.class);
     private MsCoverProperties propertiesHelper ;
@@ -36,8 +36,8 @@ public class VsTestUnitTestResultsSensor implements Sensor {
     private TimeMachine timeMachine;
     private VsTestEnvironment vsTestEnvironment;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-
-   
+    private ResourceMediatorFactory resourceMediatorFactory = new DefaultResourceMediatorFactory();
+    private VsTestUnitTestResultsAnalyser vsTestUnitTestResultsAnalyser = new VsTestUnitTestResultsAnalyser();
     
     public VsTestUnitTestResultsSensor(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             MsCoverProperties propertiesHelper,TimeMachine timeMachine,
@@ -72,10 +72,14 @@ public class VsTestUnitTestResultsSensor implements Sensor {
         LOG.info("MsCover Starting analysing test results");
         String coveragePath;
         String resultsPath;
-        ResourceMediator resourceMediator = ResourceMediator.createWithFilters(sensorContext,project,timeMachine,propertiesHelper);            
+        ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(sensorContext,project,timeMachine,propertiesHelper);            
+        
         MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
-        SourceFilePathHelper sourcePathHelper = new SourceFilePathHelper();
-        VsTestUnitTestResultsAnalyser unitTestAnalyser = new VsTestUnitTestResultsAnalyser(project,measureSaver,sourcePathHelper,resourceMediator);     
+
+        vsTestUnitTestResultsAnalyser.setProject(project);
+        vsTestUnitTestResultsAnalyser.setMeasureSaver(measureSaver);
+        vsTestUnitTestResultsAnalyser.setResourceMediator(resourceMediator) ;
+        
         if(propertiesHelper.runVsTest()) {
             coveragePath=vsTestEnvironment.getXmlCoveragePath();
             resultsPath=vsTestEnvironment.getXmlResultsPath();
@@ -84,12 +88,21 @@ public class VsTestUnitTestResultsSensor implements Sensor {
             coveragePath = propertiesHelper.getUnitTestCoveragePath();
             resultsPath=propertiesHelper.getUnitTestResultsPath();
         }
-        unitTestAnalyser.analyseVsTestResults(coveragePath, resultsPath);
+        vsTestUnitTestResultsAnalyser.analyseVsTestResults(coveragePath, resultsPath);
         if(propertiesHelper.runVsTest()) {
             AbstractCoverageHelperFactory coverageHelperFactory = new SonarCoverageHelperFactory();
             CoverageHelper coverageHelper = coverageHelperFactory.createUnitTestCoverageHelper(propertiesHelper, microsoftWindowsEnvironment, measureSaver);
             coverageHelper.analyse(project,coveragePath);
         }
+    }
+
+    public void setResourceMediatorFactory(ResourceMediatorFactory resourceMediatorFactory) {
+        this.resourceMediatorFactory=resourceMediatorFactory;
+    }
+
+    public void setVsTestUnitTestResultsAnalyser(
+            VsTestUnitTestResultsAnalyser mock) {
+        this.vsTestUnitTestResultsAnalyser = mock;
     }
 
     

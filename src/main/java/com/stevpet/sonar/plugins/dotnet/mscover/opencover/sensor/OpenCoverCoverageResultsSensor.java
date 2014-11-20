@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
-import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.dotnet.api.sensor.AbstractDotNetSensor;
@@ -13,7 +12,9 @@ import org.sonar.plugins.dotnet.api.sensor.AbstractDotNetSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
@@ -24,7 +25,7 @@ public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
     private MsCoverProperties propertiesHelper;
     private VsTestEnvironment vsTestEnvironment;
     private TimeMachine timeMachine;
-
+    private ResourceMediatorFactory resourceMediatorFactory = new DefaultResourceMediatorFactory();
     public OpenCoverCoverageResultsSensor(
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             MsCoverProperties propertiesHelper,
@@ -63,7 +64,7 @@ public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
             return ;
         }
         LOG.info("Saving opencover line & branch coverage for " + project.getName());
-        ResourceMediator resourceMediator = ResourceMediator.createWithFilters(sensorContext, project, timeMachine, propertiesHelper);
+        ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(sensorContext, project, timeMachine, propertiesHelper);
         MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext, resourceMediator);
         SonarCoverageSaver sonarCoverageSaver = new SonarCoverageSaver(sensorContext, project, measureSaver);
         SonarCoverage sonarCoverageRegistry = vsTestEnvironment.getSonarCoverage();

@@ -1,7 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.util.Collection;
 

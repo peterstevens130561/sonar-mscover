@@ -3,7 +3,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.seams.resources;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-import org.apache.commons.lang.CharSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
@@ -14,7 +13,6 @@ import org.sonar.api.utils.SonarException;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.io.Files;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 
 
 public class FileResource implements ResourceSeam {

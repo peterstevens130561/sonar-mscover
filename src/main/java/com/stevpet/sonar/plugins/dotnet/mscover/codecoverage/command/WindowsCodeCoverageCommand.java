@@ -3,8 +3,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.plexus.util.FileUtils;
@@ -12,7 +10,6 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.command.Command;
 import org.sonar.plugins.dotnet.api.utils.ZipUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.helpers.SonarWindowsFileSystemHelper;
 

@@ -55,7 +55,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationTestBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;

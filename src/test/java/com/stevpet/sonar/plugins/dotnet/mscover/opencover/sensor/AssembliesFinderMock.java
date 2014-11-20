@@ -1,13 +1,9 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.when;
 import static org.mockito.Matchers.any;
-
-import java.io.File;
+import static org.mockito.Mockito.when;
 
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
-import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;

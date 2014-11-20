@@ -10,7 +10,6 @@ import java.util.Collection;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
-import org.junit.Assert;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 

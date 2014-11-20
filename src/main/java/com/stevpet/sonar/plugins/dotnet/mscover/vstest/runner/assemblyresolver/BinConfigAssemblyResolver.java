@@ -1,7 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver;
 
 import java.io.File;
-import java.util.List;
 
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 

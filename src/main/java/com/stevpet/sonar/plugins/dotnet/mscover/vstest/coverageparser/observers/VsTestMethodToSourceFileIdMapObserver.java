@@ -2,7 +2,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIdModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
 

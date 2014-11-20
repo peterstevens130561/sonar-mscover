@@ -1,23 +1,18 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver;
 
 import java.io.File;
-import java.util.Map;
 
-import org.jfree.util.Log;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.utils.ParsingUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceLine;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoveragePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoveragePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.saver.UnitTestLineSaver;
 
 public class SonarLineSaver implements FileCoverageSaver {
 

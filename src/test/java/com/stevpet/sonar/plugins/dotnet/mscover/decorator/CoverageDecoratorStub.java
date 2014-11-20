@@ -4,7 +4,6 @@ import org.sonar.api.batch.DecoratorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
 class CoverageDecoratorStub extends BaseDecorator {

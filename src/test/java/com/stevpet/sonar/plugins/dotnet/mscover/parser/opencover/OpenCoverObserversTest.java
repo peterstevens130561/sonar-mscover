@@ -1,10 +1,10 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.io.File;
-
-import junit.framework.Assert;
 
 import org.junit.Test;
 import org.sonar.test.TestUtils;
@@ -12,13 +12,11 @@ import org.sonar.test.TestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverSequencePointsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverSourceFileNamesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 
 public class OpenCoverObserversTest {
 

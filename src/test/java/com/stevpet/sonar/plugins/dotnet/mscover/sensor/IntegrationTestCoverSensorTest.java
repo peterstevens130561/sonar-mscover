@@ -1,17 +1,16 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.sensor;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.Sensor;
-import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 
 public class IntegrationTestCoverSensorTest {
     private MsCoverProperties propertiesHelper;

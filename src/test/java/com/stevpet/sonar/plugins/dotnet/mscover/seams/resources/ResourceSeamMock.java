@@ -1,6 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.seams.resources;
 
-import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.measures.PersistenceMode;

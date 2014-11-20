@@ -1,22 +1,30 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver;
 
 import java.io.File;
-import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
 public abstract class AssemblyResolverController implements AssemblyResolver {
-
+    private Logger LOG = LoggerFactory.getLogger(AssemblyResolverController.class);
     private AssemblyResolver assemblyResolver ;
     private MsCoverProperties msCoverProperties;
 
     public File resolveChain(File assemblyFile,VisualStudioProject project, String buildConfiguration) {
+        LOG.debug("trying");
         File file=resolveAssembly(assemblyFile,project,buildConfiguration) ;
-        if(file == null || file.exists()) {
+        if(file == null) {
+            LOG.debug("Ignoring");
+            return null;
+        }
+        if( file.exists()) {
+            LOG.debug("Found {}",file.getAbsoluteFile());
             return file;
         }
+        LOG.debug("Not found {}",file.getAbsolutePath());
         return assemblyResolver.resolveChain(assemblyFile,project,buildConfiguration);
     }
 

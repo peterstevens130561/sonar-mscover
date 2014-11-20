@@ -3,7 +3,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.jfree.util.Log;
 import org.sonar.api.utils.SonarException;
 
 public final class MethodIdModel  {

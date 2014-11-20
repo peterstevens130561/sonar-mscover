@@ -12,11 +12,13 @@ import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
 
 public class CreateWithFilters {
-
+    private ResourceMediatorFactory resourceMediatorFactory = new DefaultResourceMediatorFactory();
 
     @Test
     public void createShouldWork() {
@@ -26,7 +28,7 @@ public class CreateWithFilters {
         TimeMachine timeMachine = mock(TimeMachine.class);
         Settings settings = mock(Settings.class);
         MsCoverProperties propertiesHelper = PropertiesHelper.create(settings);
-        ResourceMediator resourceMediator = ResourceMediator.createWithFilters(sensorContext, project, timeMachine, propertiesHelper);
+        ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(sensorContext, project, timeMachine, propertiesHelper);
         assertNotNull(resourceMediator);
     }
 

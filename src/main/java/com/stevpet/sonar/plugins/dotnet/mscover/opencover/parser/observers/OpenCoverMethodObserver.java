@@ -3,16 +3,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-
-
-
-
-
-
-
-import org.jfree.util.Log;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIdModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;

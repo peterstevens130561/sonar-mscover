@@ -1,10 +1,9 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
-import static org.junit.Assert.*;
+import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.OpenCoverCommandBuilderMock;
@@ -17,7 +16,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParse
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactoryMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerFactoryMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestExecutionSensorBehaviour;
 
 public class OpenCoverTestExecutionCoverageSensorTest {
 
@@ -38,6 +36,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
     private XmlParserSubjectMock xmlParserSubjectMock = new XmlParserSubjectMock();
     private VsTestRunnerFactoryMock vsTestRunnerFactoryMock = new VsTestRunnerFactoryMock();
     private VsTestRunnerMock vsTestRunnerMock = new VsTestRunnerMock();
+    private FakesRemoverMock fakesRemoverMock = new FakesRemoverMock();
     
     @Before
     public void before() {
@@ -120,6 +119,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         classUnderTest.givenOpenCoverCommandBuilder(openCoverCommandBuilderMock);
         classUnderTest.givenCommandLineExecutor(commandLineExecutorMock);
         classUnderTest.givenVsTestStdOutParser(vsTestStdOutParserMock);
+        classUnderTest.givenFakesRemover(fakesRemoverMock);
         
         classUnderTest.givenTestRunnerFactory(vsTestRunnerFactoryMock);
         vsTestRunnerFactoryMock.onCreate(vsTestRunnerMock);
@@ -145,7 +145,8 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         
         testEnvironmentMock.verifyTestsHaveRun();
         testEnvironmentMock.verifySonarCoverageSet();
-        //TODO: fix unit test
+        
+        fakesRemoverMock.verifyRemoveFakes(new File(targetDir));
     }
 
 

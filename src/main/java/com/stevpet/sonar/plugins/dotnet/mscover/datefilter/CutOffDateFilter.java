@@ -143,7 +143,7 @@ public class CutOffDateFilter implements DateFilter {
         return latestCommitDate;
     }
     
-    public Measure getCommitDateTimesByLine(Resource<?> resource) {
+    private Measure getCommitDateTimesByLine(Resource<?> resource) {
         List<Metric> lastCommitDataTimesByLineMetrics = ImmutableList.of(
                 CoreMetrics.SCM_LAST_COMMIT_DATETIMES_BY_LINE
         );

@@ -1,4 +1,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.decorator;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import java.util.List;
 
 import org.junit.Assert;
@@ -7,16 +11,9 @@ import org.junit.Test;
 import org.mockito.Matchers;
 import org.sonar.api.batch.DecoratorContext;
 import org.sonar.api.batch.TimeMachine;
-import org.sonar.api.config.Settings;
 import org.sonar.api.measures.Metric;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesStub;
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.times;
 
 public class UnitTestBlockDecoratorTest {
     TimeMachine timeMachine;
