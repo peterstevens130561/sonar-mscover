@@ -22,13 +22,11 @@ import static org.mockito.Mockito.when;
 
 public class BaseDecoratorTest {
     private ResourceMock resourceMock = new ResourceMock();
-    private DecoratorContext context;
     private DecoratorContextMock decoratorContextMock = new DecoratorContextMock();
     private PrimitiveDecorator decorator;
     private MsCoverPropertiesStub msCoverPropertiesStub;
     @Before
     public void before() {
-       context = mock(DecoratorContext.class);
        msCoverPropertiesStub = new MsCoverPropertiesStub();
        decorator = new PrimitiveDecorator(msCoverPropertiesStub, null);
     }
@@ -38,47 +36,47 @@ public class BaseDecoratorTest {
     public void sunnyDay() {
         resourceMock.givenScope(Scopes.FILE);
         resourceMock.givenLongName("somename");
-        setNcLoc(10.0);
-        setStatements(20.0);
-        decorator.decorate(resourceMock.getMock(), context);
+        givenNcLoc(10.0);
+        givenStatements(20.0);
+        createDecorator();
         Assert.assertTrue(decorator.isCalled());
+    }
+
+    private void createDecorator() {
+        decorator.decorate(resourceMock.getMock(), decoratorContextMock.getMock());
     }
     
     @Test
     public void NoStatements_NotCalled() {
         resourceMock.givenScope(Scopes.FILE);
-        setNcLoc(10.0);
-        setStatements(0.0);
-        decorator.decorate(resourceMock.getMock(), context);
+        givenNcLoc(10.0);
+        givenStatements(0.0);
+        createDecorator();
         Assert.assertFalse(decorator.isCalled());
     }
 
     @Test
     public void NcLocUndefined_NotCalled() {
         resourceMock.givenScope(Scopes.FILE);
-        setStatements(0.0);
-        decorator.decorate(resourceMock.getMock(), context);
+        givenStatements(0.0);
+        createDecorator();
         Assert.assertFalse(decorator.isCalled());
     }
     
     @Test
     public void StatementsUndefined_NotCalled() {
         resourceMock.givenScope(Scopes.FILE);
-        setNcLoc(10.0);
-        decorator.decorate(resourceMock.getMock(), context);
+        givenNcLoc(10.0);
+        createDecorator();
         Assert.assertFalse(decorator.isCalled());
     }
 
-    private void setNcLoc(double value) {
-        Measure ncloc = new Measure(CoreMetrics.NCLOC);
-        ncloc.setValue(value);
-        when(context.getMeasure(CoreMetrics.NCLOC)).thenReturn(ncloc);
+    private void givenNcLoc(double value) {
+        decoratorContextMock.givenMeasure(CoreMetrics.NCLOC,value);
     }
     
-    private void setStatements(double value) {
-        Measure statements = new Measure(CoreMetrics.STATEMENTS);
-        statements.setValue(value);
-        when(context.getMeasure(CoreMetrics.STATEMENTS)).thenReturn(statements);          
+    private void givenStatements(double value) {
+        decoratorContextMock.givenMeasure(CoreMetrics.STATEMENTS,value);         
     }
     
     class PrimitiveDecorator extends BaseDecorator {
