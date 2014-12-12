@@ -37,4 +37,12 @@ public class MsCoverPropertiesMock {
     public void givenOpenCoverSkipAutoProps(boolean value) {
         when(properties.getOpenCoverSkipAutoProps()).thenReturn(value);
     }
+
+    /**
+     * 
+     * @param cutOffDate - the string to return when getCutOffDate is used.
+     */
+    public void givenCutOffDate(String cutOffDate) {
+        when(properties.getCutOffDate()).thenReturn(cutOffDate); 
+    }
  }

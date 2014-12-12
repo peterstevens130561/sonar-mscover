@@ -7,13 +7,16 @@ import org.sonar.api.batch.TimeMachine;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.TimeMachineMock;
 
 
 
 public class DateFilterFactoryTest {
-
+    private MsCoverPropertiesMock propertiesMock = new MsCoverPropertiesMock();
+    private TimeMachineMock timeMachineMock = new TimeMachineMock();
     @Test
     public void createEmptyFilter_ShouldExist() {
         //Arrange
@@ -27,12 +30,10 @@ public class DateFilterFactoryTest {
     @Test 
     public void createCutOffDateFilterNoDate_AlwaysPassThrough() {
         //Arrange
-        TimeMachine timeMachine = mock(TimeMachine.class);
-        MsCoverProperties propertiesHelper = mock(PropertiesHelper.class);
-        when(propertiesHelper.getCutOffDate()).thenReturn(null);
-        
+
+        propertiesMock.givenCutOffDate(null);     
         //Act
-        DateFilter filter = DateFilterFactory.createCutOffDateFilter(timeMachine, propertiesHelper);
+        DateFilter filter = DateFilterFactory.createCutOffDateFilter(timeMachineMock.getMock(), propertiesMock.getMock());
         //Assert
         Assert.assertTrue(filter.getClass().equals(AlwaysPassThroughDateFilter.class));     
     }
@@ -40,12 +41,9 @@ public class DateFilterFactoryTest {
     @Test 
     public void createCutOffDateFilterWithFilter_GetCutoff() {
         //Arrange
-        TimeMachine timeMachine = mock(TimeMachine.class);
-        MsCoverProperties propertiesHelper = mock(PropertiesHelper.class);
-        when(propertiesHelper.getCutOffDate()).thenReturn("2014-03-01");
-        
+        propertiesMock.givenCutOffDate("2014-03-01");      
         //Act
-        DateFilter filter = DateFilterFactory.createCutOffDateFilter(timeMachine, propertiesHelper);
+        DateFilter filter = DateFilterFactory.createCutOffDateFilter(timeMachineMock.getMock(), propertiesMock.getMock());
         //Assert
         Assert.assertTrue(filter.getClass().equals(CutOffDateFilter.class));     
     }
