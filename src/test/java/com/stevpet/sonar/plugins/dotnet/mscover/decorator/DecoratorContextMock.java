@@ -22,7 +22,11 @@ public class DecoratorContextMock extends GenericClassMock<DecoratorContext> {
     public void givenMeasure(Metric metric, double value) {
         Measure measure = new Measure(metric);
         measure.setValue(value);
-        when(instance.getMeasure(metric)).thenReturn(measure);
+        givenMeasure(metric,measure);
+    }
+
+    public void givenMeasure(Metric metric, Measure measure) {
+        when(instance.getMeasure(metric)).thenReturn(measure);  
     } 
 
 }
