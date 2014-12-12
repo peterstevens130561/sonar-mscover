@@ -18,6 +18,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.mock.ResourceMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.TimeMachineMock;
 
 public class CutoffDateFilterTest {
+    
+    private ResourceMock resourceMock = new ResourceMock();
+    private TimeMachineMock timeMachineMock  = new TimeMachineMock();
     @Test
     public void FileHasCoverage_Included() {
         //Arrange
@@ -141,9 +144,6 @@ public class CutoffDateFilterTest {
     @Test
     public void isResourceIncluded_noHistory_included() {
         DateFilter dateFilter = new CutOffDateFilter();
-        ResourceMock resourceMock = new ResourceMock();
-        TimeMachineMock timeMachineMock  = new TimeMachineMock();
-
         dateFilter.setTimeMachine(timeMachineMock.getMock());
         List<Measure> measures = new ArrayList<Measure>() ;
         timeMachineMock.givenQuery(measures);
@@ -154,8 +154,6 @@ public class CutoffDateFilterTest {
     @Test
     public void isResourceIncluded_history_cutOffBeforeCommit_included() {
         DateFilter dateFilter = new CutOffDateFilter();
-        ResourceMock resourceMock = new ResourceMock();
-        TimeMachineMock timeMachineMock  = new TimeMachineMock();
 
         dateFilter.setTimeMachine(timeMachineMock.getMock());
         List<Measure> measures = new ArrayList<Measure>() ;
@@ -171,8 +169,6 @@ public class CutoffDateFilterTest {
     @Test
     public void isResourceIncluded_history_cutOffAfterCommit_notIncluded() {
         DateFilter dateFilter = new CutOffDateFilter();
-        ResourceMock resourceMock = new ResourceMock();
-        TimeMachineMock timeMachineMock  = new TimeMachineMock();
 
         dateFilter.setTimeMachine(timeMachineMock.getMock());
         List<Measure> measures = new ArrayList<Measure>() ;

@@ -74,7 +74,7 @@ public class CPlusPlusImporterSensor implements Sensor {
                 loadSourcesFromDir(dir, sourceDirs);
             }
         } catch (Exception e) {
-            throw new SonarException(
+            LOG.error(
                     "CPlusPlusImporter terminated with exception "
                             + e.getMessage(), e);
         }
@@ -110,9 +110,11 @@ public class CPlusPlusImporterSensor implements Sensor {
                     context.saveSource(resource, source);
                 }
             } catch (Exception e) {
+                String msg="Unable to read and import the source file : '"
+                        + file.getAbsolutePath() + " cause:" + e.getMessage();
+                LOG.error(msg);
                 throw new SonarException(
-                        "Unable to read and import the source file : '"
-                                + file.getAbsolutePath(), e);
+                        msg , e);
             }
         }
     }

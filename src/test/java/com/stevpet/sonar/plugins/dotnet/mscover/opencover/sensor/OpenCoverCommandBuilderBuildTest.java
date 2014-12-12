@@ -1,15 +1,9 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.VisualStudioSolutionMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.VisualStudioProjectMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock;
 
@@ -17,24 +11,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentM
 public class OpenCoverCommandBuilderBuildTest {
 
     private OpenCoverCommandMock openCoverCommandMock = new OpenCoverCommandMock();
-    private OpenCoverCommand openCoverCommand;
     private VisualStudioSolutionMock visualStudioSolutionMock = new VisualStudioSolutionMock();
-    private VisualStudioSolution solution;
     private VsTestRunnerMock vsTestRunnerMock = new VsTestRunnerMock();
-    private VsTestRunner unitTestRunner;
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
-    private MsCoverProperties msCoverProperties;
     private VsTestEnvironmentMock vsTestEnvironmentMock = new VsTestEnvironmentMock();
-    private VsTestEnvironment vsTestEnvironment;
-    
-    @Before
-    public void before() {
-        openCoverCommand = openCoverCommandMock.getMock();
-        solution=visualStudioSolutionMock.getMock();
-        unitTestRunner = vsTestRunnerMock.getMock();
-        msCoverProperties=msCoverPropertiesMock.getMock();
-        vsTestEnvironment=vsTestEnvironmentMock.getMock();
-    }
     
     @Test()
     public void NoAssembly() {
@@ -46,17 +26,17 @@ public class OpenCoverCommandBuilderBuildTest {
 
     private OpenCoverCommandBuilder givenPreparedBuilder() {
         OpenCoverCommandBuilder builder = new OpenCoverCommandBuilder();
-        builder.setOpenCoverCommand(openCoverCommand);
-        builder.setSolution(solution);
-        builder.setTestRunner(unitTestRunner);
-        builder.setMsCoverProperties(msCoverProperties);
-        builder.setTestEnvironment(vsTestEnvironment);
+        builder.setOpenCoverCommand(openCoverCommandMock);
+        builder.setSolution(visualStudioSolutionMock);
+        builder.setTestRunner(vsTestRunnerMock);
+        builder.setMsCoverProperties(msCoverPropertiesMock);
+        builder.setTestEnvironment(vsTestEnvironmentMock);
         vsTestEnvironmentMock.givenXmlCoveragePath("somepath");
         return builder;
     }
     
     @Test
-    public void OneAssembly() {
+    public void OneAssembly_ExpectInFilter() {
         givenProject("assembly");
         OpenCoverCommandBuilder builder = givenPreparedBuilder();
         builder.build();
