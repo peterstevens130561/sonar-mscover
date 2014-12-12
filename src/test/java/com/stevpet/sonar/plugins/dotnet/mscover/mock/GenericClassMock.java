@@ -1,6 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.mock;
 import static org.mockito.Mockito.mock;
-public class GenericClassMock<T> {
+public class GenericClassMock<T> implements ClassMock<T> {
     protected T instance = null;
     
     
@@ -9,6 +9,9 @@ public class GenericClassMock<T> {
 
     }
    
+     /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.mock.ClassMock#getMock()
+     */
     public T getMock() {
         return instance;
     }

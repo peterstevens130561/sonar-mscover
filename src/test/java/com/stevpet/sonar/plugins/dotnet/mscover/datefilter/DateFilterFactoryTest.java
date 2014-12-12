@@ -2,14 +2,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.datefilter;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.sonar.api.batch.TimeMachine;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.TimeMachineMock;
 
 

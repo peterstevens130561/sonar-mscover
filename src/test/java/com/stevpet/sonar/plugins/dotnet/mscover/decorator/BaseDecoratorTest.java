@@ -15,20 +15,19 @@ import org.sonar.api.resources.Scopes;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesStub;
+import com.stevpet.sonar.plugins.dotnet.mscover.mock.ResourceMock;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class BaseDecoratorTest {
-    private Settings settings;
-    private Resource<?> resource;
+    private ResourceMock resourceMock = new ResourceMock();
     private DecoratorContext context;
+    private DecoratorContextMock decoratorContextMock = new DecoratorContextMock();
     private PrimitiveDecorator decorator;
     private MsCoverPropertiesStub msCoverPropertiesStub;
     @Before
     public void before() {
-       settings = mock(Settings.class) ;
-       resource = mock(Resource.class) ;
        context = mock(DecoratorContext.class);
        msCoverPropertiesStub = new MsCoverPropertiesStub();
        decorator = new PrimitiveDecorator(msCoverPropertiesStub, null);
@@ -37,37 +36,36 @@ public class BaseDecoratorTest {
     
     @Test
     public void sunnyDay() {
-
-        when(resource.getScope()).thenReturn(Scopes.FILE);
-        when(resource.getLongName()).thenReturn("somename");
+        resourceMock.givenScope(Scopes.FILE);
+        resourceMock.givenLongName("somename");
         setNcLoc(10.0);
         setStatements(20.0);
-        decorator.decorate(resource, context);
+        decorator.decorate(resourceMock.getMock(), context);
         Assert.assertTrue(decorator.isCalled());
     }
     
     @Test
     public void NoStatements_NotCalled() {
-        when(resource.getScope()).thenReturn(Scopes.FILE);
+        resourceMock.givenScope(Scopes.FILE);
         setNcLoc(10.0);
         setStatements(0.0);
-        decorator.decorate(resource, context);
+        decorator.decorate(resourceMock.getMock(), context);
         Assert.assertFalse(decorator.isCalled());
     }
 
     @Test
     public void NcLocUndefined_NotCalled() {
-        when(resource.getScope()).thenReturn(Scopes.FILE);
+        resourceMock.givenScope(Scopes.FILE);
         setStatements(0.0);
-        decorator.decorate(resource, context);
+        decorator.decorate(resourceMock.getMock(), context);
         Assert.assertFalse(decorator.isCalled());
     }
     
     @Test
     public void StatementsUndefined_NotCalled() {
-        when(resource.getScope()).thenReturn(Scopes.FILE);
+        resourceMock.givenScope(Scopes.FILE);
         setNcLoc(10.0);
-        decorator.decorate(resource, context);
+        decorator.decorate(resourceMock.getMock(), context);
         Assert.assertFalse(decorator.isCalled());
     }
 
