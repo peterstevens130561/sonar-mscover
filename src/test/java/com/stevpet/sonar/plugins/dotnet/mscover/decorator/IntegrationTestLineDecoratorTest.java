@@ -14,54 +14,65 @@ import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.Metric;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesStub;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.TimeMachineMock;
 
 public class IntegrationTestLineDecoratorTest {
-    TimeMachine timeMachine;
+    TimeMachineMock timeMachineMock = new TimeMachineMock();
     Settings settings;
+    MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     MsCoverPropertiesStub propertiesStub = new MsCoverPropertiesStub();
-    DecoratorContext context;
+    DecoratorContextMock decoratorContextMock = new DecoratorContextMock();
+    private BaseDecorator decorator ;
     @Before
     public void before() {
-        timeMachine = mock(TimeMachine.class);
         settings = mock(Settings.class);
-        context = mock(DecoratorContext.class);
     }
     
     @Test 
-    public void createDecorator() {
-        BaseDecorator decorator = new IntegrationTestLineDecorator(settings,timeMachine) ;
+    public void createDecoratorTest_shouldBeCreated() {
+        createDecorator();
         Assert.assertNotNull(decorator);
     }
+
+
     
     @Test
     public void shouldExecute_Set_ExpectTrue() {
-        propertiesStub.setIntegrationTestsPath("a/b/c");
-        propertiesStub.setIntegrationTestsEnabled(true);
-        BaseDecorator decorator = new IntegrationTestLineDecorator(settings,timeMachine) ;
-        boolean shouldExecute = decorator.shouldExecuteDecorator(null, propertiesStub);
+        msCoverPropertiesMock.givenIntegrationTestsPath("a/b/c");
+        msCoverPropertiesMock.givenIntegrationTestsEnabled(true);
+        createDecorator();
+       
+        boolean shouldExecute = decorator.shouldExecuteDecorator(null, msCoverPropertiesMock.getMock());
         Assert.assertTrue(shouldExecute);
     }
     
     @Test
     public void shouldExecute_NotSet_ExpectFalse() {
-        propertiesStub.setIntegrationTestsPath(null);
-        BaseDecorator decorator = new IntegrationTestLineDecorator(settings,timeMachine) ;
-        boolean shouldExecute = decorator.shouldExecuteDecorator(null, propertiesStub);
+        msCoverPropertiesMock.givenIntegrationTestsPath(null);
+        createDecorator();
+        boolean shouldExecute = decorator.shouldExecuteDecorator(null, msCoverPropertiesMock.getMock());
         Assert.assertFalse(shouldExecute);
     }
     
     @Test 
     public void handleUncoveredResource_ShouldSaveMeasures() {
-        BaseDecorator decorator = new IntegrationTestLineDecorator(settings,timeMachine) ;  
-        decorator.handleUncoveredResource(context, 4.0);
-        verify(context,times(4)).saveMeasure(Matchers.any(Metric.class), Matchers.any(Double.class));
+        createDecorator();  
+        decorator.handleUncoveredResource(decoratorContextMock.getMock(), 4.0);
+        decoratorContextMock.verifySaveMeasureInvoked(4);
+
     }
     
     @Test
     public void generatesCoverageMetrics_ShouldHaveAll() {
-        IntegrationTestLineDecorator decorator = new IntegrationTestLineDecorator(settings,timeMachine) ;  
-        List<Metric> metrics = decorator.generatesCoverageMetrics();
+        createDecorator();
+        IntegrationTestLineDecorator lineDecorator = (IntegrationTestLineDecorator) decorator; 
+        List<Metric> metrics = lineDecorator.generatesCoverageMetrics();
         Assert.assertEquals(4,metrics.size());
+    }
+    
+    private void createDecorator() {
+        decorator = new IntegrationTestLineDecorator(settings,timeMachineMock.getMock()) ;
     }
 }

@@ -45,4 +45,18 @@ public class MsCoverPropertiesMock {
     public void givenCutOffDate(String cutOffDate) {
         when(properties.getCutOffDate()).thenReturn(cutOffDate); 
     }
+
+    /**
+     * @param path - the path to return when getIntegrationTestsPath is used.
+     */
+    public void givenIntegrationTestsPath(String path) {
+        when(properties.getIntegrationTestsPath()).thenReturn(path);
+    }
+
+    /**
+     * @param enabled - to return when isIntegrationTestsEnabled is used
+     */
+    public void givenIntegrationTestsEnabled(boolean enabled) {
+        when(properties.isIntegrationTestsEnabled()).thenReturn(enabled);
+    }
  }
