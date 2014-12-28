@@ -16,12 +16,13 @@ public class IntegrationTestCoverSensorTest {
     private MsCoverProperties propertiesHelper;
     private Project project;
     private Sensor sensor;
+    private SonarCoverageHelperFactory sonarCoverageHelperFactory = new SonarCoverageHelperFactory();
     @Before
     public void before() {       
 
         project = mock(Project.class);
         propertiesHelper = mock(PropertiesHelper.class);
-        sensor= new IntegrationTestCoverSensor(propertiesHelper,null,null);
+        sensor= new IntegrationTestCoverSensor(propertiesHelper,null,null,sonarCoverageHelperFactory);
         when(propertiesHelper.getMode()).thenReturn("reuse");
         when(propertiesHelper.getIntegrationTestsPath()).thenReturn("hi");
         when(propertiesHelper.isIntegrationTestsEnabled()).thenReturn(true);

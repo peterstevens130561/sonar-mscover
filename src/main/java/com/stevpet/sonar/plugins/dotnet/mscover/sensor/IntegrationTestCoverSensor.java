@@ -42,7 +42,7 @@ public class IntegrationTestCoverSensor implements Sensor {
 
     private final MsCoverProperties propertiesHelper ;
     private TimeMachine timeMachine;
-    private CoverageHelper coverageHelper;
+    private CoverageSaver coverageHelper;
     private AbstractCoverageHelperFactory coverageHelperFactory ;
     private ResourceMediatorFactory resourceMediatorFactory = new DefaultResourceMediatorFactory();
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
@@ -53,11 +53,12 @@ public class IntegrationTestCoverSensor implements Sensor {
      */
     public IntegrationTestCoverSensor(MsCoverProperties propertiesHelper,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-            TimeMachine timeMachine) {
+            TimeMachine timeMachine,
+            AbstractCoverageHelperFactory coverageHelperFactory) {
         this.propertiesHelper = propertiesHelper;
         this.timeMachine=timeMachine;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment ;
-        this.coverageHelperFactory = new SonarCoverageHelperFactory();
+        this.coverageHelperFactory = coverageHelperFactory;
         shouldExecuteHelper = coverageHelperFactory.createShouldExecuteHelper(propertiesHelper);
     }
     

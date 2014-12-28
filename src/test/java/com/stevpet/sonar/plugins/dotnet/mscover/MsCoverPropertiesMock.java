@@ -59,4 +59,19 @@ public class MsCoverPropertiesMock {
     public void givenIntegrationTestsEnabled(boolean enabled) {
         when(properties.isIntegrationTestsEnabled()).thenReturn(enabled);
     }
+
+    /**
+     * @param enabled - to return when isUnitTestsTestsEnabled is used
+     */
+    public void givenUnitTestsEnabled(boolean enabled) {
+        when(properties.isUnitTestsEnabled()).thenReturn(enabled);      
+    }
+
+    /**
+     * 
+     * @param mode - to return when getMode is used
+     */
+    public void givenMode(String mode) {
+        when(properties.getMode()).thenReturn(mode);
+    }
  }

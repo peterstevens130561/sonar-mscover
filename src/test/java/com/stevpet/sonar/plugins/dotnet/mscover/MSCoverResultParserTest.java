@@ -55,7 +55,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationTestBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.sensor.VSTestCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
@@ -164,7 +164,7 @@ public class MSCoverResultParserTest {
         
         MeasureSaver measureSaver = mock(SonarMeasureSaver.class);
         //Act
-        CoverageHelper coverageHelper = CoverageHelper.create(propertiesHelper, microsoftWindowsEnvironment);
+        VSTestCoverageSaver coverageHelper = VSTestCoverageSaver.create(propertiesHelper, microsoftWindowsEnvironment);
         
         LineMeasureSaver lineSaver = mock(IntegrationTestLineSaver.class);
         coverageHelper.setLineSaver(lineSaver);

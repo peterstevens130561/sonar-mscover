@@ -1,5 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.sensor;
 
+import org.sonar.api.BatchExtension;
+import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
@@ -11,13 +13,13 @@ import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.saver.IntegrationTestLineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.saver.LineMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.saver.UnitTestLineSaver;
-
-public class SonarCoverageHelperFactory implements
+@InstantiationStrategy(InstantiationStrategy.PER_BATCH)
+public class SonarCoverageHelperFactory implements BatchExtension,
         AbstractCoverageHelperFactory {
 
-    private CoverageHelper coverageHelper ;
+    private VSTestCoverageSaver coverageHelper ;
     private LineMeasureSaver lineSaver;
-    public CoverageHelper createIntegrationTestCoverageHelper(
+    public CoverageSaver createIntegrationTestCoverageHelper(
             MsCoverProperties propertiesHelper,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             MeasureSaver measureSaver) {
@@ -29,7 +31,7 @@ public class SonarCoverageHelperFactory implements
         
     }
 
-    public CoverageHelper createUnitTestCoverageHelper(MsCoverProperties propertiesHelper,
+    public CoverageSaver createUnitTestCoverageHelper(MsCoverProperties propertiesHelper,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             MeasureSaver measureSaver) {
             createCoverageHelper(propertiesHelper, microsoftWindowsEnvironment);
@@ -42,7 +44,7 @@ public class SonarCoverageHelperFactory implements
 
    private void createCoverageHelper(MsCoverProperties propertiesHelper,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
-        coverageHelper = new CoverageHelper(propertiesHelper,microsoftWindowsEnvironment);
+        coverageHelper = new VSTestCoverageSaver(propertiesHelper,microsoftWindowsEnvironment);
     }
 
 

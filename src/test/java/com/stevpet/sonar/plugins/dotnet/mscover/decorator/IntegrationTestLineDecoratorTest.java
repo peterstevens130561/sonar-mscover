@@ -1,33 +1,27 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.decorator;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+
 
 import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
-import org.sonar.api.batch.DecoratorContext;
-import org.sonar.api.batch.TimeMachine;
-import org.sonar.api.config.Settings;
 import org.sonar.api.measures.Metric;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesStub;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.TimeMachineMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.SettingsMock;
 
 public class IntegrationTestLineDecoratorTest {
     TimeMachineMock timeMachineMock = new TimeMachineMock();
-    Settings settings;
     MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     MsCoverPropertiesStub propertiesStub = new MsCoverPropertiesStub();
     DecoratorContextMock decoratorContextMock = new DecoratorContextMock();
     private BaseDecorator decorator ;
+    SettingsMock settingsMock = new SettingsMock();
     @Before
     public void before() {
-        settings = mock(Settings.class);
     }
     
     @Test 
@@ -36,8 +30,6 @@ public class IntegrationTestLineDecoratorTest {
         Assert.assertNotNull(decorator);
     }
 
-
-    
     @Test
     public void shouldExecute_Set_ExpectTrue() {
         msCoverPropertiesMock.givenIntegrationTestsPath("a/b/c");
@@ -64,6 +56,9 @@ public class IntegrationTestLineDecoratorTest {
 
     }
     
+    /**
+     * just verify that there are 4 metrics generated.
+     */
     @Test
     public void generatesCoverageMetrics_ShouldHaveAll() {
         createDecorator();
@@ -73,6 +68,6 @@ public class IntegrationTestLineDecoratorTest {
     }
     
     private void createDecorator() {
-        decorator = new IntegrationTestLineDecorator(settings,timeMachineMock.getMock()) ;
+        decorator = new IntegrationTestLineDecorator(settingsMock.getMock(),timeMachineMock.getMock()) ;
     }
 }

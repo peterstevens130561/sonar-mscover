@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.5" icons="true" automaticImage="PNG" always-add-relationships="false" 
   generalizations="false" realizations="false" associations="false" dependencies="false" nesting-relationships="false">  
-  <class id="1" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper" 
+  <class id="1" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.sensor.VSTestCoverageSaver" 
     project="sonar-mscover-plugin" 
-    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/sensor/CoverageHelper.java" 
+    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/sensor/VSTestCoverageSaver.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="371" width="400" x="659" y="37"/>    
     <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" accessors="true" 
@@ -34,18 +34,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="4" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.saver.line.LineMeasureSaver" 
-    project="sonar-mscover-plugin" 
-    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/saver/line/LineMeasureSaver.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="65" width="234" x="938" y="448"/>    
-    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="false" accessors="true" 
-      visibility="true">      
-      <attributes public="true" package="false" protected="true" private="false" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </interface>  
-  <class id="5" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationTestBlockSaver" 
+  <class id="4" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationTestBlockSaver" 
     project="sonar-mscover-plugin" 
     file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/blocksaver/IntegrationTestBlockSaver.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -56,7 +45,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.UnitTestBlockSaver" 
+  <class id="5" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.UnitTestBlockSaver" 
     project="sonar-mscover-plugin" 
     file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/blocksaver/UnitTestBlockSaver.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -67,7 +56,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="7" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver" 
+  <interface id="6" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver" 
     project="sonar-mscover-plugin" 
     file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/blocksaver/BlockMeasureSaver.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -78,38 +67,22 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <association id="8">    
+  <dependency id="7">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <dependency id="8">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <association id="9">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="9" name="propertiesHelper"/>      
-      <multiplicity id="10" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="false"/>  
-  </association>  
-  <association id="11">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="12" name="lineSaver"/>      
-      <multiplicity id="13" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="false"/>  
-  </association>  
-  <association id="14">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="15" name="blockSaver"/>      
-      <multiplicity id="16" minimum="0" maximum="1"/>    
+      <attribute id="10" name="blockSaver"/>      
+      <multiplicity id="11" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="false"/>  
   </association>  
-  <dependency id="17">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="7"/>  
-  </dependency>  
-  <dependency id="18">    
-    <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="7"/>  
-  </dependency>  
   <classifier-display autosize="true" stereotype="false" package="true" initial-value="false" signature="false" 
     accessors="true" visibility="true">    
     <attributes public="true" package="false" protected="true" private="false" static="true"/>    

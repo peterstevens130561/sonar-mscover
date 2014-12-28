@@ -25,10 +25,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestPars
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.saver.LineMeasureSaver;
 
 @SuppressWarnings("deprecation")
-public class CoverageHelper {
+public class VSTestCoverageSaver implements CoverageSaver {
 
     static final Logger LOG = LoggerFactory
-            .getLogger(CoverageHelper.class);
+            .getLogger(VSTestCoverageSaver.class);
     private final MsCoverProperties propertiesHelper;
     private final MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private LineMeasureSaver lineSaver;
@@ -49,26 +49,27 @@ public class CoverageHelper {
      * @param microsoftWindowsEnvironment
      * @param timeMachine
      */
-    CoverageHelper(MsCoverProperties propertiesHelper,
+    VSTestCoverageSaver(MsCoverProperties propertiesHelper,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         this.propertiesHelper = propertiesHelper ;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
     }
 
 
-    public static CoverageHelper create(MsCoverProperties propertiesHelper,
+    public static VSTestCoverageSaver create(MsCoverProperties propertiesHelper,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         // TODO Auto-generated method stub
-        return new CoverageHelper(propertiesHelper, microsoftWindowsEnvironment);
+        return new VSTestCoverageSaver(propertiesHelper, microsoftWindowsEnvironment);
     }
     public void setBlockSaver( BlockSaver blockSaver) {
         this.blockSaver = blockSaver;
         
     }
 
-    /**
-     * performs the analysis
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageSaver#analyse(org.sonar.api.resources.Project, java.lang.String)
      */
+    
     public void analyse(Project project, String path) {
         this.project = project;
         this.path = path;
@@ -165,12 +166,5 @@ public class CoverageHelper {
 
     public void setLineSaver(LineMeasureSaver lineSaver) {
         this.lineSaver=lineSaver; 
-    }
-
-
-
-
-
-
-    
+    }   
 }

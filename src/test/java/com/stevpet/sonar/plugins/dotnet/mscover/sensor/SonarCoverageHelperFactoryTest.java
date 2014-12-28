@@ -33,14 +33,14 @@ public class SonarCoverageHelperFactoryTest {
     @Test
 
     public void createIntegrationTestCoverageHelper_DoesNotActOnDependencies() {
-        CoverageHelper coverageHelper = factory.createIntegrationTestCoverageHelper(propertiesHelper, microsoftWindowsEnvironment, measureSaver);
+        CoverageSaver coverageHelper = factory.createIntegrationTestCoverageHelper(propertiesHelper, microsoftWindowsEnvironment, measureSaver);
         assertNotNull(coverageHelper);
 
     }
     
     @Test
     public void createUnitTestCoverageHelper_DoesNotActOnDependencies() {
-        CoverageHelper coverageHelper = factory.createUnitTestCoverageHelper(propertiesHelper, microsoftWindowsEnvironment, measureSaver);
+        CoverageSaver coverageHelper = factory.createUnitTestCoverageHelper(propertiesHelper, microsoftWindowsEnvironment, measureSaver);
         assertNotNull(coverageHelper);
     }
 }

@@ -18,7 +18,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFac
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.AbstractCoverageHelperFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.SonarCoverageHelperFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
@@ -91,7 +91,7 @@ public class VsTestUnitTestResultsSensor implements Sensor {;
         vsTestUnitTestResultsAnalyser.analyseVsTestResults(coveragePath, resultsPath);
         if(propertiesHelper.runVsTest()) {
             AbstractCoverageHelperFactory coverageHelperFactory = new SonarCoverageHelperFactory();
-            CoverageHelper coverageHelper = coverageHelperFactory.createUnitTestCoverageHelper(propertiesHelper, microsoftWindowsEnvironment, measureSaver);
+            CoverageSaver coverageHelper = coverageHelperFactory.createUnitTestCoverageHelper(propertiesHelper, microsoftWindowsEnvironment, measureSaver);
             coverageHelper.analyse(project,coveragePath);
         }
     }

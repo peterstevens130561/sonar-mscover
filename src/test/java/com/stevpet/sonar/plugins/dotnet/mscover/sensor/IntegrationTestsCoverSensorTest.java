@@ -25,8 +25,10 @@ import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesStub;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.ProjectMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
@@ -35,21 +37,23 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.saver.UnitTestLineSaver;
 
 public class IntegrationTestsCoverSensorTest {
 
-    MsCoverPropertiesStub propertiesHelper;
+    MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     Sensor sensor;
-    Project project ;
+    ProjectMock projectMock = new ProjectMock();
     SensorContext context ;
     MicrosoftWindowsEnvironment microsoftWindowsEnvironment ;
+    private CoverageHelperMock coverageHelperMock = new CoverageHelperMock();
+    private CoverageHelperFactoryMock coverageHelperFactoryMock = new CoverageHelperFactoryMock();
+    private ShouldExecuteHelperMock shouldExecuteHelperMock = new ShouldExecuteHelperMock();
     
     @Before
     public void before() {
-        propertiesHelper = new MsCoverPropertiesStub();
-        project = mock(Project.class);
         context = mock(SensorContext.class);
+        coverageHelperFactoryMock.WhenCreateShouldExecuteHelper(shouldExecuteHelperMock);
         microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
-        sensor = new IntegrationTestsCoverSensorStub(propertiesHelper,null,null);
-        when(project.getFileSystem()).thenReturn( new DummyFileSystem());
-        propertiesHelper.setMode("reuse");
+        sensor = new IntegrationTestsCoverSensorStub(msCoverPropertiesMock.getMock(),null,null);
+        projectMock.givenFileSystem(new DummyFileSystem());
+        msCoverPropertiesMock.givenMode("reuse");
 
         
     }
@@ -58,9 +62,10 @@ public class IntegrationTestsCoverSensorTest {
     @Test
     public void IntegrationTestsSensor_PathNotSet_NotEnabled() {
         //Arrange
-        when(project.isRoot()).thenReturn(false);
+        projectMock.givenIsRoot(false);
+
         //Act
-        boolean shouldExecute=sensor.shouldExecuteOnProject(project);
+        boolean shouldExecute=sensor.shouldExecuteOnProject(projectMock.getMock());
         //Assert
         assertFalse(shouldExecute);         
     }
@@ -68,46 +73,44 @@ public class IntegrationTestsCoverSensorTest {
     @Test
     public void IntegrationTestsSensor_PathSet_Enabled() {
         //Arrange
-        propertiesHelper.setIntegrationTestsEnabled(true);
-        when(project.isRoot()).thenReturn(false);
+        msCoverPropertiesMock.givenIntegrationTestsEnabled(true);
+        projectMock.givenIsRoot(false);
         //Act
-        boolean shouldExecute=sensor.shouldExecuteOnProject(project);
+        boolean shouldExecute=sensor.shouldExecuteOnProject(projectMock.getMock());
         //Assert
         assertTrue(shouldExecute); 
     }
     
+    @Test
     public void IntegrationTestsSensor_Analyse_Enabled() {
         //Arrange
-        when(propertiesHelper.getIntegrationTestsPath()).thenReturn("mscover.xml");
-        //when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn("mscover.xml");
-        when(project.isRoot()).thenReturn(false);
-        when(project.getName()).thenReturn("tfsblame");
+        msCoverPropertiesMock.givenIntegrationTestsPath("mscover.xml");
+        projectMock.givenIsRoot(false);
+        projectMock.givenName("tfsblame");
+
         VisualStudioProject vsProject = mock(VisualStudioProject.class);
         File testProject=TestUtils.getResource("TfsBlame/tfsblame/tfsblame");
         when(vsProject.getDirectory()).thenReturn(testProject);
         when(microsoftWindowsEnvironment.getCurrentProject("tfsblame")).thenReturn(vsProject);
+        coverageHelperFactoryMock.whencreateIntegrationTestCoverageHelper(coverageHelperMock);
         //Act
-        sensor.analyse(project, context);
+        sensor.analyse(projectMock.getMock(), context);
         //Assert
-        
     }
-    
-
     
     public void UnitTestsSensor_Analyse_Enabled() {
         //Arrange
-        when(propertiesHelper.getUnitTestCoveragePath()).thenReturn("mscover.xml");
-        //when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH)).thenReturn("mscover.xml");
-        when(project.isRoot()).thenReturn(false);
-        when(project.getName()).thenReturn("tfsblame");
+        msCoverPropertiesMock.givenIntegrationTestsPath("mscover.xml");
+        projectMock.givenIsRoot(false);
+        projectMock.givenName("tfsblame");
+        
         VisualStudioProject vsProject = mock(VisualStudioProject.class);
         File testProject=TestUtils.getResource("TfsBlame/tfsblame/tfsblame");
         when(vsProject.getDirectory()).thenReturn(testProject);
         when(microsoftWindowsEnvironment.getCurrentProject("tfsblame")).thenReturn(vsProject);
         //Act
-        sensor.analyse(project, context);
-        //Assert
-        
+        sensor.analyse(projectMock.getMock(), context);
+        //Assert 
     }  
     
     @Test
@@ -130,7 +133,7 @@ public class IntegrationTestsCoverSensorTest {
         public  IntegrationTestsCoverSensorStub(MsCoverProperties propertiesHelper,
                 MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
                 TimeMachine timeMachine) {
-            super(propertiesHelper, microsoftWindowsEnvironment, timeMachine);
+            super(propertiesHelper, microsoftWindowsEnvironment, timeMachine,coverageHelperFactoryMock.getMock());
         }
     }
 }
