@@ -7,16 +7,10 @@ import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.mock.VisualStudioSolutionMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AbstractAssembliesFinderFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock;
 
 /**
  * Build the openCoverCommand through direct communication with the objects that know
@@ -102,31 +96,5 @@ public class OpenCoverCommandBuilder {
         return coveredAssemblyNames;
       }
 
-    public void setOpenCoverCommand(OpenCoverCommandMock openCoverCommandMock) {
-        setOpenCoverCommand(openCoverCommandMock.getMock());
-    }
-
-    public void setSolution(VisualStudioSolutionMock visualStudioSolutionMock) {
-        setSolution(visualStudioSolutionMock.getMock());
-    }
-
-    public void setTestRunner(VsTestRunnerMock vsTestRunnerMock) {
-        setTestRunner(vsTestRunnerMock.getMock());
-    }
-
-    public void setMsCoverProperties(MsCoverPropertiesMock msCoverPropertiesMock) {
-        setMsCoverProperties(msCoverPropertiesMock.getMock());
-    }
-
-    public void setTestEnvironment(VsTestEnvironmentMock vsTestEnvironmentMock) {
-        setTestEnvironment(vsTestEnvironmentMock.getMock());
-    }
-
-
-
-
-
-
-
-
 }
+

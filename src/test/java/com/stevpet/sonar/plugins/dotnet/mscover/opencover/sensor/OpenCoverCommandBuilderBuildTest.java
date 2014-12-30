@@ -26,11 +26,11 @@ public class OpenCoverCommandBuilderBuildTest {
 
     private OpenCoverCommandBuilder givenPreparedBuilder() {
         OpenCoverCommandBuilder builder = new OpenCoverCommandBuilder();
-        builder.setOpenCoverCommand(openCoverCommandMock);
-        builder.setSolution(visualStudioSolutionMock);
-        builder.setTestRunner(vsTestRunnerMock);
-        builder.setMsCoverProperties(msCoverPropertiesMock);
-        builder.setTestEnvironment(vsTestEnvironmentMock);
+        builder.setOpenCoverCommand(openCoverCommandMock.getMock());
+        builder.setSolution(visualStudioSolutionMock.getMock());
+        builder.setTestRunner(vsTestRunnerMock.getMock());
+        builder.setMsCoverProperties(msCoverPropertiesMock.getMock());
+        builder.setTestEnvironment(vsTestEnvironmentMock.getMock());
         vsTestEnvironmentMock.givenXmlCoveragePath("somepath");
         return builder;
     }

@@ -74,6 +74,7 @@ public class IntegrationTestsCoverSensorTest {
     public void IntegrationTestsSensor_PathSet_Enabled() {
         //Arrange
         msCoverPropertiesMock.givenIntegrationTestsEnabled(true);
+        shouldExecuteHelperMock.whenShouldExecute(projectMock.getMock(),true);
         projectMock.givenIsRoot(false);
         //Act
         boolean shouldExecute=sensor.shouldExecuteOnProject(projectMock.getMock());
