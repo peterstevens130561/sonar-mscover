@@ -33,7 +33,6 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.resources.ResourceUtils;
-import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
@@ -52,7 +51,6 @@ public abstract class BaseDecorator implements Decorator {
     private static final Logger LOG = LoggerFactory
             .getLogger(BaseDecorator.class);
 
-    protected MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     protected String executionMode;
     protected Set<String> excludedAssemblies;
     protected Metric testMetric;
