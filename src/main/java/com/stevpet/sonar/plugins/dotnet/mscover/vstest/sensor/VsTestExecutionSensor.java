@@ -44,7 +44,6 @@ public class VsTestExecutionSensor implements Sensor {
     }
 
     public void analyse(Project project, SensorContext context) {
-
         if(vsTestEnvironment.getTestsHaveRun()) {
             LOG.info("MsCover : tests have run already");
             return;

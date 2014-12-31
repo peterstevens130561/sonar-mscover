@@ -26,6 +26,7 @@ import org.sonar.api.batch.DependedUpon;
 import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
+import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.dotnet.api.DotNetConstants;
@@ -128,6 +129,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         getResultPaths();
         // tell that tests were executed so that no other project tries to launch them a second time
         getMicrosoftWindowsEnvironment().setTestExecutionDone();
+        testEnvironment.setTestsHaveRun();
         parseCoverageFile(testEnvironment);
     }
 
@@ -141,6 +143,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
 
     
     private void executeVsTestOpenCoverRunner() {
+        LOG.info("------> {}",moduleFileSystem.baseDir());
         unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
         unitTestRunner.clean();
 
@@ -156,7 +159,6 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         openCoverCommand.setTargetDir(targetDir);
         fakesRemover.removeFakes(new File(targetDir));
         commandLineExecutor.execute(openCoverCommand);
-        testEnvironment.setTestsHaveRun();
     }
     
     

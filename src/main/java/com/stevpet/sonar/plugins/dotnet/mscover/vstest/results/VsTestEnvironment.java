@@ -5,6 +5,7 @@ import java.io.File;
 import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.api.resources.Project;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +20,7 @@ public class VsTestEnvironment implements BatchExtension {
     private String coverageXmlPath;
     private String resultsXmlPath;
     private boolean testsHaveRun=false;
+    private ModuleFileSystem moduleFileSystem;
 
     private SonarCoverage sonarCoverage;
     public String getXmlCoveragePath() {

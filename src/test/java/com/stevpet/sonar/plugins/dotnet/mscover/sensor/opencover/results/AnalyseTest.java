@@ -7,11 +7,9 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
-import org.sonar.plugins.dotnet.api.sensor.AbstractDotNetSensor;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
@@ -25,7 +23,6 @@ public class AnalyseTest {
     private VisualStudioProject vsProject;
     private Project project; 
     private MsCoverProperties propertiesHelper;
-    private SensorContext context;
     @Before
     public void before() {
         project=mock(Project.class);

@@ -35,12 +35,7 @@ public abstract class AbstractBaseSensor implements Sensor {
     private final String toolName;
     private final String executionMode;
 
-    /**
-     * Creates an {@link AbstractDotNetSensor} that has a {@link MicrosoftWindowsEnvironment} reference.
-     *
-     * @param microsoftWindowsEnvironment
-     *          the {@link MicrosoftWindowsEnvironment}
-     */
+
     protected AbstractBaseSensor(String toolName, String executionMode) {
       this.toolName = toolName;
       this.executionMode = executionMode;
