@@ -55,7 +55,7 @@ public class AssembliesFinderConfigTest {
     public void NoSpecificSettingsAssemblyOnDefaultPlaceNotUnitTest_AssemblyNotFound() {
         List<VisualStudioProject> projects = new ArrayList<VisualStudioProject>();
         projects.add(visualStudioProjectMock.getMock());
-        List<String> assemblies=assembliesFinder.findUnitTestAssembliesFromConfig(null, projects);
+        List<String> assemblies=assembliesFinder.findUnitTestAssembliesFromConfig(testResourceDir, projects);
         assertNotNull(assemblies);
         assertEquals(0,assemblies.size());    
     }
@@ -68,7 +68,7 @@ public class AssembliesFinderConfigTest {
         List<VisualStudioProject> projects = givenUnitTestProject();
         String path="solutiondir\\unittest.dll";
         File fut = givenArtifact(buildConfiguration, buildPlatform, path);
-        List<String> assemblies=assembliesFinder.findUnitTestAssembliesFromConfig(null, projects);
+        List<String> assemblies=assembliesFinder.findUnitTestAssembliesFromConfig(testResourceDir, projects);
         verifyFound(assemblies, fut);
     }
     
@@ -80,7 +80,7 @@ public class AssembliesFinderConfigTest {
         String bogusPath="solutiondir\\bindebug.dll";
         String expectedPath="\\bin\\Debug\\bindebug.dll";
         File fut = givenArtifact(buildConfiguration, buildPlatform, bogusPath);
-        List<String> assemblies=assembliesFinder.findUnitTestAssembliesFromConfig(null, projects);
+        List<String> assemblies=assembliesFinder.findUnitTestAssembliesFromConfig(testResourceDir, projects);
         verifyFound(assemblies, new File(testResourceDir,expectedPath));        
     }
     
@@ -92,7 +92,7 @@ public class AssembliesFinderConfigTest {
         String bogusPath="solutiondir\\hintpath.dll";
         String expectedPath="hintpath\\hintpath.dll";
         File fut = givenArtifact(buildConfiguration, buildPlatform, bogusPath);
-        List<String> assemblies=assembliesFinder.findUnitTestAssembliesFromConfig(null, projects);
+        List<String> assemblies=assembliesFinder.findUnitTestAssembliesFromConfig(testResourceDir, projects);
         verifyFound(assemblies, new File(testResourceDir,expectedPath));             
     }
     

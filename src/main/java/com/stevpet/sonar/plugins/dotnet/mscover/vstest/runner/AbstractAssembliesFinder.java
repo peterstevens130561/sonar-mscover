@@ -1,3 +1,21 @@
+/*
+ * SonarQube MSCover coverage plugin
+ * Copyright (C) 2014 Peter Stevens
+ * peter@famstevens.eu
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ */
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
 import java.io.File;
@@ -50,6 +68,7 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
         String assembliesPattern = propertiesHelper.getUnitTestsAssemblies();
         if(StringUtils.isEmpty(assembliesPattern)) {
             fromBuildConfiguration(projects);
+            //fromVisualStudioProperty(solutionDirectory);
         }  else {      
             fromMSCoverProperty(solutionDirectory);
         }
@@ -65,7 +84,7 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
      * @return list of full paths to unit test assemblies
      * @exception in case of no list or empty list, or no assembly defined for current configuration
      */
-    private List<String> fromBuildConfiguration(List<VisualStudioProject> projects) {
+    private void fromBuildConfiguration(List<VisualStudioProject> projects) {
         if(projects==null || projects.size()==0) {
             throw new SolutionHasNoProjectsSonarException() ;
         }
@@ -74,8 +93,20 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
             if(project.isUnitTest()) {
                 addUnitTestAssembly(project);
             }
+        }     
+    }
+
+private void fromVisualStudioProperty(File solutionDirectory) {
+        String assembliesPattern = propertiesHelper.getVisualStudioUnitTestPattern();
+        if(StringUtils.isEmpty(assembliesPattern)) {
+            assemblies=new ArrayList<String>();
+            return;
         }
-        return assemblies;       
+        setPattern(assembliesPattern + "\\.c[sx]proj");
+        findAssemblies(solutionDirectory);
+        if(assemblies.isEmpty()) {
+            throw new SonarException(" No unittest assemblies found with pattern '" + assembliesPattern + "'");
+        }
     }
 
     private List<String> fromMSCoverProperty(File solutionDirectory) {

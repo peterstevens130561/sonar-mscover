@@ -330,5 +330,10 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
           throw Throwables.propagate(e);
         }
       }
+
+    @Override
+    public String getVisualStudioUnitTestPattern() {
+        return settings.getString(VISUAL_STUDIO_TEST_PROJECT_PATTERN);
+    }
     
 }
