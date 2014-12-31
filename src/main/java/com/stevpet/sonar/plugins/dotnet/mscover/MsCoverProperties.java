@@ -3,6 +3,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover;
 import java.util.Collection;
 import java.util.List;
 
+import org.sonar.api.resources.Project;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 
 public interface MsCoverProperties {
@@ -73,6 +75,8 @@ public interface MsCoverProperties {
     public abstract String getUnitTestHintPath();
     
     public abstract boolean getOpenCoverSkipAutoProps();
+
+    public abstract boolean isTestProject(Project project);
 
 
 }

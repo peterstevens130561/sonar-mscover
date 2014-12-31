@@ -3,6 +3,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover;
 import java.util.Collection;
 import java.util.List;
 
+import org.sonar.api.resources.Project;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 
 public class MsCoverPropertiesStub implements MsCoverProperties {
@@ -325,6 +327,12 @@ public class MsCoverPropertiesStub implements MsCoverProperties {
     }
 
     public boolean getOpenCoverSkipAutoProps() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isTestProject(Project project) {
         // TODO Auto-generated method stub
         return false;
     }

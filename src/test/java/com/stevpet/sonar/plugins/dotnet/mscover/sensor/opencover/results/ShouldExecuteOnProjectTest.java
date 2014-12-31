@@ -18,10 +18,11 @@ import org.sonar.plugins.dotnet.api.sensor.AbstractDotNetSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.OpenCoverCoverageResultsSensor;
+import com.stevpet.sonar.plugins.dotnet.mscover.sensor.AbstractBaseSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 public class ShouldExecuteOnProjectTest {
 
-    private AbstractDotNetSensor sensor;
+    private AbstractBaseSensor sensor;
     private VisualStudioProject vsProject;
     private Project project; 
     private MsCoverProperties propertiesHelper;
@@ -29,12 +30,10 @@ public class ShouldExecuteOnProjectTest {
     @Before
     public void before() {
         project=mock(Project.class);
-        MicrosoftWindowsEnvironment microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
         vsProject = mock(VisualStudioProject.class);
-        when(microsoftWindowsEnvironment.getCurrentProject(anyString())).thenReturn(vsProject);
         propertiesHelper = mock(PropertiesHelper.class);
         vsTestEnvironment = new VsTestEnvironment();
-        sensor = new OpenCoverCoverageResultsSensor(microsoftWindowsEnvironment,propertiesHelper, vsTestEnvironment, null);
+        sensor = new OpenCoverCoverageResultsSensor(propertiesHelper, vsTestEnvironment, null);
           
     }
     

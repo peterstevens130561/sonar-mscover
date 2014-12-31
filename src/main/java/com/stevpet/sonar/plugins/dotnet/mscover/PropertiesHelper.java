@@ -1,19 +1,43 @@
+/*
+ * SonarQube MSCover coverage plugin
+ * Copyright (C) 2014 Peter Stevens
+ * peter@famstevens.eu
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ */
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.api.config.Settings;
+import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverRequiredPropertyMissingException;
+import com.google.common.base.Throwables;
 @InstantiationStrategy(InstantiationStrategy.PER_BATCH)
 public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
 
+    Logger LOG = LoggerFactory.getLogger(PropertiesHelper.class);
     public enum RunMode {
         SKIP,
         REUSE,
@@ -38,6 +62,7 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
     public static final String MSCOVER_IGNOREMISSING_DLL = MSCOVER + "vstest.ignoremissingdlls";
     public static final String MSCOVER_IGNOREMISSING_PDB = MSCOVER + "opencover.ignoremissingpdbs";
     public static final String MSCOVER_OPENCOVER_SKIPAUTOPROPS = MSCOVER + "opencover.skipautoprops";
+    public static final String VISUAL_STUDIO_TEST_PROJECT_PATTERN = "sonar.visualstudio.testProjectPattern";
     
     @Deprecated
     public PropertiesHelper(Settings settings) {
@@ -288,5 +313,22 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
     public boolean getOpenCoverSkipAutoProps() {
         return settings.getBoolean(MSCOVER_OPENCOVER_SKIPAUTOPROPS);
     }
+
+    @Override
+
+    public boolean isTestProject(Project project) {
+        String projectName=project.getName();
+        return matchesPropertyRegex(VISUAL_STUDIO_TEST_PROJECT_PATTERN, projectName);
+      }
+
+      private boolean matchesPropertyRegex(String propertyKey, String value) {
+        String pattern = settings.getString(propertyKey);
+        try {
+          return pattern != null && value.matches(pattern);
+        } catch (PatternSyntaxException e) {
+          LOG.error("The syntax of the regular expression of the \"" + propertyKey + "\" property is invalid: " + pattern);
+          throw Throwables.propagate(e);
+        }
+      }
     
 }
