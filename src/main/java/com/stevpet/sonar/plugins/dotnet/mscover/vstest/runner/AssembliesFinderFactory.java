@@ -11,6 +11,7 @@ public class AssembliesFinderFactory implements AbstractAssembliesFinderFactory 
 
     
     public AssembliesFinder create(MsCoverProperties propertiesHelper) {
+       Environment finderResult=new Environment();
        AssemblyResolver[] assembliesFinders = {
                new FailedAssemblyResolver(),
                new IgnoreMissingAssemblyResolver(),
@@ -22,12 +23,14 @@ public class AssembliesFinderFactory implements AbstractAssembliesFinderFactory 
         for(AssemblyResolver resolver: assembliesFinders) {
             resolver.setMsCoverProperties(propertiesHelper);
             resolver.setResolver(nextResolver);
+            resolver.setEnvironment(finderResult);
             nextResolver=resolver;
         }
         
         BaseAssembliesFinder baseAssembliesFinder = new BaseAssembliesFinder(propertiesHelper);
         baseAssembliesFinder.setMsCoverProperties(propertiesHelper);
         baseAssembliesFinder.setResolver(nextResolver);
+        baseAssembliesFinder.setEnvironment(finderResult);
         return baseAssembliesFinder;
     }
 }

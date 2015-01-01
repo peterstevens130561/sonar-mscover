@@ -22,21 +22,16 @@ public class BinConfigAssemblyResolverTest {
     public void before() {
         assemblyResolver.setMsCoverProperties(msCoverPropertiesMock.getMock());
         utils.setAssemblyResolver(assemblyResolver);
-        utils.setVisualStudioProject(visualStudioProjectMock.getMock());
     }
     @Test
     public void resolveAssembly_SimpleConfig_PathIncludesConfig() {
-
-        utils.givenAssembly(null);
-
+        utils.givenAssembly("somename.dll");
+        utils.givenProjectDir(new File("hoi"));
         String buildConfiguration="Reality";
-        File directory = new File("hoi");
         
-        visualStudioProjectMock.givenDirectory(directory);
-        visualStudioProjectMock.givenArtifactName(artifactName);
-        utils.setBuildConfiguration(buildConfiguration);
+        utils.setBuildConfiguration("Debug");
         utils.resolveAssembly();
-        utils.verifyResolvedAs("hoi\\bin\\Reality\\somename.dll");
+        utils.verifyResolvedAs("hoi\\bin\\Debug\\somename.dll");
 
         
     }

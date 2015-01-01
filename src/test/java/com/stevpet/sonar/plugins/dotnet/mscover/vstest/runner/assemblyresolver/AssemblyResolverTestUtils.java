@@ -6,15 +6,16 @@ import static org.junit.Assert.assertNull;
 
 import java.io.File;
 
-import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.Environment;
 
 public class AssemblyResolverTestUtils {
 
     private AssemblyResolver assemblyResolver;
     private File resultFile;
-    private File assemblyFile;
+    private File projectDir;
+    private String assemblyName;
     private String buildConfiguration;
-    private VisualStudioProject visualStudioProject;
+    private Environment environment = new Environment();
 
     /**
      * the resolver under test (mandatory
@@ -23,26 +24,21 @@ public class AssemblyResolverTestUtils {
     public void setAssemblyResolver(AssemblyResolver assemblyResolver) {
 
         this.assemblyResolver=assemblyResolver;
+        assemblyResolver.setEnvironment(environment);
     }
     
-    /**
-     * The project (optional, depending on resolver)
-     * @param mock
-     */
-    public void setVisualStudioProject(VisualStudioProject mock) {
-        visualStudioProject = mock;
-        
+
+    public  void givenAssembly(String assemblyName) {
+        this.assemblyName = assemblyName;
     }
 
-    public  void givenAssembly(String fileName) {
-        if(fileName!=null) {
-            assemblyFile = new File(fileName);
-        }
+    public void givenProjectDir(File projectDir) {
+        this.projectDir = projectDir;
     }
-
-    
     public void resolveAssembly() {
-        resultFile=assemblyResolver.resolveAssembly(assemblyFile, visualStudioProject, buildConfiguration);
+        assemblyResolver.resolveAssembly(projectDir, assemblyName, buildConfiguration);
+        resultFile=environment.getAssembly();
+        
     }
 
     public void verifyShouldBeIgnored() {
@@ -50,10 +46,11 @@ public class AssemblyResolverTestUtils {
     }
     
     public void verifyNotResolved() {
-        assertEquals(assemblyFile,resultFile);
+        assertEquals(projectDir,resultFile);
     }
 
     public void verifyResolvedAs(String string) {
+
         assertNotNull(resultFile);
         assertEquals(string.replaceAll("/","\\\\") ,resultFile.getPath());    
     }

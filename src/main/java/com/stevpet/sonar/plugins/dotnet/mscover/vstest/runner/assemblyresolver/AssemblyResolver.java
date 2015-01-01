@@ -2,13 +2,12 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver;
 
 import java.io.File;
 
-import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.Environment;
 
 public interface AssemblyResolver  {
 
-    File resolveChain(File assemblyFile, VisualStudioProject project,
+    void resolveChain(File assemblyFile, String assemblyName,
             String buildConfiguration);
 
     /* (non-Javadoc)
@@ -25,11 +24,12 @@ public interface AssemblyResolver  {
      * @param assemblyFile
      * @param project
      * @param buildConfiguration
-     * @return :
-     * - null if resolver concludes that assembly can not be resolved, stop the chain. 
-     * - existing file will stop the chain
-     * - return non-existing file to continue
+     * @return  void
+     * 
+     * Use finderResult to save the result
      */
-    File resolveAssembly(File assemblyFile,VisualStudioProject project, String buildConfiguration);
+    void resolveAssembly(File assemblyFile,String assemblyName, String buildConfiguration);
+
+    void setEnvironment(Environment environment);
 
 }

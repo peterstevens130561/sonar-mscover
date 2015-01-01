@@ -98,5 +98,7 @@ public interface MsCoverProperties {
 
     public abstract String getVisualStudioUnitTestPattern();
 
+    public abstract String getSolutionName();
+
 
 }

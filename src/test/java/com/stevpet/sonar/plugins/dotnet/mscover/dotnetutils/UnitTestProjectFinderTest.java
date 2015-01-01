@@ -34,7 +34,7 @@ import org.sonar.test.TestUtils;
 
 public class UnitTestProjectFinderTest {
     private UnitTestProjectFinder unitTestProjectFinder;
-    private File testDir;
+    private File startDirectory;
     @Test 
     public void InRoot_SolutionFound() {
         givenStart("");
@@ -65,7 +65,7 @@ public class UnitTestProjectFinderTest {
     @Test 
     public void InRoot_ProjectFound() {
         givenStart("");
-        List<String> projects=unitTestProjectFinder.findProjects(".*UnitTest.*");
+        List<String> projects=unitTestProjectFinder.findProjectNames(".*UnitTest.*");
         assertEquals(1,projects.size());
         assertEquals("BasicControls.UnitTest",projects.get(0));
 
@@ -74,7 +74,7 @@ public class UnitTestProjectFinderTest {
     @Test 
     public void InRoot_TwoProjectsFound() {
         givenStart("");
-        List<String> projects=unitTestProjectFinder.findProjects(".*BasicControls.*");
+        List<String> projects=unitTestProjectFinder.findProjectNames(".*BasicControls.*");
         assertEquals(2,projects.size());
         assertTrue(projects.contains("BasicControls.UnitTest"));
         assertTrue(projects.contains("BasicControls"));
@@ -84,7 +84,7 @@ public class UnitTestProjectFinderTest {
     @Test 
     public void InProject_TwoProjectsFound() {
         givenStart("BasicControls");
-        List<String> projects=unitTestProjectFinder.gotoDirWithSolution("mySolution.sln").findProjects(".*BasicControls.*");
+        List<String> projects=unitTestProjectFinder.gotoDirWithSolution("mySolution.sln").findProjectNames(".*BasicControls.*");
         assertEquals(2,projects.size());
         assertTrue(projects.contains("BasicControls.UnitTest"));
         assertTrue(projects.contains("BasicControls"));
@@ -93,13 +93,14 @@ public class UnitTestProjectFinderTest {
     @Test 
     public void InRoot_ProjectNotFound() {
         givenStart("");
-        List<String> projects=unitTestProjectFinder.findProjects("garbagewillnotbefound");
+        List<String> projects=unitTestProjectFinder.findProjectNames("garbagewillnotbefound");
         assertNotNull(projects);
         assertEquals(0,projects.size());
     }
     
     public void givenStart(String relativePath) {
-        testDir=TestUtils.getResource("UnitTestProjectFinderTest/" + relativePath);
-        unitTestProjectFinder = new UnitTestProjectFinder(testDir);
+        unitTestProjectFinder = new UnitTestProjectFinder();
+        startDirectory=TestUtils.getResource("UnitTestProjectFinderTest/" + relativePath);
+        unitTestProjectFinder.setStartDirectory(startDirectory);
     }
 }

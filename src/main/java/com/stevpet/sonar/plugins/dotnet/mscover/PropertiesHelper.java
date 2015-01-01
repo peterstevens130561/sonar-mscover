@@ -63,6 +63,7 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
     public static final String MSCOVER_IGNOREMISSING_PDB = MSCOVER + "opencover.ignoremissingpdbs";
     public static final String MSCOVER_OPENCOVER_SKIPAUTOPROPS = MSCOVER + "opencover.skipautoprops";
     public static final String VISUAL_STUDIO_TEST_PROJECT_PATTERN = "sonar.visualstudio.testProjectPattern";
+    public static final String VISUAL_STUDIO_SOLUTION_PROPERTY_KEY = "sonar.dotnet.visualstudio.solution.file";
     
     @Deprecated
     public PropertiesHelper(Settings settings) {
@@ -334,6 +335,11 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
     @Override
     public String getVisualStudioUnitTestPattern() {
         return settings.getString(VISUAL_STUDIO_TEST_PROJECT_PATTERN);
+    }
+
+    @Override
+    public String getSolutionName() {
+        return settings.getString(VISUAL_STUDIO_SOLUTION_PROPERTY_KEY);
     }
     
 }

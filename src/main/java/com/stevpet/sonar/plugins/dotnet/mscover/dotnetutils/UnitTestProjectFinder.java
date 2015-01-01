@@ -19,7 +19,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.dotnetutils;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,20 +32,21 @@ public class UnitTestProjectFinder {
     private File startDirectory;
     private File currentDirectory;
     private List<String> projects;
+    private ArrayList<File> projectDirectories;
     /**
      * 
      * @param startDirectory - directory where to start. Maybe in dir where the solution is, or below
      */
-    public UnitTestProjectFinder(File startDirectory) {
+    public UnitTestProjectFinder setStartDirectory(File startDirectory) {
         this.startDirectory=startDirectory;
         this.currentDirectory=startDirectory;
+        return this;
     }
     /**
      * Find the solution with given name start at the startDirectory, going upwards. If not found SonarException is thrown
      * @param solutionName - name of the solution (including the .sln)
      */
     public UnitTestProjectFinder gotoDirWithSolution(String solutionName) {
-        List<String> projectNames = new ArrayList<String>();
         File solutionFile;
         do {
             solutionFile=new File(currentDirectory,solutionName);
@@ -65,11 +65,11 @@ public class UnitTestProjectFinder {
     }
     
     /**
-     * Find projects matching the pattern
+     * Find project names matching the pattern. The names have no suffix.
      * @param pattern 
      * @return list of projects. If not projects are found the list is empty
      */
-    public List<String> findProjects(String pattern) {
+    public List<String> findProjectNames(String pattern) {
         projects = new ArrayList<String>();
         search(currentDirectory,pattern);
         return projects;
@@ -84,6 +84,25 @@ public class UnitTestProjectFinder {
             } else if (name.matches(pattern)) {
                 String strippedName=name.replaceAll("\\.c[xs]proj$", "");
                 projects.add(strippedName);
+            }
+            
+        }
+        
+    }
+    public List<File> findProjectDirectories(String pattern) {
+        projectDirectories = new ArrayList<File>();
+        searchDirectories(currentDirectory,pattern);
+        return projectDirectories;
+    }
+    
+    private void searchDirectories(File searchDirectory,String pattern) {
+        File[] files =searchDirectory.listFiles();
+        for(File file:files) {
+            String name=file.getName();
+            if(file.isDirectory()) {
+                search(file,pattern);
+            } else if (name.matches(pattern)) {
+                projectDirectories.add(file.getParentFile());
             }
             
         }

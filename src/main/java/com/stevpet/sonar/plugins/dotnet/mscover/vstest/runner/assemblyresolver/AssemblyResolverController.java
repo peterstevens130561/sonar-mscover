@@ -4,28 +4,34 @@ import java.io.File;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.Environment;
 
 public abstract class AssemblyResolverController implements AssemblyResolver {
     private Logger LOG = LoggerFactory.getLogger(AssemblyResolverController.class);
     private AssemblyResolver assemblyResolver ;
     private MsCoverProperties msCoverProperties;
+    protected Environment environment;
 
-    public File resolveChain(File assemblyFile,VisualStudioProject project, String buildConfiguration) {
+    public void resolveChain(File projectDir,String assemblyName, String buildConfiguration) {
         LOG.debug("trying");
-        File file=resolveAssembly(assemblyFile,project,buildConfiguration) ;
-        if(file == null) {
+        resolveAssembly(projectDir,assemblyName,buildConfiguration) ;
+        if(environment.isIgnore()) {
             LOG.debug("Ignoring");
-            return null;
+            return;
         }
-        if( file.exists()) {
-            LOG.debug("Found {}",file.getAbsoluteFile());
-            return file;
+        if( environment.isCheck() && environment.exists()) {
+                LOG.debug("Found {}",environment.getAssembly().getAbsolutePath());
+            return ;
         }
-        LOG.debug("Not found {}",file.getAbsolutePath());
-        return assemblyResolver.resolveChain(assemblyFile,project,buildConfiguration);
+        LOG.debug("Not found {}",environment.getAssenblyName());
+        if(assemblyResolver==null) {
+            LOG.warn( "Hit end of resolverChain without finding solution");
+            return;
+        }
+        assemblyResolver.resolveChain(projectDir,assemblyName,buildConfiguration);
+
     }
 
 
@@ -41,6 +47,10 @@ public abstract class AssemblyResolverController implements AssemblyResolver {
 
     public MsCoverProperties getMsCoverProperties() {
         return msCoverProperties;
+    }
+    
+    public void setEnvironment(Environment finderResult) {
+        this.environment=finderResult;
     }
 
 }

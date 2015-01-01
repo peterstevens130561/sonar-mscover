@@ -31,8 +31,10 @@ import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.dotnetutils.UnitTestProjectFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.NoAssemblyDefinedMsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.SolutionHasNoProjectsSonarException;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.Environment.Result;
 
 public abstract class AbstractAssembliesFinder implements AssembliesFinder {
 
@@ -41,7 +43,10 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
     private WildcardPattern[] inclusionMatchers;
     private List<String> assemblies;
     protected MsCoverProperties propertiesHelper;
+    private UnitTestProjectFinder unitTestProjectFinder=new UnitTestProjectFinder();
 
+    private Environment environment;
+    
     public AbstractAssembliesFinder(MsCoverProperties propertiesHelper) {
         this.propertiesHelper=propertiesHelper;
     }
@@ -63,12 +68,15 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
      * @return the list of assemblies
      * 
      * exception is thrown when no assemblies are found while pattern is defined.
+     * @deprecated as of now, migrate to {@link #findUnitTestAssembliesFromConfig(File)}
+     * 
      */
+    @Deprecated
     public List<String> findUnitTestAssembliesFromConfig(File solutionDirectory, List<VisualStudioProject> projects) {
         String assembliesPattern = propertiesHelper.getUnitTestsAssemblies();
         if(StringUtils.isEmpty(assembliesPattern)) {
-            fromBuildConfiguration(projects);
-            //fromVisualStudioProperty(solutionDirectory);
+            //fromBuildConfiguration(projects);
+            fromVisualStudioProperty(solutionDirectory);
         }  else {      
             fromMSCoverProperty(solutionDirectory);
         }
@@ -77,6 +85,20 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
         }
         return assemblies;
     }
+    
+    public List<String> findUnitTestAssembliesFromConfig(File solutionDirectory) {
+        String assembliesPattern = propertiesHelper.getUnitTestsAssemblies();
+        if(StringUtils.isEmpty(assembliesPattern)) {
+            //fromBuildConfiguration(projects);
+            fromVisualStudioProperty(solutionDirectory);
+        }  else {      
+            fromMSCoverProperty(solutionDirectory);
+        }
+        if(assemblies.isEmpty()) {
+            LOG.warn(" no test projects found");
+        }
+        return assemblies;
+    }  
 
     /**
      * Go through the list of projects, and put the full path of each unit test assembly in the returned list
@@ -97,15 +119,24 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
     }
 
 private void fromVisualStudioProperty(File solutionDirectory) {
-        String assembliesPattern = propertiesHelper.getVisualStudioUnitTestPattern();
-        if(StringUtils.isEmpty(assembliesPattern)) {
-            assemblies=new ArrayList<String>();
-            return;
-        }
-        setPattern(assembliesPattern + "\\.c[sx]proj");
-        findAssemblies(solutionDirectory);
-        if(assemblies.isEmpty()) {
-            throw new SonarException(" No unittest assemblies found with pattern '" + assembliesPattern + "'");
+        String solutionName=propertiesHelper.getSolutionName();
+        String unitTestPattern=propertiesHelper.getVisualStudioUnitTestPattern();
+        List<File> projectDirectories=unitTestProjectFinder
+                .setStartDirectory(solutionDirectory)
+                .gotoDirWithSolution(solutionName)
+                .findProjectDirectories(unitTestPattern);
+        
+        String buildConfiguration=propertiesHelper.getRequiredBuildConfiguration();
+        
+        assemblies=new ArrayList<String>();  
+        for(File projectDirectory:projectDirectories) {
+            String assemblyName = projectDirectory.getName() + ".dll";
+            environment.setResult(Result.Check);
+            searchNonExistingFile(projectDirectory,assemblyName,buildConfiguration);            
+
+            if(environment.getResult() == Result.Check && environment.getAssembly().exists()) {
+                assemblies.add(environment.getAssembly().getAbsolutePath());
+            }
         }
     }
 
@@ -131,7 +162,12 @@ private void fromVisualStudioProperty(File solutionDirectory) {
         }
 
         if(!assemblyFile.exists() ) {
-            assemblyFile=searchNonExistingFile(assemblyFile,project,buildConfiguration);            
+            String assemblyName=assemblyFile.getName();
+            File projectDir=project.getDirectory();
+            searchNonExistingFile(projectDir,assemblyName,buildConfiguration);
+            if(environment.exists()) {
+                assemblyFile=environment.getAssembly();
+            }
         }
 
         if(assemblyFile!=null && assemblyFile.exists()) {
@@ -183,5 +219,20 @@ private void fromVisualStudioProperty(File solutionDirectory) {
         }
         this.inclusionMatchers=WildcardPattern.create(patterns);         
     }
+    
+    /**
+     * testing purposes only
+     * @param unitTestProjectFinder
+     */
+    public void setUnitTestProjectFinder(UnitTestProjectFinder unitTestProjectFinder) {
+        this.unitTestProjectFinder = unitTestProjectFinder;
+    }
 
+    public void setEnvironment(Environment finderResult) {
+        this.environment= finderResult;
+    }
+    
+    public Environment getEnvironment() {
+        return environment;
+    }
 }

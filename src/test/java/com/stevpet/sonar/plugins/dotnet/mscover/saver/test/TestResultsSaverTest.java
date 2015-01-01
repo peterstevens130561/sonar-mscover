@@ -9,7 +9,6 @@ import org.sonar.api.measures.CoreMetrics;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModelMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeamMock;
 
 public class TestResultsSaverTest {

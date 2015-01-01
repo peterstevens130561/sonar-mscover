@@ -196,7 +196,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
     private void findAssemblies() {
 
         assembliesFinder = assembliesFinderFactory.create(propertiesHelper) ;
-        unitTestAssembliesPath=assembliesFinder.findUnitTestAssembliesFromConfig(solutionDirectory, projects);
+        unitTestAssembliesPath=assembliesFinder.findUnitTestAssembliesFromConfig(solutionDirectory);
     }
 
     /* (non-Javadoc)

@@ -361,4 +361,10 @@ public class MsCoverPropertiesStub implements MsCoverProperties {
         return null;
     }
 
+    @Override
+    public String getSolutionName() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

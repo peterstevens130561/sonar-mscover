@@ -11,8 +11,9 @@ public interface AssembliesFinder {
     List<String> findUnitTestAssembliesFromConfig(File solutionDirectory,
             List<VisualStudioProject> projects);
     
+    List<String> findUnitTestAssembliesFromConfig(File solutionDirectory);   
     
-    File searchNonExistingFile(File assemblyFile, VisualStudioProject project, String buildConfiguration);
+    void searchNonExistingFile(File assemblyFile, String assemblyName, String buildConfiguration);
 
     String findUnitTestAssembliesDir(VisualStudioSolution solution);
     

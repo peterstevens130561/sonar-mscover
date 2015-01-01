@@ -2,8 +2,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
 import java.io.File;
 
-import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.AssemblyResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.BaseAssemblyResolver;
@@ -15,25 +13,23 @@ public class BaseAssembliesFinder extends AbstractAssembliesFinder implements As
         super(propertiesHelper);
     }
 
-    public File resolveAssembly(File assemblyFile, VisualStudioProject project,
+    public void resolveAssembly(File projectDir, String assemblyName,
             String buildConfiguration) {
-
-        return null;
     }
 
     /**
      * Invoked from AbstractAssembliesFinder
      */
-    public File searchNonExistingFile(File assemblyFile,
-            VisualStudioProject project, String buildConfiguration) {
+    public void searchNonExistingFile(File projectDir,
+            String assemblyName, String buildConfiguration) {
 
-        return resolveChain(assemblyFile,project,buildConfiguration);
+       resolveChain(projectDir,assemblyName,buildConfiguration);
     }
 
-    public File resolveChain(File assemblyFile, VisualStudioProject project,
+    public void resolveChain(File projectDir, String assemblyName,
             String buildConfiguration) {
-
-        return assemblyResolver.resolveChain(assemblyFile, project, buildConfiguration);
+        assemblyResolver.setEnvironment(getEnvironment());
+        assemblyResolver.resolveChain(projectDir, assemblyName, buildConfiguration);
     }
 
     public void setResolver(AssemblyResolver assemblyResolver) {

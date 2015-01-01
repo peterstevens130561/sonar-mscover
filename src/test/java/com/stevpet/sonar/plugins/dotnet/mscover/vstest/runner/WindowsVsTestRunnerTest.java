@@ -142,7 +142,7 @@ public class WindowsVsTestRunnerTest {
 
     private void givenUnitTestAssemblies(List<String> unitTestAssemblies) {
         AssembliesFinder assembliesFinder = mock(AssembliesFinder.class);
-        when(assembliesFinder.findUnitTestAssembliesFromConfig(any(File.class), anyList())).thenReturn(unitTestAssemblies);
+        when(assembliesFinder.findUnitTestAssembliesFromConfig(any(File.class))).thenReturn(unitTestAssemblies);
         AbstractAssembliesFinderFactory factory = mock(AbstractAssembliesFinderFactory.class);
         when(factory.create(any(PropertiesHelper.class))).thenReturn(assembliesFinder);
         windowsVsTestRunner.setAssembliesFinderFactory(factory);
