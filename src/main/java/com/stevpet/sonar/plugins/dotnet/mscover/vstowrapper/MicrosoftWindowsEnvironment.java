@@ -1,31 +1,15 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper;
 
-import java.io.File;
+public interface MicrosoftWindowsEnvironment {
 
-public class MicrosoftWindowsEnvironment {
+    VisualStudioSolution getCurrentSolution();
 
-    public VisualStudioSolution getCurrentSolution() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    String getWorkingDirectory();
 
-    public String getWorkingDirectory() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    boolean isTestExecutionDone();
 
-    public boolean isTestExecutionDone() {
-        return false;
-    }
+    void setTestExecutionDone();
 
-    public void setTestExecutionDone() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    public VisualStudioProject getCurrentProject(String projectName) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    VisualStudioProject getCurrentProject(String projectName);
 
 }

@@ -2,8 +2,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.sensor;
 
 import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.InstantiationStrategy;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BaseBlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver;

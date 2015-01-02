@@ -3,7 +3,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 import java.io.File;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 

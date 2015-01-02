@@ -5,31 +5,16 @@ import java.util.List;
 
 import org.sonar.api.resources.Project;
 
-public class VisualStudioSolution {
+public interface VisualStudioSolution {
 
-    public File getSolutionDir() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    File getSolutionDir();
 
-    public List<VisualStudioProject> getProjects() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    List<VisualStudioProject> getProjects();
 
-    public List<VisualStudioProject> getUnitTestProjects() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    List<VisualStudioProject> getUnitTestProjects();
 
-    public VisualStudioProject getProjectFromSonarProject(Project project) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    VisualStudioProject getProjectFromSonarProject(Project project);
 
-    public VisualStudioProject getProject(File file) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    VisualStudioProject getProject(File file);
 
 }

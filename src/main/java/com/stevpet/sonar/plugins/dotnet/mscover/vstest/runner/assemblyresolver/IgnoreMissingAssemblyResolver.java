@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 
 public class IgnoreMissingAssemblyResolver extends AssemblyResolverController {
