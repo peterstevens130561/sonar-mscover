@@ -28,8 +28,19 @@ public interface AbstractVsTestRunnerFactory {
 
     abstract VsTestRunner create();
 
+    /**
+     * Replace by {@link #createBasicTestRunner}
+     * @param propertiesHelper
+     * @param moduleFileSystem
+     * @param microsoftWindowsEnvironment
+     * @return
+     */
+    @Deprecated
     abstract VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper,
             ModuleFileSystem moduleFileSystem,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment);
+    
+    abstract VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper,
+            ModuleFileSystem moduleFileSystem);
 
 }

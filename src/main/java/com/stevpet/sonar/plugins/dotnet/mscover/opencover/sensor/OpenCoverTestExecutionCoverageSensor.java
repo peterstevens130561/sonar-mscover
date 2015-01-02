@@ -19,6 +19,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
 import java.io.File;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,6 @@ import org.sonar.api.batch.DependedUpon;
 import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
-import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.dotnet.api.DotNetConstants;
@@ -37,12 +37,14 @@ import org.sonar.plugins.dotnet.api.sensor.AbstractDotNetSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
+import com.stevpet.sonar.plugins.dotnet.mscover.dotnetutils.UnitTestProjectFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.ConcreteOpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.ProjectSeam;
+import com.stevpet.sonar.plugins.dotnet.mscover.sensor.AbstractBaseSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AbstractVsTestRunnerFactory;
@@ -52,7 +54,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultVsTestRunne
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 @DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
 @DependedUpon("OpenCoverRunningVsTest")
-public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
+public class OpenCoverTestExecutionCoverageSensor extends AbstractBaseSensor {
 
     private static String WONT_EXECUTE = "VsTest.Console using OpenCover.Console.Exe won't execute as ";
     private static final Logger LOG = LoggerFactory.getLogger(OpenCoverTestExecutionCoverageSensor.class);
@@ -62,7 +64,6 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private final ModuleFileSystem moduleFileSystem;
     private VsTestEnvironment testEnvironment;
     private CommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
-    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private VsTestRunner unitTestRunner;
     private OpenCoverCommand openCoverCommand = new OpenCoverCommand();
     private AbstractVsTestRunnerFactory vsTestRunnerFactory = new DefaultVsTestRunnerFactory();
@@ -70,17 +71,16 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private AssembliesFinderFactory assembliesFinderFactory = new AssembliesFinderFactory();
     private VSTestStdOutParser vsTestStdOutParser = new VSTestStdOutParser();
     private OpenCoverParserFactory openCoverParserFactory = new ConcreteOpenCoverParserFactory();
+    private UnitTestProjectFinder unitTestProjectFinder = new UnitTestProjectFinder();
     private FakesRemover fakesRemover = new DefaultFakesRemover();
     
     public OpenCoverTestExecutionCoverageSensor(MsCoverProperties propertiesHelper, 
-            MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
             ModuleFileSystem moduleFileSystem,
             VsTestEnvironment testEnvironment) {
-        super(microsoftWindowsEnvironment, "OpenCover", propertiesHelper.getMode());
+        super("OpenCover", propertiesHelper.getMode());
         this.propertiesHelper = propertiesHelper;
         this.moduleFileSystem = moduleFileSystem;
         this.testEnvironment = testEnvironment;
-        this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
     }
 
     @Override
@@ -97,15 +97,12 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
             logReasonToNotExecute("test execution has already been done.");
             return false;
         }
-        if (getMicrosoftWindowsEnvironment().getCurrentSolution() != null
-                && getMicrosoftWindowsEnvironment().getCurrentSolution()
-                        .getUnitTestProjects().isEmpty()) {
-            logReasonToNotExecute("there are no test projects.");
-            return false;
-        }
         boolean isRoot=project.isRoot();
         String language=project.getLanguageKey();
         if (isRoot || !"cs".equals(language)) {
+            return false;
+        }
+        if(hasNoUnitTestAssemblies() ) {
             return false;
         }
         if (propertiesHelper.runOpenCover()) {
@@ -120,6 +117,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
 
     @Override
     public void analyse(Project project, SensorContext context) {
+
         testEnvironment.setCoverageXmlFile(project,"coverage-report.xml");
 
         getSolution();
@@ -128,9 +126,20 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         executeVsTestOpenCoverRunner();
         getResultPaths();
         // tell that tests were executed so that no other project tries to launch them a second time
-        getMicrosoftWindowsEnvironment().setTestExecutionDone();
         testEnvironment.setTestsHaveRun();
         parseCoverageFile(testEnvironment);
+    }
+
+    private boolean hasNoUnitTestAssemblies() {
+        List<File> assemblies = getUnitTestAssemblies();
+        return assemblies.size()==0;
+    }
+    private List<File> getUnitTestAssemblies() {
+        String solutionName=propertiesHelper.getSolutionName();
+        File startDir = moduleFileSystem.baseDir();
+        String pattern=propertiesHelper.getVisualStudioUnitTestPattern();
+        List<File> assemblies = unitTestProjectFinder.setStartDirectory(startDir).gotoDirWithSolution(solutionName).findUnitTestProjectDirectories(pattern);
+        return assemblies;
     }
 
     private void parseCoverageFile(VsTestEnvironment testEnvironment) {
@@ -144,7 +153,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     
     private void executeVsTestOpenCoverRunner() {
         LOG.info("------> {}",moduleFileSystem.baseDir());
-        unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
+        unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem);
         unitTestRunner.clean();
 
         openCoverCommandBuilder.setOpenCoverCommand(openCoverCommand);
@@ -155,7 +164,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         openCoverCommandBuilder.build();
         
         AssembliesFinder finder = assembliesFinderFactory.create(propertiesHelper);
-        String targetDir=finder.findUnitTestAssembliesDir(solution);
+        String targetDir=finder.findUnitTestAssembliesDir(moduleFileSystem.baseDir());
         openCoverCommand.setTargetDir(targetDir);
         fakesRemover.removeFakes(new File(targetDir));
         commandLineExecutor.execute(openCoverCommand);
@@ -174,17 +183,21 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     }
 
     private void getSolution() {
+        /*
         solution = getMicrosoftWindowsEnvironment().getCurrentSolution();
         if (solution == null) {
             throw new SonarException("No .NET solution or project has been given to the Gallio command builder.");
         }
+        */
     }
 
     private void ensureWorkDirExists() {
+        /*
         workDir = new File(solution.getSolutionDir(), getMicrosoftWindowsEnvironment().getWorkingDirectory());
         if (!workDir.exists()) {
           workDir.mkdirs();
         }
+        */
     }
 
     /**
@@ -238,6 +251,10 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
      */
     public void setFakesRemover(FakesRemover fakesRemover) {
         this.fakesRemover = fakesRemover;
+    }
+    
+    public void setUnitTestProjectFinder(UnitTestProjectFinder unitTestProjectFinder) {
+        this.unitTestProjectFinder = unitTestProjectFinder;
     }
 
 

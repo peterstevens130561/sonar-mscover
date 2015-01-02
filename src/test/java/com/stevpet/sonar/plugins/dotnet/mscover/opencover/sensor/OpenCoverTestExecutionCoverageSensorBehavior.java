@@ -12,6 +12,7 @@ import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.OpenCoverCommandBuilderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutorMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.dotnetutils.UnitTestProjectFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactoryMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.ProjectSeamMock;
@@ -110,5 +111,9 @@ public class OpenCoverTestExecutionCoverageSensorBehavior {
 
     public void givenFakesRemover(FakesRemoverMock fakesRemoverMock) {
         sensor.setFakesRemover(fakesRemoverMock.getMock());
+    }
+
+    public void setUnitTestProjectFinder(UnitTestProjectFinder unitTestProjectFinder) {
+        sensor.setUnitTestProjectFinder(unitTestProjectFinder);
     };
 }

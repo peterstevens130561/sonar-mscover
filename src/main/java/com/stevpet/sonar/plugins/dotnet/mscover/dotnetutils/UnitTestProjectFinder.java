@@ -26,6 +26,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.SonarException;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+
 
 public class UnitTestProjectFinder {
     Logger LOG = LoggerFactory.getLogger(UnitTestProjectFinder.class);
@@ -33,6 +35,8 @@ public class UnitTestProjectFinder {
     private File currentDirectory;
     private List<String> projects;
     private ArrayList<File> projectDirectories;
+    private String solutionName;
+    private String pattern;
     /**
      * 
      * @param startDirectory - directory where to start. Maybe in dir where the solution is, or below
@@ -42,11 +46,24 @@ public class UnitTestProjectFinder {
         this.currentDirectory=startDirectory;
         return this;
     }
+    
+    public UnitTestProjectFinder setMsCoverProperties(MsCoverProperties msCoverProperties) {
+        this.solutionName=msCoverProperties.getSolutionName();
+        this.pattern = msCoverProperties.getVisualStudioUnitTestPattern();
+        return this;
+    }
     /**
      * Find the solution with given name start at the startDirectory, going upwards. If not found SonarException is thrown
      * @param solutionName - name of the solution (including the .sln)
+     * @deprecated {@link gotoSolutionDir}
      */
     public UnitTestProjectFinder gotoDirWithSolution(String solutionName) {
+        this.solutionName=solutionName;
+        gotoSolutionDir();
+        return this;
+    }
+    
+    public UnitTestProjectFinder gotoSolutionDir() {
         File solutionFile;
         do {
             solutionFile=new File(currentDirectory,solutionName);
@@ -70,18 +87,38 @@ public class UnitTestProjectFinder {
      * @return list of projects. If not projects are found the list is empty
      */
     public List<String> findProjectNames(String pattern) {
+        this.pattern = pattern;
+        
         projects = new ArrayList<String>();
-        search(currentDirectory,pattern);
-        return projects;
+        search(currentDirectory);
+        List<String> unitTestProjectNames = new ArrayList<String>();
+        for(String projectName : projects) {
+            if(projectName.matches(pattern)) {
+                unitTestProjectNames.add(projectName);
+            }
+        }
+        return unitTestProjectNames;
+    }
+       
+    public List<String> findNonUnitTestProjectNames() {
+        projects = new ArrayList<String>();
+        search(currentDirectory);
+        List<String> unitTestProjectNames = new ArrayList<String>();
+        for(String projectName : projects) {
+            if(!projectName.matches(pattern)) {
+                unitTestProjectNames.add(projectName);
+            }
+        }
+        return unitTestProjectNames;       
     }
     
-    private void search(File searchDirectory,String pattern) {
+    private void search(File searchDirectory) {
         File[] files =searchDirectory.listFiles();
         for(File file:files) {
             String name=file.getName();
             if(file.isDirectory()) {
-                search(file,pattern);
-            } else if (name.matches(pattern)) {
+                search(file);
+            } else if (name.matches(".*\\.cxproj")) {
                 String strippedName=name.replaceAll("\\.c[xs]proj$", "");
                 projects.add(strippedName);
             }
@@ -89,7 +126,8 @@ public class UnitTestProjectFinder {
         }
         
     }
-    public List<File> findProjectDirectories(String pattern) {
+    
+    public List<File> findUnitTestProjectDirectories(String pattern) {
         projectDirectories = new ArrayList<File>();
         searchDirectories(currentDirectory,pattern);
         return projectDirectories;
@@ -100,7 +138,7 @@ public class UnitTestProjectFinder {
         for(File file:files) {
             String name=file.getName();
             if(file.isDirectory()) {
-                search(file,pattern);
+                search(file);
             } else if (name.matches(pattern)) {
                 projectDirectories.add(file.getParentFile());
             }
@@ -108,5 +146,7 @@ public class UnitTestProjectFinder {
         }
         
     }
+
+
 
 }

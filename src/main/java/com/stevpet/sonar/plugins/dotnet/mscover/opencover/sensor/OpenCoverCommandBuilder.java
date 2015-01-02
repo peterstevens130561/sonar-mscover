@@ -1,5 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
 import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.dotnetutils.UnitTestProjectFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
@@ -25,6 +27,7 @@ public class OpenCoverCommandBuilder {
     private MsCoverProperties msCoverProperties;
     private VsTestRunner unitTestRunner;
     private VsTestEnvironment testEnvironment;
+    private File baseDir;
     
     public OpenCoverCommandBuilder() {
 
@@ -35,11 +38,22 @@ public class OpenCoverCommandBuilder {
         return this;
     }
     
+    /**
+     * 
+     * @param solution
+     * @return
+     * @deprecated use {@link #setBaseDir(File baseDir)}
+     */
+    @Deprecated
     public OpenCoverCommandBuilder setSolution(VisualStudioSolution solution) {
         this.solution = solution;
         return this;
     }
  
+    public OpenCoverCommandBuilder setBaseDir(File baseDir) {
+        this.baseDir = baseDir;
+        return this;
+    }
     public OpenCoverCommandBuilder setMsCoverProperties(MsCoverProperties msCoverProperties) {
         this.msCoverProperties=msCoverProperties;
         return this;
@@ -95,6 +109,11 @@ public class OpenCoverCommandBuilder {
         }
         return coveredAssemblyNames;
       }
+    
+    public List<String> listCoveredAssembliesFromDir() {
+        UnitTestProjectFinder projectFinder = new UnitTestProjectFinder()
+        projectFinder.setStartDirectory(baseDir).setMsCoverProperties(msCoverProperties).gotoSolution().getNonUnitTestAssemblies();
+    }
 
 }
 

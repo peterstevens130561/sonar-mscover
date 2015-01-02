@@ -42,7 +42,6 @@ public class WindowsVsTestRunner implements VsTestRunner {
     private String outputPath;
     private String sonarPath;
     private boolean doCodeCoverage;
-    private List<VisualStudioProject> projects;
     private String stdOutString;
     private CodeCoverageCommand command = new WindowsCodeCoverageCommand();
     private TestConfigFinder testConfigFinder = new VsTestConfigFinder();
@@ -83,7 +82,6 @@ public class WindowsVsTestRunner implements VsTestRunner {
      */
     public void setSolution(VisualStudioSolution solution) {
         this.solutionDirectory = solution.getSolutionDir();
-        this.projects = solution.getProjects();
     }
     
     /* (non-Javadoc)
@@ -302,6 +300,11 @@ public class WindowsVsTestRunner implements VsTestRunner {
 
     public void setPropertiesHelper(MsCoverProperties propertiesHelper) {
         this.propertiesHelper=propertiesHelper;
+    }
+
+    @Override
+    public void setStartDir(File startDir) {
+        this.solutionDirectory=startDir;
     }
 }
     

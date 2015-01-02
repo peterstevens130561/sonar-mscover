@@ -18,6 +18,8 @@
  */
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
+import java.io.File;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
@@ -47,6 +49,7 @@ public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
      * @param moduleFileSystem
      * @param microsoftWindowsEnvironment - directory that holds the solution
      * @return
+     * @deprecated use {@link #createBasicTestRunnner(MsCoverProperties, ModuleFileSystem)
      */
     public VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper, ModuleFileSystem moduleFileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
             VsTestRunner unitTestRunner = WindowsVsTestRunner.create();
@@ -65,5 +68,21 @@ public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
             unitTestRunner.setSonarPath(sonarWorkingDirectory);
             return unitTestRunner;
         }
+
+    @Override
+    public VsTestRunner createBasicTestRunnner(
+            MsCoverProperties propertiesHelper,
+            ModuleFileSystem moduleFileSystem) {
+        File startDir=moduleFileSystem.baseDir();
+        VsTestRunner unitTestRunner = WindowsVsTestRunner.create();
+        unitTestRunner.setPropertiesHelper(propertiesHelper);
+        unitTestRunner.setStartDir(startDir);
+        
+        String sonarWorkingDirectory=moduleFileSystem.workingDir().getAbsolutePath();
+        String coverageXmlPath =sonarWorkingDirectory + "/coverage.xml";
+        unitTestRunner.setCoverageXmlPath(coverageXmlPath);
+        unitTestRunner.setSonarPath(sonarWorkingDirectory);
+        return unitTestRunner;
+    }
 
 }

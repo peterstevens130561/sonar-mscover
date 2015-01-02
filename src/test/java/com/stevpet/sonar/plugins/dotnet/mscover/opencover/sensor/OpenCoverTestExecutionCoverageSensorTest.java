@@ -26,6 +26,7 @@ import org.junit.Test;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.OpenCoverCommandBuilderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutorMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.dotnetutils.UnitTestProjectFinderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactoryMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubjectMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.ProjectSeamMock;
@@ -55,6 +56,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
     private VsTestRunnerFactoryMock vsTestRunnerFactoryMock = new VsTestRunnerFactoryMock();
     private VsTestRunnerMock vsTestRunnerMock = new VsTestRunnerMock();
     private FakesRemoverMock fakesRemoverMock = new FakesRemoverMock();
+    private UnitTestProjectFinderMock unitTestProjectFinderMock = new UnitTestProjectFinderMock();
     
     @Before
     public void before() {
@@ -62,6 +64,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         classUnderTest.setMicrosoftWindowsEnvironment(microsoftWindowsEnvironmentMock.getMock());
         classUnderTest.setProject(project.getMock());
         classUnderTest.setMsCoverProperties(msCoverPropertiesMock.getMock());
+
        
     }
     @Test
@@ -100,8 +103,11 @@ public class OpenCoverTestExecutionCoverageSensorTest {
     @Test
     public void testShouldExecuteOnProject_TestsNotExecuted_SolutionHasNoTestProjects_ProjectIsCsharp__ShouldNotExecute() {
         classUnderTest.givenANewSensor();
-        microsoftWindowsEnvironmentMock.givenTestsHaveExecuted(false);
-        microsoftWindowsEnvironmentMock.givenHasNoTestProjects();
+        classUnderTest.setUnitTestProjectFinder(unitTestProjectFinderMock.getMock());
+        //microsoftWindowsEnvironmentMock.givenTestsHaveExecuted(false);
+        testEnvironmentMock.givenTestsHaveNotExecuted();
+        //microsoftWindowsEnvironmentMock.givenHasNoTestProjects();
+        unitTestProjectFinderMock.givenFindsNoUnitTestProjects();
         project.givenIsRootProject(false);
         project.givenIsCSharpProject(true);
         msCoverPropertiesMock.givenRunOpenCover(true);

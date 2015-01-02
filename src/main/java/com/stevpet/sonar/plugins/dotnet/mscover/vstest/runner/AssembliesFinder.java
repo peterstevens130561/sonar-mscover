@@ -15,7 +15,7 @@ public interface AssembliesFinder {
     
     void searchNonExistingFile(File assemblyFile, String assemblyName, String buildConfiguration);
 
-    String findUnitTestAssembliesDir(VisualStudioSolution solution);
+    String findUnitTestAssembliesDir(File startDirectory);
     
 
 }

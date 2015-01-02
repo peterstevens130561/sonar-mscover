@@ -51,10 +51,8 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
         this.propertiesHelper=propertiesHelper;
     }
 
-    public String findUnitTestAssembliesDir(VisualStudioSolution solution) {
-        File solutionDirectory=solution.getSolutionDir();
-        List<VisualStudioProject> projects=solution.getProjects();
-        List<String> assemblies = findUnitTestAssembliesFromConfig(solutionDirectory,projects);
+    public String findUnitTestAssembliesDir(File startDirectory) {
+        List<String> assemblies = findUnitTestAssembliesFromConfig(startDirectory);
         File firstAssembly= new File(assemblies.get(0));
         return firstAssembly.getParent();
         
@@ -124,7 +122,7 @@ private void fromVisualStudioProperty(File solutionDirectory) {
         List<File> projectDirectories=unitTestProjectFinder
                 .setStartDirectory(solutionDirectory)
                 .gotoDirWithSolution(solutionName)
-                .findProjectDirectories(unitTestPattern);
+                .findUnitTestProjectDirectories(unitTestPattern);
         
         String buildConfiguration=propertiesHelper.getRequiredBuildConfiguration();
         
