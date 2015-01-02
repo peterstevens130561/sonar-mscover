@@ -9,7 +9,7 @@ public class MicrosoftWindowsEnvironment {
         return null;
     }
 
-    public File getWorkingDirectory() {
+    public String getWorkingDirectory() {
         // TODO Auto-generated method stub
         return null;
     }

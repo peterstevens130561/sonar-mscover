@@ -28,7 +28,7 @@ public abstract class AbstractDotNetSensor {
         return microsoftWindowsEnvironment;
     }
     
-    protected boolean isTestProject(VisualStudioProject project) {
+    protected boolean isTestProject(Project project) {
         return false;
     }
 
