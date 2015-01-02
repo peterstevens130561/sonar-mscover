@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 
 import org.sonar.test.TestUtils;
 

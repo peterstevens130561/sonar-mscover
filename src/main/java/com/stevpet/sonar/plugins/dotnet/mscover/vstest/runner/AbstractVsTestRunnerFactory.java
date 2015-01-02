@@ -8,9 +8,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 public interface AbstractVsTestRunnerFactory {
 
 
-    abstract VsTestRunner create();
+    VsTestRunner create();
 
-    abstract VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper,
+    VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper,
             ModuleFileSystem moduleFileSystem,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment);
 

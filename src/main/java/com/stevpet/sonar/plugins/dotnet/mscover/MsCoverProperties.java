@@ -7,72 +7,72 @@ import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 
 public interface MsCoverProperties {
 
-    public abstract boolean isIntegrationTestsEnabled();
+    boolean isIntegrationTestsEnabled();
 
-    public abstract boolean isUnitTestsEnabled();
+    boolean isUnitTestsEnabled();
 
-    public abstract String getIntegrationTestsPath();
+    String getIntegrationTestsPath();
 
-    public abstract boolean excuteRoot();
+    boolean excuteRoot();
 
-    public abstract String getUnitTestCoveragePath();
+    String getUnitTestCoveragePath();
 
-    public abstract String getExclusions();
+    String getExclusions();
 
-    public abstract boolean isPluginEnabled();
+    boolean isPluginEnabled();
 
-    public abstract String getInclusions();
+    String getInclusions();
 
-    public abstract String getCutOffDate();
+    String getCutOffDate();
 
-    public abstract String getIntegrationTestResultsPath();
+    String getIntegrationTestResultsPath();
 
-    public abstract String getUnitTestResultsPath();
+    String getUnitTestResultsPath();
 
-    public abstract String getMode();
+    String getMode();
 
-    public abstract String getUnitTestsAssemblies();
+    String getUnitTestsAssemblies();
 
-    public abstract String getTestSettings();
+    String getTestSettings();
 
-    public abstract boolean shouldMsCoverRun();
+    boolean shouldMsCoverRun();
 
-    public abstract boolean isCPlusPlus();
+    boolean isCPlusPlus();
 
-    public abstract List<String> getLanguages();
+    List<String> getLanguages();
 
-    public abstract RunMode getRunMode();
+    RunMode getRunMode();
 
-    public abstract boolean runOpenCover();
+    boolean runOpenCover();
 
-    public abstract boolean runVsTest();
+    boolean runVsTest();
 
     /**
      * gets the value of sonar.dotnet.buildConfiguration. If the value is not set exception is thrown
      */
-    public abstract String getRequiredBuildConfiguration();
+    String getRequiredBuildConfiguration();
 
     /**
      * gets the value of sonar.dotnet.buildPlatform. If the value is not set exception is thrown
      * @return
      */
-    public abstract String getRequiredBuildPlatform();
+    String getRequiredBuildPlatform();
 
     /**
      * Gets the array of unit tests dlls that can be ignored if missing (A warning will still occur)
      * @return
      */
-    public abstract Collection<String> getUnitTestAssembliesThatCanBeIgnoredIfMissing();
+    Collection<String> getUnitTestAssembliesThatCanBeIgnoredIfMissing();
 
-    public abstract Collection<String> getPdbsThatMayBeIgnoredWhenMissing();
+    Collection<String> getPdbsThatMayBeIgnoredWhenMissing();
 
-    public abstract boolean isIgnoreMissingUnitTestAssembliesSpecified();
+    boolean isIgnoreMissingUnitTestAssembliesSpecified();
 
-    public abstract String getOpenCoverInstallPath();
+    String getOpenCoverInstallPath();
 
-    public abstract String getUnitTestHintPath();
+    String getUnitTestHintPath();
     
-    public abstract boolean getOpenCoverSkipAutoProps();
+    boolean getOpenCoverSkipAutoProps();
 
 
 }

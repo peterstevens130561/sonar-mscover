@@ -9,7 +9,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
 public abstract class AssemblyResolverController implements AssemblyResolver {
-    private Logger LOG = LoggerFactory.getLogger(AssemblyResolverController.class);
+    private static Logger LOG = LoggerFactory.getLogger(AssemblyResolverController.class);
     private AssemblyResolver assemblyResolver ;
     private MsCoverProperties msCoverProperties;
 

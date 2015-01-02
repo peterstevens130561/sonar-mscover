@@ -9,6 +9,7 @@ public interface AbstractCoverageHelperFactory {
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,MeasureSaver measureSaver);
     CoverageSaver createUnitTestCoverageHelper(MsCoverProperties propertiesHelper,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,MeasureSaver measureSaver) ;  
-    public  ShouldExecuteHelper createShouldExecuteHelper(
+    
+    ShouldExecuteHelper createShouldExecuteHelper(
             MsCoverProperties propertiesHelper);
 }

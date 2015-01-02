@@ -4,9 +4,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 
 public interface CodeCoverageCommand extends ShellCommand{
 
-    public abstract void setCoveragePath(String path);
+    void setCoveragePath(String path);
 
-    public abstract void setOutputPath(String path);
+    void setOutputPath(String path);
 
     /**
      * 
@@ -15,12 +15,12 @@ public interface CodeCoverageCommand extends ShellCommand{
      * 
      * @param path
      */
-    public abstract void setSonarPath(String path);
+    void setSonarPath(String path);
 
     /**
      * install the binary from resource by first removing a potential old one, then
      * taking it from the resource jar and put it in the sonar working directory
      */
-    public abstract void install();
+    void install();
 
 }
