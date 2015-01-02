@@ -1,5 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper;
 
+import java.io.File;
+
 public class VisualStudioProject {
 
     /**
@@ -7,6 +9,21 @@ public class VisualStudioProject {
      * @return
      */
     public String getAssemblyName() {
+        return null;
+    }
+
+    public File getArtifact(String buildConfiguration, String buildPlatform) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public Object isUnitTest() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public Object getArtifactName() {
+        // TODO Auto-generated method stub
         return null;
     }
 

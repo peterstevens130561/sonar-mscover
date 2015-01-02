@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNull;
 import java.io.File;
 
 import org.junit.Test;
-import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 
 import static org.mockito.Mockito.verify;
 

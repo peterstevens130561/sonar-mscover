@@ -1,6 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapperVisualStudioSolution;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.OpenCoverCommandBuilder;

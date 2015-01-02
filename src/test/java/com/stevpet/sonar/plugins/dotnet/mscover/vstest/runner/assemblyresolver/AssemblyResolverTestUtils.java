@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNull;
 
 import java.io.File;
 
-import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 
 public class AssemblyResolverTestUtils {
 
