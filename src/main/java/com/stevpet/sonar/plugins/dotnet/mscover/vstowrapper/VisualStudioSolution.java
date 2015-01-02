@@ -15,4 +15,9 @@ public class VisualStudioSolution {
         return null;
     }
 
+    public List<VisualStudioProject> getUnitTestProjects() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

@@ -22,12 +22,12 @@ public class VisualStudioProject {
         return false;
     }
 
-    public Object getArtifactName() {
+    public String getArtifactName() {
         // TODO Auto-generated method stub
         return null;
     }
 
-    public Object getDirectory() {
+    public File getDirectory() {
         // TODO Auto-generated method stub
         return null;
     }
