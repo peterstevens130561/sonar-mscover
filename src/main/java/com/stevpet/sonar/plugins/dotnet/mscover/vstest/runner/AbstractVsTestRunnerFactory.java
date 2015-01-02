@@ -1,8 +1,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.ModuleFileSystem;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
 public interface AbstractVsTestRunnerFactory {

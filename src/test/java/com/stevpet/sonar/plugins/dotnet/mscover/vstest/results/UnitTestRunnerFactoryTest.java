@@ -13,8 +13,8 @@ import org.junit.Test;
 import org.sonar.api.config.Settings;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.SonarException;
-import org.sonar.plugins.dotnet.api.microsoft.MicrosoftWindowsEnvironment;
-import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;

@@ -17,12 +17,17 @@ public class VisualStudioProject {
         return null;
     }
 
-    public Object isUnitTest() {
+    public boolean isUnitTest() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    public Object getArtifactName() {
         // TODO Auto-generated method stub
         return null;
     }
 
-    public Object getArtifactName() {
+    public Object getDirectory() {
         // TODO Auto-generated method stub
         return null;
     }

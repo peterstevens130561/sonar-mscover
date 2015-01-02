@@ -3,8 +3,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.mock;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sonar.plugins.dotnet.api.microsoft.VisualStudioProject;
-import org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.VisualStudioProjectMock;
 import static org.mockito.Mockito.when;

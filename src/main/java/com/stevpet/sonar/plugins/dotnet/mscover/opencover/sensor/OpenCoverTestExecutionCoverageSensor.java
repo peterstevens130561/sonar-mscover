@@ -13,7 +13,7 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.dotnet.api.DotNetConstants;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
-import org.sonar.plugins.dotnet.api.sensor.AbstractDotNetSensor;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AbstractDotNetSensor;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
