@@ -23,4 +23,9 @@ public class MicrosoftWindowsEnvironment {
         
     }
 
+    public VisualStudioProject getCurrentProject(String projectName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
