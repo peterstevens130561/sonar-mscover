@@ -3,10 +3,10 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.VisualStudioProjectMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 
 import static org.mockito.Mockito.mock;
@@ -33,7 +33,8 @@ public class MicrosoftWindowsEnvironmentMock extends GenericClassMock<MicrosoftW
     public void givenHasTestProject() {
         when(instance.getCurrentSolution()).thenReturn(solution);
         List<VisualStudioProject> unitTestProjects = new ArrayList<VisualStudioProject>();
-        VisualStudioProject vsProject = new VisualStudioProject();
+        VisualStudioProjectMock visualStudioProjectMock = new VisualStudioProjectMock();
+        VisualStudioProject vsProject = visualStudioProjectMock.getMock();
         unitTestProjects.add(vsProject);
         when(solution.getUnitTestProjects()).thenReturn(unitTestProjects);       
     }

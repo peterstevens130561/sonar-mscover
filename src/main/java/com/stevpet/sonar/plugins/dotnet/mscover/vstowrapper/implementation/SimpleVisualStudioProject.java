@@ -59,4 +59,13 @@ public class SimpleVisualStudioProject implements VisualStudioProject {
         return null;
     }
 
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.IVisualStudioProject#isTest()
+     */
+    @Override
+    public boolean isTest() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

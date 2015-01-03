@@ -33,6 +33,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.sensor.SonarCoverageHelperFactor
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestExecutionSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestUnitTestResultsSensor;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation.SimpleMicrosoftWindowsEnvironment;
 
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
@@ -113,8 +114,10 @@ public List getExtensions() {
       
     return Arrays.asList(
             CPlusPlusImporterSensor.class,
+            SimpleMicrosoftWindowsEnvironment.class,
             VsTestEnvironment.class,
             PropertiesHelper.class,
+            
             SonarCoverageHelperFactory.class,
             VsTestExecutionSensor.class,
             OpenCoverTestExecutionCoverageSensor.class,

@@ -1,9 +1,10 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper;
 
+import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 
-public abstract class AbstractDotNetSensor {
+public abstract class AbstractDotNetSensor implements BatchExtension {
 
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 
