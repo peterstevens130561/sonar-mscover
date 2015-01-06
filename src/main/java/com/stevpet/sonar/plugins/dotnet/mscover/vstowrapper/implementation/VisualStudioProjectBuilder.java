@@ -86,7 +86,6 @@ private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     boolean hasModules = false;
 
     VisualStudioSolution currentSolution = new VisualStudioSolutionParser().parse(solutionFile);
-    microsoftWindowsEnvironment.setCurrentSolution(currentSolution);
     VisualStudioProjectParser projectParser = new VisualStudioProjectParser();
     for (VisualStudioSolutionProject solutionProject : currentSolution.projects()) {
       if (!isSupportedProjectType(solutionProject)) {
@@ -113,6 +112,7 @@ private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     }
 
     Preconditions.checkState(hasModules, "No Visual Studio projects were found.");
+    microsoftWindowsEnvironment.setCurrentSolution(currentSolution);
   }
 
   private static void logSkippedProject(VisualStudioSolutionProject solutionProject, String reason) {
@@ -166,9 +166,6 @@ private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     }
 
     forwardModuleProperties(module);
-    setFxCopProperties(module, projectFile, project, assembly);
-    setReSharperProperties(module, projectName, solutionFile);
-    setStyleCopProperties(module, projectFile);
   }
 
   private void forwardModuleProperties(ProjectDefinition module) {
@@ -179,32 +176,14 @@ private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     }
   }
 
-  private void setFxCopProperties(ProjectDefinition module, File projectFile, SimpleVisualStudioProject project, @Nullable File assembly) {
-    if (assembly == null) {
-      return;
-    }
-
-    if (isWebApplication(project)) {
-      module.setProperty("sonar.cs.fxcop.aspnet", "true");
-    }
-
-    module.setProperty("sonar.cs.fxcop.assembly", assembly.getAbsolutePath());
-    module.setProperty("sonar.vbnet.fxcop.assembly", assembly.getAbsolutePath());
-  }
+ 
 
   private boolean isWebApplication(SimpleVisualStudioProject project) {
     return project.projectTypeGuids() != null &&
       project.projectTypeGuids().toUpperCase().contains(WEB_APPLICATION_PROJECT_TYPE_GUID);
   }
 
-  private void setReSharperProperties(ProjectDefinition module, String projectName, File solutionFile) {
-    module.setProperty("sonar.resharper.solutionFile", solutionFile.getAbsolutePath());
-    module.setProperty("sonar.resharper.projectName", projectName);
-  }
 
-  private void setStyleCopProperties(ProjectDefinition module, File projectFile) {
-    module.setProperty("sonar.stylecop.projectFilePath", projectFile.getAbsolutePath());
-  }
 
   private static boolean isInSourceDir(File file, File folder) {
     try {

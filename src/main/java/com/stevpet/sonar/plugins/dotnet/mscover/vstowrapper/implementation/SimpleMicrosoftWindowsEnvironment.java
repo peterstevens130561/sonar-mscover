@@ -22,10 +22,7 @@ public class SimpleMicrosoftWindowsEnvironment implements BatchExtension,Microso
 
     Logger LOG = LoggerFactory.getLogger(SimpleMicrosoftWindowsEnvironment.class);
     private VisualStudioSolution solution=null;
-    public SimpleMicrosoftWindowsEnvironment(VisualStudioAssemblyLocator assemblyLocator, VisualStudioSolutionBuilder solutionBuilder) {
 
-        solution=solutionBuilder.build(assemblyLocator);
-    }
     
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.IMicrosoftWindowsEnvironment#getCurrentSolution()
@@ -69,6 +66,11 @@ public class SimpleMicrosoftWindowsEnvironment implements BatchExtension,Microso
     public VisualStudioProject getCurrentProject(String projectName) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public void setCurrentSolution(VisualStudioSolution currentSolution) {
+        this.solution=solution;
     }
 
 }

@@ -23,6 +23,7 @@ import javax.annotation.Nullable;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -62,10 +63,6 @@ public class SimpleVisualStudioProject implements VisualStudioProject {
     return outputType;
   }
 
-  @Nullable
-  public String assemblyName() {
-    return assemblyName;
-  }
 
   public List<String> propertyGroupConditions() {
     return propertyGroupConditions;
@@ -74,5 +71,50 @@ public class SimpleVisualStudioProject implements VisualStudioProject {
   public List<String> outputPaths() {
     return outputPaths;
   }
+
+  /**
+   * {@link VisualStudioProject#getAssemblyName}
+   */
+@Override
+public String getAssemblyName() {
+    // TODO Auto-generated method stub
+    return assemblyName;
+}
+
+@Override
+public File getArtifact(String buildConfiguration, String buildPlatform) {
+    // TODO Auto-generated method stub
+    return null;
+}
+
+@Override
+public boolean isUnitTest() {
+    // TODO Auto-generated method stub
+    return false;
+}
+
+@Override
+public String getArtifactName() {
+    // TODO Auto-generated method stub
+    return null;
+}
+
+@Override
+public File getDirectory() {
+    // TODO Auto-generated method stub
+    return null;
+}
+
+@Override
+public String getName() {
+    // TODO Auto-generated method stub
+    return null;
+}
+
+@Override
+public boolean isTest() {
+    // TODO Auto-generated method stub
+    return false;
+}
 
 }
