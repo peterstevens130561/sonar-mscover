@@ -1,12 +1,14 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.InputStreamReader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
-import org.sonar.api.config.Settings;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
@@ -18,10 +20,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution
  */
 public class SimpleMicrosoftWindowsEnvironment implements BatchExtension,MicrosoftWindowsEnvironment {
 
+    Logger LOG = LoggerFactory.getLogger(SimpleMicrosoftWindowsEnvironment.class);
     private VisualStudioSolution solution=null;
-    public SimpleMicrosoftWindowsEnvironment(Settings settings,ModuleFileSystem moduleFileSystem) {
-        //File solutionFile = getSolutionFile(settings,moduleFileSystem.baseDir());
-        //solution = new SimpleVisualStudioSolution(solutionFile);
+    public SimpleMicrosoftWindowsEnvironment(VisualStudioAssemblyLocator assemblyLocator, VisualStudioSolutionBuilder solutionBuilder) {
+
+        solution=solutionBuilder.build(assemblyLocator);
     }
     
     /* (non-Javadoc)

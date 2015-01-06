@@ -19,23 +19,26 @@
  */
 package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
 
-import java.util.List;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
-
 /**
- * All information which can be extracted solely out of a .sln file.
+ * All information related to Visual Studio projects which can be extracted only from a .sln file.
+ * Should not be mixed with information gathered from project files.
  */
-public class SimpleVisualStudioSolution implements VisualStudioSolution{
+public class VisualStudioSolutionProject {
 
-  private final List<VisualStudioSolutionProject> projects;
+  private final String name;
+  private final String path;
 
-  public SimpleVisualStudioSolution(List<VisualStudioSolutionProject> projects) {
-    this.projects = projects;
+  public VisualStudioSolutionProject(String name, String path) {
+    this.name = name;
+    this.path = path;
   }
 
-  public List<VisualStudioSolutionProject> projects() {
-    return projects;
+  public String name() {
+    return name;
+  }
+
+  public String path() {
+    return path;
   }
 
 }

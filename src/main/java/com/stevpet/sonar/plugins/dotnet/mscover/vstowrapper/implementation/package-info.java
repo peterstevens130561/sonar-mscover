@@ -17,25 +17,8 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
+@ParametersAreNonnullByDefault
+package org.sonar.plugins.visualstudio;
 
-import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
-
-/**
- * All information which can be extracted solely out of a .sln file.
- */
-public class SimpleVisualStudioSolution implements VisualStudioSolution{
-
-  private final List<VisualStudioSolutionProject> projects;
-
-  public SimpleVisualStudioSolution(List<VisualStudioSolutionProject> projects) {
-    this.projects = projects;
-  }
-
-  public List<VisualStudioSolutionProject> projects() {
-    return projects;
-  }
-
-}

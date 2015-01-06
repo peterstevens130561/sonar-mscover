@@ -12,4 +12,6 @@ public interface MicrosoftWindowsEnvironment {
 
     VisualStudioProject getCurrentProject(String projectName);
 
+    void setCurrentSolution(VisualStudioSolution currentSolution);
+
 }
