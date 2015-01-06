@@ -18,6 +18,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution
  * @author stevpet
  *
  */
+
 public class SimpleMicrosoftWindowsEnvironment implements BatchExtension,MicrosoftWindowsEnvironment {
 
     Logger LOG = LoggerFactory.getLogger(SimpleMicrosoftWindowsEnvironment.class);
