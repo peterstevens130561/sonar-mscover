@@ -73,6 +73,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean shouldExecuteOnProject(Project project) {
         if (getMicrosoftWindowsEnvironment().isTestExecutionDone()) {
             logReasonToNotExecute("test execution has already been done.");

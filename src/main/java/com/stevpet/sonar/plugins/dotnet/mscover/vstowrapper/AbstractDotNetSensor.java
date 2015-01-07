@@ -1,10 +1,9 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper;
 
-import org.sonar.api.BatchExtension;
-import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.Sensor;
 import org.sonar.api.resources.Project;
 
-public abstract class AbstractDotNetSensor implements BatchExtension {
+public abstract class AbstractDotNetSensor implements Sensor {
 
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 
@@ -14,15 +13,12 @@ public abstract class AbstractDotNetSensor implements BatchExtension {
         this.microsoftWindowsEnvironment  = microsoftWindowsEnvironment;
     }
 
-    public void analyse(Project project, SensorContext context) {
-        // TODO Auto-generated method stub
-        
-    }
 
     public abstract String[] getSupportedLanguages();
 
+    @Override
     public boolean shouldExecuteOnProject(Project project) {
-        return false;
+        return true;
     }
     
     protected MicrosoftWindowsEnvironment getMicrosoftWindowsEnvironment() {

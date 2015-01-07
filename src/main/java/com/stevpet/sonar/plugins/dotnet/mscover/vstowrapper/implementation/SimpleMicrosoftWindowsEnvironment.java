@@ -71,7 +71,7 @@ public class SimpleMicrosoftWindowsEnvironment implements BatchExtension,Microso
 
     @Override
     public void setCurrentSolution(VisualStudioSolution currentSolution) {
-        this.solution=solution;
+        this.solution=currentSolution;
     }
 
 }

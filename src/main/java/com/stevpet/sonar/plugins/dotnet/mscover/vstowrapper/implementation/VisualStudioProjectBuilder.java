@@ -136,7 +136,7 @@ private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     ProjectDefinition module = ProjectDefinition.create()
       .setKey(projectKey(solutionProject.getKey()) + ":" + escapedProjectName)
       .setName(projectName);
-    solutionProject.addSubProject(module);
+    //solutionProject.addSubProject(module);
 
     module.setBaseDir(projectFile.getParentFile());
     module.setWorkDir(new File(solutionProject.getWorkDir(), solutionProject.getKey().replace(':', '_') + "_" + escapedProjectName));
