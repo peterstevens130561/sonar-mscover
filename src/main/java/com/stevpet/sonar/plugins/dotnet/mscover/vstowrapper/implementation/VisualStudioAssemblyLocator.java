@@ -97,35 +97,29 @@ public class VisualStudioAssemblyLocator {
   }
 
   private List<File> candidates(String assemblyFileName, File projectFile, SimpleVisualStudioProject project) {
-    List<File> candidates = Lists.newArrayList();
+      List<File> candidates = Lists.newArrayList();
 
-    String explicitOutputPaths = settings.getString(VisualStudioPlugin.VISUAL_STUDIO_OUTPUT_PATHS_PROPERTY_KEY);
-    if (explicitOutputPaths != null) {
-      LOG.info("Using the assembly output paths specified using the property \"" + VisualStudioPlugin.VISUAL_STUDIO_OUTPUT_PATHS_PROPERTY_KEY
-        + "\" set to: " + explicitOutputPaths);
+      String explicitOutputPaths = settings.getString(VisualStudioPlugin.VISUAL_STUDIO_OUTPUT_PATHS_PROPERTY_KEY);
+      if (explicitOutputPaths != null) {
+          LOG.info("Using the assembly output paths specified using the property \"" + VisualStudioPlugin.VISUAL_STUDIO_OUTPUT_PATHS_PROPERTY_KEY
+                  + "\" set to: " + explicitOutputPaths);
 
-      for (String explicitOutputPath : Splitter.on(',').omitEmptyStrings().split(explicitOutputPaths)) {
-        File candidate = new File(new File(explicitOutputPath.replace('\\', '/')), assemblyFileName);
-        candidates.add(candidate);
-      }
-    } else {
-      for (int i = 0; i < project.outputPaths().size(); i++) {
-        String outputPath = project.outputPaths().get(i);
-        File candidate = new File(projectFile.getParentFile(), outputPath.replace('\\', '/') + '/' + assemblyFileName);
+          for (String explicitOutputPath : Splitter.on(',').omitEmptyStrings().split(explicitOutputPaths)) {
+              String path=explicitOutputPath.replace('\\', '/') +  "//" + assemblyFileName;
 
-        if (!candidate.isFile()) {
-          LOG.debug("The following candidate assembly was not built: " + candidate.getAbsolutePath());
-        } else if (matchesBuildConfigurationAndPlatform(project.propertyGroupConditions().get(i))) {
-          LOG.debug("The following candidate assembly was found: " + candidate.getAbsolutePath());
-          candidates.add(candidate);
-        } else {
-          LOG.info("The following candidate assembly was found, but rejected because it does not match the request build configuration and platform: "
-            + candidate.getAbsolutePath());
-        }
-      }
-    }
-
-    return candidates;
+              File absoluteCandidate = new File(path);
+              if(absoluteCandidate.exists()) {
+                  candidates.add(absoluteCandidate);
+                  continue;
+              }
+              File relativeCandidate = new File(projectFile,path);
+              if(relativeCandidate.exists()) {
+                  candidates.add(relativeCandidate);
+                  continue;
+              }
+          }
+      } 
+      return candidates;
   }
 
   private boolean matchesBuildConfigurationAndPlatform(String condition) {

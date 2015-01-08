@@ -105,7 +105,13 @@ private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
             logSkippedProject(solutionProject, "because it is not built and \"" + VisualStudioPlugin.VISUAL_STUDIO_SKIP_IF_NOT_BUILT + "\" is set.");
           } else {
             hasModules = true;
-            buildModule(sonarProject, solutionProject.name(), projectFile, project, assembly, solutionFile);
+            currentSolution.addVisualStudioProject(project);
+            if(isTestProject(solutionProject.name()) ) {
+                currentSolution.addUnitTestVisualStudioProject(project);
+                
+            }
+            
+            //buildModule(sonarProject, solutionProject.name(), projectFile, project, assembly, solutionFile);
           }
         }
       }
@@ -115,7 +121,8 @@ private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     microsoftWindowsEnvironment.setCurrentSolution(currentSolution);
   }
 
-  private static void logSkippedProject(VisualStudioSolutionProject solutionProject, String reason) {
+
+private static void logSkippedProject(VisualStudioSolutionProject solutionProject, String reason) {
     LOG.info("Skipping the project \"" + solutionProject.name() + "\" " + reason);
   }
 
@@ -145,6 +152,7 @@ private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     LOG.info("Adding the Visual Studio " + (isTestProject ? "test " : "") + "project: " + projectName + "... " + projectFile.getAbsolutePath());
 
     if (isTestProject) {
+        
       module.setTestDirs(projectFile.getParentFile());
     } else {
       module.setSourceDirs(projectFile.getParentFile());

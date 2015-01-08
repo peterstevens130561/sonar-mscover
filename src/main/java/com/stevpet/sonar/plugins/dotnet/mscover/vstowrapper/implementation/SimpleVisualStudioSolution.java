@@ -20,6 +20,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.sonar.api.resources.Project;
@@ -33,7 +34,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution
 public class SimpleVisualStudioSolution implements VisualStudioSolution{
 
   private final List<VisualStudioSolutionProject> projects;
-
+  private List<VisualStudioProject> unitTestVisualStudioProjects = new ArrayList<VisualStudioProject>();
+  private List<VisualStudioProject> visualStudioProjects = new ArrayList<VisualStudioProject>();
   public SimpleVisualStudioSolution(List<VisualStudioSolutionProject> projects) {
     this.projects = projects;
   }
@@ -51,25 +53,37 @@ public File getSolutionDir() {
 @Override
 public List<VisualStudioProject> getProjects() {
     // TODO Auto-generated method stub
-    return null;
+    return visualStudioProjects;
 }
 
 @Override
 public List<VisualStudioProject> getUnitTestProjects() {
-    // TODO Auto-generated method stub
-    return null;
+    return unitTestVisualStudioProjects;
 }
 
+@Deprecated
 @Override
 public VisualStudioProject getProjectFromSonarProject(Project project) {
     // TODO Auto-generated method stub
     return null;
 }
 
+@Deprecated
 @Override
 public VisualStudioProject getProject(File file) {
     // TODO Auto-generated method stub
     return null;
 }
 
+
+@Override
+public void addVisualStudioProject(SimpleVisualStudioProject project) {
+    visualStudioProjects.add(project); 
+}
+
+@Override
+public void addUnitTestVisualStudioProject(SimpleVisualStudioProject project) {
+    unitTestVisualStudioProjects.add(project);    // TODO Auto-generated method stub
+    
+}
 }
