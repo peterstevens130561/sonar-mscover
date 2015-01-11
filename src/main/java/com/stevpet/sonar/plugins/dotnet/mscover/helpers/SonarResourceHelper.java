@@ -23,42 +23,16 @@ public class SonarResourceHelper {
     private static final Logger LOG = LoggerFactory
             .getLogger(SonarResourceHelper.class);
     /**
-     * Gets the resource of the sourcefile, by scanning through the sourcedirs. The
+     * Gets the resource of the sourcefile 
      * path in the resource will  be relative to the project root.
      * @param file to find in project
      * @param 
      * @return resource
      */
     public static org.sonar.api.resources.File getFromFile(File file,Project project) {
-
-        org.sonar.api.resources.File sonarFile =findFileInProject(file, project);
-        if (sonarFile == null) {
-            LOG.debug("Could not create sonarFile for "
-                    + file.getAbsolutePath());
-            return null;
-        }
-        return sonarFile;
-
+        return  org.sonar.api.resources.File.fromIOFile(file, project);
     }
 
-    private static  org.sonar.api.resources.File findFileInProject(java.io.File file, Project project) {
-        List<File> lf = project.getFileSystem().getSourceDirs();
-        if(lf.size()==0) {
-            LOG.info("no sourcedirs");
-           lf.add(new File("."));
-        }
-
-        return findFileInSourceDirs(file,lf );
-      }
-
-    private static org.sonar.api.resources.File findFileInSourceDirs(java.io.File file, List<java.io.File> sourceDirs) {
-        String relativePath = getRelativePath(sourceDirs, file);
-        if (relativePath != null) {
-            LOG.debug("Relative path {}",relativePath);
-          return new org.sonar.api.resources.File(relativePath);
-        }
-        return null;
-      }
     
     @CheckForNull
     public static String getRelativePath(Collection<File> dirs, File file) {

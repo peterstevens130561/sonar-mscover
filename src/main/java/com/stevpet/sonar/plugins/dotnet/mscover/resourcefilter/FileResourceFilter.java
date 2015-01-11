@@ -15,7 +15,7 @@ public class FileResourceFilter  {
      * @param resource
      * @return
      */
-    public boolean isIncludedFileResource(Resource<?> resource) {
+    public boolean isIncludedFileResource(Resource resource) {
         if(includedPaths ==null && excludedPaths==null) {
             return true;
         }

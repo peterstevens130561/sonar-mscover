@@ -100,7 +100,7 @@ public class CPlusPlusImporterSensor implements Sensor {
 
     private void indexCppSourceFile(File file, List<File> sourceDirs) {
 
-        Resource<?> resource = createResource(file, sourceDirs);
+        Resource resource = createResource(file, sourceDirs);
         if (resource != null) {
             try {
                 context.index(resource);
@@ -139,7 +139,7 @@ public class CPlusPlusImporterSensor implements Sensor {
         }
     }
 
-    protected Resource<?> createResource(File file, List<File> sourceDirs) {
+    protected Resource createResource(File file, List<File> sourceDirs) {
         org.sonar.api.resources.File resource = org.sonar.api.resources.File
                 .fromIOFile(file, sourceDirs);
 

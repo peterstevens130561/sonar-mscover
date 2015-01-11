@@ -17,6 +17,6 @@ public interface DateFilter {
 
     void setTimeMachine(TimeMachine timeMachine);
 
-    boolean isResourceIncludedInResults(Resource<?> resource);
+    boolean isResourceIncludedInResults(Resource resource);
 
 }

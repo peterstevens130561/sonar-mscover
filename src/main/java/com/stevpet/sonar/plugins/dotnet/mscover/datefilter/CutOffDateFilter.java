@@ -110,7 +110,7 @@ public class CutOffDateFilter implements DateFilter {
         
     }
     
-    public boolean isResourceIncludedInResults(Resource<?> resource) {
+    public boolean isResourceIncludedInResults(Resource  resource) {
         LOG.debug("isResourceIncludedInResults" + resource.getLongName());
         Measure commitDates = getCommitDateTimesByLine(resource);
         setLineCommitDates(commitDates);
@@ -143,8 +143,8 @@ public class CutOffDateFilter implements DateFilter {
         return latestCommitDate;
     }
     
-    private Measure getCommitDateTimesByLine(Resource<?> resource) {
-        List<Metric> lastCommitDataTimesByLineMetrics = ImmutableList.of(
+    private Measure getCommitDateTimesByLine(Resource resource) {
+        List<Metric> lastCommitDataTimesByLineMetrics = (List<Metric>) ImmutableList.of(
                 CoreMetrics.SCM_LAST_COMMIT_DATETIMES_BY_LINE
         );
         TimeMachineQuery query = new TimeMachineQuery(resource).setOnlyLastAnalysis(true).setMetrics(lastCommitDataTimesByLineMetrics);

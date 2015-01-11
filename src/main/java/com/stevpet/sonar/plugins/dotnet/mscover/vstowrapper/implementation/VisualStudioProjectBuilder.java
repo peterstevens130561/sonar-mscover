@@ -191,7 +191,7 @@ private static void logSkippedProject(VisualStudioSolutionProject solutionProjec
     }
   }
 
-  protected Resource<?> createResource(File file,File sourceDir) {
+  protected Resource createResource(File file,File sourceDir) {
       List<File> sourceDirs = new ArrayList<File>();
       sourceDirs.add(sourceDir);
       org.sonar.api.resources.File resource = org.sonar.api.resources.File
