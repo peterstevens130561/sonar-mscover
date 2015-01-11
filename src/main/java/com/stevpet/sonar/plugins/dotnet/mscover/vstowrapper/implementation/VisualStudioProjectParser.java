@@ -59,14 +59,14 @@ public class VisualStudioProjectParser {
     private final ImmutableList.Builder<String> propertyGroupConditionsBuilder = ImmutableList.builder();
     private final ImmutableList.Builder<String> outputPathsBuilder = ImmutableList.builder();
 
-    public SimpleVisualStudioProject parse(File file) {
-      this.file = file;
+    public SimpleVisualStudioProject parse(File projectFile) {
+      this.file = projectFile;
 
       InputStreamReader reader = null;
       XMLInputFactory xmlFactory = XMLInputFactory.newInstance();
 
       try {
-        reader = new InputStreamReader(new FileInputStream(file), Charsets.UTF_8);
+        reader = new InputStreamReader(new FileInputStream(projectFile), Charsets.UTF_8);
         stream = xmlFactory.createXMLStreamReader(reader);
 
         boolean inItemGroup = false;
@@ -110,13 +110,13 @@ public class VisualStudioProjectParser {
       } catch (IOException e) {
         throw Throwables.propagate(e);
       } catch (XMLStreamException e) {
-        throw new SonarException("Error while parsing the Visual Studio project file: " + file.getAbsolutePath(), e);
+        throw new SonarException("Error while parsing the Visual Studio project file: " + projectFile.getAbsolutePath(), e);
       } finally {
         closeXmlStream();
         Closeables.closeQuietly(reader);
       }
 
-      return new SimpleVisualStudioProject(filesBuilder.build(), projectTypeGuids, outputType, assemblyName, propertyGroupConditionsBuilder.build(), outputPathsBuilder.build());
+      return new SimpleVisualStudioProject(projectFile,filesBuilder.build(), projectTypeGuids, outputType, assemblyName, propertyGroupConditionsBuilder.build(), outputPathsBuilder.build());
     }
 
     private void closeXmlStream() {

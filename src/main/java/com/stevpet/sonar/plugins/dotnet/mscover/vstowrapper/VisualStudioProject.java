@@ -28,4 +28,6 @@ public interface VisualStudioProject {
 
     boolean isTest();
 
+    String outputType();
+
 }

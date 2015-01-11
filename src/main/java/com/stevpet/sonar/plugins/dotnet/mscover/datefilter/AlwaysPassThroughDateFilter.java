@@ -30,7 +30,7 @@ public class AlwaysPassThroughDateFilter implements DateFilter {
         // Intentionally left blank
     }
 
-    public boolean isResourceIncludedInResults(Resource<?> resource) {
+    public boolean isResourceIncludedInResults(Resource resource) {
         return true;
     }
 }

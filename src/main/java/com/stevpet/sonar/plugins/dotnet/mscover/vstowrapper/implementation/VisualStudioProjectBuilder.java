@@ -34,6 +34,8 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.bootstrap.ProjectBuilder;
 import org.sonar.api.batch.bootstrap.ProjectDefinition;
 import org.sonar.api.config.Settings;
+import org.sonar.api.resources.Qualifiers;
+import org.sonar.api.resources.Resource;
 import org.sonar.api.utils.SonarException;
 
 import javax.annotation.Nullable;
@@ -41,7 +43,9 @@ import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.PatternSyntaxException;
@@ -85,7 +89,7 @@ private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     Set<String> skippedProjects = skippedProjectsByNames();
     boolean hasModules = false;
 
-    VisualStudioSolution currentSolution = new VisualStudioSolutionParser().parse(solutionFile);
+    SimpleVisualStudioSolution currentSolution = new VisualStudioSolutionParser().parse(solutionFile);
     VisualStudioProjectParser projectParser = new VisualStudioProjectParser();
     for (VisualStudioSolutionProject solutionProject : currentSolution.projects()) {
       if (!isSupportedProjectType(solutionProject)) {
@@ -108,10 +112,12 @@ private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
             currentSolution.addVisualStudioProject(project);
             if(isTestProject(solutionProject.name()) ) {
                 currentSolution.addUnitTestVisualStudioProject(project);
+                project.setIsTest();
+                project.setAssembly(assembly);
                 
             }
             
-            //buildModule(sonarProject, solutionProject.name(), projectFile, project, assembly, solutionFile);
+           buildModule(sonarProject, solutionProject.name(), projectFile, project, assembly, solutionFile);
           }
         }
       }
@@ -140,22 +146,22 @@ private static void logSkippedProject(VisualStudioSolutionProject solutionProjec
   private void buildModule(ProjectDefinition solutionProject, String projectName, File projectFile, SimpleVisualStudioProject project, @Nullable File assembly, File solutionFile) {
     String escapedProjectName = escapeProjectName(projectName);
 
-    ProjectDefinition module = ProjectDefinition.create()
-      .setKey(projectKey(solutionProject.getKey()) + ":" + escapedProjectName)
-      .setName(projectName);
+    //ProjectDefinition module = ProjectDefinition.create()
+    //  .setKey(projectKey(solutionProject.getKey()) + ":" + escapedProjectName)
+    //  .setName(projectName);
     //solutionProject.addSubProject(module);
 
-    module.setBaseDir(projectFile.getParentFile());
-    module.setWorkDir(new File(solutionProject.getWorkDir(), solutionProject.getKey().replace(':', '_') + "_" + escapedProjectName));
+    //module.setBaseDir(projectFile.getParentFile());
+    //module.setWorkDir(new File(solutionProject.getWorkDir(), solutionProject.getKey().replace(':', '_') + "_" + escapedProjectName));
 
     boolean isTestProject = isTestProject(projectName);
     LOG.info("Adding the Visual Studio " + (isTestProject ? "test " : "") + "project: " + projectName + "... " + projectFile.getAbsolutePath());
 
     if (isTestProject) {
         
-      module.setTestDirs(projectFile.getParentFile());
+      //solutionProject.addTestDirs(projectFile.getParentFile());
     } else {
-      module.setSourceDirs(projectFile.getParentFile());
+      //solutionProject.addSourceDirs(projectFile.getParentFile());
     }
 
     for (String filePath : project.files()) {
@@ -166,14 +172,15 @@ private static void logSkippedProject(VisualStudioSolutionProject solutionProjec
         LOG.warn("Skipping the file " + file.getAbsolutePath() + " of project " + projectName + " located outside of the source directory.");
       } else {
         if (isTestProject) {
-          module.addTestFiles(file.getAbsolutePath());
+          solutionProject.addTestFiles(file.getAbsolutePath());
         } else {
-          module.addSourceFiles(file);
+          solutionProject.addSourceFiles(file);
+          createResource(file,projectFile.getParentFile());
         }
       }
     }
 
-    forwardModuleProperties(module);
+    //forwardModuleProperties(module);
   }
 
   private void forwardModuleProperties(ProjectDefinition module) {
@@ -182,6 +189,24 @@ private static void logSkippedProject(VisualStudioSolutionProject solutionProjec
         module.setProperty(entry.getKey().substring(module.getName().length() + 1), entry.getValue());
       }
     }
+  }
+
+  protected Resource<?> createResource(File file,File sourceDir) {
+      List<File> sourceDirs = new ArrayList<File>();
+      sourceDirs.add(sourceDir);
+      org.sonar.api.resources.File resource = org.sonar.api.resources.File
+              .fromIOFile(file, sourceDirs);
+
+      if (resource == null) {
+          LOG.debug("Could not create resource for {}", file.getName());
+      } else {
+          String projectDir = file.getParent();
+          //if (unitTestPaths.contains(projectDir)) {
+          //    resource.setQualifier(Qualifiers.UNIT_TEST_FILE);
+          //}
+          //LOG.debug("Created resource {}", resource.getKey());
+      }
+      return resource;
   }
 
  

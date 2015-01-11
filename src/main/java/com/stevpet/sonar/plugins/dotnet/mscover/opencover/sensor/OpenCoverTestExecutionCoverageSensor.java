@@ -75,7 +75,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
      */
     @Override
     public boolean shouldExecuteOnProject(Project project) {
-        if (getMicrosoftWindowsEnvironment().isTestExecutionDone()) {
+        if (testEnvironment.getTestsHaveRun()) {
             logReasonToNotExecute("test execution has already been done.");
             return false;
         }
@@ -85,9 +85,8 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
             logReasonToNotExecute("there are no test projects.");
             return false;
         }
-        boolean isRoot=project.isRoot();
         String language=project.getLanguageKey();
-        if (isRoot || !"cs".equals(language)) {
+        if ( !"cs".equals(language)) {
             return false;
         }
         if (propertiesHelper.runOpenCover()) {
@@ -105,12 +104,12 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         testEnvironment.setCoverageXmlFile(project,"coverage-report.xml");
 
         getSolution();
-        ensureWorkDirExists();
+        //ensureWorkDirExists();
         
         executeVsTestOpenCoverRunner();
         getResultPaths();
         // tell that tests were executed so that no other project tries to launch them a second time
-        getMicrosoftWindowsEnvironment().setTestExecutionDone();
+        testEnvironment.setTestsHaveRun();
         parseCoverageFile(testEnvironment);
     }
 
@@ -139,7 +138,6 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         openCoverCommand.setTargetDir(targetDir);
         fakesRemover.removeFakes(new File(targetDir));
         commandLineExecutor.execute(openCoverCommand);
-        testEnvironment.setTestsHaveRun();
     }
     
     

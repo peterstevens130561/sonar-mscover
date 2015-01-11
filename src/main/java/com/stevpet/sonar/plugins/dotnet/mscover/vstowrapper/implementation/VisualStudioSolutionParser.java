@@ -49,7 +49,7 @@ public class VisualStudioSolutionParser {
       throw Throwables.propagate(e);
     }
 
-    return new SimpleVisualStudioSolution(projectsBuilder.build());
+    return new SimpleVisualStudioSolution(file,projectsBuilder.build());
   }
 
   private VisualStudioSolutionProject parseProjectLine(File file, int lineNumber, String line) {

@@ -34,10 +34,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution
 public class SimpleVisualStudioSolution implements VisualStudioSolution{
 
   private final List<VisualStudioSolutionProject> projects;
+  private File solutionFile;
   private List<VisualStudioProject> unitTestVisualStudioProjects = new ArrayList<VisualStudioProject>();
   private List<VisualStudioProject> visualStudioProjects = new ArrayList<VisualStudioProject>();
-  public SimpleVisualStudioSolution(List<VisualStudioSolutionProject> projects) {
+  public SimpleVisualStudioSolution(File file, List<VisualStudioSolutionProject> projects) {
     this.projects = projects;
+    this.solutionFile = file;
   }
 
   public List<VisualStudioSolutionProject> projects() {
@@ -46,8 +48,7 @@ public class SimpleVisualStudioSolution implements VisualStudioSolution{
 
 @Override
 public File getSolutionDir() {
-    // TODO Auto-generated method stub
-    return null;
+    return solutionFile.getParentFile();
 }
 
 @Override

@@ -22,6 +22,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
@@ -45,7 +47,7 @@ public class VisualStudioAssemblyLocator {
     this.settings = settings;
   }
 
-  public File locateAssembly(String projectName, File projectFile, SimpleVisualStudioProject project) {
+  public File locateAssembly(String projectName, File projectFile, VisualStudioProject project) {
     LOG.debug("Locating the assembly for the project " + projectName + "... " + projectFile.getAbsolutePath());
     if (project.outputType() == null || project.getAssemblyName() == null) {
       LOG.warn("Unable to locate the assembly as either the output type or the assembly name is missing.");
@@ -96,7 +98,7 @@ public class VisualStudioAssemblyLocator {
     return result;
   }
 
-  private List<File> candidates(String assemblyFileName, File projectFile, SimpleVisualStudioProject project) {
+  private List<File> candidates(String assemblyFileName, File projectFile, VisualStudioProject project) {
       List<File> candidates = Lists.newArrayList();
 
       String explicitOutputPaths = settings.getString(VisualStudioPlugin.VISUAL_STUDIO_OUTPUT_PATHS_PROPERTY_KEY);
@@ -105,23 +107,22 @@ public class VisualStudioAssemblyLocator {
                   + "\" set to: " + explicitOutputPaths);
 
           for (String explicitOutputPath : Splitter.on(',').omitEmptyStrings().split(explicitOutputPaths)) {
-              String path=explicitOutputPath.replace('\\', '/') +  "//" + assemblyFileName;
-
-              File absoluteCandidate = new File(path);
-              if(absoluteCandidate.exists()) {
-                  candidates.add(absoluteCandidate);
-                  continue;
+              String path=explicitOutputPath.replace('\\', '/') ;
+              String basePath = "";
+              if( isRelative(path)) {
+                  basePath = projectFile.getParentFile().getAbsolutePath() + "/" ;
               }
-              File relativeCandidate = new File(projectFile,path);
-              if(relativeCandidate.exists()) {
-                  candidates.add(relativeCandidate);
-                  continue;
-              }
+              String directoryPath = basePath + path ;
+              File absoluteCandidate = new File(directoryPath,assemblyFileName);
+              candidates.add(absoluteCandidate);
           }
       } 
       return candidates;
   }
 
+private boolean isRelative(String path) {
+    return !path.matches("^\\/|([A-Z]:\\/).*");
+}
   private boolean matchesBuildConfigurationAndPlatform(String condition) {
     String buildConfiguration = settings.getString(VisualStudioPlugin.VISUAL_STUDIO_OLD_BUILD_CONFIGURATION_PROPERTY_KEY);
     String buildPlatform = settings.getString(VisualStudioPlugin.VISUAL_STUDIO_OLD_BUILD_PLATFORM_PROPERTY_KEY);

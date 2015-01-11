@@ -32,16 +32,21 @@ import java.util.List;
  */
 public class SimpleVisualStudioProject implements VisualStudioProject {
 
+    private final File projectFile ;
   private final List<String> files;
   private final String projectTypeGuids;
   private final String outputType;
   private final String assemblyName;
   private final List<String> propertyGroupConditions;
   private final List<String> outputPaths;
+  
+  private boolean isTest;
+private File assemblyFile;
 
-  public SimpleVisualStudioProject(List<String> files, @Nullable String projectTypeGuids, @Nullable String outputType, @Nullable String assemblyName,
+  public SimpleVisualStudioProject(File projectFile,List<String> files, @Nullable String projectTypeGuids, @Nullable String outputType, @Nullable String assemblyName,
     List<String> propertyGroupConditions, List<String> outputPaths) {
-    this.files = files;
+    this.projectFile = projectFile;
+      this.files = files;
     this.projectTypeGuids = projectTypeGuids;
     this.outputType = outputType;
     this.assemblyName = assemblyName;
@@ -77,32 +82,27 @@ public class SimpleVisualStudioProject implements VisualStudioProject {
    */
 @Override
 public String getAssemblyName() {
-    // TODO Auto-generated method stub
     return assemblyName;
 }
 
 @Override
 public File getArtifact(String buildConfiguration, String buildPlatform) {
-    // TODO Auto-generated method stub
-    return null;
+    return assemblyFile;
 }
 
 @Override
 public boolean isUnitTest() {
-    // TODO Auto-generated method stub
-    return false;
+    return isTest;
 }
 
 @Override
 public String getArtifactName() {
-    // TODO Auto-generated method stub
-    return null;
+    return assemblyFile.getName();
 }
 
 @Override
 public File getDirectory() {
-    // TODO Auto-generated method stub
-    return null;
+    return projectFile.getParentFile();
 }
 
 @Override
@@ -114,7 +114,15 @@ public String getName() {
 @Override
 public boolean isTest() {
     // TODO Auto-generated method stub
-    return false;
+    return isTest;
+}
+
+public void setIsTest() {
+    this.isTest=true; 
+}
+
+public void setAssembly(File assembly) {
+    this.assemblyFile = assembly;
 }
 
 }
