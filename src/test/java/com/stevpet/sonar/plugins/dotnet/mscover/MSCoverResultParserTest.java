@@ -157,7 +157,7 @@ public class MSCoverResultParserTest {
         project.setFileSystem(fs);
 
         SensorContext sensorContext = mock(SensorContext.class);
-        when(sensorContext.isIndexed((Resource<?>) any(), eq(false))).thenReturn(true);
+        when(sensorContext.isIndexed((Resource) any(), eq(false))).thenReturn(true);
         
         File projectDir= getResource("TfsBlame/tfsblame/tfsblame");
         when(fs.getBasedir()).thenReturn(projectDir);

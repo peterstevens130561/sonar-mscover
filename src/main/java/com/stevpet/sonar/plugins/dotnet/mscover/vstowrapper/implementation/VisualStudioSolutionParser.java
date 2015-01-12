@@ -41,7 +41,10 @@ public class VisualStudioSolutionParser {
       int lineNumber = 1;
       for (String line : Files.readLines(file, Charsets.UTF_8)) {
         if (line.startsWith(PROJECT_LINE_LOOKAHEAD)) {
-          projectsBuilder.add(parseProjectLine(file, lineNumber, line));
+          VisualStudioSolutionProject visualStudioSolutionProject = parseProjectLine(file, lineNumber, line);
+          if(isCSharpProject(visualStudioSolutionProject)) {
+              projectsBuilder.add(visualStudioSolutionProject);
+          }
         }
         lineNumber++;
       }
@@ -52,7 +55,12 @@ public class VisualStudioSolutionParser {
     return new SimpleVisualStudioSolution(file,projectsBuilder.build());
   }
 
-  private VisualStudioSolutionProject parseProjectLine(File file, int lineNumber, String line) {
+  private boolean isCSharpProject(
+        VisualStudioSolutionProject visualStudioSolutionProject) {
+        return visualStudioSolutionProject.path().endsWith("csproj");
+}
+
+private VisualStudioSolutionProject parseProjectLine(File file, int lineNumber, String line) {
     Matcher matcher = PROJECT_LINE_PATTERN.matcher(line);
     if (!matcher.matches()) {
       throw new ParseErrorException("Expected the line " + lineNumber + " of " + file.getAbsolutePath() + " to match the regular expression " + PROJECT_LINE_PATTERN);

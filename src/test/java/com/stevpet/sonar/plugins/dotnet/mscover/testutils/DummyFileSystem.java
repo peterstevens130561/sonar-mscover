@@ -104,7 +104,7 @@ public class DummyFileSystem implements ProjectFileSystem {
         return null;
     }
 
-    public Resource<?> toResource(File arg0) {
+    public Resource toResource(File arg0) {
 
         return null;
     }

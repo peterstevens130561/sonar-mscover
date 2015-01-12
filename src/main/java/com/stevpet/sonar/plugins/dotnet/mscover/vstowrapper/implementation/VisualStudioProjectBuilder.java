@@ -81,7 +81,7 @@ private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     LOG.info("Using the following Visual Studio solution: " + solutionFile.getAbsolutePath());
 
     if (settings.hasKey(SONAR_MODULES_PROPERTY_KEY)) {
-      throw new SonarException("Do not use the Visual Studio bootstrapper and set the \"" + SONAR_MODULES_PROPERTY_KEY + "\" property at the same time.");
+      LOG.warn("The  \"" + SONAR_MODULES_PROPERTY_KEY + "\" is deprecated");
     }
 
     sonarProject.resetSourceDirs();
@@ -107,16 +107,18 @@ private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
           File assembly = assemblyLocator.locateAssembly(solutionProject.name(), projectFile, project);
           if (skipNotBuildProjects() && assembly == null) {
             logSkippedProject(solutionProject, "because it is not built and \"" + VisualStudioPlugin.VISUAL_STUDIO_SKIP_IF_NOT_BUILT + "\" is set.");
-          } else {
+          } else if(assembly==null) {
+             throw new SonarException("Project not built " + projectFile.getAbsolutePath()) ;
+              
+          }else {
             hasModules = true;
             currentSolution.addVisualStudioProject(project);
             if(isTestProject(solutionProject.name()) ) {
                 currentSolution.addUnitTestVisualStudioProject(project);
                 project.setIsTest();
-                project.setAssembly(assembly);
                 
             }
-            
+            project.setAssembly(assembly);
            buildModule(sonarProject, solutionProject.name(), projectFile, project, assembly, solutionFile);
           }
         }

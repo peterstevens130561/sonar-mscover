@@ -20,7 +20,7 @@
     <dependency>
       <groupId>org.codehaus.sonar</groupId>
       <artifactId>sonar-plugin-api</artifactId>
-      <version>${sonar.buildVersion}</version>
+      <version>4.2</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

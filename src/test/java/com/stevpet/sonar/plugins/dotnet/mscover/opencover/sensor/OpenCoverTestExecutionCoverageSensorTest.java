@@ -56,7 +56,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
     @Test
     public void testShouldExecuteOnProjectProject_TestsAlreadyExecuted_HasNoProject_IsCSharp_RunOpenCover_ShouldNotExecute() {
         classUnderTest.givenANewSensor();
-        microsoftWindowsEnvironmentMock.givenTestsHaveExecuted(true);
+        testEnvironmentMock.givenTestsHaveExecuted();
         microsoftWindowsEnvironmentMock.givenHasTestProject();
         project.givenIsRootProject(false);
         project.givenIsCSharpProject(true);
@@ -69,6 +69,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
     public void testShouldExecuteOnProjectProject_TestsNotExecuted_HasTestProject_IsNotCSharp_RunOpenCoverShouldNotExecute() {
         classUnderTest.givenANewSensor();
         microsoftWindowsEnvironmentMock.givenTestsHaveExecuted(false);
+        testEnvironmentMock.givenTestsHaveNotExecuted();
         microsoftWindowsEnvironmentMock.givenHasTestProject();
         microsoftWindowsEnvironmentMock.givenTestsHaveExecuted(false);
         project.givenIsRootProject(false);
