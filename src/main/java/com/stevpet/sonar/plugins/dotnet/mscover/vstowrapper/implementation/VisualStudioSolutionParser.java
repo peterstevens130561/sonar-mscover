@@ -62,7 +62,7 @@ public class VisualStudioSolutionParser {
 
 private VisualStudioSolutionProject parseProjectLine(File file, int lineNumber, String line) {
     Matcher matcher = PROJECT_LINE_PATTERN.matcher(line);
-    if (!matcher.matches()) {
+    if (!matcher.find()) {
       throw new ParseErrorException("Expected the line " + lineNumber + " of " + file.getAbsolutePath() + " to match the regular expression " + PROJECT_LINE_PATTERN);
     }
 

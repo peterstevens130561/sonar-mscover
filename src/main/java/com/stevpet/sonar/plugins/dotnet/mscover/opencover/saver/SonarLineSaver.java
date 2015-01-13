@@ -37,7 +37,7 @@ public class SonarLineSaver implements FileCoverageSaver {
         SonarCoverageSummary summary=coveragePoints.getSummary();
         double coverage = summary.getCoverage();
         measureSaver.setIgnoreTwiceSameMeasure();
-        measureSaver.saveFileMeasure(CoreMetrics.LINES, (double) summary.getToCover());
+        //measureSaver.saveFileMeasure(CoreMetrics.LINES, (double) summary.getToCover());
         measureSaver.setExceptionOnTwiceSameMeasure();
         measureSaver.saveFileMeasure( CoreMetrics.LINES_TO_COVER, (double) summary.getToCover());
         measureSaver.saveFileMeasure( CoreMetrics.UNCOVERED_LINES, (double)summary.getToCover() -summary.getCovered());

@@ -64,7 +64,7 @@ public class TrxTestSaver implements TestSaver {
     public void save() {
         projectSummaryResults = new ResultsModel();
         unitTestFilesResultRegistry.forEachUnitTestFile(new SaveUnitTestFileMeasures());
-        testResultsSaver.saveProjectTestResults(projectSummaryResults);
+        //testResultsSaver.saveProjectTestResults(projectSummaryResults);
     }
 
     class SaveUnitTestFileMeasures implements ForEachUnitTestFile {

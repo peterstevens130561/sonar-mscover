@@ -47,22 +47,20 @@ public class OpenCoverTestResultsSaverSensor extends AbstractDotNetSensor {
         if(!super.shouldExecuteOnProject(project)) {
             return false;
         }
-        if(!isTestProject(project)) {
-            return false;
-        }
         if(!propertiesHelper.runOpenCover()) {
             return false;
         }
-        if(!vsTestEnvironment.getTestsHaveRun()) {
-            LOG.info("Will not execute OpenCoverage results sensor, as tests have not run");
-            return false;
-        }
-        LOG.info("Will execute " + project.getName());
+
+        LOG.info("Will execute OpenCoverTestResultsSaverSensor for" + project.getName());
         return true;
     }
 
     @Override
     public void analyse(Project project, SensorContext sensorContext) {
+        if(!vsTestEnvironment.getTestsHaveRun()) {
+            LOG.info("Will not execute OpenCoverage test results sensor, as tests have not run");
+            return;
+        }
         LOG.info("Saving test results of " + project.getName()  );
         ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(sensorContext,project,timeMachine,propertiesHelper);            
         
