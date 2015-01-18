@@ -56,6 +56,10 @@ public class UnitTestAnalyserTest {
         testResourceSeam=mock(ResourceSeam.class);
         
     }
+    
+    /**
+     * As of 4.2.1 compatibility we no longer save summary measures
+     */
     @Test
     public void sunnyDay() {
         VsTestUnitTestResultsAnalyser analyser = new VsTestUnitTestResultsAnalyser(project, context,measureSaver) ;
@@ -63,9 +67,12 @@ public class UnitTestAnalyserTest {
         File resultsFile = TestUtils.getResource("Mileage/results.trx");
         String resultsPath=resultsFile.getAbsolutePath();
         analyser.analyseVsTestResults(coveragePath, resultsPath);
-        verify(measureSaver,times(3)).saveSummaryMeasure(any(Metric.class),anyDouble());
+        verify(measureSaver,times(0)).saveSummaryMeasure(any(Metric.class),anyDouble());
     }
     
+    /**
+     * As of 4.2.1 compatibility we no longer save summary measures
+     */
     @Test
     public void sunnyOpenCoverDay()  {
         String base="UnitTestAnalyser/OpenCover/";
@@ -78,7 +85,7 @@ public class UnitTestAnalyserTest {
 
         when(project.getFileSystem()).thenReturn(new DummyFileSystem());
         analyser.analyseOpenCoverTestResults(coveragePath, resultsPath);
-        verify(measureSaver,times(3)).saveSummaryMeasure(any(Metric.class),anyDouble());
+        verify(measureSaver,times(0)).saveSummaryMeasure(any(Metric.class),anyDouble());
         assertEquals(4,testSeam.getSaveMeasureCnt());
         assertEquals(24,testSeam.getMetricValueCnt());
 

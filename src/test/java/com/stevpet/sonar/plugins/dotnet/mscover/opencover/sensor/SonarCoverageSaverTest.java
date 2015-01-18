@@ -3,6 +3,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +20,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParser
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
@@ -60,9 +63,38 @@ public class SonarCoverageSaverTest {
         verify(measureSaver,times(93)).saveFileMeasure(any(Measure.class));
         verify(measureSaver,times(62)).setFile(any(File.class)); 
         
-        verify(measureSaver,times(31)).saveFileMeasure(eq(CoreMetrics.LINES), anyDouble());
+        verify(measureSaver,times(0)).saveFileMeasure(eq(CoreMetrics.LINES), anyDouble());
         verify(measureSaver,times(31)).saveFileMeasure(eq(CoreMetrics.LINES_TO_COVER), anyDouble());
         verify(measureSaver,times(31)).saveFileMeasure(eq(CoreMetrics.CONDITIONS_TO_COVER), anyDouble());
         verify(measureSaver,times(31)).saveFileMeasure(eq(CoreMetrics.UNCOVERED_CONDITIONS), anyDouble());
+    }
+    
+    @Test
+    public void simpleSaveWithExclusion() {
+        measureSaver = mock(MeasureSaver.class);
+        SonarCoverageSaver coverageSaver = new SonarCoverageSaver(sensorContext,project, measureSaver);
+        sonarCoverageRegistry = new SonarCoverage();
+        coverageSaver.setCoverageRegistry(sonarCoverageRegistry);
+
+        OpenCoverParserFactory parserFactory = new ConcreteOpenCoverParserFactory();
+        XmlParserSubject parser = parserFactory.createOpenCoverParser(sonarCoverageRegistry);
+        //Given parsed file coverage=report.xml
+        File file = TestUtils.getResource("coverage-report.xml");
+        parser.parseFile(file);    
+        coverageSaver.setCoverageRegistry(sonarCoverageRegistry);
+        //Given I exclude file
+        List<File> testFiles = new ArrayList<File>();
+        testFiles.add(new File("c:/Development/Jewel.Release.Oahu/JewelEarth/Core/ThinClient/WinForms/ViewHost.cs"));
+        coverageSaver.setExcludeFiles(testFiles);
+        //When I save
+        coverageSaver.save();
+        //Then
+        verify(measureSaver,times(90)).saveFileMeasure(any(Measure.class));
+        verify(measureSaver,times(60)).setFile(any(File.class)); 
+        
+        verify(measureSaver,times(0)).saveFileMeasure(eq(CoreMetrics.LINES), anyDouble());
+        verify(measureSaver,times(30)).saveFileMeasure(eq(CoreMetrics.LINES_TO_COVER), anyDouble());
+        verify(measureSaver,times(30)).saveFileMeasure(eq(CoreMetrics.CONDITIONS_TO_COVER), anyDouble());
+        verify(measureSaver,times(30)).saveFileMeasure(eq(CoreMetrics.UNCOVERED_CONDITIONS), anyDouble());
     }
 }

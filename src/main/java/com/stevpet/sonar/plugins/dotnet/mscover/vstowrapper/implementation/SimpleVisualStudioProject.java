@@ -24,6 +24,7 @@ import javax.annotation.Nullable;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +35,7 @@ public class SimpleVisualStudioProject implements VisualStudioProject {
 
     private final File projectFile ;
   private final List<String> files;
+  private final List<File> sourceFiles;
   private final String projectTypeGuids;
   private final String outputType;
   private final String assemblyName;
@@ -52,10 +54,11 @@ private File assemblyFile;
     this.assemblyName = assemblyName;
     this.propertyGroupConditions = propertyGroupConditions;
     this.outputPaths = outputPaths;
+    this.sourceFiles = createFiles(projectFile,files);
   }
 
-  public List<String> files() {
-    return files;
+  public List<File> getSourceFiles() {
+    return sourceFiles;
   }
 
   @Nullable
@@ -125,4 +128,15 @@ public void setAssembly(File assembly) {
     this.assemblyFile = assembly;
 }
 
+private List<File> createFiles(File projectFile,List<String> pathsList) {
+    File projectDir=projectFile.getParentFile();
+    List<File> filesList = new ArrayList<File>();
+    for(String path:pathsList) {
+        if(path.endsWith(".cs")) {
+            File file = new File(projectDir,path.replace('\\', '/'));
+            filesList.add(file);
+        }
+    }
+    return filesList;
+}
 }

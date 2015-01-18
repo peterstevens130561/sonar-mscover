@@ -1,8 +1,10 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
 
+import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SonarCoverage {
@@ -31,5 +33,6 @@ public class SonarCoverage {
     public int size() {
         return map.size();
     }
+
 
 }

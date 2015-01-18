@@ -1,14 +1,21 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
+import java.io.File;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
+import org.sonar.api.batch.bootstrap.ProjectDefinition;
 import org.sonar.api.resources.Project;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AbstractDotNetSensor;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
@@ -26,12 +33,15 @@ public class OpenCoverTestResultsSaverSensor extends AbstractDotNetSensor {
     private TimeMachine timeMachine;
     private ResourceMediatorFactory resourceMediatorFactory = new DefaultResourceMediatorFactory();
     private VsTestUnitTestResultsAnalyser analyser = new VsTestUnitTestResultsAnalyser();
+    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
+
     public OpenCoverTestResultsSaverSensor(
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             MsCoverProperties propertiesHelper,
             VsTestEnvironment vsTestEnvironment,
             TimeMachine timeMachine) {
         super(microsoftWindowsEnvironment, "OpenCover", propertiesHelper.getMode());
+        this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.propertiesHelper = propertiesHelper;
         this.vsTestEnvironment=vsTestEnvironment;
         this.timeMachine = timeMachine;
@@ -69,6 +79,7 @@ public class OpenCoverTestResultsSaverSensor extends AbstractDotNetSensor {
         analyser.setMeasureSaver(measureSaver);
         analyser.setResourceMediator(resourceMediator) ;
         
+        VisualStudioSolution visualStudioSolution=microsoftWindowsEnvironment.getCurrentSolution();      
         String coveragePath = vsTestEnvironment.getXmlCoveragePath();
         String resultsPath = vsTestEnvironment.getXmlResultsPath();
         analyser.analyseOpenCoverTestResults(coveragePath, resultsPath);

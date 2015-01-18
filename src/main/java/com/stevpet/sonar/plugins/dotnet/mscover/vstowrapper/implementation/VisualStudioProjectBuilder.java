@@ -166,8 +166,7 @@ private static void logSkippedProject(VisualStudioSolutionProject solutionProjec
       //solutionProject.addSourceDirs(projectFile.getParentFile());
     }
 
-    for (String filePath : project.files()) {
-      File file = relativePathFile(projectFile.getParentFile(), filePath);
+    for (File file : project.getSourceFiles()) {
       if (!file.isFile()) {
         LOG.warn("Cannot find the file " + file.getAbsolutePath() + " of project " + projectName);
       } else if (!isInSourceDir(file, projectFile.getParentFile())) {
@@ -233,6 +232,9 @@ private static void logSkippedProject(VisualStudioSolutionProject solutionProjec
     File result;
 
     String solutionPath = settings.getString(VisualStudioPlugin.VISUAL_STUDIO_SOLUTION_PROPERTY_KEY);
+    if(Strings.nullToEmpty(solutionPath).isEmpty()) {
+        solutionPath = settings.getString(VisualStudioPlugin.VISUAL_STUDIO_OLD_SOLUTION_PROPERTY_KEY);    
+    }
     if (!Strings.nullToEmpty(solutionPath).isEmpty()) {
       result = new File(projectBaseDir, solutionPath);
     } else {

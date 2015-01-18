@@ -1,14 +1,17 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
+import java.io.File;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.resources.Project;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AbstractDotNetSensor;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarCoverageSaver;
@@ -26,12 +29,15 @@ public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
     private VsTestEnvironment vsTestEnvironment;
     private TimeMachine timeMachine;
     private ResourceMediatorFactory resourceMediatorFactory = new DefaultResourceMediatorFactory();
+    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     public OpenCoverCoverageResultsSensor(
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             MsCoverProperties propertiesHelper,
             VsTestEnvironment vsTestEnvironment,
             TimeMachine timeMachine) {
+
         super(microsoftWindowsEnvironment, "OpenCover", propertiesHelper.getMode());
+        this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.propertiesHelper = propertiesHelper;
         this.vsTestEnvironment=vsTestEnvironment;
         this.timeMachine = timeMachine;
@@ -68,7 +74,9 @@ public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
         MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext, resourceMediator);
         SonarCoverageSaver sonarCoverageSaver = new SonarCoverageSaver(sensorContext, project, measureSaver);
         SonarCoverage sonarCoverageRegistry = vsTestEnvironment.getSonarCoverage();
+        List<File> testFiles=microsoftWindowsEnvironment.getCurrentSolution().getUnitTestFiles();
         sonarCoverageSaver.setCoverageRegistry(sonarCoverageRegistry);
+        sonarCoverageSaver.setExcludeFiles(testFiles);
         sonarCoverageSaver.save();
     }
 

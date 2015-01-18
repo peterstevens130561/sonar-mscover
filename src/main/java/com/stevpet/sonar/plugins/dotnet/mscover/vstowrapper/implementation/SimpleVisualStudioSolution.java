@@ -87,4 +87,13 @@ public void addUnitTestVisualStudioProject(SimpleVisualStudioProject project) {
     unitTestVisualStudioProjects.add(project);    // TODO Auto-generated method stub
     
 }
+
+@Override
+public List<File> getUnitTestFiles() {
+    List<File> unitTestFiles = new ArrayList<File>();
+    for(VisualStudioProject project:getUnitTestProjects()) {
+        unitTestFiles.addAll(project.getSourceFiles());
+    }
+    return unitTestFiles;
+}
 }

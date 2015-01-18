@@ -30,6 +30,7 @@ public class TestResultsSaver {
                 (double) projectSummaryResults.getErroredTests());
     }
 
+    @Deprecated
     public void saveSummaryMeasures(UnitTestFileResultModel fileResults,
             ResourceSeam sonarFile) {
         sonarFile.saveMetricValue(CoreMetrics.SKIPPED_TESTS, (double) 0);

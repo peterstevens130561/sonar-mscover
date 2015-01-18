@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper;
 
 import java.io.File;
+import java.util.List;
 
 public interface VisualStudioProject {
 
@@ -29,5 +30,7 @@ public interface VisualStudioProject {
     boolean isTest();
 
     String outputType();
+    
+    List<File> getSourceFiles();
 
 }
