@@ -6,7 +6,6 @@ import static org.mockito.Mockito.when;
 
 import org.mockito.Matchers;
 import org.sonar.api.batch.DecoratorContext;
-import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 

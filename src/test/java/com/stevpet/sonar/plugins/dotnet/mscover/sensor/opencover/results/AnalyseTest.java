@@ -7,11 +7,9 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.resources.Project;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AbstractDotNetSensor;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
@@ -19,21 +17,17 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.OpenCoverCovera
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
 public class AnalyseTest {
-    
-    private AbstractDotNetSensor sensor;
+
     private VisualStudioProject vsProject;
-    private Project project; 
     private MsCoverProperties propertiesHelper;
-    private SensorContext context;
     @Before
     public void before() {
-        project=mock(Project.class);
         MicrosoftWindowsEnvironment microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
         vsProject = mock(VisualStudioProject.class);
         when(microsoftWindowsEnvironment.getCurrentProject(anyString())).thenReturn(vsProject);
         propertiesHelper = mock(PropertiesHelper.class);
         VsTestEnvironment vsTestEnvironment = new VsTestEnvironment();
-        sensor = new OpenCoverCoverageResultsSensor(microsoftWindowsEnvironment,propertiesHelper, vsTestEnvironment, null);
+        new OpenCoverCoverageResultsSensor(microsoftWindowsEnvironment,propertiesHelper, vsTestEnvironment, null);
           
     }
     

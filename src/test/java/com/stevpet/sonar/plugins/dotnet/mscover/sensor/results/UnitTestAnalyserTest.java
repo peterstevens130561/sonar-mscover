@@ -49,7 +49,7 @@ public class UnitTestAnalyserTest {
     @Before
     public void before() {
         project= mock(Project.class);
-        when(project.getFileSystem()).thenReturn(new DummyFileSystem());
+        givenProjectFileSystemIsDummyFileSystem();
         measureSaver = mock(MeasureSaver.class);
         sourceFilePathHelper = new TestSourceFilePathHelper();
         resourceMediator=mock(ResourceMediator.class);
@@ -83,12 +83,16 @@ public class UnitTestAnalyserTest {
         File resultsFile = TestUtils.getResource(base + "testresults.trx");
         String resultsPath=resultsFile.getAbsolutePath();
 
-        when(project.getFileSystem()).thenReturn(new DummyFileSystem());
+        givenProjectFileSystemIsDummyFileSystem();
         analyser.analyseOpenCoverTestResults(coveragePath, resultsPath);
         verify(measureSaver,times(0)).saveSummaryMeasure(any(Metric.class),anyDouble());
         assertEquals(4,testSeam.getSaveMeasureCnt());
         assertEquals(24,testSeam.getMetricValueCnt());
 
+    }
+
+    private void givenProjectFileSystemIsDummyFileSystem() {
+        when(project.getFileSystem()).thenReturn(new DummyFileSystem());
     }
     
     @Test(expected=SonarException.class)

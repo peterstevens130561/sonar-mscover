@@ -11,7 +11,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecu
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactoryMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubjectMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.ProjectSeamMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.ModuleFileSystemMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParserMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactoryMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerFactoryMock;
@@ -26,7 +26,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
     private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
     private OpenCoverCommandMock openCoverCommandMock = new OpenCoverCommandMock();
     private ProjectSeamMock projectSeamMock = new ProjectSeamMock();
-    private ModuleFileSystemMock moduleFileSystemMock = new ModuleFileSystemMock();
+    private FileSystemMock moduleFileSystemMock = new FileSystemMock();
     private OpenCoverCommandBuilderMock openCoverCommandBuilderMock = new OpenCoverCommandBuilderMock();
     private AssembliesFinderFactoryMock assembliesFinderFactoryMock = new AssembliesFinderFactoryMock();
     private AssembliesFinderMock assembliesFinderMock = new AssembliesFinderMock();
@@ -113,7 +113,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
     @Test
     public void analyseSimpleSolution() {
         String targetDir="OpenCoverTestExecutionCoverageSensorTest/assemblies";
-        moduleFileSystemMock.givenWorkingDir("OpenCoverTestExecutionCoverageSensorTest/.sonar");
+        moduleFileSystemMock.givenWorkDir("OpenCoverTestExecutionCoverageSensorTest/.sonar");
         testEnvironmentMock.givenXmlCoveragePath("coverage.xml");
         classUnderTest.setModuleFileSystem(moduleFileSystemMock);
         classUnderTest.givenANewSensor();

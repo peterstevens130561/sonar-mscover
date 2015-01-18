@@ -10,6 +10,7 @@ import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.SonarException;
@@ -27,14 +28,14 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 //@PrepareForTest(UnitTestRunner.class)
 public class UnitTestRunnerFactoryTest {
     
-    private ModuleFileSystem moduleFileSystem;
+    private FileSystem fileSystem;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private MsCoverProperties propertiesHelper;
     private Settings settings;
 
     @Before()
     public void before() {
-        moduleFileSystem=mock(ModuleFileSystem.class);
+        fileSystem=mock(FileSystem.class);
         microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);   
         propertiesHelper=PropertiesHelper.create(settings);
     }
@@ -44,9 +45,9 @@ public class UnitTestRunnerFactoryTest {
     public void noSolutionDefined_ExpectSonarException() {
         String workingDirPath="C:/Development/Rubbish/Solution/.sonar";
         File sonarWorkingDir=new File(workingDirPath);
-        when(moduleFileSystem.workingDir()).thenReturn(sonarWorkingDir);
+        when(fileSystem.workDir()).thenReturn(sonarWorkingDir);
         try {
-        VsTestRunner unitTestRunner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(propertiesHelper, moduleFileSystem, microsoftWindowsEnvironment);
+        VsTestRunner unitTestRunner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(propertiesHelper, fileSystem, microsoftWindowsEnvironment);
         } catch (SonarException e) {
             assertEquals(e.getMessage(),"No current solution");
             return;
@@ -62,12 +63,12 @@ public class UnitTestRunnerFactoryTest {
         
         File sonarWorkingDir=new File(workingDirPath);
         
-        when(moduleFileSystem.workingDir()).thenReturn(sonarWorkingDir);
+        when(fileSystem.workDir()).thenReturn(sonarWorkingDir);
         
         VisualStudioSolution solution=mock(VisualStudioSolution.class);
         when(solution.getSolutionDir()).thenReturn(solutionDir);
         when(microsoftWindowsEnvironment.getCurrentSolution()).thenReturn(solution);
-        VsTestRunner unitTestRunner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(propertiesHelper, moduleFileSystem, microsoftWindowsEnvironment);
+        VsTestRunner unitTestRunner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(propertiesHelper, fileSystem, microsoftWindowsEnvironment);
         assertEquals(workingDirPath,unitTestRunner.getSonarPath());
         assertEquals(solutionDir.getAbsolutePath(),unitTestRunner.getSolutionDirectory().getAbsolutePath());
         assertEquals(workingDirPath + "/coverage.xml",unitTestRunner.getCoverageXmlPath());

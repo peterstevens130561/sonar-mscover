@@ -5,8 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
@@ -15,7 +15,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecu
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactoryMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.ProjectSeamMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.ModuleFileSystemMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParserMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactoryMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerFactoryMock;
@@ -25,20 +25,20 @@ public class OpenCoverTestExecutionCoverageSensorBehavior {
     OpenCoverTestExecutionCoverageSensor sensor;
     private MsCoverProperties msCoverProperties;
     private VsTestEnvironmentMock vsTestEnvironment = new VsTestEnvironmentMock();
-    private ModuleFileSystem moduleFileSystem = mock(ModuleFileSystem.class);
+    private FileSystem fileSystem = mock(FileSystem.class);
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment ;
     private Project project = mock(Project.class);
     private SensorContext context = mock(SensorContext.class);
 
     
-    public void setModuleFileSystem(ModuleFileSystemMock moduleFileSystemMock ) {
-        moduleFileSystem = moduleFileSystemMock.getMock();
+    public void setModuleFileSystem(FileSystemMock fileSystemMock ) {
+        fileSystem = fileSystemMock.getMock();
     }
 
     public void givenANewSensor() {
         sensor=new OpenCoverTestExecutionCoverageSensor(msCoverProperties, 
                 microsoftWindowsEnvironment, 
-                moduleFileSystem, 
+                fileSystem, 
                 vsTestEnvironment.getMock());
     }
 

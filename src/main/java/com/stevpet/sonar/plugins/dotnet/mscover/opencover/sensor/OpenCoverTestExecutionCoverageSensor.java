@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.DependedUpon;
 import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.dotnet.api.DotNetConstants;
 
@@ -40,7 +40,6 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private VisualStudioSolution solution;
     private File workDir;
     private final MsCoverProperties propertiesHelper ;
-    private final ModuleFileSystem moduleFileSystem;
     private VsTestEnvironment testEnvironment;
     private CommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
@@ -52,14 +51,15 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private VSTestStdOutParser vsTestStdOutParser = new VSTestStdOutParser();
     private OpenCoverParserFactory openCoverParserFactory = new ConcreteOpenCoverParserFactory();
     private FakesRemover fakesRemover = new DefaultFakesRemover();
+    private FileSystem fileSystem;
     
     public OpenCoverTestExecutionCoverageSensor(MsCoverProperties propertiesHelper, 
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
-            ModuleFileSystem moduleFileSystem,
+            FileSystem fileSystem,
             VsTestEnvironment testEnvironment) {
         super(microsoftWindowsEnvironment, "OpenCover", propertiesHelper.getMode());
         this.propertiesHelper = propertiesHelper;
-        this.moduleFileSystem = moduleFileSystem;
+        this.fileSystem = fileSystem;
         this.testEnvironment = testEnvironment;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
     }
@@ -123,7 +123,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
 
     
     private void executeVsTestOpenCoverRunner() {
-        unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
+        unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, fileSystem,microsoftWindowsEnvironment);
         unitTestRunner.clean();
 
         openCoverCommandBuilder.setOpenCoverCommand(openCoverCommand);

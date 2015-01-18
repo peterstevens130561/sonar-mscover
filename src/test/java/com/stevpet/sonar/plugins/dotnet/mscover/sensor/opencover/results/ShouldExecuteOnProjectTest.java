@@ -45,15 +45,19 @@ public class ShouldExecuteOnProjectTest {
     
     @Test
     public void testCSProject_ShouldNotExecute() {
-        when(project.getLanguageKey()).thenReturn("cs");
+        givenProjectLanguageIsCSharp();
         when(project.isRoot()).thenReturn(false);
         when(vsProject.isTest()).thenReturn(true);
         assertFalse(sensor.shouldExecuteOnProject(project));
     }
+
+    private void givenProjectLanguageIsCSharp() {
+        when(project.getLanguageKey()).thenReturn("cs");
+    }
     
     @Test
     public void regularCSProject_ShouldNotExecute() {
-        when(project.getLanguageKey()).thenReturn("cs");
+        givenProjectLanguageIsCSharp();
         when(project.isRoot()).thenReturn(false);
         when(vsProject.isTest()).thenReturn(false);
         assertFalse(sensor.shouldExecuteOnProject(project));
@@ -61,7 +65,7 @@ public class ShouldExecuteOnProjectTest {
     
     @Test
     public void regularCSProjectOpenCoverMode_ShouldExecute() {
-        when(project.getLanguageKey()).thenReturn("cs");
+        givenProjectLanguageIsCSharp();
         when(project.isRoot()).thenReturn(false);
         when(vsProject.isTest()).thenReturn(false);
         when(propertiesHelper.runOpenCover()).thenReturn(true);
@@ -84,7 +88,7 @@ public class ShouldExecuteOnProjectTest {
     
     @Test
     public void regularCSRootProjectOpenCoverMode_ShouldNotExecute() {
-        when(project.getLanguageKey()).thenReturn("cs");
+        givenProjectLanguageIsCSharp();
         when(project.isRoot()).thenReturn(true);
         when(vsProject.isTest()).thenReturn(false);
         when(propertiesHelper.getMode()).thenReturn("runvstest");

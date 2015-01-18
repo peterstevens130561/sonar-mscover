@@ -13,7 +13,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.DotNetConstants;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
-import com.stevpet.sonar.plugins.dotnet.mscover.importer.cplusplus.CPlusPlusImporterSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorFactory;
@@ -27,7 +26,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
 
 
-@DependsUpon({CPlusPlusImporterSensor.DEPENDS,VsTestExecutionSensor.DEPENDS,DotNetConstants.CORE_PLUGIN_EXECUTED})
+@DependsUpon({VsTestExecutionSensor.DEPENDS,DotNetConstants.CORE_PLUGIN_EXECUTED})
 public class VsTestUnitTestResultsSensor implements Sensor {;
     static final Logger LOG = LoggerFactory
             .getLogger(VsTestUnitTestResultsSensor.class);

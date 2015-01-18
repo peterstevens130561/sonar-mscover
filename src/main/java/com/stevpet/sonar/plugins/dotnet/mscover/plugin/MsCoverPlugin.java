@@ -24,7 +24,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestBlockDe
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestLineDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestBlockDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestLineDecorator;
-import com.stevpet.sonar.plugins.dotnet.mscover.importer.cplusplus.CPlusPlusImporterSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.OpenCoverCoverageResultsSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.OpenCoverTestResultsSaverSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.OpenCoverTestExecutionCoverageSensor;
@@ -114,7 +113,6 @@ public final class MsCoverPlugin extends SonarPlugin {
 public List getExtensions() {
       
     return Arrays.asList(
-            CPlusPlusImporterSensor.class,
             SimpleMicrosoftWindowsEnvironment.class,
             VsTestEnvironment.class,
             PropertiesHelper.class,

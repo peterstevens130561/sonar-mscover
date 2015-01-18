@@ -11,6 +11,7 @@ import java.io.File;
 
 import org.junit.Assert;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
@@ -28,7 +29,7 @@ public class VsTestExecutionSensorBehaviour {
     private VsTestEnvironmentMock vsTestEnvironmentMock = new VsTestEnvironmentMock();
     private MsCoverProperties msCoverProperties = mock(MsCoverProperties.class);
     public VsTestEnvironment vsTestEnvironment = mock(VsTestEnvironment.class);
-    private ModuleFileSystem moduleFileSystem = mock(ModuleFileSystem.class);
+    private FileSystem fileSystem = mock(FileSystem.class);
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
     private Project project = mock(Project.class);
     private SensorContext context = mock(SensorContext.class);
@@ -38,7 +39,7 @@ public class VsTestExecutionSensorBehaviour {
 
     protected void givenStubbedVsTestRunner() {
         when(vsTestRunnerFactory.createBasicTestRunnner(any(PropertiesHelper.class), 
-                any(ModuleFileSystem.class), 
+                any(FileSystem.class), 
                 any(MicrosoftWindowsEnvironment.class)
                 )
                 ).thenReturn(vsTestRunner);
@@ -50,7 +51,7 @@ public class VsTestExecutionSensorBehaviour {
 
     protected void givenAnalysedProjectIsCSharpProject() {
         when(project.isRoot()).thenReturn(false);
-        when(moduleFileSystem.baseDir()).thenReturn(new File("mysolution/myproject"));
+        when(fileSystem.baseDir()).thenReturn(new File("mysolution/myproject"));
     }
     
     public void givenAnalysedProjectIsRootProject() {
@@ -76,7 +77,7 @@ public class VsTestExecutionSensorBehaviour {
     }
 
     protected void givenANewSensor() {
-        sensor=new VsTestExecutionSensor(vsTestEnvironmentMock.getMock(),msCoverProperties,moduleFileSystem,microsoftWindowsEnvironment);
+        sensor=new VsTestExecutionSensor(vsTestEnvironmentMock.getMock(),msCoverProperties,fileSystem,microsoftWindowsEnvironment);
         sensor.setVsTestRunnerFactory(vsTestRunnerFactory);
     }
 

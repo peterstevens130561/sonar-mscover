@@ -17,7 +17,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
 
-public class CreateWithFilters {
+public class CreateWithFiltersTest {
     private ResourceMediatorFactory resourceMediatorFactory = new DefaultResourceMediatorFactory();
 
     @Test

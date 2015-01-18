@@ -66,7 +66,7 @@ public class AssembliesFinderPatternTest {
 
         setPattern("unitTestProject");
         File root = TestUtils.getResource("Mileage");
-        List<String> result=fromMSCoverProperty(root);
+        fromMSCoverProperty(root);
     }
     
     private void setPattern(String pattern) {

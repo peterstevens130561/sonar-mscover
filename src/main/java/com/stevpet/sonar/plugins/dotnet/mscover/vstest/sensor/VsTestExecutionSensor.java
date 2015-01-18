@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.DependedUpon;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
@@ -24,16 +24,16 @@ public class VsTestExecutionSensor implements Sensor {
             .getLogger(VsTestExecutionSensor.class);
        
     private VsTestEnvironment vsTestEnvironment;
-    private ModuleFileSystem moduleFileSystem;
+    private FileSystem fileSystem;
     private VsTestRunner unitTestRunner;
 
     private MsCoverProperties propertiesHelper;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private AbstractVsTestRunnerFactory vsTestRunnerFactory = new DefaultVsTestRunnerFactory();
     
-    public VsTestExecutionSensor(VsTestEnvironment vsTestEnvironment, MsCoverProperties propertiesHelper,ModuleFileSystem moduleFileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+    public VsTestExecutionSensor(VsTestEnvironment vsTestEnvironment, MsCoverProperties propertiesHelper,FileSystem fileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         this.vsTestEnvironment = vsTestEnvironment;
-        this.moduleFileSystem = moduleFileSystem;
+        this.fileSystem = fileSystem;
         this.microsoftWindowsEnvironment=microsoftWindowsEnvironment;
         this.propertiesHelper = propertiesHelper;
     }
@@ -51,7 +51,7 @@ public class VsTestExecutionSensor implements Sensor {
         }
         if(!project.isRoot()) {
             LOG.info("MsCover : CSharp solution, using first project to run tests");
-            moduleFileSystem = CSharpSolutionFileSystem.createFromProject(moduleFileSystem);
+            fileSystem = CSharpSolutionFileSystem.createFromProject(fileSystem);
         }
         
         LOG.info("MsCover : started running tests");
@@ -61,7 +61,7 @@ public class VsTestExecutionSensor implements Sensor {
     }
 
     private String runUnitTests() {
-        unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, moduleFileSystem,microsoftWindowsEnvironment);
+        unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, fileSystem,microsoftWindowsEnvironment);
         unitTestRunner.setDoCodeCoverage(true);
         unitTestRunner.runTests();
         return unitTestRunner.getCoverageXmlPath();

@@ -79,7 +79,7 @@ public class AssembliesFinderConfigTest {
         visualStudioProjectMock.givenDirectory(testResourceDir);
         String bogusPath="solutiondir\\bindebug.dll";
         String expectedPath="\\bin\\Debug\\bindebug.dll";
-        File fut = givenArtifact(buildConfiguration, buildPlatform, bogusPath);
+        givenArtifact(buildConfiguration, buildPlatform, bogusPath);
         List<String> assemblies=assembliesFinder.findUnitTestAssembliesFromConfig(null, projects);
         verifyFound(assemblies, new File(testResourceDir,expectedPath));        
     }
@@ -91,7 +91,7 @@ public class AssembliesFinderConfigTest {
         msCoverPropertiesMock.givenUnitTestHintPath(hintPath);
         String bogusPath="solutiondir\\hintpath.dll";
         String expectedPath="hintpath\\hintpath.dll";
-        File fut = givenArtifact(buildConfiguration, buildPlatform, bogusPath);
+        givenArtifact(buildConfiguration, buildPlatform, bogusPath);
         List<String> assemblies=assembliesFinder.findUnitTestAssembliesFromConfig(null, projects);
         verifyFound(assemblies, new File(testResourceDir,expectedPath));             
     }

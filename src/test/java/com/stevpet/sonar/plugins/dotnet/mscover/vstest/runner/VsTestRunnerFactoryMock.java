@@ -1,8 +1,9 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.VsTestRunnerMock;
@@ -20,7 +21,7 @@ public class VsTestRunnerFactoryMock extends GenericClassMock<AbstractVsTestRunn
     public void onCreate(VsTestRunnerMock vsTestRunnerMock) {
         // TODO Auto-generated method stub
         when(instance.createBasicTestRunnner(any(MsCoverProperties.class), 
-                any(ModuleFileSystem.class),
+                any(FileSystem.class),
                 any(MicrosoftWindowsEnvironment.class)))
                 .thenReturn(vsTestRunnerMock.getMock());
     }
