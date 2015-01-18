@@ -20,6 +20,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecu
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.ConcreteOpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
@@ -137,7 +138,16 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         String targetDir=finder.findUnitTestAssembliesDir(solution);
         openCoverCommand.setTargetDir(targetDir);
         fakesRemover.removeFakes(new File(targetDir));
+        String lockPath = System.getenv("TMP");
+        File lockFile = new File(lockPath,"opencover.lock");
+        ProcessLock processLock = new ProcessLock(lockFile);
+        processLock.lock();
+        try {
         commandLineExecutor.execute(openCoverCommand);
+        }
+        finally {
+            processLock.release();
+        }
     }
     
     
