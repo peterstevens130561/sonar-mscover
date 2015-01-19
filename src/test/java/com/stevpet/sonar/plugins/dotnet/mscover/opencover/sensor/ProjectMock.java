@@ -1,6 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.sonar.api.resources.Project;

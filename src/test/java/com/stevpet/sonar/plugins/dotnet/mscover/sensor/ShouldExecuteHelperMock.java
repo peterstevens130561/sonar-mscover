@@ -5,7 +5,6 @@ import org.sonar.api.resources.Project;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
 public class ShouldExecuteHelperMock extends GenericClassMock<ShouldExecuteHelper> {
 
     public ShouldExecuteHelperMock() {

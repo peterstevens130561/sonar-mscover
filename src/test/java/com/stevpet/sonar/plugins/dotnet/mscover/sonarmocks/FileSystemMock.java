@@ -1,7 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks;
 
 import java.io.File;
-
+import java.nio.charset.Charset;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.test.TestUtils;
 
@@ -22,6 +22,24 @@ public class FileSystemMock extends GenericClassMock<FileSystem> {
         }
         when(instance.workDir()).thenReturn(path);
         return this;
+    }
+
+    public void givenWorkDir(File file) {
+        when(instance.workDir()).thenReturn(file);    
+    }
+
+    public void givenBaseDir(File projectDir) {
+        when(instance.baseDir()).thenReturn(projectDir);
+    }
+
+    public void givenEncoding(Charset charSet) {
+        when(instance.encoding()).thenReturn(charSet);
+    }
+
+    public void givenDefaultEncoding() {
+        Charset charset = Charset.forName("UTF-8");
+        givenEncoding(charset);
+        
     }
     
 }

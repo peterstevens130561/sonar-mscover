@@ -207,18 +207,14 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#runOpenCover()
      */
-    public boolean runOpenCover() {
-        String msCoverMode = settings.getString(MSCOVER_MODE);
-        
+    public boolean runOpenCover() {      
         return getRunMode().equals(RunMode.RUNVSTEST) && "opencover".equalsIgnoreCase(settings.getString(MSCOVER_COVERAGETOOL));
     }
 
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#runVsTest()
      */
-    public boolean runVsTest() {
-        String msCoverMode = settings.getString(MSCOVER_MODE);
-        
+    public boolean runVsTest() {   
         return getRunMode().equals(RunMode.RUNVSTEST) && "vstest".equalsIgnoreCase(settings.getString(MSCOVER_COVERAGETOOL));
     }
 

@@ -6,6 +6,7 @@ import java.nio.charset.Charset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Qualifiers;
 
@@ -29,19 +30,19 @@ public class ResourceMediator {
     private Charset charset;
     private ResourceSeamFactory resourceSeamFactory;
 
-    public ResourceMediator(SensorContext context,Project project) {
+    public ResourceMediator(SensorContext context,Project project,FileSystem fileSystem) {
         this.project = project ;
-        setCharset(project);
+        setCharset(fileSystem);
         resourceSeamFactory = new SonarResourceSeamFactory(context);
     }
     
 
-    private void setCharset(Project project) {
+    private void setCharset(FileSystem fileSystem) {
         String charsetName;
         if(project==null) {
            charsetName="UTF-8";
         } else {
-           charsetName = project.getFileSystem().getSourceCharset().name();
+           charsetName = fileSystem.encoding().name();
         }
         charset = Charset.forName(charsetName);
     }

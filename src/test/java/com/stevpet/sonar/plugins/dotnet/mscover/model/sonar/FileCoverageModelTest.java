@@ -20,17 +20,13 @@ public class FileCoverageModelTest {
     
     @Test
     public void addOneLine_ShouldGetLine() {
-
-        SonarLinePoint linePoint = createFirstLinePoint(line,true);
-        
+        SonarLinePoint linePoint = createFirstLinePoint(line,true);      
         assertEquals(linePoint.getCovered()>0, true);
         assertEquals(linePoint.getLine(),73);
     }
     
     @Test
-    public void visitOtherColumn_ShouldGetLowestCoverage() {
-        CoveragePoint linePoint= createFirstLinePoint(line,true);
-        
+    public void visitOtherColumn_ShouldGetLowestCoverage() {      
         coveredFile.addLinePoint(line,false);
         CoveragePoint point=coveredFile.getLastLinePoint();
         assertEquals(point.getCovered()>0, false);

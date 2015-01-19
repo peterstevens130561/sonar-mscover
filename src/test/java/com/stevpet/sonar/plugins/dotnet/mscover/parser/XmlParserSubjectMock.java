@@ -6,7 +6,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
-import static org.mockito.Matchers.any;
 public class XmlParserSubjectMock extends GenericClassMock<XmlParserSubject> {
     public XmlParserSubjectMock() {
         super(XmlParserSubject.class);

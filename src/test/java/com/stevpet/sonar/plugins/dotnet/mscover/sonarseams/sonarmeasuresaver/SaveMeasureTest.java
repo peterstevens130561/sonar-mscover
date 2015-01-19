@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
+import org.sonar.api.measures.Metric.ValueType;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.FileResource;
@@ -83,7 +84,7 @@ public class SaveMeasureTest {
     
     @Test(expected=RuntimeException.class)
     public void duplicateSaveNotIgnored_RuntimeException() {
-        ResourceSeam exceptionThrowingResource = givenAResourceThatWillThrowExceptionOnSaveMeasure();
+        givenAResourceThatWillThrowExceptionOnSaveMeasure();
         Measure measure = new Measure();
         saveMeasureOnTheResource(measure);     
     }
@@ -101,16 +102,18 @@ public class SaveMeasureTest {
     @Test
     public void saveMetricValue_ShouldOccur() {
         ResourceSeam resource = givenAFileResource();
-        Metric metric = new Metric();
+        Metric metric = createBogusMetric();
         double value=10.0;
         saveMetricOnTheResource(metric,value);    
         verifyThatTheMetricWasSavedOnTheResource(resource, metric, value);
     }
+
+
     
     @Test(expected=RuntimeException.class)
     public void duplicateSaveMetricNotIgnored_RuntimeException() {
-        ResourceSeam exceptionThrowingResource = givenAResourceThatWillThrowExceptionOnSaveMeasure();
-        Metric metric = new Metric();
+        givenAResourceThatWillThrowExceptionOnSaveMeasure();
+        Metric metric = createBogusMetric();
         saveMetricOnTheResource(metric,10.0);     
     }
 
@@ -118,11 +121,18 @@ public class SaveMeasureTest {
     public void duplicateSaveIgnore_NoException() {
         ResourceSeam exceptionThrowingResource = givenAResourceThatWillThrowExceptionOnSaveMeasure();
         ignoreExceptionOnSavingTheMethodTwice();
-        Metric metric = new Metric();
+        Metric metric = createBogusMetric();
         Double value=10.0;
         saveMetricOnTheResource(metric,value);   
         verifyThatTheMetricWasSavedOnTheResource(exceptionThrowingResource, metric,value);
     }
+    
+    private Metric createBogusMetric() {
+        Metric.Builder builder = new Metric.Builder("bogus","bogus",ValueType.FLOAT);
+        Metric metric=builder.create();
+        return metric;
+    }
+    
     private void ignoreExceptionOnSavingTheMethodTwice() {
         measureSaver.setIgnoreTwiceSameMeasure();
     }

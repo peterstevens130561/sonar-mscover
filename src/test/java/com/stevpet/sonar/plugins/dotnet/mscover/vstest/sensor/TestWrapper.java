@@ -16,10 +16,10 @@ public class TestWrapper {
             TimeMachineMock timeMachineMock,
             VsTestEnvironmentMock vsTestEnvironmentMock) {
         
-        sensor=new VsTestUnitTestResultsSensor(microsoftWindowsEnvironmentMock.getMock(),
+        sensor=new VsTestUnitTestResultsSensor(
                 msCoverPropertiesMock.getMock(),
                 timeMachineMock.getMock(),
-                vsTestEnvironmentMock.getMock());
+                vsTestEnvironmentMock.getMock(),null);
                 
     }
     

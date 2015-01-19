@@ -66,7 +66,6 @@ public class OpenCoverCommandTest {
     
     @Test
     public void testSetExcludeByFileNull_NotInArguments() {
-        String value=null;
         openCoverCommand.setExcludeByFileFilter(null);
         testHelper.assertArgumentNotPresent("-excludebyfile");
     }

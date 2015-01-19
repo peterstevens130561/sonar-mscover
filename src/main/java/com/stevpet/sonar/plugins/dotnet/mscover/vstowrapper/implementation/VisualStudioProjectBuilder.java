@@ -26,15 +26,12 @@ import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
-
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.bootstrap.ProjectBuilder;
 import org.sonar.api.batch.bootstrap.ProjectDefinition;
 import org.sonar.api.config.Settings;
-import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.utils.SonarException;
 
@@ -146,15 +143,6 @@ private static void logSkippedProject(VisualStudioSolutionProject solutionProjec
   }
 
   private void buildModule(ProjectDefinition solutionProject, String projectName, File projectFile, SimpleVisualStudioProject project, @Nullable File assembly, File solutionFile) {
-    String escapedProjectName = escapeProjectName(projectName);
-
-    //ProjectDefinition module = ProjectDefinition.create()
-    //  .setKey(projectKey(solutionProject.getKey()) + ":" + escapedProjectName)
-    //  .setName(projectName);
-    //solutionProject.addSubProject(module);
-
-    //module.setBaseDir(projectFile.getParentFile());
-    //module.setWorkDir(new File(solutionProject.getWorkDir(), solutionProject.getKey().replace(':', '_') + "_" + escapedProjectName));
 
     boolean isTestProject = isTestProject(projectName);
     LOG.info("Adding the Visual Studio " + (isTestProject ? "test " : "") + "project: " + projectName + "... " + projectFile.getAbsolutePath());
@@ -184,13 +172,7 @@ private static void logSkippedProject(VisualStudioSolutionProject solutionProjec
     //forwardModuleProperties(module);
   }
 
-  private void forwardModuleProperties(ProjectDefinition module) {
-    for (Map.Entry<String, String> entry : settings.getProperties().entrySet()) {
-      if (entry.getKey().startsWith(module.getName() + ".")) {
-        module.setProperty(entry.getKey().substring(module.getName().length() + 1), entry.getValue());
-      }
-    }
-  }
+
 
   protected Resource createResource(File file,File sourceDir) {
       List<File> sourceDirs = new ArrayList<File>();
@@ -200,24 +182,11 @@ private static void logSkippedProject(VisualStudioSolutionProject solutionProjec
 
       if (resource == null) {
           LOG.debug("Could not create resource for {}", file.getName());
-      } else {
-          String projectDir = file.getParent();
-          //if (unitTestPaths.contains(projectDir)) {
-          //    resource.setQualifier(Qualifiers.UNIT_TEST_FILE);
-          //}
-          //LOG.debug("Created resource {}", resource.getKey());
-      }
+      } 
       return resource;
   }
 
  
-
-  private boolean isWebApplication(SimpleVisualStudioProject project) {
-    return project.projectTypeGuids() != null &&
-      project.projectTypeGuids().toUpperCase().contains(WEB_APPLICATION_PROJECT_TYPE_GUID);
-  }
-
-
 
   private static boolean isInSourceDir(File file, File folder) {
     try {
@@ -256,25 +225,6 @@ private static void logSkippedProject(VisualStudioSolutionProject solutionProjec
     return new File(file, relativePath.replace('\\', '/'));
   }
 
-  private String projectKey(String projectKey) {
-    if ("unsafe".equals(settings.getString(VisualStudioPlugin.VISUAL_STUDIO_PROJECT_KEY_STRATEGY_PROPERTY_KEY))) {
-      int i = projectKey.indexOf(':');
-
-      if (i == -1) {
-        LOG.warn("Unset the deprecated uncessary property \"" + VisualStudioPlugin.VISUAL_STUDIO_PROJECT_KEY_STRATEGY_PROPERTY_KEY + "\" used to analyze this project. "
-          + "This property support will soon be removed, and unsetting it will *NOT* affect this particular project.");
-      } else {
-        String unsafeProjectKey = projectKey.substring(0, i);
-
-        LOG.warn("Unset the deprecated uncessary property \"" + VisualStudioPlugin.VISUAL_STUDIO_PROJECT_KEY_STRATEGY_PROPERTY_KEY + "\" used to analyze this project. "
-          + "You will need to update the project key from the unsafe \"" + unsafeProjectKey + "\" value to \"" + projectKey + "\".");
-
-        return unsafeProjectKey;
-      }
-    }
-
-    return projectKey;
-  }
 
   @VisibleForTesting
   static String escapeProjectName(String projectName) {

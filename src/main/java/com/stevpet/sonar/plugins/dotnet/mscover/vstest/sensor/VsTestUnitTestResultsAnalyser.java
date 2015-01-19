@@ -5,6 +5,7 @@ import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.SonarException;
 
@@ -45,8 +46,8 @@ public class VsTestUnitTestResultsAnalyser {
     /**
      * @deprecated Use {@link #UnitTestAnalyser(Project,SensorContext,MeasureSaver,SourceFilePathHelper)} instead
      */
-    public VsTestUnitTestResultsAnalyser(Project project, SensorContext context,MeasureSaver measureSaver) {
-        this(project, measureSaver, new SourceFilePathHelper(),new DefaultResourceMediatorFactory().createWithEmptyFilters(context, project));
+    public VsTestUnitTestResultsAnalyser(Project project, SensorContext context,MeasureSaver measureSaver,FileSystem fileSystem) {
+        this(project, measureSaver, new SourceFilePathHelper(),new DefaultResourceMediatorFactory().createWithEmptyFilters(context, project,fileSystem));
     }
 
     public VsTestUnitTestResultsAnalyser() {

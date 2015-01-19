@@ -1,8 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
@@ -14,7 +12,7 @@ public interface VsTestParserFactory {
      * @param registry
      * @return
      */
-    public XmlParserSubject createCoverageParser(
+    XmlParserSubject createCoverageParser(
             VsTestRegistry registry);
     
     /**
@@ -23,7 +21,7 @@ public interface VsTestParserFactory {
      * @param sourceFileNamesRegistry
      * @return
      */
-    public XmlParserSubject createFileNamesParser(MethodToSourceFileIdMap map,
+   XmlParserSubject createFileNamesParser(MethodToSourceFileIdMap map,
             SourceFileNamesRegistry sourceFileNamesRegistry);
 
 

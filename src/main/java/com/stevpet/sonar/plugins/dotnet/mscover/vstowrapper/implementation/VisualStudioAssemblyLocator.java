@@ -123,18 +123,6 @@ public class VisualStudioAssemblyLocator {
 private boolean isRelative(String path) {
     return !path.matches("^\\/|([A-Z]:\\/).*");
 }
-  private boolean matchesBuildConfigurationAndPlatform(String condition) {
-    String buildConfiguration = settings.getString(VisualStudioPlugin.VISUAL_STUDIO_OLD_BUILD_CONFIGURATION_PROPERTY_KEY);
-    String buildPlatform = settings.getString(VisualStudioPlugin.VISUAL_STUDIO_OLD_BUILD_PLATFORM_PROPERTY_KEY);
-
-    if (buildConfiguration != null && buildPlatform != null) {
-      LOG.warn("The properties \"" + VisualStudioPlugin.VISUAL_STUDIO_OLD_BUILD_CONFIGURATION_PROPERTY_KEY + "\" and \""
-        + VisualStudioPlugin.VISUAL_STUDIO_OLD_BUILD_PLATFORM_PROPERTY_KEY + "\" are deprecated");
-      return condition.contains(buildConfiguration) && condition.contains(buildPlatform);
-    }
-
-    return true;
-  }
 
   public static class FileLastModifiedComparator implements Comparator<File>, Serializable {
 

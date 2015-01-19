@@ -20,8 +20,7 @@ public class AssemblyResolverControllerTest {
         AssemblyResolver assemblyResolver = new ConcreteAssemblyResolverController() ;
         assemblyResolver.setMsCoverProperties(msCoverPropertiesMock.getMock());
         AssemblyResolverMock assemblyResolverMock = new AssemblyResolverMock();
-        AssemblyResolver nextResolver = assemblyResolverMock.getMock();
-        //assemblyResolver.setResolver(nextResolver);
+
         File assemblyFile = null;
         VisualStudioProject project = null;
         String buildConfiguration=null;

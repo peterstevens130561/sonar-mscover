@@ -8,12 +8,11 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.utils.SonarException;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
@@ -24,17 +23,17 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteVs
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.saver.LineMeasureSaver;
 
-@SuppressWarnings("deprecation")
+
 public class VSTestCoverageSaver implements CoverageSaver {
 
     static final Logger LOG = LoggerFactory
             .getLogger(VSTestCoverageSaver.class);
     private final MsCoverProperties propertiesHelper;
-    private final MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private LineMeasureSaver lineSaver;
     private BlockSaver blockSaver;
     private Project project;
     private String path;
+    private FileSystem fileSystem;
     /**
      * initial instantiation of the helper. Do not forget to invoke
      * setLineSaver & setBlockSaver.
@@ -50,16 +49,16 @@ public class VSTestCoverageSaver implements CoverageSaver {
      * @param timeMachine
      */
     VSTestCoverageSaver(MsCoverProperties propertiesHelper,
-            MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+            FileSystem fileSystem) {
         this.propertiesHelper = propertiesHelper ;
-        this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
+        this.fileSystem=fileSystem;
     }
 
 
     public static VSTestCoverageSaver create(MsCoverProperties propertiesHelper,
-            MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+           FileSystem fileSystem) {
         // TODO Auto-generated method stub
-        return new VSTestCoverageSaver(propertiesHelper, microsoftWindowsEnvironment);
+        return new VSTestCoverageSaver(propertiesHelper, fileSystem);
     }
     public void setBlockSaver( BlockSaver blockSaver) {
         this.blockSaver = blockSaver;
@@ -86,7 +85,7 @@ public class VSTestCoverageSaver implements CoverageSaver {
     private void tryAnalyse()
             throws XMLStreamException, IOException {
         LOG.info("MsCoverPlugin : name=" + project.getName());
-        String projectDirectory = getCurrentProjectDirectory(project);
+        String projectDirectory = fileSystem.baseDir().getAbsolutePath();
         LOG.info("MsCoverPlugin : directory=" + projectDirectory);
 
 
@@ -116,12 +115,9 @@ public class VSTestCoverageSaver implements CoverageSaver {
         parserSubject.parseFile(file);
     }
 
-    private MicrosoftWindowsEnvironment getMicrosoftWindowsEnvironment() {
-        return microsoftWindowsEnvironment;
-    }
 
     private File getCoverageFile(String path) {
-        LOG.info("MsCover Current working directory :" + microsoftWindowsEnvironment.getWorkingDirectory());
+        LOG.info("MsCover Current working directory :" + fileSystem.workDir());
         LOG.info("MsCover coverage file             :" + path); 
         if(StringUtils.isEmpty(path)) {
             throw new SonarException("MsCover: path to coverage file is not defined");
@@ -133,24 +129,8 @@ public class VSTestCoverageSaver implements CoverageSaver {
         return file;
     }
 
-    protected String getCurrentProjectDirectory(Project project) {
-        String projectName = project.getName();
-        VisualStudioProject vsProject = getMicrosoftWindowsEnvironment()
-                .getCurrentProject(projectName);
-        String projectDirectory ;
-        
-        if(vsProject == null) {
-            ProjectFileSystem fileSystem  = project.getFileSystem();
-            try {
-                   projectDirectory= fileSystem.getBasedir().getCanonicalPath();
-            } catch (IOException e) {
-                throw new SonarException(e);
-            }
-        } else {
-            projectDirectory = vsProject.getDirectory().getAbsolutePath();
-        }
-        LOG.info("projectdir :" + projectDirectory);
-        return projectDirectory;
+    protected String getCurrentProjectDirectory() {
+        return fileSystem.baseDir().getAbsolutePath();
     }
 
     public void saveLineMeasures(CoverageRegistry registry) {

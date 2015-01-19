@@ -26,7 +26,6 @@ public class VsTestConfigFinderTest {
     
     @Test
     public void inProject_expectConfigInSolution() {
-        File projectDir = TestUtils.getResource(ROOT + "\\default\\project");
         solutionDir = TestUtils.getResource(ROOT + "\\default");
 
         File settingsFile=finder.getTestSettingsFileOrDie(solutionDir,null);
@@ -39,9 +38,9 @@ public class VsTestConfigFinderTest {
     public void notProject_expectException() {
 
         solutionDir = TestUtils.getResource(ROOT + "\\notInProject_expectException");
-        File settingsFile=null;
+
         try {
-            settingsFile=finder.getTestSettingsFileOrDie(solutionDir,null);
+            finder.getTestSettingsFileOrDie(solutionDir,null);
         } catch (SonarException e ) {
             assertEquals("sonar.mscover.vstest.testsettings not set, and no testsettings file found",e.getMessage());
             return;
@@ -71,10 +70,8 @@ public class VsTestConfigFinderTest {
     public void setInProject_notThere_expectException() {
 
         solutionDir = TestUtils.getResource(ROOT + "\\InProject_ExpectFile");
-
-        File settingsFile=null;
         try {
-            settingsFile=finder.getTestSettingsFileOrDie(solutionDir,"bmyst.conftxt");
+            finder.getTestSettingsFileOrDie(solutionDir,"bmyst.conftxt");
         } catch (SonarException e ) {
             assertEquals("sonar.mscover.vstest.testsettings=bmyst.conftxt not found",e.getMessage());
             return;

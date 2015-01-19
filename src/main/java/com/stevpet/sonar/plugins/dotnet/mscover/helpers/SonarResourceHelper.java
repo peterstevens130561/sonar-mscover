@@ -6,9 +6,6 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.CheckForNull;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.SonarException;
 
@@ -20,8 +17,6 @@ public class SonarResourceHelper {
     private SonarResourceHelper() {
         
     }
-    private static final Logger LOG = LoggerFactory
-            .getLogger(SonarResourceHelper.class);
     /**
      * Gets the resource of the sourcefile 
      * path in the resource will  be relative to the project root.

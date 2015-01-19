@@ -4,6 +4,6 @@ import org.sonar.api.resources.Project;
 
 public interface ShouldExecuteHelper {
 
-    public abstract boolean shouldExecuteOnProject(Project project);
+    boolean shouldExecuteOnProject(Project project);
 
 }

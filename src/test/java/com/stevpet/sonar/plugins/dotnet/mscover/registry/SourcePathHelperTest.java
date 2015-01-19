@@ -3,7 +3,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.registry;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
@@ -55,7 +54,6 @@ public class SourcePathHelperTest {
     @Test
     public void ComparePaths_IsNoMatch() {
         String coveragePath = "C:\\Development\\Oahu\\SomeSolution\\SomeProject\\File1.cs";
-        String localPath = StringUtils.EMPTY;
         String solutionPath = "C:\\stevpet\\Joker\\MySolution";
         SourceFilePathHelper helper = new SourceFilePathHelper();
 

@@ -21,8 +21,10 @@ public class ProcessLock {
     private File lockFile;
     private FileChannel channel;
     private FileLock lock;
-    public ProcessLock(File lockFile) {
-        this.lockFile = lockFile;
+    public ProcessLock(String lockName) {
+        String lockPath = System.getenv("TMP");
+        lockFile = new File(lockPath,lockName + ".lock");
+
     }
     
     public void lock() {

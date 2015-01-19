@@ -25,6 +25,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.ProjectMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
@@ -41,6 +42,7 @@ public class IntegrationTestsCoverSensorTest {
     SensorContext context ;
     MicrosoftWindowsEnvironment microsoftWindowsEnvironment ;
     private CoverageHelperMock coverageHelperMock = new CoverageHelperMock();
+    private FileSystemMock fileSystemMock = new FileSystemMock();
     private CoverageHelperFactoryMock coverageHelperFactoryMock = new CoverageHelperFactoryMock();
     private ShouldExecuteHelperMock shouldExecuteHelperMock = new ShouldExecuteHelperMock();
     
@@ -132,7 +134,7 @@ public class IntegrationTestsCoverSensorTest {
         public  IntegrationTestsCoverSensorStub(MsCoverProperties propertiesHelper,
                 MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
                 TimeMachine timeMachine) {
-            super(propertiesHelper, microsoftWindowsEnvironment, timeMachine,coverageHelperFactoryMock.getMock());
+            super(propertiesHelper, timeMachine,coverageHelperFactoryMock.getMock(),fileSystemMock.getMock());
         }
     }
 }

@@ -24,9 +24,9 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
@@ -45,20 +45,21 @@ public class IntegrationTestCoverSensor implements Sensor {
     private CoverageSaver coverageHelper;
     private AbstractCoverageHelperFactory coverageHelperFactory ;
     private ResourceMediatorFactory resourceMediatorFactory = new DefaultResourceMediatorFactory();
-    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 
     private ShouldExecuteHelper shouldExecuteHelper;
+
+    private FileSystem fileSystem;
     /**
      * Use of IoC to get Settings
      */
     public IntegrationTestCoverSensor(MsCoverProperties propertiesHelper,
-            MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             TimeMachine timeMachine,
-            AbstractCoverageHelperFactory coverageHelperFactory) {
+            AbstractCoverageHelperFactory coverageHelperFactory,
+            FileSystem fileSystem) {
         this.propertiesHelper = propertiesHelper;
         this.timeMachine=timeMachine;
-        this.microsoftWindowsEnvironment = microsoftWindowsEnvironment ;
         this.coverageHelperFactory = coverageHelperFactory;
+        this.fileSystem=fileSystem;
         shouldExecuteHelper = coverageHelperFactory.createShouldExecuteHelper(propertiesHelper);
     }
     
@@ -69,9 +70,9 @@ public class IntegrationTestCoverSensor implements Sensor {
 
     public void analyse(Project project, SensorContext sensorContext) {
 
-        ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(sensorContext, project, timeMachine, propertiesHelper);
+        ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(sensorContext, project, timeMachine, propertiesHelper,fileSystem);
         MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
-        coverageHelper = coverageHelperFactory.createIntegrationTestCoverageHelper(propertiesHelper, microsoftWindowsEnvironment, measureSaver);
+        coverageHelper = coverageHelperFactory.createIntegrationTestCoverageHelper(propertiesHelper,fileSystem, measureSaver);
         String coveragePath=propertiesHelper.getIntegrationTestsPath();
         coverageHelper.analyse(project,coveragePath);
     }

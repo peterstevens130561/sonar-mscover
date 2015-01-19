@@ -38,7 +38,6 @@ public class ElementParserTest {
     private void parseChild(int level,String path,StringBuilder list, SMInputCursor childCursor)
             throws XMLStreamException {
         SMEvent thisEvent=null;
-        SMEvent prevEvent=null;
         list.append("level " + level + " " + path + "\n");
         while((thisEvent=childCursor.getNext())!=null) {
                String name = childCursor.getLocalName();

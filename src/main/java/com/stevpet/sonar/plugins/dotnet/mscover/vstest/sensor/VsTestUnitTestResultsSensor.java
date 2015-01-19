@@ -7,10 +7,10 @@ import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.DotNetConstants;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
@@ -34,19 +34,19 @@ public class VsTestUnitTestResultsSensor implements Sensor {;
     private VsTestRunner unitTestRunner;
     private TimeMachine timeMachine;
     private VsTestEnvironment vsTestEnvironment;
-    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private ResourceMediatorFactory resourceMediatorFactory = new DefaultResourceMediatorFactory();
     private VsTestUnitTestResultsAnalyser vsTestUnitTestResultsAnalyser = new VsTestUnitTestResultsAnalyser();
+    private FileSystem fileSystem;
     
-    public VsTestUnitTestResultsSensor(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-            MsCoverProperties propertiesHelper,TimeMachine timeMachine,
-            VsTestEnvironment vsTestEnvironment) {
-        this.microsoftWindowsEnvironment=microsoftWindowsEnvironment ;
+    public VsTestUnitTestResultsSensor( MsCoverProperties propertiesHelper,TimeMachine timeMachine,
+            VsTestEnvironment vsTestEnvironment,
+            FileSystem fileSystem) {
         this.timeMachine = timeMachine;
         this.propertiesHelper = propertiesHelper;
         unitTestRunner = WindowsVsTestRunner.create();
         unitTestRunner.setPropertiesHelper(propertiesHelper);
         this.vsTestEnvironment = vsTestEnvironment;
+        this.fileSystem = fileSystem;
     }
     
     /**
@@ -71,7 +71,7 @@ public class VsTestUnitTestResultsSensor implements Sensor {;
         LOG.info("MsCover Starting analysing test results");
         String coveragePath;
         String resultsPath;
-        ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(sensorContext,project,timeMachine,propertiesHelper);            
+        ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(sensorContext,project,timeMachine,propertiesHelper,fileSystem);            
         
         MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
 
@@ -90,7 +90,7 @@ public class VsTestUnitTestResultsSensor implements Sensor {;
         vsTestUnitTestResultsAnalyser.analyseVsTestResults(coveragePath, resultsPath);
         if(propertiesHelper.runVsTest()) {
             AbstractCoverageHelperFactory coverageHelperFactory = new SonarCoverageHelperFactory();
-            CoverageSaver coverageHelper = coverageHelperFactory.createUnitTestCoverageHelper(propertiesHelper, microsoftWindowsEnvironment, measureSaver);
+            CoverageSaver coverageHelper = coverageHelperFactory.createUnitTestCoverageHelper(propertiesHelper, fileSystem, measureSaver);
             coverageHelper.analyse(project,coveragePath);
         }
     }

@@ -22,7 +22,7 @@ public class IntegrationTestCoverSensorTest {
 
         project = mock(Project.class);
         propertiesHelper = mock(PropertiesHelper.class);
-        sensor= new IntegrationTestCoverSensor(propertiesHelper,null,null,sonarCoverageHelperFactory);
+        sensor= new IntegrationTestCoverSensor(propertiesHelper,null,sonarCoverageHelperFactory,null);
         when(propertiesHelper.getMode()).thenReturn("reuse");
         when(propertiesHelper.getIntegrationTestsPath()).thenReturn("hi");
         when(propertiesHelper.isIntegrationTestsEnabled()).thenReturn(true);

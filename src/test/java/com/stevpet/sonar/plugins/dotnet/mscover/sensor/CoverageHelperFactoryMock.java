@@ -1,6 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.sensor;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
+import org.sonar.api.batch.fs.FileSystem;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
@@ -21,6 +21,6 @@ public class CoverageHelperFactoryMock extends GenericClassMock<AbstractCoverage
 
     public void whencreateIntegrationTestCoverageHelper(
             CoverageHelperMock coverageHelperMock) {
-        when(instance.createIntegrationTestCoverageHelper(any(MsCoverProperties.class), any(MicrosoftWindowsEnvironment.class), any(MeasureSaver.class))).thenReturn(coverageHelperMock.getMock());
+        when(instance.createIntegrationTestCoverageHelper(any(MsCoverProperties.class), any(FileSystem.class), any(MeasureSaver.class))).thenReturn(coverageHelperMock.getMock());
     }
 }

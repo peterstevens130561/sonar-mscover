@@ -32,7 +32,7 @@ public class UnitTestCoverSensorCompleteTest {
     @Test
     public void projectIsRootPropertyExecuteRootIsTrue_ShouldNotExecute() {
         MsCoverProperties propertiesHelper = UnitTestRunnerTestUtils.mockUnitTestRunnerSettingsToRun();
-        VsTestUnitTestResultsSensor sensor = new VsTestUnitTestResultsSensor(null,propertiesHelper, null,vsTestEnvironment);
+        VsTestUnitTestResultsSensor sensor = new VsTestUnitTestResultsSensor(propertiesHelper, null,vsTestEnvironment,null);
         when(project.isRoot()).thenReturn(true);
         
         boolean shouldExecute=sensor.shouldExecuteOnProject(project);
@@ -42,7 +42,7 @@ public class UnitTestCoverSensorCompleteTest {
     @Test
     public void runTestsNotRoot_ShouldExecute() {
         MsCoverProperties propertiesHelper = UnitTestRunnerTestUtils.mockUnitTestRunnerSettingsToRun();
-        VsTestUnitTestResultsSensor sensor = new VsTestUnitTestResultsSensor(null,propertiesHelper, null,vsTestEnvironment);
+        VsTestUnitTestResultsSensor sensor = new VsTestUnitTestResultsSensor(propertiesHelper, null,vsTestEnvironment,null);
         when(project.isRoot()).thenReturn(false);
         boolean shouldExecute=sensor.shouldExecuteOnProject(project);
         Assert.assertTrue(shouldExecute);

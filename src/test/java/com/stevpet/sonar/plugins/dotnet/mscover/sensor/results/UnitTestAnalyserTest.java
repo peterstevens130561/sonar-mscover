@@ -19,8 +19,8 @@ import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
-import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.NullResource;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestUnitTestResultsAnalyser;
@@ -32,7 +32,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyDouble;
-import static org.mockito.Matchers.argThat;
 
 public class UnitTestAnalyserTest {
     
@@ -43,7 +42,6 @@ public class UnitTestAnalyserTest {
     private MeasureSaver measureSaver;
     private SourceFilePathHelper sourceFilePathHelper;
     private ResourceMediator resourceMediator;
-    private ResourceSeam testResourceSeam;
     private DummyFileSystem fileSystem = new DummyFileSystem();
 
     @Before
@@ -53,7 +51,6 @@ public class UnitTestAnalyserTest {
         measureSaver = mock(MeasureSaver.class);
         sourceFilePathHelper = new TestSourceFilePathHelper();
         resourceMediator=mock(ResourceMediator.class);
-        testResourceSeam=mock(ResourceSeam.class);
         
     }
     
@@ -62,7 +59,9 @@ public class UnitTestAnalyserTest {
      */
     @Test
     public void sunnyDay() {
-        VsTestUnitTestResultsAnalyser analyser = new VsTestUnitTestResultsAnalyser(project, context,measureSaver) ;
+        FileSystemMock fileSystemMock = new FileSystemMock();
+        fileSystemMock.givenDefaultEncoding();
+        VsTestUnitTestResultsAnalyser analyser = new VsTestUnitTestResultsAnalyser(project, context,measureSaver,fileSystemMock.getMock()) ;
         String coveragePath = TestUtils.getResource("Mileage/coverage.xml").getAbsolutePath();
         File resultsFile = TestUtils.getResource("Mileage/results.trx");
         String resultsPath=resultsFile.getAbsolutePath();
@@ -114,25 +113,16 @@ public class UnitTestAnalyserTest {
         assertEquals(4,testSeam.getSaveMeasureCnt());
         assertEquals(24,testSeam.getMetricValueCnt());
     }
+    
     private void givenProjectHasNoCanonicalPath()
             throws IOException {
         File exceptionThrowingFile = mock(File.class);
-        File baseDir = mock(File.class);
         when(exceptionThrowingFile.getCanonicalPath()).thenThrow(new IOException());
         fileSystem=mock(DummyFileSystem.class);
         when(fileSystem.getBasedir()).thenReturn(exceptionThrowingFile);
         when(project.getFileSystem()).thenReturn(fileSystem);
     }
     
-    private class FileMatcher extends ArgumentMatcher<File> {
-
-        @Override
-        public boolean matches(Object argument) {
-            // TODO Auto-generated method stub
-            return false;
-        }
-        
-    }
     private class TestSourceFilePathHelper extends SourceFilePathHelper {
         @SuppressWarnings("unused")
         @Override
@@ -158,9 +148,6 @@ public class UnitTestAnalyserTest {
             }
         }
         
-        public String getMetrics() {
-            return sb.toString();
-        }
         public void saveMetricValue(Metric metric, double value) {
             sb.append("metric ").append(metric.getKey()).append("=").append(value).append("\n");
             ++saveMetricValueCnt;

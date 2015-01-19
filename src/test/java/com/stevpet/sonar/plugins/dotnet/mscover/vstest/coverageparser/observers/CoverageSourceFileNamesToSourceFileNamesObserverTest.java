@@ -51,7 +51,7 @@ public class CoverageSourceFileNamesToSourceFileNamesObserverTest {
         parser.parseFile(file);
         //Assert
         Assert.assertEquals(8,coverageRegistry.getFileCount());
-        String expected;
+
         Collection<FileCoverage> fileCoverageCollection=coverageRegistry.getFileCoverages();
         int collectionIndex=0;
         String baseDir="C:\\Users\\stevpet\\Documents\\GitHub\\tfsblame\\";

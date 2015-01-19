@@ -33,7 +33,7 @@ public class OpenCoverTestResultsSaverSensorTest {
     @Test
     public void getSupportedLanguages_ExpectCsOnly() {
         OpenCoverTestResultsSaverSensor sensor = new OpenCoverTestResultsSaverSensor(microsoftWindowsEnvironment, 
-                msCoverProperties,vsTestEnvironment,timeMachine);
+                msCoverProperties,vsTestEnvironment,timeMachine,null);
         String[] languages = sensor.getSupportedLanguages();
         
     }

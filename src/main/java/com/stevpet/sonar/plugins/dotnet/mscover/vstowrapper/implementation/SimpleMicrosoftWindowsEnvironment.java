@@ -1,9 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.InputStreamReader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

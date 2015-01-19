@@ -138,9 +138,8 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         String targetDir=finder.findUnitTestAssembliesDir(solution);
         openCoverCommand.setTargetDir(targetDir);
         fakesRemover.removeFakes(new File(targetDir));
-        String lockPath = System.getenv("TMP");
-        File lockFile = new File(lockPath,"opencover.lock");
-        ProcessLock processLock = new ProcessLock(lockFile);
+
+        ProcessLock processLock = new ProcessLock("opencover");
         processLock.lock();
         try {
         commandLineExecutor.execute(openCoverCommand);
@@ -169,12 +168,6 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         }
     }
 
-    private void ensureWorkDirExists() {
-        workDir = new File(solution.getSolutionDir(), getMicrosoftWindowsEnvironment().getWorkingDirectory());
-        if (!workDir.exists()) {
-          workDir.mkdirs();
-        }
-    }
 
     /**
      * @param vsTestRunnerFactory the vsTestRunnerFactory to set
