@@ -109,7 +109,7 @@ import java.util.List;
 public final class MsCoverPlugin extends SonarPlugin {
 
   // This is where you're going to declare all your Sonar extensions
-  @SuppressWarnings({ "rawtypes", "unchecked" })
+  @SuppressWarnings({ "rawtypes" })
 public List getExtensions() {
       
     return Arrays.asList(

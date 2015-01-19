@@ -21,6 +21,6 @@ public class CoverageHelperFactoryMock extends GenericClassMock<AbstractCoverage
 
     public void whencreateIntegrationTestCoverageHelper(
             CoverageHelperMock coverageHelperMock) {
-        when(instance.createIntegrationTestCoverageHelper(any(MsCoverProperties.class), any(FileSystem.class), any(MeasureSaver.class))).thenReturn(coverageHelperMock.getMock());
+        when(instance.createIntegrationTestCoverageHelper(any(FileSystem.class), any(MeasureSaver.class))).thenReturn(coverageHelperMock.getMock());
     }
 }

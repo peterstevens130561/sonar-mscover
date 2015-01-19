@@ -75,22 +75,11 @@ public class ShouldExecuteTest {
     }
     
     private void test(boolean expected,RunMode runMode,boolean executeRoot,boolean isRoot,String unitTestResultsPath) {
-        String runModeValue=runMode.toString();
         propertiesHelper.setRunVsTest(true);
         propertiesHelper.setExecuteRoot(executeRoot);
         propertiesHelper.setUnitTestResultsPath(unitTestResultsPath);
         propertiesHelper.setRunMode(runMode);
-        /*
-        when(settings.getString(PropertiesHelper.MSCOVER_COVERAGETOOL)).thenReturn("vstest");
-        when(settings.getString(PropertiesHelper.MSCOVER_MODE)).thenReturn(runModeValue);
 
-        when(settings.getBoolean(PropertiesHelper.MSCOVER_EXECUTEROOT)).thenReturn(executeRoot);
-
-        
-        when(propertiesHelper.excuteRoot()).thenReturn(executeRoot);
-        when(propertiesHelper.getMode()).thenReturn(runModeValue);
-        when(propertiesHelper.getUnitTestResultsPath()).thenReturn(path);
-        */
                 when(project.isRoot()).thenReturn(isRoot);
         boolean shouldExecute = resultsSensor.shouldExecuteOnProject(project);
         Assert.assertEquals(expected,shouldExecute);      

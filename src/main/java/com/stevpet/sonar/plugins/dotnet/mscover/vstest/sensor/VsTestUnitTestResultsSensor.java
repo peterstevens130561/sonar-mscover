@@ -90,7 +90,7 @@ public class VsTestUnitTestResultsSensor implements Sensor {;
         vsTestUnitTestResultsAnalyser.analyseVsTestResults(coveragePath, resultsPath);
         if(propertiesHelper.runVsTest()) {
             AbstractCoverageHelperFactory coverageHelperFactory = new SonarCoverageHelperFactory();
-            CoverageSaver coverageHelper = coverageHelperFactory.createUnitTestCoverageHelper(propertiesHelper, fileSystem, measureSaver);
+            CoverageSaver coverageHelper = coverageHelperFactory.createUnitTestCoverageHelper(fileSystem, measureSaver);
             coverageHelper.analyse(project,coveragePath);
         }
     }

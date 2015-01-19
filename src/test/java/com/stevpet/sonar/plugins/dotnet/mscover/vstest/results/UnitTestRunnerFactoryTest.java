@@ -44,7 +44,7 @@ public class UnitTestRunnerFactoryTest {
         File sonarWorkingDir=new File(workingDirPath);
         when(fileSystem.workDir()).thenReturn(sonarWorkingDir);
         try {
-        VsTestRunner unitTestRunner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(propertiesHelper, fileSystem, microsoftWindowsEnvironment);
+             new DefaultVsTestRunnerFactory().createBasicTestRunnner(propertiesHelper, fileSystem, microsoftWindowsEnvironment);
         } catch (SonarException e) {
             assertEquals(e.getMessage(),"No current solution");
             return;

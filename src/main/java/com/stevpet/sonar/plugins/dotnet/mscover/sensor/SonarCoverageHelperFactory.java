@@ -17,29 +17,29 @@ public class SonarCoverageHelperFactory implements BatchExtension,
     private VSTestCoverageSaver coverageHelper ;
 
     public CoverageSaver createIntegrationTestCoverageHelper(
-            MsCoverProperties propertiesHelper,
+  
             FileSystem fileSystem,
             MeasureSaver measureSaver) {
-        createCoverageHelper(propertiesHelper, fileSystem);
+        createCoverageHelper(fileSystem);
         LineMeasureSaver lineSaver=IntegrationTestLineSaver.create(measureSaver);
         injectSavers(lineSaver);
         return coverageHelper;
         
     }
 
-    public CoverageSaver createUnitTestCoverageHelper(MsCoverProperties propertiesHelper,
+    public CoverageSaver createUnitTestCoverageHelper(
             FileSystem fileSystem,
             MeasureSaver measureSaver) {
-            createCoverageHelper(propertiesHelper, fileSystem);
+            createCoverageHelper(fileSystem);
             LineMeasureSaver lineSaver=UnitTestLineSaver.create(measureSaver);
             injectSavers(lineSaver);
             return coverageHelper;       
     }
     
 
-   private void createCoverageHelper(MsCoverProperties propertiesHelper,
+   private void createCoverageHelper(
             FileSystem fileSystem) {
-        coverageHelper = new VSTestCoverageSaver(propertiesHelper,fileSystem);
+        coverageHelper = new VSTestCoverageSaver(fileSystem);
     }
 
 

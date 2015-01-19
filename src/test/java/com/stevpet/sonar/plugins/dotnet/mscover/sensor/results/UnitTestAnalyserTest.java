@@ -7,7 +7,6 @@ import java.nio.charset.Charset;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentMatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
@@ -124,7 +123,6 @@ public class UnitTestAnalyserTest {
     }
     
     private class TestSourceFilePathHelper extends SourceFilePathHelper {
-        @SuppressWarnings("unused")
         @Override
         public File getCanonicalFile(String path) {
             return new File(path);

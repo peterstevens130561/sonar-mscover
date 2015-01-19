@@ -10,10 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
-import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.utils.SonarException;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
@@ -28,7 +26,6 @@ public class VSTestCoverageSaver implements CoverageSaver {
 
     static final Logger LOG = LoggerFactory
             .getLogger(VSTestCoverageSaver.class);
-    private final MsCoverProperties propertiesHelper;
     private LineMeasureSaver lineSaver;
     private BlockSaver blockSaver;
     private Project project;
@@ -48,17 +45,16 @@ public class VSTestCoverageSaver implements CoverageSaver {
      * @param microsoftWindowsEnvironment
      * @param timeMachine
      */
-    VSTestCoverageSaver(MsCoverProperties propertiesHelper,
+    VSTestCoverageSaver(
             FileSystem fileSystem) {
-        this.propertiesHelper = propertiesHelper ;
         this.fileSystem=fileSystem;
     }
 
 
-    public static VSTestCoverageSaver create(MsCoverProperties propertiesHelper,
+    public static VSTestCoverageSaver create(
            FileSystem fileSystem) {
         // TODO Auto-generated method stub
-        return new VSTestCoverageSaver(propertiesHelper, fileSystem);
+        return new VSTestCoverageSaver(fileSystem);
     }
     public void setBlockSaver( BlockSaver blockSaver) {
         this.blockSaver = blockSaver;

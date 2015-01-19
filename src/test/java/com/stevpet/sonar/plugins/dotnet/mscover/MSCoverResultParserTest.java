@@ -109,7 +109,7 @@ public class MSCoverResultParserTest {
         
         MeasureSaver measureSaver = mock(SonarMeasureSaver.class);
         //Act
-        VSTestCoverageSaver coverageHelper = VSTestCoverageSaver.create(propertiesHelper, fileSystemMock.getMock());
+        VSTestCoverageSaver coverageHelper = VSTestCoverageSaver.create(fileSystemMock.getMock());
         
         LineMeasureSaver lineSaver = mock(IntegrationTestLineSaver.class);
         coverageHelper.setLineSaver(lineSaver);

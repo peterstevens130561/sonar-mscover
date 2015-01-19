@@ -98,7 +98,7 @@ public abstract class BaseDecorator implements Decorator {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("rawtypes")
+
     public void decorate(Resource resource, DecoratorContext context) {
         if (!(ResourceUtils.isFile(resource)
                 && context.getMeasure(testMetric) == null)) {
