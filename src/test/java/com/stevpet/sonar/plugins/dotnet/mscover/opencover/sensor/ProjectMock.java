@@ -5,7 +5,7 @@ import static org.mockito.Mockito.when;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
+
 
 public class ProjectMock extends GenericClassMock<Project>{
     public ProjectMock() {

@@ -8,7 +8,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.mock.SensorContextMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindowsEnvironmentMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.ProjectMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.TimeMachineMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.VsTestRunnerMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorFactoryMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorMock;
 

@@ -21,7 +21,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestUnitTestResultsAnalyser;
 
 import static org.junit.Assert.*;
@@ -37,21 +36,15 @@ public class UnitTestAnalyserTest {
     private Logger LOG = LoggerFactory.getLogger(UnitTestAnalyserTest.class);
 
     private Project project;
-    private SensorContext context;
     private MeasureSaver measureSaver;
-    private SourceFilePathHelper sourceFilePathHelper;
     private ResourceMediator resourceMediator;
-    private DummyFileSystem fileSystem = new DummyFileSystem();
     FileSystemMock fileSystemMock = new FileSystemMock();
 
     @Before
     public void before() {
         project= mock(Project.class);
-        //givenProjectFileSystemIsDummyFileSystem();
         measureSaver = mock(MeasureSaver.class);
-        sourceFilePathHelper = new TestSourceFilePathHelper();
         resourceMediator=mock(ResourceMediator.class);
-        
     }
     
     /**

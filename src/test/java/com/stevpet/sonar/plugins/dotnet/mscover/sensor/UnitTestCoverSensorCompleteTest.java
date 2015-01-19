@@ -8,10 +8,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.resources.Project;
-import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
-import com.stevpet.sonar.plugins.dotnet.mscover.testutils.DummyFileSystem;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunnerTestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestUnitTestResultsSensor;
@@ -23,9 +21,6 @@ public class UnitTestCoverSensorCompleteTest {
     @Before 
     public void before() {
         project = mock(Project.class);
-        DummyFileSystem fileSystem = new DummyFileSystem();
-        fileSystem.setBasedir(TestUtils.getResource("Mileage"));
-        when(project.getFileSystem()).thenReturn( fileSystem);
     }
 
 

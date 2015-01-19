@@ -33,14 +33,9 @@ import org.junit.Test;
 import org.sonar.api.resources.Project;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockMeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.BlockSaver;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.VSTestCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestLinesToCoverageObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestSourceFileNamesToCoverageObserver;
@@ -51,9 +46,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.saver.LineMeasureSaver;
 public class MSCoverResultParserTest {
 
 
-  private MsCoverProperties propertiesHelper;
-  
-  
   @Test 
   public void ParseWithCoverageParser_ForValidFile_CheckRegistry() throws XMLStreamException {
         //Arrange
