@@ -24,10 +24,6 @@ public class ProjectMock extends GenericClassMock<Project>{
         }
     }
 
-    public void givenFileSystem(DummyFileSystem dummyFileSystem) {
-        when(instance.getFileSystem()).thenReturn( new DummyFileSystem()); 
-    }
-
 
     /**
      * 

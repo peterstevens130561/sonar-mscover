@@ -107,13 +107,11 @@ public class MSCoverResultParserTest {
         fileSystemMock.givenWorkDir(new File(projectDir,".sonar"));
         fileSystemMock.givenBaseDir(projectDir);
         
-        MeasureSaver measureSaver = mock(SonarMeasureSaver.class);
         //Act
         VSTestCoverageSaver coverageHelper = VSTestCoverageSaver.create(fileSystemMock.getMock());
         
         LineMeasureSaver lineSaver = mock(IntegrationTestLineSaver.class);
         coverageHelper.setLineSaver(lineSaver);
-
         
         coverageHelper.analyse(project, file.getCanonicalPath());
         //Assert ?

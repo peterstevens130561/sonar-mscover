@@ -52,7 +52,7 @@ public class IntegrationTestsCoverSensorTest {
         coverageHelperFactoryMock.WhenCreateShouldExecuteHelper(shouldExecuteHelperMock);
         microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
         sensor = new IntegrationTestsCoverSensorStub(msCoverPropertiesMock.getMock(),null,null);
-        projectMock.givenFileSystem(new DummyFileSystem());
+        //projectMock.givenFileSystem(new DummyFileSystem());
         msCoverPropertiesMock.givenMode("reuse");
 
         
@@ -94,9 +94,12 @@ public class IntegrationTestsCoverSensorTest {
         when(vsProject.getDirectory()).thenReturn(testProject);
         when(microsoftWindowsEnvironment.getCurrentProject("tfsblame")).thenReturn(vsProject);
         coverageHelperFactoryMock.whencreateIntegrationTestCoverageHelper(coverageHelperMock);
+        fileSystemMock.givenDefaultEncoding();
         //Act
         sensor.analyse(projectMock.getMock(), context);
         //Assert
+        
+        //Statisfied if it does not crash.....
     }
     
     public void UnitTestsSensor_Analyse_Enabled() {

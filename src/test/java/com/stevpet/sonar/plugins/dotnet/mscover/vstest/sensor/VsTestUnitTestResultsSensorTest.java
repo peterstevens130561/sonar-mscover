@@ -15,7 +15,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorMock;
 public class VsTestUnitTestResultsSensorTest {
     private TestWrapper classUnderTest = new TestWrapper();
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
-    private VsTestRunnerMock vsTestRunnerMock = new VsTestRunnerMock();
     private TimeMachineMock timeMachineMock = new TimeMachineMock();
     private VsTestEnvironmentMock vsTestEnvironmentMock = new VsTestEnvironmentMock();
     private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();

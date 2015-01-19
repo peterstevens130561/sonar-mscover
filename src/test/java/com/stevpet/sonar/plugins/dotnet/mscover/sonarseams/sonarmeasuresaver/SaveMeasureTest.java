@@ -76,7 +76,6 @@ public class SaveMeasureTest {
     public void invalidResource_shouldNotSave() {
         when(resourceMediator.getSonarFileResource(any(File.class))).thenReturn(nullResourceSeam);
         Measure measure = new Measure();
-        org.sonar.api.resources.File resource=new org.sonar.api.resources.File("somefile");
         measureSaver.setFile(new File("somefile"));
         measureSaver.saveFileMeasure(measure);
         verify(nullResourceSeam,times(1)).saveMeasure(eq(measure));

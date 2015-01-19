@@ -14,7 +14,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.seams.SonarProjectSeam;
 
 @InstantiationStrategy(InstantiationStrategy.PER_BATCH)
 public class VsTestEnvironment implements BatchExtension {
-    private static final Logger LOG = LoggerFactory.getLogger(VsTestEnvironment.class);
+
     private ProjectSeam projectSeam = new SonarProjectSeam();
     private String coverageXmlPath;
     private String resultsXmlPath;

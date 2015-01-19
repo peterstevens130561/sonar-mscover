@@ -1,7 +1,9 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.Charset;
+
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.test.TestUtils;
 
@@ -41,5 +43,5 @@ public class FileSystemMock extends GenericClassMock<FileSystem> {
         givenEncoding(charset);
         
     }
-    
+
 }

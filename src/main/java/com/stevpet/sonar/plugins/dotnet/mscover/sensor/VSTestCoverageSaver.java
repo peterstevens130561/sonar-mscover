@@ -27,7 +27,6 @@ public class VSTestCoverageSaver implements CoverageSaver {
     static final Logger LOG = LoggerFactory
             .getLogger(VSTestCoverageSaver.class);
     private LineMeasureSaver lineSaver;
-    private BlockSaver blockSaver;
     private Project project;
     private String path;
     private FileSystem fileSystem;
@@ -55,10 +54,6 @@ public class VSTestCoverageSaver implements CoverageSaver {
            FileSystem fileSystem) {
         // TODO Auto-generated method stub
         return new VSTestCoverageSaver(fileSystem);
-    }
-    public void setBlockSaver( BlockSaver blockSaver) {
-        this.blockSaver = blockSaver;
-        
     }
 
     /* (non-Javadoc)
@@ -91,9 +86,6 @@ public class VSTestCoverageSaver implements CoverageSaver {
         
         saveLineMeasures(registry.getCoverageRegistry());
         
-        blockSaver.setSourceFileNamesRegistry(registry.getSourceFileNamesRegistry());
-        blockSaver.setFileBlocksRegistry(registry.getFileBlocksRegistry());
-        blockSaver.save();
     }
 
 

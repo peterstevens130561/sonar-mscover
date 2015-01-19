@@ -64,7 +64,7 @@ public class TrxTestSaver implements TestSaver {
     public void save() {
         projectSummaryResults = new ResultsModel();
         unitTestFilesResultRegistry.forEachUnitTestFile(new SaveUnitTestFileMeasures());
-        //testResultsSaver.saveProjectTestResults(projectSummaryResults);
+
     }
 
     class SaveUnitTestFileMeasures implements ForEachUnitTestFile {
@@ -74,7 +74,6 @@ public class TrxTestSaver implements TestSaver {
         if(!(sonarFile instanceof NullResource)) {
             projectSummaryResults.add(fileResults);
         }
-        testResultsSaver.saveSummaryMeasures(fileResults, sonarFile);
         testResultsSaver.saveTestCaseMeasures(fileResults, sonarFile);
 
     }

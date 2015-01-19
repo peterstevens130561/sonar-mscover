@@ -42,23 +42,25 @@ public class VsTestUnitTestResultsAnalyser {
     private MeasureSaver measureSaver;
     private SourceFilePathHelper sourceFilePathHelper = new SourceFilePathHelper();
     private ResourceMediator resourceMediator;
+    private FileSystem fileSystem;
     
     /**
      * @deprecated Use {@link #UnitTestAnalyser(Project,SensorContext,MeasureSaver,SourceFilePathHelper)} instead
      */
     public VsTestUnitTestResultsAnalyser(Project project, SensorContext context,MeasureSaver measureSaver,FileSystem fileSystem) {
-        this(project, measureSaver, new SourceFilePathHelper(),new DefaultResourceMediatorFactory().createWithEmptyFilters(context, project,fileSystem));
+        this(project, measureSaver, new SourceFilePathHelper(),new DefaultResourceMediatorFactory().createWithEmptyFilters(context, project,fileSystem),fileSystem);
     }
 
     public VsTestUnitTestResultsAnalyser() {
         
     }
     
-    public VsTestUnitTestResultsAnalyser(Project project,MeasureSaver measureSaver, SourceFilePathHelper sourceFilePathHelper,ResourceMediator resourceMediator) {
+    public VsTestUnitTestResultsAnalyser(Project project,MeasureSaver measureSaver, SourceFilePathHelper sourceFilePathHelper,ResourceMediator resourceMediator,FileSystem fileSystem) {
         this.project = project;
         this.measureSaver = measureSaver;
         this.sourceFilePathHelper = sourceFilePathHelper;
         this.resourceMediator = resourceMediator; 
+        this.fileSystem=fileSystem;
     }
     
     public void setProject(Project project) {
@@ -119,7 +121,7 @@ public class VsTestUnitTestResultsAnalyser {
 
     private void saveUnitTests() {
 
-        File projectDirectory =  project.getFileSystem().getBasedir();
+        File projectDirectory =  fileSystem.baseDir();
         sourceFilePathHelper.setProjectFile(projectDirectory);
         
         UnitTestResultRegistry unitTestResultRegistry = registry.getResults();
