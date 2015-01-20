@@ -74,6 +74,7 @@ public class TrxTestSaver implements TestSaver {
         if(!(sonarFile instanceof NullResource)) {
             projectSummaryResults.add(fileResults);
         }
+        testResultsSaver.saveSummaryMeasures(fileResults, sonarFile);
         testResultsSaver.saveTestCaseMeasures(fileResults, sonarFile);
 
     }

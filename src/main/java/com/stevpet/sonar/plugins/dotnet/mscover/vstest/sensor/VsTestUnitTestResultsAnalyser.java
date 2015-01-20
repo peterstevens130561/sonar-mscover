@@ -155,5 +155,9 @@ public class VsTestUnitTestResultsAnalyser {
         filesResultRegistry = new UnitTestFilesResultRegistry();
         sourceFileNamesRegistry = new SourceFileNamesRegistry();
     }
+
+    public void setFileSystem(FileSystem fileSystem) {
+        this.fileSystem=fileSystem;
+    }
     
 }

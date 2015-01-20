@@ -76,6 +76,7 @@ public class OpenCoverTestResultsSaverSensor extends AbstractDotNetSensor {
         analyser.setProject(project);
         analyser.setMeasureSaver(measureSaver);
         analyser.setResourceMediator(resourceMediator) ;
+        analyser.setFileSystem(fileSystem);
             
         String coveragePath = vsTestEnvironment.getXmlCoveragePath();
         String resultsPath = vsTestEnvironment.getXmlResultsPath();
