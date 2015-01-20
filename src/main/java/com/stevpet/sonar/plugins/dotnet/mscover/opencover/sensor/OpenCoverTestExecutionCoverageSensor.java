@@ -39,7 +39,6 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private static String WONT_EXECUTE = "VsTest.Console using OpenCover.Console.Exe won't execute as ";
     private static final Logger LOG = LoggerFactory.getLogger(OpenCoverTestExecutionCoverageSensor.class);
     private VisualStudioSolution solution;
-    private File workDir;
     private final MsCoverProperties propertiesHelper ;
     private VsTestEnvironment testEnvironment;
     private CommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();

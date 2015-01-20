@@ -26,9 +26,7 @@ public class IntegrationTestLineSaver implements LineMeasureSaver {
     public static IntegrationTestLineSaver create(MeasureSaver measureSaver) {
         return new IntegrationTestLineSaver(measureSaver);
     }
-    private static final Logger LOG = LoggerFactory
-            .getLogger(IntegrationTestLineSaver.class);
-    
+
     private final PropertiesBuilder<String, Integer> lineHitsBuilder = new PropertiesBuilder<String, Integer>(
             CoreMetrics.IT_COVERAGE_LINE_HITS_DATA);
     

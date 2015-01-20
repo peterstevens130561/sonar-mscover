@@ -34,7 +34,6 @@ import java.util.List;
 public class SimpleVisualStudioProject implements VisualStudioProject {
 
     private final File projectFile ;
-  private final List<String> files;
   private final List<File> sourceFiles;
   private final String projectTypeGuids;
   private final String outputType;
@@ -48,7 +47,6 @@ private File assemblyFile;
   public SimpleVisualStudioProject(File projectFile,List<String> files, @Nullable String projectTypeGuids, @Nullable String outputType, @Nullable String assemblyName,
     List<String> propertyGroupConditions, List<String> outputPaths) {
     this.projectFile = projectFile;
-      this.files = files;
     this.projectTypeGuids = projectTypeGuids;
     this.outputType = outputType;
     this.assemblyName = assemblyName;
