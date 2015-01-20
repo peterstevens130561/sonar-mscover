@@ -140,6 +140,7 @@ public class WindowsVsTestRunnerTest {
         runner.setSolution(solution);
     }
 
+    @SuppressWarnings("unchecked")
     private void givenUnitTestAssemblies(List<String> unitTestAssemblies) {
         AssembliesFinder assembliesFinder = mock(AssembliesFinder.class);
         when(assembliesFinder.findUnitTestAssembliesFromConfig(any(File.class), anyList())).thenReturn(unitTestAssemblies);

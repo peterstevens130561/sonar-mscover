@@ -110,5 +110,10 @@ public class OpenCoverTestExecutionCoverageSensorBehavior {
 
     public void givenFakesRemover(FakesRemoverMock fakesRemoverMock) {
         sensor.setFakesRemover(fakesRemoverMock.getMock());
-    };
+    }
+
+    public void setFileSystem(FileSystem fileSystem) {
+        this.fileSystem = fileSystem;
+    }
+
 }

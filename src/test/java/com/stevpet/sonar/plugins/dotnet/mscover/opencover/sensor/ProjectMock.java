@@ -16,13 +16,6 @@ public class ProjectMock extends GenericClassMock<Project>{
     public void givenIsRootProject(boolean isRoot) {
         when(instance.isRoot()).thenReturn(isRoot);       
     }
-    public void givenIsCSharpProject(boolean b) {
-        if(b) {
-        when(instance.getLanguageKey()).thenReturn("cs");
-        } else {
-            when(instance.getLanguageKey()).thenReturn("blurp");          
-        }
-    }
 
 
     /**

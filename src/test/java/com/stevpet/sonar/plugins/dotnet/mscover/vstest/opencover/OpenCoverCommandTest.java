@@ -24,7 +24,7 @@ public class OpenCoverCommandTest {
     public void CreateCommand_CommandLineShouldHaveExecutable () {
         String commandLine=openCoverCommand.toCommandLine();
         assertNotNull(commandLine);
-        assertEquals(testHelper.EXECUTABLE + "/OpenCover.Console.Exe",commandLine);
+        assertEquals(OpenCoverTestHelper.EXECUTABLE + "/OpenCover.Console.Exe",commandLine);
     }
 
 

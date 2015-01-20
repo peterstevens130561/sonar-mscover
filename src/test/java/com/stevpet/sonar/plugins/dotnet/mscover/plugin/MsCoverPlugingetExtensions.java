@@ -17,6 +17,7 @@ public class MsCoverPlugingetExtensions {
     public void allElementsImplementBatchExtension_Pass() {
         SonarPlugin classUnderTest = new MsCoverPlugin() ;
         List<String> allowedInterfaces =Arrays.asList("org.sonar.api.batch.Sensor","org.sonar.api.BatchExtension","org.sonar.api.batch.Decorator");
+        @SuppressWarnings("unchecked")
         List<Class> plugins = classUnderTest.getExtensions();
         for(Class plugin:plugins) {
             boolean found = checkImplementation(allowedInterfaces, plugin);

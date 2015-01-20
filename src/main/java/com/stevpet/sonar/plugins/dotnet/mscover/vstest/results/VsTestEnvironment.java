@@ -5,8 +5,7 @@ import java.io.File;
 import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.api.resources.Project;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.ProjectSeam;

@@ -37,6 +37,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
     private VsTestRunnerFactoryMock vsTestRunnerFactoryMock = new VsTestRunnerFactoryMock();
     private VsTestRunnerMock vsTestRunnerMock = new VsTestRunnerMock();
     private FakesRemoverMock fakesRemoverMock = new FakesRemoverMock();
+    private FileSystemMock fileSystemMock = new FileSystemMock();
     
     @Before
     public void before() {
@@ -44,6 +45,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         classUnderTest.setMicrosoftWindowsEnvironment(microsoftWindowsEnvironmentMock.getMock());
         classUnderTest.setProject(project.getMock());
         classUnderTest.setMsCoverProperties(msCoverPropertiesMock.getMock());
+        classUnderTest.setFileSystem(fileSystemMock.getMock());
        
     }
     @Test
@@ -59,7 +61,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         testEnvironmentMock.givenTestsHaveExecuted();
         microsoftWindowsEnvironmentMock.givenHasTestProject();
         project.givenIsRootProject(false);
-        project.givenIsCSharpProject(true);
+        fileSystemMock.givenLanguage("cs");
         msCoverPropertiesMock.givenRunOpenCover(true);
 
         classUnderTest.verifyShouldAnalyseReturns(false);
@@ -73,7 +75,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         microsoftWindowsEnvironmentMock.givenHasTestProject();
         microsoftWindowsEnvironmentMock.givenTestsHaveExecuted(false);
         project.givenIsRootProject(false);
-        project.givenIsCSharpProject(false);
+        fileSystemMock.givenLanguage("java");
         msCoverPropertiesMock.givenRunOpenCover(true);
 
         classUnderTest.verifyShouldAnalyseReturns(false);
@@ -84,7 +86,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         microsoftWindowsEnvironmentMock.givenTestsHaveExecuted(false);
         microsoftWindowsEnvironmentMock.givenHasNoTestProjects();
         project.givenIsRootProject(false);
-        project.givenIsCSharpProject(true);
+        fileSystemMock.givenLanguage("cs");
         msCoverPropertiesMock.givenRunOpenCover(true);
         classUnderTest.verifyShouldAnalyseReturns(false);
     }
@@ -95,7 +97,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         microsoftWindowsEnvironmentMock.givenTestsHaveExecuted(false);
         microsoftWindowsEnvironmentMock.givenHasTestProject();
         project.givenIsRootProject(false);
-        project.givenIsCSharpProject(true);
+        fileSystemMock.givenLanguage("cs");
         msCoverPropertiesMock.givenRunOpenCover(false);
         classUnderTest.verifyShouldAnalyseReturns(false);
     }
@@ -104,8 +106,8 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         classUnderTest.givenANewSensor();
         microsoftWindowsEnvironmentMock.givenTestsHaveExecuted(false);
         microsoftWindowsEnvironmentMock.givenHasTestProject();
-        project.givenIsCSharpProject(true);
-        project.givenIsRootProject(false);
+        fileSystemMock.givenLanguage("cs");
+        project.givenIsRootProject(true);
         msCoverPropertiesMock.givenRunOpenCover(true);
         classUnderTest.verifyShouldAnalyseReturns(true);
     }

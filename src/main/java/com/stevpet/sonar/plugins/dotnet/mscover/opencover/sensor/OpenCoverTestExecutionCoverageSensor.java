@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
 import java.io.File;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,8 +86,8 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
             logReasonToNotExecute("there are no test projects.");
             return false;
         }
-        String language=project.getLanguageKey();
-        if ( !"cs".equals(language)) {
+        Set<String> languages = fileSystem.languages();
+        if ( !languages.contains("cs")) {
             return false;
         }
         if (propertiesHelper.runOpenCover()) {

@@ -11,10 +11,11 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.resources.Project;
+
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AbstractDotNetSensor;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.OpenCoverCoverageResultsSensor;
@@ -26,6 +27,7 @@ public class ShouldExecuteOnProjectTest {
     private Project project; 
     private MsCoverProperties propertiesHelper;
     private VsTestEnvironment vsTestEnvironment;
+    private FileSystemMock fileSystemMock = new FileSystemMock();
     @Before
     public void before() {
         project=mock(Project.class);
@@ -52,7 +54,7 @@ public class ShouldExecuteOnProjectTest {
     }
 
     private void givenProjectLanguageIsCSharp() {
-        when(project.getLanguageKey()).thenReturn("cs");
+        fileSystemMock.givenLanguage("cs");
     }
     
     @Test

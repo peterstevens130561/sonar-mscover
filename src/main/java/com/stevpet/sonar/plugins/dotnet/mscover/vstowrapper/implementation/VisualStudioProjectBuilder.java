@@ -43,14 +43,12 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.PatternSyntaxException;
 
 public class VisualStudioProjectBuilder extends ProjectBuilder {
 
   private static final String SONAR_MODULES_PROPERTY_KEY = "sonar.modules";
-  private static final String WEB_APPLICATION_PROJECT_TYPE_GUID = "{349C5851-65DF-11DA-9384-00065B846F21}";
   private static final Logger LOG = LoggerFactory.getLogger(VisualStudioProjectBuilder.class);
 
   private final Settings settings;

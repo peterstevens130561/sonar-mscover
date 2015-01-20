@@ -74,7 +74,6 @@ public class FileResource implements ResourceSeam {
         if(!sensorContext.isIndexed(resource, false)) {
             String msg="Can't index file" + file.getAbsolutePath();
             LOG.debug(msg);
-            //throw new SonarException(msg);
         }
     }
 

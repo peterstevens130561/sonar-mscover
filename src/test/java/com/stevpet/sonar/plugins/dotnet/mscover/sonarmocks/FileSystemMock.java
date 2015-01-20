@@ -3,6 +3,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.test.TestUtils;
@@ -15,6 +17,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 public class FileSystemMock extends GenericClassMock<FileSystem> {
     public FileSystemMock() {
         super(FileSystem.class);
+        //when(instance.languages()).thenReturn(new TreeSet<String>());
     }
     
     public FileSystemMock givenWorkDir(String testResourcePath) {
@@ -42,6 +45,12 @@ public class FileSystemMock extends GenericClassMock<FileSystem> {
         Charset charset = Charset.forName("UTF-8");
         givenEncoding(charset);
         
+    }
+
+    public void givenLanguage(String language) {
+        SortedSet<String> languageSet = new TreeSet<String>();
+        languageSet.add(language);
+        when(instance.languages()).thenReturn(languageSet);
     }
 
 }
