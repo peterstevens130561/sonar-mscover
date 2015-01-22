@@ -1,6 +1,9 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.parser;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -10,6 +13,7 @@ import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.Location;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.SMInputFactory;
@@ -49,6 +53,44 @@ public abstract class XmlParserSubject implements ParserSubject {
     }
     public abstract String[] getHierarchy();
 
+    public void parseString(String string) {
+        SMInputCursor cursor;
+        try {
+            cursor = getCursorFromString(string);
+            parse(cursor);
+        } catch (FactoryConfigurationError e) {
+            LOG.error("FactoryConfigurationError", e);
+            throw new SonarException(e);
+        } catch (XMLStreamException e) {
+            String msg = "XMLStreamException in string";
+            LOG.error(msg, e);
+            throw new SonarException(msg, e);
+        }
+    }
+    
+    /**
+     * Gets the cursor for the given file
+     * 
+     * @param file
+     * @return
+     * @throws FactoryConfigurationError
+     * @throws XMLStreamException
+     */
+    public SMInputCursor getCursorFromString(String string) {
+        SMInputCursor result = null;
+        try {
+            SMInputFactory inf = new SMInputFactory(
+                    XMLInputFactory.newInstance());
+            InputStream inputStream = new ByteArrayInputStream(string.getBytes());
+            SMHierarchicCursor cursor = inf.rootElementCursor(inputStream);
+            result = cursor.advance();
+        } catch (XMLStreamException e) {
+            String msg = "Could not create cursor " + e.getMessage();
+            LOG.error(msg);
+            throw new SonarException(msg, e);
+        }
+        return result;
+    }
     public void parseFile(File file) {
         SMInputCursor cursor;
         try {
@@ -280,4 +322,6 @@ public abstract class XmlParserSubject implements ParserSubject {
         }
         return result;
     }
+
+
 }

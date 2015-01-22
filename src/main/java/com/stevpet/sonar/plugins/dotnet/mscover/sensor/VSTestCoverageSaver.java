@@ -11,8 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.SonarException;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlSplitter;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteVsTestParserFactory;
@@ -93,12 +95,15 @@ public class VSTestCoverageSaver implements CoverageSaver {
      * @param sourceFileNamesRegistry - sourcefilenames
      * @param path- to coverage file
      * @throws XMLStreamException
+     * @throws IOException 
      */    
     private void invokeParserSubject(VsTestRegistry registry,String path) throws XMLStreamException {
         VsTestParserFactory parserFactory = new ConcreteVsTestParserFactory();
         XmlParserSubject parserSubject = parserFactory.createCoverageParser(registry);
+        XmlSplitter xmlSplitter = new XmlSplitter(parserSubject);   
         File file = getCoverageFile(path);
-        parserSubject.parseFile(file);
+        xmlSplitter.splitIt(file);
+        //parserSubject.parseFile(file);
     }
 
 

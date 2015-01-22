@@ -20,6 +20,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.sensor;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -37,6 +38,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCode
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlSplitter;
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
@@ -110,7 +112,6 @@ public class IntegrationTestCoverSensor implements Sensor {
         } else {
             throw new SonarException("Invalid coverage format " + coveragePath);
         }
-
         coverageHelper.analyse(project, xmlPath);
     }
 
