@@ -19,6 +19,9 @@
  */
 package com.stevpet.sonar.plugins.dotnet.mscover.sensor;
 
+import java.io.File;
+
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
@@ -26,8 +29,14 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
+import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.CodeCoverageCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
@@ -45,6 +54,7 @@ public class IntegrationTestCoverSensor implements Sensor {
     private CoverageSaver coverageHelper;
     private AbstractCoverageHelperFactory coverageHelperFactory ;
     private ResourceMediatorFactory resourceMediatorFactory = new DefaultResourceMediatorFactory();
+    private CommandLineExecutor executor = new WindowsCommandLineExecutor();
 
     private ShouldExecuteHelper shouldExecuteHelper;
 
@@ -69,12 +79,47 @@ public class IntegrationTestCoverSensor implements Sensor {
     }
 
     public void analyse(Project project, SensorContext sensorContext) {
+        LOG.info("Running IntegrationTestCoverSensor");
+        ResourceMediator resourceMediator = resourceMediatorFactory
+                .createWithFilters(sensorContext, project, timeMachine,
+                        propertiesHelper, fileSystem);
+        MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,
+                resourceMediator);
+        coverageHelper = coverageHelperFactory
+                .createIntegrationTestCoverageHelper(fileSystem, measureSaver);
+        String coveragePath = propertiesHelper.getIntegrationTestsPath();
+        String xmlPath;
+        if (coveragePath.endsWith(".coverage")) {
+            xmlPath = coveragePath.replace(".coverage", ".xml");
+            if (transformationNeeded(xmlPath, coveragePath)) {
+                CodeCoverageCommand command = new WindowsCodeCoverageCommand();
+                command.setSonarPath(fileSystem.workDir().getAbsolutePath());
+                command.setCoveragePath(coveragePath);
+                command.setOutputPath(xmlPath);
+                command.install();
+                LOG.info("IntegrationCoverSensor: creating .xml file");
+                int exitCode = executor.execute(command);
+                if (exitCode != 0) {
+                    throw new SonarException("failed");
+                }
+            } else {
+                LOG.info("Reusing xml file, as it is newer than the .coverage file");
+            }
+        } else if (coveragePath.endsWith(".xml")) {
+            xmlPath = coveragePath;
+        } else {
+            throw new SonarException("Invalid coverage format " + coveragePath);
+        }
 
-        ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(sensorContext, project, timeMachine, propertiesHelper,fileSystem);
-        MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
-        coverageHelper = coverageHelperFactory.createIntegrationTestCoverageHelper(fileSystem, measureSaver);
-        String coveragePath=propertiesHelper.getIntegrationTestsPath();
-        coverageHelper.analyse(project,coveragePath);
+        coverageHelper.analyse(project, xmlPath);
+    }
+
+
+    private boolean transformationNeeded(String xmlPath,String coveragePath) {
+        File xmlFile = new File(xmlPath);
+        File coverageFile = new File(coveragePath);
+        return !xmlFile.exists() || FileUtils.isFileNewer(coverageFile, xmlFile);
+
     }
 
 }

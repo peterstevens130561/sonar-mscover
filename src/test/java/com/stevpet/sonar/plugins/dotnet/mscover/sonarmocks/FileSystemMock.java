@@ -1,7 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.SortedSet;
 import java.util.TreeSet;

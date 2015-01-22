@@ -29,10 +29,6 @@ public class SonarShouldExecuteHelper implements ShouldExecuteHelper {
             return false;
             
         }
-        if(project.isRoot() != propertiesHelper.excuteRoot()) {
-            LOG.info("MSCover : Skipping project project.isRoot() =" + project.isRoot() + ", " + PropertiesHelper.MSCOVER_EXECUTEROOT + "=" + propertiesHelper.excuteRoot());
-            return false;
-        }
         return true;
     }
 
