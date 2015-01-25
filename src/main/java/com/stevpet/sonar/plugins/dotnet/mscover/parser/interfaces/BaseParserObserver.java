@@ -20,7 +20,7 @@ public abstract class BaseParserObserver implements ParserObserver {
     }
     
     public void setSkipTillNextElement(String elementName) {
-        parserData.skipTillNextElement(elementName);
+        parserData.setSkipThisLevel();
     }
     public boolean hasError() {
         return hasError;

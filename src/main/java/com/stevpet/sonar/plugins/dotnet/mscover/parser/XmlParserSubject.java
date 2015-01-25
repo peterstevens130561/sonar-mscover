@@ -136,10 +136,14 @@ public abstract class XmlParserSubject implements ParserSubject {
     private boolean parseChild(String path, SMInputCursor childCursor)
             throws XMLStreamException {
         boolean parsedChild = false;
+        parserData.levelDown();
         while ((childCursor.getNext()) != null) {
-            processStartElement(path, childCursor);
-            parsedChild = true;
+            if(!parserData.parseLevelAndBelow()) {
+                processStartElement(path, childCursor);
+                parsedChild = true;
+            }
         }
+        parserData.levelUp();
         return parsedChild;
     }
 
@@ -149,9 +153,7 @@ public abstract class XmlParserSubject implements ParserSubject {
         if ("schema".equals(name)) {
             return;
         }
-        if(parserData.shouldSkip(name)) {
-            return;
-        }
+
         String elementPath = createElementPath(path, name);
         processAttributes(elementPath, name, childCursor);
         processElement(elementPath, name, childCursor);

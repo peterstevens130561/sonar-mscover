@@ -110,12 +110,39 @@ public class MSCoverResultParserTest {
         LineMeasureSaver lineSaver = mock(IntegrationTestLineSaver.class);
         coverageHelper.setLineSaver(lineSaver);
         List<String> modules = new ArrayList<String>();
+
         coverageHelper.analyse(project, file.getCanonicalPath(),modules);
         //Assert ?
         verify(lineSaver,times(8)).saveMeasures(any(FileCoverage.class), any(File.class));
   }
 
   
+  @Test 
+  public void Parse_ForValidSmallFileWithRealRegistrySave_OnlySpecifiedAssembly() throws XMLStreamException, IOException {
+      // given a proper coverage file
+        //Arrange
+        File file = getResource("mscoverage.xml");
+        //File file = new File("C:/Development/Jewel.Release.Oahu/specflow.xml");
+        // verify that it is compatible
+        Project project = new Project("tfsblame","","tfsBlame");
+
+        File projectDir= getResource("TfsBlame/tfsblame");
+        
+        FileSystemMock fileSystemMock = new FileSystemMock();
+        fileSystemMock.givenWorkDir(new File(projectDir,".sonar"));
+        fileSystemMock.givenBaseDir(projectDir);
+        
+        //Act
+        VSTestCoverageSaver coverageHelper = VSTestCoverageSaver.create(fileSystemMock.getMock());
+        
+        LineMeasureSaver lineSaver = mock(IntegrationTestLineSaver.class);
+        coverageHelper.setLineSaver(lineSaver);
+        List<String> modules = new ArrayList<String>();
+        modules.add("rabarber.exe");
+        coverageHelper.analyse(project, file.getCanonicalPath(),modules);
+        //Assert ?
+        verify(lineSaver,times(8)).saveMeasures(any(FileCoverage.class), any(File.class));
+  }
 
 private File getResource(String resourcePath) {
     File resourceFile= TestUtils.getResource(resourcePath);

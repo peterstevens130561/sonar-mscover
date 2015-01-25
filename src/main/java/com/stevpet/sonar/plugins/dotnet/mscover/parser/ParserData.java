@@ -6,18 +6,41 @@ import org.apache.commons.lang.StringUtils;
 
 public class ParserData {
     private String skip;
+    private int skipLevel = 0;
+    private int level=0;
+    
 
-    public void skipTillNextElement(String name) {
-        skip=name;
+    
+    /**
+     * go next level down in the xml tree
+     */
+    public void levelDown() {
+        ++level;
     }
-    public boolean shouldSkip(String name) {
-        if(StringUtils.isEmpty(skip)) {
-            return false;
-        }
-        boolean result = !name.equalsIgnoreCase(skip);
-        if(!result) {
-            skip="";
-        }
-        return result;
+    
+    /**
+     * go level up in the xml tree
+     */
+    public void levelUp() {
+        --level;
     }
+    
+    public void setSkipThisLevel() {
+        this.skipLevel=level;
+    }
+    
+
+    public boolean parseLevelAndBelow()  {
+        boolean skip=skipLevel >0 && level >= skipLevel;
+        if(!skip) {
+            skipLevel=0;
+        }
+        return skip;
+    }
+
+    public Object getLevel() {
+        return level;
+    }
+
+
 }
