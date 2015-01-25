@@ -12,9 +12,13 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.SonarException;
 
+import com.google.common.base.Stopwatch;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlSplitter;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlSplitterBaseProducer;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlSplitterConsumer;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlSplitterProducer;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlSplitterQueue;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteVsTestParserFactory;
@@ -100,10 +104,11 @@ public class VSTestCoverageSaver implements CoverageSaver {
     private void invokeParserSubject(VsTestRegistry registry,String path) throws XMLStreamException {
         VsTestParserFactory parserFactory = new ConcreteVsTestParserFactory();
         XmlParserSubject parserSubject = parserFactory.createCoverageParser(registry);
-        XmlSplitter xmlSplitter = new XmlSplitter(parserSubject);   
         File file = getCoverageFile(path);
-        xmlSplitter.splitIt(file);
-        //parserSubject.parseFile(file);
+        Stopwatch sw = new Stopwatch();
+        sw.start();
+        parserSubject.parseFile(file);
+        LOG.info("----------------------Parsing took {}ms -------------------",sw.elapsedMillis());
     }
 
 

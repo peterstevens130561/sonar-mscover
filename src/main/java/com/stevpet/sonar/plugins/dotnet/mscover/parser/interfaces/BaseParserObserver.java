@@ -3,16 +3,25 @@ package com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserData;
+
 
 public abstract class BaseParserObserver implements ParserObserver {
 
     private Pattern pattern;
     private boolean hasError =false;
-    
+    private ParserData parserData;
     protected void setError() {
         hasError=true;
     }
     
+    public void injectParserData(ParserData parserData) {
+        this.parserData = parserData;
+    }
+    
+    public void setSkipTillNextElement(String elementName) {
+        parserData.skipTillNextElement(elementName);
+    }
     public boolean hasError() {
         return hasError;
     }

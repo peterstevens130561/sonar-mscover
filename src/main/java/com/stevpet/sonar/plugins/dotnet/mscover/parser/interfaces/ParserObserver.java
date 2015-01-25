@@ -1,5 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserData;
+
 public interface ParserObserver {
     /**
      * Determine whether the current element with text is to be observed
@@ -22,4 +24,5 @@ public interface ParserObserver {
      * is responsible for logging;
      */
     boolean hasError();
+    void injectParserData(ParserData parserData);
 }

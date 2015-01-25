@@ -40,6 +40,7 @@ public abstract class XmlParserSubject implements ParserSubject {
     List<String> parentElements = new ArrayList<String>();
     private int line;
     private int column;
+    private ParserData parserData = new ParserData();
 
     public XmlParserSubject() {
         String[] names = getHierarchy();
@@ -117,9 +118,16 @@ public abstract class XmlParserSubject implements ParserSubject {
     }
 
     private void parse(SMInputCursor rootCursor) throws XMLStreamException {
+        injectVariablesInObservers();
         SMInputCursor childCursor = rootCursor.childElementCursor();
         parseChild("", childCursor);
     }
+
+    private void injectVariablesInObservers() {
+    for(ParserObserver observer:observers) {
+        observer.injectParserData(parserData);
+    }    
+}
 
     public void registerObserver(ParserObserver observer) {
         observers.add(observer);
@@ -139,6 +147,9 @@ public abstract class XmlParserSubject implements ParserSubject {
             throws XMLStreamException {
         String name = childCursor.getLocalName();
         if ("schema".equals(name)) {
+            return;
+        }
+        if(parserData.shouldSkip(name)) {
             return;
         }
         String elementPath = createElementPath(path, name);

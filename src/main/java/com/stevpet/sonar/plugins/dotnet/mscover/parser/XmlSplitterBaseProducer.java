@@ -15,56 +15,57 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.SonarException;
 
-public class XmlSplitter {
-    
-    XmlParserSubject xmlParserSubject ;
-    
-    public XmlSplitter(XmlParserSubject xmlParserSubject) {
-        this.xmlParserSubject =xmlParserSubject;
-    }
-    
-    public void setParser(XmlParserSubject xmlParserSubject) {
-        this.xmlParserSubject =xmlParserSubject;   
-    }
-    
-    Logger LOG = LoggerFactory.getLogger(XmlSplitter.class);
-    
+public abstract class XmlSplitterBaseProducer implements Runnable{
 
-    public void splitIt(File file)  {
+    protected File file;
+    protected XmlSplitterQueue xmlSplitterQueue;
+    private final static Logger LOG = LoggerFactory.getLogger(XmlSplitterProducer.class);
+    private XmlModule xmlModule ;
+
+    public XmlSplitterBaseProducer(File file, XmlModule xmlModule) {
+        this.file=file;
+        this.xmlModule=xmlModule;
+    }
+
+    @Override
+    public void run() {
         BufferedReader rd = getBufferedReader(file);
         StopWatch sw = new StopWatch();
         sw.start();
         char[]  cbuf = new char[1024];
-        StringBuilder sb = new StringBuilder((int) 10E6);
+        long length=0;
+        xmlModule.start();
         while (readBuffer(rd, cbuf)!=-1) {
             String token = new String(cbuf);
             int index=token.indexOf("</Module>");
             if(index != -1) {
                 int moduleEnd = index + 9;
                 String toInclude = token.substring(0, moduleEnd);
-                sb.append(toInclude);
-                sb.append("</CoverageDSPriv>");
-                xmlParserSubject.parseString(sb.toString());
+                length+=toInclude.length()+17;
+                xmlModule.append(toInclude)
+                    .append("</CoverageDSPriv>")
+                    .queue();
                 LOG.info("Found module");
                 if(moduleEnd+1 < token.length()) {
-                    sb=new StringBuilder((int)10E6);
-                    sb.append("<CoverageDSPriv>");
+                    xmlModule.start();
+                    xmlModule.append("<CoverageDSPriv>");
                     String afterModuleEnd = token.substring(moduleEnd);
-                    sb.append(afterModuleEnd);
+                    xmlModule.append(afterModuleEnd);
                 }
             } else {
-                sb.append(token);
+                length+=token.length();
+                xmlModule.append(token);
             }
         }
-        if(sb.length() > 0) {
-            xmlParserSubject.parseString(sb.toString());
-            Log.info("done" + sb.length());
+        if(length > 0) {
+            xmlModule.queue();
         }
         sw.stop();
+        xmlSplitterQueue.waitTillDone();
         LOG.info("Reading took " + sw.getTime());
     }
 
-    private int readBuffer(BufferedReader rd, char[] cbuf)  {
+    private int readBuffer(BufferedReader rd, char[] cbuf) {
         try {
             return rd.read(cbuf);
         } catch (IOException e) {
@@ -89,6 +90,6 @@ public class XmlSplitter {
         BufferedReader rd = new BufferedReader(inputStreamReader);
         return rd;
     }
-       
 
+    
 }

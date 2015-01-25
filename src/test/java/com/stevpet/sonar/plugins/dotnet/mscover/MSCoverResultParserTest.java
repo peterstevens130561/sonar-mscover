@@ -89,7 +89,8 @@ public class MSCoverResultParserTest {
   public void Parse_ForValidSmallFileWithRealRegistrySave_ShouldHaveRightDetailsAndSummary() throws XMLStreamException, IOException {
       // given a proper coverage file
         //Arrange
-        File file = getResource("mscoverage.xml");
+        //File file = getResource("mscoverage.xml");
+        File file = new File("C:/Development/Jewel.Release.Oahu/specflow.xml");
         // verify that it is compatible
         Project project = new Project("tfsblame","","tfsBlame");
 
