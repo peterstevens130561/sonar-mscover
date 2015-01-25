@@ -159,11 +159,6 @@ public class UnitTestAnalyserTest {
             return true;
         }
 
-        public void readSource(File file, String path, Charset charset) {
-            // TODO Auto-generated method stub
-            
-        }
-
         public void setIsExcluded() {
             // TODO Auto-generated method stub
             

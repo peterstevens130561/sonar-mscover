@@ -1,15 +1,11 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.saver;
 
 import java.io.File;
-import java.nio.charset.Charset;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
-import org.sonar.api.resources.Qualifiers;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.helpers.SonarResourceHelper;
@@ -27,25 +23,14 @@ public class ResourceMediator {
     protected DateFilter dateFilter = DateFilterFactory.createEmptyDateFilter();
     protected ResourceFilter resourceFilter = ResourceFilterFactory.createEmptyFilter();
     private Project project ;
-    private Charset charset;
     private ResourceSeamFactory resourceSeamFactory;
 
     public ResourceMediator(SensorContext context,Project project,FileSystem fileSystem) {
         this.project = project ;
-        setCharset(fileSystem);
         resourceSeamFactory = new SonarResourceSeamFactory(context);
     }
     
 
-    private void setCharset(FileSystem fileSystem) {
-        String charsetName;
-        if(project==null) {
-           charsetName="UTF-8";
-        } else {
-           charsetName = fileSystem.encoding().name();
-        }
-        charset = Charset.forName(charsetName);
-    }
 
     
     /**
