@@ -6,6 +6,7 @@ import java.util.List;
 import org.sonar.api.resources.Project;
 
 
+
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation.SimpleVisualStudioProject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation.VisualStudioSolutionProject;
 
@@ -29,5 +30,7 @@ public interface VisualStudioSolution {
     void addUnitTestVisualStudioProject(SimpleVisualStudioProject project);
 
     List<File> getUnitTestFiles();
+
+    List<String> getModules();
 
 }

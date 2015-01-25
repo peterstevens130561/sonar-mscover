@@ -1,6 +1,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.parser;
 
-import org.h2.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
+
+
 
 public class ParserData {
     private String skip;
@@ -9,7 +11,7 @@ public class ParserData {
         skip=name;
     }
     public boolean shouldSkip(String name) {
-        if(StringUtils.isNullOrEmpty(skip)) {
+        if(StringUtils.isEmpty(skip)) {
             return false;
         }
         boolean result = !name.equalsIgnoreCase(skip);

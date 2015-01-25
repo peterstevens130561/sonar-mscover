@@ -23,8 +23,12 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.stream.XMLStreamException;
 
 import org.codehaus.staxmate.in.SMInputCursor;
@@ -89,8 +93,8 @@ public class MSCoverResultParserTest {
   public void Parse_ForValidSmallFileWithRealRegistrySave_ShouldHaveRightDetailsAndSummary() throws XMLStreamException, IOException {
       // given a proper coverage file
         //Arrange
-        //File file = getResource("mscoverage.xml");
-        File file = new File("C:/Development/Jewel.Release.Oahu/specflow.xml");
+        File file = getResource("mscoverage.xml");
+        //File file = new File("C:/Development/Jewel.Release.Oahu/specflow.xml");
         // verify that it is compatible
         Project project = new Project("tfsblame","","tfsBlame");
 
@@ -105,8 +109,8 @@ public class MSCoverResultParserTest {
         
         LineMeasureSaver lineSaver = mock(IntegrationTestLineSaver.class);
         coverageHelper.setLineSaver(lineSaver);
-        
-        coverageHelper.analyse(project, file.getCanonicalPath());
+        List<String> modules = new ArrayList<String>();
+        coverageHelper.analyse(project, file.getCanonicalPath(),modules);
         //Assert ?
         verify(lineSaver,times(8)).saveMeasures(any(FileCoverage.class), any(File.class));
   }

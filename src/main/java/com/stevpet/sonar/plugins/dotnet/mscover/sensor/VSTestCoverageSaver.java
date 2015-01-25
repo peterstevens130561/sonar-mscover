@@ -2,6 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.sensor;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -34,6 +35,7 @@ public class VSTestCoverageSaver implements CoverageSaver {
     private Project project;
     private String path;
     private FileSystem fileSystem;
+    private List<String> modules;
     /**
      * initial instantiation of the helper. Do not forget to invoke
      * setLineSaver & setBlockSaver.
@@ -56,7 +58,6 @@ public class VSTestCoverageSaver implements CoverageSaver {
 
     public static VSTestCoverageSaver create(
            FileSystem fileSystem) {
-        // TODO Auto-generated method stub
         return new VSTestCoverageSaver(fileSystem);
     }
 
@@ -64,10 +65,10 @@ public class VSTestCoverageSaver implements CoverageSaver {
      * @see com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageSaver#analyse(org.sonar.api.resources.Project, java.lang.String)
      */
     
-    public void analyse(Project project, String path) {
+    public void analyse(Project project, String path,List<String> modules) {
         this.project = project;
         this.path = path;
-
+        this.modules = modules;
         try {
             tryAnalyse();
         } catch (XMLStreamException e) {
@@ -86,7 +87,7 @@ public class VSTestCoverageSaver implements CoverageSaver {
 
         VsTestRegistry registry=new VsTestRegistry(projectDirectory);
    
-        invokeParserSubject(registry,path);
+        invokeParserSubject(registry);
         
         saveLineMeasures(registry.getCoverageRegistry());
         
@@ -97,13 +98,12 @@ public class VSTestCoverageSaver implements CoverageSaver {
      * Parse the coverage file, with loading the block coverage, sourcefilenames observers
      * @param fileBlocksRegistry - block coverage
      * @param sourceFileNamesRegistry - sourcefilenames
-     * @param path- to coverage file
      * @throws XMLStreamException
      * @throws IOException 
      */    
-    private void invokeParserSubject(VsTestRegistry registry,String path) throws XMLStreamException {
+    private void invokeParserSubject(VsTestRegistry registry) throws XMLStreamException {
         VsTestParserFactory parserFactory = new ConcreteVsTestParserFactory();
-        XmlParserSubject parserSubject = parserFactory.createCoverageParser(registry);
+        XmlParserSubject parserSubject = parserFactory.createCoverageParser(registry,modules);
         File file = getCoverageFile(path);
         Stopwatch sw = new Stopwatch();
         sw.start();

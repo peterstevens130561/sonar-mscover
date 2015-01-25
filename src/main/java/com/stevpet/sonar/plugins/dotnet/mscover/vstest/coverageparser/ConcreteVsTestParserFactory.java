@@ -1,6 +1,9 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
@@ -15,11 +18,18 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.
 
 
 public class ConcreteVsTestParserFactory implements VsTestParserFactory {
+    
+    @Override
+    public XmlParserSubject createCoverageParser(VsTestRegistry registry) {
+        return createCoverageParser(registry,new ArrayList<String>());
+    }
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageParserFactory#createDefault(com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry, com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry)
      */
-    public XmlParserSubject createCoverageParser(VsTestRegistry registry) {
+    public XmlParserSubject createCoverageParser(VsTestRegistry registry,List<String> modules) {
 
+        ModuleNameObserver moduleNameObserver = new ModuleNameObserver();
+        moduleNameObserver.addModulesToParse(modules);
         XmlParserSubject parserSubject = new CoverageParserSubject();
 
         VsTestCoverageObserver[] observers = {
@@ -28,7 +38,7 @@ public class ConcreteVsTestParserFactory implements VsTestParserFactory {
                 new VsTestLinesToCoverageObserver(),
                 new VsTestMethodBlocksToFileBlocksObserver(),
                 new VsTestSourceFileNamesToSourceFileNamesObserver(),
-                new ModuleNameObserver()
+                moduleNameObserver
         };
         
         for(VsTestCoverageObserver observer : observers) {
@@ -59,5 +69,4 @@ public class ConcreteVsTestParserFactory implements VsTestParserFactory {
         return parserSubject;
     }
  
-
 }

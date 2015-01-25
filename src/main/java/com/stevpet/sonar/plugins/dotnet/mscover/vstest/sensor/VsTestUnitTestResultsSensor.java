@@ -1,5 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,8 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.DotNetConstants;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
@@ -37,16 +41,19 @@ public class VsTestUnitTestResultsSensor implements Sensor {;
     private ResourceMediatorFactory resourceMediatorFactory = new DefaultResourceMediatorFactory();
     private VsTestUnitTestResultsAnalyser vsTestUnitTestResultsAnalyser = new VsTestUnitTestResultsAnalyser();
     private FileSystem fileSystem;
+    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     
     public VsTestUnitTestResultsSensor( MsCoverProperties propertiesHelper,TimeMachine timeMachine,
             VsTestEnvironment vsTestEnvironment,
-            FileSystem fileSystem) {
+            FileSystem fileSystem,
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         this.timeMachine = timeMachine;
         this.propertiesHelper = propertiesHelper;
         unitTestRunner = WindowsVsTestRunner.create();
         unitTestRunner.setPropertiesHelper(propertiesHelper);
         this.vsTestEnvironment = vsTestEnvironment;
         this.fileSystem = fileSystem;
+        this.microsoftWindowsEnvironment= microsoftWindowsEnvironment;
     }
     
     /**
@@ -91,7 +98,8 @@ public class VsTestUnitTestResultsSensor implements Sensor {;
         if(propertiesHelper.runVsTest()) {
             AbstractCoverageHelperFactory coverageHelperFactory = new SonarCoverageHelperFactory();
             CoverageSaver coverageHelper = coverageHelperFactory.createUnitTestCoverageHelper(fileSystem, measureSaver);
-            coverageHelper.analyse(project,coveragePath);
+            List<String> modules = microsoftWindowsEnvironment.getCurrentSolution().getModules();
+            coverageHelper.analyse(project,coveragePath,modules);
         }
     }
 

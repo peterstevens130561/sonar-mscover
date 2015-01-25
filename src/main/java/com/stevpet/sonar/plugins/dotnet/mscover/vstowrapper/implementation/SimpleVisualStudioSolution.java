@@ -53,7 +53,6 @@ public File getSolutionDir() {
 
 @Override
 public List<VisualStudioProject> getProjects() {
-    // TODO Auto-generated method stub
     return visualStudioProjects;
 }
 
@@ -95,5 +94,15 @@ public List<File> getUnitTestFiles() {
         unitTestFiles.addAll(project.getSourceFiles());
     }
     return unitTestFiles;
+}
+
+@Override
+public List<String> getModules() {
+    List<String> modules = new ArrayList<String>();
+    for(VisualStudioProject project:getProjects()) {
+        String name=project.getArtifactName();
+        modules.add(name);
+    }
+    return modules;
 }
 }

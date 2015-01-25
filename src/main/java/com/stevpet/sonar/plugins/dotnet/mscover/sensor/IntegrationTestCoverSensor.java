@@ -21,6 +21,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.sensor;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -45,6 +46,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 @Extension
 public class IntegrationTestCoverSensor implements Sensor {
 
@@ -61,17 +64,22 @@ public class IntegrationTestCoverSensor implements Sensor {
     private ShouldExecuteHelper shouldExecuteHelper;
 
     private FileSystem fileSystem;
+
+    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
+
     /**
      * Use of IoC to get Settings
      */
     public IntegrationTestCoverSensor(MsCoverProperties propertiesHelper,
             TimeMachine timeMachine,
             AbstractCoverageHelperFactory coverageHelperFactory,
-            FileSystem fileSystem) {
+            FileSystem fileSystem,
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         this.propertiesHelper = propertiesHelper;
         this.timeMachine=timeMachine;
         this.coverageHelperFactory = coverageHelperFactory;
         this.fileSystem=fileSystem;
+        this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         shouldExecuteHelper = coverageHelperFactory.createShouldExecuteHelper(propertiesHelper);
     }
     
@@ -112,7 +120,8 @@ public class IntegrationTestCoverSensor implements Sensor {
         } else {
             throw new SonarException("Invalid coverage format " + coveragePath);
         }
-        coverageHelper.analyse(project, xmlPath);
+        List<String> modules = microsoftWindowsEnvironment.getCurrentSolution().getModules();
+        coverageHelper.analyse(project, xmlPath,modules);
     }
 
 
