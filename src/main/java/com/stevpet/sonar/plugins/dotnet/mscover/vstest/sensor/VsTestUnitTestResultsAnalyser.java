@@ -36,7 +36,6 @@ public class VsTestUnitTestResultsAnalyser {
     private SourceFileNamesRegistry sourceFileNamesRegistry;
 
     private MethodToSourceFileIdMap map;
-    private Project project;
     private OpenCoverParserFactory openCoverParserFactory = new ConcreteOpenCoverParserFactory();
     private VsTestParserFactory factory = new ConcreteVsTestParserFactory();
     private MeasureSaver measureSaver;
@@ -56,16 +55,12 @@ public class VsTestUnitTestResultsAnalyser {
     }
     
     public VsTestUnitTestResultsAnalyser(Project project,MeasureSaver measureSaver, SourceFilePathHelper sourceFilePathHelper,ResourceMediator resourceMediator,FileSystem fileSystem) {
-        this.project = project;
         this.measureSaver = measureSaver;
         this.sourceFilePathHelper = sourceFilePathHelper;
         this.resourceMediator = resourceMediator; 
         this.fileSystem=fileSystem;
     }
     
-    public void setProject(Project project) {
-        this.project = project;
-    }
     
     public void setMeasureSaver(MeasureSaver measureSaver) {
         this.measureSaver = measureSaver;

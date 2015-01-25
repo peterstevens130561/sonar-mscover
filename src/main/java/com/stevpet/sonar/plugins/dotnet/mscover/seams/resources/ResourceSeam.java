@@ -16,7 +16,6 @@ import org.sonar.api.measures.Metric;
 public interface ResourceSeam {
     void saveMetricValue(Metric metric, double value);
     void saveMeasure(Measure measure);
-    boolean isIndexed(boolean acceptExcluded);
     String getLongName();    
     boolean isIncluded();
     void readSource(File file, String path, Charset charset);

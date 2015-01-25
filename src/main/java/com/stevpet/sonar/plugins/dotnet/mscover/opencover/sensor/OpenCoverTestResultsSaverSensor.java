@@ -28,7 +28,6 @@ public class OpenCoverTestResultsSaverSensor extends AbstractDotNetSensor {
     private TimeMachine timeMachine;
     private ResourceMediatorFactory resourceMediatorFactory = new DefaultResourceMediatorFactory();
     private VsTestUnitTestResultsAnalyser analyser = new VsTestUnitTestResultsAnalyser();
-    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private FileSystem fileSystem;
 
     public OpenCoverTestResultsSaverSensor(
@@ -38,7 +37,6 @@ public class OpenCoverTestResultsSaverSensor extends AbstractDotNetSensor {
             TimeMachine timeMachine,
             FileSystem fileSystem) {
         super(microsoftWindowsEnvironment, "OpenCover", propertiesHelper.getMode());
-        this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.propertiesHelper = propertiesHelper;
         this.vsTestEnvironment=vsTestEnvironment;
         this.timeMachine = timeMachine;
@@ -73,7 +71,6 @@ public class OpenCoverTestResultsSaverSensor extends AbstractDotNetSensor {
         ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(sensorContext,project,timeMachine,propertiesHelper,fileSystem);            
         
         MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
-        analyser.setProject(project);
         analyser.setMeasureSaver(measureSaver);
         analyser.setResourceMediator(resourceMediator) ;
         analyser.setFileSystem(fileSystem);

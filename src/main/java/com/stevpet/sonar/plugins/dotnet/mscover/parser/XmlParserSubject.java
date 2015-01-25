@@ -3,7 +3,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.parser;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.Location;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.SMInputFactory;

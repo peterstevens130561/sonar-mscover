@@ -1,16 +1,9 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.parser;
 
-import org.apache.commons.lang.StringUtils;
-
-
-
 public class ParserData {
-    private String skip;
     private int skipLevel = 0;
     private int level=0;
-    
 
-    
     /**
      * go next level down in the xml tree
      */

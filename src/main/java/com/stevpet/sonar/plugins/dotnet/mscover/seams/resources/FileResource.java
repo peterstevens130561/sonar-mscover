@@ -38,10 +38,6 @@ public class FileResource implements ResourceSeam {
         sensorContext.saveMeasure(resource,measure);
     }
     
-    public boolean isIndexed(boolean acceptExcluded) {
-        // TODO Auto-generated method stub
-        return sensorContext.isIndexed(resource, acceptExcluded);
-    }
 
     public String getLongName() {
         return resource.getLongName();

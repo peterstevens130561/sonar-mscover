@@ -75,10 +75,6 @@ public class ResourceMediator {
     public ResourceSeam getSonarTestResource(File file) {
 
         ResourceSeam sonarFile = getSonarResource(file);
-
-        if (!sonarFile.isIndexed(false)) {
-                sonarFile.readSource(file,Qualifiers.UNIT_TEST_FILE,charset);
-        }
         return sonarFile ;
     }
 

@@ -20,7 +20,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.sensor;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -39,7 +38,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCode
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlSplitterProducer;
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
@@ -47,7 +45,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 @Extension
 public class IntegrationTestCoverSensor implements Sensor {
 

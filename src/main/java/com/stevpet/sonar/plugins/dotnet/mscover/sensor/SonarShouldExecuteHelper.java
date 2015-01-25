@@ -3,8 +3,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.sensor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.resources.Project;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 

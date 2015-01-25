@@ -14,7 +14,6 @@ import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.DotNetConstants;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
@@ -82,7 +81,6 @@ public class VsTestUnitTestResultsSensor implements Sensor {;
         
         MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
 
-        vsTestUnitTestResultsAnalyser.setProject(project);
         vsTestUnitTestResultsAnalyser.setMeasureSaver(measureSaver);
         vsTestUnitTestResultsAnalyser.setResourceMediator(resourceMediator) ;
         

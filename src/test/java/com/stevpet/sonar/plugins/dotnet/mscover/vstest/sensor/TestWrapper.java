@@ -2,7 +2,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.SensorContextMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.mock.VisualStudioSolutionMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindowsEnvironmentMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.ProjectMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.TimeMachineMock;

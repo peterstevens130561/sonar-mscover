@@ -115,13 +115,6 @@ public class UnitTestAnalyserTest {
         fileSystemMock.givenBaseDir(exceptionThrowingFile);
     }
     
-    private class TestSourceFilePathHelper extends SourceFilePathHelper {
-        @Override
-        public File getCanonicalFile(String path) {
-            return new File(path);
-        }
-    }
-    
     private class TestSeam implements ResourceSeam {
         StringBuilder sb = new StringBuilder();
         private int saveMeasureCnt;
@@ -157,12 +150,8 @@ public class UnitTestAnalyserTest {
             sb.append("measure ").append(measure.getMetricKey()).append("=").append(measure.getData()).append("\n");
         }
 
-        public boolean isIndexed(boolean acceptExcluded) {
-            return true;
-        }
 
         public String getLongName() {
-            // TODO Auto-generated method stub
             return null;
         }
 

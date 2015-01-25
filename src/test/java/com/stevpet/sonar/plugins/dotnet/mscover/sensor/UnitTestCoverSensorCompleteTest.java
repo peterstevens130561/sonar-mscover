@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
-import com.stevpet.sonar.plugins.dotnet.mscover.mock.VisualStudioSolutionMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindowsEnvironmentMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunnerTestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
