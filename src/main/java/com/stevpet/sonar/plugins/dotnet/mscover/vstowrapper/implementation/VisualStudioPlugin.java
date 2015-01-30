@@ -20,6 +20,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
 
 import com.google.common.collect.ImmutableList;
+
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
 import org.sonar.api.config.PropertyDefinition;
@@ -46,7 +47,8 @@ public class VisualStudioPlugin extends SonarPlugin {
 
   private static final String CATEGORY = "Visual Studio Bootstrapper";
 
-  @Override
+  @SuppressWarnings("rawtypes")
+@Override
   public List getExtensions() {
     return ImmutableList.of(
       VisualStudioProjectBuilder.class,

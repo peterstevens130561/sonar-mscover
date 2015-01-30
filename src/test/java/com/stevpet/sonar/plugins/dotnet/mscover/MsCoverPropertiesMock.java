@@ -74,4 +74,5 @@ public class MsCoverPropertiesMock {
     public void givenMode(String mode) {
         when(properties.getMode()).thenReturn(mode);
     }
+
  }

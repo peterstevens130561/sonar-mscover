@@ -3,24 +3,22 @@ package com.stevpet.sonar.plugins.dotnet.mscover.decorator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.Scopes;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.ResourceMock;
 
-import static org.mockito.Mockito.mock;
 
 public class DecoratorDecorateTest {
     private ResourceMock resourceMock = new ResourceMock();
-
-    private Settings settings;
+    private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     private DecoratorContextMock decoratorContextMock = new DecoratorContextMock();
     private CoverageDecoratorStub decorator;
     @Before
     public void before() {
-        settings = mock(Settings.class);
-        decorator = new CoverageDecoratorStub(settings);
+
+        decorator = new CoverageDecoratorStub(msCoverPropertiesMock.getMock());
     }
     
     @Test

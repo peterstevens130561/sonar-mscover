@@ -2,13 +2,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.sensor.results;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-
-import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
@@ -31,9 +26,7 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyDouble;
 
 public class UnitTestAnalyserTest {
-    
-    private Logger LOG = LoggerFactory.getLogger(UnitTestAnalyserTest.class);
-
+   
     private Project project;
     private MeasureSaver measureSaver;
     private ResourceMediator resourceMediator;
@@ -119,18 +112,6 @@ public class UnitTestAnalyserTest {
         StringBuilder sb = new StringBuilder();
         private int saveMeasureCnt;
         private int saveMetricValueCnt;
- 
-        public void  saveResults() {
-            File file = new File("testseam.txt");
-            LOG.info("saving to " + file.getAbsolutePath());
-            CharSequence data = sb.toString();
-            try {
-                FileUtils.write(file, data);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
         
         public void saveMetricValue(Metric metric, double value) {
             sb.append("metric ").append(metric.getKey()).append("=").append(value).append("\n");
@@ -160,8 +141,6 @@ public class UnitTestAnalyserTest {
         }
 
         public void setIsExcluded() {
-            // TODO Auto-generated method stub
-            
         }
         
     }

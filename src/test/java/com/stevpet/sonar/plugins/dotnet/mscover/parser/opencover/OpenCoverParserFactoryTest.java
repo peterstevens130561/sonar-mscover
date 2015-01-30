@@ -75,7 +75,7 @@ public class OpenCoverParserFactoryTest {
     }
     
     
-    public boolean checkFound(List<ParserObserver> observers,Class clazz) {
+    public boolean checkFound(List<ParserObserver> observers,@SuppressWarnings("rawtypes") Class clazz) {
         boolean found=false;
         for(ParserObserver observer : observers) {
             if ( observer.getClass()== clazz ) {

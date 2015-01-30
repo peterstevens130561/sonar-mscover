@@ -42,7 +42,7 @@ public class MethodToSourceFileIdMap {
     public void dumpMap() {
         File dump = new File("mapdump.txt") ;
         StringBuilder sb = new StringBuilder();
-        for(Entry entry : methodRegistry.entrySet()) {
+        for(Entry<?, ?> entry : methodRegistry.entrySet()) {
             String line = entry.getKey().toString() + " " + entry.getValue() + "\r\n";
             sb.append(line);
         }

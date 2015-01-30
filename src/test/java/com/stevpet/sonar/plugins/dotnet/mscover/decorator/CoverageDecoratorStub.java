@@ -1,7 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.decorator;
 
 import org.sonar.api.batch.DecoratorContext;
-import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
@@ -12,8 +11,8 @@ class CoverageDecoratorStub extends BaseDecorator {
     public int getCalls() {
         return calls ;
     }
-    protected CoverageDecoratorStub(Settings settings) {
-        super(settings,null);
+    protected CoverageDecoratorStub(MsCoverProperties msCoverProperties) {
+        super(msCoverProperties,null);
     }
 
 

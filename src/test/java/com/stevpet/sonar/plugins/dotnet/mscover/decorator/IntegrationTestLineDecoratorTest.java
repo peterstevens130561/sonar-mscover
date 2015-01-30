@@ -68,6 +68,6 @@ public class IntegrationTestLineDecoratorTest {
     }
     
     private void createDecorator() {
-        decorator = new IntegrationTestLineDecorator(settingsMock.getMock(),timeMachineMock.getMock()) ;
+        decorator = new IntegrationTestLineDecorator(msCoverPropertiesMock.getMock(),timeMachineMock.getMock()) ;
     }
 }

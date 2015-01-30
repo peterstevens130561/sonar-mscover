@@ -47,7 +47,7 @@ public class SaveMeasureTest {
     @Before
     public void setUp() throws Exception {
         sensorContext = mock(SensorContext.class);  
-        org.sonar.api.resources.File dummyResource = new org.sonar.api.resources.File("somefile");
+        org.sonar.api.resources.File dummyResource =  org.sonar.api.resources.File.create("somefile");
         seam = new SonarResourceSeamFactory(sensorContext).createFileResource(dummyResource);
         resourceMediator = mock(ResourceMediator.class);
         when(resourceMediator.getSonarFileResource(any(File.class))).thenReturn(seam);

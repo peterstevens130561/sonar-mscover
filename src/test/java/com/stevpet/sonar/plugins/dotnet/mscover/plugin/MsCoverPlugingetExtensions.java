@@ -10,14 +10,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.SonarPlugin;
 
+@SuppressWarnings({"unchecked","rawtypes","deprecation"})
 public class MsCoverPlugingetExtensions {
-
+ 
     Logger LOG = LoggerFactory.getLogger(MsCoverPlugingetExtensions.class);
+    
     @Test
     public void allElementsImplementBatchExtension_Pass() {
         SonarPlugin classUnderTest = new MsCoverPlugin() ;
         List<String> allowedInterfaces =Arrays.asList("org.sonar.api.batch.Sensor","org.sonar.api.BatchExtension","org.sonar.api.batch.Decorator");
-        @SuppressWarnings("unchecked")
+
         List<Class> plugins = classUnderTest.getExtensions();
         for(Class plugin:plugins) {
             boolean found = checkImplementation(allowedInterfaces, plugin);

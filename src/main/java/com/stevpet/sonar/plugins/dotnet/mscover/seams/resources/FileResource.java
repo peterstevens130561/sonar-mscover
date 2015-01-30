@@ -1,7 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.seams.resources;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
@@ -9,8 +8,6 @@ import org.sonar.api.resources.File;
 
 
 public class FileResource implements ResourceSeam {
-    private static final Logger LOG = LoggerFactory
-            .getLogger(FileResource.class);
     private SensorContext sensorContext;
     private File resource;
     private boolean isExcluded = false;

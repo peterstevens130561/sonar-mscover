@@ -4,17 +4,16 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.sonar.api.batch.Decorator;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.SettingsMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 
 public class DecoratorShouldExecuteTest {
 
-    SettingsMock settingsMock = new SettingsMock();
+    MsCoverPropertiesMock settingsMock = new MsCoverPropertiesMock();
     @Test
     public void shouldExecute_PropertyNotSet_Disabled() {
         //Given
-        settingsMock.givenString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH,null);
-      
+        settingsMock.givenIntegrationTestsPath(null);
+     
         Decorator decorator = new CoverageDecoratorStub(settingsMock.getMock());
         //When
         boolean shouldExecute = decorator.shouldExecuteOnProject(null);
@@ -25,7 +24,7 @@ public class DecoratorShouldExecuteTest {
     @Test
     public void shouldExecute_PropertySet_Enabled() {
         //Given
-        settingsMock.givenString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH,"a/b/c");
+        settingsMock.givenIntegrationTestsPath("a/b/c");
         Decorator decorator = new CoverageDecoratorStub(settingsMock.getMock());
         //When
         boolean shouldExecute = decorator.shouldExecuteOnProject(null);
@@ -36,7 +35,7 @@ public class DecoratorShouldExecuteTest {
     @Test 
     public void shouldExecuteIntegrationTests_PropertySet_Enabled() {
         //Given
-        settingsMock.givenString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH, "a/b/c");
+        settingsMock.givenIntegrationTestsPath("a/b/c");
         Decorator decorate = new IntegrationTestLineDecorator(settingsMock.getMock(),null);
         //When
         boolean actual = decorate.shouldExecuteOnProject(null);

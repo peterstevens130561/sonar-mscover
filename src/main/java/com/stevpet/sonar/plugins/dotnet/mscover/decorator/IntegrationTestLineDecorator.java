@@ -25,7 +25,6 @@ import java.util.List;
 import org.sonar.api.batch.DecoratorContext;
 import org.sonar.api.batch.DependedUpon;
 import org.sonar.api.batch.TimeMachine;
-import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
@@ -40,9 +39,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 @Extension
 public class IntegrationTestLineDecorator extends BaseDecorator {
 
-  public IntegrationTestLineDecorator(Settings settings,TimeMachine timeMachine) {
+  public IntegrationTestLineDecorator(MsCoverProperties msCoverProperties,TimeMachine timeMachine) {
 
-    super(settings,timeMachine);
+    super(msCoverProperties,timeMachine);
 
     this.executionMode="active";
     this.testMetric = CoreMetrics.IT_COVERAGE;
