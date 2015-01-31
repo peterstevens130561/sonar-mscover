@@ -24,6 +24,7 @@ public class OpenCoverCommandBuilder {
     private MsCoverProperties msCoverProperties;
     private VsTestRunner unitTestRunner;
     private VsTestEnvironment testEnvironment;
+    private List<String> assemblies;
     
     public OpenCoverCommandBuilder() {
 
@@ -34,10 +35,6 @@ public class OpenCoverCommandBuilder {
         return this;
     }
     
-    public OpenCoverCommandBuilder setSolution(VisualStudioSolution solution) {
-        this.solution = solution;
-        return this;
-    }
  
     public OpenCoverCommandBuilder setMsCoverProperties(MsCoverProperties msCoverProperties) {
         this.msCoverProperties=msCoverProperties;
@@ -78,6 +75,9 @@ public class OpenCoverCommandBuilder {
     }
     
 
+    public void setAssemblies(List<String> assemblies) {
+        this.assemblies = assemblies;
+    }
     public String getAssembliesToIncludeInCoverageFilter() {
         final StringBuilder filterBuilder = new StringBuilder();
         // We add all the covered assemblies
@@ -88,11 +88,7 @@ public class OpenCoverCommandBuilder {
     }
     
     public List<String> listCoveredAssemblies() {
-        List<String> coveredAssemblyNames = new ArrayList<String>();
-        for (VisualStudioProject visualProject : solution.getProjects()) {
-            coveredAssemblyNames.add(visualProject.getAssemblyName());
-        }
-        return coveredAssemblyNames;
+        return assemblies;
       }
 
 }

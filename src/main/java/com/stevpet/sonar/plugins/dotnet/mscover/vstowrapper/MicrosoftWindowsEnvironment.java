@@ -14,5 +14,7 @@ public interface MicrosoftWindowsEnvironment {
     void setCurrentSolution(VisualStudioSolution currentSolution);
     
     List<File> getUnitTestSourceFiles();
+    
+    public List<String> getAssemblies();
 
 }

@@ -128,7 +128,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         unitTestRunner.clean();
 
         openCoverCommandBuilder.setOpenCoverCommand(openCoverCommand);
-        openCoverCommandBuilder.setSolution(solution);
+        openCoverCommandBuilder.setAssemblies(microsoftWindowsEnvironment.getAssemblies());
         openCoverCommandBuilder.setMsCoverProperties(propertiesHelper);
         openCoverCommandBuilder.setTestRunner(unitTestRunner);
         openCoverCommandBuilder.setTestEnvironment(testEnvironment);

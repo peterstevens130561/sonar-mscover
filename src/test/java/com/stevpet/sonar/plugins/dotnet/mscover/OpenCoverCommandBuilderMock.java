@@ -10,6 +10,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.VsTestRunnerMoc
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyListOf;
 
 public class OpenCoverCommandBuilderMock extends GenericClassMock<OpenCoverCommandBuilder> {
     public OpenCoverCommandBuilderMock() {
@@ -18,12 +19,11 @@ public class OpenCoverCommandBuilderMock extends GenericClassMock<OpenCoverComma
 
     public void verifySetOpenCovercommand(
             OpenCoverCommandMock openCoverCommandMock) {
-        // TODO Auto-generated method stub
         verify(instance,times(1)).setOpenCoverCommand(openCoverCommandMock.getMock());
     }
 
-    public void verifySetSolution() {
-        verify(instance,times(1)).setSolution(any(VisualStudioSolution.class));       
+    public void verifySetAssemblies() {
+        verify(instance,times(1)).setAssemblies(anyListOf(String.class)); 
     }
     
     public void verifySetMsCoverProperties(MsCoverPropertiesMock msCoverPropertiesMock) {

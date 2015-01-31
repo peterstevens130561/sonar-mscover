@@ -1,20 +1,27 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.mock.VisualStudioSolutionMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.VisualStudioProjectMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock;
 
 
 public class OpenCoverCommandBuilderBuildTest {
 
     private OpenCoverCommandMock openCoverCommandMock = new OpenCoverCommandMock();
-    private VisualStudioSolutionMock visualStudioSolutionMock = new VisualStudioSolutionMock();
     private VsTestRunnerMock vsTestRunnerMock = new VsTestRunnerMock();
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     private VsTestEnvironmentMock vsTestEnvironmentMock = new VsTestEnvironmentMock();
+    private List<String> assemblies;
+    
+    @Before() 
+    public void before(){
+        assemblies=new ArrayList<String>();
+    }
     
     @Test()
     public void NoAssembly() {
@@ -27,7 +34,7 @@ public class OpenCoverCommandBuilderBuildTest {
     private OpenCoverCommandBuilder givenPreparedBuilder() {
         OpenCoverCommandBuilder builder = new OpenCoverCommandBuilder();
         builder.setOpenCoverCommand(openCoverCommandMock.getMock());
-        builder.setSolution(visualStudioSolutionMock.getMock());
+        builder.setAssemblies(assemblies);
         builder.setTestRunner(vsTestRunnerMock.getMock());
         builder.setMsCoverProperties(msCoverPropertiesMock.getMock());
         builder.setTestEnvironment(vsTestEnvironmentMock.getMock());
@@ -55,9 +62,7 @@ public class OpenCoverCommandBuilderBuildTest {
     }
 
     private void givenProject(String name) {
-        VisualStudioProjectMock visualStudioProjectMock = new VisualStudioProjectMock();
-        visualStudioProjectMock.givenAssemblyName(name);
-        visualStudioSolutionMock.givenProjectMock(visualStudioProjectMock);
+        assemblies.add(name);
     }
     
 

@@ -13,7 +13,6 @@ import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AbstractDotNetSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
@@ -22,7 +21,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment
 public class ShouldExecuteOnProjectTest {
 
     private AbstractDotNetSensor sensor;
-    private VisualStudioProject vsProject;
     private Project project; 
     private MsCoverProperties propertiesHelper;
     private VsTestEnvironment vsTestEnvironment;
@@ -46,7 +44,6 @@ public class ShouldExecuteOnProjectTest {
     public void testCSProject_ShouldNotExecute() {
         givenProjectLanguageIsCSharp();
         when(project.isRoot()).thenReturn(false);
-        when(vsProject.isTest()).thenReturn(true);
         assertFalse(sensor.shouldExecuteOnProject(project));
     }
 
@@ -58,7 +55,6 @@ public class ShouldExecuteOnProjectTest {
     public void regularCSProject_ShouldNotExecute() {
         givenProjectLanguageIsCSharp();
         when(project.isRoot()).thenReturn(false);
-        when(vsProject.isTest()).thenReturn(false);
         assertFalse(sensor.shouldExecuteOnProject(project));
     }
     
@@ -66,7 +62,7 @@ public class ShouldExecuteOnProjectTest {
     public void regularCSProjectOpenCoverMode_ShouldExecute() {
         givenProjectLanguageIsCSharp();
         when(project.isRoot()).thenReturn(false);
-        when(vsProject.isTest()).thenReturn(false);
+        //when(vsProject.isTest()).thenReturn(false);
         when(propertiesHelper.runOpenCover()).thenReturn(true);
         when(propertiesHelper.getMode()).thenReturn("runvstest");
         vsTestEnvironment.setTestsHaveRun();
@@ -77,7 +73,6 @@ public class ShouldExecuteOnProjectTest {
     public void regularOtherProjectOpenCoverMode_ShouldNotExecute() {
         when(project.getLanguageKey()).thenReturn("cpp");
         when(project.isRoot()).thenReturn(false);
-        when(vsProject.isTest()).thenReturn(false);
         when(propertiesHelper.getMode()).thenReturn("runvstest");
         assertFalse(sensor.shouldExecuteOnProject(project));
     }
@@ -86,7 +81,6 @@ public class ShouldExecuteOnProjectTest {
     public void regularCSRootProjectOpenCoverMode_ShouldNotExecute() {
         givenProjectLanguageIsCSharp();
         when(project.isRoot()).thenReturn(true);
-        when(vsProject.isTest()).thenReturn(false);
         when(propertiesHelper.getMode()).thenReturn("runvstest");
         assertFalse(sensor.shouldExecuteOnProject(project));
     }

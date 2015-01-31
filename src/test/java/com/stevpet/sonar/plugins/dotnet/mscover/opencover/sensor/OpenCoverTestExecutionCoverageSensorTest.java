@@ -137,7 +137,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         xmlParserSubjectMock.verifyParseFile("coverage.xml");
         openCoverCommandMock.verifySetTargetDir(targetDir);
         openCoverCommandBuilderMock.verifySetOpenCovercommand(openCoverCommandMock);
-        openCoverCommandBuilderMock.verifySetSolution();
+        openCoverCommandBuilderMock.verifySetAssemblies();
         openCoverCommandBuilderMock.verifySetMsCoverProperties(msCoverPropertiesMock);
         openCoverCommandBuilderMock.verifySetTestRunner(vsTestRunnerMock);
         
