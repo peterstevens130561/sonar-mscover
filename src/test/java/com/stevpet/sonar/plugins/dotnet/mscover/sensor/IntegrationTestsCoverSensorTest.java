@@ -81,41 +81,7 @@ public class IntegrationTestsCoverSensorTest {
         //Assert
         assertTrue(shouldExecute); 
     }
-    
-    @Test
-    public void IntegrationTestsSensor_Analyse_Enabled() {
-        //Arrange
-        msCoverPropertiesMock.givenIntegrationTestsPath("mscover.xml");
-        projectMock.givenIsRoot(false);
-        projectMock.givenName("tfsblame");
-
-        VisualStudioProject vsProject = mock(VisualStudioProject.class);
-        File testProject=TestUtils.getResource("TfsBlame/tfsblame/tfsblame");
-        when(vsProject.getDirectory()).thenReturn(testProject);
-        when(microsoftWindowsEnvironment.getCurrentProject("tfsblame")).thenReturn(vsProject);
-        coverageHelperFactoryMock.whencreateIntegrationTestCoverageHelper(coverageHelperMock);
-        fileSystemMock.givenDefaultEncoding();
-        //Act
-        sensor.analyse(projectMock.getMock(), context);
-        //Assert
-        
-        //Statisfied if it does not crash.....
-    }
-    
-    public void UnitTestsSensor_Analyse_Enabled() {
-        //Arrange
-        msCoverPropertiesMock.givenIntegrationTestsPath("mscover.xml");
-        projectMock.givenIsRoot(false);
-        projectMock.givenName("tfsblame");
-        
-        VisualStudioProject vsProject = mock(VisualStudioProject.class);
-        File testProject=TestUtils.getResource("TfsBlame/tfsblame/tfsblame");
-        when(vsProject.getDirectory()).thenReturn(testProject);
-        when(microsoftWindowsEnvironment.getCurrentProject("tfsblame")).thenReturn(vsProject);
-        //Act
-        sensor.analyse(projectMock.getMock(), context);
-        //Assert 
-    }  
+     
     
     @Test
     public void saveMeasure_Calls_ShouldBe5() {

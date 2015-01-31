@@ -62,9 +62,7 @@ public class UnitTestAnalyserTest {
     @Test
     public void sunnyOpenCoverDay()  {
         String base="UnitTestAnalyser/OpenCover/";
-        //TestSeam testSeam = mock(TestSeam.class);
         VsTestUnitTestResultsAnalyser analyser = createResultsAnalyser();
-        //when(resourceMediator.getSonarTestResource(any(File.class))).thenReturn(testSeam);
         String coveragePath = TestUtils.getResource(base+"coverage-report.xml").getAbsolutePath();
         File resultsFile = TestUtils.getResource(base + "testresults.trx");
         String resultsPath=resultsFile.getAbsolutePath();
@@ -80,68 +78,5 @@ public class UnitTestAnalyserTest {
         return analyser;
     }
 
-    
-    @Test(expected=SonarException.class)
-    public void projectNotFound_ExpectSonarException() throws IOException {
-        String base="UnitTestAnalyser/OpenCover/";
-        TestSeam testSeam = new TestSeam();
-
-        VsTestUnitTestResultsAnalyser analyser = createResultsAnalyser();
-        when(resourceMediator.getSonarTestResource(any(File.class))).thenReturn(testSeam);
-        String coveragePath = TestUtils.getResource(base+"coverage-report.xml").getAbsolutePath();
-        File resultsFile = TestUtils.getResource(base + "testresults.trx");
-        String resultsPath=resultsFile.getAbsolutePath();
-
-
-        givenProjectHasNoCanonicalPath();
-        
-        analyser.analyseOpenCoverTestResults(coveragePath, resultsPath);
-        verify(measureSaver,times(0)).saveSummaryMeasure(any(Metric.class),anyDouble());
-        assertEquals(0,testSeam.getSaveMeasureCnt());
-        assertEquals(0,testSeam.getMetricValueCnt());
-    }
-    
-    private void givenProjectHasNoCanonicalPath()
-            throws IOException {
-        File exceptionThrowingFile = mock(File.class);
-        when(exceptionThrowingFile.getCanonicalPath()).thenThrow(new IOException());
-        fileSystemMock.givenBaseDir(exceptionThrowingFile);
-    }
-    
-    private class TestSeam implements ResourceSeam {
-        StringBuilder sb = new StringBuilder();
-        private int saveMeasureCnt;
-        private int saveMetricValueCnt;
-        
-        public void saveMetricValue(Metric metric, double value) {
-            sb.append("metric ").append(metric.getKey()).append("=").append(value).append("\n");
-            ++saveMetricValueCnt;
-        }
-
-        public int getMetricValueCnt() {
-            return saveMetricValueCnt;
-        }
-
-        public int getSaveMeasureCnt() {
-            return saveMeasureCnt;
-        }
-
-        public void saveMeasure(Measure measure) {
-            ++saveMeasureCnt;
-            sb.append("measure ").append(measure.getMetricKey()).append("=").append(measure.getData()).append("\n");
-        }
-
-
-        public String getLongName() {
-            return null;
-        }
-
-        public boolean isIncluded() {
-            return true;
-        }
-
-        public void setIsExcluded() {
-        }
-        
-    }
+  
 }

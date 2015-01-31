@@ -48,7 +48,7 @@ public class IntegrationTestCoverSensorTest {
     @Test
     public void ShouldExecute_IsNotRootDoExecuteRoot_False() {
         boolean shouldExecute=arrangeAndActisRootExecuteRoot(false,true);      
-        Assert.assertFalse(shouldExecute);
+        Assert.assertTrue(shouldExecute);
     }
     
     @Test

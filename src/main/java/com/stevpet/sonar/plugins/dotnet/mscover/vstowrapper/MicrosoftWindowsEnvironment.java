@@ -7,12 +7,6 @@ public interface MicrosoftWindowsEnvironment {
 
     VisualStudioSolution getCurrentSolution();
 
-    String getWorkingDirectory();
-
-    boolean isTestExecutionDone();
-
-    void setTestExecutionDone();
-
     VisualStudioProject getCurrentProject(String projectName);
 
     void setCurrentSolution(VisualStudioSolution currentSolution);

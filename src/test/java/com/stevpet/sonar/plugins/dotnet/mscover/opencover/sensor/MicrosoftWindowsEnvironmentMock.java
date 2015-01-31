@@ -16,7 +16,6 @@ public class MicrosoftWindowsEnvironmentMock extends GenericClassMock<MicrosoftW
 
     public MicrosoftWindowsEnvironmentMock() {
         super(MicrosoftWindowsEnvironment.class);
-        when(instance.getWorkingDirectory()).thenReturn(".sonar");
     }
 
     public void givenHasNoTestProjects() {
@@ -25,10 +24,6 @@ public class MicrosoftWindowsEnvironmentMock extends GenericClassMock<MicrosoftW
         when(solution.getUnitTestProjects()).thenReturn(value);
     }
     
-
-    public void givenTestsHaveExecuted(boolean flag) {
-        when(instance.isTestExecutionDone()).thenReturn(flag);
-    }
 
     public void givenHasTestProject() {
         when(instance.getCurrentSolution()).thenReturn(solution);

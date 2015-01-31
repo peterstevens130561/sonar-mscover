@@ -8,13 +8,13 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 
 public class DecoratorShouldExecuteTest {
 
-    MsCoverPropertiesMock settingsMock = new MsCoverPropertiesMock();
+    MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     @Test
     public void shouldExecute_PropertyNotSet_Disabled() {
         //Given
-        settingsMock.givenIntegrationTestsPath(null);
+        msCoverPropertiesMock.givenIntegrationTestsEnabled(false);
      
-        Decorator decorator = new CoverageDecoratorStub(settingsMock.getMock());
+        Decorator decorator = new CoverageDecoratorStub(msCoverPropertiesMock.getMock());
         //When
         boolean shouldExecute = decorator.shouldExecuteOnProject(null);
         //Then
@@ -24,8 +24,8 @@ public class DecoratorShouldExecuteTest {
     @Test
     public void shouldExecute_PropertySet_Enabled() {
         //Given
-        settingsMock.givenIntegrationTestsPath("a/b/c");
-        Decorator decorator = new CoverageDecoratorStub(settingsMock.getMock());
+        msCoverPropertiesMock.givenIntegrationTestsEnabled(true);
+        Decorator decorator = new CoverageDecoratorStub(msCoverPropertiesMock.getMock());
         //When
         boolean shouldExecute = decorator.shouldExecuteOnProject(null);
         //Then
@@ -35,8 +35,8 @@ public class DecoratorShouldExecuteTest {
     @Test 
     public void shouldExecuteIntegrationTests_PropertySet_Enabled() {
         //Given
-        settingsMock.givenIntegrationTestsPath("a/b/c");
-        Decorator decorate = new IntegrationTestLineDecorator(settingsMock.getMock(),null);
+        msCoverPropertiesMock.givenIntegrationTestsEnabled(true);
+        Decorator decorate = new IntegrationTestLineDecorator(msCoverPropertiesMock.getMock(),null);
         //When
         boolean actual = decorate.shouldExecuteOnProject(null);
         //Then

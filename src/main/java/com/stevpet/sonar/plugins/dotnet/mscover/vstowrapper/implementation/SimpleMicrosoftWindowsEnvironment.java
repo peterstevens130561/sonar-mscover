@@ -30,31 +30,7 @@ public class SimpleMicrosoftWindowsEnvironment implements BatchExtension,Microso
         return solution;
     }
 
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.IMicrosoftWindowsEnvironment#getWorkingDirectory()
-     */
-    @Override
-    public String getWorkingDirectory() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.IMicrosoftWindowsEnvironment#isTestExecutionDone()
-     */
-    @Override
-    public boolean isTestExecutionDone() {
-        return false;
-    }
-
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.IMicrosoftWindowsEnvironment#setTestExecutionDone()
-     */
-    @Override
-    public void setTestExecutionDone() {
-        // TODO Auto-generated method stub
-        
-    }
 
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.IMicrosoftWindowsEnvironment#getCurrentProject(java.lang.String)

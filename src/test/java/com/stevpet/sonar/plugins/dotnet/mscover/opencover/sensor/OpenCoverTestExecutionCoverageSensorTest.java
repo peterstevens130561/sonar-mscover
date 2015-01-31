@@ -70,10 +70,8 @@ public class OpenCoverTestExecutionCoverageSensorTest {
     @Test
     public void testShouldExecuteOnProjectProject_TestsNotExecuted_HasTestProject_IsNotCSharp_RunOpenCoverShouldNotExecute() {
         classUnderTest.givenANewSensor();
-        microsoftWindowsEnvironmentMock.givenTestsHaveExecuted(false);
         testEnvironmentMock.givenTestsHaveNotExecuted();
         microsoftWindowsEnvironmentMock.givenHasTestProject();
-        microsoftWindowsEnvironmentMock.givenTestsHaveExecuted(false);
         project.givenIsRootProject(false);
         fileSystemMock.givenLanguage("java");
         msCoverPropertiesMock.givenRunOpenCover(true);
@@ -83,7 +81,6 @@ public class OpenCoverTestExecutionCoverageSensorTest {
     @Test
     public void testShouldExecuteOnProject_TestsNotExecuted_SolutionHasNoTestProjects_ProjectIsCsharp__ShouldNotExecute() {
         classUnderTest.givenANewSensor();
-        microsoftWindowsEnvironmentMock.givenTestsHaveExecuted(false);
         microsoftWindowsEnvironmentMock.givenHasNoTestProjects();
         project.givenIsRootProject(false);
         fileSystemMock.givenLanguage("cs");
@@ -94,7 +91,6 @@ public class OpenCoverTestExecutionCoverageSensorTest {
     @Test
     public void testShouldExecuteOnProject_TestsNotExecutedSolutionHasTestProject_ProjectIsCsharp_DoNotRunOpenCover_ShouldExecute() {
         classUnderTest.givenANewSensor();
-        microsoftWindowsEnvironmentMock.givenTestsHaveExecuted(false);
         microsoftWindowsEnvironmentMock.givenHasTestProject();
         project.givenIsRootProject(false);
         fileSystemMock.givenLanguage("cs");
@@ -104,7 +100,6 @@ public class OpenCoverTestExecutionCoverageSensorTest {
     @Test
     public void testShouldExecuteOnProject_TestsNotExecutedSolutionHasTestProject_ProjectIsCsharp_RunOpenCover_ShouldExecute() {
         classUnderTest.givenANewSensor();
-        microsoftWindowsEnvironmentMock.givenTestsHaveExecuted(false);
         microsoftWindowsEnvironmentMock.givenHasTestProject();
         fileSystemMock.givenLanguage("cs");
         project.givenIsRootProject(true);
