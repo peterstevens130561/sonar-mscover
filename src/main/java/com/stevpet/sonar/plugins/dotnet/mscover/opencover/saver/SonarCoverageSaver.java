@@ -45,7 +45,7 @@ public class SonarCoverageSaver {
         }
     }
 
-    public void setExcludeFiles(List<File> testFiles) {
+    public void setExcludeSourceFiles(List<File> testFiles) {
         this.testFiles=testFiles;
     }
 

@@ -88,7 +88,7 @@ public void addUnitTestVisualStudioProject(SimpleVisualStudioProject project) {
 }
 
 @Override
-public List<File> getUnitTestFiles() {
+public List<File> getUnitTestSourceFiles() {
     List<File> unitTestFiles = new ArrayList<File>();
     for(VisualStudioProject project:getUnitTestProjects()) {
         unitTestFiles.addAll(project.getSourceFiles());

@@ -5,6 +5,7 @@ import java.io.File;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
+import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
@@ -22,16 +23,18 @@ public class SonarMeasureSaver implements MeasureSaver {
     private ResourceMediator resourceMediator;
     private ResourceSeam resource;
     private Boolean ignoreSaveTwice=false;
+    private Project project;
 
-    private SonarMeasureSaver(SensorContext sensorContext,
+    private SonarMeasureSaver(Project project,SensorContext sensorContext,
             ResourceMediator resourceMediator) {
         this.sensorContext = sensorContext;
         this.resourceMediator = resourceMediator;
+        this.project = project;
     }
 
-    public static SonarMeasureSaver create(SensorContext sensorContext,
+    public static SonarMeasureSaver create(Project project,SensorContext sensorContext,
             ResourceMediator resourceMediator) {
-        return new SonarMeasureSaver(sensorContext, resourceMediator);
+        return new SonarMeasureSaver(project,sensorContext, resourceMediator);
     }
 
     /*

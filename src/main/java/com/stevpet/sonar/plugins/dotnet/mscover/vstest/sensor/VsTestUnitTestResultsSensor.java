@@ -79,7 +79,7 @@ public class VsTestUnitTestResultsSensor implements Sensor {;
         String resultsPath;
         ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(sensorContext,project,timeMachine,propertiesHelper,fileSystem);            
         
-        MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
+        MeasureSaver measureSaver = SonarMeasureSaver.create(project,sensorContext,resourceMediator);
 
         vsTestUnitTestResultsAnalyser.setMeasureSaver(measureSaver);
         vsTestUnitTestResultsAnalyser.setResourceMediator(resourceMediator) ;

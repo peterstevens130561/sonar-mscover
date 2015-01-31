@@ -21,6 +21,7 @@ import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.measures.Metric.ValueType;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.ProjectMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.FileResource;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.NullResource;
@@ -41,6 +42,7 @@ public class SaveMeasureTest {
     private ResourceSeam seam;
     private ResourceSeam nullResourceSeam;
     private ResourceSeam normalSeam;
+    private ProjectMock projectMock = new ProjectMock();
     /**
      * @throws java.lang.Exception
      */
@@ -53,7 +55,7 @@ public class SaveMeasureTest {
         when(resourceMediator.getSonarFileResource(any(File.class))).thenReturn(seam);
         nullResourceSeam = mock(NullResource.class);
         normalSeam = mock(FileResource.class);
-        measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
+        measureSaver = SonarMeasureSaver.create(projectMock.getMock(),sensorContext,resourceMediator);
 
     }
 

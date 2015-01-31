@@ -89,7 +89,7 @@ public class IntegrationTestCoverSensor implements Sensor {
         ResourceMediator resourceMediator = resourceMediatorFactory
                 .createWithFilters(sensorContext, project, timeMachine,
                         propertiesHelper, fileSystem);
-        MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,
+        MeasureSaver measureSaver = SonarMeasureSaver.create(project,sensorContext,
                 resourceMediator);
         coverageHelper = coverageHelperFactory
                 .createIntegrationTestCoverageHelper(fileSystem, measureSaver);

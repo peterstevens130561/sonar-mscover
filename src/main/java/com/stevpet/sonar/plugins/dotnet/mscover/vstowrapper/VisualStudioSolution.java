@@ -29,7 +29,7 @@ public interface VisualStudioSolution {
 
     void addUnitTestVisualStudioProject(SimpleVisualStudioProject project);
 
-    List<File> getUnitTestFiles();
+    List<File> getUnitTestSourceFiles();
 
     List<String> getModules();
 

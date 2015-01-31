@@ -1,6 +1,9 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
 
 
+import java.io.File;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
@@ -44,6 +47,13 @@ public class SimpleMicrosoftWindowsEnvironment implements BatchExtension,Microso
     @Override
     public void setCurrentSolution(VisualStudioSolution currentSolution) {
         this.solution=currentSolution;
+    }
+
+
+
+    @Override
+    public List<File> getUnitTestSourceFiles() {
+        return getCurrentSolution().getUnitTestSourceFiles();
     }
 
 }

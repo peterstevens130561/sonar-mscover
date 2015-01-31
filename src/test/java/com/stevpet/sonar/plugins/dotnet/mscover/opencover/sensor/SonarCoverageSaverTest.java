@@ -85,7 +85,7 @@ public class SonarCoverageSaverTest {
         //Given I exclude file
         List<File> testFiles = new ArrayList<File>();
         testFiles.add(new File("c:/Development/Jewel.Release.Oahu/JewelEarth/Core/ThinClient/WinForms/ViewHost.cs"));
-        coverageSaver.setExcludeFiles(testFiles);
+        coverageSaver.setExcludeSourceFiles(testFiles);
         //When I save
         coverageSaver.save();
         //Then

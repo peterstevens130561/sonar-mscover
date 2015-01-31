@@ -70,7 +70,7 @@ public class OpenCoverTestResultsSaverSensor extends AbstractDotNetSensor {
         LOG.info("Saving test results of " + project.getName()  );
         ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(sensorContext,project,timeMachine,propertiesHelper,fileSystem);            
         
-        MeasureSaver measureSaver = SonarMeasureSaver.create(sensorContext,resourceMediator);
+        MeasureSaver measureSaver = SonarMeasureSaver.create(project,sensorContext,resourceMediator);
         analyser.setMeasureSaver(measureSaver);
         analyser.setResourceMediator(resourceMediator) ;
         analyser.setFileSystem(fileSystem);
