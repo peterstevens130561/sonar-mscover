@@ -1,5 +1,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.TimeMachine;
@@ -35,6 +38,9 @@ public class OpenCoverTestResultsSaverSensorTest {
         OpenCoverTestResultsSaverSensor sensor = new OpenCoverTestResultsSaverSensor(microsoftWindowsEnvironment, 
                 msCoverProperties,vsTestEnvironment,timeMachine,null);
         String[] languages = sensor.getSupportedLanguages();
+        assertNotNull(languages);
+        assertEquals("cs",languages[0]);
+        
         
     }
 }

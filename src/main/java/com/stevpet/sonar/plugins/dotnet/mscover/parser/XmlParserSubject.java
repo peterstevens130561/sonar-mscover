@@ -99,7 +99,7 @@ public abstract class XmlParserSubject implements ParserSubject {
             LOG.error("FactoryConfigurationError", e);
             throw new SonarException(e);
         } catch (XMLStreamException e) {
-            String msg = "XMLStreamException in " + file.getAbsolutePath();
+            String msg = "XMLStreamException in " + file.getAbsolutePath() + " column/line " + column + "/" + line;
             LOG.error(msg, e);
             throw new SonarException(msg, e);
         }

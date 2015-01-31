@@ -3,6 +3,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.coverageparserf
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -29,7 +31,8 @@ public class CreateDefaultTest {
         //Arrange
         VsTestParserFactory factory = new ConcreteVsTestParserFactory();
         VsTestRegistry registry = new VsTestRegistry("C:\\users\\stevpet\\GitHub");
-        XmlParserSubject parser = factory.createCoverageParser(registry);
+        List<String> modules = new ArrayList<String>();
+        XmlParserSubject parser = factory.createCoverageParser(registry,modules);
         
         File file=TestUtils.getResource("mscoverage.xml");
         //Act

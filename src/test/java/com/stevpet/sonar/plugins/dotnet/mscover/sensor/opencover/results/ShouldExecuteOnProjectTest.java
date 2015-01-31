@@ -72,19 +72,16 @@ public class ShouldExecuteOnProjectTest {
         when(vsProject.isTest()).thenReturn(false);
         when(propertiesHelper.runOpenCover()).thenReturn(true);
         when(propertiesHelper.getMode()).thenReturn("runvstest");
-        //when(settings.getString(matches(PropertiesHelper.MSCOVER_COVERAGETOOL))).thenReturn("opencover");
-        //when(settings.getString(matches(PropertiesHelper.MSCOVER_MODE))).thenReturn("runvstest");
         vsTestEnvironment.setTestsHaveRun();
         assertTrue(sensor.shouldExecuteOnProject(project));
     }
-    
+
     @Test
     public void regularOtherProjectOpenCoverMode_ShouldNotExecute() {
         when(project.getLanguageKey()).thenReturn("cpp");
         when(project.isRoot()).thenReturn(false);
         when(vsProject.isTest()).thenReturn(false);
         when(propertiesHelper.getMode()).thenReturn("runvstest");
-        //when(settings.getString(matches(PropertiesHelper.MSCOVER_MODE))).thenReturn("runvstest");
         assertFalse(sensor.shouldExecuteOnProject(project));
     }
     
@@ -94,7 +91,6 @@ public class ShouldExecuteOnProjectTest {
         when(project.isRoot()).thenReturn(true);
         when(vsProject.isTest()).thenReturn(false);
         when(propertiesHelper.getMode()).thenReturn("runvstest");
-        //when(settings.getString(matches(PropertiesHelper.MSCOVER_MODE))).thenReturn("runvstest");
         assertFalse(sensor.shouldExecuteOnProject(project));
     }
 }

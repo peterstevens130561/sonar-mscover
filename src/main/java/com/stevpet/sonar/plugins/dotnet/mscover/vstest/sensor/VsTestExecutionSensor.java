@@ -10,7 +10,6 @@ import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
-import com.stevpet.sonar.plugins.dotnet.mscover.csharpsolutionfilesystem.CSharpSolutionFileSystem;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AbstractVsTestRunnerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultVsTestRunnerFactory;
@@ -20,9 +19,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 public class VsTestExecutionSensor implements Sensor {
     
     public static final String DEPENDS="VsTestSensor";
-    private static final Logger LOG = LoggerFactory
+    private Logger Log= LoggerFactory
             .getLogger(VsTestExecutionSensor.class);
-       
+    private final static String LOGPREFIX = "MsCover/VsTestExecutionSensor : ";
     private VsTestEnvironment vsTestEnvironment;
     private FileSystem fileSystem;
     private VsTestRunner unitTestRunner;
@@ -46,15 +45,15 @@ public class VsTestExecutionSensor implements Sensor {
     public void analyse(Project project, SensorContext context) {
 
         if(vsTestEnvironment.getTestsHaveRun()) {
-            LOG.info("MsCover : tests have run already");
+            LogInfo("tests have run already");
             return;
         }
         if(!project.isRoot()) {
-            LOG.info("MsCover : CSharp solution, using first project to run tests");
-            fileSystem = CSharpSolutionFileSystem.createFromProject(fileSystem);
+            LogInfo("MsCover/VsTestExecutionSensor won't execute as project is not root {}",project.getName());
+            return;
         }
         
-        LOG.info("MsCover : started running tests");
+        LogInfo("MsCover/VsTestExecutionSensor : started running tests");
 
         runUnitTests();   
         updateTestEnvironment();
@@ -77,9 +76,9 @@ public class VsTestExecutionSensor implements Sensor {
         vsTestEnvironment.setCoverageXmlPath(coverageXmlPath);
         vsTestEnvironment.setTestsHaveRun();
         
-        LOG.info("MsCover : running tests completed");
-        LOG.info("MsCover : coverage in {}",coverageXmlPath);
-        LOG.info("MsCover : results in {}",testResultsPath);
+        LogInfo("running tests completed");
+        LogInfo("coverage in {}",coverageXmlPath);
+        LogInfo("results in {}",testResultsPath);
     }
 
 
@@ -91,6 +90,8 @@ public class VsTestExecutionSensor implements Sensor {
         this.vsTestRunnerFactory = vsTestRunnerFactory;
     }
 
-
+    private void LogInfo(String msg, Object ...objects ) {
+        Log.info(LOGPREFIX + msg,objects);
+    }
 
 }

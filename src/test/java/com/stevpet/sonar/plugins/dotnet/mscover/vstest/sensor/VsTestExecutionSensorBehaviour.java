@@ -48,7 +48,7 @@ public class VsTestExecutionSensorBehaviour {
 
     protected void givenAnalysedProjectIsCSharpProject() {
         when(project.isRoot()).thenReturn(false);
-        when(fileSystem.baseDir()).thenReturn(new File("mysolution/myproject"));
+        when(fileSystem.baseDir()).thenReturn(new File("mysolution"));
     }
     
     public void givenAnalysedProjectIsRootProject() {

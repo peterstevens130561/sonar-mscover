@@ -26,12 +26,14 @@ import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
+
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.bootstrap.ProjectBuilder;
 import org.sonar.api.batch.bootstrap.ProjectDefinition;
 import org.sonar.api.config.Settings;
+import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.utils.SonarException;
 
@@ -53,10 +55,12 @@ public class VisualStudioProjectBuilder extends ProjectBuilder {
 
   private final Settings settings;
 private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
+private Project project;
 
-  public VisualStudioProjectBuilder(Settings settings,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+  public VisualStudioProjectBuilder(Settings settings,MicrosoftWindowsEnvironment microsoftWindowsEnvironment, Project project) {
     this.settings = settings;
     this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
+    this.project = project;
   }
 
   @Override
@@ -176,7 +180,7 @@ private static void logSkippedProject(VisualStudioSolutionProject solutionProjec
       List<File> sourceDirs = new ArrayList<File>();
       sourceDirs.add(sourceDir);
       org.sonar.api.resources.File resource = org.sonar.api.resources.File
-              .fromIOFile(file, sourceDirs);
+              .fromIOFile(file, project);
 
       if (resource == null) {
           LOG.debug("Could not create resource for {}", file.getName());

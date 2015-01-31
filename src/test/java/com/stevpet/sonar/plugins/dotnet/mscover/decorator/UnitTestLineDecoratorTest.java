@@ -15,48 +15,46 @@ public class UnitTestLineDecoratorTest {
     MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     DecoratorContextMock decoratorContextMock = new DecoratorContextMock();
     SettingsMock settingsMock = new SettingsMock();
-    private UnitTestBlockDecorator  decorator;
+    UnitTestLineDecorator decorator;
+
     @Before
     public void before() {
-        msCoverPropertiesMock.givenUnitTestsEnabled(false);
+        createUnitTestLineDecorator();        
     }
     
     @Test 
     public void createDecorator() {
-        createUnitTestBlockDecorator();
         Assert.assertNotNull(decorator);
     }
 
+    private void createUnitTestLineDecorator() {
+        decorator = new UnitTestLineDecorator(msCoverPropertiesMock.getMock(),timeMachineMock.getMock()) ;
+    }
+    
     @Test
     public void shouldExecute_Set_ExpectTrue() {
-        createUnitTestBlockDecorator();
         msCoverPropertiesMock.givenUnitTestsEnabled(true);
         boolean shouldExecute = decorator.shouldExecuteDecorator(null, msCoverPropertiesMock.getMock());
-        Assert.assertTrue(shouldExecute);
+        Assert.assertTrue("unitTestLineDecorator shouldExecute",shouldExecute);
     }
     
     @Test
     public void shouldExecute_NotSet_ExpectFalse() {
-        createUnitTestBlockDecorator();
+        msCoverPropertiesMock.givenUnitTestsEnabled(false);
+        createUnitTestLineDecorator();
         boolean shouldExecute = decorator.shouldExecuteDecorator(null, msCoverPropertiesMock.getMock());
-        Assert.assertFalse(shouldExecute);
+        Assert.assertFalse("unitTestLineDecorator shouldExecute",shouldExecute);
     }
     
     @Test 
     public void handleUncoveredResource_ShouldSaveMeasures() {
-        createUnitTestBlockDecorator();  
         decorator.handleUncoveredResource(decoratorContextMock.getMock(), 4.0);
-        decoratorContextMock.verifySaveMeasureInvoked(3);
+        decoratorContextMock.verifySaveMeasureInvoked(4);
     }
     
     @Test
     public void generatesCoverageMetrics_ShouldHaveAll() {
-        createUnitTestBlockDecorator();
         List<Metric> metrics = decorator.generatesCoverageMetrics();
-        Assert.assertEquals(5,metrics.size());
-    }
-    
-    private void createUnitTestBlockDecorator() {
-        decorator = new UnitTestBlockDecorator(msCoverPropertiesMock.getMock(),timeMachineMock.getMock());
+        Assert.assertEquals(4,metrics.size());
     }
 }

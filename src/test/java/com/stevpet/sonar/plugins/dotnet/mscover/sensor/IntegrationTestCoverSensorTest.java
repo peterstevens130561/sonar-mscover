@@ -28,7 +28,6 @@ public class IntegrationTestCoverSensorTest {
         when(propertiesHelper.getMode()).thenReturn("reuse");
         when(propertiesHelper.getIntegrationTestsPath()).thenReturn("hi");
         when(propertiesHelper.isIntegrationTestsEnabled()).thenReturn(true);
-        //when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn("hi");
     }
     
     @Test
@@ -41,9 +40,9 @@ public class IntegrationTestCoverSensorTest {
     }
     
     @Test
-    public void ShouldExecute_IsRootDoNotExecuteRoot_False() {
+    public void ShouldExecute_IsRootDoExecuteRoot_False() {
         boolean shouldExecute=arrangeAndActisRootExecuteRoot(true,false);        
-        Assert.assertFalse(shouldExecute);
+        Assert.assertTrue(shouldExecute);
     }
     
     @Test

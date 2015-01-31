@@ -20,7 +20,7 @@ public class VsTestExecutionSensorTest  {
     }
     
     @Test
-    public void runAnalysisForCSharpProjectTestsHaveNotRun_TestsShouldBeRun() {
+    public void runAnalysisForCSharpProjectTestsHaveNotRun_TestsShouldNotBeRun() {
         String resultsPath="results.path";
         String coveragePath="coverage.path";
         bd.givenANewSensor();
@@ -28,14 +28,11 @@ public class VsTestExecutionSensorTest  {
         bd.givenAnalysedProjectIsCSharpProject();
         bd.givenStubbedVsTestRunner();
         bd.givenTestResultsPath(resultsPath);
-        bd.givenCoveragePath(coveragePath);
-     
-        bd.analyseProject();
-        
-        bd.verifyTestRunnerHasRun();
-        testEnvironment.verifyTestsHaveRun();
-        testEnvironment.verifyTestResultsPathIs(resultsPath);
-        testEnvironment.verifyCoveragePathIs(coveragePath);
+        bd.givenCoveragePath(coveragePath);    
+        bd.analyseProject();        
+        bd.verifyTestsHaveNotRun();
+        testEnvironment.verifyTestEnvironmentPathsNotSet();
+        bd.verifyTestRunnerPathsNotRequested();
         
     }
     
