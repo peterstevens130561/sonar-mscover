@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 
 /**
@@ -29,20 +28,9 @@ public class SimpleMicrosoftWindowsEnvironment implements BatchExtension,Microso
      */
     @Override
     public VisualStudioSolution getCurrentSolution() {
-        // TODO Auto-generated method stub
         return solution;
     }
 
-
-
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.IMicrosoftWindowsEnvironment#getCurrentProject(java.lang.String)
-     */
-    @Override
-    public VisualStudioProject getCurrentProject(String projectName) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     @Override
     public void setCurrentSolution(VisualStudioSolution currentSolution) {

@@ -10,7 +10,6 @@ public interface MicrosoftWindowsEnvironment {
 
     VisualStudioSolution getCurrentSolution();
 
-    VisualStudioProject getCurrentProject(String projectName);
 
     void setCurrentSolution(VisualStudioSolution currentSolution);
     

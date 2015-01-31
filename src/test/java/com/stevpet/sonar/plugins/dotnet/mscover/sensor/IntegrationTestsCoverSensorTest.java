@@ -38,7 +38,6 @@ public class IntegrationTestsCoverSensorTest {
     ProjectMock projectMock = new ProjectMock();
     SensorContext context ;
     MicrosoftWindowsEnvironment microsoftWindowsEnvironment ;
-    private CoverageHelperMock coverageHelperMock = new CoverageHelperMock();
     private FileSystemMock fileSystemMock = new FileSystemMock();
     private CoverageHelperFactoryMock coverageHelperFactoryMock = new CoverageHelperFactoryMock();
     private ShouldExecuteHelperMock shouldExecuteHelperMock = new ShouldExecuteHelperMock();

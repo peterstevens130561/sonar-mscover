@@ -4,7 +4,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.sensor.opencover.results;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -32,8 +31,6 @@ public class ShouldExecuteOnProjectTest {
     public void before() {
         project=mock(Project.class);
         MicrosoftWindowsEnvironment microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
-        vsProject = mock(VisualStudioProject.class);
-        when(microsoftWindowsEnvironment.getCurrentProject(anyString())).thenReturn(vsProject);
         propertiesHelper = mock(PropertiesHelper.class);
         vsTestEnvironment = new VsTestEnvironment();
         sensor = new OpenCoverCoverageResultsSensor(microsoftWindowsEnvironment,propertiesHelper, vsTestEnvironment, null,null);
