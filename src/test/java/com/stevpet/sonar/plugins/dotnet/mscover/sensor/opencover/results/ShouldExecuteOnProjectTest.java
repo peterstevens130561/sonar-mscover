@@ -31,7 +31,7 @@ public class ShouldExecuteOnProjectTest {
         MicrosoftWindowsEnvironment microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
         propertiesHelper = mock(PropertiesHelper.class);
         vsTestEnvironment = new VsTestEnvironment();
-        sensor = new OpenCoverCoverageResultsSensor(microsoftWindowsEnvironment,propertiesHelper, vsTestEnvironment, null,null);
+        sensor = new OpenCoverCoverageResultsSensor(microsoftWindowsEnvironment,propertiesHelper, vsTestEnvironment, null,null,null);
           
     }
     

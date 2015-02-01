@@ -36,7 +36,7 @@ public class OpenCoverTestResultsSaverSensorTest {
     @Test
     public void getSupportedLanguages_ExpectCsOnly() {
         OpenCoverTestResultsSaverSensor sensor = new OpenCoverTestResultsSaverSensor(microsoftWindowsEnvironment, 
-                msCoverProperties,vsTestEnvironment,timeMachine,null);
+                msCoverProperties,vsTestEnvironment,timeMachine,null,null);
         String[] languages = sensor.getSupportedLanguages();
         assertNotNull(languages);
         assertEquals("cs",languages[0]);

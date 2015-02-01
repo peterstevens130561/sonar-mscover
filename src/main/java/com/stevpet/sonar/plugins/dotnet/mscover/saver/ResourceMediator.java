@@ -14,7 +14,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeamFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.SonarResourceSeamFactory;
 
-public class ResourceMediator {
+public class ResourceMediator implements ResourceMediatorInterface {
     
     private static final Logger LOG = LoggerFactory
             .getLogger(ResourceMediator.class);
@@ -35,14 +35,19 @@ public class ResourceMediator {
     }
 
 
-    /**
-     * Connect the saver to context, project and registry
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorInterface#setDateFilter(com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter)
      */
         
+    @Override
     public void setDateFilter(DateFilter dateFilter) {
         this.dateFilter = dateFilter;
     }
     
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorInterface#setResourceFilter(com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter)
+     */
+    @Override
     public void setResourceFilter(ResourceFilter resourceFilter) {
         this.resourceFilter = resourceFilter;
     }
@@ -68,6 +73,10 @@ public class ResourceMediator {
     }
 
 
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorInterface#getSonarResource(org.sonar.api.batch.SensorContext, org.sonar.api.resources.Project, java.io.File)
+     */
+    @Override
     public ResourceSeam getSonarResource(SensorContext sensorContext,Project project,File file) {
         ResourceSeam resource;
         org.sonar.api.resources.File sonarFile =SonarResourceHelper.getFromFile(file, project);

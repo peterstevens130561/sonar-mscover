@@ -12,8 +12,8 @@ import org.sonar.api.resources.Project;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorInterface;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 
 public class CreateWithFiltersTest {
@@ -21,7 +21,6 @@ public class CreateWithFiltersTest {
 
     @Test
     public void createShouldWork() {
-        SensorContext sensorContext = mock(SensorContext.class);
         Project project = mock(Project.class);
         FileSystemMock fileSystemMock=new FileSystemMock();
         TimeMachine timeMachine = mock(TimeMachine.class);
@@ -29,7 +28,7 @@ public class CreateWithFiltersTest {
         MsCoverProperties propertiesHelper = PropertiesHelper.create(settings);
         
         fileSystemMock.givenDefaultEncoding();
-        ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(timeMachine, propertiesHelper);
+        ResourceMediatorInterface resourceMediator = resourceMediatorFactory.createWithFilters(timeMachine, propertiesHelper);
         assertNotNull(resourceMediator);
     }
 

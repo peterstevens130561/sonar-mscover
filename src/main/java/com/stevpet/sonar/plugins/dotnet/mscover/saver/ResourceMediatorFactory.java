@@ -3,13 +3,14 @@ package com.stevpet.sonar.plugins.dotnet.mscover.saver;
 import org.sonar.api.batch.TimeMachine;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
+@Deprecated
 public interface ResourceMediatorFactory {
  
-    
-    ResourceMediator createWithFilters(
+    @Deprecated
+    ResourceMediatorInterface createWithFilters(
             TimeMachine timeMachine,
            MsCoverProperties msCoverProperties);
-    
-    ResourceMediator createWithEmptyFilters();
+    @Deprecated
+    ResourceMediatorInterface createWithEmptyFilters();
     
 }

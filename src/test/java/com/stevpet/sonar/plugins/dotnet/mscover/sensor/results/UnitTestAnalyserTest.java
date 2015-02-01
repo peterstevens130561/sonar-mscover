@@ -11,6 +11,7 @@ import org.sonar.test.TestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.SensorContextMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorInterface;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestUnitTestResultsAnalyser;
@@ -26,7 +27,7 @@ public class UnitTestAnalyserTest {
     private SensorContextMock sensorContextMock = new SensorContextMock();
     private Project project;
     private MeasureSaver measureSaver;
-    private ResourceMediator resourceMediator;
+    private ResourceMediatorInterface resourceMediator;
     FileSystemMock fileSystemMock = new FileSystemMock();
 
     @Before

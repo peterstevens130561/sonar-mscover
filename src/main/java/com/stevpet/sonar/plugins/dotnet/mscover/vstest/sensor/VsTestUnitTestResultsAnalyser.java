@@ -19,7 +19,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegi
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorInterface;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TrxTestSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteVsTestParserFactory;
@@ -40,7 +40,7 @@ public class VsTestUnitTestResultsAnalyser {
     private VsTestParserFactory factory = new ConcreteVsTestParserFactory();
     private MeasureSaver measureSaver;
     private SourceFilePathHelper sourceFilePathHelper = new SourceFilePathHelper();
-    private ResourceMediator resourceMediator;
+    private ResourceMediatorInterface resourceMediator;
     private FileSystem fileSystem;
     private SensorContext sensorContext;
     private Project project;
@@ -56,7 +56,7 @@ public class VsTestUnitTestResultsAnalyser {
         
     }
     
-    public VsTestUnitTestResultsAnalyser(SensorContext sensorContext,Project project,MeasureSaver measureSaver, SourceFilePathHelper sourceFilePathHelper,ResourceMediator resourceMediator,FileSystem fileSystem) {
+    public VsTestUnitTestResultsAnalyser(SensorContext sensorContext,Project project,MeasureSaver measureSaver, SourceFilePathHelper sourceFilePathHelper,ResourceMediatorInterface resourceMediator,FileSystem fileSystem) {
         this.measureSaver = measureSaver;
         this.sourceFilePathHelper = sourceFilePathHelper;
         this.resourceMediator = resourceMediator; 
@@ -74,7 +74,7 @@ public class VsTestUnitTestResultsAnalyser {
         this.sourceFilePathHelper = sourceFilePathHelper;
     }
     
-    public void setResourceMediator(ResourceMediator resourceMediator) {
+    public void setResourceMediator(ResourceMediatorInterface resourceMediator) {
         this.resourceMediator = resourceMediator;
     }
     /**

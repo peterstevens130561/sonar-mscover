@@ -39,7 +39,6 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
     public static final String MSCOVER_IGNOREMISSING_PDB = MSCOVER + "opencover.ignoremissingpdbs";
     public static final String MSCOVER_OPENCOVER_SKIPAUTOPROPS = MSCOVER + "opencover.skipautoprops";
     
-    @Deprecated
     public PropertiesHelper(Settings settings) {
         this.settings = settings;
     }

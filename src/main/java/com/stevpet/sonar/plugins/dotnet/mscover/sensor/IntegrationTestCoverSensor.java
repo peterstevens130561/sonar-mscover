@@ -39,8 +39,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecu
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorInterface;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
@@ -86,7 +86,7 @@ public class IntegrationTestCoverSensor implements Sensor {
 
     public void analyse(Project project, SensorContext sensorContext) {
         LOG.info("Running IntegrationTestCoverSensor");
-        ResourceMediator resourceMediator = resourceMediatorFactory
+        ResourceMediatorInterface resourceMediator = resourceMediatorFactory
                 .createWithFilters(timeMachine,
                         propertiesHelper);
         MeasureSaver measureSaver = SonarMeasureSaver.create(project,sensorContext,

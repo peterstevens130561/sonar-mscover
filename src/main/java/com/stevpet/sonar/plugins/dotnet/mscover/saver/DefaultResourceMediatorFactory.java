@@ -8,23 +8,23 @@ import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFac
 public class DefaultResourceMediatorFactory implements ResourceMediatorFactory {
 
 
-    public ResourceMediator create() {
+    public ResourceMediatorInterface create() {
         return new ResourceMediator();
     }
 
 
 
-    public ResourceMediator createWithFilters(
+    public ResourceMediatorInterface createWithFilters(
              TimeMachine timeMachine,
             MsCoverProperties msCoverProperties) {
-        ResourceMediator resourceMediator = create();
+        ResourceMediatorInterface resourceMediator = create();
         resourceMediator.setDateFilter(DateFilterFactory.createCutOffDateFilter(timeMachine, msCoverProperties));
         resourceMediator.setResourceFilter(ResourceFilterFactory.createAntPatternResourceFilter(msCoverProperties));
         return resourceMediator;
     }
 
-    public ResourceMediator createWithEmptyFilters() {
-        ResourceMediator resourceMediator = create();
+    public ResourceMediatorInterface createWithEmptyFilters() {
+        ResourceMediatorInterface resourceMediator = create();
         resourceMediator.setResourceFilter(ResourceFilterFactory.createEmptyFilter());
         resourceMediator.setDateFilter(DateFilterFactory.createEmptyDateFilter());
         return resourceMediator;

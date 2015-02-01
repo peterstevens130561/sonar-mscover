@@ -7,7 +7,7 @@ import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorInterface;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
 
 /**
@@ -20,20 +20,20 @@ import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
  */
 public class SonarMeasureSaver implements MeasureSaver {
     private SensorContext sensorContext;
-    private ResourceMediator resourceMediator;
+    private ResourceMediatorInterface resourceMediator;
     private ResourceSeam resource;
     private Boolean ignoreSaveTwice=false;
     private Project project;
 
     private SonarMeasureSaver(Project project,SensorContext sensorContext,
-            ResourceMediator resourceMediator) {
+            ResourceMediatorInterface resourceMediator) {
         this.sensorContext = sensorContext;
         this.resourceMediator = resourceMediator;
         this.project = project;
     }
 
     public static SonarMeasureSaver create(Project project,SensorContext sensorContext,
-            ResourceMediator resourceMediator) {
+            ResourceMediatorInterface resourceMediator) {
         return new SonarMeasureSaver(project,sensorContext, resourceMediator);
     }
 

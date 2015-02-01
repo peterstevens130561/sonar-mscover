@@ -55,12 +55,10 @@ public class VisualStudioProjectBuilder extends ProjectBuilder {
 
   private final Settings settings;
 private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-private Project project;
 
-  public VisualStudioProjectBuilder(Settings settings,MicrosoftWindowsEnvironment microsoftWindowsEnvironment, Project project) {
+  public VisualStudioProjectBuilder(Settings settings,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
     this.settings = settings;
     this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
-    this.project = project;
   }
 
   @Override
@@ -166,7 +164,7 @@ private static void logSkippedProject(VisualStudioSolutionProject solutionProjec
           solutionProject.addTestFiles(file.getAbsolutePath());
         } else {
           solutionProject.addSourceFiles(file);
-          createResource(file,projectFile.getParentFile());
+          //createResource(file,projectFile.getParentFile());
         }
       }
     }
@@ -175,19 +173,19 @@ private static void logSkippedProject(VisualStudioSolutionProject solutionProjec
   }
 
 
-
-  protected Resource createResource(File file,File sourceDir) {
+/*
+  protected Resource createResource(File file,Project project) {
       List<File> sourceDirs = new ArrayList<File>();
       sourceDirs.add(sourceDir);
       org.sonar.api.resources.File resource = org.sonar.api.resources.File
-              .fromIOFile(file, project);
+              .fromIOFile(file, project;
 
       if (resource == null) {
           LOG.debug("Could not create resource for {}", file.getName());
       } 
       return resource;
   }
-
+*/
  
 
   private static boolean isInSourceDir(File file, File folder) {

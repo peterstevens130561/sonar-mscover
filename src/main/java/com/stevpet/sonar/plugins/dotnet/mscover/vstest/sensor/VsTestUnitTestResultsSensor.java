@@ -17,8 +17,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvi
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorInterface;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.AbstractCoverageHelperFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.SonarCoverageHelperFactory;
@@ -41,12 +41,12 @@ public class VsTestUnitTestResultsSensor implements Sensor {;
     private VsTestUnitTestResultsAnalyser vsTestUnitTestResultsAnalyser = new VsTestUnitTestResultsAnalyser();
     private FileSystem fileSystem;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-    private ResourceMediator resourceMediator;
+    private ResourceMediatorInterface resourceMediator;
     
     public VsTestUnitTestResultsSensor( MsCoverProperties propertiesHelper,TimeMachine timeMachine,
             VsTestEnvironment vsTestEnvironment,
             FileSystem fileSystem,
-            MicrosoftWindowsEnvironment microsoftWindowsEnvironment,ResourceMediator resourceMediator) {
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment,ResourceMediatorInterface resourceMediator) {
         this.timeMachine = timeMachine;
         this.propertiesHelper = propertiesHelper;
         unitTestRunner = WindowsVsTestRunner.create();

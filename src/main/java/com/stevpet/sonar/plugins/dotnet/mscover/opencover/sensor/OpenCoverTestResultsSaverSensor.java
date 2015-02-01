@@ -13,8 +13,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvi
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AbstractDotNetSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorInterface;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
@@ -29,18 +29,21 @@ public class OpenCoverTestResultsSaverSensor extends AbstractDotNetSensor {
     private ResourceMediatorFactory resourceMediatorFactory = new DefaultResourceMediatorFactory();
     private VsTestUnitTestResultsAnalyser analyser = new VsTestUnitTestResultsAnalyser();
     private FileSystem fileSystem;
+    private ResourceMediatorInterface resourceMediator;
 
     public OpenCoverTestResultsSaverSensor(
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             MsCoverProperties propertiesHelper,
             VsTestEnvironment vsTestEnvironment,
             TimeMachine timeMachine,
-            FileSystem fileSystem) {
+            FileSystem fileSystem,
+            ResourceMediatorInterface resourceMediator) {
         super(microsoftWindowsEnvironment, "OpenCover", propertiesHelper.getMode());
         this.propertiesHelper = propertiesHelper;
         this.vsTestEnvironment=vsTestEnvironment;
         this.timeMachine = timeMachine;
         this.fileSystem = fileSystem;
+        this.resourceMediator=resourceMediator;
     }
 
     @Override
@@ -68,7 +71,7 @@ public class OpenCoverTestResultsSaverSensor extends AbstractDotNetSensor {
             return;
         }
         LOG.info("Saving test results of " + project.getName()  );
-        ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(timeMachine,propertiesHelper);            
+        resourceMediator = resourceMediatorFactory.createWithFilters(timeMachine,propertiesHelper);            
         
         MeasureSaver measureSaver = SonarMeasureSaver.create(project,sensorContext,resourceMediator);
         analyser.setMeasureSaver(measureSaver);
