@@ -41,11 +41,12 @@ public class VsTestUnitTestResultsSensor implements Sensor {;
     private VsTestUnitTestResultsAnalyser vsTestUnitTestResultsAnalyser = new VsTestUnitTestResultsAnalyser();
     private FileSystem fileSystem;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
+    private ResourceMediator resourceMediator;
     
     public VsTestUnitTestResultsSensor( MsCoverProperties propertiesHelper,TimeMachine timeMachine,
             VsTestEnvironment vsTestEnvironment,
             FileSystem fileSystem,
-            MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment,ResourceMediator resourceMediator) {
         this.timeMachine = timeMachine;
         this.propertiesHelper = propertiesHelper;
         unitTestRunner = WindowsVsTestRunner.create();
@@ -53,6 +54,7 @@ public class VsTestUnitTestResultsSensor implements Sensor {;
         this.vsTestEnvironment = vsTestEnvironment;
         this.fileSystem = fileSystem;
         this.microsoftWindowsEnvironment= microsoftWindowsEnvironment;
+        this.resourceMediator=resourceMediator;
     }
     
     /**
@@ -77,7 +79,7 @@ public class VsTestUnitTestResultsSensor implements Sensor {;
         LOG.info("MsCover Starting analysing test results");
         String coveragePath;
         String resultsPath;
-        ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(sensorContext,project,timeMachine,propertiesHelper,fileSystem);            
+        resourceMediator = resourceMediatorFactory.createWithFilters(sensorContext,project,timeMachine,propertiesHelper,fileSystem);            
         
         MeasureSaver measureSaver = SonarMeasureSaver.create(project,sensorContext,resourceMediator);
 

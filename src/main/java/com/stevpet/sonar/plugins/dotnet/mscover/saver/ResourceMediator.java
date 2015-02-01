@@ -33,6 +33,13 @@ public class ResourceMediator {
 
 
     
+    public ResourceMediator(SensorContext sensorContext) {
+        resourceSeamFactory = new SonarResourceSeamFactory(sensorContext);
+    }
+
+
+
+
     /**
      * Connect the saver to context, project and registry
      */

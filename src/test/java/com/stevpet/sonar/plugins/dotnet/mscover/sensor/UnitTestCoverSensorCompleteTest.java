@@ -39,7 +39,7 @@ public class UnitTestCoverSensorCompleteTest {
 
     private VsTestUnitTestResultsSensor createSensor(
             MsCoverProperties propertiesHelper) {
-        VsTestUnitTestResultsSensor sensor = new VsTestUnitTestResultsSensor(propertiesHelper, null,vsTestEnvironment,null,microsoftWindowsEnvironmentMock.getMock());
+        VsTestUnitTestResultsSensor sensor = new VsTestUnitTestResultsSensor(propertiesHelper, null,vsTestEnvironment,null,microsoftWindowsEnvironmentMock.getMock(),null);
         return sensor;
     }
     

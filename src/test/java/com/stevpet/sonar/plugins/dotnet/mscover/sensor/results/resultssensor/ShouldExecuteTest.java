@@ -22,7 +22,7 @@ public class ShouldExecuteTest {
     public void before() {
         propertiesHelper = new MsCoverPropertiesStub();
         project = mock(Project.class);
-        resultsSensor = new VsTestUnitTestResultsSensor(propertiesHelper, null, null,null,null);
+        resultsSensor = new VsTestUnitTestResultsSensor(propertiesHelper, null, null,null,null,null);
     }
     
     @Test

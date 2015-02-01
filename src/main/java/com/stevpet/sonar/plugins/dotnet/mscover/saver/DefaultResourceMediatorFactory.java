@@ -11,10 +11,16 @@ import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFac
 
 public class DefaultResourceMediatorFactory implements ResourceMediatorFactory {
 
+    @Deprecated
     public ResourceMediator create(SensorContext sensorContext, Project project,FileSystem fileSystem) {
         return new ResourceMediator(sensorContext,project,fileSystem);
     }
+    
+    public ResourceMediator create(SensorContext sensorContext) {
+        return new ResourceMediator(sensorContext);
+    }
 
+    @Deprecated
     public ResourceMediator createWithFilters(SensorContext sensorContext,
             Project project, TimeMachine timeMachine,
             MsCoverProperties msCoverProperties,FileSystem fileSystem) {
@@ -24,6 +30,7 @@ public class DefaultResourceMediatorFactory implements ResourceMediatorFactory {
         return resourceMediator;
     }
 
+    @Deprecated
     public ResourceMediator createWithEmptyFilters(SensorContext sensorContext, Project project,FileSystem fileSystem) {
         ResourceMediator resourceMediator = create(sensorContext,project,fileSystem);
         resourceMediator.setResourceFilter(ResourceFilterFactory.createEmptyFilter());
@@ -31,4 +38,19 @@ public class DefaultResourceMediatorFactory implements ResourceMediatorFactory {
         return resourceMediator;
     }
 
+    public ResourceMediator createWithFilters(SensorContext sensorContext,
+             TimeMachine timeMachine,
+            MsCoverProperties msCoverProperties) {
+        ResourceMediator resourceMediator = create(sensorContext);
+        resourceMediator.setDateFilter(DateFilterFactory.createCutOffDateFilter(timeMachine, msCoverProperties));
+        resourceMediator.setResourceFilter(ResourceFilterFactory.createAntPatternResourceFilter(msCoverProperties));
+        return resourceMediator;
+    }
+
+    public ResourceMediator createWithEmptyFilters(SensorContext sensorContext) {
+        ResourceMediator resourceMediator = create(sensorContext);
+        resourceMediator.setResourceFilter(ResourceFilterFactory.createEmptyFilter());
+        resourceMediator.setDateFilter(DateFilterFactory.createEmptyDateFilter());
+        return resourceMediator;
+    }
 }

@@ -20,7 +20,7 @@ public class TestWrapper {
                 msCoverPropertiesMock.getMock(),
                 timeMachineMock.getMock(),
                 vsTestEnvironmentMock.getMock(),null,
-                microsoftWindowsEnvironmentMock.getMock());
+                microsoftWindowsEnvironmentMock.getMock(),null);
                 
     }
     
