@@ -79,7 +79,7 @@ public class VsTestUnitTestResultsSensor implements Sensor {;
         LOG.info("MsCover Starting analysing test results");
         String coveragePath;
         String resultsPath;
-        resourceMediator = resourceMediatorFactory.createWithFilters(sensorContext,project,timeMachine,propertiesHelper,fileSystem);            
+        resourceMediator = resourceMediatorFactory.createWithFilters(timeMachine,propertiesHelper);            
         
         MeasureSaver measureSaver = SonarMeasureSaver.create(project,sensorContext,resourceMediator);
 

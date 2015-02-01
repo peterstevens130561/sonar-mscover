@@ -27,14 +27,7 @@ public class ResourceMediator {
     public ResourceMediator() {
         resourceSeamFactory = new SonarResourceSeamFactory();       
     }
-    
-    @Deprecated
-    public ResourceMediator(SensorContext context,Project project) {
-        this.project = project ;
-        resourceSeamFactory = new SonarResourceSeamFactory();
-    }
-    
-
+ 
 
     @Deprecated
     public ResourceMediator(SensorContext sensorContext) {

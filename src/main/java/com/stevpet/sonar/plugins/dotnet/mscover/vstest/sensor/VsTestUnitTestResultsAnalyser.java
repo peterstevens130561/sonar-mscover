@@ -49,7 +49,7 @@ public class VsTestUnitTestResultsAnalyser {
      * @deprecated Use {@link #UnitTestAnalyser(Project,SensorContext,MeasureSaver,SourceFilePathHelper)} instead
      */
     public VsTestUnitTestResultsAnalyser(Project project, SensorContext sensorContext,MeasureSaver measureSaver,FileSystem fileSystem) {
-        this(sensorContext,project, measureSaver, new SourceFilePathHelper(),new DefaultResourceMediatorFactory().createWithEmptyFilters(sensorContext, project,fileSystem),fileSystem);
+        this(sensorContext,project, measureSaver, new SourceFilePathHelper(),new DefaultResourceMediatorFactory().createWithEmptyFilters(),fileSystem);
     }
 
     public VsTestUnitTestResultsAnalyser() {

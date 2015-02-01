@@ -1,10 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.saver;
 
-import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
-import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.resources.Project;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 
@@ -16,6 +12,6 @@ public class ResourceMediatorFactoryMock extends GenericClassMock<ResourceMediat
     }
 
     public void onCreate(ResourceMediatorMock resourceMediatorMock) {
-        when(instance.createWithFilters(any(SensorContext.class),any(Project.class), any(TimeMachine.class), any(MsCoverProperties.class),any(FileSystem.class))).thenReturn(resourceMediatorMock.getMock());
+        when(instance.createWithFilters(any(TimeMachine.class), any(MsCoverProperties.class))).thenReturn(resourceMediatorMock.getMock());
     }
 }

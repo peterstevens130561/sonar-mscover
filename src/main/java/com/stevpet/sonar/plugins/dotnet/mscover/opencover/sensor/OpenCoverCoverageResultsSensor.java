@@ -31,7 +31,6 @@ public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
     private TimeMachine timeMachine;
     private ResourceMediatorFactory resourceMediatorFactory = new DefaultResourceMediatorFactory();
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-    private FileSystem fileSystem;
     public OpenCoverCoverageResultsSensor(
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             MsCoverProperties propertiesHelper,
@@ -44,7 +43,6 @@ public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
         this.propertiesHelper = propertiesHelper;
         this.vsTestEnvironment=vsTestEnvironment;
         this.timeMachine = timeMachine;
-        this.fileSystem=fileSystem;
     }
 
     @Override
@@ -74,7 +72,7 @@ public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
             return ;
         }
         LOG.info("Saving opencover line & branch coverage for " + project.getName());
-        ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(sensorContext, project, timeMachine, propertiesHelper,fileSystem);
+        ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(timeMachine, propertiesHelper);
         MeasureSaver measureSaver = SonarMeasureSaver.create(project,sensorContext, resourceMediator);
         SonarCoverageSaver sonarCoverageSaver = new SonarCoverageSaver(sensorContext, project, measureSaver);
         SonarCoverage sonarCoverageRegistry = vsTestEnvironment.getSonarCoverage();

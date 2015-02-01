@@ -29,7 +29,7 @@ public class CreateWithFiltersTest {
         MsCoverProperties propertiesHelper = PropertiesHelper.create(settings);
         
         fileSystemMock.givenDefaultEncoding();
-        ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(sensorContext, project, timeMachine, propertiesHelper,fileSystemMock.getMock());
+        ResourceMediator resourceMediator = resourceMediatorFactory.createWithFilters(timeMachine, propertiesHelper);
         assertNotNull(resourceMediator);
     }
 
