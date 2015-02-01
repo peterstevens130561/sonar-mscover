@@ -1,12 +1,14 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.sensor.results;
 
 import java.io.File;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 import org.sonar.test.TestUtils;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.mock.SensorContextMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
@@ -21,6 +23,7 @@ import static org.mockito.Mockito.anyDouble;
 
 public class UnitTestAnalyserTest {
    
+    private SensorContextMock sensorContextMock = new SensorContextMock();
     private Project project;
     private MeasureSaver measureSaver;
     private ResourceMediator resourceMediator;
@@ -68,7 +71,7 @@ public class UnitTestAnalyserTest {
     }
 
     private VsTestUnitTestResultsAnalyser createResultsAnalyser() {
-        VsTestUnitTestResultsAnalyser analyser = new VsTestUnitTestResultsAnalyser(project, measureSaver,mock(SourceFilePathHelper.class),resourceMediator,fileSystemMock.getMock()) ;
+        VsTestUnitTestResultsAnalyser analyser = new VsTestUnitTestResultsAnalyser(sensorContextMock.getMock(),project, measureSaver,mock(SourceFilePathHelper.class),resourceMediator,fileSystemMock.getMock()) ;
         return analyser;
     }
 

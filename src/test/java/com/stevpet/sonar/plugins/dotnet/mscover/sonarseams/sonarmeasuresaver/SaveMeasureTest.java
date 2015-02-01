@@ -10,7 +10,6 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.File;
 
@@ -20,10 +19,8 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.measures.Metric.ValueType;
-import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.ProjectMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.FileResource;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.NullResource;

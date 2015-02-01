@@ -2,8 +2,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
@@ -19,7 +17,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 public class OpenCoverCommandBuilder {
 
     private OpenCoverCommand openCoverCommand;
-    private VisualStudioSolution solution;
     private MsCoverProperties msCoverProperties;
     private VsTestRunner unitTestRunner;
     private VsTestEnvironment testEnvironment;

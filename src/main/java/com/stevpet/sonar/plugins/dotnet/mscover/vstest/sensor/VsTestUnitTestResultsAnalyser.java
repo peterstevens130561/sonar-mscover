@@ -42,23 +42,27 @@ public class VsTestUnitTestResultsAnalyser {
     private SourceFilePathHelper sourceFilePathHelper = new SourceFilePathHelper();
     private ResourceMediator resourceMediator;
     private FileSystem fileSystem;
+    private SensorContext sensorContext;
+    private Project project;
     
     /**
      * @deprecated Use {@link #UnitTestAnalyser(Project,SensorContext,MeasureSaver,SourceFilePathHelper)} instead
      */
-    public VsTestUnitTestResultsAnalyser(Project project, SensorContext context,MeasureSaver measureSaver,FileSystem fileSystem) {
-        this(project, measureSaver, new SourceFilePathHelper(),new DefaultResourceMediatorFactory().createWithEmptyFilters(context, project,fileSystem),fileSystem);
+    public VsTestUnitTestResultsAnalyser(Project project, SensorContext sensorContext,MeasureSaver measureSaver,FileSystem fileSystem) {
+        this(sensorContext,project, measureSaver, new SourceFilePathHelper(),new DefaultResourceMediatorFactory().createWithEmptyFilters(sensorContext, project,fileSystem),fileSystem);
     }
 
     public VsTestUnitTestResultsAnalyser() {
         
     }
     
-    public VsTestUnitTestResultsAnalyser(Project project,MeasureSaver measureSaver, SourceFilePathHelper sourceFilePathHelper,ResourceMediator resourceMediator,FileSystem fileSystem) {
+    public VsTestUnitTestResultsAnalyser(SensorContext sensorContext,Project project,MeasureSaver measureSaver, SourceFilePathHelper sourceFilePathHelper,ResourceMediator resourceMediator,FileSystem fileSystem) {
         this.measureSaver = measureSaver;
         this.sourceFilePathHelper = sourceFilePathHelper;
         this.resourceMediator = resourceMediator; 
         this.fileSystem=fileSystem;
+        this.sensorContext=sensorContext;
+        this.project=project;
     }
     
     
@@ -122,7 +126,7 @@ public class VsTestUnitTestResultsAnalyser {
         UnitTestResultRegistry unitTestResultRegistry = registry.getResults();
         filesResultRegistry.mapResults(unitTestResultRegistry, map);
        
-        TrxTestSaver testSaver = new TrxTestSaver(resourceMediator,measureSaver);
+        TrxTestSaver testSaver = new TrxTestSaver(sensorContext, project, resourceMediator,measureSaver);
 
         testSaver.setUnitTestFilesResultRegistry(filesResultRegistry);
         testSaver.setSourceFileNamesRegistry(sourceFileNamesRegistry);

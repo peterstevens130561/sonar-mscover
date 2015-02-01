@@ -4,6 +4,8 @@ import java.io.File;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.SensorContext;
+import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
@@ -28,11 +30,17 @@ public class TrxTestSaver implements TestSaver {
     ResultsModel  projectSummaryResults;
     MeasureSaver measureSaver;
     private ResourceMediator resourceMediator;
+
+    private SensorContext sensorContext;
+
+    private Project project;
     
 
-    public TrxTestSaver(ResourceMediator resourceMediator,MeasureSaver measureSaver) {
+    public TrxTestSaver(SensorContext sensorContext, Project project,ResourceMediator resourceMediator,MeasureSaver measureSaver) {
         this.resourceMediator = resourceMediator;
         this.measureSaver = measureSaver;
+        this.sensorContext = sensorContext;
+        this.project=project;
         testResultsSaver = new TestResultsSaver(measureSaver);
     }
     public SourceFileNamesRegistry getSourceFileNamesRegistry() {
@@ -88,7 +96,7 @@ public class TrxTestSaver implements TestSaver {
                 LOG.warn("Could not get unit test file for file "+sourceFileName);
                 return new NullResource();
             }
-            return resourceMediator.getSonarTestResource(sourceFile);
+            return resourceMediator.getSonarResource(sensorContext, project, sourceFile);
         }
    
     }
