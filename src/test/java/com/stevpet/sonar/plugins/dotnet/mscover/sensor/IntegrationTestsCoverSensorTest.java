@@ -19,11 +19,13 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindowsEnvironmentMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.ProjectMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
@@ -34,6 +36,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvi
 public class IntegrationTestsCoverSensorTest {
 
     MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
+    ResourceMediatorMock resourceMediatorMock = new ResourceMediatorMock();
     Sensor sensor;
     ProjectMock projectMock = new ProjectMock();
     SensorContext context ;
@@ -99,7 +102,7 @@ public class IntegrationTestsCoverSensorTest {
         public  IntegrationTestsCoverSensorStub(MsCoverProperties propertiesHelper,
                 MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
                 TimeMachine timeMachine) {
-            super(propertiesHelper, timeMachine,coverageHelperFactoryMock.getMock(),fileSystemMock.getMock(),microsoftWindowsEnvironment);
+            super(propertiesHelper, timeMachine,coverageHelperFactoryMock.getMock(),fileSystemMock.getMock(),microsoftWindowsEnvironment,resourceMediatorMock.getMock());
         }
     }
 }

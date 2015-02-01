@@ -20,7 +20,7 @@ public class AnalyseTest {
         MicrosoftWindowsEnvironment microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
         propertiesHelper = mock(PropertiesHelper.class);
         VsTestEnvironment vsTestEnvironment = new VsTestEnvironment();
-        new OpenCoverCoverageResultsSensor(microsoftWindowsEnvironment,propertiesHelper, vsTestEnvironment, null,null,null);
+        new OpenCoverCoverageResultsSensor(microsoftWindowsEnvironment,propertiesHelper, vsTestEnvironment,null,null);
           
     }
     

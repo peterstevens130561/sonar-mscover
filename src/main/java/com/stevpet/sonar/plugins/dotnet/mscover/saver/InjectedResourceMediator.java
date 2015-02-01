@@ -2,7 +2,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.saver;
 
 import java.io.File;
 
-import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.resources.Project;
@@ -15,9 +14,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
 
-//@InstantiationStrategy(InstantiationStrategy.PER_BATCH)
-public class InjectedResourceMediator implements ResourceMediatorInterface, BatchExtension {
-    private ResourceMediator resourceMediator = new ResourceMediator();
+public class InjectedResourceMediator implements ResourceMediator, BatchExtension {
+    private DefaultResourceMediator resourceMediator = new DefaultResourceMediator();
     public InjectedResourceMediator(TimeMachine timeMachine, MsCoverProperties msCoverProperties) {
         resourceMediator.setDateFilter(DateFilterFactory.createCutOffDateFilter(timeMachine, msCoverProperties));
         resourceMediator.setResourceFilter(ResourceFilterFactory.createAntPatternResourceFilter(msCoverProperties));

@@ -11,9 +11,9 @@ import org.sonar.api.resources.Project;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
 
-public class ResourceMediatorMock extends GenericClassMock<ResourceMediator> {
+public class ResourceMediatorMock extends GenericClassMock<DefaultResourceMediator> {
     public ResourceMediatorMock() {
-        super(ResourceMediator.class);
+        super(DefaultResourceMediator.class);
     }
 
     public void givenSonarResource(ResourceSeam seam) {

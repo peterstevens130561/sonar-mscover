@@ -7,10 +7,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 public interface ResourceMediatorFactory {
  
     @Deprecated
-    ResourceMediatorInterface createWithFilters(
+    ResourceMediator createWithFilters(
             TimeMachine timeMachine,
            MsCoverProperties msCoverProperties);
     @Deprecated
-    ResourceMediatorInterface createWithEmptyFilters();
+    ResourceMediator createWithEmptyFilters();
     
 }

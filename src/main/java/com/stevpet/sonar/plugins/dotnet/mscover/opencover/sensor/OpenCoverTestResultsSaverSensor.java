@@ -5,16 +5,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AbstractDotNetSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorInterface;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
@@ -25,23 +22,19 @@ public class OpenCoverTestResultsSaverSensor extends AbstractDotNetSensor {
     private static final Logger LOG = LoggerFactory.getLogger(OpenCoverCoverageResultsSensor.class);
     private MsCoverProperties propertiesHelper;
     private VsTestEnvironment vsTestEnvironment;
-    private TimeMachine timeMachine;
-    private ResourceMediatorFactory resourceMediatorFactory = new DefaultResourceMediatorFactory();
     private VsTestUnitTestResultsAnalyser analyser = new VsTestUnitTestResultsAnalyser();
     private FileSystem fileSystem;
-    private ResourceMediatorInterface resourceMediator;
+    private ResourceMediator resourceMediator;
 
     public OpenCoverTestResultsSaverSensor(
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             MsCoverProperties propertiesHelper,
             VsTestEnvironment vsTestEnvironment,
-            TimeMachine timeMachine,
             FileSystem fileSystem,
-            ResourceMediatorInterface resourceMediator) {
+            ResourceMediator resourceMediator) {
         super(microsoftWindowsEnvironment, "OpenCover", propertiesHelper.getMode());
         this.propertiesHelper = propertiesHelper;
         this.vsTestEnvironment=vsTestEnvironment;
-        this.timeMachine = timeMachine;
         this.fileSystem = fileSystem;
         this.resourceMediator=resourceMediator;
     }
@@ -70,8 +63,7 @@ public class OpenCoverTestResultsSaverSensor extends AbstractDotNetSensor {
             LOG.info("Will not execute OpenCoverage test results sensor, as tests have not run");
             return;
         }
-        LOG.info("Saving test results of " + project.getName()  );
-        resourceMediator = resourceMediatorFactory.createWithFilters(timeMachine,propertiesHelper);            
+        LOG.info("Saving test results of " + project.getName()  );       
         
         MeasureSaver measureSaver = SonarMeasureSaver.create(project,sensorContext,resourceMediator);
         analyser.setMeasureSaver(measureSaver);

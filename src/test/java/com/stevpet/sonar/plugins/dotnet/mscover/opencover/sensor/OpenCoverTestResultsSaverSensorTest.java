@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.batch.TimeMachine;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
@@ -23,20 +22,18 @@ public class OpenCoverTestResultsSaverSensorTest {
     MicrosoftWindowsEnvironment microsoftWindowsEnvironment ;
     MsCoverProperties msCoverProperties;
     private VsTestEnvironment vsTestEnvironment;
-    private TimeMachine timeMachine;
     
     @Before
     public void before() {
         microsoftWindowsEnvironment = microsoftWindowsEnvironmentMock.getMock();
         msCoverProperties = msCoverPropertiesMock.getMock();
         vsTestEnvironment = vsTestEnvironmentMock.getMock();
-        timeMachine = timeMachineMock.getMock();
     }
     
     @Test
     public void getSupportedLanguages_ExpectCsOnly() {
         OpenCoverTestResultsSaverSensor sensor = new OpenCoverTestResultsSaverSensor(microsoftWindowsEnvironment, 
-                msCoverProperties,vsTestEnvironment,timeMachine,null,null);
+                msCoverProperties,vsTestEnvironment,null,null);
         String[] languages = sensor.getSupportedLanguages();
         assertNotNull(languages);
         assertEquals("cs",languages[0]);

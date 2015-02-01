@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 
@@ -16,9 +15,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AbstractDotNetSensor
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarCoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorInterface;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
@@ -28,23 +25,19 @@ public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
     private static final Logger LOG = LoggerFactory.getLogger(OpenCoverCoverageResultsSensor.class);
     private MsCoverProperties propertiesHelper;
     private VsTestEnvironment vsTestEnvironment;
-    private TimeMachine timeMachine;
-    private ResourceMediatorFactory resourceMediatorFactory = new DefaultResourceMediatorFactory();
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-    private ResourceMediatorInterface resourceMediator;
+    private ResourceMediator resourceMediator;
     public OpenCoverCoverageResultsSensor(
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             MsCoverProperties propertiesHelper,
             VsTestEnvironment vsTestEnvironment,
-            TimeMachine timeMachine,
             FileSystem fileSystem,
-            ResourceMediatorInterface resourceMediator) {
+            ResourceMediator resourceMediator) {
 
         super(microsoftWindowsEnvironment, "OpenCover", propertiesHelper.getMode());
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.propertiesHelper = propertiesHelper;
         this.vsTestEnvironment=vsTestEnvironment;
-        this.timeMachine = timeMachine;
         this.resourceMediator=resourceMediator;
     }
 
@@ -75,7 +68,6 @@ public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
             return ;
         }
         LOG.info("Saving opencover line & branch coverage for " + project.getName());
-        ResourceMediatorInterface resourceMediator = resourceMediatorFactory.createWithFilters(timeMachine, propertiesHelper);
         MeasureSaver measureSaver = SonarMeasureSaver.create(project,sensorContext, resourceMediator);
         SonarCoverageSaver sonarCoverageSaver = new SonarCoverageSaver(sensorContext, project, measureSaver);
         SonarCoverage sonarCoverageRegistry = vsTestEnvironment.getSonarCoverage();

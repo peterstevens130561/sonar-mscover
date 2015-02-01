@@ -11,6 +11,7 @@ import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindowsEnvironmentMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.UnitTestRunnerTestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestUnitTestResultsSensor;
@@ -19,6 +20,7 @@ public class UnitTestCoverSensorCompleteTest {
     private Project project;
     private VsTestEnvironment vsTestEnvironment;
     private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
+    private ResourceMediatorMock resourceMediatorMock = new ResourceMediatorMock();
 
     @Before 
     public void before() {
@@ -39,7 +41,7 @@ public class UnitTestCoverSensorCompleteTest {
 
     private VsTestUnitTestResultsSensor createSensor(
             MsCoverProperties propertiesHelper) {
-        VsTestUnitTestResultsSensor sensor = new VsTestUnitTestResultsSensor(propertiesHelper, null,vsTestEnvironment,null,microsoftWindowsEnvironmentMock.getMock(),null);
+        VsTestUnitTestResultsSensor sensor = new VsTestUnitTestResultsSensor(propertiesHelper,vsTestEnvironment,null,microsoftWindowsEnvironmentMock.getMock(),resourceMediatorMock.getMock());
         return sensor;
     }
     

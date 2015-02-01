@@ -19,7 +19,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegi
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorInterface;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TrxTestSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteVsTestParserFactory;
@@ -40,23 +40,17 @@ public class VsTestUnitTestResultsAnalyser {
     private VsTestParserFactory factory = new ConcreteVsTestParserFactory();
     private MeasureSaver measureSaver;
     private SourceFilePathHelper sourceFilePathHelper = new SourceFilePathHelper();
-    private ResourceMediatorInterface resourceMediator;
+    private ResourceMediator resourceMediator;
     private FileSystem fileSystem;
     private SensorContext sensorContext;
     private Project project;
     
-    /**
-     * @deprecated Use {@link #UnitTestAnalyser(Project,SensorContext,MeasureSaver,SourceFilePathHelper)} instead
-     */
-    public VsTestUnitTestResultsAnalyser(Project project, SensorContext sensorContext,MeasureSaver measureSaver,FileSystem fileSystem) {
-        this(sensorContext,project, measureSaver, new SourceFilePathHelper(),new DefaultResourceMediatorFactory().createWithEmptyFilters(),fileSystem);
-    }
 
     public VsTestUnitTestResultsAnalyser() {
         
     }
     
-    public VsTestUnitTestResultsAnalyser(SensorContext sensorContext,Project project,MeasureSaver measureSaver, SourceFilePathHelper sourceFilePathHelper,ResourceMediatorInterface resourceMediator,FileSystem fileSystem) {
+    public VsTestUnitTestResultsAnalyser(SensorContext sensorContext,Project project,MeasureSaver measureSaver, SourceFilePathHelper sourceFilePathHelper,ResourceMediator resourceMediator,FileSystem fileSystem) {
         this.measureSaver = measureSaver;
         this.sourceFilePathHelper = sourceFilePathHelper;
         this.resourceMediator = resourceMediator; 
@@ -74,7 +68,7 @@ public class VsTestUnitTestResultsAnalyser {
         this.sourceFilePathHelper = sourceFilePathHelper;
     }
     
-    public void setResourceMediator(ResourceMediatorInterface resourceMediator) {
+    public void setResourceMediator(ResourceMediator resourceMediator) {
         this.resourceMediator = resourceMediator;
     }
     /**

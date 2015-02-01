@@ -13,7 +13,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry.ForEachUnitTestFile;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorInterface;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.NullResource;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
@@ -29,14 +29,14 @@ public class TrxTestSaver implements TestSaver {
     private SourceFilePathHelper sourceFilePathHelper;
     ResultsModel  projectSummaryResults;
     MeasureSaver measureSaver;
-    private ResourceMediatorInterface resourceMediator;
+    private ResourceMediator resourceMediator;
 
     private SensorContext sensorContext;
 
     private Project project;
     
 
-    public TrxTestSaver(SensorContext sensorContext, Project project,ResourceMediatorInterface resourceMediator,MeasureSaver measureSaver) {
+    public TrxTestSaver(SensorContext sensorContext, Project project,ResourceMediator resourceMediator,MeasureSaver measureSaver) {
         this.resourceMediator = resourceMediator;
         this.measureSaver = measureSaver;
         this.sensorContext = sensorContext;
