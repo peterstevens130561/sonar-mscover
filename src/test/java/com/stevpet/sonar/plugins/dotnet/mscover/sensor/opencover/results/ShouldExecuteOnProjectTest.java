@@ -62,7 +62,6 @@ public class ShouldExecuteOnProjectTest {
     public void regularCSProjectOpenCoverMode_ShouldExecute() {
         givenProjectLanguageIsCSharp();
         when(project.isRoot()).thenReturn(false);
-        //when(vsProject.isTest()).thenReturn(false);
         when(propertiesHelper.runOpenCover()).thenReturn(true);
         when(propertiesHelper.getMode()).thenReturn("runvstest");
         vsTestEnvironment.setTestsHaveRun();

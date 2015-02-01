@@ -6,12 +6,9 @@ import org.sonar.api.resources.File;
 
 public class SonarResourceSeamFactory implements ResourceSeamFactory{
 
-    private SensorContext sensorContext;
-
-    public SonarResourceSeamFactory(SensorContext sensorContext) {
-        this.sensorContext = sensorContext;
+    public SonarResourceSeamFactory() {
     }
-    public ResourceSeam createFileResource(File resource) {
+    public ResourceSeam createFileResource(SensorContext sensorContext,File resource) {
         return new FileResource(sensorContext,resource);
     }
 

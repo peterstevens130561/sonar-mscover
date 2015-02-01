@@ -20,9 +20,11 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.measures.Metric.ValueType;
+import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.ProjectMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.FileResource;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.NullResource;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
@@ -36,7 +38,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
  */
 public class SaveMeasureTest {
 
-    private ResourceMediator resourceMediator;
+    private ResourceMediatorMock resourceMediatorMock =  new ResourceMediatorMock();
     private SensorContext sensorContext;
     private MeasureSaver measureSaver;
     private ResourceSeam seam;
@@ -50,12 +52,11 @@ public class SaveMeasureTest {
     public void setUp() throws Exception {
         sensorContext = mock(SensorContext.class);  
         org.sonar.api.resources.File dummyResource =  org.sonar.api.resources.File.create("somefile");
-        seam = new SonarResourceSeamFactory(sensorContext).createFileResource(dummyResource);
-        resourceMediator = mock(ResourceMediator.class);
-        when(resourceMediator.getSonarFileResource(any(File.class))).thenReturn(seam);
+        seam = new SonarResourceSeamFactory().createFileResource(sensorContext,dummyResource);
+        resourceMediatorMock.givenSonarResource(seam);
         nullResourceSeam = mock(NullResource.class);
         normalSeam = mock(FileResource.class);
-        measureSaver = SonarMeasureSaver.create(projectMock.getMock(),sensorContext,resourceMediator);
+        measureSaver = SonarMeasureSaver.create(projectMock.getMock(),sensorContext,resourceMediatorMock.getMock());
 
     }
 
@@ -76,7 +77,7 @@ public class SaveMeasureTest {
     
     @Test
     public void invalidResource_shouldNotSave() {
-        when(resourceMediator.getSonarFileResource(any(File.class))).thenReturn(nullResourceSeam);
+        resourceMediatorMock.givenSonarResource(nullResourceSeam);
         Measure measure = new Measure();
         measureSaver.setFile(new File("somefile"));
         measureSaver.saveFileMeasure(measure);
@@ -159,15 +160,15 @@ public class SaveMeasureTest {
 
     private ResourceSeam givenAFileResource() {
         ResourceSeam resource = mock(ResourceSeam.class);
-        when(resourceMediator.getSonarFileResource(any(File.class))).thenReturn(resource);
+        resourceMediatorMock.givenSonarResource(resource);
         return resource;
     }
     private ResourceSeam givenAResourceThatWillThrowExceptionOnSaveMeasure() {
         ResourceSeam exceptionThrowingResource = mock(ResourceSeam.class);
         doThrow(new RuntimeException()).when(exceptionThrowingResource).saveMeasure(any(Measure.class));
         doThrow(new RuntimeException()).when(exceptionThrowingResource).saveMetricValue(any(Metric.class),anyDouble());
-        when(resourceMediator.getSonarFileResource(any(File.class))).thenReturn(exceptionThrowingResource);
+        resourceMediatorMock.givenSonarResource(exceptionThrowingResource);
         return exceptionThrowingResource;
     }
-    
+   
 }

@@ -13,11 +13,12 @@ public class DefaultResourceMediatorFactory implements ResourceMediatorFactory {
 
     @Deprecated
     public ResourceMediator create(SensorContext sensorContext, Project project,FileSystem fileSystem) {
-        return new ResourceMediator(sensorContext,project,fileSystem);
+        return new ResourceMediator(sensorContext,project);
     }
     
+    @Deprecated
     public ResourceMediator create(SensorContext sensorContext) {
-        return new ResourceMediator(sensorContext);
+        return new ResourceMediator();
     }
 
     @Deprecated

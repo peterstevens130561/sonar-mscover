@@ -4,7 +4,6 @@ import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
@@ -25,19 +24,22 @@ public class ResourceMediator {
     private Project project ;
     private ResourceSeamFactory resourceSeamFactory;
 
-    public ResourceMediator(SensorContext context,Project project,FileSystem fileSystem) {
+    public ResourceMediator() {
+        resourceSeamFactory = new SonarResourceSeamFactory();       
+    }
+    
+    @Deprecated
+    public ResourceMediator(SensorContext context,Project project) {
         this.project = project ;
-        resourceSeamFactory = new SonarResourceSeamFactory(context);
+        resourceSeamFactory = new SonarResourceSeamFactory();
     }
     
 
 
-    
+    @Deprecated
     public ResourceMediator(SensorContext sensorContext) {
-        resourceSeamFactory = new SonarResourceSeamFactory(sensorContext);
+        resourceSeamFactory = new SonarResourceSeamFactory();
     }
-
-
 
 
     /**
@@ -59,19 +61,21 @@ public class ResourceMediator {
      * @param file
      * @return resource
      */
+    @Deprecated
     public ResourceSeam getSonarFileResource(File file) {
-        return getSonarResource(file);
+        return getSonarResource(null,project,file);
 
     }
 
+    @Deprecated
     public ResourceSeam getSonarTestResource(File file) {
 
-        ResourceSeam sonarFile = getSonarResource(file);
+        ResourceSeam sonarFile = getSonarResource(null,project,file);
         return sonarFile ;
     }
 
 
-    private ResourceSeam getSonarResource(File file) {
+    public ResourceSeam getSonarResource(SensorContext sensorContext,Project project,File file) {
         ResourceSeam resource;
         org.sonar.api.resources.File sonarFile =SonarResourceHelper.getFromFile(file, project);
         if (sonarFile == null) {
@@ -79,7 +83,7 @@ public class ResourceMediator {
                     + file.getAbsolutePath());
             resource=resourceSeamFactory.createNullResource();
         } else {
-            resource=resourceSeamFactory.createFileResource(sonarFile);
+            resource=resourceSeamFactory.createFileResource(sensorContext,sonarFile);
         }
 
         String longName = resource.getLongName();

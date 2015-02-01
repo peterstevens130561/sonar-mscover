@@ -1,6 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.OpenCoverCommandBuilder;
@@ -9,7 +8,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.VsTestRunnerMoc
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyListOf;
 
 public class OpenCoverCommandBuilderMock extends GenericClassMock<OpenCoverCommandBuilder> {

@@ -45,7 +45,7 @@ public class SonarMeasureSaver implements MeasureSaver {
      * (java.io.File)
      */
     public void setFile(File file) {
-        resource = resourceMediator.getSonarFileResource(file);
+        resource = resourceMediator.getSonarResource(sensorContext, project, file);
     }
 
     /*
