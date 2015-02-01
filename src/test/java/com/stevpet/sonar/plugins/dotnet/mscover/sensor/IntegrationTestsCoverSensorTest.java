@@ -16,7 +16,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 
@@ -26,6 +25,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindowsEnvironmentMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.ProjectMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.MeasureSaverMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
@@ -45,13 +45,14 @@ public class IntegrationTestsCoverSensorTest {
     private CoverageHelperFactoryMock coverageHelperFactoryMock = new CoverageHelperFactoryMock();
     private ShouldExecuteHelperMock shouldExecuteHelperMock = new ShouldExecuteHelperMock();
     private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
+    private MeasureSaverMock measureSaverMock = new MeasureSaverMock();
     
     @Before
     public void before() {
         context = mock(SensorContext.class);
         coverageHelperFactoryMock.WhenCreateShouldExecuteHelper(shouldExecuteHelperMock);
         microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
-        sensor = new IntegrationTestsCoverSensorStub(msCoverPropertiesMock.getMock(),microsoftWindowsEnvironmentMock.getMock(),null);
+        sensor = new IntegrationTestsCoverSensorStub(msCoverPropertiesMock.getMock(),microsoftWindowsEnvironmentMock.getMock());
         msCoverPropertiesMock.givenMode("reuse");
 
         
@@ -100,9 +101,8 @@ public class IntegrationTestsCoverSensorTest {
     }
     private class IntegrationTestsCoverSensorStub extends IntegrationTestCoverSensor {
         public  IntegrationTestsCoverSensorStub(MsCoverProperties propertiesHelper,
-                MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-                TimeMachine timeMachine) {
-            super(propertiesHelper, timeMachine,coverageHelperFactoryMock.getMock(),fileSystemMock.getMock(),microsoftWindowsEnvironment,resourceMediatorMock.getMock());
+                MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+            super(propertiesHelper, coverageHelperFactoryMock.getMock(),fileSystemMock.getMock(),microsoftWindowsEnvironment,measureSaverMock.getMock());
         }
     }
 }

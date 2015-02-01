@@ -25,6 +25,7 @@ public class SonarMeasureSaver implements MeasureSaver {
     private Boolean ignoreSaveTwice=false;
     private Project project;
 
+    @Deprecated
     private SonarMeasureSaver(Project project,SensorContext sensorContext,
             ResourceMediator resourceMediator) {
         this.sensorContext = sensorContext;
@@ -32,9 +33,17 @@ public class SonarMeasureSaver implements MeasureSaver {
         this.project = project;
     }
 
+    public SonarMeasureSaver(ResourceMediator resourceMediator) {
+        this.resourceMediator = resourceMediator;
+    }
+
     public static SonarMeasureSaver create(Project project,SensorContext sensorContext,
             ResourceMediator resourceMediator) {
         return new SonarMeasureSaver(project,sensorContext, resourceMediator);
+    }
+    
+    public static MeasureSaver create(ResourceMediator resourceMediator) {
+        return new SonarMeasureSaver(resourceMediator);
     }
 
     /*
@@ -87,5 +96,15 @@ public class SonarMeasureSaver implements MeasureSaver {
     public void setExceptionOnTwiceSameMeasure() {
         ignoreSaveTwice=false;
     }
+
+    @Override
+    public void setProjectAndContext(Project project,
+            SensorContext sensorContext) {
+        this.project = project;
+        this.sensorContext=sensorContext;
+                
+    }
+
+
 
 }

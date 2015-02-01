@@ -12,7 +12,7 @@ import org.sonar.api.resources.Project;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindowsEnvironmentMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.MeasureSaverMock;
 
 public class IntegrationTestCoverSensorTest {
     private MsCoverProperties propertiesHelper;
@@ -20,13 +20,13 @@ public class IntegrationTestCoverSensorTest {
     private Sensor sensor;
     private SonarCoverageHelperFactory sonarCoverageHelperFactory = new SonarCoverageHelperFactory();
     private MicrosoftWindowsEnvironmentMock microsoftwWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
-    private ResourceMediatorMock resourceMediatorMock = new ResourceMediatorMock();
+    private MeasureSaverMock measureSaverMock = new MeasureSaverMock();
     @Before
     public void before() {       
 
         project = mock(Project.class);
         propertiesHelper = mock(PropertiesHelper.class);
-        sensor= new IntegrationTestCoverSensor(propertiesHelper,null,sonarCoverageHelperFactory,null,microsoftwWindowsEnvironmentMock.getMock(),resourceMediatorMock.getMock());
+        sensor= new IntegrationTestCoverSensor(propertiesHelper,sonarCoverageHelperFactory,null,microsoftwWindowsEnvironmentMock.getMock(),measureSaverMock.getMock());
         when(propertiesHelper.getMode()).thenReturn("reuse");
         when(propertiesHelper.getIntegrationTestsPath()).thenReturn("hi");
         when(propertiesHelper.isIntegrationTestsEnabled()).thenReturn(true);

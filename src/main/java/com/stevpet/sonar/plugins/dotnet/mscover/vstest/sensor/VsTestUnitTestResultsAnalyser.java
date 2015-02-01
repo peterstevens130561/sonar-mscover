@@ -18,7 +18,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediatorFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TrxTestSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;

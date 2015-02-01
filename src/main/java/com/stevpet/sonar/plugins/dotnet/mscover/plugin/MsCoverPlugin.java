@@ -30,6 +30,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.OpenCoverTestEx
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.InjectedResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.IntegrationTestCoverSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.SonarCoverageHelperFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.InjectedMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestExecutionSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestUnitTestResultsSensor;
@@ -116,6 +117,7 @@ public List getExtensions() {
     return Arrays.asList(
             SimpleMicrosoftWindowsEnvironment.class,
             InjectedResourceMediator.class,
+            InjectedMeasureSaver.class,
             VsTestEnvironment.class,
             PropertiesHelper.class,
             VisualStudioProjectBuilder.class,

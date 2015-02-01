@@ -2,8 +2,10 @@ package com.stevpet.sonar.plugins.dotnet.mscover.sonarseams;
 
 import java.io.File;
 
+import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
+import org.sonar.api.resources.Project;
 
 
 /**
@@ -34,5 +36,8 @@ public interface MeasureSaver {
     public void setIgnoreTwiceSameMeasure();
 
     public void setExceptionOnTwiceSameMeasure();
+
+    public void setProjectAndContext(Project project,
+            SensorContext sensorContext);
 
 }
