@@ -15,9 +15,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AbstractDotNetSensor
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarCoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 @DependsUpon("OpenCoverRunningVsTest")
 public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
@@ -26,19 +24,19 @@ public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
     private MsCoverProperties propertiesHelper;
     private VsTestEnvironment vsTestEnvironment;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-    private ResourceMediator resourceMediator;
+    private MeasureSaver measureSaver;
     public OpenCoverCoverageResultsSensor(
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             MsCoverProperties propertiesHelper,
             VsTestEnvironment vsTestEnvironment,
             FileSystem fileSystem,
-            ResourceMediator resourceMediator) {
+            MeasureSaver measureSaver) {
 
         super(microsoftWindowsEnvironment, "OpenCover", propertiesHelper.getMode());
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.propertiesHelper = propertiesHelper;
         this.vsTestEnvironment=vsTestEnvironment;
-        this.resourceMediator=resourceMediator;
+        this.measureSaver = measureSaver;
     }
 
     @Override
@@ -68,7 +66,7 @@ public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
             return ;
         }
         LOG.info("Saving opencover line & branch coverage for " + project.getName());
-        MeasureSaver measureSaver = SonarMeasureSaver.create(project,sensorContext, resourceMediator);
+        measureSaver.setProjectAndContext(project, sensorContext);
         SonarCoverageSaver sonarCoverageSaver = new SonarCoverageSaver(sensorContext, project, measureSaver);
         SonarCoverage sonarCoverageRegistry = vsTestEnvironment.getSonarCoverage();
         List<File> testSourceFiles=microsoftWindowsEnvironment.getUnitTestSourceFiles();
