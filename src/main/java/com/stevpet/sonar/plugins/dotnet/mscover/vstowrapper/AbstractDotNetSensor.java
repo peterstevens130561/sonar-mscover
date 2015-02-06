@@ -18,7 +18,7 @@ public abstract class AbstractDotNetSensor implements Sensor {
 
     @Override
     public boolean shouldExecuteOnProject(Project project) {
-        return true;
+        return project.isRoot();
     }
     
     protected MicrosoftWindowsEnvironment getMicrosoftWindowsEnvironment() {

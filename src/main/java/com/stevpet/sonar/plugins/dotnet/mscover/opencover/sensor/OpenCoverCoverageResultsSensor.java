@@ -49,9 +49,6 @@ public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
         if(!super.shouldExecuteOnProject(project)) {
             return false;
         }
-        if(isTestProject(project)) {
-            return false;
-        }
         if(!propertiesHelper.runOpenCover()) {
             return false;
         }
