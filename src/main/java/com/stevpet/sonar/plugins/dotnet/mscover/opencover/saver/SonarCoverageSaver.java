@@ -4,9 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.resources.Project;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
@@ -18,10 +15,10 @@ public class SonarCoverageSaver {
     private FileCoverageSaver sonarBranchSaver;
     private FileCoverageSaver sonarLineSaver;
     private List<File> testFiles = new ArrayList<File>();
-    public SonarCoverageSaver(SensorContext sensorContext, Project project,MeasureSaver measureSaver) {
+    public SonarCoverageSaver(MeasureSaver measureSaver) {
 
         this.measureSaver=measureSaver;
-        
+  
     }
 
     public void setCoverageRegistry(SonarCoverage sonarCoverageRegistry) {

@@ -64,7 +64,7 @@ public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
         }
         LOG.info("Saving opencover line & branch coverage for " + project.getName());
         measureSaver.setProjectAndContext(project, sensorContext);
-        SonarCoverageSaver sonarCoverageSaver = new SonarCoverageSaver(sensorContext, project, measureSaver);
+        SonarCoverageSaver sonarCoverageSaver = new SonarCoverageSaver(measureSaver);
         SonarCoverage sonarCoverageRegistry = vsTestEnvironment.getSonarCoverage();
         List<File> testSourceFiles=microsoftWindowsEnvironment.getUnitTestSourceFiles();
         sonarCoverageSaver.setCoverageRegistry(sonarCoverageRegistry);

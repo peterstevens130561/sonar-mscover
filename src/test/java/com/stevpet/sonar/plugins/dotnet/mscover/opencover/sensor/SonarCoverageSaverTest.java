@@ -41,14 +41,14 @@ public class SonarCoverageSaverTest {
     
     @Test
     public void create_ExpectObject() {
-        SonarCoverageSaver coverageSaver = new SonarCoverageSaver(sensorContext,project,measureSaver);
+        SonarCoverageSaver coverageSaver = new SonarCoverageSaver(measureSaver);
         assertNotNull(coverageSaver);
     }
     
     @Test
     public void simpleSave() {
         measureSaver = mock(MeasureSaver.class);
-        SonarCoverageSaver coverageSaver = new SonarCoverageSaver(sensorContext,project, measureSaver);
+        SonarCoverageSaver coverageSaver = new SonarCoverageSaver(measureSaver);
         sonarCoverageRegistry = new SonarCoverage();
         coverageSaver.setCoverageRegistry(sonarCoverageRegistry);
 
@@ -72,7 +72,7 @@ public class SonarCoverageSaverTest {
     @Test
     public void simpleSaveWithExclusion() {
         measureSaver = mock(MeasureSaver.class);
-        SonarCoverageSaver coverageSaver = new SonarCoverageSaver(sensorContext,project, measureSaver);
+        SonarCoverageSaver coverageSaver = new SonarCoverageSaver(measureSaver);
         sonarCoverageRegistry = new SonarCoverage();
         coverageSaver.setCoverageRegistry(sonarCoverageRegistry);
 
