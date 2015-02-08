@@ -6,7 +6,6 @@ import static org.mockito.Mockito.mock;
 import org.junit.Test;
 import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.config.Settings;
-import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
@@ -19,7 +18,6 @@ public class CreateWithFiltersTest {
 
     @Test
     public void createShouldWork() {
-        Project project = mock(Project.class);
         FileSystemMock fileSystemMock=new FileSystemMock();
         TimeMachine timeMachine = mock(TimeMachine.class);
         Settings settings = mock(Settings.class);

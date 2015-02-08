@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
@@ -46,7 +47,7 @@ public class IntegrationTestCoverSensor implements Sensor {
             .getLogger(IntegrationTestCoverSensor.class);
 
     private final MsCoverProperties propertiesHelper ;
-    private CoverageSaver coverageHelper;
+
     private AbstractCoverageHelperFactory coverageHelperFactory ;
     private CommandLineExecutor executor = new WindowsCommandLineExecutor();
 
@@ -82,8 +83,25 @@ public class IntegrationTestCoverSensor implements Sensor {
     public void analyse(Project project, SensorContext sensorContext) {
         LOG.info("Running IntegrationTestCoverSensor");
        measureSaver.setProjectAndContext(project,sensorContext);
-        coverageHelper = coverageHelperFactory
-                .createIntegrationTestCoverageHelper(fileSystem, measureSaver);
+       
+
+        List<String> artifactNames = microsoftWindowsEnvironment.getArtifactNames();
+        CoverageSaver coverageHelper = coverageHelperFactory
+                .createVsTestIntegrationTestCoverageHelper(fileSystem, measureSaver);
+        if(StringUtils.isNotEmpty(propertiesHelper.getIntegrationTestsDir())) {
+            String xmlPath = getCoverageXmlPath();
+            coverageHelper.analyse(project, xmlPath,artifactNames);
+            return;
+        } else {
+            String xmlPath = getCoverageXmlPath();
+            coverageHelper.analyse(project, xmlPath,artifactNames); 
+            return;
+        }
+        
+    }
+
+
+    private String getCoverageXmlPath() {
         String coveragePath = propertiesHelper.getIntegrationTestsPath();
         String xmlPath;
         if (coveragePath.endsWith(".coverage")) {
@@ -107,8 +125,7 @@ public class IntegrationTestCoverSensor implements Sensor {
         } else {
             throw new SonarException("Invalid coverage format " + coveragePath);
         }
-        List<String> modules = microsoftWindowsEnvironment.getCurrentSolution().getModules();
-        coverageHelper.analyse(project, xmlPath,modules);
+        return xmlPath;
     }
 
 

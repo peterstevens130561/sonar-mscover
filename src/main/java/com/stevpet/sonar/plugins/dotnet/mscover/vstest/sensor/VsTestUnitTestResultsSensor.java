@@ -92,7 +92,7 @@ public class VsTestUnitTestResultsSensor implements Sensor {;
         if(propertiesHelper.runVsTest()) {
             AbstractCoverageHelperFactory coverageHelperFactory = new SonarCoverageHelperFactory();
             CoverageSaver coverageHelper = coverageHelperFactory.createUnitTestCoverageHelper(fileSystem, measureSaver);
-            List<String> modules = microsoftWindowsEnvironment.getCurrentSolution().getModules();
+            List<String> modules = microsoftWindowsEnvironment.getCurrentSolution().getArtifactNames();
             coverageHelper.analyse(project,coveragePath,modules);
         }
     }

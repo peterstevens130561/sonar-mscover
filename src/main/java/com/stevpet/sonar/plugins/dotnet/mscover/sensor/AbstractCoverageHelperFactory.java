@@ -6,7 +6,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
 public interface AbstractCoverageHelperFactory {
-    CoverageSaver createIntegrationTestCoverageHelper(
+    CoverageSaver createVsTestIntegrationTestCoverageHelper(
             FileSystem fileSystem,MeasureSaver measureSaver);
     CoverageSaver createUnitTestCoverageHelper(
             FileSystem fileSystem,MeasureSaver measureSaver) ;  

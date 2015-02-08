@@ -97,7 +97,7 @@ public List<File> getUnitTestSourceFiles() {
 }
 
 @Override
-public List<String> getModules() {
+public List<String> getArtifactNames() {
     List<String> modules = new ArrayList<String>();
     for(VisualStudioProject project:getProjects()) {
         String name=project.getArtifactName();

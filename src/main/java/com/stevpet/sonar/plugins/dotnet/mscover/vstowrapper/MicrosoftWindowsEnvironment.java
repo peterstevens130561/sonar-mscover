@@ -17,4 +17,11 @@ public interface MicrosoftWindowsEnvironment {
     
     public List<String> getAssemblies();
 
+
+    /**
+     * get the list of assemblies
+     * @return
+     */
+    List<String> getArtifactNames();
+
 }

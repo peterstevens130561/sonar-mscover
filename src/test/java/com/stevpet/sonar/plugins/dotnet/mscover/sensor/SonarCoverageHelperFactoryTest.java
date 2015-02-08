@@ -25,7 +25,7 @@ public class SonarCoverageHelperFactoryTest {
     @Test
 
     public void createIntegrationTestCoverageHelper_DoesNotActOnDependencies() {
-        CoverageSaver coverageHelper = factory.createIntegrationTestCoverageHelper(fileSystemMock.getMock(), measureSaver);
+        CoverageSaver coverageHelper = factory.createVsTestIntegrationTestCoverageHelper(fileSystemMock.getMock(), measureSaver);
         assertNotNull(coverageHelper);
 
     }

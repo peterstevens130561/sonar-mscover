@@ -8,10 +8,8 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
-import org.sonar.api.resources.Project;
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
@@ -30,8 +28,6 @@ import static org.mockito.Matchers.eq;
 
 public class SonarCoverageSaverTest {
     
-    private SensorContext sensorContext;
-    private Project project;
     private SonarCoverage sonarCoverageRegistry;
     private MeasureSaver measureSaver;
     @Before

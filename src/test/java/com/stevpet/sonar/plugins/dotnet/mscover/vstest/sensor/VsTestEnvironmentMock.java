@@ -51,4 +51,8 @@ public class VsTestEnvironmentMock {
         
     }
 
+    public void givenSonarCoverage(SonarCoverage sonarCoverage) {
+        when(vsTestEnvironment.getSonarCoverage()).thenReturn(sonarCoverage);
+    }
+
 }

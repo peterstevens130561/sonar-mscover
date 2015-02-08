@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.config.Settings;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.SettingsMock;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -14,6 +16,7 @@ import static org.mockito.Mockito.when;
 
 public class PropertiesHelperTest {
 
+    private SettingsMock settingsMock = new SettingsMock();
     private Settings settings;
     private MsCoverProperties helper;
 
@@ -23,6 +26,24 @@ public class PropertiesHelperTest {
         helper = PropertiesHelper.create(settings);
     }
 
+    @Test
+    public void IntegrationsTestsDirSet_ShouldBeEnabled() {
+        String path = "somepath";
+        helper=PropertiesHelper.create(settingsMock.getMock());
+        settingsMock.givenString(PropertiesHelper.MSCOVER_INTEGRATION_VSTESTDIR, path);
+        boolean enabled= helper.isIntegrationTestsEnabled();
+        assertTrue("integration tests dir set, so expect integration tests enabled",enabled);
+                
+    }
+    
+    @Test
+    public void IntegrationTestsDirSet_ExpectValue() {
+        String path = "somepath";
+        helper=PropertiesHelper.create(settingsMock.getMock());
+        settingsMock.givenString(PropertiesHelper.MSCOVER_INTEGRATION_VSTESTDIR, path);
+        String value=helper.getIntegrationTestsDir();
+        assertEquals(path,value);    
+    }
     @Test
     public void IntegrationTestsNotSet_ShouldBeDisabled() {
         // Arrange

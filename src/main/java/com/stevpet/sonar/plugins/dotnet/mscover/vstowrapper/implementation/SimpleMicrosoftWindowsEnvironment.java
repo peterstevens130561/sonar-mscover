@@ -54,4 +54,10 @@ public class SimpleMicrosoftWindowsEnvironment implements BatchExtension,Microso
         }
         return coveredAssemblyNames;
       }
+
+
+    @Override
+    public List<String> getArtifactNames() {
+        return getCurrentSolution().getArtifactNames();
+    }
 }

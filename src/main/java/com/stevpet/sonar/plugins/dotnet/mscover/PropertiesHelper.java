@@ -29,6 +29,7 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
     public static final String MSCOVER_INCLUSIONS=MSCOVER + "inclusions";
     public static final String MSCOVER_CUTOFFDATE=MSCOVER + "cutoffdate" ;
     public static final String MSCOVER_INTEGRATION_RESULTS= MSCOVER + "integrationtests.results";
+    public static final String MSCOVER_INTEGRATION_VSTESTDIR= MSCOVER + "integrationtests.vstestcoveragedir";
     public static final String MSCOVER_UNIT_RESULTS= MSCOVER + "unittests.results";
     public static final String MSCOVER_MODE = MSCOVER + "mode";
     public static final String MSCOVER_UNITTEST_ASSEMBLIES = MSCOVER + "unittests.assemblies";
@@ -47,7 +48,7 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
      * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#isIntegrationTestsEnabled()
      */
     public boolean isIntegrationTestsEnabled() {
-        return logic.isIntegrationTestsEnabled();
+        return StringUtils.isNotEmpty(getIntegrationTestsPath()) || StringUtils.isNotEmpty(getIntegrationTestsDir());
     }
     
     /* (non-Javadoc)
@@ -282,6 +283,11 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
     
     public boolean getOpenCoverSkipAutoProps() {
         return settings.getBoolean(MSCOVER_OPENCOVER_SKIPAUTOPROPS);
+    }
+
+    @Override
+    public String getIntegrationTestsDir() {
+        return settings.getString(MSCOVER_INTEGRATION_VSTESTDIR);
     }
     
 }

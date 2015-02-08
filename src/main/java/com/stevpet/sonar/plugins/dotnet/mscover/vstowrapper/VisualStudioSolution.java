@@ -31,6 +31,6 @@ public interface VisualStudioSolution {
 
     List<File> getUnitTestSourceFiles();
 
-    List<String> getModules();
+    List<String> getArtifactNames();
 
 }

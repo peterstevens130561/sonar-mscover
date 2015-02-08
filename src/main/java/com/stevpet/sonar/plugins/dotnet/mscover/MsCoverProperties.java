@@ -74,5 +74,7 @@ public interface MsCoverProperties {
     
     boolean getOpenCoverSkipAutoProps();
 
+    String getIntegrationTestsDir();
+
 
 }
