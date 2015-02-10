@@ -20,9 +20,12 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.sensor;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,49 +84,84 @@ public class IntegrationTestCoverSensor implements Sensor {
     }
 
     public void analyse(Project project, SensorContext sensorContext) {
-        LOG.info("Running IntegrationTestCoverSensor");
+       logInfo("Running");
        measureSaver.setProjectAndContext(project,sensorContext);
        
 
         List<String> artifactNames = microsoftWindowsEnvironment.getArtifactNames();
         CoverageSaver coverageHelper = coverageHelperFactory
                 .createVsTestIntegrationTestCoverageHelper(fileSystem, measureSaver);
-        if(StringUtils.isNotEmpty(propertiesHelper.getIntegrationTestsDir())) {
-            String xmlPath = getCoverageXmlPath();
-            coverageHelper.analyse(project, xmlPath,artifactNames);
-            return;
+        String integrationTestsDir=propertiesHelper.getIntegrationTestsDir();
+        if(StringUtils.isNotEmpty(integrationTestsDir)) {
+            logInfo("will take coverage data from directory:" + integrationTestsDir);
+            List<File> xmlFiles=convertVsTestCoverageFilesToXml(integrationTestsDir);
+            coverageHelper.analyse(project,xmlFiles,artifactNames);
         } else {
             String xmlPath = getCoverageXmlPath();
             coverageHelper.analyse(project, xmlPath,artifactNames); 
             return;
         }
-        
+        logInfo("Done");
     }
 
+
+ 
+
+    private List<File> convertVsTestCoverageFilesToXml(String integrationTestsDir) {
+        List<File> xmlFiles = new ArrayList<File>();
+        Collection<File> files=FileUtils.listFiles(new File(integrationTestsDir),new String[] {"coverage"} ,true);
+        for(File file:files) {
+            String xmlPath=transformIfNeeded(file.getAbsolutePath());
+            xmlFiles.add(new File(xmlPath));
+        }
+        return xmlFiles;
+    }
+
+    private class CoverageFileFilter implements IOFileFilter {
+
+        @Override
+        public boolean accept(File arg0) {
+            return arg0.isFile() && arg0.getName().endsWith(".coverage");
+        }
+
+        @Override
+        public boolean accept(File arg0, String arg1) {
+            // TODO Auto-generated method stub
+            return false;
+        }
+        
+    }
 
     private String getCoverageXmlPath() {
         String coveragePath = propertiesHelper.getIntegrationTestsPath();
         String xmlPath;
         if (coveragePath.endsWith(".coverage")) {
-            xmlPath = coveragePath.replace(".coverage", ".xml");
-            if (transformationNeeded(xmlPath, coveragePath)) {
-                CodeCoverageCommand command = new WindowsCodeCoverageCommand();
-                command.setSonarPath(fileSystem.workDir().getAbsolutePath());
-                command.setCoveragePath(coveragePath);
-                command.setOutputPath(xmlPath);
-                command.install();
-                LOG.info("IntegrationCoverSensor: creating .xml file");
-                int exitCode = executor.execute(command);
-                if (exitCode != 0) {
-                    throw new SonarException("failed");
-                }
-            } else {
-                LOG.info("Reusing xml file, as it is newer than the .coverage file");
-            }
+            xmlPath = transformIfNeeded(coveragePath);
         } else if (coveragePath.endsWith(".xml")) {
             xmlPath = coveragePath;
         } else {
             throw new SonarException("Invalid coverage format " + coveragePath);
+        }
+        return xmlPath;
+    }
+
+
+    private String transformIfNeeded(String coveragePath) {
+        String xmlPath;
+        xmlPath = coveragePath.replace(".coverage", ".xml");
+        if (transformationNeeded(xmlPath, coveragePath)) {
+            CodeCoverageCommand command = new WindowsCodeCoverageCommand();
+            command.setSonarPath(fileSystem.workDir().getAbsolutePath());
+            command.setCoveragePath(coveragePath);
+            command.setOutputPath(xmlPath);
+            command.install();
+            LOG.info("IntegrationCoverSensor: creating .xml file");
+            int exitCode = executor.execute(command);
+            if (exitCode != 0) {
+                throw new SonarException("failed");
+            }
+        } else {
+            LOG.info("Reusing xml file, as it is newer than the .coverage file");
         }
         return xmlPath;
     }
@@ -135,5 +173,10 @@ public class IntegrationTestCoverSensor implements Sensor {
         return !xmlFile.exists() || FileUtils.isFileNewer(coverageFile, xmlFile);
 
     }
+    
+    private void logInfo(String string) {
+        LOG.info("IntegrationTestCoverSensor: " + string);
+    }
+
 
 }

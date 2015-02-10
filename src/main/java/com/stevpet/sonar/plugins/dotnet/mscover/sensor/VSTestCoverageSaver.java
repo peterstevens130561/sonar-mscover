@@ -7,6 +7,7 @@ import java.util.List;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.StringUtils;
+import org.jfree.util.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
@@ -29,12 +30,11 @@ public class VSTestCoverageSaver implements CoverageSaver {
             .getLogger(VSTestCoverageSaver.class);
     private LineMeasureSaver lineSaver;
     private Project project;
-    private String path;
     private FileSystem fileSystem;
-    private List<String> modules;
+    private List<String> artifactNames;
     /**
      * initial instantiation of the helper. Do not forget to invoke
-     * setLineSaver & setBlockSaver.
+     * setLineSaver 
      * 
      * After this you can invoke it multiple times via analyse
      * 
@@ -58,15 +58,14 @@ public class VSTestCoverageSaver implements CoverageSaver {
     }
 
     /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageSaver#analyse(org.sonar.api.resources.Project, java.lang.String)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageSaver#analyse
      */
     
-    public void analyse(Project project, String path,List<String> modules) {
+    public void analyse(Project project, String path,List<String> artifactNames) {
         this.project = project;
-        this.path = path;
-        this.modules = modules;
+        this.artifactNames = artifactNames;
         try {
-            tryAnalyse();
+            tryAnalyse(path);
         } catch (XMLStreamException e) {
             throw new SonarException("XmlStreamException", e);
         } catch (IOException e) {
@@ -74,7 +73,36 @@ public class VSTestCoverageSaver implements CoverageSaver {
         }
     }
 
-    private void tryAnalyse()
+    /*
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageSaver#analyse
+     */
+    @Override
+    public void analyse(Project project, List<File> xmlFiles,
+            List<String> artifactNames) {
+        this.project = project;
+        this.artifactNames = artifactNames;
+        try {
+            tryAnalyseFiles(xmlFiles);
+        } catch (XMLStreamException e) {
+            throw new SonarException("XmlStreamException", e);
+        } catch (IOException e) {
+            throw new SonarException("IOException",e);
+        }
+    } 
+
+    private void tryAnalyseFiles(List<File> coverageFiles)
+            throws XMLStreamException, IOException {
+        String projectDirectory = fileSystem.baseDir().getAbsolutePath();
+        VsTestRegistry registry=new VsTestRegistry(projectDirectory);
+        for(File coverageFile:coverageFiles) {      
+            invokeParserSubject(registry,coverageFile);
+        }
+        
+        saveLineMeasures(registry.getCoverageRegistry());
+        
+    }
+
+    private void tryAnalyse(String coveragePath)
             throws XMLStreamException, IOException {
         LOG.info("MsCoverPlugin : name=" + project.getName());
         String projectDirectory = fileSystem.baseDir().getAbsolutePath();
@@ -82,8 +110,8 @@ public class VSTestCoverageSaver implements CoverageSaver {
 
 
         VsTestRegistry registry=new VsTestRegistry(projectDirectory);
-   
-        invokeParserSubject(registry);
+        File file = getCoverageFile(coveragePath);
+        invokeParserSubject(registry,file);
         
         saveLineMeasures(registry.getCoverageRegistry());
         
@@ -97,13 +125,13 @@ public class VSTestCoverageSaver implements CoverageSaver {
      * @throws XMLStreamException
      * @throws IOException 
      */    
-    private void invokeParserSubject(VsTestRegistry registry) throws XMLStreamException {
+    private void invokeParserSubject(VsTestRegistry registry,File coverageFile) throws XMLStreamException {
         VsTestParserFactory parserFactory = new ConcreteVsTestParserFactory();
-        XmlParserSubject parserSubject = parserFactory.createCoverageParser(registry,modules);
-        File file = getCoverageFile(path);
+        XmlParserSubject parserSubject = parserFactory.createCoverageParser(registry,artifactNames);
+
         Stopwatch sw = new Stopwatch();
         sw.start();
-        parserSubject.parseFile(file);
+        parserSubject.parseFile(coverageFile);
         LOG.info("----------------------Parsing took {}ms -------------------",sw.elapsedMillis());
     }
 
@@ -138,5 +166,6 @@ public class VSTestCoverageSaver implements CoverageSaver {
 
     public void setLineSaver(LineMeasureSaver lineSaver) {
         this.lineSaver=lineSaver; 
-    }   
+    }
+
 }

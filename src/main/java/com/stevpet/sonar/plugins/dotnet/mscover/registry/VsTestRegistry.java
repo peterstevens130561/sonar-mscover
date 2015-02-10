@@ -3,6 +3,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.registry;
 public class VsTestRegistry {
     
     private FileBlocksRegistry fileBlocksRegistry= new FileBlocksRegistry();
+
     private SourceFileNamesRegistry sourceFileNamesRegistry = new SourceFileNamesRegistry();
     private MethodToSourceFileIdMap methodToSourceFileIdMap = new MethodToSourceFileIdMap();
     private CoverageRegistry coverageRegistry ;
