@@ -5,7 +5,7 @@ import java.util.Collection;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.CoveragePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 
-public interface CoverageRegistry {
+public interface LineCoverageRegistry {
 
     /**
      * add a file to the coverage

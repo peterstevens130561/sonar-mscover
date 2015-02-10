@@ -17,7 +17,7 @@ import org.sonar.api.utils.SonarException;
 import com.google.common.base.Stopwatch;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.LineCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteVsTestParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestParserFactory;
@@ -153,7 +153,7 @@ public class VSTestCoverageSaver implements CoverageSaver {
         return fileSystem.baseDir().getAbsolutePath();
     }
 
-    public void saveLineMeasures(CoverageRegistry registry) {
+    public void saveLineMeasures(LineCoverageRegistry registry) {
 
         for (FileCoverage fileCoverage : registry.getFileCoverages()) {
             File file = fileCoverage.getFile();

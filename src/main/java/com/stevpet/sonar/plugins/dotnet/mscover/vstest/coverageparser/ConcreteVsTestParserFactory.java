@@ -11,7 +11,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.ModuleNameObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestCoverageObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestLinesToCoverageObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestMethodBlocksToFileBlocksObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestMethodToSourceFileIdMapObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestSourceFileNamesToCoverageObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestSourceFileNamesToSourceFileNamesObserver;
@@ -36,7 +35,6 @@ public class ConcreteVsTestParserFactory implements VsTestParserFactory {
 
                 new VsTestSourceFileNamesToCoverageObserver(),
                 new VsTestLinesToCoverageObserver(),
-                new VsTestMethodBlocksToFileBlocksObserver(),
                 new VsTestSourceFileNamesToSourceFileNamesObserver(),
                 moduleNameObserver
         };

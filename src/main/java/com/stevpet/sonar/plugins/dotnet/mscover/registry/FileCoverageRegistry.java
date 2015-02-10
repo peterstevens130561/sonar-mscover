@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.CoveragePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
 
-public class FileCoverageRegistry implements CoverageRegistry {
+public class FileCoverageRegistry implements LineCoverageRegistry {
     private static final Logger LOG = LoggerFactory
             .getLogger(FileCoverageRegistry.class);
 

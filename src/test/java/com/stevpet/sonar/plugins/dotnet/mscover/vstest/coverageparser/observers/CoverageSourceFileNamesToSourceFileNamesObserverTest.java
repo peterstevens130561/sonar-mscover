@@ -11,7 +11,7 @@ import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.TestCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.LineCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
 
@@ -42,7 +42,7 @@ public class CoverageSourceFileNamesToSourceFileNamesObserverTest {
         File file = getResource("mscoverage.xml");
         CoverageParserSubject parser = new CoverageParserSubject();
 
-        CoverageRegistry coverageRegistry = new FileCoverageRegistry("c:\\Users\\stevpet\\Documents\\GitHub\\tfsblame") ;
+        LineCoverageRegistry coverageRegistry = new FileCoverageRegistry("c:\\Users\\stevpet\\Documents\\GitHub\\tfsblame") ;
         VsTestSourceFileNamesToCoverageObserver observer = new VsTestSourceFileNamesToCoverageObserver();
         observer.setRegistry(coverageRegistry);
 

@@ -4,11 +4,11 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.CoveragePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.LineCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
 
 public class VsTestLinesToCoverageObserver extends VsTestCoverageObserver {
-    private CoverageRegistry coverageRegistry;
+    private LineCoverageRegistry coverageRegistry;
     private CoveragePoint coveragePoint;
     private boolean covered;
 
@@ -16,7 +16,7 @@ public class VsTestLinesToCoverageObserver extends VsTestCoverageObserver {
         setPattern("Module/NamespaceTable/Class/Method/Lines/(LnStart|LnEnd|Coverage|SourceFileID)");
     }
 
-    public void setRegistry(CoverageRegistry coverageRegistry) {
+    public void setRegistry(LineCoverageRegistry coverageRegistry) {
         this.coverageRegistry=coverageRegistry;     
     }
     

@@ -4,9 +4,9 @@ import java.util.Collection;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.CoveragePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.CoverageRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.LineCoverageRegistry;
 
-public class TestCoverageRegistry implements CoverageRegistry {
+public class TestCoverageRegistry implements LineCoverageRegistry {
 
     private int visitedFiles;
     private int coveredLines;
