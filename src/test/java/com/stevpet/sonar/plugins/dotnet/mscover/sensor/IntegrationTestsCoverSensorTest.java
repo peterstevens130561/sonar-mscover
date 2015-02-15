@@ -21,7 +21,7 @@ import org.sonar.api.measures.Metric;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.FileLineCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindowsEnvironmentMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.ProjectMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorMock;
@@ -88,7 +88,7 @@ public class IntegrationTestsCoverSensorTest {
         MeasureSaver measureSaver = mock(SonarMeasureSaver.class);
         LineMeasureSaver saver = UnitTestLineSaver.create(measureSaver);
         
-        FileCoverage coverageData= mock(FileCoverage.class);
+        FileLineCoverage coverageData= mock(FileLineCoverage.class);
         when(coverageData.getCountLines()).thenReturn(10);
         when(coverageData.getCoveredLines()).thenReturn(6);
         when(coverageData.getUncoveredLines()).thenReturn(4);

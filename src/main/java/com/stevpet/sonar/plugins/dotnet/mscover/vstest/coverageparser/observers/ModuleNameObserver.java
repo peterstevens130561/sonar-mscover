@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 
 /**
  * Used to parse only those modules that are of interest to this project. Especially for imported coverage files this
@@ -35,7 +35,7 @@ public class ModuleNameObserver extends VsTestCoverageObserver {
     }
    
     @Override
-    public void setVsTestRegistry(VsTestRegistry vsTestRegistry) {
+    public void setVsTestRegistry(VsTestCoverageRegistry vsTestRegistry) {
        
     }
 

@@ -37,7 +37,7 @@ import org.junit.Test;
 import org.sonar.api.resources.Project;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.FileLineCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.VSTestCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
@@ -113,7 +113,7 @@ public class MSCoverResultParserTest {
 
         coverageHelper.analyse(project, file.getCanonicalPath(),modules);
         //Assert ?
-        verify(lineSaver,times(8)).saveMeasures(any(FileCoverage.class), any(File.class));
+        verify(lineSaver,times(8)).saveMeasures(any(FileLineCoverage.class), any(File.class));
   }
 
   
@@ -141,7 +141,7 @@ public class MSCoverResultParserTest {
         modules.add("rabarber.exe");
         coverageHelper.analyse(project, file.getCanonicalPath(),modules);
         //Assert ?
-        verify(lineSaver,times(8)).saveMeasures(any(FileCoverage.class), any(File.class));
+        verify(lineSaver,times(8)).saveMeasures(any(FileLineCoverage.class), any(File.class));
   }
 
 private File getResource(String resourcePath) {

@@ -3,9 +3,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.registry;
 import java.util.Collection;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.CoveragePoint;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.FileLineCoverage;
 
-public interface LineCoverageRegistry {
+public interface SolutionLineCoverage {
 
     /**
      * add a file to the coverage
@@ -19,9 +19,9 @@ public interface LineCoverageRegistry {
      * @param fileId unique id of the file
      * @param point coveragepoint of the line
      */
-    void addCoveredLine(int fileId, CoveragePoint point);
+    void addCoveredFileLine(int fileId, CoveragePoint point);
     
-     Collection<FileCoverage> getFileCoverages();
+     Collection<FileLineCoverage> getFileCoverages();
     
 
     int getFileCount();
@@ -30,7 +30,17 @@ public interface LineCoverageRegistry {
 
     int getCoveredLineCount();
     
-    void addUnCoveredLine(Integer sourceFileID,
+    void addUnCoveredFileLine(Integer sourceFileID,
             CoveragePoint point);
+
+    /**
+     * merge the coverage info of the file with toMergeId Id of the sourceSoluctionLineCoverage, into destinationID
+     * @param destinationId
+     * @param toMergeId
+     * @param lineCoverageRegistry
+     */
+    void merge(int destinationId, int toMergeId, SolutionLineCoverage lineCoverageRegistry);
+
+    FileLineCoverage getFileLineCoverage(int sourceId);
 
 }

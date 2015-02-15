@@ -3,7 +3,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIdModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 
 public class VsTestMethodToSourceFileIdMapObserver extends VsTestCoverageObserver {
 
@@ -50,7 +50,7 @@ public class VsTestMethodToSourceFileIdMapObserver extends VsTestCoverageObserve
     }
 
     @Override
-    public void setVsTestRegistry(VsTestRegistry vsTestRegistry) {
+    public void setVsTestRegistry(VsTestCoverageRegistry vsTestRegistry) {
         registry=vsTestRegistry.getMethodToSourceFileIdMap();
     }
     

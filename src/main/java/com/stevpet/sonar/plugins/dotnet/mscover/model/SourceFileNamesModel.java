@@ -4,19 +4,26 @@ public class SourceFileNamesModel extends Model {
     
     private static final String SOURCE_FILE_NAME_ELEMENTNAME = "SourceFileName";
     private static final String SOURCE_FILE_ID_ELEMENTNAME = "SourceFileID";
-    private String sourceFileID;
+    private int sourceFileID;
     private String sourceFileName;
     
     public  void setField(String name, String text) {
         if(name.equals(SOURCE_FILE_ID_ELEMENTNAME)) {
-            sourceFileID = text;
+            sourceFileID = Integer.parseInt(text);
         } else if(name.equals(SOURCE_FILE_NAME_ELEMENTNAME)) {
             sourceFileName = text;
         }
               
     }
 
-    public String getSourceFileID() {
+    public SourceFileNamesModel(int id,String name) {
+        sourceFileID=id;
+        sourceFileName=name;
+    }
+    public SourceFileNamesModel() {
+    }
+
+    public int getSourceFileID() {
         return sourceFileID;
     }
     
@@ -24,7 +31,7 @@ public class SourceFileNamesModel extends Model {
         return sourceFileName;
     }
     
-    public void setSourceFileID(String value) {
+    public void setSourceFileID(int value) {
         sourceFileID = value;
     }
 

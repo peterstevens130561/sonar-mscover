@@ -3,10 +3,10 @@ package com.stevpet.sonar.plugins.dotnet.mscover;
 import java.util.Collection;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.CoveragePoint;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.LineCoverageRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.FileLineCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SolutionLineCoverage;
 
-public class TestCoverageRegistry implements LineCoverageRegistry {
+public class TestCoverageRegistry implements SolutionLineCoverage {
 
     private int visitedFiles;
     private int coveredLines;
@@ -16,7 +16,7 @@ public class TestCoverageRegistry implements LineCoverageRegistry {
         visitedFiles++;
     }
 
-    public void addCoveredLine(int fileId, CoveragePoint point) {
+    public void addCoveredFileLine(int fileId, CoveragePoint point) {
         coveredLines++;       
     }
 
@@ -39,17 +39,36 @@ public class TestCoverageRegistry implements LineCoverageRegistry {
         return coveredLines;
     }
 
-    public Collection<FileCoverage> getFileCoverages() {
+    public Collection<FileLineCoverage> getFileCoverages() {
         return null;
     }
 
-    public void addUnCoveredLine(Integer sourceFileID, CoveragePoint point) {
+    public void addUnCoveredFileLine(Integer sourceFileID, CoveragePoint point) {
         uncoveredLines++;
         
     }
 
+    @Override
     public int getCoveredLineCount() {
         return coveredLines + uncoveredLines;
     }
+
+    @Override
+    public void merge(int destinationId, int toMergeId,
+            SolutionLineCoverage lineCoverageRegistry) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public FileLineCoverage getFileLineCoverage(int sourceId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+
+
+
 
 }

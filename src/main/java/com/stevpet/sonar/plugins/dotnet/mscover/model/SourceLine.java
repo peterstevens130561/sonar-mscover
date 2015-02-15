@@ -23,7 +23,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model;
 public class SourceLine {
 
   private final int lineNumber;
-  private int countVisits = 0;
+  private int visits = 0;
 
   /**
    * Constructs a @link{FileLine}.
@@ -31,12 +31,6 @@ public class SourceLine {
   public SourceLine(int lineNumber) {
     this.lineNumber = lineNumber;
   }
-
-  public void update(CoveragePoint point) {
-    int pointVisits = point.getCountVisits();
-    countVisits = countVisits + pointVisits;
-  }
-
 
 
   /**
@@ -53,7 +47,11 @@ public class SourceLine {
    * 
    * @return The countVisits to return.
    */
-  public int getCountVisits() {
-    return this.countVisits;
+  public int getVisits() {
+    return this.visits;
   }
+
+public void addVisits(int visits) {
+    this.visits += visits;
+}
 }

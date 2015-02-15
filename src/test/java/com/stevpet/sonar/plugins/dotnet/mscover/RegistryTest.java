@@ -3,12 +3,14 @@ package com.stevpet.sonar.plugins.dotnet.mscover;
 import java.io.File;
 
 import javax.xml.stream.XMLStreamException;
+
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.FileLineCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceLine;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.DefaultSolutionLineCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestLinesToCoverageObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestSourceFileNamesToCoverageObserver;
@@ -22,11 +24,11 @@ public class RegistryTest {
         TestCoverageRegistry coverageRegistry = arrange("mscoverage.xml");
           
         //Act
-          FileCoverage fileCoverage = coverageRegistry.getFileCoverageByName("Commits.cs");
+          FileLineCoverage fileCoverage = coverageRegistry.getFileCoverageByName("Commits.cs");
           
           //Assert
           Assert.assertEquals(0,fileCoverage.getCoveredLines());
-          Assert.assertEquals(24,fileCoverage.getUncoveredLines());
+          Assert.assertEquals(24,getUncoveredLineCount(fileCoverage));
           Assert.assertEquals(24,fileCoverage.getCountLines());        
     }
 
@@ -37,11 +39,11 @@ public class RegistryTest {
         TestCoverageRegistry coverageRegistry = arrange("coverage.xml");
           
         //Act
-          FileCoverage fileCoverage = coverageRegistry.getFileCoverageByName("Program.cs");
+          FileLineCoverage fileCoverage = coverageRegistry.getFileCoverageByName("Program.cs");
           
           //Assert
           Assert.assertEquals(0,fileCoverage.getCoveredLines());
-          Assert.assertEquals(30,fileCoverage.getUncoveredLines());
+          Assert.assertEquals(30,getUncoveredLineCount(fileCoverage));
           Assert.assertEquals(30,fileCoverage.getCountLines());        
     }
     
@@ -51,11 +53,11 @@ public class RegistryTest {
         TestCoverageRegistry coverageRegistry = arrange("coverage.xml");
           
         //Act
-          FileCoverage fileCoverage = coverageRegistry.getFileCoverageByName("ServerUriFinder.cs");
+          FileLineCoverage fileCoverage = coverageRegistry.getFileCoverageByName("ServerUriFinder.cs");
           
           //Assert
           Assert.assertEquals(6,fileCoverage.getCoveredLines());
-          Assert.assertEquals(3,fileCoverage.getUncoveredLines());
+          Assert.assertEquals(3,getUncoveredLineCount(fileCoverage));
           Assert.assertEquals(9,fileCoverage.getCountLines());        
     }
 
@@ -79,16 +81,25 @@ public class RegistryTest {
     }
 
 
+    private int getUncoveredLineCount(FileLineCoverage fileCoverage) {
+        int uncovered=0;
+        for(SourceLine line: fileCoverage.getLines().values()) {
+            if(line.getVisits() == 0) {
+                ++uncovered;
+            }
+        }
+        return uncovered;
+    }
     
-    private class TestCoverageRegistry extends FileCoverageRegistry {
+    private class TestCoverageRegistry extends DefaultSolutionLineCoverage {
 
         public TestCoverageRegistry() {
             super("c:\\Users\\stevpet\\Documents\\GitHub\\tfsblame\\tfsblame");
         }
              
-        public FileCoverage getFileCoverageByName(String name) {
+        public FileLineCoverage getFileCoverageByName(String name) {
             String lowerCaseName=name.toLowerCase();
-            for(FileCoverage coverage : getRegistry().values()) {
+            for(FileLineCoverage coverage : getRegistry().values()) {
                 File file = coverage.getFile();
                 if(file!=null && file.getName().toLowerCase().endsWith(lowerCaseName)) {
                     return coverage ;

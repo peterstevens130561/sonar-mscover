@@ -26,8 +26,9 @@ import java.util.Map;
 
 import org.jfree.util.Log;
 import org.sonar.api.utils.SonarException;
+import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 
-public class FileCoverage {
+public class FileLineCoverage {
 
   private File file;
   private Map<Integer, SourceLine> lines = new HashMap<Integer, SourceLine>();
@@ -36,11 +37,13 @@ public class FileCoverage {
 
   /**
    * Constructs a @link{FileCoverage}.
+   * @id 
    */
-  public FileCoverage(int id) {
+  public FileLineCoverage(int id) {
     this.lines = new HashMap<Integer, SourceLine>();
     this.id = id;
   }
+
 
   /**
    * Increase the counter of uncovered lines. Usually happens wih partcover4 when a whole method has not been tested
@@ -89,8 +92,8 @@ public class FileCoverage {
     if (line == null) {
       line = new SourceLine(startLine);
       lines.put(startLine, line);
-    }
-    line.update(point);
+    } 
+    line.addVisits(1);
   }
 
   public void addUnCoveredLine(CoveragePoint point) {
@@ -102,7 +105,6 @@ public class FileCoverage {
         lines.put(startLine, line);
         uncoveredLines++;
       }
-      line.update(point);
   }
 
 
@@ -161,6 +163,17 @@ public class FileCoverage {
 
 public int getId() {
     return id;
+}
+
+
+public void merge(FileLineCoverage sourceCoverage) {
+    if(sourceCoverage.lines.size() != this.lines.size()) {
+        throw new MsCoverException("Can't merge lines, source/dest differ in number of lines " + sourceCoverage.lines.size() + "/" + this.lines.size());  
+    }
+    for(int lineNr=0;lineNr<this.lines.size();++lineNr) {
+        int sourceVisits=sourceCoverage.lines.get(lineNr).getVisits();
+        this.lines.get(lineNr).addVisits(sourceVisits);
+    }
 }
 
 

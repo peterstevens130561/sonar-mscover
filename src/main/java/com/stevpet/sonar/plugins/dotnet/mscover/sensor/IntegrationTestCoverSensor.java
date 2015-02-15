@@ -25,7 +25,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -115,21 +114,6 @@ public class IntegrationTestCoverSensor implements Sensor {
             xmlFiles.add(new File(xmlPath));
         }
         return xmlFiles;
-    }
-
-    private class CoverageFileFilter implements IOFileFilter {
-
-        @Override
-        public boolean accept(File arg0) {
-            return arg0.isFile() && arg0.getName().endsWith(".coverage");
-        }
-
-        @Override
-        public boolean accept(File arg0, String arg1) {
-            // TODO Auto-generated method stub
-            return false;
-        }
-        
     }
 
     private String getCoverageXmlPath() {

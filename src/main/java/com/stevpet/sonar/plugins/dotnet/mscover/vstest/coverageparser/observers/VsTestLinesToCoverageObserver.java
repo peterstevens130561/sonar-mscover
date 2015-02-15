@@ -4,11 +4,11 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.CoveragePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.LineCoverageRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SolutionLineCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 
 public class VsTestLinesToCoverageObserver extends VsTestCoverageObserver {
-    private LineCoverageRegistry coverageRegistry;
+    private SolutionLineCoverage coverageRegistry;
     private CoveragePoint coveragePoint;
     private boolean covered;
 
@@ -16,12 +16,12 @@ public class VsTestLinesToCoverageObserver extends VsTestCoverageObserver {
         setPattern("Module/NamespaceTable/Class/Method/Lines/(LnStart|LnEnd|Coverage|SourceFileID)");
     }
 
-    public void setRegistry(LineCoverageRegistry coverageRegistry) {
+    public void setRegistry(SolutionLineCoverage coverageRegistry) {
         this.coverageRegistry=coverageRegistry;     
     }
     
     @Override
-    public void setVsTestRegistry(VsTestRegistry vsTestRegistry) {
+    public void setVsTestRegistry(VsTestCoverageRegistry vsTestRegistry) {
         this.coverageRegistry=vsTestRegistry.getCoverageRegistry();      
     }
     
@@ -47,9 +47,9 @@ public class VsTestLinesToCoverageObserver extends VsTestCoverageObserver {
     public void sourceFileIdMatcher(String value) {
         int sourceFileID=Integer.parseInt(value);
         if(covered) {
-            coverageRegistry.addCoveredLine(sourceFileID,coveragePoint);
+            coverageRegistry.addCoveredFileLine(sourceFileID,coveragePoint);
         } else {
-            coverageRegistry.addUnCoveredLine(sourceFileID,coveragePoint);
+            coverageRegistry.addUnCoveredFileLine(sourceFileID,coveragePoint);
         }
     }
 

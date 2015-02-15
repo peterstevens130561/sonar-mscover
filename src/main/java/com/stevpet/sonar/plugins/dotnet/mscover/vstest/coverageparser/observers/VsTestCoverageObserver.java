@@ -1,7 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 
 public abstract class VsTestCoverageObserver extends BaseParserObserver {
 
@@ -9,6 +9,6 @@ public abstract class VsTestCoverageObserver extends BaseParserObserver {
         super();
     }
 
-    public abstract void setVsTestRegistry(VsTestRegistry vsTestRegistry);
+    public abstract void setVsTestRegistry(VsTestCoverageRegistry vsTestRegistry);
 
 }

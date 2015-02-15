@@ -9,7 +9,7 @@ import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.utils.ParsingUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.FileLineCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceLine;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
@@ -30,7 +30,7 @@ public class UnitTestLineSaver implements LineMeasureSaver {
     
 
     public void saveMeasures(
-            FileCoverage coverageData, File file) {
+            FileLineCoverage coverageData, File file) {
         measureSaver.setFile(file);
         double coverage = coverageData.getCoverage();
         measureSaver.setIgnoreTwiceSameMeasure();
@@ -48,14 +48,14 @@ public class UnitTestLineSaver implements LineMeasureSaver {
      * Generates a measure that contains the visits of each line of the source
      * file.
      */
-    public Measure getHitData(FileCoverage coverable) {
+    public Measure getHitData(FileLineCoverage coverable) {
         PropertiesBuilder<String, Integer> hitsBuilder =  lineHitsBuilder;
 
         hitsBuilder.clear();
         Map<Integer, SourceLine> lines = coverable.getLines();
         for (SourceLine line : lines.values()) {
             int lineNumber = line.getLineNumber();
-            int countVisits = line.getCountVisits();
+            int countVisits = line.getVisits();
             hitsBuilder.add(Integer.toString(lineNumber), countVisits);
         }
         return hitsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);

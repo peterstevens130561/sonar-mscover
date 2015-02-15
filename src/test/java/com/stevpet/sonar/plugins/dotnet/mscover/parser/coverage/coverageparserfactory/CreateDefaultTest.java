@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteVsTestParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestParserFactory;
 
@@ -30,7 +30,7 @@ public class CreateDefaultTest {
     public void test() {
         //Arrange
         VsTestParserFactory factory = new ConcreteVsTestParserFactory();
-        VsTestRegistry registry = new VsTestRegistry("C:\\users\\stevpet\\GitHub");
+        VsTestCoverageRegistry registry = new VsTestCoverageRegistry("C:\\users\\stevpet\\GitHub");
         List<String> modules = new ArrayList<String>();
         XmlParserSubject parser = factory.createCoverageParser(registry,modules);
         

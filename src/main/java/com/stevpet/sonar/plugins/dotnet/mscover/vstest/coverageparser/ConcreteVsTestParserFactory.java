@@ -7,7 +7,7 @@ import java.util.List;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.ModuleNameObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestCoverageObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestLinesToCoverageObserver;
@@ -19,13 +19,13 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.
 public class ConcreteVsTestParserFactory implements VsTestParserFactory {
     
     @Override
-    public XmlParserSubject createCoverageParser(VsTestRegistry registry) {
+    public XmlParserSubject createCoverageParser(VsTestCoverageRegistry registry) {
         return createCoverageParser(registry,new ArrayList<String>());
     }
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageParserFactory#createDefault(com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry, com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry)
      */
-    public XmlParserSubject createCoverageParser(VsTestRegistry registry,List<String> modules) {
+    public XmlParserSubject createCoverageParser(VsTestCoverageRegistry registry,List<String> modules) {
 
         ModuleNameObserver moduleNameObserver = new ModuleNameObserver();
         moduleNameObserver.addModulesToParse(modules);

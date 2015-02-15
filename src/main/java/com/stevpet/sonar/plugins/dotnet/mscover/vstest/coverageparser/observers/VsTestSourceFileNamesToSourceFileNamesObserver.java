@@ -2,7 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNamesModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 
 
 public class VsTestSourceFileNamesToSourceFileNamesObserver extends VsTestCoverageObserver{
@@ -29,7 +29,7 @@ public class VsTestSourceFileNamesToSourceFileNamesObserver extends VsTestCovera
 
 
     @Override
-    public void setVsTestRegistry(VsTestRegistry vsTestRegistry) {
+    public void setVsTestRegistry(VsTestCoverageRegistry vsTestRegistry) {
         this.registry=vsTestRegistry.getSourceFileNamesRegistry();
     }
 

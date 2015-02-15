@@ -7,7 +7,6 @@ import java.util.List;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.StringUtils;
-import org.jfree.util.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
@@ -15,10 +14,10 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.utils.SonarException;
 
 import com.google.common.base.Stopwatch;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.FileLineCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.LineCoverageRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SolutionLineCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.ConcreteVsTestParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.saver.LineMeasureSaver;
@@ -93,7 +92,7 @@ public class VSTestCoverageSaver implements CoverageSaver {
     private void tryAnalyseFiles(List<File> coverageFiles)
             throws XMLStreamException, IOException {
         String projectDirectory = fileSystem.baseDir().getAbsolutePath();
-        VsTestRegistry registry=new VsTestRegistry(projectDirectory);
+        VsTestCoverageRegistry registry=new VsTestCoverageRegistry(projectDirectory);
         for(File coverageFile:coverageFiles) {      
             invokeParserSubject(registry,coverageFile);
         }
@@ -109,7 +108,7 @@ public class VSTestCoverageSaver implements CoverageSaver {
         LOG.info("MsCoverPlugin : directory=" + projectDirectory);
 
 
-        VsTestRegistry registry=new VsTestRegistry(projectDirectory);
+        VsTestCoverageRegistry registry=new VsTestCoverageRegistry(projectDirectory);
         File file = getCoverageFile(coveragePath);
         invokeParserSubject(registry,file);
         
@@ -125,7 +124,7 @@ public class VSTestCoverageSaver implements CoverageSaver {
      * @throws XMLStreamException
      * @throws IOException 
      */    
-    private void invokeParserSubject(VsTestRegistry registry,File coverageFile) throws XMLStreamException {
+    private void invokeParserSubject(VsTestCoverageRegistry registry,File coverageFile) throws XMLStreamException {
         VsTestParserFactory parserFactory = new ConcreteVsTestParserFactory();
         XmlParserSubject parserSubject = parserFactory.createCoverageParser(registry,artifactNames);
 
@@ -153,9 +152,9 @@ public class VSTestCoverageSaver implements CoverageSaver {
         return fileSystem.baseDir().getAbsolutePath();
     }
 
-    public void saveLineMeasures(LineCoverageRegistry registry) {
+    public void saveLineMeasures(SolutionLineCoverage registry) {
 
-        for (FileCoverage fileCoverage : registry.getFileCoverages()) {
+        for (FileLineCoverage fileCoverage : registry.getFileCoverages()) {
             File file = fileCoverage.getFile();
             if(file !=null) {
                 lineSaver.saveMeasures(fileCoverage, file);

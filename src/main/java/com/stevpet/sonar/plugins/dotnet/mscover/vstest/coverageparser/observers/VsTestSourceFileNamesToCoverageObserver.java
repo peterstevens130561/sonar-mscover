@@ -1,17 +1,17 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.LineCoverageRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SolutionLineCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 
 public class VsTestSourceFileNamesToCoverageObserver extends VsTestCoverageObserver {
-    LineCoverageRegistry registry;
+    SolutionLineCoverage registry;
     private int fileId;
     public VsTestSourceFileNamesToCoverageObserver()  {
         setPattern("SourceFileNames/(SourceFileID|SourceFileName)");
     }
     
-    public void setRegistry(LineCoverageRegistry registry) {
+    public void setRegistry(SolutionLineCoverage registry) {
         this.registry = registry;
     }
     
@@ -26,7 +26,7 @@ public class VsTestSourceFileNamesToCoverageObserver extends VsTestCoverageObser
     }
 
     @Override
-    public void setVsTestRegistry(VsTestRegistry vsTestRegistry) {
+    public void setVsTestRegistry(VsTestCoverageRegistry vsTestRegistry) {
         this.registry =vsTestRegistry.getCoverageRegistry();
     }
 }

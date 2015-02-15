@@ -10,9 +10,9 @@ import org.junit.Test;
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.TestCoverageRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.LineCoverageRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.FileCoverageRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.FileLineCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SolutionLineCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.DefaultSolutionLineCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
 
 public class CoverageSourceFileNamesToSourceFileNamesObserverTest {
@@ -42,7 +42,7 @@ public class CoverageSourceFileNamesToSourceFileNamesObserverTest {
         File file = getResource("mscoverage.xml");
         CoverageParserSubject parser = new CoverageParserSubject();
 
-        LineCoverageRegistry coverageRegistry = new FileCoverageRegistry("c:\\Users\\stevpet\\Documents\\GitHub\\tfsblame") ;
+        SolutionLineCoverage coverageRegistry = new DefaultSolutionLineCoverage("c:\\Users\\stevpet\\Documents\\GitHub\\tfsblame") ;
         VsTestSourceFileNamesToCoverageObserver observer = new VsTestSourceFileNamesToCoverageObserver();
         observer.setRegistry(coverageRegistry);
 
@@ -52,7 +52,7 @@ public class CoverageSourceFileNamesToSourceFileNamesObserverTest {
         //Assert
         Assert.assertEquals(8,coverageRegistry.getFileCount());
 
-        Collection<FileCoverage> fileCoverageCollection=coverageRegistry.getFileCoverages();
+        Collection<FileLineCoverage> fileCoverageCollection=coverageRegistry.getFileCoverages();
         int collectionIndex=0;
         String baseDir="C:\\Users\\stevpet\\Documents\\GitHub\\tfsblame\\";
         String tfsBlameDir=baseDir + "tfsblame\\";
@@ -64,7 +64,7 @@ public class CoverageSourceFileNamesToSourceFileNamesObserverTest {
                 tfsBlameDir+ "ServerUriFinder.cs",
                 tfsBlameDir+ "Properties\\Settings.Designer.cs",
                 tfsBlameDir +"ArgumentParser.cs"};
-        for (FileCoverage fileCoverage : fileCoverageCollection) {
+        for (FileLineCoverage fileCoverage : fileCoverageCollection) {
             File coverageFile = fileCoverage.getFile();
             Assert.assertNotNull(coverageFile);
             Assert.assertEquals(fileNames[collectionIndex].toLowerCase(), coverageFile.getAbsolutePath().toLowerCase());

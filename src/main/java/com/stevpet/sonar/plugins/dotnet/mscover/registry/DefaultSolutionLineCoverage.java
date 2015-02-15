@@ -8,14 +8,15 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.CoveragePoint;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.FileCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.FileLineCoverage;
 
-public class FileCoverageRegistry implements LineCoverageRegistry {
+public class DefaultSolutionLineCoverage implements SolutionLineCoverage {
     private static final Logger LOG = LoggerFactory
-            .getLogger(FileCoverageRegistry.class);
+            .getLogger(DefaultSolutionLineCoverage.class);
 
-    private Map<Integer, FileCoverage> registry = new HashMap<Integer, FileCoverage>();
+    private Map<Integer, FileLineCoverage> registry = new HashMap<Integer, FileLineCoverage>();
 
     private int lineCount;
     SourceFilePathHelper pathHelper;
@@ -23,9 +24,8 @@ public class FileCoverageRegistry implements LineCoverageRegistry {
 
     private int coveredLineCount;
 
-    public FileCoverageRegistry(String projectDirectory) {
+    public DefaultSolutionLineCoverage(String projectDirectory) {
         pathHelper = new SourceFilePathHelper();
-        LOG.info("Setting projectDirectory to " + projectDirectory);
         pathHelper.setProjectPath(projectDirectory);
     }
 
@@ -37,15 +37,15 @@ public class FileCoverageRegistry implements LineCoverageRegistry {
      * @param point
      *            unique! point
      */
-    public void addCoveredLine(int fileId, CoveragePoint point) {
-        FileCoverage fileCoverage = getFileCoverage(fileId);
+    public void addCoveredFileLine(int fileId, CoveragePoint point) {
+        FileLineCoverage fileCoverage = getFileCoverage(fileId);
         fileCoverage.addCoveredLine(point);
         lineCount++;
         coveredLineCount++;
     }
 
-    public void addUnCoveredLine(Integer sourceFileID, CoveragePoint point) {
-        FileCoverage fileCoverage = getFileCoverage(sourceFileID);
+    public void addUnCoveredFileLine(Integer sourceFileID, CoveragePoint point) {
+        FileLineCoverage fileCoverage = getFileCoverage(sourceFileID);
         fileCoverage.addUnCoveredLine(point);
         lineCount++;  
     }
@@ -57,7 +57,7 @@ public class FileCoverageRegistry implements LineCoverageRegistry {
      * java.io.File)
      */
     public void addFile(int fileId, String fullPath)  {
-        FileCoverage fileCoverage = getFileCoverage(fileId);
+        FileLineCoverage fileCoverage = getFileCoverage(fileId);
         pathHelper.setFilePath(fullPath);
         if (pathHelper.isModuleInSolution()) {
             String projectPath = pathHelper.getSolutionPath();
@@ -72,6 +72,17 @@ public class FileCoverageRegistry implements LineCoverageRegistry {
         }
     }
 
+
+    @Override
+    public void merge(int destinationId,int sourceId,
+            SolutionLineCoverage sourceSolutionLineCoverage) {
+        FileLineCoverage baselineFileLineCoverage = registry.get(destinationId);
+        FileLineCoverage sourceFileLineCoverage = sourceSolutionLineCoverage.getFileLineCoverage(sourceId);
+        if(baselineFileLineCoverage == null) {
+            throw new MsCoverException("Could not find coverage registry for file " + destinationId);   
+        }
+        baselineFileLineCoverage.merge(sourceFileLineCoverage);
+    }
     /**
      * get the filecoverage
      * 
@@ -79,18 +90,19 @@ public class FileCoverageRegistry implements LineCoverageRegistry {
      *            of file
      * @return
      */
-    private FileCoverage getFileCoverage(int fileId) {
+    private FileLineCoverage getFileCoverage(int fileId) {
         if (!registry.containsKey(fileId)) {
-            registry.put(fileId, new FileCoverage(fileId));
+            registry.put(fileId, new FileLineCoverage(fileId));
         }
         return registry.get(fileId);
     }
 
+    
     /**
      * Returns all FileCoverage in the registry. Note that sourcefiles that are not in the project will have their File set to null
      * @return
      */
-    public Collection<FileCoverage> getFileCoverages() {
+    public Collection<FileLineCoverage> getFileCoverages() {
         return registry.values();
     }
 
@@ -114,8 +126,16 @@ public class FileCoverageRegistry implements LineCoverageRegistry {
         return coveredLineCount;
     }
     
-    protected Map<Integer, FileCoverage> getRegistry() {
+    protected Map<Integer, FileLineCoverage> getRegistry() {
         return registry ;
     }
+
+    @Override
+    public FileLineCoverage getFileLineCoverage(int sourceId) {
+        return registry.get(sourceId);
+    }
+
+
+
 
 }
