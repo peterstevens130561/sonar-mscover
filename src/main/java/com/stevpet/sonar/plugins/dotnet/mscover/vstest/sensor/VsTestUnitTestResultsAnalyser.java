@@ -13,7 +13,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.ConcreteOpenCov
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
@@ -32,7 +32,7 @@ public class VsTestUnitTestResultsAnalyser {
             .getLogger(VsTestUnitTestResultsAnalyser.class);
     private UnitTestRegistry registry;
     private UnitTestFilesResultRegistry filesResultRegistry;
-    private SourceFileNamesRegistry sourceFileNamesRegistry;
+    private SourceFileNameTable sourceFileNamesRegistry;
 
     private MethodToSourceFileIdMap map;
     private OpenCoverParserFactory openCoverParserFactory = new ConcreteOpenCoverParserFactory();
@@ -145,7 +145,7 @@ public class VsTestUnitTestResultsAnalyser {
         registry = new UnitTestRegistry();
         map = new MethodToSourceFileIdMap();
         filesResultRegistry = new UnitTestFilesResultRegistry();
-        sourceFileNamesRegistry = new SourceFileNamesRegistry();
+        sourceFileNamesRegistry = new SourceFileNameTable();
     }
 
     public void setFileSystem(FileSystem fileSystem) {

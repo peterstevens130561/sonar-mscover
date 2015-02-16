@@ -3,28 +3,28 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNamesModel;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
 
-public class SourceFileNamesRegistry  {
-    private Map<Integer,SourceFileNamesModel> map = new HashMap<Integer,SourceFileNamesModel>();
+public class SourceFileNameTable  {
+    private Map<Integer,SourceFileNameRow> rows = new HashMap<Integer,SourceFileNameRow>();
     private Map<String,Integer> mapNameToId = new HashMap<String,Integer>();
     private int maxId=0;
-    public void add(int i, SourceFileNamesModel model) {
-        map.put(i,model);
+    public void add(int i, SourceFileNameRow model) {
+        rows.put(i,model);
         mapNameToId.put(model.getSourceFileName(),i);
         maxId = maxId>i?maxId:i;
     }
     
-    public SourceFileNamesModel get(String fileId) {
-       return map.get(fileId);
+    public SourceFileNameRow get(String fileId) {
+       return rows.get(fileId);
     }
 
     public int size() {
-        return map.size();
+        return rows.size();
     }
     
-    public Collection<SourceFileNamesModel> values() {
-        return map.values();
+    public Collection<SourceFileNameRow> values() {
+        return rows.values();
     }
 
     /**
@@ -33,7 +33,7 @@ public class SourceFileNamesRegistry  {
      * @return sourcefilename matching fileId, or null if not found
      */
     public String getSourceFileName(String fileID) {
-        SourceFileNamesModel model = get(fileID);
+        SourceFileNameRow model = get(fileID);
         if(model==null) {
             return null;
         }
@@ -48,16 +48,13 @@ public class SourceFileNamesRegistry  {
     public int getSourceFileId(String fileName) {
         Integer id=mapNameToId.get(fileName);
         if(id==null) {
-            id=getNewId();
-            SourceFileNamesModel model = new SourceFileNamesModel(id,fileName);
+            id= ++maxId;
+            SourceFileNameRow model = new SourceFileNameRow(id,fileName);
             add(id,model);
         }
         return id;
     }
 
- 
-    private int getNewId() {
-        return ++maxId;
-    }
+
 }
   

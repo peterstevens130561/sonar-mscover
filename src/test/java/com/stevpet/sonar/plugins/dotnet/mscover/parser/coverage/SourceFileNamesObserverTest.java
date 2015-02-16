@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestSourceFileNamesToSourceFileNamesObserver;
 
@@ -50,7 +50,7 @@ public class SourceFileNamesObserverTest {
     
     @Test
     public void TwoFileNames_ShouldBeTwoInRegistry() {
-        SourceFileNamesRegistry registry = new SourceFileNamesRegistry();
+        SourceFileNameTable registry = new SourceFileNameTable();
         observer.setRegistry(registry) ;
         observer.observeElement(SOURCE_FILE_ID, "1");
         observer.observeElement(SOURCE_FILE_NAME, "a/b/c");
@@ -63,7 +63,7 @@ public class SourceFileNamesObserverTest {
     public void ParseFileWithObserver() throws XMLStreamException {
         //Arrange
         XmlParserSubject parser = new CoverageParserSubject();
-        SourceFileNamesRegistry registry = new SourceFileNamesRegistry();
+        SourceFileNameTable registry = new SourceFileNameTable();
         observer.setRegistry(registry);
         parser.registerObserver(observer);
         

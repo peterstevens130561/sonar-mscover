@@ -22,7 +22,7 @@ public class VsTestLinesToCoverageObserver extends VsTestCoverageObserver {
     
     @Override
     public void setVsTestRegistry(VsTestCoverageRegistry vsTestRegistry) {
-        this.coverageRegistry=vsTestRegistry.getCoverageRegistry();      
+        this.coverageRegistry=vsTestRegistry.getSolutionLineCoverageData();      
     }
     
     @ElementMatcher(elementName="LnStart")

@@ -79,9 +79,12 @@ public class DefaultSolutionLineCoverage implements SolutionLineCoverage {
         FileLineCoverage baselineFileLineCoverage = registry.get(destinationId);
         FileLineCoverage sourceFileLineCoverage = sourceSolutionLineCoverage.getFileLineCoverage(sourceId);
         if(baselineFileLineCoverage == null) {
-            throw new MsCoverException("Could not find coverage registry for file " + destinationId);   
+            baselineFileLineCoverage=new FileLineCoverage(destinationId,sourceFileLineCoverage);
+            registry.put(destinationId, baselineFileLineCoverage);  
+        } else {
+            baselineFileLineCoverage.merge(sourceFileLineCoverage);
         }
-        baselineFileLineCoverage.merge(sourceFileLineCoverage);
+        
     }
     /**
      * get the filecoverage

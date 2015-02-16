@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.ModuleNameObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestCoverageObserver;
@@ -53,7 +53,7 @@ public class ConcreteVsTestParserFactory implements VsTestParserFactory {
      * @return
      */
     public XmlParserSubject createFileNamesParser(MethodToSourceFileIdMap map,
-            SourceFileNamesRegistry sourceFileNamesRegistry) {
+            SourceFileNameTable sourceFileNamesRegistry) {
 
         XmlParserSubject parserSubject = new CoverageParserSubject();
 

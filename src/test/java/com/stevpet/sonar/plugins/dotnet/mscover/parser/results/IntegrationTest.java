@@ -12,7 +12,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry.ForEachUnitTestFile;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
@@ -27,13 +27,13 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.MsCoverCanNotFindSource
 
 public class IntegrationTest {
     MethodToSourceFileIdMap methodToSourceFileIdMap;
-    SourceFileNamesRegistry sourceFileNamesRegistry;
+    SourceFileNameTable sourceFileNamesRegistry;
     ResultsModel testResultsModel;
     
     @Before() 
     public void before() {
         methodToSourceFileIdMap = new MethodToSourceFileIdMap() ;
-        sourceFileNamesRegistry = new SourceFileNamesRegistry();
+        sourceFileNamesRegistry = new SourceFileNameTable();
         testResultsModel = new ResultsModel() ;
     }
     @Test 

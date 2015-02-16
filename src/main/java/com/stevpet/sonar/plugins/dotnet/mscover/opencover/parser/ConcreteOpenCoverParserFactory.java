@@ -14,7 +14,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenC
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverSourceFileNamesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 
 public class ConcreteOpenCoverParserFactory implements OpenCoverParserFactory {
     /**
@@ -36,7 +36,7 @@ public class ConcreteOpenCoverParserFactory implements OpenCoverParserFactory {
 
     public XmlParserSubject createOpenCoverFileNamesParser(
             MethodToSourceFileIdMap map,
-            SourceFileNamesRegistry sourceFileNamesRegistry) {
+            SourceFileNameTable sourceFileNamesRegistry) {
         XmlParserSubject parserSubject = new OpenCoverParserSubject();
 
         OpenCoverMethodObserver methodObserver = new OpenCoverMethodObserver();

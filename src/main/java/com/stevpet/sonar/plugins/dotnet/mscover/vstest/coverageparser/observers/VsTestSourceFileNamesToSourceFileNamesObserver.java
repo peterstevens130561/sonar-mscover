@@ -1,14 +1,14 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNamesModel;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 
 
 public class VsTestSourceFileNamesToSourceFileNamesObserver extends VsTestCoverageObserver{
 
-    private SourceFileNamesRegistry registry ;
-    private SourceFileNamesModel model;
+    private SourceFileNameTable registry ;
+    private SourceFileNameRow model;
     public VsTestSourceFileNamesToSourceFileNamesObserver() {
         setPattern("SourceFileNames/(SourceFileID|SourceFileName)");
     }
@@ -16,21 +16,21 @@ public class VsTestSourceFileNamesToSourceFileNamesObserver extends VsTestCovera
 
     public void observeElement(String name, String text) {
         if("SourceFileID".equals(name)) {
-            model = new SourceFileNamesModel();
+            model = new SourceFileNameRow();
         }
         model.setField(name,text);
         if("SourceFileName".equals(name)) {
             registry.add(model.getSourceFileID(), model);
         }
     }
-    public void setRegistry(SourceFileNamesRegistry registry) {
+    public void setRegistry(SourceFileNameTable registry) {
         this.registry=registry;
     }
 
 
     @Override
     public void setVsTestRegistry(VsTestCoverageRegistry vsTestRegistry) {
-        this.registry=vsTestRegistry.getSourceFileNamesRegistry();
+        this.registry=vsTestRegistry.getSourceFileNameTable();
     }
 
 

@@ -4,7 +4,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 
 public interface OpenCoverParserFactory {
     XmlParserSubject createOpenCoverParser(SonarCoverage registry);
@@ -18,7 +18,7 @@ public interface OpenCoverParserFactory {
      */
      XmlParserSubject createOpenCoverFileNamesParser(
             MethodToSourceFileIdMap map,
-            SourceFileNamesRegistry sourceFileNamesRegistry);
+            SourceFileNameTable sourceFileNamesRegistry);
 
     XmlParserSubject createOpenCoverParser(SonarCoverage registry,
             MsCoverProperties msCoverProperties);

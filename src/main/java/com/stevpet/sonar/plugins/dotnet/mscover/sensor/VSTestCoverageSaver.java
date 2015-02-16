@@ -97,7 +97,7 @@ public class VSTestCoverageSaver implements CoverageSaver {
             invokeParserSubject(registry,coverageFile);
         }
         
-        saveLineMeasures(registry.getCoverageRegistry());
+        saveLineMeasures(registry.getSolutionLineCoverageData());
         
     }
 
@@ -112,7 +112,7 @@ public class VSTestCoverageSaver implements CoverageSaver {
         File file = getCoverageFile(coveragePath);
         invokeParserSubject(registry,file);
         
-        saveLineMeasures(registry.getCoverageRegistry());
+        saveLineMeasures(registry.getSolutionLineCoverageData());
         
     }
 

@@ -9,7 +9,7 @@ import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry.ForEachUnitTestFile;
@@ -24,7 +24,7 @@ public class TrxTestSaver implements TestSaver {
             .getLogger(TrxTestSaver.class);
     
     private TestResultsSaver testResultsSaver  ;
-    private SourceFileNamesRegistry sourceFileNamesRegistry ;
+    private SourceFileNameTable sourceFileNamesRegistry ;
     private UnitTestFilesResultRegistry unitTestFilesResultRegistry;
     private SourceFilePathHelper sourceFilePathHelper;
     ResultsModel  projectSummaryResults;
@@ -43,12 +43,12 @@ public class TrxTestSaver implements TestSaver {
         this.project=project;
         testResultsSaver = new TestResultsSaver(measureSaver);
     }
-    public SourceFileNamesRegistry getSourceFileNamesRegistry() {
+    public SourceFileNameTable getSourceFileNamesRegistry() {
         return sourceFileNamesRegistry;
     }
 
     public void setSourceFileNamesRegistry(
-            SourceFileNamesRegistry sourceFileNamesRegistry) {
+            SourceFileNameTable sourceFileNamesRegistry) {
         this.sourceFileNamesRegistry = sourceFileNamesRegistry;
     }
 

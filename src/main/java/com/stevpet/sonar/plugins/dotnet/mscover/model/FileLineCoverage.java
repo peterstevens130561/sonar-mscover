@@ -23,9 +23,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.Map.Entry;
 import org.jfree.util.Log;
 import org.sonar.api.utils.SonarException;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 
 public class FileLineCoverage {
@@ -45,7 +46,17 @@ public class FileLineCoverage {
   }
 
 
-  /**
+  public FileLineCoverage(int destinationId,
+        FileLineCoverage sourceFileLineCoverage) {
+      this(destinationId);
+
+      for(Entry<Integer,SourceLine> entry:sourceFileLineCoverage.getLines().entrySet()) {
+          lines.put(entry.getKey(),entry.getValue());
+      }
+  }
+
+
+/**
    * Increase the counter of uncovered lines. Usually happens wih partcover4 when a whole method has not been tested
    * 
    * @param lines

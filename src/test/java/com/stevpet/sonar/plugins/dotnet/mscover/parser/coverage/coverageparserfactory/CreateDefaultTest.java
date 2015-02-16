@@ -38,7 +38,7 @@ public class CreateDefaultTest {
         //Act
         parser.parseFile(file);
         //Assert
-        assertEquals(8,registry.getSourceFileNamesRegistry().values().size());
+        assertEquals(8,registry.getSourceFileNameTable().values().size());
     }
 
 }

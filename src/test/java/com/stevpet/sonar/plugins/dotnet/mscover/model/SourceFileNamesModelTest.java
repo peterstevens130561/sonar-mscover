@@ -8,13 +8,13 @@ public class SourceFileNamesModelTest {
 
     @Test
     public void CreateSourceFileModel_ShouldSucceed() {
-        SourceFileNamesModel model = new SourceFileNamesModel() ;
+        SourceFileNameRow model = new SourceFileNameRow() ;
         Assert.assertNotNull(model);
     }
     
     @Test
     public void SetFileID_ShouldGetSame() {
-        SourceFileNamesModel model = new SourceFileNamesModel() ;
+        SourceFileNameRow model = new SourceFileNameRow() ;
         int id = 1;
         model.setSourceFileID(id);
         Assert.assertEquals(id, model.getSourceFileID());
@@ -22,7 +22,7 @@ public class SourceFileNamesModelTest {
     
     @Test
     public void SetFileName_ShouldGetSame() {
-        SourceFileNamesModel model = new SourceFileNamesModel() ;
+        SourceFileNameRow model = new SourceFileNameRow() ;
         String name = "a/b/c/";
         model.setSourceFileName(name);
         Assert.assertEquals(name, model.getSourceFileName());
@@ -31,7 +31,7 @@ public class SourceFileNamesModelTest {
 
    @Test
    public void SetNameField_ShouldBeSet() {
-       SourceFileNamesModel model = new SourceFileNamesModel() ;
+       SourceFileNameRow model = new SourceFileNameRow() ;
        String text= "a/b/c/";
        String field = "SourceFileName";
        model.setField(field, text);
@@ -41,7 +41,7 @@ public class SourceFileNamesModelTest {
     
    @Test
    public void SetIDField_ShouldBeSet() {
-       SourceFileNamesModel model = new SourceFileNamesModel() ;
+       SourceFileNameRow model = new SourceFileNameRow() ;
        String text= "1";
        String field = "SourceFileID";
        model.setField(field, text);

@@ -1,6 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
-public class SourceFileNamesModel extends Model {
+public class SourceFileNameRow {
     
     private static final String SOURCE_FILE_NAME_ELEMENTNAME = "SourceFileName";
     private static final String SOURCE_FILE_ID_ELEMENTNAME = "SourceFileID";
@@ -16,11 +16,11 @@ public class SourceFileNamesModel extends Model {
               
     }
 
-    public SourceFileNamesModel(int id,String name) {
+    public SourceFileNameRow(int id,String name) {
         sourceFileID=id;
         sourceFileName=name;
     }
-    public SourceFileNamesModel() {
+    public SourceFileNameRow() {
     }
 
     public int getSourceFileID() {

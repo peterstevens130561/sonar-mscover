@@ -4,10 +4,10 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNamesModel;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
 
 public class SourceFileNameTable_GetSourceFileId_Test {
-    private SourceFileNamesRegistry table = new SourceFileNamesRegistry();
+    private SourceFileNameTable table = new SourceFileNameTable();
     
     @Test
     public void firstToAdd_ExpectIndex1() {
@@ -28,7 +28,7 @@ public class SourceFileNameTable_GetSourceFileId_Test {
     @Test
     public void secondToAdd_ExpectFoundAtNext() {
         String name = "myname";
-        SourceFileNamesModel model = new SourceFileNamesModel(3,"strange");
+        SourceFileNameRow model = new SourceFileNameRow(3,"strange");
         table.add(3,model);
         int index=table.getSourceFileId(name);
         assertEquals("expect index 4 for the item added",4,index);

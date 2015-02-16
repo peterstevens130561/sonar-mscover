@@ -27,6 +27,6 @@ public class VsTestSourceFileNamesToCoverageObserver extends VsTestCoverageObser
 
     @Override
     public void setVsTestRegistry(VsTestCoverageRegistry vsTestRegistry) {
-        this.registry =vsTestRegistry.getCoverageRegistry();
+        this.registry =vsTestRegistry.getSolutionLineCoverageData();
     }
 }
