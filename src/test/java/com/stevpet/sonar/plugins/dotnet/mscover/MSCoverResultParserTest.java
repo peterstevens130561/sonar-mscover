@@ -1,6 +1,7 @@
-/*
- * Sonar .NET Plugin :: Gallio
- * Copyright (C) 2010 Jose Chillan, Alexandre Victoor and SonarSource
+/*******************************************************************************
+ *
+ * SonarQube MsCover Plugin
+ * Copyright (C) 2015 SonarSource
  * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or
@@ -16,7 +17,9 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
- */
+ *
+ * Author: Peter Stevens, peter@famstevens.eu
+ *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
 import static org.mockito.Matchers.any;

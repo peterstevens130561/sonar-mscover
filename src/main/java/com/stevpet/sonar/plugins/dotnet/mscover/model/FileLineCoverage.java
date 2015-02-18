@@ -1,6 +1,7 @@
-/*
- * Sonar .NET Plugin :: MsCover
- * Copyright (C) 2014 Peter Stevens
+/*******************************************************************************
+ *
+ * SonarQube MsCover Plugin
+ * Copyright (C) 2015 SonarSource
  * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or
@@ -16,7 +17,9 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
- */
+ *
+ * Author: Peter Stevens, peter@famstevens.eu
+ *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
 import java.io.File;
@@ -33,7 +36,7 @@ public class FileLineCoverage {
 
   private File file;
   private Map<Integer, SourceLine> lines = new HashMap<Integer, SourceLine>();
-  private int uncoveredLines = 0;
+  private int uncoveredLines = 0; // for efficiency reasons we keep this counter
   private int id;
 
   /**
@@ -49,21 +52,17 @@ public class FileLineCoverage {
   public FileLineCoverage(int destinationId,
         FileLineCoverage sourceFileLineCoverage) {
       this(destinationId);
-
+      this.file = sourceFileLineCoverage.getFile();
       for(Entry<Integer,SourceLine> entry:sourceFileLineCoverage.getLines().entrySet()) {
-          lines.put(entry.getKey(),entry.getValue());
+          SourceLine line=entry.getValue();
+          lines.put(entry.getKey(),line);
+          if(line.getVisits()==0) {
+              uncoveredLines++;
+          }
+          
       }
   }
 
-
-/**
-   * Increase the counter of uncovered lines. Usually happens wih partcover4 when a whole method has not been tested
-   * 
-   * @param lines
-   */
-  public void addUncoveredLines(int lines) {
-    uncoveredLines += lines;
-  }
 
   /**
    * Returns the file, which has a path on the current filesystem: the coveragefile
@@ -181,10 +180,25 @@ public void merge(FileLineCoverage sourceCoverage) {
     if(sourceCoverage.lines.size() != this.lines.size()) {
         throw new MsCoverException("Can't merge lines, source/dest differ in number of lines " + sourceCoverage.lines.size() + "/" + this.lines.size());  
     }
-    for(int lineNr=0;lineNr<this.lines.size();++lineNr) {
-        int sourceVisits=sourceCoverage.lines.get(lineNr).getVisits();
-        this.lines.get(lineNr).addVisits(sourceVisits);
+    for(SourceLine sourceLine:sourceCoverage.lines.values()) {
+        int sourceLineNr=sourceLine.getLineNumber();
+        SourceLine destLine=lines.get(sourceLineNr);
+        int currentVisits= destLine.getVisits();
+        
+        
+        int sourceVisits=sourceLine.getVisits();
+        if(lineIsUncoveredButWillBeCovered(sourceVisits, currentVisits)) {
+            --uncoveredLines;
+        }
+        
+        destLine.addVisits(sourceVisits);
     }
+}
+
+
+private boolean lineIsUncoveredButWillBeCovered(int sourceVisits,
+        int currentVisits) {
+    return sourceVisits>0 && currentVisits==0;
 }
 
 
