@@ -42,7 +42,6 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
         RUNVSTEST
     }
     private final Settings settings;
-    private MsCoverPropertiesLogic logic = new SonarMsCoverPropertiesLogic(this);
     public static final String MSCOVER = "sonar.mscover.";
     public static final String MSCOVER_INTEGRATION_COVERAGEXML_PATH = MSCOVER + "integrationtests.coveragexml";
     public static final String MSCOVER_UNIT_COVERAGEXML_PATH=MSCOVER + "unittests.coveragexml";
@@ -77,15 +76,10 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
      * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#isUnitTestsEnabled()
      */
     public boolean isUnitTestsEnabled() {
-        return logic.isUnitTestsEnabled();
+        return StringUtils.isNotEmpty(getUnitTestCoveragePath());
     }
     
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getPropertiesLogic()
-     */
-    public MsCoverPropertiesLogic getPropertiesLogic() {
-        return logic;
-    }
+
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getIntegrationTestsPath()
      */

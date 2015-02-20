@@ -29,8 +29,6 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.CoveragePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileLineCoverage;
 
