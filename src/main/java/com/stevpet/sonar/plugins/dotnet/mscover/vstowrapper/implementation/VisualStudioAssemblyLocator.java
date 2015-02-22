@@ -39,7 +39,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class VisualStudioAssemblyLocator {
+public class VisualStudioAssemblyLocator implements AssemblyLocator {
 
   private static final Logger LOG = LoggerFactory.getLogger(VisualStudioAssemblyLocator.class);
   private static final Comparator<File> FILE_LAST_MODIFIED_COMPARATOR = new FileLastModifiedComparator();
@@ -50,7 +50,11 @@ public class VisualStudioAssemblyLocator {
     this.settings = settings;
   }
 
-  public File locateAssembly(String projectName, File projectFile, VisualStudioProject project) {
+  /* (non-Javadoc)
+ * @see com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation.AssemblyLocator#locateAssembly(java.lang.String, java.io.File, com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject)
+ */
+@Override
+public File locateAssembly(String projectName, File projectFile, VisualStudioProject project) {
     LOG.debug("Locating the assembly for the project " + projectName + "... " + projectFile.getAbsolutePath());
     if (project.outputType() == null || project.getAssemblyName() == null) {
       LOG.warn("Unable to locate the assembly as either the output type or the assembly name is missing.");

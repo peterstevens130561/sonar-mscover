@@ -150,19 +150,16 @@ public class FileLineCoverage {
   }
 
   /**
-   * Gets the coverage ratio.
+   * Gets the on 2 decimals rounded coverage ratio.
    * 
    * @return the coverage ratio
    */
+
   public double getCoverage() {
     if (getCountLines()==0) {
       return 1.;
     }
     double coverage=Math.round(((double) getCoveredLines() / (double) getCountLines()) * 100) * 0.01;
-    if(coverage < 0) {
-        Log.error("negative coverage on " + this.toString() + " must be programming error");
-        coverage=0;
-    }
     return coverage;
   } 
 

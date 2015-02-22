@@ -38,10 +38,8 @@ public class SimpleVisualStudioProject implements VisualStudioProject {
 
     private final File projectFile ;
   private final List<File> sourceFiles;
-  private final String projectTypeGuids;
   private final String outputType;
   private final String assemblyName;
-  private final List<String> propertyGroupConditions;
   private final List<String> outputPaths;
   
   private boolean isTest;
@@ -50,10 +48,8 @@ private File assemblyFile;
   public SimpleVisualStudioProject(File projectFile,List<String> files, @Nullable String projectTypeGuids, @Nullable String outputType, @Nullable String assemblyName,
     List<String> propertyGroupConditions, List<String> outputPaths) {
     this.projectFile = projectFile;
-    this.projectTypeGuids = projectTypeGuids;
     this.outputType = outputType;
     this.assemblyName = assemblyName;
-    this.propertyGroupConditions = propertyGroupConditions;
     this.outputPaths = outputPaths;
     this.sourceFiles = createFiles(projectFile,files);
   }
@@ -62,20 +58,12 @@ private File assemblyFile;
     return sourceFiles;
   }
 
-  @Nullable
-  public String projectTypeGuids() {
-    return projectTypeGuids;
-  }
 
   @Nullable
   public String outputType() {
     return outputType;
   }
 
-
-  public List<String> propertyGroupConditions() {
-    return propertyGroupConditions;
-  }
 
   public List<String> outputPaths() {
     return outputPaths;

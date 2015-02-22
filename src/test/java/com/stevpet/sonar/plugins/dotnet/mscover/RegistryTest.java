@@ -51,7 +51,8 @@ public class RegistryTest {
           //Assert
           Assert.assertEquals(0,fileCoverage.getCoveredLines());
           Assert.assertEquals(24,getUncoveredLineCount(fileCoverage));
-          Assert.assertEquals(24,fileCoverage.getCountLines());        
+          Assert.assertEquals(24,fileCoverage.getCountLines());  
+          Assert.assertEquals(0.0, fileCoverage.getCoverage(),0.001);
     }
 
     
@@ -80,7 +81,8 @@ public class RegistryTest {
           //Assert
           Assert.assertEquals(6,fileCoverage.getCoveredLines());
           Assert.assertEquals(3,getUncoveredLineCount(fileCoverage));
-          Assert.assertEquals(9,fileCoverage.getCountLines());        
+          Assert.assertEquals(9,fileCoverage.getCountLines());  
+          Assert.assertEquals(0.67, fileCoverage.getCoverage(),0.001);
     }
 
     private TestCoverageRegistry arrange(String coverageName) throws XMLStreamException {

@@ -65,7 +65,7 @@ private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     build(context, new VisualStudioAssemblyLocator(settings));
   }
 
-  public void build(Context context, VisualStudioAssemblyLocator assemblyLocator) {
+  public void build(Context context, AssemblyLocator assemblyLocator) {
     ProjectDefinition sonarProject = context.projectReactor().getRoot();
 
     File solutionFile = getSolutionFile(sonarProject.getBaseDir());
@@ -73,7 +73,10 @@ private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
       LOG.info("No Visual Studio solution file found.");
       return;
     }
-
+    if(!solutionFile.exists()) {
+        LOG.error("Visual Studio solution file does not exist ",solutionFile.getAbsolutePath());
+        return;
+    }
     LOG.info("Using the following Visual Studio solution: " + solutionFile.getAbsolutePath());
 
     if (settings.hasKey(SONAR_MODULES_PROPERTY_KEY)) {
@@ -100,7 +103,8 @@ private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
           LOG.warn("Unable to find the Visual Studio project file " + projectFile.getAbsolutePath());
         } else {
           SimpleVisualStudioProject project = projectParser.parse(projectFile);
-          File assembly = assemblyLocator.locateAssembly(solutionProject.name(), projectFile, project);
+          String solutionName = solutionProject.name();
+          File assembly = assemblyLocator.locateAssembly(solutionName, projectFile, project);
           if (skipNotBuildProjects() && assembly == null) {
             logSkippedProject(solutionProject, "because it is not built and \"" + VisualStudioPlugin.VISUAL_STUDIO_SKIP_IF_NOT_BUILT + "\" is set.");
           } else if(assembly==null) {

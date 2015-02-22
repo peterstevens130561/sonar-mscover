@@ -47,8 +47,15 @@ public class MeasureSaverMock extends GenericClassMock<MeasureSaver> {
         verify(instance,times(frequency)).saveFileMeasure(measure);
     }
 
+    public void verifySaveFileMeasure(Metric metric, double value) {
+        verify(instance,times(1)).saveFileMeasure(eq(metric), eq(value));
+    }
     public void verifyInvokedSaveFileMeasure(int i, Metric metric) {
         verify(instance,times(i)).saveFileMeasure(eq(metric), anyDouble());
+    }
+
+    public void verifySaveFileMeasure(Measure lineHits) {
+        verify(instance,times(1)).saveFileMeasure(eq(lineHits));        
     }
     
 

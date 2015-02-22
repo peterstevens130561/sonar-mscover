@@ -36,7 +36,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProjectM
 
 public class VisualStudioAssemblyLocatorTest {
     private SettingsMock settingsMock = new SettingsMock();
-    private VisualStudioAssemblyLocator locator ;
+    private AssemblyLocator locator ;
     
     @Before
     public void before() {
