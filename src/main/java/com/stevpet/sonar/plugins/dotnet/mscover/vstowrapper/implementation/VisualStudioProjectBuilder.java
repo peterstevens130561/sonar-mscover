@@ -91,9 +91,7 @@ private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     SimpleVisualStudioSolution currentSolution = new VisualStudioSolutionParser().parse(solutionFile);
     VisualStudioProjectParser projectParser = new VisualStudioProjectParser();
     for (VisualStudioSolutionProject solutionProject : currentSolution.projects()) {
-      if (!isSupportedProjectType(solutionProject)) {
-        logSkippedProject(solutionProject, "because its project type is unsupported: " + solutionProject.path());
-      } else if (skippedProjects.contains(solutionProject.name())) {
+      if (skippedProjects.contains(solutionProject.name())) {
         logSkippedProject(solutionProject, "because it is listed in the property \"" + VisualStudioPlugin.VISUAL_STUDIO_OLD_SKIPPED_PROJECTS + "\".");
       } else if (isSkippedProjectByPattern(solutionProject.name())) {
         logSkippedProject(solutionProject, "because it matches the property \"" + VisualStudioPlugin.VISUAL_STUDIO_SKIPPED_PROJECT_PATTERN + "\".");
@@ -138,12 +136,6 @@ private static void logSkippedProject(VisualStudioSolutionProject solutionProjec
     return settings.getBoolean(VisualStudioPlugin.VISUAL_STUDIO_SKIP_IF_NOT_BUILT);
   }
 
-  private boolean isSupportedProjectType(VisualStudioSolutionProject project) {
-    String path = project.path().toLowerCase();
-    return path.endsWith(".csproj") ||
-      path.endsWith(".vbproj") ||
-      path.endsWith(".vcxproj");
-  }
 
   private void buildModule(ProjectDefinition solutionProject, String projectName, File projectFile, SimpleVisualStudioProject project, @Nullable File assembly, File solutionFile) {
 
@@ -214,14 +206,6 @@ private static void logSkippedProject(VisualStudioSolutionProject solutionProjec
   }
 
 
-  @VisibleForTesting
-  static String escapeProjectName(String projectName) {
-    String escaped = Normalizer.normalize(projectName, Normalizer.Form.NFD);
-    escaped = escaped.replaceAll("\\p{M}", "");
-    escaped = escaped.replace(' ', '_');
-    escaped = escaped.replace('+', '_');
-    return escaped;
-  }
 
   private boolean isTestProject(String projectName) {
     return matchesPropertyRegex(VisualStudioPlugin.VISUAL_STUDIO_TEST_PROJECT_PATTERN, projectName);

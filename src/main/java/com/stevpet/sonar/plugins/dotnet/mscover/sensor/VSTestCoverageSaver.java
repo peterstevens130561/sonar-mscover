@@ -24,6 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.sensor;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
@@ -130,14 +131,10 @@ public class VSTestCoverageSaver implements CoverageSaver {
         LOG.info("MsCoverPlugin : name=" + project.getName());
         String projectDirectory = fileSystem.baseDir().getAbsolutePath();
         LOG.info("MsCoverPlugin : directory=" + projectDirectory);
-
-
-        VsTestCoverageRegistry registry=new VsTestCoverageRegistry(projectDirectory);
         File file = getCoverageFile(coveragePath);
-        invokeParserSubject(registry,file);
-        
-        saveLineMeasures(registry.getSolutionLineCoverageData());
-        
+        List<File> coverageFiles = new ArrayList<File>();
+        coverageFiles.add(file);
+        tryAnalyseFiles(coverageFiles);     
     }
 
 

@@ -24,7 +24,7 @@ public class VisualProjectBuilderTest {
     private VisualStudioProjectBuilder visualProjectBuilder = new VisualStudioProjectBuilder(settingsMock.getMock(),microsoftWindowsEnvironment);
     private ContextMock contextMock = new ContextMock();
     private AssemblyLocatorMock assemblyLocatorMock = new AssemblyLocatorMock();
-    
+    private File baseDir;
     @Before
     public void setup() {
 
@@ -33,29 +33,33 @@ public class VisualProjectBuilderTest {
         contextMock.givenProjectReactor(projectReactor);
         
         settingsMock.givenString(VisualStudioPlugin.VISUAL_STUDIO_SOLUTION_PROPERTY_KEY,"CodeCoverage.sln");
-        File baseDir = TestUtils.getResource("VstoWrapper");
+        baseDir = TestUtils.getResource("VstoWrapper");
         projectDefinition.setBaseDir(baseDir);
         assemblyLocatorMock.givenLocate("CodeCoverage",new File(baseDir,"CodeCoverage/bin/codecoverage.dll"));
         assemblyLocatorMock.givenLocate("CodeCoverage.UnitTests",new File(baseDir,"CodeCoverage.UnitTests/bin/codecoverage.unittests.dll"));
     }
     
     @Test
+    public void NoSolutionSpecified_ShouldFindSolution() {
+        //when
+        settingsMock.givenString(VisualStudioPlugin.VISUAL_STUDIO_SOLUTION_PROPERTY_KEY,null);
+        visualProjectBuilder.build(contextMock.getMock(), assemblyLocatorMock.getMock());
+        
+        //expect solution to be found
+        File solutionDir=microsoftWindowsEnvironment.getCurrentSolution().getSolutionDir();
+        assertEquals("solution directory",solutionDir.getAbsolutePath(),baseDir.getAbsolutePath());
+        //check artifactNames
+        thenExpectBothCSharpProjectsToBeFound();
+    }
+
+
+    @Test
     public void ReadSolution_ShouldHAveOneProjectAndOneTestProject() {
         //when
         settingsMock.givenString(VisualStudioPlugin.VISUAL_STUDIO_SOLUTION_PROPERTY_KEY,"CodeCoverage.sln");
         visualProjectBuilder.build(contextMock.getMock(), assemblyLocatorMock.getMock());
         
-        //check artifactNames
-        List<String> artifacts= microsoftWindowsEnvironment.getArtifactNames();
-        assertEquals("2 artifacts expected",2,artifacts.size());
-        assertTrue("codecoverage.dll to be in artifacts",artifacts.contains("codecoverage.dll"));
-        assertTrue("codecoverage.unittests.dll to be in artifacts",artifacts.contains("codecoverage.unittests.dll"));
-
-        //check assemblies
-        List<String> assemblies=microsoftWindowsEnvironment.getAssemblies();
-        assertEquals("2 assembliess expected",2,assemblies.size());
-        assertTrue("CodeCoverage to be in assemblies",assemblies.contains("CodeCoverage"));
-        assertTrue("CodeCoverage.UnitTests to be in assemblies",assemblies.contains("CodeCoverage.UnitTests"));
+        thenExpectBothCSharpProjectsToBeFound();
     }
     
     @Test
@@ -74,17 +78,7 @@ public class VisualProjectBuilderTest {
 
         visualProjectBuilder.build(contextMock.getMock(), assemblyLocatorMock.getMock());
         
-        //check artifactNames
-        List<String> artifacts= microsoftWindowsEnvironment.getArtifactNames();
-        assertEquals("2 artifacts expected",2,artifacts.size());
-        assertTrue("codecoverage.dll to be in artifacts",artifacts.contains("codecoverage.dll"));
-        assertTrue("codecoverage.unittests.dll to be in artifacts",artifacts.contains("codecoverage.unittests.dll"));
-
-        //check assemblies
-        List<String> assemblies=microsoftWindowsEnvironment.getAssemblies();
-        assertEquals("2 assembliess expected",2,assemblies.size());
-        assertTrue("CodeCoverage to be in assemblies",assemblies.contains("CodeCoverage"));
-        assertTrue("CodeCoverage.UnitTests to be in assemblies",assemblies.contains("CodeCoverage.UnitTests"));
+        thenExpectBothCSharpProjectsToBeFound();
     }
     @Test
     public void ReadSolution_SkipOneProject() {
@@ -102,5 +96,17 @@ public class VisualProjectBuilderTest {
         assertTrue("CodeCoverage.UnitTests to be in assemblies",assemblies.contains("CodeCoverage.UnitTests"));
     }
     
+    private void thenExpectBothCSharpProjectsToBeFound() {
+        List<String> artifacts= microsoftWindowsEnvironment.getArtifactNames();
+        assertEquals("2 artifacts expected",2,artifacts.size());
+        assertTrue("codecoverage.dll to be in artifacts",artifacts.contains("codecoverage.dll"));
+        assertTrue("codecoverage.unittests.dll to be in artifacts",artifacts.contains("codecoverage.unittests.dll"));
+
+        //check assemblies
+        List<String> assemblies=microsoftWindowsEnvironment.getAssemblies();
+        assertEquals("2 assembliess expected",2,assemblies.size());
+        assertTrue("CodeCoverage to be in assemblies",assemblies.contains("CodeCoverage"));
+        assertTrue("CodeCoverage.UnitTests to be in assemblies",assemblies.contains("CodeCoverage.UnitTests"));
+    }
 
 }
