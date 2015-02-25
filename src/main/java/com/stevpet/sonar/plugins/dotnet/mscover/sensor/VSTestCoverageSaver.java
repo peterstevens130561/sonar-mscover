@@ -112,6 +112,16 @@ public class VSTestCoverageSaver implements CoverageSaver {
         }
     } 
 
+    private void tryAnalyse(String coveragePath)
+            throws XMLStreamException, IOException {
+        LOG.info("MsCoverPlugin : name=" + project.getName());
+        String projectDirectory = fileSystem.baseDir().getAbsolutePath();
+        LOG.info("MsCoverPlugin : directory=" + projectDirectory);
+        File file = getCoverageFile(coveragePath);
+        List<File> coverageFiles = new ArrayList<File>();
+        coverageFiles.add(file);
+        tryAnalyseFiles(coverageFiles);     
+    }
     private void tryAnalyseFiles(List<File> coverageFiles)
             throws XMLStreamException, IOException {
         String projectDirectory = fileSystem.baseDir().getAbsolutePath();
@@ -126,16 +136,7 @@ public class VSTestCoverageSaver implements CoverageSaver {
         
     }
 
-    private void tryAnalyse(String coveragePath)
-            throws XMLStreamException, IOException {
-        LOG.info("MsCoverPlugin : name=" + project.getName());
-        String projectDirectory = fileSystem.baseDir().getAbsolutePath();
-        LOG.info("MsCoverPlugin : directory=" + projectDirectory);
-        File file = getCoverageFile(coveragePath);
-        List<File> coverageFiles = new ArrayList<File>();
-        coverageFiles.add(file);
-        tryAnalyseFiles(coverageFiles);     
-    }
+
 
 
     /**
