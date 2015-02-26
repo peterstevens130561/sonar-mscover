@@ -33,7 +33,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentM
 
 public class OpenCoverCoverageResultsBaseTest {
 
-    protected FileSystemMock fileSystemMock = new FileSystemMock();
     protected MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
     protected MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     protected VsTestEnvironmentMock vsTestEnvironmentMock = new VsTestEnvironmentMock();
@@ -46,7 +45,6 @@ public class OpenCoverCoverageResultsBaseTest {
                 microsoftWindowsEnvironmentMock.getMock(),
                 msCoverPropertiesMock.getMock(),
                 vsTestEnvironmentMock.getMock(),
-                fileSystemMock.getMock(),
                 measureSaverMock.getMock()
                 );
        

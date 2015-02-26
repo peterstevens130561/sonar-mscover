@@ -54,7 +54,7 @@ public class OpenCoverTestResultsSaverSensor extends AbstractDotNetSensor {
             VsTestEnvironment vsTestEnvironment,
             FileSystem fileSystem,
             ResourceMediator resourceMediator) {
-        super(microsoftWindowsEnvironment, "OpenCover", propertiesHelper.getMode());
+        super(microsoftWindowsEnvironment, propertiesHelper.getMode());
         this.propertiesHelper = propertiesHelper;
         this.vsTestEnvironment=vsTestEnvironment;
         this.fileSystem = fileSystem;

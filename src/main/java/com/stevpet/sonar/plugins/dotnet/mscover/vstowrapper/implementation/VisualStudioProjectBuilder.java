@@ -22,12 +22,12 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
+import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 
 import org.apache.commons.io.FileUtils;
@@ -42,7 +42,6 @@ import javax.annotation.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.Normalizer;
 import java.util.Collection;
 import java.util.Set;
 import java.util.regex.PatternSyntaxException;
@@ -106,7 +105,9 @@ private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
           if (skipNotBuildProjects() && assembly == null) {
             logSkippedProject(solutionProject, "because it is not built and \"" + VisualStudioPlugin.VISUAL_STUDIO_SKIP_IF_NOT_BUILT + "\" is set.");
           } else if(assembly==null) {
-             throw new SonarException("Project not built " + projectFile.getAbsolutePath()) ;
+              String msg = "Project not built " + projectFile.getAbsolutePath();
+              LOG.error(msg);
+              throw new MsCoverException(msg) ;
               
           }else {
             hasModules = true;

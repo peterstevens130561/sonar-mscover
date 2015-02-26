@@ -30,10 +30,12 @@ import org.sonar.api.measures.Metric;
 
 public class NullResource implements ResourceSeam {
 
-    public void saveMetricValue(Metric metric, double value) {        
+    public void saveMetricValue(Metric metric, double value) {
+        //Mull resource, so ignore
     }
 
-    public void saveMeasure(Measure measure) {      
+    public void saveMeasure(Measure measure) { 
+        // Null resource, so ignore
     }
 
     /**
@@ -55,10 +57,11 @@ public class NullResource implements ResourceSeam {
 
 
 
-    public void setIsExcluded() {      
+    public void setIsExcluded() {
+        // Null resource so ignore
     }
 
     public void readSource(java.io.File file, String path, Charset charset) {
-
+        // Null resource so ignore
     }
 }

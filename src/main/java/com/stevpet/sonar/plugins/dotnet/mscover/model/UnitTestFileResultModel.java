@@ -50,7 +50,7 @@ public class UnitTestFileResultModel {
         return (double) tests.size();
     }
     public double getDensity() {
-        if(tests.size() ==0) {
+        if(tests.isEmpty()) {
             return 1.0;
         }
         return getPassed()/getTests();

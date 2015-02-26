@@ -97,9 +97,6 @@ public class OpenCoverTestExecutionCoverageSensorBehavior {
         sensor.analyse(project, context);      
     }
 
-    public void givenProjectSeam(ProjectSeamMock projectSeamMock) {
-        sensor.setProjectSeam(projectSeamMock.getMock());
-    }
 
     public void givenOpenCoverCommandBuilder(
             OpenCoverCommandBuilderMock openCoverCommandBuilderMock) {

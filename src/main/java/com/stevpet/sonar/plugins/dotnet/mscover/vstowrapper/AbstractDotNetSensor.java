@@ -22,17 +22,18 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper;
 
+import org.apache.commons.lang.StringUtils;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.resources.Project;
 
 public abstract class AbstractDotNetSensor implements Sensor {
 
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-
+    private String mode;
     public AbstractDotNetSensor(
-            MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-            String plugin, String mode) {
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment, String mode) {
         this.microsoftWindowsEnvironment  = microsoftWindowsEnvironment;
+        this.mode=mode;
     }
 
 
@@ -40,15 +41,15 @@ public abstract class AbstractDotNetSensor implements Sensor {
 
     @Override
     public boolean shouldExecuteOnProject(Project project) {
-        return project.isRoot();
+        return isEnabled() && project.isRoot();
     }
     
     protected MicrosoftWindowsEnvironment getMicrosoftWindowsEnvironment() {
         return microsoftWindowsEnvironment;
     }
     
-    protected boolean isTestProject(Project project) {
-        return false;
+    private boolean isEnabled() {
+        return !"disabled".equals(mode) && !"false".equals(mode);
     }
 
 }

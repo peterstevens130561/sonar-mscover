@@ -66,7 +66,6 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private VsTestEnvironment testEnvironment;
     private CommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-    private VsTestRunner unitTestRunner;
     private OpenCoverCommand openCoverCommand = new OpenCoverCommand();
     private AbstractVsTestRunnerFactory vsTestRunnerFactory = new DefaultVsTestRunnerFactory();
     private OpenCoverCommandBuilder openCoverCommandBuilder = new OpenCoverCommandBuilder();
@@ -80,7 +79,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
             FileSystem fileSystem,
             VsTestEnvironment testEnvironment) {
-        super(microsoftWindowsEnvironment, "OpenCover", propertiesHelper.getMode());
+        super(microsoftWindowsEnvironment, propertiesHelper.getMode());
         this.propertiesHelper = propertiesHelper;
         this.fileSystem = fileSystem;
         this.testEnvironment = testEnvironment;
@@ -127,7 +126,6 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         testEnvironment.setCoverageXmlFile(project,"coverage-report.xml");
 
         getSolution();
-        //ensureWorkDirExists();
         
         executeVsTestOpenCoverRunner();
         getResultPaths();
@@ -146,7 +144,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
 
     
     private void executeVsTestOpenCoverRunner() {
-        unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, fileSystem,microsoftWindowsEnvironment);
+        VsTestRunner unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, fileSystem,microsoftWindowsEnvironment);
         unitTestRunner.clean();
 
         openCoverCommandBuilder.setOpenCoverCommand(openCoverCommand);
@@ -165,8 +163,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         processLock.lock();
         try {
         commandLineExecutor.execute(openCoverCommand);
-        }
-        finally {
+        } finally {
             processLock.release();
         }
     }
@@ -202,12 +199,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     public void setOpenCoverCommand(OpenCoverCommand openCoverCommand) {
        this.openCoverCommand = openCoverCommand;
     }
-    /**
-     * @param projectSeam the projectSeam to set
-     */
-    public void setProjectSeam(ProjectSeam projectSeam) {
-        //this.projectSeam = projectSeam;
-    }
+
 
     public void setOpenCoverCommandBuilder(OpenCoverCommandBuilder mock) {
         this.openCoverCommandBuilder=mock;

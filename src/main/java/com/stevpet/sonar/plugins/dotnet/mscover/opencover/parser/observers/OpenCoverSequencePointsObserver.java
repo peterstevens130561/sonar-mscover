@@ -32,7 +32,7 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
 
         private SonarCoverage registry ;
         private SequencePoint sequencePoint;
-        private String fileUid ;
+
         private SonarFileCoverage coveredFile;
         private boolean lineVisited;
         private BranchOffsetToLineMapper offsetToLineMapper = new BranchOffsetToLineMapper();
@@ -51,8 +51,7 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         
         @AttributeMatcher(attributeName="uid",elementName="FileRef")
         public void fileRefMatcher(String attributeValue) {
-           fileUid=attributeValue;
-           coveredFile=registry.getCoveredFile(fileUid);
+           coveredFile=registry.getCoveredFile(attributeValue);
            offsetToLineMapper.start();
         }
         

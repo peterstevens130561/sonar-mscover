@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.jfree.util.Log;
 import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.api.config.Settings;
@@ -215,7 +216,9 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
         try {
             runMode= Enum.valueOf(RunMode.class, name.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new MsCoverException("Invalid property value " + MSCOVER_MODE +"=" + name);
+            String msg = "Invalid property value " + MSCOVER_MODE +"=" + name;
+            Log.error(msg);
+            throw new MsCoverException(msg);
         }
         return runMode;
     }

@@ -51,10 +51,9 @@ public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             MsCoverProperties propertiesHelper,
             VsTestEnvironment vsTestEnvironment,
-            FileSystem fileSystem,
             MeasureSaver measureSaver) {
 
-        super(microsoftWindowsEnvironment, "OpenCover", propertiesHelper.getMode());
+        super(microsoftWindowsEnvironment,propertiesHelper.getMode());
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.propertiesHelper = propertiesHelper;
         this.vsTestEnvironment=vsTestEnvironment;

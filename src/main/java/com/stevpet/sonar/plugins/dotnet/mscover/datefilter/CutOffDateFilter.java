@@ -151,7 +151,7 @@ public class CutOffDateFilter implements DateFilter {
    
     }
     private Date getLatestCommitDate() {
-        if(lineCommitsData == null || lineCommitsData.size()==0) {
+        if(lineCommitsData == null || lineCommitsData.isEmpty()) {
             LOG.debug("No history found for file");
             return null;
         }
@@ -175,7 +175,7 @@ public class CutOffDateFilter implements DateFilter {
             return null;
         }
         List<Measure> commitDateTimesByLine= timeMachine.getMeasures(query); 
-        if(commitDateTimesByLine == null|| commitDateTimesByLine.size()==0) {
+        if(commitDateTimesByLine == null|| commitDateTimesByLine.isEmpty()) {
             return null;
         }
         return commitDateTimesByLine.get(0);

@@ -56,14 +56,11 @@ public class ModuleNameObserver extends VsTestCoverageObserver {
         }
     }
    
-    @Override
-    public void setVsTestRegistry(VsTestCoverageRegistry vsTestRegistry) {
-       
-    }
+
 
     @ElementMatcher(elementName="ModuleName")
     public void moduleNameMatcher(String value) {
-        if(modulesToParse.size()==0) {
+        if(modulesToParse.isEmpty()) {
             return;
         }
         boolean shouldSkip=!modulesToParse.contains(value);
@@ -73,5 +70,9 @@ public class ModuleNameObserver extends VsTestCoverageObserver {
         if(shouldSkip) {
             setSkipTillNextElement("Module");
         }
+    }
+
+    @Override
+    public void setVsTestRegistry(VsTestCoverageRegistry vsTestRegistry) {       
     }
 }

@@ -51,12 +51,6 @@ public class DefaultResourceMediator implements ResourceMediator {
     }
  
 
-    @Deprecated
-    public DefaultResourceMediator(SensorContext sensorContext) {
-        resourceSeamFactory = new SonarResourceSeamFactory();
-    }
-
-
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorInterface#setDateFilter(com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter)
      */

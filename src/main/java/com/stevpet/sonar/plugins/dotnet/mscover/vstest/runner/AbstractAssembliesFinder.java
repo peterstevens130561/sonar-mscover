@@ -24,6 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -88,7 +89,7 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
      * @exception in case of no list or empty list, or no assembly defined for current configuration
      */
     private List<String> fromBuildConfiguration(List<VisualStudioProject> projects) {
-        if(projects==null || projects.size()==0) {
+        if(projects==null || projects.isEmpty()) {
             throw new SolutionHasNoProjectsSonarException() ;
         }
         assemblies=new ArrayList<String>();

@@ -68,7 +68,6 @@ public class WindowsVsTestRunner implements VsTestRunner {
     private String stdOutString;
     private CodeCoverageCommand command = new WindowsCodeCoverageCommand();
     private TestConfigFinder testConfigFinder = new VsTestConfigFinder();
-    private AssembliesFinder assembliesFinder;
     private AbstractAssembliesFinderFactory assembliesFinderFactory =  new AssembliesFinderFactory();
     private VSTestCommand vsTestCommand = VSTestCommand.create();
     private CommandLineExecutor executor = new WindowsCommandLineExecutor();
@@ -216,8 +215,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
     
 
     private void findAssemblies() {
-
-        assembliesFinder = assembliesFinderFactory.create(propertiesHelper) ;
+        AssembliesFinder assembliesFinder = assembliesFinderFactory.create(propertiesHelper) ;
         unitTestAssembliesPath=assembliesFinder.findUnitTestAssembliesFromConfig(solutionDirectory, projects);
     }
 

@@ -150,7 +150,6 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         
         assembliesFinderFactoryMock.onCreate(msCoverPropertiesMock,assembliesFinderMock);
         classUnderTest.givenAssembliesFinderFactory(assembliesFinderFactoryMock);
-        classUnderTest.givenProjectSeam(projectSeamMock);
         classUnderTest.setOpenCoverCommand(openCoverCommandMock.getMock());
         microsoftWindowsEnvironmentMock.givenHasSolutionWithProject(1);
         classUnderTest.analyse();
