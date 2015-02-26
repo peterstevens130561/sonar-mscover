@@ -30,7 +30,7 @@ import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIdModel;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel;
 
@@ -46,7 +46,7 @@ public class UnitTestFilesResultRegistry {
     public void mapResults(UnitTestResultRegistry unitTestRegistry, MethodToSourceFileIdMap map) {
         Collection<UnitTestResultModel>unitTests=unitTestRegistry.values();
         for(UnitTestResultModel unitTest:unitTests) {
-            MethodIdModel methodId=unitTest.getMethodId();
+            MethodId methodId=unitTest.getMethodId();
             String fileId = map.get(methodId);
             bailOutOnNotFound(map, methodId, fileId);
             if(!unitTestFilesResultRegistry.containsKey(fileId)) {
@@ -58,7 +58,7 @@ public class UnitTestFilesResultRegistry {
     }
 
     private void bailOutOnNotFound(MethodToSourceFileIdMap map,
-            MethodIdModel methodId, String fileId) {
+            MethodId methodId, String fileId) {
         if(fileId==null) {
             map.dumpMap();
             String msg = createPrettyMessage(methodId);
@@ -67,7 +67,7 @@ public class UnitTestFilesResultRegistry {
         }
     }
 
-    private String createPrettyMessage(MethodIdModel methodId) {
+    private String createPrettyMessage(MethodId methodId) {
         StringBuilder sb = new StringBuilder();
         sb.append("Can't find sourcefile for the following method\n");
         sb.append("One known cause is that the method is inherited");

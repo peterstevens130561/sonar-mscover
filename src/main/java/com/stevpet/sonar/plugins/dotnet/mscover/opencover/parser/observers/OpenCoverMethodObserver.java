@@ -25,7 +25,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIdModel;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.PathMatcher;
@@ -141,7 +141,7 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
             scanMode=ScanMode.SCAN;
             return;
         }
-        MethodIdModel method = new MethodIdModel();
+        MethodId method = new MethodId();
         method.setClassName(className);
         method.setMethodName(methodName);
         method.setModuleName(moduleName);

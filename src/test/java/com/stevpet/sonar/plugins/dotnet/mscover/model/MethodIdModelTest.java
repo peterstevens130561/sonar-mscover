@@ -29,10 +29,10 @@ import org.sonar.api.utils.SonarException;
 
 public class MethodIdModelTest {
 
-    MethodIdModel methodIdModel ;
+    MethodId methodIdModel ;
     @Before
     public void before() {
-        methodIdModel = MethodIdModel.create();
+        methodIdModel = MethodId.create();
     }
     
     @Test(expected=SonarException.class)

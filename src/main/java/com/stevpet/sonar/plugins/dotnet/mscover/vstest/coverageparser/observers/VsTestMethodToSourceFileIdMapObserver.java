@@ -22,7 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIdModel;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
@@ -30,7 +30,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 public class VsTestMethodToSourceFileIdMapObserver extends VsTestCoverageObserver {
 
     private MethodToSourceFileIdMap registry;
-    private MethodIdModel methodId;
+    private MethodId methodId;
     public VsTestMethodToSourceFileIdMapObserver() {
         setPattern("(Module/ModuleName)|" +
                 "(Module/NamespaceTable/NamespaceName)|" +
@@ -46,7 +46,7 @@ public class VsTestMethodToSourceFileIdMapObserver extends VsTestCoverageObserve
  
     @ElementMatcher(elementName="ModuleName")
     public void moduleName(String value) {
-        methodId=new MethodIdModel();
+        methodId=new MethodId();
         methodId.setModuleName(value);
     }
     

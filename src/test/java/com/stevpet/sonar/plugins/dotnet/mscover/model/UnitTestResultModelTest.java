@@ -130,7 +130,7 @@ public class UnitTestResultModelTest {
         model.setModuleFromCodeBase(codeBase);
         model.setNamespaceNameFromClassName(classPath);
         model.setClassName(classPath);
-        MethodIdModel methodId = model.getMethodId();
+        MethodId methodId = model.getMethodId();
         Assert.assertNotNull(methodId);
         Assert.assertEquals("unittest.dll",methodId.getModuleName());
         Assert.assertEquals("bhi.com", methodId.getNamespaceName());

@@ -27,23 +27,22 @@ import java.util.regex.Pattern;
 
 import org.sonar.api.utils.SonarException;
 
-public final class MethodIdModel  {
+public final class MethodId  {
     private String moduleName,namespaceName,className,methodName;
     Pattern pattern = Pattern.compile("[^a-zA-Z0-9\\._-]");
     Pattern moduleSuffixPattern = Pattern.compile("\\.(exe|dll)");
 
-    public MethodIdModel() {
-        
+    public MethodId() { 
     }
     
-    public MethodIdModel(String moduleName, String namespaceName, String className, String methodName) {
+    public MethodId(String moduleName, String namespaceName, String className, String methodName) {
         setModuleName(moduleName);
         setNamespaceName(namespaceName);
         setClassName(className);
         setMethodName(methodName);
     }
     
-    public MethodIdModel(MethodIdModel methodId) {
+    public MethodId(MethodId methodId) {
         setModuleName(new String(methodId.getModuleName()));
         setNamespaceName(new String(methodId.getNamespaceName()));
         setClassName(new String(methodId.getClassName()));
@@ -119,14 +118,13 @@ public final class MethodIdModel  {
         return id.toLowerCase();
     }
 
-    public static MethodIdModel create() {
-        return new MethodIdModel();
+    public static MethodId create() {
+        return new MethodId();
     }
 
     @Override
     public int hashCode() {
-        int result= getId().hashCode();
-        return result;
+        return getId().hashCode();
     }
     
     @Override
@@ -141,7 +139,7 @@ public final class MethodIdModel  {
         if(null == o) {
             return false;
         }
-        MethodIdModel otherMethodId = (MethodIdModel)o;
+        MethodId otherMethodId = (MethodId)o;
         return className.equals(otherMethodId.getClassName()) && 
                 moduleName.equalsIgnoreCase(otherMethodId.getModuleName()) && 
                 namespaceName.equals(otherMethodId.getNamespaceName()) &&
@@ -158,7 +156,7 @@ public final class MethodIdModel  {
         return sb.toString();
     }
     
-    public MethodIdModel deepClone(){
-       return new MethodIdModel(this);
+    public MethodId deepClone(){
+       return new MethodId(this);
     }
 }

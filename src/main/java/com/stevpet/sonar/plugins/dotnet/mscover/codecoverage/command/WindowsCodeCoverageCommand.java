@@ -28,7 +28,6 @@ import java.net.URL;
 
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.plexus.util.FileUtils;
-import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.command.Command;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;

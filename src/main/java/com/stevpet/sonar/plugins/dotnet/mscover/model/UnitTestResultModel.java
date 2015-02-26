@@ -27,7 +27,7 @@ import org.sonar.api.utils.SonarException;
 
 
 public class UnitTestResultModel  {
-    private MethodIdModel methodId = new MethodIdModel();
+    private MethodId methodId = new MethodId();
     private String testId;
     private String duration;
     private String outcome;
@@ -127,7 +127,7 @@ public class UnitTestResultModel  {
         }
         methodId.setClassName(className);
     }
-    public MethodIdModel getMethodId() {
+    public MethodId getMethodId() {
         return methodId;
     }
     public void setMessage(String value) {

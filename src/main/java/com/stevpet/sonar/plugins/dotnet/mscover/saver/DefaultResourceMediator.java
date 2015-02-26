@@ -29,7 +29,6 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.helpers.SonarResourceHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
@@ -43,7 +42,6 @@ public class DefaultResourceMediator implements ResourceMediator {
 
     protected DateFilter dateFilter = DateFilterFactory.createEmptyDateFilter();
     protected ResourceFilter resourceFilter = ResourceFilterFactory.createEmptyFilter();
-    private Project project ;
     private ResourceSeamFactory resourceSeamFactory;
 
     public DefaultResourceMediator() {
@@ -74,7 +72,7 @@ public class DefaultResourceMediator implements ResourceMediator {
     @Override
     public ResourceSeam getSonarResource(SensorContext sensorContext,Project project,File file) {
         ResourceSeam resource;
-        org.sonar.api.resources.File sonarFile =SonarResourceHelper.getFromFile(file, project);
+        org.sonar.api.resources.File sonarFile =org.sonar.api.resources.File.fromIOFile(file, project);
         if (sonarFile == null) {
             LOG.debug("Could not create sonarFile for "
                     + file.getAbsolutePath());

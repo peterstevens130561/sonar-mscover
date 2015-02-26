@@ -33,7 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIdModel;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
@@ -45,7 +45,7 @@ public class MethodToSourceFileIdMapTest {
     @Test
     public void addOne_GetShouldWork() {
         MethodToSourceFileIdMap results = new MethodToSourceFileIdMap() ;
-        MethodIdModel methodOne = new MethodIdModel("module.dll","namespace","class","method");
+        MethodId methodOne = new MethodId("module.dll","namespace","class","method");
         results.add(methodOne,"1");
         assertEquals(1,results.size());
         String actual=results.get(methodOne);
@@ -56,7 +56,7 @@ public class MethodToSourceFileIdMapTest {
     public void addMany_GetShouldWork() {
         MethodToSourceFileIdMap results = new MethodToSourceFileIdMap() ;
         for(int i=0;i<10;i++) {
-            MethodIdModel methodOne = new MethodIdModel("module.dll","namespace","class","method");
+            MethodId methodOne = new MethodId("module.dll","namespace","class","method");
             methodOne.setNamespaceName("namespace" + i);
             //LOG.info("i" + methodOne.hashCode() +  " " + getPos(methodOne,16));
             
@@ -64,7 +64,7 @@ public class MethodToSourceFileIdMapTest {
             String fileId=results.get(methodOne);
             assertEquals("n" + i,fileId);
             for(int j=0;j<10;j++) {
-                methodOne=new MethodIdModel("module.dll","namespace" + j,"class","method");
+                methodOne=new MethodId("module.dll","namespace" + j,"class","method");
                 if(i<j) {
                     assertNull("" + i + " " + j,results.get(methodOne));
                 } else {
@@ -94,7 +94,7 @@ public class MethodToSourceFileIdMapTest {
     @Test
     public void parser_GetLastMethodViaGet_ShouldMatch() {
         MethodToSourceFileIdMap results = loadMethodMapper();
-        MethodIdModel method = new MethodIdModel();
+        MethodId method = new MethodId();
         method.setModuleName("tfsblame.exe");
         method.setNamespaceName("BHI.JewelSuite.Tools.TfsBlame.Properties");
         method.setClassName("Settings");
@@ -107,7 +107,7 @@ public class MethodToSourceFileIdMapTest {
     @Test
     public void parser_GetFirstMethodViaGet_ShouldMatch() {
         MethodToSourceFileIdMap results = loadMethodMapper();
-        MethodIdModel method = new MethodIdModel();
+        MethodId method = new MethodId();
         method.setModuleName("unittests.dll");
         method.setNamespaceName("BHI.JewelSuite.Tools.TfsBlame.unittests");
         method.setClassName("ArgumentParserTests");

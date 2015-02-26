@@ -33,22 +33,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.SonarException;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIdModel;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 
 
 public class MethodToSourceFileIdMap {
     
     private static final Logger LOG = LoggerFactory
             .getLogger(MethodToSourceFileIdMap.class);
-    private Map<MethodIdModel,String> methodRegistry = new HashMap<MethodIdModel,String>();
+    private Map<MethodId,String> methodRegistry = new HashMap<MethodId,String>();
 
    
-    public void add(MethodIdModel methodId,String sourceFileId) {
-        MethodIdModel methodClone = methodId.deepClone();
+    public void add(MethodId methodId,String sourceFileId) {
+        MethodId methodClone = methodId.deepClone();
         methodRegistry.put(methodClone, sourceFileId);
     }
     
-    public String get(MethodIdModel methodId) {
+    public String get(MethodId methodId) {
         if(methodId==null) {
             return null;
         }
