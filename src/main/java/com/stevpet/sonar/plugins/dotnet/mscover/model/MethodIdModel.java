@@ -159,7 +159,6 @@ public final class MethodIdModel  {
     }
     
     public MethodIdModel deepClone(){
-        MethodIdModel clone = new MethodIdModel(this);
-        return clone;
+       return new MethodIdModel(this);
     }
 }

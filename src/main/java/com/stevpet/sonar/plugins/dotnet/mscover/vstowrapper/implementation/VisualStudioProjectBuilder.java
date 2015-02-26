@@ -160,12 +160,9 @@ private static void logSkippedProject(VisualStudioSolutionProject solutionProjec
           solutionProject.addTestFiles(file.getAbsolutePath());
         } else {
           solutionProject.addSourceFiles(file);
-          //createResource(file,projectFile.getParentFile());
         }
       }
     }
-
-    //forwardModuleProperties(module);
   }
 
 

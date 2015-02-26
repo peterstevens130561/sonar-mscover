@@ -59,7 +59,6 @@ public class ResultsModel {
         this.erroredTests = erroredTests;
     }
     public double getErroredTests() {
-        // TODO Auto-generated method stub
         return erroredTests;
     }
 

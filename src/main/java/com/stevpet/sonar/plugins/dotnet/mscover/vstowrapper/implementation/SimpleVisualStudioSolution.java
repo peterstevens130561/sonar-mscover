@@ -67,14 +67,12 @@ public List<VisualStudioProject> getUnitTestProjects() {
 @Deprecated
 @Override
 public VisualStudioProject getProjectFromSonarProject(Project project) {
-    // TODO Auto-generated method stub
     return null;
 }
 
 @Deprecated
 @Override
 public VisualStudioProject getProject(File file) {
-    // TODO Auto-generated method stub
     return null;
 }
 

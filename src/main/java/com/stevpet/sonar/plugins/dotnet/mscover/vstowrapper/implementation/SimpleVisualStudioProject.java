@@ -45,8 +45,8 @@ public class SimpleVisualStudioProject implements VisualStudioProject {
   private boolean isTest;
 private File assemblyFile;
 
-  public SimpleVisualStudioProject(File projectFile,List<String> files, @Nullable String projectTypeGuids, @Nullable String outputType, @Nullable String assemblyName,
-    List<String> propertyGroupConditions, List<String> outputPaths) {
+  public SimpleVisualStudioProject(File projectFile,List<String> files,  @Nullable String outputType, @Nullable String assemblyName,
+    List<String> outputPaths) {
     this.projectFile = projectFile;
     this.outputType = outputType;
     this.assemblyName = assemblyName;
@@ -105,7 +105,6 @@ public String getName() {
 
 @Override
 public boolean isTest() {
-    // TODO Auto-generated method stub
     return isTest;
 }
 

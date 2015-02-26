@@ -92,7 +92,7 @@ public class WindowsCodeCoverageCommand implements CodeCoverageCommand {
         }
     }
 
-    private void extractBinaries(String tempFolder) throws SonarException {
+    private void extractBinaries(String tempFolder)  {
         try {
 
             URL executableURL = WindowsCodeCoverageCommand.class

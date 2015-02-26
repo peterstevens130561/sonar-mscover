@@ -119,7 +119,7 @@ public class VisualStudioProjectParser {
         Closeables.closeQuietly(reader);
       }
 
-      return new SimpleVisualStudioProject(projectFile,filesBuilder.build(), projectTypeGuids, outputType, assemblyName, propertyGroupConditionsBuilder.build(), outputPathsBuilder.build());
+      return new SimpleVisualStudioProject(projectFile,filesBuilder.build(),  outputType, assemblyName, outputPathsBuilder.build());
     }
 
     private void closeXmlStream() {

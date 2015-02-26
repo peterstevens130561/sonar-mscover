@@ -81,9 +81,7 @@ public class SonarResourceHelper {
         try {
         String path1 = dir1.getCanonicalPath();
         String path2 = dir2.getCanonicalPath();
-        boolean same=path1.equals(path2);
-        return same;
-
+        return path1.equals(path2);
         } catch ( IOException e ) {
             throw new SonarException(e);
         }
