@@ -107,13 +107,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
         this.projects = solution.getProjects();
     }
     
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setSolutionDirectory(java.io.File)
-     */
-    @Deprecated
-    public void setSolutionDirectory(File solutionDirectory) {
-        this.solutionDirectory = solutionDirectory;
-    }
+
     
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#getSolutionDirectory()

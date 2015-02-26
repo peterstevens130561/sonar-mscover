@@ -47,7 +47,6 @@ public class OpenCoverTestExecutionCoverageSensorTest {
     private ProjectMock project = new ProjectMock();
     private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
     private OpenCoverCommandMock openCoverCommandMock = new OpenCoverCommandMock();
-    private ProjectSeamMock projectSeamMock = new ProjectSeamMock();
     private FileSystemMock moduleFileSystemMock = new FileSystemMock();
     private OpenCoverCommandBuilderMock openCoverCommandBuilderMock = new OpenCoverCommandBuilderMock();
     private AssembliesFinderFactoryMock assembliesFinderFactoryMock = new AssembliesFinderFactoryMock();

@@ -27,7 +27,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindow
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.OpenCoverCoverageResultsSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.ProjectMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.MeasureSaverMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock;
 
 

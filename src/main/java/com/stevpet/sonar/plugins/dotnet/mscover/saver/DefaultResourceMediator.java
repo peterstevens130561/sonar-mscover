@@ -68,27 +68,6 @@ public class DefaultResourceMediator implements ResourceMediator {
         this.resourceFilter = resourceFilter;
     }
     
-
-    /**
-     * Gets the resource of the file if it is to be included in the
-     * analysis. The resource will have been loaded into SonarQube.
-     * @param file
-     * @return resource
-     */
-    @Deprecated
-    public ResourceSeam getSonarFileResource(File file) {
-        return getSonarResource(null,project,file);
-
-    }
-
-    @Deprecated
-    public ResourceSeam getSonarTestResource(File file) {
-
-        ResourceSeam sonarFile = getSonarResource(null,project,file);
-        return sonarFile ;
-    }
-
-
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediatorInterface#getSonarResource(org.sonar.api.batch.SensorContext, org.sonar.api.resources.Project, java.io.File)
      */

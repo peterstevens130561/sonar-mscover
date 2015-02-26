@@ -38,8 +38,6 @@ public interface VsTestRunner {
 
     void setSolution(VisualStudioSolution solution);
 
-    void setSolutionDirectory(File solutionDirectory);
-
     File getSolutionDirectory();
 
     void setDoCodeCoverage(boolean doCodeCoverage);
