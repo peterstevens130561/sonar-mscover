@@ -25,12 +25,12 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UnitTestFileResultModel {
+public class UnitTestClassResult {
     private int error ;
     
-    private List<UnitTestResultModel> tests = new ArrayList<UnitTestResultModel>() ;
+    private List<UnitTestMethodResult> tests = new ArrayList<UnitTestMethodResult>() ;
     
-    public void add(UnitTestResultModel unitTest) {
+    public void add(UnitTestMethodResult unitTest) {
         tests.add(unitTest);
         String outcome=unitTest.getOutcome();
         if(!"Passed".equals(outcome)) {
@@ -56,7 +56,7 @@ public class UnitTestFileResultModel {
         return getPassed()/getTests();
     }
     
-    public List<UnitTestResultModel> getUnitTests() {
+    public List<UnitTestMethodResult> getUnitTests() {
         return tests;
     }
 }

@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.SonarException;
 
 
-public class UnitTestResultModel  {
+public class UnitTestMethodResult  {
     private MethodId methodId = new MethodId();
     private String testId;
     private String duration;
@@ -36,7 +36,6 @@ public class UnitTestResultModel  {
     private String message = StringUtils.EMPTY;
     private String stackTrace;
 
-    
     public String getModuleName() {
         return methodId.getModuleName();
     }

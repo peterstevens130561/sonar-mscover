@@ -28,8 +28,8 @@ import org.junit.Test;
 import org.junit.Assert;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsObserver;
@@ -42,7 +42,7 @@ public class ResultsParserTest {
     public void parser_GetCounters_ShouldMatch() {
         XmlParserSubject parserSubject = new ResultsParserSubject();
         File file = TestUtils.getResource("results.trx");
-        ResultsModel results = new ResultsModel();
+        TestResults results = new TestResults();
         ResultsObserver resultsObserver = new ResultsObserver();
         resultsObserver.setRegistry(results);
         parserSubject.registerObserver(resultsObserver);
@@ -75,7 +75,7 @@ public class ResultsParserTest {
         parserSubject.registerObserver(resultsObserver);
         parserSubject.parseFile(file);
         Assert.assertEquals(4, results.size());
-        UnitTestResultModel result=results.getById("2b700139-4cbd-7db0-4b54-6f23eab71b6b");
+        UnitTestMethodResult result=results.getById("2b700139-4cbd-7db0-4b54-6f23eab71b6b");
         Assert.assertTrue(result.getMessage().startsWith("Test method joaFrameworkUnitTests.joaSolutionTest.NewSolutionTest"));
         String stackTrace=result.getStackTrace();
         Assert.assertNotNull(stackTrace);
@@ -83,7 +83,7 @@ public class ResultsParserTest {
     }
     @Test
     public void checkModuleName_ShouldBeLastPart() {
-        UnitTestResultModel result = new UnitTestResultModel() ;
+        UnitTestMethodResult result = new UnitTestMethodResult() ;
         String codeBase="c:\\Development\\Jewel.Release.Oahu.StructMod\\JewelEarth\\Core\\joaGeometries\\joaGeometriesUnitTest\\Debug\\joaGeometriesUnitTests.dll";
         String expected = "joaGeometriesUnitTests.dll";
         result.setModuleFromCodeBase(codeBase);
@@ -92,7 +92,7 @@ public class ResultsParserTest {
     
     @Test
     public void checkNameSpace_ShouldBeFirstPart() {
-        UnitTestResultModel result = new UnitTestResultModel() ;
+        UnitTestMethodResult result = new UnitTestMethodResult() ;
         String className="joaGeometriesUnitTest.joaMeshTriangleTest";
         String expected = "joaGeometriesUnitTest";
         result.setNamespaceNameFromClassName(className);
@@ -101,7 +101,7 @@ public class ResultsParserTest {
     
     @Test
     public void checkNameSpace_ShouldBeEmpty() {
-        UnitTestResultModel result = new UnitTestResultModel() ;
+        UnitTestMethodResult result = new UnitTestMethodResult() ;
         String className="joaMeshTriangleTest";
         String expected = "";
         result.setNamespaceNameFromClassName(className);
@@ -123,7 +123,7 @@ public class ResultsParserTest {
         parserSubject.parseFile(file); 
         Assert.assertEquals(186, results.size());
         
-        UnitTestResultModel model = results.getById("6debf182-8726-2cb3-6825-ea98526b8f76");
+        UnitTestMethodResult model = results.getById("6debf182-8726-2cb3-6825-ea98526b8f76");
         Assert.assertNotNull(model);
         Assert.assertEquals("joaQuadtreeTest", model.getClassName());
         Assert.assertEquals("joaGeometriesUnitTest", model.getNamespaceName());

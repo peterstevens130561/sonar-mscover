@@ -29,8 +29,8 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestClassResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
@@ -49,7 +49,7 @@ public class TrxTestSaver implements TestSaver {
     private SourceFileNameTable sourceFileNamesRegistry ;
     private UnitTestFilesResultRegistry unitTestFilesResultRegistry;
     private SourceFilePathHelper sourceFilePathHelper;
-    ResultsModel  projectSummaryResults;
+    TestResults  projectSummaryResults;
     MeasureSaver measureSaver;
     private ResourceMediator resourceMediator;
 
@@ -92,14 +92,14 @@ public class TrxTestSaver implements TestSaver {
      * @see com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestSaver#save()
      */
     public void save() {
-        projectSummaryResults = new ResultsModel();
+        projectSummaryResults = new TestResults();
         unitTestFilesResultRegistry.forEachUnitTestFile(new SaveUnitTestFileMeasures());
 
     }
 
     class SaveUnitTestFileMeasures implements ForEachUnitTestFile {
 
-        public void execute(String fileID, UnitTestFileResultModel fileResults) {
+        public void execute(String fileID, UnitTestClassResult fileResults) {
         ResourceSeam sonarFile = tryToGetUnitTestResource(fileID);
         if(!(sonarFile instanceof NullResource)) {
             projectSummaryResults.add(fileResults);

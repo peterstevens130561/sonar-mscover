@@ -29,9 +29,9 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestClassResult;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
@@ -43,7 +43,7 @@ public class TestResultsSaver {
         this.measureSaver = measureSaver;
     }
 
-    void saveProjectTestResults(ResultsModel projectSummaryResults) {
+    void saveProjectTestResults(TestResults projectSummaryResults) {
         measureSaver.saveSummaryMeasure(CoreMetrics.TESTS,
                 (double) projectSummaryResults.getExecutedTests());
         measureSaver.saveSummaryMeasure(CoreMetrics.TEST_FAILURES,
@@ -52,7 +52,7 @@ public class TestResultsSaver {
                 (double) projectSummaryResults.getErroredTests());
     }
 
-    public void saveSummaryMeasures(UnitTestFileResultModel fileResults,
+    public void saveSummaryMeasures(UnitTestClassResult fileResults,
             ResourceSeam sonarFile) {
         sonarFile.saveMetricValue(CoreMetrics.SKIPPED_TESTS, (double) 0);
         sonarFile.saveMetricValue(CoreMetrics.TEST_ERRORS, (double) 0);
@@ -64,12 +64,12 @@ public class TestResultsSaver {
         sonarFile.saveMetricValue(CoreMetrics.TESTS, fileResults.getTests());
     }
 
-    public void saveTestCaseMeasures(UnitTestFileResultModel fileResults,
+    public void saveTestCaseMeasures(UnitTestClassResult fileResults,
             ResourceSeam sonarFile) {
         StringBuilder testCaseDetails = new StringBuilder(256);
         testCaseDetails.append("<tests-details>");
-        List<UnitTestResultModel> details = fileResults.getUnitTests();
-        for (UnitTestResultModel detail : details) {
+        List<UnitTestMethodResult> details = fileResults.getUnitTests();
+        for (UnitTestMethodResult detail : details) {
             testCaseDetails.append("<testcase status=\""
                     + getSonarStatus(detail.getOutcome()) + "\"");
             testCaseDetails.append(" time=\"0\"");
@@ -95,7 +95,7 @@ public class TestResultsSaver {
         sonarFile.saveMeasure(testData);
     }
 
-    private boolean isNotPassed(UnitTestResultModel detail) {
+    private boolean isNotPassed(UnitTestMethodResult detail) {
         return !"Passed".equals(detail.getOutcome());
     }
 
@@ -107,7 +107,7 @@ public class TestResultsSaver {
         }
     }
 
-    private String getMessageAttribute(UnitTestResultModel result) {
+    private String getMessageAttribute(UnitTestMethodResult result) {
         String errorMessage = result.getMessage();
         String xmlErrorMessage = StringEscapeUtils.escapeXml(errorMessage);
         StringBuilder sb = new StringBuilder();

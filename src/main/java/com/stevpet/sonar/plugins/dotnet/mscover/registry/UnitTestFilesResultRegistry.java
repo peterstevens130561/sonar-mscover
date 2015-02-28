@@ -31,12 +31,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestClassResult;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 
 public class UnitTestFilesResultRegistry {
     Logger LOG = LoggerFactory.getLogger(UnitTestFilesResultRegistry.class);
-    Map<String,UnitTestFileResultModel> unitTestFilesResultRegistry = new HashMap<String,UnitTestFileResultModel>();
+    Map<String,UnitTestClassResult> unitTestFilesResultRegistry = new HashMap<String,UnitTestClassResult>();
 
     /**
      * Map unit tests to sourcefiles
@@ -44,15 +44,15 @@ public class UnitTestFilesResultRegistry {
      * @param map - holds map from method to source file id 
      */
     public void mapResults(UnitTestResultRegistry unitTestRegistry, MethodToSourceFileIdMap map) {
-        Collection<UnitTestResultModel>unitTests=unitTestRegistry.values();
-        for(UnitTestResultModel unitTest:unitTests) {
+        Collection<UnitTestMethodResult>unitTests=unitTestRegistry.values();
+        for(UnitTestMethodResult unitTest:unitTests) {
             MethodId methodId=unitTest.getMethodId();
-            String fileId = map.get(methodId);
+            String fileId = map.getLongestContainedMethod(methodId);
             bailOutOnNotFound(map, methodId, fileId);
             if(!unitTestFilesResultRegistry.containsKey(fileId)) {
-                unitTestFilesResultRegistry.put(fileId, new UnitTestFileResultModel());
+                unitTestFilesResultRegistry.put(fileId, new UnitTestClassResult());
             }
-            UnitTestFileResultModel unitTestFileResults = unitTestFilesResultRegistry.get(fileId);
+            UnitTestClassResult unitTestFileResults = unitTestFilesResultRegistry.get(fileId);
             unitTestFileResults.add(unitTest);
         }
     }
@@ -80,13 +80,13 @@ public class UnitTestFilesResultRegistry {
     }
 
     public interface ForEachUnitTestFile {
-        void execute(String fileId,UnitTestFileResultModel unitTest);
+        void execute(String fileId,UnitTestClassResult unitTest);
     }
     
     public void forEachUnitTestFile(ForEachUnitTestFile action) {
-        for(Entry<String, UnitTestFileResultModel>entry: unitTestFilesResultRegistry.entrySet()) {
+        for(Entry<String, UnitTestClassResult>entry: unitTestFilesResultRegistry.entrySet()) {
             String fileId = entry.getKey();
-            UnitTestFileResultModel unitTest=entry.getValue();
+            UnitTestClassResult unitTest=entry.getValue();
             action.execute(fileId, unitTest);
         }
         

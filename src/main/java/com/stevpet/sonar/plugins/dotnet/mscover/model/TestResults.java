@@ -22,13 +22,13 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
-public class ResultsModel {
+public class TestResults {
     private int executedTests;
     private int passedTests;
     private int failedTests;
     private int erroredTests;
 
-    public ResultsModel() {
+    public TestResults() {
     }
 
     public int getExecutedTests() {
@@ -62,7 +62,7 @@ public class ResultsModel {
         return erroredTests;
     }
 
-    public void add(UnitTestFileResultModel fileResults) {
+    public void add(UnitTestClassResult fileResults) {
         this.passedTests += fileResults.getPassed();
         this.failedTests += fileResults.getFail();
         this.executedTests = this.passedTests + this.failedTests;

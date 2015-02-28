@@ -29,11 +29,11 @@ import java.util.Map;
 
 import org.jfree.util.Log;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 public class UnitTestResultRegistry {
-    Map<String,UnitTestResultModel> unitTestResultsById = new HashMap<String,UnitTestResultModel>();
+    Map<String,UnitTestMethodResult> unitTestResultsById = new HashMap<String,UnitTestMethodResult>();
     
-    public void add(UnitTestResultModel unitTestResult) {
+    public void add(UnitTestMethodResult unitTestResult) {
         String testId=unitTestResult.getTestId();
         if(unitTestResultsById.containsKey(testId)) {
             Log.warn("UnitTestResult for test already stored :" + testId);
@@ -46,7 +46,7 @@ public class UnitTestResultRegistry {
      * @param testName
      * @return 
      */
-    public UnitTestResultModel getById(String testName) {
+    public UnitTestMethodResult getById(String testName) {
         return unitTestResultsById.get(testName);
     }
 
@@ -54,7 +54,7 @@ public class UnitTestResultRegistry {
         return unitTestResultsById.size();
     }
     
-    public Collection<UnitTestResultModel> values() {
+    public Collection<UnitTestMethodResult> values() {
         return unitTestResultsById.values();
     }
 }

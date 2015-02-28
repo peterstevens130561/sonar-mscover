@@ -28,15 +28,15 @@ import org.junit.Test;
 
 
 public class UnitTestFileResultModelTest {
-    private UnitTestFileResultModel fileResult;
+    private UnitTestClassResult fileResult;
     
     @Before
     public void before() {
-        fileResult = new UnitTestFileResultModel() ;
+        fileResult = new UnitTestClassResult() ;
     }
     @Test
     public void create() {
-        UnitTestFileResultModel model = new UnitTestFileResultModel() ;
+        UnitTestClassResult model = new UnitTestClassResult() ;
         Assert.assertNotNull(model);
     }
     
@@ -67,12 +67,12 @@ public class UnitTestFileResultModelTest {
     }
     
     private void addFailedTest() {
-        UnitTestResultModel failedTest = new UnitTestResultModel();
+        UnitTestMethodResult failedTest = new UnitTestMethodResult();
         failedTest.setOutcome("Fail");
         fileResult.add(failedTest);
     }
     private void addPassedTest() {
-        UnitTestResultModel passedTest = new UnitTestResultModel();
+        UnitTestMethodResult passedTest = new UnitTestMethodResult();
         passedTest.setOutcome("Passed");
         fileResult.add(passedTest);
     }

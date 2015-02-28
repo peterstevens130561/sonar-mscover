@@ -275,22 +275,26 @@ public abstract class XmlParserSubject implements ParserSubject {
             method.invoke(observer, elementValue);
         } catch (InvocationTargetException e) {
             String msg = "Invocation Target Exception thrown when invoking method " + 
-                    observer.getClass().getName() + ":" + method.getName();
+                    observer.getClass().getName() + ":" + method.getName() + lineMsg();
             LOG.error(msg, e);
             throw new SonarException(msg,e);
         } catch (IllegalAccessException e) {
             String msg = "Illegal Access Exception thrown when invoking method " + 
-                    observer.getClass().getName() + ":" + method.getName();
+                    observer.getClass().getName() + ":" + method.getName() + lineMsg();
             LOG.error(msg, e);
             throw new SonarException(msg,e);
         } catch (IllegalArgumentException e) {
             String msg = "Illegal Argument Exception thrown when invoking method " + 
-                    observer.getClass().getName() + ":" + method.getName();
+                    observer.getClass().getName() + ":" + method.getName() + lineMsg();
             LOG.error(msg, e);
             throw new SonarException(msg,e);
         }
     }
 
+    private String lineMsg() {
+        return " line/column = " + line + "/" + column ;
+    }
+    
     private void invokeAnnotatedMethods(String elementName,
             String attributeValue, String attributeName, ParserObserver observer) {
         Method[] methods = observer.getClass().getMethods();

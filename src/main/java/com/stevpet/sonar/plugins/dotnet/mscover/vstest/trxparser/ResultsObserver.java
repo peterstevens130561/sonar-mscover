@@ -23,7 +23,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser;
 
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObserver;
 
@@ -34,9 +34,9 @@ public class ResultsObserver extends BaseParserObserver {
         setPattern("ResultSummary/Counters");
     }
     
-    private ResultsModel data;
+    private TestResults data;
 
-    public void setRegistry(ResultsModel data) {
+    public void setRegistry(TestResults data) {
         this.data = data;
     }
     

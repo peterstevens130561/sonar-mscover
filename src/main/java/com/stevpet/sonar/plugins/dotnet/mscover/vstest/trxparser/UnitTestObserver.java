@@ -22,9 +22,10 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser;
 
+import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.SonarException;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
@@ -45,7 +46,7 @@ public class UnitTestObserver extends BaseParserObserver {
     }
     
     private UnitTestResultRegistry registry;
-    private UnitTestResultModel unitTestResult;
+    private UnitTestMethodResult unitTestResult;
     public void setRegistry(UnitTestResultRegistry registry) {
         this.registry = registry;
     }
@@ -53,6 +54,11 @@ public class UnitTestObserver extends BaseParserObserver {
     @AttributeMatcher(attributeName = "id", elementName = "UnitTest")
     public void id(String value) {
         unitTestResult=registry.getById(value);
+        if(unitTestResult==null) {
+            unitTestResult = new UnitTestMethodResult();
+            unitTestResult.setTestId(value);
+            registry.add(unitTestResult);
+        }
     }
     
     @AttributeMatcher(attributeName="codeBase",elementName="TestMethod")
@@ -70,6 +76,10 @@ public class UnitTestObserver extends BaseParserObserver {
     
     @AttributeMatcher(attributeName="name",elementName="TestMethod")
     public void name(String value) {
+        String currentName=unitTestResult.getTestName();
+        if(StringUtils.isEmpty(currentName)) {
+            unitTestResult.setTestName(value);
+        }
         if(!value.equals(unitTestResult.getTestName())) {
             throw new SonarException("Name differs " + value );
         }

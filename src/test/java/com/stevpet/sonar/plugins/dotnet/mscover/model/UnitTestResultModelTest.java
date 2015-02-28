@@ -28,10 +28,10 @@ import org.junit.Assert;
 import org.sonar.api.utils.SonarException;
 
 public class UnitTestResultModelTest {
-    private UnitTestResultModel model;
+    private UnitTestMethodResult model;
     @Before
     public void before() {
-        model = new UnitTestResultModel();
+        model = new UnitTestMethodResult();
     }
     
     @Test

@@ -30,8 +30,8 @@ import org.junit.Test;
 import org.sonar.api.utils.SonarException;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.ResultsModel;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModel;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestClassResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
@@ -50,13 +50,13 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.MsCoverCanNotFindSource
 public class IntegrationTest {
     MethodToSourceFileIdMap methodToSourceFileIdMap;
     SourceFileNameTable sourceFileNamesRegistry;
-    ResultsModel testResultsModel;
+    TestResults testResultsModel;
     
     @Before() 
     public void before() {
         methodToSourceFileIdMap = new MethodToSourceFileIdMap() ;
         sourceFileNamesRegistry = new SourceFileNameTable();
-        testResultsModel = new ResultsModel() ;
+        testResultsModel = new TestResults() ;
     }
     @Test 
     public void CompleteTest() {
@@ -64,7 +64,7 @@ public class IntegrationTest {
         UnitTestFilesResultRegistry filesResultRegistry = new UnitTestFilesResultRegistry();
         UnitTestResultRegistry unitTestRegistry = new UnitTestResultRegistry();
         
-        ResultsModel resultsModel = parseResults(unitTestRegistry,"Mileage/results.trx");
+        TestResults resultsModel = parseResults(unitTestRegistry,"Mileage/results.trx");
         
         Assert.assertEquals(4,resultsModel.getExecutedTests());
         Assert.assertEquals(1,resultsModel.getFailedTests());
@@ -81,17 +81,18 @@ public class IntegrationTest {
     @Test(expected=MsCoverCanNotFindSourceFileForMethodException.class)
     public void CompleteTest_DuplicatedTest_ShouldThrowException() {
 
-        UnitTestFilesResultRegistry filesResultRegistry = new UnitTestFilesResultRegistry();
+
         UnitTestResultRegistry unitTestRegistry = new UnitTestResultRegistry();
         
-        ResultsModel resultsModel = parseResults(unitTestRegistry,"Mileage/results_duplicate.trx");
+        TestResults resultsModel = parseResults(unitTestRegistry,"Mileage/results_duplicate.trx");
         
         Assert.assertEquals(4,resultsModel.getExecutedTests());
         Assert.assertEquals(1,resultsModel.getFailedTests());
         Assert.assertEquals(0,(int)resultsModel.getErroredTests());
       
         parseCoverageToGetMethodToSourceFileIdMap("Mileage/coverage.xml");
-
+        
+        UnitTestFilesResultRegistry filesResultRegistry = new UnitTestFilesResultRegistry();
         filesResultRegistry.mapResults(unitTestRegistry,methodToSourceFileIdMap);
         //Assert
         filesResultRegistry.forEachUnitTestFile(new checkUnitTest());
@@ -113,7 +114,7 @@ public class IntegrationTest {
         coverageParser.parseFile(coverageFile);
     }
 
-    private ResultsModel parseResults(UnitTestResultRegistry unitTestRegistry,String path) {
+    private TestResults parseResults(UnitTestResultRegistry unitTestRegistry,String path) {
         ResultsObserver resultsObserver = new ResultsObserver();
 
         resultsObserver.setRegistry(testResultsModel);
@@ -140,7 +141,7 @@ public class IntegrationTest {
     
     private class checkUnitTest implements ForEachUnitTestFile {
 
-        public void execute(String fileId, UnitTestFileResultModel unitTest) {
+        public void execute(String fileId, UnitTestClassResult unitTest) {
             Assert.assertEquals("1", fileId);
         }
         

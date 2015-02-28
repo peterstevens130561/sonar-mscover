@@ -22,7 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObserver;
@@ -48,15 +48,19 @@ public class UnitTestResultObserver extends BaseParserObserver {
     }
     
     private UnitTestResultRegistry registry;
-    private UnitTestResultModel unitTestResult;
+    private UnitTestMethodResult unitTestResult;
     public void setRegistry(UnitTestResultRegistry registry) {
         this.registry = registry;
     }
  
     @AttributeMatcher(attributeName = "testId", elementName = "UnitTestResult")
     public void testId(String value) {
-        unitTestResult = new UnitTestResultModel();
-        unitTestResult.setTestId(value);
+        unitTestResult=registry.getById(value);
+        if(unitTestResult==null) {
+            unitTestResult = new UnitTestMethodResult();
+            unitTestResult.setTestId(value);
+            registry.add(unitTestResult);      
+        }
     }
     @AttributeMatcher(attributeName = "testName", elementName = "UnitTestResult")
     public void testName(String value) {
@@ -76,7 +80,7 @@ public class UnitTestResultObserver extends BaseParserObserver {
     @AttributeMatcher(attributeName= "relativeResultsDirectory",elementName = "UnitTestResult")
     public void relativeResultsDirectory(String value) {
         unitTestResult.setRelativeResultsDirectory(value);
-        registry.add(unitTestResult);
+        
     }
     
     @ElementMatcher(elementName="Message")

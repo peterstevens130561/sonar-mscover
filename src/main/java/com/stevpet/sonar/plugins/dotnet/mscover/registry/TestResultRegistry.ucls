@@ -12,9 +12,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModel" 
+  <class id="2" language="java" name="com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult" 
     project="sonar-mscover-plugin" 
-    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/model/UnitTestResultModel.java" 
+    file="/sonar-mscover-plugin/src/main/java/com/stevpet/sonar/plugins/dotnet/mscover/model/UnitTestMethodResult.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="505" y="454"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
