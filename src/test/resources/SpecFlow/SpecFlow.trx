@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="a18c974b-6122-44ed-b1ad-d4a13bdb9fb3" name="svc-jeweltfsbuild@BHIDFTBLD04 2015-02-25 18:18:19" runUser="BHI-MASTER\svc-jeweltfsbuild" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="default" id="0d472e88-b36a-4a46-a6fb-17d2be577c61">
+    <Deployment userDeploymentRoot="C:\Users\svc-jeweltfsbuild\AppData\Local\Temp\" useDefaultDeploymentRoot="false" runDeploymentRoot="svc-jeweltfsbuild_BHIDFTBLD04 2015-02-25 18_18_19" />
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+    <Properties />+
+  </TestSettings>
+  <Times creation="2015-02-25T18:18:19.8782721+01:00" queuing="2015-02-25T18:18:19.8782721+01:00" start="2015-02-25T18:18:19.8782721+01:00" finish="2015-02-25T18:20:38.5448547+01:00" />
+  <ResultSummary outcome="Passed">
+    <Counters total="609" executed="609" passed="609" error="0" failed="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>Test GivenTheBootStrapRun_NavVisualizerBLLRegistration_WillRegisterTheBLLDependencies was skipped in the test run.
+</StdOut>
+    </Output>
+    <FileUris>
+      <FileUri file="C:\Users\bappmay\AppData\Local\Temp\svc-jeweltfsbuild_BHIDFTBLD04 2015-02-25 18_18_19\In\svc-jeweltfsbuild_BHIDFTBLD04 2015-02-25 18_18_23.coverage" uri="http://bhiabztfs01:8080/jewelsuite/TestManagement/v1.0/AttachmentDownload.ashx?run=10657&amp;res=0&amp;id=158651&amp;ses=0" />
+    </FileUris>
+    <CollectorDataEntries>
+      <Collector agentName="BHIDFTBLD04" uri="datacollector://microsoft/CodeCoverage/2.0" collectorDisplayName="Code Coverage">
+        <UriAttachments>
+          <UriAttachment>
+            <A href="svc-jeweltfsbuild_BHIDFTBLD04 2015-02-25 18_18_23.coverage">
+            </A>
+          </UriAttachment>
+        </UriAttachments>
+      </Collector>
+    </CollectorDataEntries>
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="NegatingA2DVector_00" storage="c:\users\bappmay\appdata\local\temp\svc-jeweltfsbuild_bhidftbld04 2015-02-25 18_18_19\out\bhi.framework.geometries.unittest.dll" id="00e85fba-c757-f018-cadd-f71b310b07c3">
+      <Execution id="36b68784-0505-419e-98f4-e78ed3005ca5" />
+      <TestMethod codeBase="F:\62.550\bin\BHI.Framework.Geometries.UnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter" className="BHI.Framework.Geometries.UnitTest.Features.Vector2D.Vector2DUnaryOperatorsFeature" name="NegatingA2DVector_00" />
+    </UnitTest>
+    <UnitTest name="_2DLineLength_Variant3" storage="c:\users\bappmay\appdata\local\temp\svc-jeweltfsbuild_bhidftbld04 2015-02-25 18_18_19\out\bhi.framework.geometries.unittest.dll" id="41809762-2d92-89d7-beca-22a94ee036e7">
+      <Execution id="15580f10-e3a6-4a29-b733-449efae473a4" />
+      <TestMethod codeBase="F:\62.550\bin\BHI.Framework.Geometries.UnitTest.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter" className="BHI.Framework.Geometries.UnitTest.Features.Line2DFeature" name="_2DLineLength_Variant3" />
+    </UnitTest>
+  </TestDefinitions>
+
+  <Results>
+    <UnitTestResult executionId="36b68784-0505-419e-98f4-e78ed3005ca5" testId="00e85fba-c757-f018-cadd-f71b310b07c3" testName="NegatingA2DVector_00" computerName="BHIDFTBLD04" duration="00:00:00.0030782" startTime="2015-02-25T18:19:14.3467184+01:00" endTime="2015-02-25T18:19:14.3497187+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="36b68784-0505-419e-98f4-e78ed3005ca5" dataRowInfo="">
+      <Output>
+        <StdOut>When calculating -(0, 0)
+-&gt; done: Vector2DSteps.WhenNegating(0, 0) (0.0s)
+Then the result should be (0, 0)
+-&gt; done: CommonSteps.ThenTheResultShouldBe(0, 0) (0.0s)</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="15580f10-e3a6-4a29-b733-449efae473a4" testId="41809762-2d92-89d7-beca-22a94ee036e7" testName="_2DLineLength_Variant3" computerName="BHIDFTBLD04" duration="00:00:00.0005059" startTime="2015-02-25T18:19:14.4537291+01:00" endTime="2015-02-25T18:19:14.4547292+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="15580f10-e3a6-4a29-b733-449efae473a4" dataRowInfo="">
+      <Output>
+        <StdOut>When using a line from [2, 3] to [2, 3]
+-&gt; done: Line2DSteps.WhenCreatingALineFromTo(2, 3, 2, 3) (0.0s)
+Then the length should be 0
+-&gt; done: CommonSteps.ThenTheLengthShouldBe(0) (0.0s)</StdOut>
+      </Output>
+    </UnitTestResult>
+  </Results>
+</TestRun>
