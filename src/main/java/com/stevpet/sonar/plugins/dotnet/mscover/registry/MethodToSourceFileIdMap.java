@@ -34,7 +34,28 @@ public class MethodToSourceFileIdMap {
         return fileId;
     }
  
-    
+    public String getLongestContainedMethod(MethodIdModel methodId) {
+        if(methodId==null) {
+            return null;
+        }
+        String fileId;
+        do {
+            fileId=methodRegistry.get(methodId);
+            if(fileId!= null) {
+                break;
+            }
+            String name=methodId.getMethodName();
+            String shorterName;
+            if(name.matches("_.*")) {
+                shorterName=name.substring(1);
+            } else {
+                shorterName=name.substring(0, name.length()-1);
+            }
+            methodId.setMethodName(shorterName);
+        } while (!methodId.getMethodName().isEmpty());
+        return fileId;
+    }
+   
     public int size() {
         return methodRegistry.size();
     }

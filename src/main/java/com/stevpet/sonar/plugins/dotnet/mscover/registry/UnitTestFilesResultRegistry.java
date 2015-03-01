@@ -25,7 +25,7 @@ public class UnitTestFilesResultRegistry {
         Collection<UnitTestResultModel>unitTests=unitTestRegistry.values();
         for(UnitTestResultModel unitTest:unitTests) {
             MethodIdModel methodId=unitTest.getMethodId();
-            String fileId = map.get(methodId);
+            String fileId = map.getLongestContainedMethod(methodId);
             bailOutOnNotFound(map, methodId, fileId);
             if(!unitTestFilesResultRegistry.containsKey(fileId)) {
                 unitTestFilesResultRegistry.put(fileId, new UnitTestFileResultModel());
