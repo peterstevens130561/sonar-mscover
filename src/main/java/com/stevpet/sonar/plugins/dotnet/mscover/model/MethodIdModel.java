@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import org.sonar.api.utils.SonarException;
 
 public final class MethodIdModel  {
-    private String moduleName,namespaceName,className,methodName;
+    private String moduleName="",namespaceName="",className="",methodName="";
     Pattern pattern = Pattern.compile("[^a-zA-Z0-9\\._-]");
     Pattern moduleSuffixPattern = Pattern.compile("\\.(exe|dll)");
 

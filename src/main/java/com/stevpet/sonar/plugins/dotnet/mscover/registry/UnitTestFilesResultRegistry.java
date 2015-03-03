@@ -27,6 +27,9 @@ public class UnitTestFilesResultRegistry {
             MethodIdModel methodId=unitTest.getMethodId();
             String fileId = map.getLongestContainedMethod(methodId);
             bailOutOnNotFound(map, methodId, fileId);
+            if(fileId==null) {
+                continue;
+            }
             if(!unitTestFilesResultRegistry.containsKey(fileId)) {
                 unitTestFilesResultRegistry.put(fileId, new UnitTestFileResultModel());
             }
@@ -41,7 +44,7 @@ public class UnitTestFilesResultRegistry {
             map.dumpMap();
             String msg = createPrettyMessage(methodId);
             LOG.error(msg);
-            throw new MsCoverCanNotFindSourceFileForMethodException(msg);
+            //throw new MsCoverCanNotFindSourceFileForMethodException(msg);
         }
     }
 

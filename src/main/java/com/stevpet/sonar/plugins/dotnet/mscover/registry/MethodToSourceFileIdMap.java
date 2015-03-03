@@ -34,25 +34,26 @@ public class MethodToSourceFileIdMap {
         return fileId;
     }
  
-    public String getLongestContainedMethod(MethodIdModel methodId) {
+    public String getLongestContainedMethod( MethodIdModel methodId) {
         if(methodId==null) {
             return null;
         }
+        MethodIdModel localMethodId = methodId.deepClone();
         String fileId;
         do {
-            fileId=methodRegistry.get(methodId);
+            fileId=methodRegistry.get(localMethodId);
             if(fileId!= null) {
                 break;
             }
-            String name=methodId.getMethodName();
+            String name=localMethodId.getMethodName();
             String shorterName;
             if(name.matches("_.*")) {
                 shorterName=name.substring(1);
             } else {
                 shorterName=name.substring(0, name.length()-1);
             }
-            methodId.setMethodName(shorterName);
-        } while (!methodId.getMethodName().isEmpty());
+            localMethodId.setMethodName(shorterName);
+        } while (!localMethodId.getMethodName().isEmpty());
         return fileId;
     }
    
