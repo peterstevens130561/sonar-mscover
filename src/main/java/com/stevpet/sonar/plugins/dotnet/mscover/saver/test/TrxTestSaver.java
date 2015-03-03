@@ -30,7 +30,7 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestClassResult;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
@@ -93,13 +93,14 @@ public class TrxTestSaver implements TestSaver {
      */
     public void save() {
         projectSummaryResults = new TestResults();
+
         unitTestFilesResultRegistry.forEachUnitTestFile(new SaveUnitTestFileMeasures());
 
     }
 
     class SaveUnitTestFileMeasures implements ForEachUnitTestFile {
 
-        public void execute(String fileID, UnitTestClassResult fileResults) {
+        public void execute(String fileID, UnitTestFileResult fileResults) {
         ResourceSeam sonarFile = tryToGetUnitTestResource(fileID);
         if(!(sonarFile instanceof NullResource)) {
             projectSummaryResults.add(fileResults);

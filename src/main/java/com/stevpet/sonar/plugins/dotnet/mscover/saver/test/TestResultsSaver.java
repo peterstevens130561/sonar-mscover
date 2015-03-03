@@ -30,7 +30,7 @@ import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestClassResult;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
@@ -52,7 +52,7 @@ public class TestResultsSaver {
                 (double) projectSummaryResults.getErroredTests());
     }
 
-    public void saveSummaryMeasures(UnitTestClassResult fileResults,
+    public void saveSummaryMeasures(UnitTestFileResult fileResults,
             ResourceSeam sonarFile) {
         sonarFile.saveMetricValue(CoreMetrics.SKIPPED_TESTS, (double) 0);
         sonarFile.saveMetricValue(CoreMetrics.TEST_ERRORS, (double) 0);
@@ -64,7 +64,7 @@ public class TestResultsSaver {
         sonarFile.saveMetricValue(CoreMetrics.TESTS, fileResults.getTests());
     }
 
-    public void saveTestCaseMeasures(UnitTestClassResult fileResults,
+    public void saveTestCaseMeasures(UnitTestFileResult fileResults,
             ResourceSeam sonarFile) {
         StringBuilder testCaseDetails = new StringBuilder(256);
         testCaseDetails.append("<tests-details>");

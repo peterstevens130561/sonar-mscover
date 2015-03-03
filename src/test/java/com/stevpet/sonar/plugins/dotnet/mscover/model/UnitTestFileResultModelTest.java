@@ -28,15 +28,15 @@ import org.junit.Test;
 
 
 public class UnitTestFileResultModelTest {
-    private UnitTestClassResult fileResult;
+    private UnitTestFileResult fileResult;
     
     @Before
     public void before() {
-        fileResult = new UnitTestClassResult() ;
+        fileResult = new UnitTestFileResult() ;
     }
     @Test
     public void create() {
-        UnitTestClassResult model = new UnitTestClassResult() ;
+        UnitTestFileResult model = new UnitTestFileResult() ;
         Assert.assertNotNull(model);
     }
     

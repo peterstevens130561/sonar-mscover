@@ -25,7 +25,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UnitTestClassResult {
+public class UnitTestFileResult {
     private int error ;
     
     private List<UnitTestMethodResult> tests = new ArrayList<UnitTestMethodResult>() ;

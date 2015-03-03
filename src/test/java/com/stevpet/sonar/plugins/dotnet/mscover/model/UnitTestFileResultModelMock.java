@@ -24,10 +24,10 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 import static org.mockito.Mockito.when;
-public class UnitTestFileResultModelMock extends GenericClassMock<UnitTestClassResult> {
+public class UnitTestFileResultModelMock extends GenericClassMock<UnitTestFileResult> {
 
     public UnitTestFileResultModelMock() {
-        super(UnitTestClassResult.class);
+        super(UnitTestFileResult.class);
     }
 
     public  UnitTestFileResultModelMock givenDensity(double density) {

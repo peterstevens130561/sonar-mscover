@@ -31,7 +31,7 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestClassResult;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
@@ -73,7 +73,7 @@ public class IntegrationTest {
         parseCoverageToGetMethodToSourceFileIdMap("Mileage/coverage.xml");
 
         filesResultRegistry.mapResults(unitTestRegistry,methodToSourceFileIdMap);
-        //Assert
+
         filesResultRegistry.forEachUnitTestFile(new checkUnitTest());
         
     }
@@ -140,8 +140,7 @@ public class IntegrationTest {
     }
     
     private class checkUnitTest implements ForEachUnitTestFile {
-
-        public void execute(String fileId, UnitTestClassResult unitTest) {
+        public void execute(String fileId, UnitTestFileResult unitTest) {
             Assert.assertEquals("1", fileId);
         }
         

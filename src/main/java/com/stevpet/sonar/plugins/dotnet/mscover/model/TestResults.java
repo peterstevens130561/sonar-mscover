@@ -62,7 +62,7 @@ public class TestResults {
         return erroredTests;
     }
 
-    public void add(UnitTestClassResult fileResults) {
+    public void add(UnitTestFileResult fileResults) {
         this.passedTests += fileResults.getPassed();
         this.failedTests += fileResults.getFail();
         this.executedTests = this.passedTests + this.failedTests;

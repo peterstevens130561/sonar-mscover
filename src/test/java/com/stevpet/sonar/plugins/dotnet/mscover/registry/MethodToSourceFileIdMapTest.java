@@ -55,7 +55,7 @@ public class MethodToSourceFileIdMapTest {
             String specFlowFileId, MethodId specFlowMethodId) {
         String gottenFile;
         gottenFile=map.getLongestContainedMethod(specFlowMethodId);
-        assertEquals("FileId should be found",specFlowFileId,gottenFile);
+        assertEquals("FileId",specFlowFileId,gottenFile);
         assertEquals("methodName resulting",scenarioNameInCoverage,specFlowMethodId.getMethodName());
     }
     
