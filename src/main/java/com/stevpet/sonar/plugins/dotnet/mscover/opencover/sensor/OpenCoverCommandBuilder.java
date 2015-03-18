@@ -100,11 +100,4 @@ public class OpenCoverCommandBuilder {
         return coveredAssemblyNames;
       }
 
-
-
-
-
-
-
-
 }

@@ -56,7 +56,10 @@ public class IntegrationTest {
         
     }
 
-    @Test(expected=MsCoverCanNotFindSourceFileForMethodException.class)
+    /**
+     * This tests the case where a test class is inherited in another class
+     */
+    @Test(expected=SonarException.class)
     public void CompleteTest_DuplicatedTest_ShouldThrowException() {
 
         UnitTestFilesResultRegistry filesResultRegistry = new UnitTestFilesResultRegistry();

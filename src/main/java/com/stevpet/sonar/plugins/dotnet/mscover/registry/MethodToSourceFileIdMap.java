@@ -37,7 +37,7 @@ public class MethodToSourceFileIdMap {
     public String getLongestContainedMethod( MethodIdModel methodId) {
         if(methodId==null) {
             return null;
-        }
+        }     
         MethodIdModel localMethodId = methodId.deepClone();
         String fileId;
         do {

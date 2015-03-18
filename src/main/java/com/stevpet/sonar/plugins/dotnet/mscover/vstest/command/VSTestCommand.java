@@ -29,6 +29,15 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
         return new VSTestCommand();
     }
     
+    /**
+     * Set the dir that holds vstest.console.exe, only if dir is not null
+     * @param dir -
+     */
+    public void setVsTestDir(String absolutePath) {
+        if(!StringUtils.isEmpty(absolutePath)) {
+            commandPath= absolutePath + "/vstest.console.exe";
+        }
+    }
   
     /**
      * @return Creates the commandline with all options
