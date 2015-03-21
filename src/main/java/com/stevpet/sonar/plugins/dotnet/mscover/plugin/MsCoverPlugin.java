@@ -105,7 +105,7 @@ import java.util.List;
             key=PropertiesHelper.MSCOVER_VSTESTCONSOLE_DIR,
             name ="dir with vstest.console.exe",
             defaultValue="C:/Program Files (x86)/Microsoft Visual Studio 12.0/Common7/IDE/CommonExtensions/Microsoft/TestWindow",
-            global=true,type=PropertyType.STRING
+            global=true,project=true,type=PropertyType.STRING
             )
     }
 )

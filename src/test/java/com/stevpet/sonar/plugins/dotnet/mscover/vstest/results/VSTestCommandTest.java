@@ -14,7 +14,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 
 public class VSTestCommandTest {
 
-    private static String EXECUTABLE = "C:/Program Files (x86)/Microsoft Visual Studio 11.0/Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe";
+    private static String EXECUTABLE = "C:/Program Files (x86)/Microsoft Visual Studio 12.0/Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe";
     private VSTestCommand testCommand ;
     @Before
     public void test() {
@@ -66,6 +66,18 @@ public class VSTestCommandTest {
         checkCodeCoverage("");
     }
      
+    /**
+     * To test that path to vstest is different from default
+     */
+    @Test
+    public void setVsTestDir_expectInCommandLine() {
+        testCommand.setVsTestDir("myfunnydir");
+        
+        String commandLine = testCommand.toCommandLine();
+        String expected="myfunnydir/vstest.console.exe";
+        assertEquals(expected,commandLine.substring(0, expected.length())); 
+        
+    }
     private void platformTest(String input, String output) {
         testCommand.setPlatform(input);
         
@@ -80,6 +92,8 @@ public class VSTestCommandTest {
         String expected=EXECUTABLE + " \"test1\" \"test2\" /Settings:" + testSettingsFile.getAbsolutePath() + " /Logger:trx" + output  ;
         assertEquals(expected,commandLine);
     }
+    
+    
     
     private void checkCodeCoverage(String output) {
         File testSettingsFile = new File("a");

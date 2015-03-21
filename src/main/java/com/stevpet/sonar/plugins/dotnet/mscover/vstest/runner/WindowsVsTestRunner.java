@@ -71,12 +71,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
     public String getSonarPath() {
         return sonarPath;
     }
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setPropertiesHelper(com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties)
-     *
-    public void setPropertiesHelper(MsCoverProperties propertiesHelper) {
-        this.propertiesHelper = propertiesHelper;
-    }
+
     
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setSolution(org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution)
@@ -184,6 +179,8 @@ public class WindowsVsTestRunner implements VsTestRunner {
     
     
     private VSTestCommand buildVSTestCommand() {
+        String absolutePath=propertiesHelper.getVsTestDir();
+        vsTestCommand.setVsTestDir(absolutePath);
         vsTestCommand.setTestSettingsFile(testSettingsFile);
         vsTestCommand.setUnitTestAssembliesPath(unitTestAssembliesPath);
         vsTestCommand.setCodeCoverage(doCodeCoverage);

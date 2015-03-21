@@ -329,4 +329,10 @@ public class MsCoverPropertiesStub implements MsCoverProperties {
         return false;
     }
 
+    @Override
+    public String getVsTestDir() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

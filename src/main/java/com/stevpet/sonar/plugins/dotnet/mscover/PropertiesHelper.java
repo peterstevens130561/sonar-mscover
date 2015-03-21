@@ -289,5 +289,10 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
     public boolean getOpenCoverSkipAutoProps() {
         return settings.getBoolean(MSCOVER_OPENCOVER_SKIPAUTOPROPS);
     }
+
+    @Override
+    public String getVsTestDir() {
+        return settings.getString(MSCOVER_VSTESTCONSOLE_DIR);
+    }
     
 }

@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.command;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -12,11 +13,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverTarge
 
 public class VSTestCommand implements ShellCommand,OpenCoverTarget {
 
-    private static String defaultPath = "C:/Program Files (x86)/Microsoft Visual Studio 11.0/" +
+    private static String defaultPath = "C:/Program Files (x86)/Microsoft Visual Studio 12.0/" +
             "Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe";
     private String commandPath;
     private String testSettingsPath;
-    private List<String> unitTestAssemblyPaths;
+    private List<String> unitTestAssemblyPaths = new ArrayList<String>();;
     private boolean doCodeCoverage;
     private String platform;
     private String assembliesDir;

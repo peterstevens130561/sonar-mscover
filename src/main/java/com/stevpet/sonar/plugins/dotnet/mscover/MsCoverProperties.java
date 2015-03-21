@@ -74,5 +74,7 @@ public interface MsCoverProperties {
     
     public abstract boolean getOpenCoverSkipAutoProps();
 
+    public abstract String getVsTestDir();
+
 
 }
