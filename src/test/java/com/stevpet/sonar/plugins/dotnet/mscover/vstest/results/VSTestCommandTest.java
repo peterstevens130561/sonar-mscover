@@ -61,6 +61,17 @@ public class VSTestCommandTest {
     }
     
     @Test
+    public void inIsolationSet_expectInCommandLine() {
+        testCommand.setInisolation(true);
+        checkCodeCoverage("/inIsolation ");
+    }
+    
+    @Test
+    public void inIsolationNotSet_expectNotInCommandLine() {
+        testCommand.setInisolation(false);
+        checkCodeCoverage("");
+    }
+    @Test
     public void codeCoverageNotSet_expectNotInCommandLine() {
         testCommand.setCodeCoverage(false);
         checkCodeCoverage("");

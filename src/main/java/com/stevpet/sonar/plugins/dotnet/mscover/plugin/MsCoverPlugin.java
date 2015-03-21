@@ -106,7 +106,11 @@ import java.util.List;
             name ="dir with vstest.console.exe",
             defaultValue="C:/Program Files (x86)/Microsoft Visual Studio 12.0/Common7/IDE/CommonExtensions/Microsoft/TestWindow",
             global=true,project=true,type=PropertyType.STRING
-            )
+            ),
+    @Property(key=PropertiesHelper.MSCOVER_VSTEST_INISOLATION,
+            name="true = set option /inIsolation",
+            defaultValue="false",
+            global=true,project=true,type=PropertyType.BOOLEAN)
     }
 )
             

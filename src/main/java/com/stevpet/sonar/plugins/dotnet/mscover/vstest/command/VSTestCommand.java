@@ -21,6 +21,7 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
     private boolean doCodeCoverage;
     private String platform;
     private String assembliesDir;
+    private boolean inIsolation;
     
     private VSTestCommand() {
         commandPath=defaultPath;
@@ -55,6 +56,9 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
         command.addArgument("/Settings:" + testSettingsPath);
         if (doCodeCoverage) {
             command.addArgument("/EnableCodeCoverage");
+        }
+        if(inIsolation) {
+            command.addArgument("/inIsolation");
         }
         command.addArgument("/Logger:trx");
         addPlatformIfSpecified(command);
@@ -105,6 +109,10 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
     }
     public String getAssembliesDir() {
         return assembliesDir;
+    }
+    
+    public void setInisolation(boolean inIsolation) {
+        this.inIsolation=inIsolation;
     }
 
 

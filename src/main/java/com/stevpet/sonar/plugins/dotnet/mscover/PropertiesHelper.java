@@ -39,6 +39,7 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
     public static final String MSCOVER_IGNOREMISSING_PDB = MSCOVER + "opencover.ignoremissingpdbs";
     public static final String MSCOVER_OPENCOVER_SKIPAUTOPROPS = MSCOVER + "opencover.skipautoprops";
     public static final String MSCOVER_VSTESTCONSOLE_DIR=MSCOVER + "vstest.dir";
+    public static final String MSCOVER_VSTEST_INISOLATION=MSCOVER + "vstest.inisolation";
     
     @Deprecated
     public PropertiesHelper(Settings settings) {
@@ -294,5 +295,12 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
     public String getVsTestDir() {
         return settings.getString(MSCOVER_VSTESTCONSOLE_DIR);
     }
+
+    @Override
+    public boolean getVsTestInIsolation() {
+        return settings.getBoolean(MSCOVER_VSTEST_INISOLATION);
+    }
+    
+    
     
 }

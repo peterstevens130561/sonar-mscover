@@ -184,6 +184,8 @@ public class WindowsVsTestRunner implements VsTestRunner {
         vsTestCommand.setTestSettingsFile(testSettingsFile);
         vsTestCommand.setUnitTestAssembliesPath(unitTestAssembliesPath);
         vsTestCommand.setCodeCoverage(doCodeCoverage);
+        boolean inIsolation=propertiesHelper.getVsTestInIsolation();
+        vsTestCommand.setInisolation(inIsolation);
         String platform=propertiesHelper.getRequiredBuildPlatform();
         vsTestCommand.setPlatform(platform);
         return vsTestCommand;

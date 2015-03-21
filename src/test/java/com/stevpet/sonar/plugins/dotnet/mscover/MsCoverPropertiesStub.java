@@ -335,4 +335,10 @@ public class MsCoverPropertiesStub implements MsCoverProperties {
         return null;
     }
 
+    @Override
+    public boolean getVsTestInIsolation() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

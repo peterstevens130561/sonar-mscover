@@ -75,6 +75,11 @@ public interface MsCoverProperties {
     public abstract boolean getOpenCoverSkipAutoProps();
 
     public abstract String getVsTestDir();
+    
+    /**
+     * @return true if property set to true, false in any other case
+     */
+    public abstract boolean getVsTestInIsolation();
 
 
 }
