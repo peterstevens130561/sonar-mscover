@@ -96,11 +96,7 @@ public class VsTestUnitTestResultsAnalyser {
      */
     public void analyseVsTestResults(String coveragePath, String resultsPath) {
         createRegistries(); 
-        
-        if(!StringUtils.isEmpty(resultsPath)) {
         parseUnitTestResultsFile(resultsPath);
-        }
-        
         parseCoverageFile(coveragePath);
         saveUnitTests();
     }
@@ -139,13 +135,16 @@ public class VsTestUnitTestResultsAnalyser {
 
    
     private void parseUnitTestResultsFile(String resultsPath) {
-        VsTestFactory vsTestFactory = new ConcreteVsTestFactory();
-        XmlParserSubject resultsParser = vsTestFactory.createUnitTestResultsParser(registry); 
-        
+        if(StringUtils.isEmpty(resultsPath)) {
+            return;
+        }
         File file = new File(resultsPath);
         if(!file.exists()) {
             throw new SonarException("Can't open " + resultsPath );
         }
+        
+        VsTestFactory vsTestFactory = new ConcreteVsTestFactory();
+        XmlParserSubject resultsParser = vsTestFactory.createUnitTestResultsParser(registry); 
         resultsParser.parseFile(file);
     }
 
