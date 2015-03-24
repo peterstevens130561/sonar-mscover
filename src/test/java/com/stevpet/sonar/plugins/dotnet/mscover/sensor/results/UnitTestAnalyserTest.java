@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;
@@ -62,6 +63,16 @@ public class UnitTestAnalyserTest {
         String coveragePath = TestUtils.getResource("Mileage/coverage.xml").getAbsolutePath();
         File resultsFile = TestUtils.getResource("Mileage/results.trx");
         String resultsPath=resultsFile.getAbsolutePath();
+        analyser.analyseVsTestResults(coveragePath, resultsPath);
+        verify(measureSaver,times(3)).saveSummaryMeasure(any(Metric.class),anyDouble());
+    }
+    
+    @Test
+    public void NoUnitTestsRecorded() {
+        VsTestUnitTestResultsAnalyser analyser = new VsTestUnitTestResultsAnalyser(project, context,measureSaver) ;
+        String coveragePath = TestUtils.getResource("Mileage/coverage.xml").getAbsolutePath();
+
+        String resultsPath=StringUtils.EMPTY;
         analyser.analyseVsTestResults(coveragePath, resultsPath);
         verify(measureSaver,times(3)).saveSummaryMeasure(any(Metric.class),anyDouble());
     }
