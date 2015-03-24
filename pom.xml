@@ -14,6 +14,7 @@
     <sonar.buildVersion>3.7</sonar.buildVersion>
     <jdk.min.version>1.5</jdk.min.version>
     <powermock.version>1.4.10</powermock.version>
+    <cucumber.version>1.2.2</cucumber.version>
   </properties>
 
   <dependencies>
@@ -88,6 +89,18 @@
        	<artifactId>sonar-scm-activity-plugin</artifactId>
        	<version>1.7-SNAPSHOT</version>
        </dependency>
+       <dependency>
+       	<groupId>info.cukes</groupId>
+       	<artifactId>cucumber-java</artifactId>
+       	<version>${cucumber.version}</version>
+       	<scope>test</scope>
+       </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
   </dependencies>
 
   <build>

@@ -2,6 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor;
 
 import java.io.File;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
@@ -96,9 +97,11 @@ public class VsTestUnitTestResultsAnalyser {
     public void analyseVsTestResults(String coveragePath, String resultsPath) {
         createRegistries(); 
         
-        parseUnitTestResultsFile(resultsPath);      
-        parseCoverageFile(coveragePath);
+        if(!StringUtils.isEmpty(resultsPath)) {
+        parseUnitTestResultsFile(resultsPath);
+        }
         
+        parseCoverageFile(coveragePath);
         saveUnitTests();
     }
     private void parseCoverageFile(String coverageFileName) {

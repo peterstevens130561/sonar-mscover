@@ -6,6 +6,7 @@ import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.SonarException;
 
 import com.google.common.io.Files;
@@ -25,19 +26,32 @@ public class VSTestStdOutParser {
     }
 
 
+    /**
+     * extract path to results file
+     * in assembly
+     * @return path to assembly. String.EMPTY if notfound
+     */
     public String getTestResultsXmlPath()  {
         return  getPieceFromResults(RESULTS_PATTERN);
 
     }
 
+    /**
+     * extract path to cooverage file. 
+     * @throws SonarException if not found
+     */
     public String getCoveragePath() {
-        return getPieceFromResults(ATTACHMENTS_PATTERN);
+        String path= getPieceFromResults(ATTACHMENTS_PATTERN);
+        if(StringUtils.isEmpty(path)) {
+            throw new SonarException("Could not find area " + ATTACHMENTS_PATTERN);
+        }
+        return path;
     }
     
     private String getPieceFromResults(Pattern pattern)  {
         Matcher matcher = pattern.matcher(results);
         if(!matcher.find()) {
-            throw new SonarException("Could not find area " + pattern.toString());
+            return StringUtils.EMPTY;
         }
         String result=matcher.group(1).trim();
         return result;
