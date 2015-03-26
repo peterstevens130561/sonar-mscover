@@ -89,16 +89,18 @@ public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
         }
         LOG.info("Saving opencover line & branch coverage for " + project.getName());
         measureSaver.setProjectAndContext(project, sensorContext);
+        SonarCoverage sonarCoverageRegistry = vsTestEnvironment.getSonarCoverage();
+        
         DefaultPicoContainer picoContainer = new DefaultPicoContainer(new AnnotatedFieldInjection());
         picoContainer.addComponent(SonarCoverageSaver.class);
         picoContainer.addComponent(measureSaver);
-        picoContainer.addComponent(SonarBranchSaver.create(measureSaver));
-        picoContainer.addComponent(SonarLineSaver.create(measureSaver));
+        picoContainer.addComponent(SonarBranchSaver.class);
+        picoContainer.addComponent(SonarLineSaver.class);
+        picoContainer.addComponent(sonarCoverageRegistry);
         SonarCoverageSaver sonarCoverageSaver=picoContainer.getComponent(SonarCoverageSaver.class);
-        //SonarCoverageSaver sonarCoverageSaver = new SonarCoverageSaver(measureSaver);
-        SonarCoverage sonarCoverageRegistry = vsTestEnvironment.getSonarCoverage();
+        
+
         List<File> testSourceFiles=microsoftWindowsEnvironment.getUnitTestSourceFiles();
-        sonarCoverageSaver.setCoverageRegistry(sonarCoverageRegistry);
         sonarCoverageSaver.setExcludeSourceFiles(testSourceFiles);
         sonarCoverageSaver.save();
     }

@@ -34,6 +34,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
 public class SonarCoverageSaver {
 
+    @Inject
     private SonarCoverage sonarCoverageRegistry;
     
     @Inject
@@ -54,11 +55,6 @@ public class SonarCoverageSaver {
         this.measureSaver=measureSaver;
     }
 
-    
-    public void setCoverageRegistry(SonarCoverage sonarCoverageRegistry) {
-        this.sonarCoverageRegistry=sonarCoverageRegistry;
-    }
-    
     public void save() {
         //sonarBranchSaver = SonarBranchSaver.create(measureSaver);
         //sonarLineSaver = SonarLineSaver.create(measureSaver);

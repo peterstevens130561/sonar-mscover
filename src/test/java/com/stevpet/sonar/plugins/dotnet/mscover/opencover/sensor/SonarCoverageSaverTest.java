@@ -30,6 +30,8 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.injectors.AnnotatedFieldInjection;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.test.TestUtils;
@@ -37,7 +39,9 @@ import org.sonar.test.TestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.ConcreteOpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarBranchSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarLineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
@@ -50,25 +54,27 @@ import static org.mockito.Matchers.eq;
 
 public class SonarCoverageSaverTest {
     
-    private SonarCoverage sonarCoverageRegistry;
-    private MeasureSaver measureSaver;
+    private SonarCoverage sonarCoverageRegistry= new SonarCoverage();
+    private MeasureSaver measureSaver = mock(MeasureSaver.class);
+    private DefaultPicoContainer picoContainer = new DefaultPicoContainer(new AnnotatedFieldInjection());
+    private SonarCoverageSaver coverageSaver;
     @Before
     public void before() {
-        
+        picoContainer.addComponent(SonarCoverageSaver.class);
+        picoContainer.addComponent(SonarBranchSaver.class);
+        picoContainer.addComponent(SonarLineSaver.class);
+        picoContainer.addComponent(measureSaver);
+        picoContainer.addComponent(sonarCoverageRegistry);
+        coverageSaver = picoContainer.getComponent(SonarCoverageSaver.class);
     }
     
     @Test
     public void create_ExpectObject() {
-        SonarCoverageSaver coverageSaver = new SonarCoverageSaver(measureSaver);
         assertNotNull(coverageSaver);
     }
     
     @Test
     public void simpleSave() {
-        measureSaver = mock(MeasureSaver.class);
-        SonarCoverageSaver coverageSaver = new SonarCoverageSaver(measureSaver);
-        sonarCoverageRegistry = new SonarCoverage();
-        coverageSaver.setCoverageRegistry(sonarCoverageRegistry);
 
         OpenCoverParserFactory parserFactory = new ConcreteOpenCoverParserFactory();
         XmlParserSubject parser = parserFactory.createOpenCoverParser(sonarCoverageRegistry);
@@ -76,7 +82,7 @@ public class SonarCoverageSaverTest {
         parser.parseFile(file);   
 
         
-        coverageSaver.setCoverageRegistry(sonarCoverageRegistry);
+        //coverageSaver.setCoverageRegistry(sonarCoverageRegistry);
         coverageSaver.save();
         verify(measureSaver,times(93)).saveFileMeasure(any(Measure.class));
         verify(measureSaver,times(62)).setFile(any(File.class)); 
@@ -89,17 +95,13 @@ public class SonarCoverageSaverTest {
     
     @Test
     public void simpleSaveWithExclusion() {
-        measureSaver = mock(MeasureSaver.class);
-        SonarCoverageSaver coverageSaver = new SonarCoverageSaver(measureSaver);
-        sonarCoverageRegistry = new SonarCoverage();
-        coverageSaver.setCoverageRegistry(sonarCoverageRegistry);
 
         OpenCoverParserFactory parserFactory = new ConcreteOpenCoverParserFactory();
         XmlParserSubject parser = parserFactory.createOpenCoverParser(sonarCoverageRegistry);
         //Given parsed file coverage=report.xml
         File file = TestUtils.getResource("coverage-report.xml");
         parser.parseFile(file);    
-        coverageSaver.setCoverageRegistry(sonarCoverageRegistry);
+        //coverageSaver.setCoverageRegistry(sonarCoverageRegistry);
         //Given I exclude file
         List<File> testFiles = new ArrayList<File>();
         testFiles.add(new File("c:/Development/Jewel.Release.Oahu/JewelEarth/Core/ThinClient/WinForms/ViewHost.cs"));

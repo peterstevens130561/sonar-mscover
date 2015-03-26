@@ -50,6 +50,9 @@ public class SonarBranchSaver implements FileCoverageSaver {
         this.measureSaver = measureSaver ;
     }
     
+    public SonarBranchSaver() {
+        
+    }
     public static FileCoverageSaver create(MeasureSaver measureSaver) {
         return new SonarBranchSaver(measureSaver);
     }
