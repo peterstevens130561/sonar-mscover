@@ -24,6 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver;
 
 import java.io.File;
 
+import org.picocontainer.annotations.Inject;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
@@ -37,6 +38,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
 public class SonarBranchSaver implements FileCoverageSaver {
 
+    @Inject
    private MeasureSaver measureSaver;
     
     private final PropertiesBuilder<String, Integer> lineConditionsBuilder = new PropertiesBuilder<String, Integer>(

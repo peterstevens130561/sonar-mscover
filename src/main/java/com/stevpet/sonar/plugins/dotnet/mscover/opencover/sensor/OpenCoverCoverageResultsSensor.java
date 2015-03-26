@@ -25,6 +25,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 import java.io.File;
 import java.util.List;
 
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.PicoContainer;
+import org.picocontainer.injectors.AnnotatedFieldInjection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.DependsUpon;
@@ -35,6 +38,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvi
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AbstractDotNetSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarBranchSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
@@ -84,7 +88,13 @@ public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
         }
         LOG.info("Saving opencover line & branch coverage for " + project.getName());
         measureSaver.setProjectAndContext(project, sensorContext);
-        SonarCoverageSaver sonarCoverageSaver = new SonarCoverageSaver(measureSaver);
+        DefaultPicoContainer picoContainer = new DefaultPicoContainer(new AnnotatedFieldInjection());
+        picoContainer.addComponent(SonarCoverageSaver.class);
+        picoContainer.addComponent(measureSaver);
+        picoContainer.addComponent(SonarBranchSaver.create(measureSaver));
+        
+        SonarCoverageSaver sonarCoverageSaver=picoContainer.getComponent(SonarCoverageSaver.class);
+        //SonarCoverageSaver sonarCoverageSaver = new SonarCoverageSaver(measureSaver);
         SonarCoverage sonarCoverageRegistry = vsTestEnvironment.getSonarCoverage();
         List<File> testSourceFiles=microsoftWindowsEnvironment.getUnitTestSourceFiles();
         sonarCoverageSaver.setCoverageRegistry(sonarCoverageRegistry);

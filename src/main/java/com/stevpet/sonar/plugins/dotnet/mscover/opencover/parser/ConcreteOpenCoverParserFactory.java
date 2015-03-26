@@ -39,11 +39,15 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 
 public class ConcreteOpenCoverParserFactory implements OpenCoverParserFactory {
+    
+    
     /**
      * Creates the complete parser, with the observers registered
      * @param registry initialized registry
      */
+    @Override
     public XmlParserSubject createOpenCoverParser(SonarCoverage registry) {
+        
         XmlParserSubject parser = new OpenCoverParserSubject();
         OpenCoverObserver [] observers = { 
                 new OpenCoverSourceFileNamesObserver(),
@@ -56,6 +60,7 @@ public class ConcreteOpenCoverParserFactory implements OpenCoverParserFactory {
         return parser;
     }
 
+    @Override
     public XmlParserSubject createOpenCoverFileNamesParser(
             MethodToSourceFileIdMap map,
             SourceFileNameTable sourceFileNamesRegistry) {
@@ -71,6 +76,7 @@ public class ConcreteOpenCoverParserFactory implements OpenCoverParserFactory {
         return parserSubject;
     }
 
+    @Override
     public XmlParserSubject createOpenCoverParser(SonarCoverage registry,
             MsCoverProperties msCoverProperties) {
         Collection<String> pdbsThatCanBeIgnoredWhenMissing = msCoverProperties.getPdbsThatMayBeIgnoredWhenMissing();

@@ -26,6 +26,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.picocontainer.annotations.Inject;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
@@ -33,22 +35,31 @@ import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 public class SonarCoverageSaver {
 
     private SonarCoverage sonarCoverageRegistry;
+    
+    @Inject
     private MeasureSaver measureSaver;
-    private FileCoverageSaver sonarBranchSaver;
-    private FileCoverageSaver sonarLineSaver;
-    private List<File> testFiles = new ArrayList<File>();
-    public SonarCoverageSaver(MeasureSaver measureSaver) {
 
+    @Inject
+    private FileCoverageSaver sonarBranchSaver;
+
+    private FileCoverageSaver sonarLineSaver;
+    
+    private List<File> testFiles = new ArrayList<File>();
+    
+    public SonarCoverageSaver() {
+    }
+    
+    public SonarCoverageSaver(MeasureSaver measureSaver) {
         this.measureSaver=measureSaver;
-  
     }
 
+    
     public void setCoverageRegistry(SonarCoverage sonarCoverageRegistry) {
         this.sonarCoverageRegistry=sonarCoverageRegistry;
     }
     
     public void save() {
-        sonarBranchSaver = SonarBranchSaver.create(measureSaver);
+        //sonarBranchSaver = SonarBranchSaver.create(measureSaver);
         sonarLineSaver = SonarLineSaver.create(measureSaver);
         for(SonarFileCoverage fileCoverage:sonarCoverageRegistry.getValues()) {
             saveFileResults(fileCoverage);
