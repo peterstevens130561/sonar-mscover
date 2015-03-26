@@ -40,6 +40,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarBranchSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarLineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 @DependsUpon("OpenCoverRunningVsTest")
@@ -92,7 +93,7 @@ public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
         picoContainer.addComponent(SonarCoverageSaver.class);
         picoContainer.addComponent(measureSaver);
         picoContainer.addComponent(SonarBranchSaver.create(measureSaver));
-        
+        picoContainer.addComponent(SonarLineSaver.create(measureSaver));
         SonarCoverageSaver sonarCoverageSaver=picoContainer.getComponent(SonarCoverageSaver.class);
         //SonarCoverageSaver sonarCoverageSaver = new SonarCoverageSaver(measureSaver);
         SonarCoverage sonarCoverageRegistry = vsTestEnvironment.getSonarCoverage();

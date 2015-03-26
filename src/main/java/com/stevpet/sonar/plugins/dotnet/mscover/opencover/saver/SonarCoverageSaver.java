@@ -40,9 +40,10 @@ public class SonarCoverageSaver {
     private MeasureSaver measureSaver;
 
     @Inject
-    private FileCoverageSaver sonarBranchSaver;
+    private SonarBranchSaver sonarBranchSaver;
 
-    private FileCoverageSaver sonarLineSaver;
+    @Inject
+    private SonarLineSaver sonarLineSaver;
     
     private List<File> testFiles = new ArrayList<File>();
     
@@ -60,7 +61,7 @@ public class SonarCoverageSaver {
     
     public void save() {
         //sonarBranchSaver = SonarBranchSaver.create(measureSaver);
-        sonarLineSaver = SonarLineSaver.create(measureSaver);
+        //sonarLineSaver = SonarLineSaver.create(measureSaver);
         for(SonarFileCoverage fileCoverage:sonarCoverageRegistry.getValues()) {
             saveFileResults(fileCoverage);
         }
