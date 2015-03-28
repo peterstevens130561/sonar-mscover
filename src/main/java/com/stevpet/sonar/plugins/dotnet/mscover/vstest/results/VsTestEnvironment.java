@@ -28,7 +28,6 @@ import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.api.resources.Project;
 
-
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.ProjectSeam;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.SonarProjectSeam;
@@ -40,8 +39,9 @@ public class VsTestEnvironment implements BatchExtension {
     private String coverageXmlPath;
     private String resultsXmlPath;
     private boolean testsHaveRun=false;
+    private String targetDir;
 
-    private SonarCoverage sonarCoverage;
+    private SonarCoverage sonarCoverage = new SonarCoverage();
     public String getXmlCoveragePath() {
         return coverageXmlPath;
     }
@@ -75,5 +75,11 @@ public class VsTestEnvironment implements BatchExtension {
         String openCoverCoveragePath= opencoverCoverageFile.getAbsolutePath();
         setCoverageXmlPath(openCoverCoveragePath); 
     }
+    public String getTargetDir() {
+        return targetDir;
+    }
 
+    public void setTargetDir(String targetDir) {
+        this.targetDir = targetDir;
+    }
 }

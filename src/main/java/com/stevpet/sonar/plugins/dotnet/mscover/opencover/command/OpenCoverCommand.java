@@ -24,13 +24,19 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.command;
 
 import java.util.List;
 import java.util.Map;
+
+import org.picocontainer.annotations.Inject;
 import org.sonar.api.utils.command.Command;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 
-public class OpenCoverCommand implements ShellCommand {
+public class OpenCoverCommand implements ShellCommand  {
 
+    @Inject
+    CommandLineExecutor commandLineExecutor;
     private  String path;
 
     Map<String,String> arguments = Maps.newHashMap();
@@ -140,4 +146,20 @@ public class OpenCoverCommand implements ShellCommand {
         String filterArgument = sb.toString().replaceAll(";$","");
         addArgument(option,filterArgument);
     }
+
+
+    public void execute() {
+        ProcessLock processLock = new ProcessLock("opencover");
+        processLock.lock();
+        try {
+        commandLineExecutor.execute(this);
+        } finally {
+            processLock.release();
+        }   
+    }
+
+    public String getStdOut() {
+        return commandLineExecutor.getStdOut();
+    }
+
 }

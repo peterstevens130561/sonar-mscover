@@ -25,6 +25,10 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 import java.io.File;
 import java.util.Set;
 
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.injectors.AnnotatedFieldInjection;
+import org.picocontainer.injectors.ConstructorInjection;
+import org.picocontainer.injectors.MultiInjection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.DependedUpon;
@@ -39,39 +43,44 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvi
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AbstractDotNetSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.Wirer;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.ConcreteOpenCoverParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverSequencePointsObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverSourceFileNamesObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarBranchSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarLineSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AbstractVsTestRunnerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.BaseAssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultVsTestRunnerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
 @DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
 @DependedUpon("OpenCoverRunningVsTest")
 public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
 
     private static String WONT_EXECUTE = "VsTest.Console using OpenCover.Console.Exe won't execute as ";
     private static final Logger LOG = LoggerFactory.getLogger(OpenCoverTestExecutionCoverageSensor.class);
+    private static final Object OpenCoverSourceFileNamesObserver = null;
     private VisualStudioSolution solution;
     private final MsCoverProperties propertiesHelper ;
     private VsTestEnvironment testEnvironment;
-    private CommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-    private OpenCoverCommand openCoverCommand = new OpenCoverCommand();
-    private AbstractVsTestRunnerFactory vsTestRunnerFactory = new DefaultVsTestRunnerFactory();
-    private OpenCoverCommandBuilder openCoverCommandBuilder = new OpenCoverCommandBuilder();
-    private AssembliesFinderFactory assembliesFinderFactory = new AssembliesFinderFactory();
-    private VSTestStdOutParser vsTestStdOutParser = new VSTestStdOutParser();
-    private OpenCoverParserFactory openCoverParserFactory = new ConcreteOpenCoverParserFactory();
-    private FakesRemover fakesRemover = new DefaultFakesRemover();
+
     private FileSystem fileSystem;
     
     public OpenCoverTestExecutionCoverageSensor(MsCoverProperties propertiesHelper, 
@@ -123,60 +132,34 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     @Override
     public void analyse(Project project, SensorContext context) {
         testEnvironment.setCoverageXmlFile(project,"coverage-report.xml");
-
+        testEnvironment.setSonarCoverage(new SonarCoverage());
+        AssembliesFinder assembliesFinder = new BaseAssembliesFinder(propertiesHelper, microsoftWindowsEnvironment);
+        String targetDir=assembliesFinder.findUnitTestAssembliesDir(microsoftWindowsEnvironment.getCurrentSolution());
+        testEnvironment.setTargetDir(targetDir);
         getSolution();
+ 
+        OpenCoverCoverageParser openCoverCoverageParser = Wirer.instantiateOpenCoverCoverageParser(testEnvironment, propertiesHelper);
+       
+        DefaultPicoContainer picoContainer = new DefaultPicoContainer(new ConstructorInjection());
+        picoContainer.addComponent(VsTestEmbeddedInOpenCoverCommandBuilder.class)
+            .addComponent(OpenCoverCommand.class)
+            .addComponent(OpenCoverCommandBuilder.class)
+            .addComponent(WindowsVsTestRunner.class)
+            .addComponent(WindowsCommandLineExecutor.class)
+            .addComponent(propertiesHelper)
+            .addComponent(testEnvironment)
+            .addComponent(fileSystem)
+            .addComponent(DefaultFakesRemover.class)
+            .addComponent(VSTestStdOutParser.class)
+            .addComponent(openCoverCoverageParser)
+            .addComponent(microsoftWindowsEnvironment);
+            
+        FakesRemover fakesRemover = picoContainer.getComponent(FakesRemover.class);
+        fakesRemover.removeFakes(new File(testEnvironment.getTargetDir()));
         
-        executeVsTestOpenCoverRunner();
-        getResultPaths();
-        // tell that tests were executed so that no other project tries to launch them a second time
-        testEnvironment.setTestsHaveRun();
-        parseCoverageFile(testEnvironment);
-    }
+        VsTestEmbeddedInOpenCoverCommandBuilder commandBuilder=picoContainer.getComponent(VsTestEmbeddedInOpenCoverCommandBuilder.class);
+        commandBuilder.execute();
 
-    private void parseCoverageFile(VsTestEnvironment testEnvironment) {
-        SonarCoverage sonarCoverageRegistry = new SonarCoverage();
-
-        XmlParserSubject parser=openCoverParserFactory.createOpenCoverParser(sonarCoverageRegistry,propertiesHelper);
-        parser.parseFile(new File(testEnvironment.getXmlCoveragePath()));
-        testEnvironment.setSonarCoverage(sonarCoverageRegistry);
-    }
-
-    
-    private void executeVsTestOpenCoverRunner() {
-        VsTestRunner unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, fileSystem,microsoftWindowsEnvironment);
-        unitTestRunner.clean();
-
-        openCoverCommandBuilder.setOpenCoverCommand(openCoverCommand);
-        openCoverCommandBuilder.setAssemblies(microsoftWindowsEnvironment.getAssemblies());
-        openCoverCommandBuilder.setMsCoverProperties(propertiesHelper);
-        openCoverCommandBuilder.setTestRunner(unitTestRunner);
-        openCoverCommandBuilder.setTestEnvironment(testEnvironment);
-        openCoverCommandBuilder.build();
-        
-        AssembliesFinder finder = assembliesFinderFactory.create(propertiesHelper);
-        String targetDir=finder.findUnitTestAssembliesDir(solution);
-        openCoverCommand.setTargetDir(targetDir);
-        fakesRemover.removeFakes(new File(targetDir));
-
-        ProcessLock processLock = new ProcessLock("opencover");
-        processLock.lock();
-        try {
-        commandLineExecutor.execute(openCoverCommand);
-        } finally {
-            processLock.release();
-        }
-    }
-    
-    
-    /**
-     * parse test log to get paths to result files
-     */
-    public void getResultPaths() {
-
-        String stdOut=commandLineExecutor.getStdOut();
-        vsTestStdOutParser.setResults(stdOut);
-        String resultsPath=vsTestStdOutParser.getTestResultsXmlPath(); 
-        testEnvironment.setTestResultsXmlPath(resultsPath);
     }
 
     private void getSolution() {
@@ -185,55 +168,5 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
             throw new SonarException("No .NET solution or project has been given to the Gallio command builder.");
         }
     }
-
-
-    /**
-     * @param vsTestRunnerFactory the vsTestRunnerFactory to set
-     */
-    public void setVsTestRunnerFactory(
-            AbstractVsTestRunnerFactory vsTestRunnerFactory) {
-        this.vsTestRunnerFactory = vsTestRunnerFactory;
-    }
-
-    public void setOpenCoverCommand(OpenCoverCommand openCoverCommand) {
-       this.openCoverCommand = openCoverCommand;
-    }
-
-
-    public void setOpenCoverCommandBuilder(OpenCoverCommandBuilder mock) {
-        this.openCoverCommandBuilder=mock;
-        
-    }
-
-    public void setAssembliesFinderFactory(AssembliesFinderFactory assembliesFinderFactory) {
-        this.assembliesFinderFactory=assembliesFinderFactory;
-    }
- 
-    public void setCommandLineExecutor(CommandLineExecutor commandLineExecutor) {
-        this.commandLineExecutor = commandLineExecutor;
-    }
-
-    /**
-     * @param vsTestStdOutParser the vsTestStdOutParser to set
-     */
-    public void setVsTestStdOutParser(VSTestStdOutParser vsTestStdOutParser) {
-        this.vsTestStdOutParser = vsTestStdOutParser;
-    }
-
-    /**
-     * @param openCoverParserFactory the openCoverParserFactory to set
-     */
-    public void setOpenCoverParserFactory(
-            OpenCoverParserFactory openCoverParserFactory) {
-        this.openCoverParserFactory = openCoverParserFactory;
-    }
-
-    /**
-     * @param fakesRemover the fakesRemover to set
-     */
-    public void setFakesRemover(FakesRemover fakesRemover) {
-        this.fakesRemover = fakesRemover;
-    }
-
 
 }

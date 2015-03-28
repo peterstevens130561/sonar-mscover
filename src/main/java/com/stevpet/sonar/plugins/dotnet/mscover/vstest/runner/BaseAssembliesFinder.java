@@ -24,16 +24,39 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
 import java.io.File;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.AssemblyResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.BaseAssemblyResolver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.BinConfigAssemblyResolver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.FailedAssemblyResolver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.HintPathAssemblyResolver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.IgnoreMissingAssemblyResolver;
 
 public class BaseAssembliesFinder extends AbstractAssembliesFinder implements AssemblyResolver{
 
     AssemblyResolver assemblyResolver = new BaseAssemblyResolver();
-    public BaseAssembliesFinder(MsCoverProperties propertiesHelper) {
+    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
+    public BaseAssembliesFinder(MsCoverProperties propertiesHelper,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         super(propertiesHelper);
+        this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
+        AssemblyResolver[] assembliesFinders = {
+                new FailedAssemblyResolver(),
+                new IgnoreMissingAssemblyResolver(),
+                new HintPathAssemblyResolver(),
+                new BinConfigAssemblyResolver()
+        };
+
+        AssemblyResolver nextResolver=null;
+         for(AssemblyResolver resolver: assembliesFinders) {
+             resolver.setMsCoverProperties(propertiesHelper);
+             resolver.setResolver(nextResolver);
+             nextResolver=resolver;
+         }
+         
+         setMsCoverProperties(propertiesHelper);
+         setResolver(nextResolver);
     }
 
     public File resolveAssembly(File assemblyFile, VisualStudioProject project,

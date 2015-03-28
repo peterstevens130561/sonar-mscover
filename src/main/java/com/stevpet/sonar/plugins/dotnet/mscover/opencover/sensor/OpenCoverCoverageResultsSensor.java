@@ -97,6 +97,7 @@ public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
         picoContainer.addComponent(SonarBranchSaver.class);
         picoContainer.addComponent(SonarLineSaver.class);
         picoContainer.addComponent(sonarCoverageRegistry);
+        
         SonarCoverageSaver sonarCoverageSaver=picoContainer.getComponent(SonarCoverageSaver.class);
         
 

@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.picocontainer.annotations.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.SonarException;
@@ -54,6 +55,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParse
 public class WindowsVsTestRunner implements VsTestRunner {
     private static final Logger LOG = LoggerFactory
             .getLogger(WindowsVsTestRunner.class);
+    
+    @Inject
     private MsCoverProperties propertiesHelper ;
     private File solutionDirectory ;
     private List<String> unitTestAssembliesPath;
@@ -72,7 +75,8 @@ public class WindowsVsTestRunner implements VsTestRunner {
     private VSTestCommand vsTestCommand = VSTestCommand.create();
     private CommandLineExecutor executor = new WindowsCommandLineExecutor();
     private VSTestStdOutParser vsTestResultsParser = new VSTestStdOutParser();
-    private WindowsVsTestRunner() {
+    
+    public WindowsVsTestRunner() {
     }
     
     public static VsTestRunner create() {

@@ -40,7 +40,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 
 public class ConcreteOpenCoverParserFactory implements OpenCoverParserFactory {
     
-    
     /**
      * Creates the complete parser, with the observers registered
      * @param registry initialized registry

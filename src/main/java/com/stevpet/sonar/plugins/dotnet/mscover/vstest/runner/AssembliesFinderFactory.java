@@ -28,11 +28,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.B
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.FailedAssemblyResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.HintPathAssemblyResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.IgnoreMissingAssemblyResolver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 
 public class AssembliesFinderFactory implements AbstractAssembliesFinderFactory {
 
     
-    public AssembliesFinder create(MsCoverProperties propertiesHelper) {
+    public AssembliesFinder create(MsCoverProperties propertiesHelper,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
        AssemblyResolver[] assembliesFinders = {
                new FailedAssemblyResolver(),
                new IgnoreMissingAssemblyResolver(),
@@ -47,9 +48,10 @@ public class AssembliesFinderFactory implements AbstractAssembliesFinderFactory 
             nextResolver=resolver;
         }
         
-        BaseAssembliesFinder baseAssembliesFinder = new BaseAssembliesFinder(propertiesHelper);
+        BaseAssembliesFinder baseAssembliesFinder = new BaseAssembliesFinder(propertiesHelper, microsoftWindowsEnvironment);
         baseAssembliesFinder.setMsCoverProperties(propertiesHelper);
         baseAssembliesFinder.setResolver(nextResolver);
         return baseAssembliesFinder;
     }
+    
 }

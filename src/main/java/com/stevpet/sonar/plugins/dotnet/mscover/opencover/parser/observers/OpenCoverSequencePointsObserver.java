@@ -37,6 +37,11 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         private boolean lineVisited;
         private BranchOffsetToLineMapper offsetToLineMapper = new BranchOffsetToLineMapper();
         private boolean branchVisited;
+        
+        public OpenCoverSequencePointsObserver(SonarCoverage registry) {
+            this.registry = registry;
+        }
+        
         public OpenCoverSequencePointsObserver() {
             setPattern("Modules/Module/Classes/Class/Methods/Method/FileRef" +
                      "|Modules/Module/Classes/Class/Methods/Method/SequencePoints/SequencePoint" +

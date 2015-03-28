@@ -26,16 +26,35 @@ import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.injectors.ConstructorInjection;
+import org.picocontainer.injectors.MultiInjection;
+import org.picocontainer.injectors.AnnotatedFieldInjection;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.OpenCoverCommandBuilderMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.Wirer;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutorMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactoryMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverSequencePointsObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverSourceFileNamesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubjectMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParserMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactoryMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.BaseAssembliesFinder;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerFactoryMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock;
 
 public class OpenCoverTestExecutionCoverageSensorTest {
@@ -129,29 +148,44 @@ public class OpenCoverTestExecutionCoverageSensorTest {
     
     @Test
     public void analyseSimpleSolution() {
+        //Given a simple solution
         String targetDir="OpenCoverTestExecutionCoverageSensorTest/assemblies";
         moduleFileSystemMock.givenWorkDir("OpenCoverTestExecutionCoverageSensorTest/.sonar");
-        testEnvironmentMock.givenXmlCoveragePath("coverage.xml");
-        classUnderTest.setModuleFileSystem(moduleFileSystemMock);
-        classUnderTest.givenANewSensor();
-        classUnderTest.givenOpenCoverCommandBuilder(openCoverCommandBuilderMock);
-        classUnderTest.givenCommandLineExecutor(commandLineExecutorMock);
-        classUnderTest.givenVsTestStdOutParser(vsTestStdOutParserMock);
-        classUnderTest.givenFakesRemover(fakesRemoverMock);
         
-        classUnderTest.givenTestRunnerFactory(vsTestRunnerFactoryMock);
-        vsTestRunnerFactoryMock.onCreate(vsTestRunnerMock);
+        VsTestEnvironment vsTestEnvironment = new VsTestEnvironment();
+        vsTestEnvironment.setCoverageXmlPath("coverage.xml");
+        vsTestEnvironment.setTargetDir(targetDir);
         
-        openCoverParserFactoryMock.givenXmlParserSubject(xmlParserSubjectMock);
-        classUnderTest.givenOpenCoverParserFactory(openCoverParserFactoryMock);
+        fileSystemMock.givenWorkDir(new File("OpenCoverTestExecutionCoverageSensorTest/.sonar"));
+        //When I wire all components
+        OpenCoverCoverageParser openCoverCoverageParser = Wirer.instantiateOpenCoverCoverageParser(vsTestEnvironment,msCoverPropertiesMock.getMock());
+        microsoftWindowsEnvironmentMock.givenHasSolutionWithProject(1);
+        
+        new IncorporatedVsTestRunner(msCoverPropertiesMock.getMock(),microsoftWindowsEnvironmentMock.getMock(),fileSystemMock.getMock()).build();
+        
+        DefaultPicoContainer picoContainer = new DefaultPicoContainer(new ConstructorInjection());
+        picoContainer.addComponent(VsTestEmbeddedInOpenCoverCommandBuilder.class)
+            .addComponent(openCoverCommandMock.getMock())
+            .addComponent(OpenCoverCommandBuilder.class)
+            .addComponent(vsTestRunnerMock.getMock())
+            .addComponent(commandLineExecutorMock.getMock())
+            .addComponent(msCoverPropertiesMock.getMock())
+            .addComponent(vsTestEnvironment)
+            .addComponent(fileSystemMock.getMock())
+            .addComponent(fakesRemoverMock.getMock())
+            .addComponent(vsTestStdOutParserMock.getMock())
+            .addComponent(openCoverCoverageParser)
+            .addComponent(microsoftWindowsEnvironmentMock.getMock());
+    
+
+        
         assembliesFinderMock.onFindUnitTestAssembliesDir(targetDir);
         
-        assembliesFinderFactoryMock.onCreate(msCoverPropertiesMock,assembliesFinderMock);
-        classUnderTest.givenAssembliesFinderFactory(assembliesFinderFactoryMock);
-        classUnderTest.setOpenCoverCommand(openCoverCommandMock.getMock());
-        microsoftWindowsEnvironmentMock.givenHasSolutionWithProject(1);
-        classUnderTest.analyse();
+
+        VsTestEmbeddedInOpenCoverCommandBuilder commandBuilder=picoContainer.getComponent(VsTestEmbeddedInOpenCoverCommandBuilder.class);
+        commandBuilder.execute();
         
+        openCoverCoverageParser.execute();
         
         xmlParserSubjectMock.verifyParseFile("coverage.xml");
         openCoverCommandMock.verifySetTargetDir(targetDir);
@@ -165,6 +199,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         
         fakesRemoverMock.verifyRemoveFakes(new File(targetDir));
     }
+
 
 
 }

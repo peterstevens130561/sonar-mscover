@@ -22,6 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
+import org.picocontainer.annotations.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
@@ -34,6 +35,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
     private static Logger LOG = LoggerFactory.getLogger(DefaultVsTestRunnerFactory.class);
     
+    @Inject
+    VsTestRunner unitTestRunner;
     
     public VsTestRunner create() {
         return WindowsVsTestRunner.create();
@@ -53,7 +56,7 @@ public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
      * @return
      */
     public VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper, FileSystem fileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
-            VsTestRunner unitTestRunner = WindowsVsTestRunner.create();
+            unitTestRunner = WindowsVsTestRunner.create();
             unitTestRunner.setPropertiesHelper(propertiesHelper);
             VisualStudioSolution solution=microsoftWindowsEnvironment.getCurrentSolution();
             if(solution == null) {

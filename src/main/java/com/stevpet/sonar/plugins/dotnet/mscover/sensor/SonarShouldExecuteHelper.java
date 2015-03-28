@@ -32,6 +32,7 @@ public class SonarShouldExecuteHelper implements ShouldExecuteHelper {
     
     static final Logger LOG = LoggerFactory
             .getLogger(SonarShouldExecuteHelper.class);
+    
     private MsCoverProperties propertiesHelper;
     public SonarShouldExecuteHelper(MsCoverProperties propertiesHelper) {
         this.propertiesHelper = propertiesHelper;

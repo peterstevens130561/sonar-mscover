@@ -89,7 +89,7 @@ public class OpenCoverTestExecutionCoverageSensorBehavior {
     }
 
     public void setOpenCoverCommand(OpenCoverCommand mock) {
-        sensor.setOpenCoverCommand(mock);
+        //sensor.setOpenCoverCommand(mock);
     }
 
     public void analyse() {
@@ -99,35 +99,35 @@ public class OpenCoverTestExecutionCoverageSensorBehavior {
 
     public void givenOpenCoverCommandBuilder(
             OpenCoverCommandBuilderMock openCoverCommandBuilderMock) {
-        sensor.setOpenCoverCommandBuilder(openCoverCommandBuilderMock.getMock());
+        //sensor.setOpenCoverCommandBuilder(openCoverCommandBuilderMock.getMock());
     }
 
     public void givenAssembliesFinderFactory(
             AssembliesFinderFactoryMock assembliesFinderFactoryMock) {
-        sensor.setAssembliesFinderFactory(assembliesFinderFactoryMock.getMock());
+        //sensor.setAssembliesFinderFactory(assembliesFinderFactoryMock.getMock());
     }
 
     public void givenCommandLineExecutor(
             CommandLineExecutorMock commandLineExecutorMock) {
-        sensor.setCommandLineExecutor(commandLineExecutorMock.getMock());
+        //sensor.setCommandLineExecutor(commandLineExecutorMock.getMock());
     }
 
     public void givenVsTestStdOutParser(VSTestStdOutParserMock vsTestStdOutParserMock) {
-        sensor.setVsTestStdOutParser(vsTestStdOutParserMock.getMock());
+        //sensor.setVsTestStdOutParser(vsTestStdOutParserMock.getMock());
     }
 
     public void givenOpenCoverParserFactory(
             OpenCoverParserFactoryMock openCoverParserFactoryMock) {
-        sensor.setOpenCoverParserFactory(openCoverParserFactoryMock.getMock());
+        //sensor.setOpenCoverParserFactory(openCoverParserFactoryMock.getMock());
     }
 
     public void givenTestRunnerFactory(
             VsTestRunnerFactoryMock vsTestRunnerFactoryMock) {
-        sensor.setVsTestRunnerFactory(vsTestRunnerFactoryMock.getMock());
+        //sensor.setVsTestRunnerFactory(vsTestRunnerFactoryMock.getMock());
     }
 
     public void givenFakesRemover(FakesRemoverMock fakesRemoverMock) {
-        sensor.setFakesRemover(fakesRemoverMock.getMock());
+        //sensor.setFakesRemover(fakesRemoverMock.getMock());
     }
 
     public void setFileSystem(FileSystem fileSystem) {

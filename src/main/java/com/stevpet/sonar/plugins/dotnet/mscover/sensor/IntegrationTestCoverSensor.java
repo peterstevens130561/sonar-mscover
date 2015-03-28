@@ -106,9 +106,6 @@ public class IntegrationTestCoverSensor implements Sensor {
         logInfo("Done");
     }
 
-
- 
-
     private List<File> convertVsTestCoverageFilesToXml(String integrationTestsDir) {
         List<File> xmlFiles = new ArrayList<File>();
         Collection<File> files=FileUtils.listFiles(new File(integrationTestsDir),new String[] {"coverage"} ,true);

@@ -25,17 +25,24 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
+import org.picocontainer.annotations.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 
 public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs extends OpenCoverObserver{
+    
     private static final Logger LOG = LoggerFactory.getLogger(OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs.class);
     private boolean isMissing=false;
     private Collection<String> pdbs = new ArrayList<String>();
+    
+    public OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs(MsCoverProperties msCoverProperties) {
+        this();
+        pdbs= msCoverProperties.getPdbsThatMayBeIgnoredWhenMissing();
+    }
     
     public OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs() {
         setPattern("Modules/Module" +

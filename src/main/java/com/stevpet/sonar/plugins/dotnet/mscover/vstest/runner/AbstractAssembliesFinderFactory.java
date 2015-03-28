@@ -23,7 +23,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 
 public interface AbstractAssembliesFinderFactory {
-    AssembliesFinder create(MsCoverProperties propertiesHelper);
+    AssembliesFinder create(MsCoverProperties propertiesHelper,MicrosoftWindowsEnvironment microsoftWindowsEnvironment);
 }
