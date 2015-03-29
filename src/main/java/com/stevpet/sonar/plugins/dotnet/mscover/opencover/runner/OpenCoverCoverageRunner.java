@@ -52,13 +52,8 @@ public class OpenCoverCoverageRunner implements CoverageRunner {
         if(msCoverProperties.getOpenCoverSkipAutoProps()) {
             openCoverCommand.setSkipAutoProps();
         }
-        ProcessLock processLock = new ProcessLock("opencover");
-        processLock.lock();
-        try {
+
         commandLineExecutor.execute(openCoverCommand);
-        } finally {
-            processLock.release();
-        }
     }
         public String getAssembliesToIncludeInCoverageFilter(List<String> assemblies) {
             if(assemblies ==null || assemblies.size()==0) {

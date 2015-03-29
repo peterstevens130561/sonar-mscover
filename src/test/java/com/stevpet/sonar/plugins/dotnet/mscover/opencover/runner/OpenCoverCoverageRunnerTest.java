@@ -1,17 +1,20 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.injectors.ConstructorInjection;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExexutorStub;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindowsEnvironmentMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.NoAssembliesDefinedException;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
@@ -28,6 +31,9 @@ public class OpenCoverCoverageRunnerTest {
     
     private List<String> assemblies;
     
+    /**
+     * Setting up the mocks/stubs to work with. Note that it is assumed the builder does its work.
+     */
     @Before
     public void before() {
         msCoverPropertiesMock.givenOpenCoverInstallPath("opencover");
@@ -64,10 +70,9 @@ public class OpenCoverCoverageRunnerTest {
     public void runWithOneAssembly() {
         //given one assembly
         assemblies.add("one");
-
         //when
         openCoverCoverageRunner.execute();
-        //then
+        //then I expect the proper commandline, with the one assembly
         String commandLine=commandLineExecutorStub.getCommandLine();
         String expected = "opencover/OpenCover.Console.Exe -register:user -excludebyfile:*\\*.Designer.cs -excludebyattribute:*ExcludeFromCodeCoverage* -mergebyhash: \"-output:coverage.xml\" \"-filter:+[one]* \"";
         assertEquals("building a basic OpenCover commandline",expected,commandLine);
@@ -78,11 +83,27 @@ public class OpenCoverCoverageRunnerTest {
         //given one assembly
         assemblies.add("one");
         assemblies.add("two");
-        //when
+        //when I execute the runner
         openCoverCoverageRunner.execute();
-        //then
+        //then I exepct the proper commandline with the two assemblies
         String commandLine=commandLineExecutorStub.getCommandLine();
         String expected = "opencover/OpenCover.Console.Exe -register:user -excludebyfile:*\\*.Designer.cs -excludebyattribute:*ExcludeFromCodeCoverage* -mergebyhash: \"-output:coverage.xml\" \"-filter:+[one]* +[two]* \"";
         assertEquals("building a basic OpenCover commandline",expected,commandLine);
+    }
+    
+    @Test
+    public void instantiateOpenCoverCoverageRunnerThroughIOC() {
+        DefaultPicoContainer openCoverContainer = new DefaultPicoContainer(new ConstructorInjection());
+        openCoverContainer.addComponent(new ProcessLock("opencover"))
+        .addComponent(LockedWindowsCommandLineExecutor.class)
+        .addComponent(msCoverPropertiesMock.getMock())
+        .addComponent(testEnvironment)
+        .addComponent(openCoverCommand)
+        .addComponent(microsoftWindowsEnvironmentMock.getMock())
+        .addComponent(OpenCoverCoverageRunner.class);
+        
+        OpenCoverCoverageRunner runner = openCoverContainer.getComponent(OpenCoverCoverageRunner.class);
+        assertNotNull("creating OpenCoverCoverageRunner through IOC",runner);
+        
     }
 }
