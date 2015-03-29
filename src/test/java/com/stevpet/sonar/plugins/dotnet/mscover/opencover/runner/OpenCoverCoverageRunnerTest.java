@@ -75,7 +75,7 @@ public class OpenCoverCoverageRunnerTest {
         //then I expect the proper commandline, with the one assembly
         String commandLine=commandLineExecutorStub.getCommandLine();
         String expected = "opencover/OpenCover.Console.Exe -register:user -excludebyfile:*\\*.Designer.cs -excludebyattribute:*ExcludeFromCodeCoverage* -mergebyhash: \"-output:coverage.xml\" \"-filter:+[one]* \"";
-        assertEquals("building a basic OpenCover commandline",expected,commandLine);
+        assertEquals("building a basic OpenCover commandline for one assembly",expected,commandLine);
     }
     
     @Test
@@ -88,7 +88,7 @@ public class OpenCoverCoverageRunnerTest {
         //then I exepct the proper commandline with the two assemblies
         String commandLine=commandLineExecutorStub.getCommandLine();
         String expected = "opencover/OpenCover.Console.Exe -register:user -excludebyfile:*\\*.Designer.cs -excludebyattribute:*ExcludeFromCodeCoverage* -mergebyhash: \"-output:coverage.xml\" \"-filter:+[one]* +[two]* \"";
-        assertEquals("building a basic OpenCover commandline",expected,commandLine);
+        assertEquals("building a basic OpenCover commandline with two assemblies",expected,commandLine);
     }
     
     @Test
