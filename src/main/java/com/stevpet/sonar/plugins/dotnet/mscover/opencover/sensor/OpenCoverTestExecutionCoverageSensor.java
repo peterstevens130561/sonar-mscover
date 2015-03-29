@@ -23,12 +23,9 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import org.picocontainer.DefaultPicoContainer;
-import org.picocontainer.PicoContainer;
 import org.picocontainer.injectors.ConstructorInjection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -140,6 +137,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         .addComponent(testEnvironment)
         .addComponent(openCoverCommand)
         .addComponent(microsoftWindowsEnvironment)
+        .addComponent(fileSystem)
         .addComponent(OpenCoverCoverageRunner.class);
         
         getSolution();

@@ -29,8 +29,10 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.utils.SonarException;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
@@ -75,6 +77,24 @@ public class WindowsVsTestRunner implements VsTestRunner {
     private WindowsVsTestRunner() {
     }
     
+    public WindowsVsTestRunner(MsCoverProperties propertiesHelper, 
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
+            FileSystem fileSystem) {
+        this.propertiesHelper = propertiesHelper;
+        VisualStudioSolution solution=microsoftWindowsEnvironment.getCurrentSolution();
+        if(solution == null) {
+            String msg = "No current solution";
+            LOG.error(msg);
+            throw new SonarException(msg);
+        }
+        setSolution(solution);
+        
+        String sonarWorkingDirectory=fileSystem.workDir().getAbsolutePath();
+        String coverageXmlPath =sonarWorkingDirectory + "/coverage.xml";
+        setCoverageXmlPath(coverageXmlPath);
+        setSonarPath(sonarWorkingDirectory);
+
+    }
     public static VsTestRunner create() {
         return new WindowsVsTestRunner();
     }
