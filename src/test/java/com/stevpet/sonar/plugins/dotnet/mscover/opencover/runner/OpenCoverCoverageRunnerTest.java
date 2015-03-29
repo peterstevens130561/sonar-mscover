@@ -1,6 +1,7 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
+package com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +12,10 @@ import org.junit.Test;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExexutorStub;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindowsEnvironmentMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.NoAssembliesDefinedException;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock;
+
 
 public class OpenCoverCoverageRunnerTest {
 
@@ -45,17 +48,16 @@ public class OpenCoverCoverageRunnerTest {
     @Test
     public void runWithNoAssembly() {
         //given no assembly
-
-        //when
-        openCoverCoverageRunner.execute();
-        //then an exception should be thrown
-        String commandLine=commandLineExecutorStub.getCommandLine();
+        String commandLine;
         try {
-        String expected = "opencover/OpenCover.Console.Exe -register:user -excludebyfile:*\\*.Designer.cs -excludebyattribute:*ExcludeFromCodeCoverage* -mergebyhash: \"-output:coverage.xml\" \"-filter:+[one]* \"";
-        } catch (OpenCoverRunnerNoAssembliesDefinedException e) {
+            //when I execute the runner
+            openCoverCoverageRunner.execute();
+            commandLine=commandLineExecutorStub.getCommandLine();
+        } catch (NoAssembliesDefinedException e) {
+            // then the NoAssembliesDefinedException should be thrown
             return;
         }
-        fail("no assemblies specified, expected exception");
+        fail("no assemblies specified, expected exception, but got " + commandLine);
     }
 
     @Test

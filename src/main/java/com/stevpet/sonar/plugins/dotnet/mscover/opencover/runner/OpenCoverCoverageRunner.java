@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
+package com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.NoAssembliesDefinedException;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 
@@ -60,6 +61,9 @@ public class OpenCoverCoverageRunner implements CoverageRunner {
         }
     }
         public String getAssembliesToIncludeInCoverageFilter(List<String> assemblies) {
+            if(assemblies ==null || assemblies.size()==0) {
+                throw new NoAssembliesDefinedException();
+            }
             final StringBuilder filterBuilder = new StringBuilder();
             // We add all the covered assemblies
             for (String assemblyName : assemblies) {

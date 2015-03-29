@@ -3,7 +3,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 
 
-public class OpenCoverRunnerNoAssembliesDefinedException extends
+public class NoAssembliesDefinedException extends
         MsCoverException {
 
     /**
@@ -11,7 +11,7 @@ public class OpenCoverRunnerNoAssembliesDefinedException extends
      */
     private static final long serialVersionUID = -8351538929141463241L;
 
-    public OpenCoverRunnerNoAssembliesDefinedException() {
+    public NoAssembliesDefinedException() {
         super("Project has no assemblies");
     }
 
