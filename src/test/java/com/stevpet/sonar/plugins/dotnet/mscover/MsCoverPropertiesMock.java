@@ -97,4 +97,8 @@ public class MsCoverPropertiesMock {
         when(properties.getMode()).thenReturn(mode);
     }
 
+    public void givenOpenCoverInstallPath(String path) {
+        when(properties.getOpenCoverInstallPath()).thenReturn(path);
+    }
+
  }

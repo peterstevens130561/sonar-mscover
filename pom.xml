@@ -88,6 +88,11 @@
        	<artifactId>sonar-scm-activity-plugin</artifactId>
        	<version>1.7-SNAPSHOT</version>
        </dependency>
+       <dependency>
+       	<groupId>org.picocontainer</groupId>
+       	<artifactId>picocontainer</artifactId>
+       	<version>2.15</version>
+       </dependency>
   </dependencies>
 
   <build>

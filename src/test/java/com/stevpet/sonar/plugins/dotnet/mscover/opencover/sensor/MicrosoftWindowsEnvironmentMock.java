@@ -71,5 +71,9 @@ public class MicrosoftWindowsEnvironmentMock extends GenericClassMock<MicrosoftW
         when(solution.getUnitTestProjects()).thenReturn(projects);               // TODO Auto-generated method stub
         
     }
+
+    public void givenHasAssemblies(List<String> assemblies) {
+        when(instance.getAssemblies()).thenReturn(assemblies);
+    }
     
 }

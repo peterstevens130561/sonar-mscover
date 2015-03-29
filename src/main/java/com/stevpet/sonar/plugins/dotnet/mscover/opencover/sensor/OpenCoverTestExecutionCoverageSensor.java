@@ -23,6 +23,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -47,6 +49,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.ConcreteOpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AbstractVsTestRunnerFactory;
@@ -125,8 +128,17 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         testEnvironment.setCoverageXmlFile(project,"coverage-report.xml");
 
         getSolution();
+        AssembliesFinder finder = assembliesFinderFactory.create(propertiesHelper);
+        String targetDir=finder.findUnitTestAssembliesDir(solution);
+        fakesRemover.removeFakes(new File(targetDir)); 
+       
+        openCoverCommand.setTargetDir(targetDir);
         
-        executeVsTestOpenCoverRunner();
+        VsTestRunner unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, fileSystem,microsoftWindowsEnvironment);
+        unitTestRunner.clean();
+        VSTestCommand testCommand=unitTestRunner.prepareTestCommand();
+        
+        executeVsTestOpenCoverRunner(testCommand);
         getResultPaths();
         // tell that tests were executed so that no other project tries to launch them a second time
         testEnvironment.setTestsHaveRun();
@@ -142,22 +154,32 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     }
 
     
-    private void executeVsTestOpenCoverRunner() {
-        VsTestRunner unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, fileSystem,microsoftWindowsEnvironment);
-        unitTestRunner.clean();
+    
+    private void executeVsTestOpenCoverRunner(VSTestCommand testCommand) {
 
-        openCoverCommandBuilder.setOpenCoverCommand(openCoverCommand);
-        openCoverCommandBuilder.setAssemblies(microsoftWindowsEnvironment.getAssemblies());
-        openCoverCommandBuilder.setMsCoverProperties(propertiesHelper);
-        openCoverCommandBuilder.setTestRunner(unitTestRunner);
-        openCoverCommandBuilder.setTestEnvironment(testEnvironment);
-        openCoverCommandBuilder.build();
+        openCoverCommand.setTargetCommand(testCommand);
+        CoverageRunner runner = new OpenCoverCoverageRunner(openCoverCommand, 
+                propertiesHelper,
+                testEnvironment, 
+                microsoftWindowsEnvironment, 
+                commandLineExecutor);
+        String path=propertiesHelper.getOpenCoverInstallPath();
+        openCoverCommand.setCommandPath(path);
         
-        AssembliesFinder finder = assembliesFinderFactory.create(propertiesHelper);
-        String targetDir=finder.findUnitTestAssembliesDir(solution);
-        openCoverCommand.setTargetDir(targetDir);
-        fakesRemover.removeFakes(new File(targetDir));
-
+        List<String> excludeFilters = new ArrayList<String>();
+        excludeFilters.add("*\\*.Designer.cs");
+        openCoverCommand.setExcludeByFileFilter(excludeFilters);
+        
+        openCoverCommand.setExcludeFromCodeCoverageAttributeFilter();
+        String filter = getAssembliesToIncludeInCoverageFilter();
+        openCoverCommand.setFilter(filter); 
+        openCoverCommand.setRegister("user");
+        openCoverCommand.setMergeByHash();
+        openCoverCommand.setOutputPath(testEnvironment.getXmlCoveragePath());  
+        if(propertiesHelper.getOpenCoverSkipAutoProps()) {
+            openCoverCommand.setSkipAutoProps();
+ 
+        
         ProcessLock processLock = new ProcessLock("opencover");
         processLock.lock();
         try {
@@ -165,8 +187,17 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         } finally {
             processLock.release();
         }
-    }
-    
+        }
+        }
+        
+        public String getAssembliesToIncludeInCoverageFilter() {
+            final StringBuilder filterBuilder = new StringBuilder();
+            // We add all the covered assemblies
+            for (String assemblyName : microsoftWindowsEnvironment.getAssemblies()) {
+              filterBuilder.append("+[" + assemblyName + "]* ");
+            }
+            return filterBuilder.toString();
+        }
     
     /**
      * parse test log to get paths to result files
