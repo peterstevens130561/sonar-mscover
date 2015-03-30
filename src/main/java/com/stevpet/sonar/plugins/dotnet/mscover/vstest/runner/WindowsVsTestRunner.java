@@ -225,12 +225,6 @@ public class WindowsVsTestRunner implements VsTestRunner {
         unitTestAssembliesPath=assembliesFinder.findUnitTestAssembliesFromConfig(getSolutionDirectory(), microsoftWindowsEnvironment.getCurrentSolution().getProjects());
     }
 
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#getCoveragePath()
-     */
-    public String getCoveragePath() {
-        return coveragePath;
-    }
     
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setCoveragePath(java.lang.String)
@@ -329,5 +323,6 @@ public class WindowsVsTestRunner implements VsTestRunner {
     public void setPropertiesHelper(MsCoverProperties propertiesHelper) {
         this.propertiesHelper=propertiesHelper;
     }
+
 }
     

@@ -61,11 +61,6 @@ public interface VsTestRunner {
      */
    void getResultPaths();
 
-    /**
-     * gets the path to the .cover file
-     * @return
-     */
-    String getCoveragePath();
 
     /**
      * sets the path to the .cover file
