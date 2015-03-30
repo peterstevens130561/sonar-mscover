@@ -58,8 +58,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AbstractVsTestRunnerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultVsTestRunnerFactory;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
 @DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
 @DependedUpon("OpenCoverRunningVsTest")
 public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
@@ -72,7 +73,6 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private CommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private OpenCoverCommand openCoverCommand = new OpenCoverCommand();
-    private AbstractVsTestRunnerFactory vsTestRunnerFactory = new DefaultVsTestRunnerFactory();
     private AssembliesFinderFactory assembliesFinderFactory = new AssembliesFinderFactory();
     private VSTestStdOutParser vsTestStdOutParser = new VSTestStdOutParser();
     private OpenCoverParserFactory openCoverParserFactory = new ConcreteOpenCoverParserFactory();
@@ -138,6 +138,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         .addComponent(openCoverCommand)
         .addComponent(microsoftWindowsEnvironment)
         .addComponent(fileSystem)
+        .addComponent(WindowsVsTestRunner.class)
         .addComponent(OpenCoverCoverageRunner.class);
         
         getSolution();
@@ -147,7 +148,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
        
         openCoverCommand.setTargetDir(targetDir);
         
-        VsTestRunner unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, fileSystem,microsoftWindowsEnvironment);
+        VsTestRunner unitTestRunner = openCoverContainer.getComponent(WindowsVsTestRunner.class);
         unitTestRunner.clean();
         VSTestCommand testCommand=unitTestRunner.prepareTestCommand();
         
@@ -194,14 +195,6 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         }
     }
 
-
-    /**
-     * @param vsTestRunnerFactory the vsTestRunnerFactory to set
-     */
-    public void setVsTestRunnerFactory(
-            AbstractVsTestRunnerFactory vsTestRunnerFactory) {
-        this.vsTestRunnerFactory = vsTestRunnerFactory;
-    }
 
     public void setOpenCoverCommand(OpenCoverCommand openCoverCommand) {
        this.openCoverCommand = openCoverCommand;

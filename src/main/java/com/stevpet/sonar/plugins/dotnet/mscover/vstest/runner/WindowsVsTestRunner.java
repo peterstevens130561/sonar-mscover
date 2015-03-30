@@ -57,16 +57,14 @@ public class WindowsVsTestRunner implements VsTestRunner {
     private static final Logger LOG = LoggerFactory
             .getLogger(WindowsVsTestRunner.class);
     private MsCoverProperties propertiesHelper ;
-    private File solutionDirectory ;
     private List<String> unitTestAssembliesPath;
     private String coveragePath;
     private String resultsPath;
     private File testSettingsFile;
     
-    private String outputPath;
+    private String coverageXmlPath;
     private String sonarPath;
     private boolean doCodeCoverage;
-    private List<VisualStudioProject> projects;
     private String stdOutString;
     private CodeCoverageCommand command = new WindowsCodeCoverageCommand();
     private TestConfigFinder testConfigFinder = new VsTestConfigFinder();
@@ -74,6 +72,8 @@ public class WindowsVsTestRunner implements VsTestRunner {
     private VSTestCommand vsTestCommand = VSTestCommand.create();
     private CommandLineExecutor executor = new WindowsCommandLineExecutor();
     private VSTestStdOutParser vsTestResultsParser = new VSTestStdOutParser();
+    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
+    private FileSystem fileSystem;
     private WindowsVsTestRunner() {
     }
     
@@ -81,19 +81,8 @@ public class WindowsVsTestRunner implements VsTestRunner {
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
             FileSystem fileSystem) {
         this.propertiesHelper = propertiesHelper;
-        VisualStudioSolution solution=microsoftWindowsEnvironment.getCurrentSolution();
-        if(solution == null) {
-            String msg = "No current solution";
-            LOG.error(msg);
-            throw new SonarException(msg);
-        }
-        setSolution(solution);
-        
-        String sonarWorkingDirectory=fileSystem.workDir().getAbsolutePath();
-        String coverageXmlPath =sonarWorkingDirectory + "/coverage.xml";
-        setCoverageXmlPath(coverageXmlPath);
-        setSonarPath(sonarWorkingDirectory);
-
+        this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
+        this.fileSystem=fileSystem;     
     }
     public static VsTestRunner create() {
         return new WindowsVsTestRunner();
@@ -110,7 +99,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#getSonarPath()
      */
     public String getSonarPath() {
-        return sonarPath;
+        return fileSystem.workDir().getAbsolutePath();
     }
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setPropertiesHelper(com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties)
@@ -123,8 +112,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setSolution(org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution)
      */
     public void setSolution(VisualStudioSolution solution) {
-        this.solutionDirectory = solution.getSolutionDir();
-        this.projects = solution.getProjects();
+
     }
     
 
@@ -133,7 +121,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#getSolutionDirectory()
      */
     public File getSolutionDirectory() {
-        return solutionDirectory;
+        return microsoftWindowsEnvironment.getCurrentSolution().getSolutionDir();
     }
     
     /* (non-Javadoc)
@@ -186,18 +174,18 @@ public class WindowsVsTestRunner implements VsTestRunner {
             executeShellCommand(command);
     }
     private void requireOutputPath() {
-            if(StringUtils.isEmpty(outputPath)) {
-                outputPath = solutionDirectory + "/" + propertiesHelper.getUnitTestCoveragePath();
-                setCoverageXmlPath(outputPath);
+            if(StringUtils.isEmpty(coverageXmlPath)) {
+                coverageXmlPath = getSolutionDirectory() + "/" + propertiesHelper.getUnitTestCoveragePath();
+                setCoverageXmlPath(coverageXmlPath);
             }
-            if(StringUtils.isEmpty(outputPath)) {
+            if(StringUtils.isEmpty(coverageXmlPath)) {
                 throw new SonarException(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH + " not set ");
             }
     }
     
     private void requireTestSettings() {
         String testSettings = propertiesHelper.getTestSettings();
-        testSettingsFile = testConfigFinder.getTestSettingsFileOrDie(solutionDirectory,testSettings);
+        testSettingsFile = testConfigFinder.getTestSettingsFileOrDie(getSolutionDirectory(),testSettings);
   
     }
 
@@ -230,7 +218,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
 
     private void findAssemblies() {
         AssembliesFinder assembliesFinder = assembliesFinderFactory.create(propertiesHelper) ;
-        unitTestAssembliesPath=assembliesFinder.findUnitTestAssembliesFromConfig(solutionDirectory, projects);
+        unitTestAssembliesPath=assembliesFinder.findUnitTestAssembliesFromConfig(getSolutionDirectory(), microsoftWindowsEnvironment.getCurrentSolution().getProjects());
     }
 
     /* (non-Javadoc)
@@ -266,13 +254,13 @@ public class WindowsVsTestRunner implements VsTestRunner {
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#getCoverageXmlPath()
      */
     public String getCoverageXmlPath() {
-        return outputPath;
+        return fileSystem.workDir().getAbsolutePath() + "/coverage.xml";
     }
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setCoverageXmlPath(java.lang.String)
      */
     public void setCoverageXmlPath(String outputPath) {
-        this.outputPath = outputPath;
+        this.coverageXmlPath = outputPath;
     }
 
     /* (non-Javadoc)

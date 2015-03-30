@@ -184,7 +184,8 @@ public class WindowsVsTestRunnerTest {
     }
 
     private void createRunner() {
-        runner=WindowsVsTestRunner.create();
+        runner=new WindowsVsTestRunner(msCoverProperties,microsoftWindowsEnvironment,fileSystem);
+               
         windowsVsTestRunner = (WindowsVsTestRunner)runner;
     }
 }

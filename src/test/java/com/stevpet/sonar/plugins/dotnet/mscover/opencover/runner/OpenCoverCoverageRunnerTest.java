@@ -17,7 +17,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverComma
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindowsEnvironmentMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.NoAssembliesDefinedException;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
 
 
 public class OpenCoverCoverageRunnerTest {
@@ -28,6 +30,7 @@ public class OpenCoverCoverageRunnerTest {
     private VsTestEnvironment testEnvironment = new VsTestEnvironment();
     private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
     private CommandLineExexutorStub commandLineExecutorStub = new CommandLineExexutorStub();
+    private FileSystemMock fileSystemMock = new FileSystemMock();
     
     private List<String> assemblies;
     
@@ -100,10 +103,14 @@ public class OpenCoverCoverageRunnerTest {
         .addComponent(testEnvironment)
         .addComponent(openCoverCommand)
         .addComponent(microsoftWindowsEnvironmentMock.getMock())
+        .addComponent(fileSystemMock.getMock())
+        .addComponent(WindowsVsTestRunner.class)
         .addComponent(OpenCoverCoverageRunner.class);
         
         OpenCoverCoverageRunner runner = openCoverContainer.getComponent(OpenCoverCoverageRunner.class);
         assertNotNull("creating OpenCoverCoverageRunner through IOC",runner);
         
+        WindowsVsTestRunner vsTestRunner = openCoverContainer.getComponent(WindowsVsTestRunner.class);
+        assertNotNull(vsTestRunner);
     }
 }
