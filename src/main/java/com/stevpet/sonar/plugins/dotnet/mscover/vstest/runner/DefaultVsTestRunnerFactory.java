@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.utils.SonarException;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
@@ -53,7 +54,9 @@ public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
      * @return
      */
     public VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper, FileSystem fileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
-            VsTestRunner unitTestRunner = new WindowsVsTestRunner(propertiesHelper,microsoftWindowsEnvironment,fileSystem);
+            
+        WindowsCodeCoverageCommand codeCoverageCommand = new WindowsCodeCoverageCommand();
+        VsTestRunner unitTestRunner = new WindowsVsTestRunner(propertiesHelper,microsoftWindowsEnvironment,fileSystem,codeCoverageCommand);
             return unitTestRunner;
         }
 

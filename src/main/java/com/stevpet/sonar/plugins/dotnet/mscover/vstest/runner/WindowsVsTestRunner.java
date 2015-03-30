@@ -66,7 +66,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
     private String sonarPath;
     private boolean doCodeCoverage;
     private String stdOutString;
-    private CodeCoverageCommand command = new WindowsCodeCoverageCommand();
+    private CodeCoverageCommand codeCoverageCommand;
     private TestConfigFinder testConfigFinder = new VsTestConfigFinder();
     private AbstractAssembliesFinderFactory assembliesFinderFactory =  new AssembliesFinderFactory();
     private VSTestCommand vsTestCommand = VSTestCommand.create();
@@ -79,10 +79,12 @@ public class WindowsVsTestRunner implements VsTestRunner {
     
     public WindowsVsTestRunner(MsCoverProperties propertiesHelper, 
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
-            FileSystem fileSystem) {
+            FileSystem fileSystem,
+            CodeCoverageCommand codeCoverageCommand) {
         this.propertiesHelper = propertiesHelper;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
-        this.fileSystem=fileSystem;     
+        this.fileSystem=fileSystem;
+        this.codeCoverageCommand=codeCoverageCommand;
     }
     public static VsTestRunner create() {
         return new WindowsVsTestRunner();
@@ -171,11 +173,11 @@ public class WindowsVsTestRunner implements VsTestRunner {
     
     
     private void convertCoverageFileToXml() {
-            command.setSonarPath(sonarPath);
-            command.setCoveragePath(coveragePath);
-            command.setOutputPath(getCoverageXmlPath());
-            command.install();
-            executeShellCommand(command);
+            codeCoverageCommand.setSonarPath(sonarPath);
+            codeCoverageCommand.setCoveragePath(coveragePath);
+            codeCoverageCommand.setOutputPath(getCoverageXmlPath());
+            codeCoverageCommand.install();
+            executeShellCommand(codeCoverageCommand);
     }
     private void requireOutputPath() {
             if(StringUtils.isEmpty(coverageXmlPath)) {
@@ -288,7 +290,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
      * @param command
      */
     void setCoverageCommand(CodeCoverageCommand command) {
-        this.command = command;
+        this.codeCoverageCommand = command;
     }
 
     /**

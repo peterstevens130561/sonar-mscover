@@ -44,6 +44,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.sensor.SonarCoverageHelperFactor
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultVsTestRunnerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
 
@@ -66,7 +67,7 @@ public class VsTestUnitTestResultsSensor implements Sensor {;
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,ResourceMediator resourceMediator) {
 
         this.propertiesHelper = propertiesHelper;
-        unitTestRunner = new WindowsVsTestRunner(propertiesHelper,microsoftWindowsEnvironment,fileSystem);
+        unitTestRunner = new DefaultVsTestRunnerFactory().createBasicTestRunnner(propertiesHelper, fileSystem, microsoftWindowsEnvironment);
 
         this.vsTestEnvironment = vsTestEnvironment;
         this.fileSystem = fileSystem;

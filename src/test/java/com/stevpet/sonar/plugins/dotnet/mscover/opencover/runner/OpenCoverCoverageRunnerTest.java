@@ -11,6 +11,7 @@ import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.injectors.ConstructorInjection;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExexutorStub;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
@@ -104,6 +105,7 @@ public class OpenCoverCoverageRunnerTest {
         .addComponent(openCoverCommand)
         .addComponent(microsoftWindowsEnvironmentMock.getMock())
         .addComponent(fileSystemMock.getMock())
+        .addComponent(WindowsCodeCoverageCommand.class)
         .addComponent(WindowsVsTestRunner.class)
         .addComponent(OpenCoverCoverageRunner.class);
         

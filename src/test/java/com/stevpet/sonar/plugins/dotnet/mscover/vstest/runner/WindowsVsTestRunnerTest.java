@@ -192,7 +192,7 @@ public class WindowsVsTestRunnerTest {
     }
 
     private void createRunner() {
-        runner=new WindowsVsTestRunner(msCoverPropertiesMock.getMock(),microsoftWindowsEnvironmentMock.getMock(),fileSystemMock.getMock());
+        runner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(msCoverPropertiesMock.getMock(), fileSystemMock.getMock(),microsoftWindowsEnvironmentMock.getMock());
                
         windowsVsTestRunner = (WindowsVsTestRunner)runner;
     }
