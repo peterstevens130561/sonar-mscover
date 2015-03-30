@@ -166,7 +166,8 @@ public class WindowsVsTestRunnerTest {
     private void givenSolutionDir(File solutionDir) {
         VisualStudioSolution solution = mock(VisualStudioSolution.class);
         when(solution.getSolutionDir()).thenReturn(solutionDir);
-        runner.setSolution(solution);
+
+        microsoftWindowsEnvironmentMock.givenHasSolution(solution);
     }
 
     @SuppressWarnings("unchecked")

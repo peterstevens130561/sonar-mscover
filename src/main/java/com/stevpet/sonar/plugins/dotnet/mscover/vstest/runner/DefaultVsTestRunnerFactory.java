@@ -53,20 +53,7 @@ public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
      * @return
      */
     public VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper, FileSystem fileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
-            VsTestRunner unitTestRunner = WindowsVsTestRunner.create();
-            unitTestRunner.setPropertiesHelper(propertiesHelper);
-            VisualStudioSolution solution=microsoftWindowsEnvironment.getCurrentSolution();
-            if(solution == null) {
-                String msg = "No current solution";
-                LOG.error(msg);
-                throw new SonarException(msg);
-            }
-            unitTestRunner.setSolution(solution);
-            
-            String sonarWorkingDirectory=fileSystem.workDir().getAbsolutePath();
-            String coverageXmlPath =sonarWorkingDirectory + "/coverage.xml";
-            unitTestRunner.setCoverageXmlPath(coverageXmlPath);
-            unitTestRunner.setSonarPath(sonarWorkingDirectory);
+            VsTestRunner unitTestRunner = new WindowsVsTestRunner(propertiesHelper,microsoftWindowsEnvironment,fileSystem);
             return unitTestRunner;
         }
 
