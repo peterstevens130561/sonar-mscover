@@ -39,6 +39,7 @@ import org.sonar.api.utils.SonarException;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultVsTestRunnerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
@@ -49,14 +50,12 @@ public class UnitTestRunnerFactoryTest {
     
     private FileSystem fileSystem;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-    private MsCoverProperties propertiesHelper;
-    private Settings settings;
+    private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
 
     @Before()
     public void before() {
         fileSystem=mock(FileSystem.class);
         microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);   
-        propertiesHelper=PropertiesHelper.create(settings);
     }
 
     
@@ -65,10 +64,11 @@ public class UnitTestRunnerFactoryTest {
         String workingDirPath="C:/Development/Rubbish/Solution/.sonar";
         File sonarWorkingDir=new File(workingDirPath);
         when(fileSystem.workDir()).thenReturn(sonarWorkingDir);
+        VsTestRunner runner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(msCoverPropertiesMock.getMock(), fileSystem, microsoftWindowsEnvironment);
         try {
-             new DefaultVsTestRunnerFactory().createBasicTestRunnner(propertiesHelper, fileSystem, microsoftWindowsEnvironment);
+            runner.prepareTestCommand();
         } catch (SonarException e) {
-            assertEquals(e.getMessage(),"No current solution");
+            assertEquals("No current solution",e.getMessage());
             return;
         }
         fail("expected SonarException, as there is no solution");
@@ -87,7 +87,7 @@ public class UnitTestRunnerFactoryTest {
         VisualStudioSolution solution=mock(VisualStudioSolution.class);
         when(solution.getSolutionDir()).thenReturn(solutionDir);
         when(microsoftWindowsEnvironment.getCurrentSolution()).thenReturn(solution);
-        VsTestRunner unitTestRunner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(propertiesHelper, fileSystem, microsoftWindowsEnvironment);
+        VsTestRunner unitTestRunner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(msCoverPropertiesMock.getMock(), fileSystem, microsoftWindowsEnvironment);
         assertEquals(workingDirPath,unitTestRunner.getSonarPath());
         assertEquals(solutionDir.getAbsolutePath(),unitTestRunner.getSolutionDirectory().getAbsolutePath());
         assertEquals(workingDirPath + "/coverage.xml",unitTestRunner.getCoverageXmlPath());
