@@ -34,8 +34,6 @@ public interface VsTestRunner {
 
     String getSonarPath();
 
-    void setPropertiesHelper(MsCoverProperties propertiesHelper);
-
     void setSolution(VisualStudioSolution solution);
 
     File getSolutionDirectory();

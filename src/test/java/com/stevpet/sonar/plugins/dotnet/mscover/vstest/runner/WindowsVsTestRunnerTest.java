@@ -156,7 +156,7 @@ public class WindowsVsTestRunnerTest {
 
     private void givenNoSettings() {
         PropertiesHelper propertiesHelper = mock(PropertiesHelper.class);
-        runner.setPropertiesHelper(propertiesHelper);
+        //runner.setPropertiesHelper(propertiesHelper);
     }
 
     private void givenVsTestReturns(String testResult) {

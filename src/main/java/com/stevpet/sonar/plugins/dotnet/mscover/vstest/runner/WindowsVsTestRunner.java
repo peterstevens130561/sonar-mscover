@@ -320,9 +320,5 @@ public class WindowsVsTestRunner implements VsTestRunner {
         this.vsTestResultsParser = vsTestResultsParser;
     }
 
-    public void setPropertiesHelper(MsCoverProperties propertiesHelper) {
-        this.propertiesHelper=propertiesHelper;
-    }
-
 }
     

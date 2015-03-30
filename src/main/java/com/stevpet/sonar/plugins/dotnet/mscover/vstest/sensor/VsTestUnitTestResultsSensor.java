@@ -66,8 +66,8 @@ public class VsTestUnitTestResultsSensor implements Sensor {;
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,ResourceMediator resourceMediator) {
 
         this.propertiesHelper = propertiesHelper;
-        unitTestRunner = WindowsVsTestRunner.create();
-        unitTestRunner.setPropertiesHelper(propertiesHelper);
+        unitTestRunner = new WindowsVsTestRunner(propertiesHelper,microsoftWindowsEnvironment,fileSystem);
+
         this.vsTestEnvironment = vsTestEnvironment;
         this.fileSystem = fileSystem;
         this.microsoftWindowsEnvironment= microsoftWindowsEnvironment;
