@@ -29,7 +29,10 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindowsEnvironmentMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
@@ -53,6 +56,10 @@ public class WindowsVsTestRunnerTest {
     private CommandLineExecutor commandLineExecutor= mock(CommandLineExecutor.class);
     private VSTestCommand vsTestCommand= mock(VSTestCommand.class);
     private VSTestStdOutParser vsTestResultsParser= mock(VSTestStdOutParser.class);
+    private FileSystemMock fileSystemMock = new FileSystemMock();
+    private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
+    private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
+    
     @Before
     public void before() {
         
@@ -184,7 +191,7 @@ public class WindowsVsTestRunnerTest {
     }
 
     private void createRunner() {
-        runner=new WindowsVsTestRunner(msCoverProperties,microsoftWindowsEnvironment,fileSystem);
+        runner=new WindowsVsTestRunner(msCoverPropertiesMock.getMock(),microsoftWindowsEnvironmentMock.getMock(),fileSystemMock.getMock());
                
         windowsVsTestRunner = (WindowsVsTestRunner)runner;
     }

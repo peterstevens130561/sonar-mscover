@@ -123,7 +123,7 @@ public class OpenCoverTestExecutionCoverageSensorBehavior {
 
     public void givenTestRunnerFactory(
             VsTestRunnerFactoryMock vsTestRunnerFactoryMock) {
-        sensor.setVsTestRunnerFactory(vsTestRunnerFactoryMock.getMock());
+        //sensor.setVsTestRunnerFactory(vsTestRunnerFactoryMock.getMock());
     }
 
     public void givenFakesRemover(FakesRemoverMock fakesRemoverMock) {
