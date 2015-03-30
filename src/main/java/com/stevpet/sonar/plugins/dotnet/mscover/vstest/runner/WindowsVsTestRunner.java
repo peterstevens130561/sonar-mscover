@@ -185,7 +185,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
     public void getResultPaths() {
         vsTestResultsParser.setResults(stdOutString);
         setCoveragePath(vsTestResultsParser.getCoveragePath());
-        setResultsPath(vsTestResultsParser.getTestResultsXmlPath());     
+        this.resultsPath = vsTestResultsParser.getTestResultsXmlPath();    
     }
 
     private int executeShellCommand(ShellCommand command) {
@@ -225,12 +225,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
     public String getResultsXmlPath() {
         return resultsPath;
     }
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setResultsPath(java.lang.String)
-     */
-    public void setResultsPath(String resultsPath) {
-        this.resultsPath = resultsPath;
-    }
+
 
     void setTestConfigFinder(TestConfigFinder testConfigFinder) {
         this.testConfigFinder = testConfigFinder;

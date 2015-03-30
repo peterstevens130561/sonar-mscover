@@ -52,7 +52,6 @@ public interface VsTestRunner {
 
     String getResultsXmlPath();
 
-    void setResultsPath(String resultsPath);
 
     String getCoverageXmlPath();
 
