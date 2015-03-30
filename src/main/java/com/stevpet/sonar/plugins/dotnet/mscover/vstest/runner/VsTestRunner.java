@@ -33,8 +33,6 @@ public interface VsTestRunner {
 
     String getSonarPath();
 
-    void setSolution(VisualStudioSolution solution);
-
     File getSolutionDirectory();
 
     void setDoCodeCoverage(boolean doCodeCoverage);

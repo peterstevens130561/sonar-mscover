@@ -65,7 +65,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
     private boolean doCodeCoverage;
     private String stdOutString;
     private CodeCoverageCommand codeCoverageCommand;
-    private TestConfigFinder testConfigFinder = new VsTestConfigFinder();
+    private TestConfigFinder testConfigFinder;
     private AbstractAssembliesFinderFactory assembliesFinderFactory =  new AssembliesFinderFactory();
     private VSTestCommand vsTestCommand = VSTestCommand.create();
     private CommandLineExecutor executor = new WindowsCommandLineExecutor();
@@ -103,21 +103,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
     public String getSonarPath() {
         return fileSystem.workDir().getAbsolutePath();
     }
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setPropertiesHelper(com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties)
-     *
-    public void setPropertiesHelper(MsCoverProperties propertiesHelper) {
-        this.propertiesHelper = propertiesHelper;
-    }
     
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setSolution(org.sonar.plugins.dotnet.api.microsoft.VisualStudioSolution)
-     */
-    public void setSolution(VisualStudioSolution solution) {
-
-    }
-    
-
     
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#getSolutionDirectory()
