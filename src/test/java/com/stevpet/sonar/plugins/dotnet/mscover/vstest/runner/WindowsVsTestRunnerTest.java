@@ -96,8 +96,8 @@ public class WindowsVsTestRunnerTest {
 
         
         String sonarWorkingDirectory="bogus";
-        String coverageXmlPath =sonarWorkingDirectory + "/coverage.xml";
-        runner.setCoverageXmlPath(coverageXmlPath);
+        //String coverageXmlPath =sonarWorkingDirectory + "/coverage.xml";
+        //runner.setCoverageXmlPath(coverageXmlPath);
         runner.setSonarPath(sonarWorkingDirectory);
         runner.runTests();
 

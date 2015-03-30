@@ -36,7 +36,6 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultVsTestRunnerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
@@ -71,24 +70,7 @@ public class UnitTestRunnerFactoryTest {
         fail("expected SonarException, as there is no solution");
     }
     
-    @Test
-    public void sunnyDay_ExpectParametersCorrect() {
-        String solutionPath="C:\\Development\\Rubbish\\Solution";
-        File solutionDir=new File(solutionPath);
-        String workingDirPath=solutionPath + "\\.sonar";
-        
-        File sonarWorkingDir=new File(workingDirPath);
-        
-        when(fileSystem.workDir()).thenReturn(sonarWorkingDir);
-        
-        VisualStudioSolution solution=mock(VisualStudioSolution.class);
-        when(solution.getSolutionDir()).thenReturn(solutionDir);
-        when(microsoftWindowsEnvironment.getCurrentSolution()).thenReturn(solution);
-        VsTestRunner unitTestRunner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(msCoverPropertiesMock.getMock(), fileSystem, microsoftWindowsEnvironment);
-        assertEquals(workingDirPath,unitTestRunner.getSonarPath());
-        assertEquals(solutionDir.getAbsolutePath(),unitTestRunner.getSolutionDirectory().getAbsolutePath());
-        assertEquals(workingDirPath + "/coverage.xml",unitTestRunner.getCoverageXmlPath());
-    }
+
     
     
 
