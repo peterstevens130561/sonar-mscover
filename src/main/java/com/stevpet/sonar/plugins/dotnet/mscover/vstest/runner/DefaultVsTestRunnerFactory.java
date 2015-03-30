@@ -56,7 +56,8 @@ public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
     public VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper, FileSystem fileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
             
         WindowsCodeCoverageCommand codeCoverageCommand = new WindowsCodeCoverageCommand();
-        VsTestRunner unitTestRunner = new WindowsVsTestRunner(propertiesHelper,microsoftWindowsEnvironment,fileSystem,codeCoverageCommand);
+        TestConfigFinder testConfigFinder = new VsTestConfigFinder();
+        VsTestRunner unitTestRunner = new WindowsVsTestRunner(propertiesHelper,microsoftWindowsEnvironment,fileSystem,codeCoverageCommand,testConfigFinder);
             return unitTestRunner;
         }
 

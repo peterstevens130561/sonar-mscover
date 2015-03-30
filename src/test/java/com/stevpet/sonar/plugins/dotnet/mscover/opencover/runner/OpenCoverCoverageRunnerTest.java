@@ -20,6 +20,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindow
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.NoAssembliesDefinedException;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
 
 
@@ -107,6 +108,7 @@ public class OpenCoverCoverageRunnerTest {
         .addComponent(fileSystemMock.getMock())
         .addComponent(WindowsCodeCoverageCommand.class)
         .addComponent(WindowsVsTestRunner.class)
+        .addComponent(VsTestConfigFinder.class)
         .addComponent(OpenCoverCoverageRunner.class);
         
         OpenCoverCoverageRunner runner = openCoverContainer.getComponent(OpenCoverCoverageRunner.class);

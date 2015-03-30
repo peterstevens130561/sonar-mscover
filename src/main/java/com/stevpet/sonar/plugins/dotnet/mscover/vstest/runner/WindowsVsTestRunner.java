@@ -80,11 +80,13 @@ public class WindowsVsTestRunner implements VsTestRunner {
     public WindowsVsTestRunner(MsCoverProperties propertiesHelper, 
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
             FileSystem fileSystem,
-            CodeCoverageCommand codeCoverageCommand) {
+            CodeCoverageCommand codeCoverageCommand,
+            TestConfigFinder testConfigFinder) {
         this.propertiesHelper = propertiesHelper;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.fileSystem=fileSystem;
         this.codeCoverageCommand=codeCoverageCommand;
+        this.testConfigFinder=testConfigFinder;
     }
     public static VsTestRunner create() {
         return new WindowsVsTestRunner();
