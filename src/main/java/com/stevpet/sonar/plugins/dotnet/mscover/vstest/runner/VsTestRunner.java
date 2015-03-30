@@ -28,8 +28,6 @@ public interface VsTestRunner {
 
    void setSonarPath(String path);
 
-    String getSonarPath();
-
     void setDoCodeCoverage(boolean doCodeCoverage);
 
     boolean shouldRun();

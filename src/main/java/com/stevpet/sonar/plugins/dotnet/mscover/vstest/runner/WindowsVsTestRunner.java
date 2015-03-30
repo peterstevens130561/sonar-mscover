@@ -98,7 +98,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#getSonarPath()
      */
-    public String getSonarPath() {
+    private String getSonarPath() {
         return fileSystem.workDir().getAbsolutePath();
     }
     
