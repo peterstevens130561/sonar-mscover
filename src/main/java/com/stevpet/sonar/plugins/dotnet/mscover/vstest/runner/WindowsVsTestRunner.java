@@ -106,7 +106,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#getSolutionDirectory()
      */
-    public File getSolutionDirectory() {
+    private File getSolutionDirectory() {
         VisualStudioSolution solution=microsoftWindowsEnvironment.getCurrentSolution();
         if(solution==null) {
             throw new SonarException("No current solution");

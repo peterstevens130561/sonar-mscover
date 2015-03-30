@@ -22,7 +22,6 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
-import java.io.File;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 
 public interface VsTestRunner {
@@ -30,8 +29,6 @@ public interface VsTestRunner {
    void setSonarPath(String path);
 
     String getSonarPath();
-
-    File getSolutionDirectory();
 
     void setDoCodeCoverage(boolean doCodeCoverage);
 
