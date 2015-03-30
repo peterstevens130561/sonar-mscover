@@ -214,7 +214,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setCoveragePath(java.lang.String)
      */
-    public void setCoveragePath(String coveragePath) {
+    private void setCoveragePath(String coveragePath) {
         this.coveragePath = coveragePath;
     }
 
