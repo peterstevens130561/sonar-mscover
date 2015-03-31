@@ -65,7 +65,7 @@ public class WindowsVsTestRunner extends  VsTestRunnerCommandBuilder {
     private CodeCoverageCommand codeCoverageCommand;
     private TestConfigFinder testConfigFinder;
     private AbstractAssembliesFinderFactory assembliesFinderFactory =  new AssembliesFinderFactory();
-    private VSTestCommand vsTestCommand = VSTestCommand.create();
+    private VSTestCommand vsTestCommand;
     private CommandLineExecutor executor = new WindowsCommandLineExecutor();
     private VSTestStdOutParser vsTestResultsParser = new VSTestStdOutParser();
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
@@ -255,12 +255,6 @@ public class WindowsVsTestRunner extends  VsTestRunnerCommandBuilder {
         this.assembliesFinderFactory = assembliesFinderFactory;
     }
 
-    /**
-     * @param vsTestCommand the vsTestCommand to set
-     */
-    public void setVsTestCommand(VSTestCommand vsTestCommand) {
-        this.vsTestCommand = vsTestCommand;
-    }
 
     /**
      * @param commandLineExecutor the executor to set

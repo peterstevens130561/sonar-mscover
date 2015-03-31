@@ -91,7 +91,6 @@ public class WindowsVsTestRunnerTest {
         givenVsTestReturns(testResult);
         
         injectCommandLineExecutor();
-        injectVsTestCommand();
         injectResultsParser();
 
         
@@ -127,10 +126,6 @@ public class WindowsVsTestRunnerTest {
         return commandLineExecutor;
     }
 
-    private VSTestCommand injectVsTestCommand() {
-        windowsVsTestRunner.setVsTestCommand(vsTestCommand);
-        return vsTestCommand;
-    }
 
     private void assertThatCommandLineExecutorIsInvoked(
             VSTestCommand vsTestCommand, CommandLineExecutor commandLineExecutor) {
@@ -192,7 +187,8 @@ public class WindowsVsTestRunnerTest {
     }
 
     private void createRunner() {
-        runner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(msCoverPropertiesMock.getMock(), fileSystemMock.getMock(),microsoftWindowsEnvironmentMock.getMock());
+        runner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(msCoverPropertiesMock.getMock(), fileSystemMock.getMock(),
+                microsoftWindowsEnvironmentMock.getMock(),vsTestCommand);
                
         windowsVsTestRunner = (WindowsVsTestRunner)runner;
     }
