@@ -98,7 +98,7 @@ public class WindowsVsTestRunnerTest {
         String sonarWorkingDirectory="bogus";
         //String coverageXmlPath =sonarWorkingDirectory + "/coverage.xml";
         //runner.setCoverageXmlPath(coverageXmlPath);
-        runner.setSonarPath(sonarWorkingDirectory);
+        fileSystemMock.givenWorkDir(sonarWorkingDirectory);
         runner.runTests();
 
         assertThatVsTestCommandIsBuilt(testSettingsFile, unitTestAssemblies,

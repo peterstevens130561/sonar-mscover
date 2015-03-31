@@ -91,17 +91,8 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#setSonarPath(java.lang.String)
      */
-    public void setSonarPath(String path) {
-        this.sonarPath = path;
-    }
-    
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#getSonarPath()
-     */
-    private String getSonarPath() {
-        return fileSystem.workDir().getAbsolutePath();
-    }
-    
+
+        
     
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#getSolutionDirectory()
@@ -156,6 +147,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
     
     
     private void convertCoverageFileToXml() {
+            String sonarPath=fileSystem.workDir().getAbsolutePath();
             codeCoverageCommand.setSonarPath(sonarPath);
             codeCoverageCommand.setCoveragePath(coveragePath);
             codeCoverageCommand.setOutputPath(getCoverageXmlPath());
@@ -182,7 +174,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#getResultPaths()
      */
-    public void getResultPaths() {
+    private void getResultPaths() {
         vsTestResultsParser.setResults(stdOutString);
         setCoveragePath(vsTestResultsParser.getCoveragePath());
         this.resultsPath = vsTestResultsParser.getTestResultsXmlPath();    
@@ -231,10 +223,10 @@ public class WindowsVsTestRunner implements VsTestRunner {
         this.testConfigFinder = testConfigFinder;
     }
     public void clean() {
-        if(StringUtils.isEmpty(sonarPath)) {
+        File sonarDir=fileSystem.workDir();
+        if(sonarDir==null) {
             throw new MsCoverProgrammerException("sonarPath not set");
         }
-        File sonarDir=new File(sonarPath);
         if(!".sonar".equalsIgnoreCase(sonarDir.getName())) {
             throw new MsCoverInvalidSonarWorkingDir(sonarPath);
         }

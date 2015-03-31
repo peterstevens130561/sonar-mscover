@@ -26,8 +26,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 
 public interface VsTestRunner {
 
-   void setSonarPath(String path);
-
     void setDoCodeCoverage(boolean doCodeCoverage);
 
     boolean shouldRun();
@@ -44,14 +42,8 @@ public interface VsTestRunner {
 
     VSTestCommand prepareTestCommand();
 
-    /**
-     * parse test log to get paths to result files
-     */
-   void getResultPaths();
-
 
     String getResultsXmlPath();
-
 
     String getCoverageXmlPath();
 

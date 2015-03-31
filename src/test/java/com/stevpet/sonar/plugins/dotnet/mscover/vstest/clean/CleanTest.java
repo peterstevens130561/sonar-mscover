@@ -35,16 +35,22 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverProgrammerException;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.exceptions.MsCoverInvalidSonarWorkingDir;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AbstractVsTestRunnerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultVsTestRunnerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 
 public class CleanTest {
     private static final String CLEAN_TEST_EMPTY_PLACE_HOLDER_TXT = "CleanTest\\Empty\\PlaceHolder.txt";
     private static final String CLEAN_TEST_WITHFILES_PLACE_HOLDER_TXT = "CleanTest\\WithFiles\\PlaceHolder.txt";
     private static final AbstractVsTestRunnerFactory vsTestRunnerFactory = new DefaultVsTestRunnerFactory();
+    private FileSystemMock fileSystemMock = new FileSystemMock();
+    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
+    private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     @Test(expected=MsCoverProgrammerException.class)
     public void PathNotSet_RaiseException() {
         VsTestRunner runner = givenANewRunner();
@@ -55,7 +61,7 @@ public class CleanTest {
     public void InvalidDir_RaiseException() {
         VsTestRunner runner = givenANewRunner();
         File testDir=TestUtils.getResource(CLEAN_TEST_EMPTY_PLACE_HOLDER_TXT);
-        runner.setSonarPath(testDir.getAbsolutePath());
+        fileSystemMock.givenWorkDir(testDir);
         runner.clean();
     }
     
@@ -65,7 +71,7 @@ public class CleanTest {
         File placeHolder=TestUtils.getResource(CLEAN_TEST_EMPTY_PLACE_HOLDER_TXT);
         File testDir=new File(placeHolder.getParentFile(),".sonar");
         FileUtils.forceMkdir(testDir);
-        runner.setSonarPath(testDir.getAbsolutePath());
+        fileSystemMock.givenWorkDir(testDir);
         runner.clean();
         assertTrue(testDir.exists());
     }
@@ -83,7 +89,7 @@ public class CleanTest {
         expectFilesInDir(testDir,3);
         expectFilesInDir(testResultsDir,2);
         
-        runner.setSonarPath(testDir.getAbsolutePath());
+        fileSystemMock.givenWorkDir(testDir);
         runner.clean();
         assertTrue(testDir.exists());
         expectFilesInDir(testDir,1);
@@ -91,7 +97,7 @@ public class CleanTest {
     }
 
     private VsTestRunner givenANewRunner() {
-        VsTestRunner runner=vsTestRunnerFactory.create();
+        VsTestRunner runner=vsTestRunnerFactory.createBasicTestRunnner(msCoverPropertiesMock.getMock(), fileSystemMock.getMock(), microsoftWindowsEnvironment);
         return runner;
     }
 
