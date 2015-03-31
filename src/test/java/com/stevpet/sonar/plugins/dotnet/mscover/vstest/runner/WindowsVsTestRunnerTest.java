@@ -59,7 +59,7 @@ public class WindowsVsTestRunnerTest {
     private FileSystemMock fileSystemMock = new FileSystemMock();
     private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
-    private VSTestStdOutParser vsTestStdOutParser = new VSTestStdOutParser();
+
     
     @Before
     public void before() {
@@ -90,10 +90,7 @@ public class WindowsVsTestRunnerTest {
         givenNoSettings();
         givenTestResultsFile(resultsPath);      
         givenVsTestReturns(testResult);
-        
-        injectResultsParser();
 
-        
         String sonarWorkingDirectory="bogus";
         //String coverageXmlPath =sonarWorkingDirectory + "/coverage.xml";
         //runner.setCoverageXmlPath(coverageXmlPath);
@@ -110,10 +107,6 @@ public class WindowsVsTestRunnerTest {
         
     }
 
-
-    private void injectResultsParser() {
-        windowsVsTestRunner.setVsTestResultsParser(vsTestResultsParser);
-    }
 
     private void givenTestResultsFile(String resultsPath) {
         when(vsTestResultsParser.getTestResultsXmlPath()).thenReturn(resultsPath);
@@ -181,7 +174,7 @@ public class WindowsVsTestRunnerTest {
 
     private void createRunner() {
         runner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(msCoverPropertiesMock.getMock(), fileSystemMock.getMock(),
-                microsoftWindowsEnvironmentMock.getMock(),vsTestCommand,commandLineExecutor,vsTestStdOutParser);
+                microsoftWindowsEnvironmentMock.getMock(),vsTestCommand,commandLineExecutor,vsTestResultsParser);
                
         windowsVsTestRunner = (WindowsVsTestRunner)runner;
     }

@@ -67,7 +67,7 @@ public class WindowsVsTestRunner extends  VsTestRunnerCommandBuilder {
     private AbstractAssembliesFinderFactory assembliesFinderFactory =  new AssembliesFinderFactory();
     private VSTestCommand vsTestCommand;
     private CommandLineExecutor executor = new WindowsCommandLineExecutor();
-    private VSTestStdOutParser vsTestStdOutParser = new VSTestStdOutParser();
+    private VSTestStdOutParser vsTestStdOutParser;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private FileSystem fileSystem;
     private WindowsVsTestRunner() {
@@ -257,14 +257,6 @@ public class WindowsVsTestRunner extends  VsTestRunnerCommandBuilder {
     public void setAssembliesFinderFactory(
             AbstractAssembliesFinderFactory assembliesFinderFactory) {
         this.assembliesFinderFactory = assembliesFinderFactory;
-    }
-
-
-    /**
-     * @param vsTestResultsParser the vsTestResultsParser to set
-     */
-    public void setVsTestResultsParser(VSTestStdOutParser vsTestResultsParser) {
-        this.vsTestStdOutParser = vsTestResultsParser;
     }
 
 }
