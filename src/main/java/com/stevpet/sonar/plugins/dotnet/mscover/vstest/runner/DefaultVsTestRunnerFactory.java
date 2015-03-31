@@ -27,6 +27,8 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
@@ -52,11 +54,11 @@ public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
      * @param microsoftWindowsEnvironment - directory that holds the solution
      * @return
      */
-    public VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper, FileSystem fileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment,VSTestCommand vsTestCommand) {
+    public VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper, FileSystem fileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment,VSTestCommand vsTestCommand,CommandLineExecutor commandLineExecutor) {
             
         WindowsCodeCoverageCommand codeCoverageCommand = new WindowsCodeCoverageCommand();
         TestConfigFinder testConfigFinder = new VsTestConfigFinder();
-        VsTestRunner unitTestRunner = new WindowsVsTestRunner(propertiesHelper,microsoftWindowsEnvironment,fileSystem,codeCoverageCommand,testConfigFinder,vsTestCommand);
+        VsTestRunner unitTestRunner = new WindowsVsTestRunner(propertiesHelper,microsoftWindowsEnvironment,fileSystem,codeCoverageCommand,testConfigFinder,vsTestCommand,commandLineExecutor);
             return unitTestRunner;
         }
 
@@ -67,7 +69,8 @@ public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         // TODO Auto-generated method stub
         VSTestCommand vsTestCommand = VSTestCommand.create();
-        return this.createBasicTestRunnner(propertiesHelper, fileSystem, microsoftWindowsEnvironment, vsTestCommand);
+        CommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
+        return this.createBasicTestRunnner(propertiesHelper, fileSystem, microsoftWindowsEnvironment, vsTestCommand,commandLineExecutor);
     }
 
 }

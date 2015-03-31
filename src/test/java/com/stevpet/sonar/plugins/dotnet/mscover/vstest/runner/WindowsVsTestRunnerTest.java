@@ -90,7 +90,6 @@ public class WindowsVsTestRunnerTest {
         givenTestResultsFile(resultsPath);      
         givenVsTestReturns(testResult);
         
-        injectCommandLineExecutor();
         injectResultsParser();
 
         
@@ -188,7 +187,7 @@ public class WindowsVsTestRunnerTest {
 
     private void createRunner() {
         runner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(msCoverPropertiesMock.getMock(), fileSystemMock.getMock(),
-                microsoftWindowsEnvironmentMock.getMock(),vsTestCommand);
+                microsoftWindowsEnvironmentMock.getMock(),vsTestCommand,commandLineExecutor);
                
         windowsVsTestRunner = (WindowsVsTestRunner)runner;
     }

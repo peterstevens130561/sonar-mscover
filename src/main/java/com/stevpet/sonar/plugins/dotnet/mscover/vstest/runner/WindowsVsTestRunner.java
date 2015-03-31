@@ -78,13 +78,15 @@ public class WindowsVsTestRunner extends  VsTestRunnerCommandBuilder {
             FileSystem fileSystem,
             CodeCoverageCommand codeCoverageCommand,
             TestConfigFinder testConfigFinder,
-            VSTestCommand vsTestCommand) {
+            VSTestCommand vsTestCommand, 
+            CommandLineExecutor commandLineExecutor) {
         this.propertiesHelper = propertiesHelper;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.fileSystem=fileSystem;
         this.codeCoverageCommand=codeCoverageCommand;
         this.testConfigFinder=testConfigFinder;
         this.vsTestCommand=vsTestCommand;
+                this.executor=commandLineExecutor;
     }
     public static VsTestRunner create() {
         return new WindowsVsTestRunner();
