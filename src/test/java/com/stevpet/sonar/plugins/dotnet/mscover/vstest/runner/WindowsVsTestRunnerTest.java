@@ -110,19 +110,12 @@ public class WindowsVsTestRunnerTest {
     }
 
 
-
     private void injectResultsParser() {
         windowsVsTestRunner.setVsTestResultsParser(vsTestResultsParser);
     }
 
     private void givenTestResultsFile(String resultsPath) {
         when(vsTestResultsParser.getTestResultsXmlPath()).thenReturn(resultsPath);
-    }
-
-    private CommandLineExecutor injectCommandLineExecutor() {
-        when(commandLineExecutor.execute(vsTestCommand)).thenReturn(0);
-        windowsVsTestRunner.setExecutor(commandLineExecutor);
-        return commandLineExecutor;
     }
 
 
