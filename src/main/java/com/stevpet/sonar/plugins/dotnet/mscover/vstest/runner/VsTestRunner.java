@@ -38,9 +38,9 @@ public interface VsTestRunner {
      * Result is the .cover file
      * @return
      */
-    void runTests();
+    void execute();
 
-    VSTestCommand prepareTestCommand();
+    VSTestCommand build();
 
 
     String getResultsXmlPath();

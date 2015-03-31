@@ -105,11 +105,11 @@ public class VsTestExecutionSensorBehaviour {
     }
 
     public void verifyTestRunnerHasRun() {
-        verify(vsTestRunner,times(1)).runTests();
+        verify(vsTestRunner,times(1)).execute();
     }
     public void verifyTestsHaveNotRun() {
         verify(vsTestEnvironment,times(0)).setTestsHaveRun();
-        verify(vsTestRunner,times(0)).runTests();
+        verify(vsTestRunner,times(0)).execute();
     }
     /**
      * @deprecated Use {@link com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock#verifyTestResultsPathIs(com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestExecutionSensorBehaviour,String)} instead

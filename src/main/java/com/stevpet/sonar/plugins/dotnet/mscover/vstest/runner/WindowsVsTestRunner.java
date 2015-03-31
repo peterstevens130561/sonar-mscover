@@ -122,8 +122,8 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#runTests()
      */
-    public void runTests() {
-        VSTestCommand vsTestCommand=prepareTestCommand();
+    public void execute() {
+        VSTestCommand vsTestCommand=build();
         executeShellCommand(vsTestCommand);
         getResultPaths();
         if(doCodeCoverage) {
@@ -135,7 +135,7 @@ public class WindowsVsTestRunner implements VsTestRunner {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#prepareTestCommand()
      */
-    public VSTestCommand prepareTestCommand() {
+    public VSTestCommand build() {
         requireTestSettings();
         findAssemblies();
         return buildVSTestCommand();     

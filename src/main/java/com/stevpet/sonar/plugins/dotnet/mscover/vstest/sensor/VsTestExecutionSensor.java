@@ -84,7 +84,7 @@ public class VsTestExecutionSensor implements Sensor {
     private String runUnitTests() {
         unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, fileSystem,microsoftWindowsEnvironment);
         unitTestRunner.setDoCodeCoverage(true);
-        unitTestRunner.runTests();
+        unitTestRunner.execute();
         return unitTestRunner.getCoverageXmlPath();
     }
 

@@ -71,7 +71,7 @@ public class OpenCoverCommandBuilder {
     }
     
     public void build() {
-        VSTestCommand testCommand=unitTestRunner.prepareTestCommand();
+        VSTestCommand testCommand=unitTestRunner.build();
         openCoverCommand.setTargetCommand(testCommand);
         
         String path=msCoverProperties.getOpenCoverInstallPath();

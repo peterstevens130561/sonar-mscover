@@ -62,7 +62,7 @@ public class UnitTestRunnerFactoryTest {
         when(fileSystem.workDir()).thenReturn(sonarWorkingDir);
         VsTestRunner runner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(msCoverPropertiesMock.getMock(), fileSystem, microsoftWindowsEnvironment);
         try {
-            runner.prepareTestCommand();
+            runner.build();
         } catch (SonarException e) {
             assertEquals("No current solution",e.getMessage());
             return;

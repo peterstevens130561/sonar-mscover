@@ -152,7 +152,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         
         VsTestRunner unitTestRunner = openCoverContainer.getComponent(WindowsVsTestRunner.class);
         unitTestRunner.clean();
-        VSTestCommand testCommand=unitTestRunner.prepareTestCommand();
+        VSTestCommand testCommand=unitTestRunner.build();
         
         executeVsTestOpenCoverRunner(testCommand);
         getResultPaths();
