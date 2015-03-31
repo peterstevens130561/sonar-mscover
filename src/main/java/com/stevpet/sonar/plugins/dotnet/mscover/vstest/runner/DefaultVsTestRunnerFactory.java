@@ -25,7 +25,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
@@ -50,12 +52,22 @@ public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
      * @param microsoftWindowsEnvironment - directory that holds the solution
      * @return
      */
-    public VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper, FileSystem fileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+    public VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper, FileSystem fileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment,VSTestCommand vsTestCommand) {
             
         WindowsCodeCoverageCommand codeCoverageCommand = new WindowsCodeCoverageCommand();
         TestConfigFinder testConfigFinder = new VsTestConfigFinder();
-        VsTestRunner unitTestRunner = new WindowsVsTestRunner(propertiesHelper,microsoftWindowsEnvironment,fileSystem,codeCoverageCommand,testConfigFinder);
+        VsTestRunner unitTestRunner = new WindowsVsTestRunner(propertiesHelper,microsoftWindowsEnvironment,fileSystem,codeCoverageCommand,testConfigFinder,vsTestCommand);
             return unitTestRunner;
         }
+
+    @Override
+    @Deprecated
+    public VsTestRunner createBasicTestRunnner(
+            MsCoverProperties propertiesHelper, FileSystem fileSystem,
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+        // TODO Auto-generated method stub
+        VSTestCommand vsTestCommand = VSTestCommand.create();
+        return this.createBasicTestRunnner(propertiesHelper, fileSystem, microsoftWindowsEnvironment, vsTestCommand);
+    }
 
 }

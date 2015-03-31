@@ -50,7 +50,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParse
  * @author stevpet
  *
  */
-public class WindowsVsTestRunner implements VsTestRunner {
+public class WindowsVsTestRunner extends  VsTestRunnerCommandBuilder {
     private static final Logger LOG = LoggerFactory
             .getLogger(WindowsVsTestRunner.class);
     private MsCoverProperties propertiesHelper ;
@@ -77,12 +77,14 @@ public class WindowsVsTestRunner implements VsTestRunner {
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
             FileSystem fileSystem,
             CodeCoverageCommand codeCoverageCommand,
-            TestConfigFinder testConfigFinder) {
+            TestConfigFinder testConfigFinder,
+            VSTestCommand vsTestCommand) {
         this.propertiesHelper = propertiesHelper;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.fileSystem=fileSystem;
         this.codeCoverageCommand=codeCoverageCommand;
         this.testConfigFinder=testConfigFinder;
+        this.vsTestCommand=vsTestCommand;
     }
     public static VsTestRunner create() {
         return new WindowsVsTestRunner();

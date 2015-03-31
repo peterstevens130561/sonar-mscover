@@ -141,7 +141,8 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         .addComponent(WindowsVsTestRunner.class)
         .addComponent(VsTestConfigFinder.class)
         .addComponent(WindowsCodeCoverageCommand.class)
-        .addComponent(OpenCoverCoverageRunner.class);
+        .addComponent(OpenCoverCoverageRunner.class)
+        .addComponent(VSTestCommand.class);
         
         getSolution();
         AssembliesFinder finder = assembliesFinderFactory.create(propertiesHelper);

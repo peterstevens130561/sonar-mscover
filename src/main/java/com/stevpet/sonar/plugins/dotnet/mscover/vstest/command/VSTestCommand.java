@@ -43,7 +43,7 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
     private String platform;
     private String assembliesDir;
     
-    private VSTestCommand() {
+    public VSTestCommand() {
         commandPath=defaultPath;
         
     }
