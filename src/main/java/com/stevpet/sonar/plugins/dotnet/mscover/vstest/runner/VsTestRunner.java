@@ -24,25 +24,16 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 
+
 public interface VsTestRunner {
 
     void setDoCodeCoverage(boolean doCodeCoverage);
 
     boolean shouldRun();
 
-    /**
-     * if mode is set to runvstest the runner will attempt to run test & obtain coverage
-     * information. Make sure all properties are set:
-     * -solutionDirectory
-     * -outputPath
-     * Result is the .cover file
-     * @return
-     */
-    void execute();
-
     VSTestCommand build();
 
-
+    void execute();
     String getResultsXmlPath();
 
     String getCoverageXmlPath();

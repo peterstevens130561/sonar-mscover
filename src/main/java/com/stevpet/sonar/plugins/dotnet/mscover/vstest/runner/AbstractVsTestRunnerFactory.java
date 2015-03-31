@@ -33,7 +33,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 public interface AbstractVsTestRunnerFactory {
 
 
-    VsTestRunner create();
 
     VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper,
             FileSystem fileSystem,

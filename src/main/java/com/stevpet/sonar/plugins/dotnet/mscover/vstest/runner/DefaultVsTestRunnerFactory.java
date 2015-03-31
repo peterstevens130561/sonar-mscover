@@ -38,9 +38,6 @@ public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
     private static Logger LOG = LoggerFactory
             .getLogger(DefaultVsTestRunnerFactory.class);
 
-    public VsTestRunner create() {
-        return WindowsVsTestRunner.create();
-    }
 
     /**
      * Create the basic unit testrunner: - path to the executable - solution

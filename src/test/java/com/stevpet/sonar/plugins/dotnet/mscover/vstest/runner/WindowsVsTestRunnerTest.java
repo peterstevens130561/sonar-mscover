@@ -52,7 +52,7 @@ public class WindowsVsTestRunnerTest {
 
     private VsTestRunner runner;
     private TestConfigFinder testConfigFinder;
-    private WindowsVsTestRunner windowsVsTestRunner;
+    private VsTestRunnerCommandBuilder windowsVsTestRunner;
     private CommandLineExecutor commandLineExecutor= mock(CommandLineExecutor.class);
     private VSTestCommand vsTestCommand= mock(VSTestCommand.class);
     private VSTestStdOutParser vsTestResultsParser= mock(VSTestStdOutParser.class);
@@ -166,13 +166,13 @@ public class WindowsVsTestRunnerTest {
 
     private void expectRunnerIsValid() {
         assertNotNull(runner);
-        assertTrue(runner instanceof WindowsVsTestRunner);
+        assertTrue(runner instanceof VsTestRunnerCommandBuilder);
     }
 
     private void createRunner() {
         runner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(msCoverPropertiesMock.getMock(), fileSystemMock.getMock(),
                 microsoftWindowsEnvironmentMock.getMock(),vsTestCommand,commandLineExecutor,vsTestResultsParser,assembliesFinder);
                
-        windowsVsTestRunner = (WindowsVsTestRunner)runner;
+        windowsVsTestRunner = (VsTestRunnerCommandBuilder)runner;
     }
 }
