@@ -67,7 +67,7 @@ public class WindowsVsTestRunner extends  VsTestRunnerCommandBuilder {
     private AbstractAssembliesFinderFactory assembliesFinderFactory =  new AssembliesFinderFactory();
     private VSTestCommand vsTestCommand;
     private CommandLineExecutor executor = new WindowsCommandLineExecutor();
-    private VSTestStdOutParser vsTestResultsParser = new VSTestStdOutParser();
+    private VSTestStdOutParser vsTestStdOutParser = new VSTestStdOutParser();
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private FileSystem fileSystem;
     private WindowsVsTestRunner() {
@@ -79,7 +79,8 @@ public class WindowsVsTestRunner extends  VsTestRunnerCommandBuilder {
             CodeCoverageCommand codeCoverageCommand,
             TestConfigFinder testConfigFinder,
             VSTestCommand vsTestCommand, 
-            CommandLineExecutor commandLineExecutor) {
+            CommandLineExecutor commandLineExecutor, 
+            VSTestStdOutParser vsTestStdOutParser) {
         this.propertiesHelper = propertiesHelper;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.fileSystem=fileSystem;
@@ -87,6 +88,7 @@ public class WindowsVsTestRunner extends  VsTestRunnerCommandBuilder {
         this.testConfigFinder=testConfigFinder;
         this.vsTestCommand=vsTestCommand;
                 this.executor=commandLineExecutor;
+                this.vsTestStdOutParser=vsTestStdOutParser;
     }
     public static VsTestRunner create() {
         return new WindowsVsTestRunner();
@@ -179,9 +181,9 @@ public class WindowsVsTestRunner extends  VsTestRunnerCommandBuilder {
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#getResultPaths()
      */
     private void getResultPaths() {
-        vsTestResultsParser.setResults(stdOutString);
-        setCoveragePath(vsTestResultsParser.getCoveragePath());
-        this.resultsPath = vsTestResultsParser.getTestResultsXmlPath();    
+        vsTestStdOutParser.setResults(stdOutString);
+        setCoveragePath(vsTestStdOutParser.getCoveragePath());
+        this.resultsPath = vsTestStdOutParser.getTestResultsXmlPath();    
     }
 
     private int executeShellCommand(ShellCommand command) {
@@ -259,17 +261,10 @@ public class WindowsVsTestRunner extends  VsTestRunnerCommandBuilder {
 
 
     /**
-     * @param commandLineExecutor the executor to set
-     */
-    public void setExecutor(CommandLineExecutor commandLineExecutor) {
-        this.executor = commandLineExecutor;
-    }
-
-    /**
      * @param vsTestResultsParser the vsTestResultsParser to set
      */
     public void setVsTestResultsParser(VSTestStdOutParser vsTestResultsParser) {
-        this.vsTestResultsParser = vsTestResultsParser;
+        this.vsTestStdOutParser = vsTestResultsParser;
     }
 
 }

@@ -59,6 +59,7 @@ public class WindowsVsTestRunnerTest {
     private FileSystemMock fileSystemMock = new FileSystemMock();
     private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
+    private VSTestStdOutParser vsTestStdOutParser = new VSTestStdOutParser();
     
     @Before
     public void before() {
@@ -180,7 +181,7 @@ public class WindowsVsTestRunnerTest {
 
     private void createRunner() {
         runner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(msCoverPropertiesMock.getMock(), fileSystemMock.getMock(),
-                microsoftWindowsEnvironmentMock.getMock(),vsTestCommand,commandLineExecutor);
+                microsoftWindowsEnvironmentMock.getMock(),vsTestCommand,commandLineExecutor,vsTestStdOutParser);
                
         windowsVsTestRunner = (WindowsVsTestRunner)runner;
     }

@@ -30,6 +30,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCode
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
@@ -52,13 +53,14 @@ public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
      * @param propertiesHelper
      * @param moduleFileSystem
      * @param microsoftWindowsEnvironment - directory that holds the solution
+     * @param vsTestStdOutParser 
      * @return
      */
-    public VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper, FileSystem fileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment,VSTestCommand vsTestCommand,CommandLineExecutor commandLineExecutor) {
+    public VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper, FileSystem fileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment,VSTestCommand vsTestCommand,CommandLineExecutor commandLineExecutor, VSTestStdOutParser vsTestStdOutParser) {
             
         WindowsCodeCoverageCommand codeCoverageCommand = new WindowsCodeCoverageCommand();
         TestConfigFinder testConfigFinder = new VsTestConfigFinder();
-        VsTestRunner unitTestRunner = new WindowsVsTestRunner(propertiesHelper,microsoftWindowsEnvironment,fileSystem,codeCoverageCommand,testConfigFinder,vsTestCommand,commandLineExecutor);
+        VsTestRunner unitTestRunner = new WindowsVsTestRunner(propertiesHelper,microsoftWindowsEnvironment,fileSystem,codeCoverageCommand,testConfigFinder,vsTestCommand,commandLineExecutor,vsTestStdOutParser);
             return unitTestRunner;
         }
 
@@ -70,7 +72,8 @@ public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
         // TODO Auto-generated method stub
         VSTestCommand vsTestCommand = VSTestCommand.create();
         CommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
-        return this.createBasicTestRunnner(propertiesHelper, fileSystem, microsoftWindowsEnvironment, vsTestCommand,commandLineExecutor);
+        VSTestStdOutParser vsTestStdOutParser = new VSTestStdOutParser();
+        return this.createBasicTestRunnner(propertiesHelper, fileSystem, microsoftWindowsEnvironment, vsTestCommand,commandLineExecutor,vsTestStdOutParser);
     }
 
 }
