@@ -64,12 +64,12 @@ public class WindowsVsTestRunner extends  VsTestRunnerCommandBuilder {
     private String stdOutString;
     private CodeCoverageCommand codeCoverageCommand;
     private TestConfigFinder testConfigFinder;
-    private AbstractAssembliesFinderFactory assembliesFinderFactory =  new AssembliesFinderFactory();
     private VSTestCommand vsTestCommand;
     private CommandLineExecutor executor = new WindowsCommandLineExecutor();
     private VSTestStdOutParser vsTestStdOutParser;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private FileSystem fileSystem;
+    private AssembliesFinder assembliesFinder;
     private WindowsVsTestRunner() {
     }
     
@@ -80,7 +80,7 @@ public class WindowsVsTestRunner extends  VsTestRunnerCommandBuilder {
             TestConfigFinder testConfigFinder,
             VSTestCommand vsTestCommand, 
             CommandLineExecutor commandLineExecutor, 
-            VSTestStdOutParser vsTestStdOutParser) {
+            VSTestStdOutParser vsTestStdOutParser, AssembliesFinder assembliesFinder) {
         this.propertiesHelper = propertiesHelper;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.fileSystem=fileSystem;
@@ -89,6 +89,7 @@ public class WindowsVsTestRunner extends  VsTestRunnerCommandBuilder {
         this.vsTestCommand=vsTestCommand;
                 this.executor=commandLineExecutor;
                 this.vsTestStdOutParser=vsTestStdOutParser;
+                this.assembliesFinder = assembliesFinder;
     }
     public static VsTestRunner create() {
         return new WindowsVsTestRunner();
@@ -204,7 +205,6 @@ public class WindowsVsTestRunner extends  VsTestRunnerCommandBuilder {
     
 
     private void findAssemblies() {
-        AssembliesFinder assembliesFinder = assembliesFinderFactory.create(propertiesHelper) ;
         unitTestAssembliesPath=assembliesFinder.findUnitTestAssembliesFromConfig(getSolutionDirectory(), microsoftWindowsEnvironment.getCurrentSolution().getProjects());
     }
 
@@ -228,6 +228,7 @@ public class WindowsVsTestRunner extends  VsTestRunnerCommandBuilder {
     void setTestConfigFinder(TestConfigFinder testConfigFinder) {
         this.testConfigFinder = testConfigFinder;
     }
+    
     public void clean() {
         File sonarDir=fileSystem.workDir();
         if(sonarDir==null) {
@@ -251,13 +252,6 @@ public class WindowsVsTestRunner extends  VsTestRunnerCommandBuilder {
         this.codeCoverageCommand = command;
     }
 
-    /**
-     * @param assembliesFinderFactory the assembliesFinderFactory to set
-     */
-    public void setAssembliesFinderFactory(
-            AbstractAssembliesFinderFactory assembliesFinderFactory) {
-        this.assembliesFinderFactory = assembliesFinderFactory;
-    }
 
 }
     

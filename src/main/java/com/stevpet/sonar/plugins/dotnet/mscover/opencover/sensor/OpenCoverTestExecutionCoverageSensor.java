@@ -58,6 +58,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParse
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
@@ -143,6 +144,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         .addComponent(WindowsCodeCoverageCommand.class)
         .addComponent(OpenCoverCoverageRunner.class)
         .addComponent(VSTestStdOutParser.class)
+        .addComponent(DefaultAssembliesFinder.class)
         .addComponent(VSTestCommand.class);
         
         getSolution();

@@ -36,6 +36,7 @@ public class BaseAssembliesFinder extends AbstractAssembliesFinder implements As
         super(propertiesHelper);
     }
 
+    
     public File resolveAssembly(File assemblyFile, VisualStudioProject project,
             String buildConfiguration) {
 

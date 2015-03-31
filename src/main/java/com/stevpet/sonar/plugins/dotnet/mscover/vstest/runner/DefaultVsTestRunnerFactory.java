@@ -35,34 +35,43 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvi
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
 public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
-    private static Logger LOG = LoggerFactory.getLogger(DefaultVsTestRunnerFactory.class);
-    
-    
+    private static Logger LOG = LoggerFactory
+            .getLogger(DefaultVsTestRunnerFactory.class);
+
     public VsTestRunner create() {
         return WindowsVsTestRunner.create();
     }
-    
+
     /**
-     * Create the basic unit testrunner:
-     * - path to the executable
-     * - solution directory
-     * - coverage path
-     * - log for test results
+     * Create the basic unit testrunner: - path to the executable - solution
+     * directory - coverage path - log for test results
      * 
      * Only remaining thing is to set code coverage
+     * 
      * @param propertiesHelper
      * @param moduleFileSystem
-     * @param microsoftWindowsEnvironment - directory that holds the solution
-     * @param vsTestStdOutParser 
+     * @param microsoftWindowsEnvironment
+     *            - directory that holds the solution
+     * @param vsTestStdOutParser
+     * @param assembliesFinderFactory
      * @return
      */
-    public VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper, FileSystem fileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment,VSTestCommand vsTestCommand,CommandLineExecutor commandLineExecutor, VSTestStdOutParser vsTestStdOutParser) {
-            
+    public VsTestRunner createBasicTestRunnner(
+            MsCoverProperties propertiesHelper, FileSystem fileSystem,
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
+            VSTestCommand vsTestCommand,
+            CommandLineExecutor commandLineExecutor,
+            VSTestStdOutParser vsTestStdOutParser,
+            AssembliesFinder assembliesFinder) {
+
         WindowsCodeCoverageCommand codeCoverageCommand = new WindowsCodeCoverageCommand();
         TestConfigFinder testConfigFinder = new VsTestConfigFinder();
-        VsTestRunner unitTestRunner = new WindowsVsTestRunner(propertiesHelper,microsoftWindowsEnvironment,fileSystem,codeCoverageCommand,testConfigFinder,vsTestCommand,commandLineExecutor,vsTestStdOutParser);
-            return unitTestRunner;
-        }
+        VsTestRunner unitTestRunner = new WindowsVsTestRunner(propertiesHelper,
+                microsoftWindowsEnvironment, fileSystem, codeCoverageCommand,
+                testConfigFinder, vsTestCommand, commandLineExecutor,
+                vsTestStdOutParser, assembliesFinder);
+        return unitTestRunner;
+    }
 
     @Override
     @Deprecated
@@ -73,7 +82,11 @@ public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
         VSTestCommand vsTestCommand = VSTestCommand.create();
         CommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
         VSTestStdOutParser vsTestStdOutParser = new VSTestStdOutParser();
-        return this.createBasicTestRunnner(propertiesHelper, fileSystem, microsoftWindowsEnvironment, vsTestCommand,commandLineExecutor,vsTestStdOutParser);
+        AssembliesFinder assembliesFinder = new DefaultAssembliesFinder(propertiesHelper);
+        return this.createBasicTestRunnner(propertiesHelper, fileSystem,
+                microsoftWindowsEnvironment, vsTestCommand,
+                commandLineExecutor, vsTestStdOutParser,
+                assembliesFinder);
     }
 
 }

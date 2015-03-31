@@ -40,7 +40,8 @@ public interface AbstractVsTestRunnerFactory {
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             VSTestCommand vsTestCommand,
             CommandLineExecutor commandLineExecutor,
-            VSTestStdOutParser vsTestStdOutParser);
+            VSTestStdOutParser vsTestStdOutParser,
+            AssembliesFinder assembliesFinder);
 
     VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper,
             FileSystem fileSystem,

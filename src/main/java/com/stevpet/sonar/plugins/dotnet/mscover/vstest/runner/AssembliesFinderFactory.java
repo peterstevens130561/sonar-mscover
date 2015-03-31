@@ -31,7 +31,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.I
 
 public class AssembliesFinderFactory implements AbstractAssembliesFinderFactory {
 
-    
     public AssembliesFinder create(MsCoverProperties propertiesHelper) {
        AssemblyResolver[] assembliesFinders = {
                new FailedAssemblyResolver(),

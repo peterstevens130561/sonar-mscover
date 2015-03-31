@@ -59,7 +59,7 @@ public class WindowsVsTestRunnerTest {
     private FileSystemMock fileSystemMock = new FileSystemMock();
     private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
-
+    private AssembliesFinder assembliesFinder = mock(AssembliesFinder.class);
     
     @Before
     public void before() {
@@ -153,11 +153,8 @@ public class WindowsVsTestRunnerTest {
 
     @SuppressWarnings("unchecked")
     private void givenUnitTestAssemblies(List<String> unitTestAssemblies) {
-        AssembliesFinder assembliesFinder = mock(AssembliesFinder.class);
+
         when(assembliesFinder.findUnitTestAssembliesFromConfig(any(File.class), anyList())).thenReturn(unitTestAssemblies);
-        AbstractAssembliesFinderFactory factory = mock(AbstractAssembliesFinderFactory.class);
-        when(factory.create(any(PropertiesHelper.class))).thenReturn(assembliesFinder);
-        windowsVsTestRunner.setAssembliesFinderFactory(factory);
     }
 
     private void givenTestSettingsFile(File testSettingsFile) {
@@ -174,7 +171,7 @@ public class WindowsVsTestRunnerTest {
 
     private void createRunner() {
         runner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(msCoverPropertiesMock.getMock(), fileSystemMock.getMock(),
-                microsoftWindowsEnvironmentMock.getMock(),vsTestCommand,commandLineExecutor,vsTestResultsParser);
+                microsoftWindowsEnvironmentMock.getMock(),vsTestCommand,commandLineExecutor,vsTestResultsParser,assembliesFinder);
                
         windowsVsTestRunner = (WindowsVsTestRunner)runner;
     }
