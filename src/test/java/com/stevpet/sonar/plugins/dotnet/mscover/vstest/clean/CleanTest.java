@@ -32,53 +32,49 @@ import java.util.Collection;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.junit.Before;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverProgrammerException;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.exceptions.MsCoverInvalidSonarWorkingDir;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AbstractVsTestRunnerFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultVsTestRunnerFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleaner;
 
 public class CleanTest {
     private static final String CLEAN_TEST_EMPTY_PLACE_HOLDER_TXT = "CleanTest\\Empty\\PlaceHolder.txt";
     private static final String CLEAN_TEST_WITHFILES_PLACE_HOLDER_TXT = "CleanTest\\WithFiles\\PlaceHolder.txt";
-    private static final AbstractVsTestRunnerFactory vsTestRunnerFactory = new DefaultVsTestRunnerFactory();
     private FileSystemMock fileSystemMock = new FileSystemMock();
-    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-    private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
+    private TestResultsCleaner runner ;
+    @Before
+    public void before() {
+        runner=givenANewCleaner();
+        
+    }
     @Test(expected=MsCoverProgrammerException.class)
     public void PathNotSet_RaiseException() {
-        VsTestRunner runner = givenANewRunner();
-        runner.clean();
+        runner.execute();
     }
     
     @Test(expected=MsCoverInvalidSonarWorkingDir.class)
     public void InvalidDir_RaiseException() {
-        VsTestRunner runner = givenANewRunner();
         File testDir=TestUtils.getResource(CLEAN_TEST_EMPTY_PLACE_HOLDER_TXT);
         fileSystemMock.givenWorkDir(testDir);
-        runner.clean();
+        runner.execute();
     }
     
     @Test
     public void CorrectDirNoFiles_Ignore() throws IOException {
-        VsTestRunner runner = givenANewRunner();
         File placeHolder=TestUtils.getResource(CLEAN_TEST_EMPTY_PLACE_HOLDER_TXT);
         File testDir=new File(placeHolder.getParentFile(),".sonar");
         FileUtils.forceMkdir(testDir);
         fileSystemMock.givenWorkDir(testDir);
-        runner.clean();
+        runner.execute();
         assertTrue(testDir.exists());
     }
     
     @Test
     public void CorrectDirWithFiles_ExpectDeleted() throws IOException {
-        VsTestRunner runner = givenANewRunner();
         File placeHolder=TestUtils.getResource(CLEAN_TEST_WITHFILES_PLACE_HOLDER_TXT);
         File testDir=new File(placeHolder.getParentFile(),".sonar");
         File testResultsDir=new File(testDir,"TestResults");
@@ -90,15 +86,14 @@ public class CleanTest {
         expectFilesInDir(testResultsDir,2);
         
         fileSystemMock.givenWorkDir(testDir);
-        runner.clean();
+        runner.execute();
         assertTrue(testDir.exists());
         expectFilesInDir(testDir,1);
         assertFalse(testResultsDir.exists());
     }
 
-    private VsTestRunner givenANewRunner() {
-        VsTestRunner runner=vsTestRunnerFactory.createBasicTestRunnner(msCoverPropertiesMock.getMock(), fileSystemMock.getMock(), microsoftWindowsEnvironment);
-        return runner;
+    private TestResultsCleaner givenANewCleaner() {
+        return new TestResultsCleaner(fileSystemMock.getMock());
     }
 
     private void expectFilesInDir(File testDir, int count) {

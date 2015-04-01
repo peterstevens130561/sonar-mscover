@@ -129,10 +129,5 @@ public class WindowsVsTestRunner  implements VsTestRunner {
         return null;
     }
 
-    @Override
-    public void clean() {
-        commandBuilder.clean();
-        
-    }
 
 }

@@ -59,6 +59,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleaner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
@@ -146,6 +147,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         .addComponent(VSTestStdOutParser.class)
         .addComponent(DefaultAssembliesFinder.class)
         .addComponent(VsTestRunnerCommandBuilder.class)
+        .addComponent(TestResultsCleaner.class)
         .addComponent(VSTestCommand.class);
         
         getSolution();
@@ -154,9 +156,9 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         fakesRemover.removeFakes(new File(targetDir)); 
        
         openCoverCommand.setTargetDir(targetDir);
-        
+        TestResultsCleaner testResultsCleaner = openCoverContainer.getComponent(TestResultsCleaner.class);
+        testResultsCleaner.execute();
         VsTestRunnerCommandBuilder unitTestRunner = openCoverContainer.getComponent(VsTestRunnerCommandBuilder.class);
-        unitTestRunner.clean();
         VSTestCommand testCommand=unitTestRunner.build();
         
         executeVsTestOpenCoverRunner(testCommand);
