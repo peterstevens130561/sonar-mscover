@@ -65,4 +65,12 @@ public class OpenCoverCoverageRunner implements CoverageRunner {
             }
             return filterBuilder.toString();
         }
+ 
+        /* (non-Javadoc)
+         * @see com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.CoverageRunner#getStdOut()
+         */
+        @Override
+        public String getStdOut() {
+            return commandLineExecutor.getStdOut();
+        }
 }

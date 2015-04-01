@@ -57,6 +57,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleaner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
+import static org.picocontainer.Characteristics.CACHE;  
 @DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
 @DependedUpon("OpenCoverRunningVsTest")
 public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
@@ -66,11 +67,9 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private VisualStudioSolution solution;
     private final MsCoverProperties propertiesHelper ;
     private VsTestEnvironment testEnvironment;
-    private CommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private OpenCoverCommand openCoverCommand = new OpenCoverCommand();
     private AssembliesFinderFactory assembliesFinderFactory = new AssembliesFinderFactory();
-    private VSTestStdOutParser vsTestStdOutParser = new VSTestStdOutParser();
     private FakesRemover fakesRemover = new DefaultFakesRemover();
     private FileSystem fileSystem;
     private DefaultPicoContainer openCoverContainer;
@@ -139,7 +138,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         VSTestCommand testCommand=unitTestRunner.build();
         
         executeVsTestOpenCoverRunner(testCommand);
-        getResultPaths();
+
         // tell that tests were executed so that no other project tries to launch them a second time
         testEnvironment.setTestsHaveRun();
         parseCoverageFile(testEnvironment);
@@ -147,9 +146,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
 
     private void wire() {
         openCoverContainer = new DefaultPicoContainer(new ConstructorInjection());
-        openCoverContainer.addComponent(new ProcessLock("opencover"))
-        .addComponent(LockedWindowsCommandLineExecutor.class)
-        .addComponent(propertiesHelper)
+        openCoverContainer.addComponent(propertiesHelper)
         .addComponent(testEnvironment)
         .addComponent(openCoverCommand)
         .addComponent(microsoftWindowsEnvironment)
@@ -172,14 +169,10 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
        
         CoverageRunner runner = openCoverContainer.getComponent(OpenCoverCoverageRunner.class);
         runner.execute();
-    }
-    
-    /**
-     * parse test log to get paths to result files
-     */
-    public void getResultPaths() {
+        String stdOut=runner.getStdOut();
+        
+        VSTestStdOutParser vsTestStdOutParser = openCoverContainer.getComponent(VSTestStdOutParser.class);
 
-        String stdOut=commandLineExecutor.getStdOut();
         vsTestStdOutParser.setResults(stdOut);
         String resultsPath=vsTestStdOutParser.getTestResultsXmlPath(); 
         testEnvironment.setTestResultsXmlPath(resultsPath);
@@ -206,16 +199,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         this.assembliesFinderFactory=assembliesFinderFactory;
     }
  
-    public void setCommandLineExecutor(CommandLineExecutor commandLineExecutor) {
-        this.commandLineExecutor = commandLineExecutor;
-    }
 
-    /**
-     * @param vsTestStdOutParser the vsTestStdOutParser to set
-     */
-    public void setVsTestStdOutParser(VSTestStdOutParser vsTestStdOutParser) {
-        this.vsTestStdOutParser = vsTestStdOutParser;
-    }
 
 
     /**

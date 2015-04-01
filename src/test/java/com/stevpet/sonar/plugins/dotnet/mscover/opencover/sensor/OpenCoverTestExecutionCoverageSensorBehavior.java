@@ -109,11 +109,11 @@ public class OpenCoverTestExecutionCoverageSensorBehavior {
 
     public void givenCommandLineExecutor(
             CommandLineExecutorMock commandLineExecutorMock) {
-        sensor.setCommandLineExecutor(commandLineExecutorMock.getMock());
+        //sensor.setCommandLineExecutor(commandLineExecutorMock.getMock());
     }
 
     public void givenVsTestStdOutParser(VSTestStdOutParserMock vsTestStdOutParserMock) {
-        sensor.setVsTestStdOutParser(vsTestStdOutParserMock.getMock());
+        //sensor.setVsTestStdOutParser(vsTestStdOutParserMock.getMock());
     }
 
     public void givenOpenCoverParserFactory(
