@@ -35,6 +35,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AbstractVsTestRunnerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultVsTestRunnerFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleaner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 
 @DependedUpon(VsTestExecutionSensor.DEPENDS)
@@ -82,6 +83,8 @@ public class VsTestExecutionSensor implements Sensor {
     }
 
     private String runUnitTests() {
+        TestResultsCleaner cleaner = new TestResultsCleaner(fileSystem);
+        cleaner.execute();
         unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, fileSystem,microsoftWindowsEnvironment);
         unitTestRunner.setDoCodeCoverage(true);
         unitTestRunner.execute();
