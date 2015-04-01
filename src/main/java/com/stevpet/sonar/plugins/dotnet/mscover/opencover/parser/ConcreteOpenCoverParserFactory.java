@@ -42,7 +42,9 @@ public class ConcreteOpenCoverParserFactory implements OpenCoverParserFactory {
     /**
      * Creates the complete parser, with the observers registered
      * @param registry initialized registry
+     * @deprecated {@link com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser}
      */
+    @Deprecated
     public XmlParserSubject createOpenCoverParser(SonarCoverage registry) {
         XmlParserSubject parser = new OpenCoverParserSubject();
         OpenCoverObserver [] observers = { 

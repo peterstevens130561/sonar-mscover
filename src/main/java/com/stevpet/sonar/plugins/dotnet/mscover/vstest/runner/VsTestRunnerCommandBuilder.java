@@ -3,15 +3,12 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 import java.io.File;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverProgrammerException;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.exceptions.MsCoverInvalidSonarWorkingDir;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 
@@ -20,8 +17,6 @@ public  class VsTestRunnerCommandBuilder {
     private MsCoverProperties propertiesHelper;
     private List<String> unitTestAssembliesPath;
     private File testSettingsFile;
-    private String sonarPath;
-
     private TestConfigFinder testConfigFinder;
     private VSTestCommand vsTestCommand;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
@@ -90,20 +85,8 @@ public  class VsTestRunnerCommandBuilder {
         return solution.getSolutionDir();
     }
     
-
-
-
-    protected void setTestConfigFinder(TestConfigFinder testConfigFinder) {
-        this.testConfigFinder = testConfigFinder;
-    }
-
-
     public void setDoCodeCoverage(boolean doCodeCoverage) {
         this.doCodeCoverage=true;
     }
-
-
-
-
 
 }

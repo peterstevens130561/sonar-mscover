@@ -53,7 +53,6 @@ public class VsTestUnitTestResultsSensor implements Sensor {;
     static final Logger LOG = LoggerFactory
             .getLogger(VsTestUnitTestResultsSensor.class);
     private MsCoverProperties propertiesHelper ;
-    private VsTestRunner unitTestRunner;
     private VsTestEnvironment vsTestEnvironment;
     private VsTestUnitTestResultsAnalyser vsTestUnitTestResultsAnalyser = new VsTestUnitTestResultsAnalyser();
     private FileSystem fileSystem;
@@ -66,7 +65,6 @@ public class VsTestUnitTestResultsSensor implements Sensor {;
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,ResourceMediator resourceMediator) {
 
         this.propertiesHelper = propertiesHelper;
-        unitTestRunner = new DefaultVsTestRunnerFactory().createBasicTestRunnner(propertiesHelper, fileSystem, microsoftWindowsEnvironment);
 
         this.vsTestEnvironment = vsTestEnvironment;
         this.fileSystem = fileSystem;
