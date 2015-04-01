@@ -51,8 +51,8 @@ import static org.mockito.Mockito.times;
 public class WindowsVsTestRunnerTest {
 
     private VsTestRunner runner;
-    private TestConfigFinder testConfigFinder;
-    private VsTestRunnerCommandBuilder windowsVsTestRunner;
+    private TestConfigFinder testConfigFinder=mock(TestConfigFinder.class);
+    private WindowsVsTestRunner windowsVsTestRunner;
     private CommandLineExecutor commandLineExecutor= mock(CommandLineExecutor.class);
     private VSTestCommand vsTestCommand= mock(VSTestCommand.class);
     private VSTestStdOutParser vsTestResultsParser= mock(VSTestStdOutParser.class);
@@ -87,7 +87,6 @@ public class WindowsVsTestRunnerTest {
         givenTestSettingsFile(testSettingsFile);     
         givenSolutionDir(solutionDir);    
         givenUnitTestAssemblies(unitTestAssemblies);
-        givenNoSettings();
         givenTestResultsFile(resultsPath);      
         givenVsTestReturns(testResult);
 
@@ -135,10 +134,7 @@ public class WindowsVsTestRunnerTest {
         verify(vsTestCommand,times(0)).toCommandLine();
     }
 
-    private void givenNoSettings() {
-        PropertiesHelper propertiesHelper = mock(PropertiesHelper.class);
-        //runner.setPropertiesHelper(propertiesHelper);
-    }
+
 
     private void givenVsTestReturns(String testResult) {
         when(commandLineExecutor.getStdOut()).thenReturn(testResult);
@@ -158,21 +154,19 @@ public class WindowsVsTestRunnerTest {
     }
 
     private void givenTestSettingsFile(File testSettingsFile) {
-        testConfigFinder=mock(TestConfigFinder.class);
         when(testConfigFinder.getTestSettingsFileOrDie(any(File.class),anyString())).thenReturn(testSettingsFile);
 
-        windowsVsTestRunner.setTestConfigFinder(testConfigFinder);
     }
 
     private void expectRunnerIsValid() {
         assertNotNull(runner);
-        assertTrue(runner instanceof VsTestRunnerCommandBuilder);
+        assertTrue(runner instanceof WindowsVsTestRunner);
     }
 
     private void createRunner() {
         runner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(msCoverPropertiesMock.getMock(), fileSystemMock.getMock(),
                 microsoftWindowsEnvironmentMock.getMock(),vsTestCommand,commandLineExecutor,vsTestResultsParser,assembliesFinder);
                
-        windowsVsTestRunner = (VsTestRunnerCommandBuilder)runner;
+        windowsVsTestRunner = (WindowsVsTestRunner)runner;
     }
 }

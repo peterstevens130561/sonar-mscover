@@ -63,10 +63,13 @@ public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
 
         WindowsCodeCoverageCommand codeCoverageCommand = new WindowsCodeCoverageCommand();
         TestConfigFinder testConfigFinder = new VsTestConfigFinder();
+        VsTestRunnerCommandBuilder vsTestRunnerCommandBuilder = new VsTestRunnerCommandBuilder(propertiesHelper,
+                microsoftWindowsEnvironment,
+                fileSystem,testConfigFinder,vsTestCommand,assembliesFinder);
         VsTestRunner unitTestRunner = new WindowsVsTestRunner(propertiesHelper,
                 microsoftWindowsEnvironment, fileSystem, codeCoverageCommand,
                 testConfigFinder, vsTestCommand, commandLineExecutor,
-                vsTestStdOutParser, assembliesFinder);
+                vsTestStdOutParser, assembliesFinder, vsTestRunnerCommandBuilder);
         return unitTestRunner;
     }
 
