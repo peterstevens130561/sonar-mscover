@@ -24,11 +24,12 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
 
 /**
  * Build the openCoverCommand through direct communication with the objects that know
@@ -40,7 +41,7 @@ public class OpenCoverCommandBuilder {
 
     private OpenCoverCommand openCoverCommand;
     private MsCoverProperties msCoverProperties;
-    private VsTestRunner unitTestRunner;
+    private VsTestRunnerCommandBuilder unitTestRunner;
     private VsTestEnvironment testEnvironment;
     private List<String> assemblies;
     
@@ -59,8 +60,8 @@ public class OpenCoverCommandBuilder {
         return this;
     }
     
-    public OpenCoverCommandBuilder setTestRunner(VsTestRunner unitTestRunner) {
-        this.unitTestRunner = unitTestRunner;
+    public OpenCoverCommandBuilder setTestRunner(VsTestRunnerCommandBuilder unitTestRunnerCommandBuilder) {
+        this.unitTestRunner = unitTestRunnerCommandBuilder;
         return this;
     }
     

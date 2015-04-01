@@ -29,13 +29,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock;
-
+import static org.mockito.Mockito.mock;
 
 public class OpenCoverCommandBuilderBuildTest {
 
     private OpenCoverCommandMock openCoverCommandMock = new OpenCoverCommandMock();
-    private VsTestRunnerMock vsTestRunnerMock = new VsTestRunnerMock();
+    private VsTestRunnerCommandBuilder vsTestRunnerCommandBuilder = mock(VsTestRunnerCommandBuilder.class);
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     private VsTestEnvironmentMock vsTestEnvironmentMock = new VsTestEnvironmentMock();
     private List<String> assemblies;
@@ -57,7 +58,7 @@ public class OpenCoverCommandBuilderBuildTest {
         OpenCoverCommandBuilder builder = new OpenCoverCommandBuilder();
         builder.setOpenCoverCommand(openCoverCommandMock.getMock());
         builder.setAssemblies(assemblies);
-        builder.setTestRunner(vsTestRunnerMock.getMock());
+        builder.setTestRunner(vsTestRunnerCommandBuilder);
         builder.setMsCoverProperties(msCoverPropertiesMock.getMock());
         builder.setTestEnvironment(vsTestEnvironmentMock.getMock());
         vsTestEnvironmentMock.givenXmlCoveragePath("somepath");

@@ -29,6 +29,7 @@ import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.OpenCoverCommandBuilderMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.VsTestRunnerCommandBuilderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutorMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactoryMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubjectMock;
@@ -56,6 +57,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
     private XmlParserSubjectMock xmlParserSubjectMock = new XmlParserSubjectMock();
     private VsTestRunnerFactoryMock vsTestRunnerFactoryMock = new VsTestRunnerFactoryMock();
     private VsTestRunnerMock vsTestRunnerMock = new VsTestRunnerMock();
+    private VsTestRunnerCommandBuilderMock vsTestRunnerCommandBuilderMock = new VsTestRunnerCommandBuilderMock();
     private FakesRemoverMock fakesRemoverMock = new FakesRemoverMock();
     private FileSystemMock fileSystemMock = new FileSystemMock();
     
@@ -158,7 +160,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         openCoverCommandBuilderMock.verifySetOpenCovercommand(openCoverCommandMock);
         openCoverCommandBuilderMock.verifySetAssemblies();
         openCoverCommandBuilderMock.verifySetMsCoverProperties(msCoverPropertiesMock);
-        openCoverCommandBuilderMock.verifySetTestRunner(vsTestRunnerMock);
+        openCoverCommandBuilderMock.verifySetTestRunner(vsTestRunnerCommandBuilderMock);
         
         testEnvironmentMock.verifyTestsHaveRun();
         testEnvironmentMock.verifySonarCoverageSet();

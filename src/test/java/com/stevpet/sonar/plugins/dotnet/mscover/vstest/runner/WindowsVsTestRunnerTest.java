@@ -33,7 +33,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindow
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
@@ -52,7 +51,6 @@ public class WindowsVsTestRunnerTest {
 
     private VsTestRunner runner;
     private TestConfigFinder testConfigFinder=mock(TestConfigFinder.class);
-    private WindowsVsTestRunner windowsVsTestRunner;
     private CommandLineExecutor commandLineExecutor= mock(CommandLineExecutor.class);
     private VSTestCommand vsTestCommand= mock(VSTestCommand.class);
     private VSTestStdOutParser vsTestResultsParser= mock(VSTestStdOutParser.class);
@@ -166,7 +164,5 @@ public class WindowsVsTestRunnerTest {
     private void createRunner() {
         runner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(msCoverPropertiesMock.getMock(), fileSystemMock.getMock(),
                 microsoftWindowsEnvironmentMock.getMock(),vsTestCommand,commandLineExecutor,vsTestResultsParser,assembliesFinder);
-               
-        windowsVsTestRunner = (WindowsVsTestRunner)runner;
     }
 }

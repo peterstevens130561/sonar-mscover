@@ -31,8 +31,6 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.test.TestUtils;
 
 import static org.mockito.Mockito.when;
-import static org.junit.Assert.fail;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 
 public class FileSystemMock extends GenericClassMock<FileSystem> {

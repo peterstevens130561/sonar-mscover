@@ -26,8 +26,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.OpenCoverCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.OpenCoverCommandMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.VsTestRunnerMock;
-
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 import static org.mockito.Matchers.anyListOf;
@@ -50,7 +48,7 @@ public class OpenCoverCommandBuilderMock extends GenericClassMock<OpenCoverComma
         verify(instance,times(1)).setMsCoverProperties(msCoverPropertiesMock.getMock());
     }
     
-    public void verifySetTestRunner(VsTestRunnerMock vsTestRunnerMock) {
-        verify(instance,times(1)).setTestRunner(vsTestRunnerMock.getMock());
+    public void verifySetTestRunner(VsTestRunnerCommandBuilderMock vsTestRunnerBuilderMock) {
+        verify(instance,times(1)).setTestRunner(vsTestRunnerBuilderMock.getMock());
     }
 }

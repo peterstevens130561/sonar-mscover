@@ -22,16 +22,12 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
-
 
 public interface VsTestRunner {
 
     void setDoCodeCoverage(boolean doCodeCoverage);
 
     boolean shouldRun();
-
-    VSTestCommand build();
 
     void execute();
     String getResultsXmlPath();
