@@ -41,28 +41,22 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvi
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AbstractDotNetSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
-import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.ConcreteOpenCoverParserFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.CoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.OpenCoverCoverageRunner;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleaner;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
 @DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
 @DependedUpon("OpenCoverRunningVsTest")
 public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
@@ -77,11 +71,10 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private OpenCoverCommand openCoverCommand = new OpenCoverCommand();
     private AssembliesFinderFactory assembliesFinderFactory = new AssembliesFinderFactory();
     private VSTestStdOutParser vsTestStdOutParser = new VSTestStdOutParser();
-    private OpenCoverParserFactory openCoverParserFactory = new ConcreteOpenCoverParserFactory();
     private FakesRemover fakesRemover = new DefaultFakesRemover();
     private FileSystem fileSystem;
     private DefaultPicoContainer openCoverContainer;
-    
+    private OpenCoverDirector openCoverDirector = new OpenCoverDirector();
     public OpenCoverTestExecutionCoverageSensor(MsCoverProperties propertiesHelper, 
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
             FileSystem fileSystem,
@@ -130,26 +123,10 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
 
     @Override
     public void analyse(Project project, SensorContext context) {
+        wire();
+        openCoverDirector.wire(openCoverContainer);
         testEnvironment.setCoverageXmlFile(project,"coverage-report.xml");
-
-        openCoverContainer = new DefaultPicoContainer(new ConstructorInjection());
-        openCoverContainer.addComponent(new ProcessLock("opencover"))
-        .addComponent(LockedWindowsCommandLineExecutor.class)
-        .addComponent(propertiesHelper)
-        .addComponent(testEnvironment)
-        .addComponent(openCoverCommand)
-        .addComponent(microsoftWindowsEnvironment)
-        .addComponent(fileSystem)
-        .addComponent(WindowsVsTestRunner.class)
-        .addComponent(VsTestConfigFinder.class)
-        .addComponent(WindowsCodeCoverageCommand.class)
-        .addComponent(OpenCoverCoverageRunner.class)
-        .addComponent(VSTestStdOutParser.class)
-        .addComponent(DefaultAssembliesFinder.class)
-        .addComponent(VsTestRunnerCommandBuilder.class)
-        .addComponent(TestResultsCleaner.class)
-        .addComponent(VSTestCommand.class);
-        
+      
         getSolution();
         AssembliesFinder finder = assembliesFinderFactory.create(propertiesHelper);
         String targetDir=finder.findUnitTestAssembliesDir(solution);
@@ -168,11 +145,22 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         parseCoverageFile(testEnvironment);
     }
 
+    private void wire() {
+        openCoverContainer = new DefaultPicoContainer(new ConstructorInjection());
+        openCoverContainer.addComponent(new ProcessLock("opencover"))
+        .addComponent(LockedWindowsCommandLineExecutor.class)
+        .addComponent(propertiesHelper)
+        .addComponent(testEnvironment)
+        .addComponent(openCoverCommand)
+        .addComponent(microsoftWindowsEnvironment)
+        .addComponent(fileSystem);
+    }
+
     private void parseCoverageFile(VsTestEnvironment testEnvironment) {
         SonarCoverage sonarCoverageRegistry = new SonarCoverage();
 
-        XmlParserSubject parser=openCoverParserFactory.createOpenCoverParser(sonarCoverageRegistry,propertiesHelper);
-        parser.parseFile(new File(testEnvironment.getXmlCoveragePath()));
+        CoverageParser parser = openCoverContainer.getComponent(CoverageParser.class);
+        parser.parse(sonarCoverageRegistry,new File(testEnvironment.getXmlCoveragePath()));
         testEnvironment.setSonarCoverage(sonarCoverageRegistry);
     }
 
@@ -229,13 +217,6 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         this.vsTestStdOutParser = vsTestStdOutParser;
     }
 
-    /**
-     * @param openCoverParserFactory the openCoverParserFactory to set
-     */
-    public void setOpenCoverParserFactory(
-            OpenCoverParserFactory openCoverParserFactory) {
-        this.openCoverParserFactory = openCoverParserFactory;
-    }
 
     /**
      * @param fakesRemover the fakesRemover to set

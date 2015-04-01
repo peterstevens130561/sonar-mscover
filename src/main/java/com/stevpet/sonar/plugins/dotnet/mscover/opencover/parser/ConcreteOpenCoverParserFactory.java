@@ -73,10 +73,16 @@ public class ConcreteOpenCoverParserFactory implements OpenCoverParserFactory {
         return parserSubject;
     }
 
+    /**
+     * Creates the complete parser, with the observers registered
+     * @param registry initialized registry
+     * @deprecated {@link com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser}
+     */
+    @Deprecated
     public XmlParserSubject createOpenCoverParser(SonarCoverage registry,
             MsCoverProperties msCoverProperties) {
-        Collection<String> pdbsThatCanBeIgnoredWhenMissing = msCoverProperties.getPdbsThatMayBeIgnoredWhenMissing();
         XmlParserSubject parser = new OpenCoverParserSubject();
+        Collection<String> pdbsThatCanBeIgnoredWhenMissing = msCoverProperties.getPdbsThatMayBeIgnoredWhenMissing();
         OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs  missingPdbObserver = new OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs() ;
         missingPdbObserver.setPdbsThatCanBeIgnoredIfMissing(pdbsThatCanBeIgnoredWhenMissing);
         OpenCoverObserver [] observers = { 

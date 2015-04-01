@@ -52,18 +52,7 @@ public class OpenCoverParserFactoryTest {
         parser.parseFile(file);
         OpenCoverObserversTest.checkCoverageParsingResults(registry);
     }
-    
-    
-    @Test
-    public void createOpenCoverParser_ShouldHaveThreeObservers() {
-        OpenCoverParserFactory parserFactory = new ConcreteOpenCoverParserFactory();
-        SonarCoverage registry = new SonarCoverage();
-        XmlParserSubject parser = parserFactory.createOpenCoverParser(registry);
-        List<ParserObserver> observers=parser.getObservers();
-        assertEquals(3,observers.size());
-        
-    }
-    
+       
     @Test
     public void createOpenCoverParserWithoutMissingPdb_ShouldHaveNormalObservers() {
         OpenCoverParserFactory parserFactory = new ConcreteOpenCoverParserFactory();

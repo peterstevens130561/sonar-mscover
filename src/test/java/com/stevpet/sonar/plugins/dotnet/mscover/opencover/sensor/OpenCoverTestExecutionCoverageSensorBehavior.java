@@ -118,7 +118,7 @@ public class OpenCoverTestExecutionCoverageSensorBehavior {
 
     public void givenOpenCoverParserFactory(
             OpenCoverParserFactoryMock openCoverParserFactoryMock) {
-        sensor.setOpenCoverParserFactory(openCoverParserFactoryMock.getMock());
+        //sensor.setOpenCoverParserFactory(openCoverParserFactoryMock.getMock());
     }
 
     public void givenTestRunnerFactory(
