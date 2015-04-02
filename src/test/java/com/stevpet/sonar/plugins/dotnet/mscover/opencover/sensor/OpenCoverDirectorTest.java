@@ -9,12 +9,15 @@ import org.picocontainer.DefaultPicoContainer;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.CoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.OpenCoverCoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinderMock;
 
 public class OpenCoverDirectorTest {
 
@@ -55,4 +58,14 @@ public class OpenCoverDirectorTest {
         assertNotNull("create opencover coverage parser",parser);
         assertTrue("should be right class",parser instanceof OpenCoverCoverageParser);
     }
+    
+    @Test
+    public void OpenCoverDirector_Replace() {
+        VsTestConfigFinderMock vsTestConfigFinderMock = new VsTestConfigFinderMock(container);
+     
+        microsoftWindowsEnvironmentMock.givenHasSolutionWithProject(1);
+        OpenCoverCommand openCoverCommand = new OpenCoverCommand();
+        director.execute(openCoverCommand);
+    }
+    
 }

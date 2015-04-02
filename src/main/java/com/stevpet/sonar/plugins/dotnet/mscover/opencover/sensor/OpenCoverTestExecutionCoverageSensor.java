@@ -34,30 +34,18 @@ import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
-import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.dotnet.api.DotNetConstants;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AbstractDotNetSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.CoverageRunner;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.OpenCoverCoverageRunner;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleaner;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
-import static org.picocontainer.Characteristics.CACHE;  
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleaner;  
 @DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
 @DependedUpon("OpenCoverRunningVsTest")
 public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
@@ -124,9 +112,14 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     public void analyse(Project project, SensorContext context) {
         wire();
         openCoverDirector.wire(openCoverContainer);
-        testEnvironment.setCoverageXmlFile(project,"coverage-report.xml");
-      
-        getSolution();
+        testEnvironment.setCoverageXmlFile(project,"coverage-report.xml"); 
+
+        cleanEnvironment();  
+        openCoverDirector.execute(openCoverCommand);    
+        SonarCoverage sonarCoverageRegistry= openCoverDirector.execute(openCoverCommand); 
+    }
+
+    private void cleanEnvironment() {
         AssembliesFinder finder = assembliesFinderFactory.create(propertiesHelper);
         String targetDir=finder.findUnitTestAssembliesDir(solution);
         fakesRemover.removeFakes(new File(targetDir)); 
@@ -134,15 +127,9 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         openCoverCommand.setTargetDir(targetDir);
         TestResultsCleaner testResultsCleaner = openCoverContainer.getComponent(TestResultsCleaner.class);
         testResultsCleaner.execute();
-        VsTestRunnerCommandBuilder unitTestRunner = openCoverContainer.getComponent(VsTestRunnerCommandBuilder.class);
-        VSTestCommand testCommand=unitTestRunner.build();
-        
-        executeVsTestOpenCoverRunner(testCommand);
-
-        // tell that tests were executed so that no other project tries to launch them a second time
-        testEnvironment.setTestsHaveRun();
-        parseCoverageFile(testEnvironment);
     }
+
+
 
     private void wire() {
         openCoverContainer = new DefaultPicoContainer(new ConstructorInjection());
@@ -153,61 +140,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         .addComponent(fileSystem);
     }
 
-    private void parseCoverageFile(VsTestEnvironment testEnvironment) {
-        SonarCoverage sonarCoverageRegistry = new SonarCoverage();
-
-        CoverageParser parser = openCoverContainer.getComponent(CoverageParser.class);
-        parser.parse(sonarCoverageRegistry,new File(testEnvironment.getXmlCoveragePath()));
-        testEnvironment.setSonarCoverage(sonarCoverageRegistry);
-    }
 
     
-    
-    private void executeVsTestOpenCoverRunner(VSTestCommand testCommand) {
-
-        openCoverCommand.setTargetCommand(testCommand);
-       
-        CoverageRunner runner = openCoverContainer.getComponent(OpenCoverCoverageRunner.class);
-        runner.execute();
-        String stdOut=runner.getStdOut();
-        
-        VSTestStdOutParser vsTestStdOutParser = openCoverContainer.getComponent(VSTestStdOutParser.class);
-
-        vsTestStdOutParser.setResults(stdOut);
-        String resultsPath=vsTestStdOutParser.getTestResultsXmlPath(); 
-        testEnvironment.setTestResultsXmlPath(resultsPath);
-    }
-
-    private void getSolution() {
-        solution = getMicrosoftWindowsEnvironment().getCurrentSolution();
-        if (solution == null) {
-            throw new SonarException("No .NET solution or project has been given to the Gallio command builder.");
-        }
-    }
-
-
-    public void setOpenCoverCommand(OpenCoverCommand openCoverCommand) {
-       this.openCoverCommand = openCoverCommand;
-    }
-
-
-    public void setOpenCoverCommandBuilder(OpenCoverCommandBuilder mock) {
-        
-    }
-
-    public void setAssembliesFinderFactory(AssembliesFinderFactory assembliesFinderFactory) {
-        this.assembliesFinderFactory=assembliesFinderFactory;
-    }
- 
-
-
-
-    /**
-     * @param fakesRemover the fakesRemover to set
-     */
-    public void setFakesRemover(FakesRemover fakesRemover) {
-        this.fakesRemover = fakesRemover;
-    }
-
 
 }

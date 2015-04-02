@@ -22,14 +22,18 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.mock;
 import static org.mockito.Mockito.mock;
+
+import org.picocontainer.DefaultPicoContainer;
+
 public class GenericClassMock<T> implements ClassMock<T> {
     protected T instance = null;
-    
+    private Class clazz;
     
     public GenericClassMock(Class<T> clazz) {
         instance = mock(clazz);
-
+        this.clazz = clazz;
     }
+    
    
      /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.mock.ClassMock#getMock()
@@ -37,5 +41,14 @@ public class GenericClassMock<T> implements ClassMock<T> {
     public T getMock() {
         return instance;
     }
+    
+    public Class getMockedClass() {
+        return clazz;
+    }
+    
+    protected final void replace(DefaultPicoContainer container) {
+        container.removeComponent(getMockedClass());
+        container.addComponent(getMock());       
+    }
+
 }
-;

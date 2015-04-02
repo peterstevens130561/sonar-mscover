@@ -89,7 +89,7 @@ public class OpenCoverTestExecutionCoverageSensorBehavior {
     }
 
     public void setOpenCoverCommand(OpenCoverCommand mock) {
-        sensor.setOpenCoverCommand(mock);
+        //sensor.setOpenCoverCommand(mock);
     }
 
     public void analyse() {
@@ -99,12 +99,12 @@ public class OpenCoverTestExecutionCoverageSensorBehavior {
 
     public void givenOpenCoverCommandBuilder(
             OpenCoverCommandBuilderMock openCoverCommandBuilderMock) {
-        sensor.setOpenCoverCommandBuilder(openCoverCommandBuilderMock.getMock());
+        //sensor.setOpenCoverCommandBuilder(openCoverCommandBuilderMock.getMock());
     }
 
     public void givenAssembliesFinderFactory(
             AssembliesFinderFactoryMock assembliesFinderFactoryMock) {
-        sensor.setAssembliesFinderFactory(assembliesFinderFactoryMock.getMock());
+        //sensor.setAssembliesFinderFactory(assembliesFinderFactoryMock.getMock());
     }
 
     public void givenCommandLineExecutor(
@@ -127,7 +127,7 @@ public class OpenCoverTestExecutionCoverageSensorBehavior {
     }
 
     public void givenFakesRemover(FakesRemoverMock fakesRemoverMock) {
-        sensor.setFakesRemover(fakesRemoverMock.getMock());
+        //sensor.setFakesRemover(fakesRemoverMock.getMock());
     }
 
     public void setFileSystem(FileSystem fileSystem) {
