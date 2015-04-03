@@ -39,11 +39,18 @@ public class OpenCoverDirector {
         .addComponent(VsTestRunnerCommandBuilder.class)
         .addComponent(TestResultsCleaner.class)
         .addComponent(OpenCoverCoverageParser.class)
-        .addComponent(VSTestCommand.class);
+        .addComponent(VSTestCommand.class)
+        .addComponent(InjectingFakesRemover.class);
         this.container=container;
     }
     
     public void execute() {
+        TestResultsCleaner testResultsCleaner = container.getComponent(TestResultsCleaner.class);
+        testResultsCleaner.execute();
+        
+        InjectingFakesRemover fakesRemover=container.getComponent(InjectingFakesRemover.class);
+        fakesRemover.execute();
+        
         VsTestEnvironment testEnvironment = container.getComponent(VsTestEnvironment.class);
         VSTestCommand testCommand = buildTestRunner();
        String stdOut=executeVsTestOpenCoverRunner(testCommand); 

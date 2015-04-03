@@ -27,6 +27,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.CoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.OpenCoverCoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleanerMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinderMock;
 
@@ -78,6 +79,12 @@ public class OpenCoverDirectorTest {
     @Test
     public void OpenCoverDirector_Replace() {
         //Given a solution 
+        InjectingFakesRemoverMock injectingFakesRemoverMock = new InjectingFakesRemoverMock();
+        injectingFakesRemoverMock.replace(container);
+        
+        TestResultsCleanerMock testResultsCleanerMock = new TestResultsCleanerMock();
+        testResultsCleanerMock.replace(container);
+        
         msCoverPropertiesMock.givenOpenCoverInstallPath("opencover");
         VsTestEnvironment testEnvironment = container.getComponent(VsTestEnvironment.class);
         testEnvironment.setCoverageXmlPath("bogus/.sonar/coverage.xml");
@@ -107,9 +114,12 @@ public class OpenCoverDirectorTest {
         container.removeComponent(OpenCoverCoverageParser.class);
 
         director.execute();
+        
         commandLineExecutorMock.thenCommandLine("opencover/OpenCover.Console.Exe -register:user -excludebyfile:*\\*.Designer.cs -excludebyattribute:*ExcludeFromCodeCoverage* \"-targetdir:mytestdir\" -mergebyhash: \"-output:bogus/.sonar/coverage.xml\" \"-filter:+[one]* +[two]* \"");
         coverageParserMock.thenParse("bogus/.sonar/coverage.xml");
         assertEquals("path to test results file","myfunny.trx",testEnvironment.getXmlResultsPath());
+        injectingFakesRemoverMock.thenExecuteInvoked();
+        testResultsCleanerMock.thenExecuteInvoked();
     }
     
 }

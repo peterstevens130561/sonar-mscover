@@ -22,7 +22,6 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
-import java.io.File;
 import java.util.Set;
 
 import org.picocontainer.DefaultPicoContainer;
@@ -37,13 +36,10 @@ import org.sonar.api.resources.Project;
 import org.sonar.plugins.dotnet.api.DotNetConstants;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AbstractDotNetSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleaner;  
 @DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
 @DependedUpon("OpenCoverRunningVsTest")
@@ -51,12 +47,9 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
 
     private static String WONT_EXECUTE = "VsTest.Console using OpenCover.Console.Exe won't execute as ";
     private static final Logger LOG = LoggerFactory.getLogger(OpenCoverTestExecutionCoverageSensor.class);
-    private VisualStudioSolution solution;
     private final MsCoverProperties propertiesHelper ;
     private VsTestEnvironment testEnvironment;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-    private AssembliesFinderFactory assembliesFinderFactory = new AssembliesFinderFactory();
-    private FakesRemover fakesRemover = new DefaultFakesRemover();
     private FileSystem fileSystem;
     private DefaultPicoContainer openCoverContainer;
     private OpenCoverDirector openCoverDirector = new OpenCoverDirector();
@@ -111,27 +104,13 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         wire();
         openCoverDirector.wire(openCoverContainer);
         testEnvironment.setCoverageXmlFile(project,"coverage-report.xml"); 
-
-        cleanEnvironment();  
-   
         openCoverDirector.execute(); 
     }
-
-    private void cleanEnvironment() {
-        AssembliesFinder finder = assembliesFinderFactory.create(propertiesHelper);
-        String targetDir=finder.findUnitTestAssembliesDir(solution);
-        fakesRemover.removeFakes(new File(targetDir)); 
-        TestResultsCleaner testResultsCleaner = openCoverContainer.getComponent(TestResultsCleaner.class);
-        testResultsCleaner.execute();
-    }
-
-
 
     private void wire() {
         openCoverContainer = new DefaultPicoContainer(new ConstructorInjection());
         openCoverContainer.addComponent(propertiesHelper)
         .addComponent(testEnvironment)
-        .addComponent(OpenCoverCommand.class)
         .addComponent(microsoftWindowsEnvironment)
         .addComponent(fileSystem);
     }
