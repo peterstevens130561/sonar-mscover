@@ -28,11 +28,16 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.injectors.ConstructorInjection;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.AssembliesFinderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindowsEnvironmentMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.CodeCoverageCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
@@ -57,7 +62,7 @@ public class WindowsVsTestRunnerTest {
     private FileSystemMock fileSystemMock = new FileSystemMock();
     private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
-    private AssembliesFinder assembliesFinder = mock(AssembliesFinder.class);
+    private AssembliesFinderMock assembliesFinderMock = new AssembliesFinderMock();
     
     @Before
     public void before() {
@@ -147,8 +152,7 @@ public class WindowsVsTestRunnerTest {
 
     @SuppressWarnings("unchecked")
     private void givenUnitTestAssemblies(List<String> unitTestAssemblies) {
-
-        when(assembliesFinder.findUnitTestAssembliesFromConfig(any(File.class), anyList())).thenReturn(unitTestAssemblies);
+        assembliesFinderMock.givenFindUnitTestAssembliesFromConfig(unitTestAssemblies);
     }
 
     private void givenTestSettingsFile(File testSettingsFile) {
@@ -162,7 +166,18 @@ public class WindowsVsTestRunnerTest {
     }
 
     private void createRunner() {
-        runner=new DefaultVsTestRunnerFactory().createBasicTestRunnner(msCoverPropertiesMock.getMock(), fileSystemMock.getMock(),
-                microsoftWindowsEnvironmentMock.getMock(),vsTestCommand,commandLineExecutor,vsTestResultsParser,assembliesFinder);
+        DefaultPicoContainer container = new DefaultPicoContainer(new ConstructorInjection());
+        container.addComponent(fileSystemMock.getMock())
+        .addComponent(testConfigFinder)
+        .addComponent(vsTestCommand)
+        .addComponent(commandLineExecutor)
+        .addComponent(vsTestResultsParser)
+        .addComponent(msCoverPropertiesMock.getMock())
+        .addComponent(microsoftWindowsEnvironmentMock.getMock())
+        .addComponent(assembliesFinderMock.getMock())
+        .addComponent(WindowsCodeCoverageCommand.class)
+        .addComponent(VsTestRunnerCommandBuilder.class)
+        .addComponent(WindowsVsTestRunner.class);
+        runner = container.getComponent(WindowsVsTestRunner.class);
     }
 }

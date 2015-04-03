@@ -22,6 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 public class MicrosoftWindowsEnvironmentMock extends GenericClassMock<MicrosoftWindowsEnvironment>{
@@ -68,9 +71,11 @@ public class MicrosoftWindowsEnvironmentMock extends GenericClassMock<MicrosoftW
             when(vsProject.getAssemblyName()).thenReturn("project" + projectIndex + ".dll");
             projects.add(vsProject);
         }
-        when(solution.getUnitTestProjects()).thenReturn(projects);               // TODO Auto-generated method stub
+        when(solution.getUnitTestProjects()).thenReturn(projects);
+        when(solution.getProjects()).thenReturn(projects);               // TODO Auto-generated method stub
         
     }
+
 
     public void givenHasAssemblies(List<String> assemblies) {
         when(instance.getAssemblies()).thenReturn(assemblies);

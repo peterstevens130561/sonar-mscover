@@ -23,10 +23,13 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.when;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
+import java.io.File;
+import java.util.List;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 
@@ -38,5 +41,10 @@ public class AssembliesFinderMock extends GenericClassMock<AssembliesFinder> {
 
     public void onFindUnitTestAssembliesDir(String assembliesPath) {
         when( instance.findUnitTestAssembliesDir(any(VisualStudioSolution.class))).thenReturn(assembliesPath);
+    }
+    
+    public void givenFindUnitTestAssembliesFromConfig(List<String> unitTestAssemblies) {
+        when( instance.findUnitTestAssembliesFromConfig(any(File.class), anyList())).thenReturn(unitTestAssemblies);
+
     }
 }

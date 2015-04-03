@@ -24,9 +24,12 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.command;
 
 import java.util.List;
 import java.util.Map;
+
 import org.sonar.api.utils.command.Command;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 
 public class OpenCoverCommand implements ShellCommand {
@@ -35,11 +38,14 @@ public class OpenCoverCommand implements ShellCommand {
 
     Map<String,String> arguments = Maps.newHashMap();
     
+    public OpenCoverCommand(MsCoverProperties msCoverProperties) {
+        path=msCoverProperties.getOpenCoverInstallPath();
+    }
+    
     public OpenCoverCommand() {
         
     }
     
-
     public OpenCoverCommand(String path) {
         this.path=path;
 

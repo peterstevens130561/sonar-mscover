@@ -38,10 +38,10 @@ public  class VsTestRunnerCommandBuilder {
     }
 
 
-    public VSTestCommand build() {
+    public VSTestCommand build(boolean doCodeCoverage) {
         requireTestSettings();
         findAssemblies();
-        return buildVSTestCommand();
+        return buildVSTestCommand(doCodeCoverage);
     }
 
 
@@ -60,7 +60,7 @@ public  class VsTestRunnerCommandBuilder {
     
     }
 
-    private VSTestCommand buildVSTestCommand() {
+    private VSTestCommand buildVSTestCommand(boolean doCodeCoverage) {
         vsTestCommand.setTestSettingsFile(testSettingsFile);
         vsTestCommand.setUnitTestAssembliesPath(unitTestAssembliesPath);
         vsTestCommand.setCodeCoverage(doCodeCoverage);
@@ -85,8 +85,4 @@ public  class VsTestRunnerCommandBuilder {
         return solution.getSolutionDir();
     }
     
-    public void setDoCodeCoverage(boolean doCodeCoverage) {
-        this.doCodeCoverage=true;
-    }
-
 }

@@ -21,12 +21,30 @@
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import org.mockito.ArgumentCaptor;
+import org.sonar.api.utils.command.Command;
+import static org.junit.Assert.assertEquals;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 
 public class CommandLineExecutorMock extends GenericClassMock<CommandLineExecutor> {
 
     public CommandLineExecutorMock() {
         super(CommandLineExecutor.class);
     }
+
+    public void givenGetStdOut(String stdOut) {
+        when(instance.getStdOut()).thenReturn(stdOut);
+    }
+
+    public void thenCommandLine(String commandLine) {
+        ArgumentCaptor<ShellCommand> argument = ArgumentCaptor.forClass(ShellCommand.class);
+        verify(instance).execute(argument.capture());
+        ShellCommand actualCommand=argument.getValue();
+        assertEquals(commandLine,actualCommand.toCommandLine());
+    }
+    
 }

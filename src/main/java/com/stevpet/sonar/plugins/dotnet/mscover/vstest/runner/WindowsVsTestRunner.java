@@ -51,13 +51,13 @@ public class WindowsVsTestRunner  implements VsTestRunner {
     private boolean doCodeCoverage;
     private VsTestRunnerCommandBuilder commandBuilder;
     
-    public WindowsVsTestRunner(MsCoverProperties propertiesHelper,
-            MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-            FileSystem fileSystem, CodeCoverageCommand codeCoverageCommand,
-            TestConfigFinder testConfigFinder, VSTestCommand vsTestCommand,
+    public WindowsVsTestRunner(
+            FileSystem fileSystem, 
+            CodeCoverageCommand codeCoverageCommand,
+            TestConfigFinder testConfigFinder, 
+            VSTestCommand vsTestCommand,
             CommandLineExecutor commandLineExecutor,
             VSTestStdOutParser vsTestStdOutParser,
-            AssembliesFinder assembliesFinder,
             VsTestRunnerCommandBuilder commandBuilder) {
         this.commandBuilder = commandBuilder;
         this.fileSystem = fileSystem;
@@ -75,7 +75,7 @@ public class WindowsVsTestRunner  implements VsTestRunner {
      * ()
      */
     public void execute() {
-        VSTestCommand vsTestCommand = commandBuilder.build();
+        VSTestCommand vsTestCommand = commandBuilder.build(doCodeCoverage);
         executeShellCommand(vsTestCommand);
         getResultPaths();
         if (doCodeCoverage) {

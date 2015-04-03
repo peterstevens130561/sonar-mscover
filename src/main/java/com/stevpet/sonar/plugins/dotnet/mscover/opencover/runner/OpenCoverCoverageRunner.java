@@ -1,5 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecu
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.NoAssembliesDefinedException;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 
 public class OpenCoverCoverageRunner implements CoverageRunner {
     private OpenCoverCommand openCoverCommand;
@@ -16,27 +19,28 @@ public class OpenCoverCoverageRunner implements CoverageRunner {
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private VsTestEnvironment testEnvironment;
     private CommandLineExecutor commandLineExecutor;
-
+    private AssembliesFinder assembliesFinder;
     public OpenCoverCoverageRunner(OpenCoverCommand openCoverCommand,
             MsCoverProperties msCoverProperties, 
             VsTestEnvironment testEnvironment,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-            CommandLineExecutor commandLineExecutor) {
+            CommandLineExecutor commandLineExecutor,
+            AssembliesFinder assembliesFinder) {
         this.openCoverCommand = openCoverCommand;
         this.msCoverProperties = msCoverProperties;
         this.testEnvironment=testEnvironment;
         this.microsoftWindowsEnvironment=microsoftWindowsEnvironment;
         this.commandLineExecutor= commandLineExecutor;
-        
+        this.assembliesFinder=assembliesFinder;
     }
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.CoverageRunner#execute()
      */
     @Override
     public void execute() {
-    
-        String path=msCoverProperties.getOpenCoverInstallPath();
-        openCoverCommand.setCommandPath(path); // is configurable, so let's not inject
+        VisualStudioSolution solution=microsoftWindowsEnvironment.getCurrentSolution();
+        String targetDir=assembliesFinder.findUnitTestAssembliesDir(solution);
+        openCoverCommand.setTargetDir(targetDir);
         
         List<String> excludeFilters = new ArrayList<String>();
         excludeFilters.add("*\\*.Designer.cs");

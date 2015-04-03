@@ -129,44 +129,7 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         classUnderTest.verifyShouldAnalyseReturns(true);
     }
     
-    @Test
-    public void analyseSimpleSolution() {
-        String targetDir="OpenCoverTestExecutionCoverageSensorTest/assemblies";
-        moduleFileSystemMock.givenWorkDir("OpenCoverTestExecutionCoverageSensorTest/.sonar");
-        testEnvironmentMock.givenXmlCoveragePath("coverage.xml");
-        classUnderTest.setModuleFileSystem(moduleFileSystemMock);
-        classUnderTest.givenANewSensor();
-        classUnderTest.givenOpenCoverCommandBuilder(openCoverCommandBuilderMock);
-        classUnderTest.givenCommandLineExecutor(commandLineExecutorMock);
-        classUnderTest.givenVsTestStdOutParser(vsTestStdOutParserMock);
-        classUnderTest.givenFakesRemover(fakesRemoverMock);
-        
-        classUnderTest.givenTestRunnerFactory(vsTestRunnerFactoryMock);
-        vsTestRunnerFactoryMock.onCreate(vsTestRunnerMock);
-        
-        openCoverParserFactoryMock.givenXmlParserSubject(xmlParserSubjectMock);
-        classUnderTest.givenOpenCoverParserFactory(openCoverParserFactoryMock);
-        assembliesFinderMock.onFindUnitTestAssembliesDir(targetDir);
-        
-        assembliesFinderFactoryMock.onCreate(msCoverPropertiesMock,assembliesFinderMock);
-        classUnderTest.givenAssembliesFinderFactory(assembliesFinderFactoryMock);
-        classUnderTest.setOpenCoverCommand(openCoverCommandMock.getMock());
-        microsoftWindowsEnvironmentMock.givenHasSolutionWithProject(1);
-        classUnderTest.analyse();
-        
-        
-        xmlParserSubjectMock.verifyParseFile("coverage.xml");
-        openCoverCommandMock.verifySetTargetDir(targetDir);
-        openCoverCommandBuilderMock.verifySetOpenCovercommand(openCoverCommandMock);
-        openCoverCommandBuilderMock.verifySetAssemblies();
-        openCoverCommandBuilderMock.verifySetMsCoverProperties(msCoverPropertiesMock);
-        openCoverCommandBuilderMock.verifySetTestRunner(vsTestRunnerCommandBuilderMock);
-        
-        testEnvironmentMock.verifyTestsHaveRun();
-        testEnvironmentMock.verifySonarCoverageSet();
-        
-        fakesRemoverMock.verifyRemoveFakes(new File(targetDir));
-    }
+
 
 
 }

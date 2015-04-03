@@ -25,7 +25,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunne
 public class OpenCoverDirector {
 
     private DefaultPicoContainer container;
-    private OpenCoverCommand openCoverCommand;
+
     
     public void wire(DefaultPicoContainer container) {
         container.addComponent(new ProcessLock("opencover"))
@@ -43,8 +43,7 @@ public class OpenCoverDirector {
         this.container=container;
     }
     
-    public SonarCoverage execute(OpenCoverCommand openCoverCommand) {
-        this.openCoverCommand = openCoverCommand;
+    public void execute() {
         VsTestEnvironment testEnvironment = container.getComponent(VsTestEnvironment.class);
         VSTestCommand testCommand = buildTestRunner();
        String stdOut=executeVsTestOpenCoverRunner(testCommand); 
@@ -53,16 +52,16 @@ public class OpenCoverDirector {
        SonarCoverage sonarCoverageRegistry=parseCoverageFile(testEnvironment);
        testEnvironment.setSonarCoverage(sonarCoverageRegistry);
        testEnvironment.setTestsHaveRun();
-       return sonarCoverageRegistry;
     }
     
     private VSTestCommand buildTestRunner() {
         VsTestRunnerCommandBuilder unitTestRunner = container.getComponent(VsTestRunnerCommandBuilder.class);
-        VSTestCommand testCommand=unitTestRunner.build();
+        VSTestCommand testCommand=unitTestRunner.build(false);
         return testCommand;
     }
 
     private String executeVsTestOpenCoverRunner(VSTestCommand testCommand) {
+        OpenCoverCommand openCoverCommand=container.getComponent(OpenCoverCommand.class);
         openCoverCommand.setTargetCommand(testCommand);   
         CoverageRunner runner = container.getComponent(OpenCoverCoverageRunner.class);
         runner.execute();

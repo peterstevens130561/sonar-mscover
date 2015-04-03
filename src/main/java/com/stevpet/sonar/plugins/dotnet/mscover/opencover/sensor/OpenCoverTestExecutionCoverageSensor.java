@@ -40,7 +40,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvi
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AbstractDotNetSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
@@ -56,7 +55,6 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private final MsCoverProperties propertiesHelper ;
     private VsTestEnvironment testEnvironment;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-    private OpenCoverCommand openCoverCommand = new OpenCoverCommand();
     private AssembliesFinderFactory assembliesFinderFactory = new AssembliesFinderFactory();
     private FakesRemover fakesRemover = new DefaultFakesRemover();
     private FileSystem fileSystem;
@@ -115,16 +113,14 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         testEnvironment.setCoverageXmlFile(project,"coverage-report.xml"); 
 
         cleanEnvironment();  
-        openCoverDirector.execute(openCoverCommand);    
-        SonarCoverage sonarCoverageRegistry= openCoverDirector.execute(openCoverCommand); 
+   
+        openCoverDirector.execute(); 
     }
 
     private void cleanEnvironment() {
         AssembliesFinder finder = assembliesFinderFactory.create(propertiesHelper);
         String targetDir=finder.findUnitTestAssembliesDir(solution);
         fakesRemover.removeFakes(new File(targetDir)); 
-       
-        openCoverCommand.setTargetDir(targetDir);
         TestResultsCleaner testResultsCleaner = openCoverContainer.getComponent(TestResultsCleaner.class);
         testResultsCleaner.execute();
     }
@@ -135,7 +131,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         openCoverContainer = new DefaultPicoContainer(new ConstructorInjection());
         openCoverContainer.addComponent(propertiesHelper)
         .addComponent(testEnvironment)
-        .addComponent(openCoverCommand)
+        .addComponent(OpenCoverCommand.class)
         .addComponent(microsoftWindowsEnvironment)
         .addComponent(fileSystem);
     }

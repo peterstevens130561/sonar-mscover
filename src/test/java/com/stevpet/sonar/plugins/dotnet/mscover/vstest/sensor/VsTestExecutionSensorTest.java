@@ -58,25 +58,6 @@ public class VsTestExecutionSensorTest  {
         
     }
     
-    @Test
-    public void runAnalysisForRootProjectTestsHaveNotRun_TestsShouldBeRun() {
-        String resultsPath="results.path";
-        String coveragePath="coverage.path";
-        bd.givenANewSensor();
-        testEnvironment.givenTestsHaveNotExecuted();
-        bd.givenAnalysedProjectIsRootProject();
-        bd.givenStubbedVsTestRunner();
-        bd.givenTestResultsPath(resultsPath);
-        bd.givenCoveragePath(coveragePath);
-     
-        bd.analyseProject();
-        
-        bd.verifyTestRunnerHasRun();
-        testEnvironment.verifyTestsHaveRun();
-        testEnvironment.verifyTestResultsPathIs(resultsPath);
-        testEnvironment.verifyCoveragePathIs(coveragePath);
-        
-    }
     
     @Test
     public void runAnalysisForCSharpProjectTestsHaveRun_TestsShouldNotBeRun() {

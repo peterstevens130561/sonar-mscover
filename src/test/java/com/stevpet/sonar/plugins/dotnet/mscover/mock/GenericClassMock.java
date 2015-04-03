@@ -42,13 +42,13 @@ public class GenericClassMock<T> implements ClassMock<T> {
         return instance;
     }
     
-    public Class getMockedClass() {
-        return clazz;
-    }
-    
-    protected final void replace(DefaultPicoContainer container) {
-        container.removeComponent(getMockedClass());
-        container.addComponent(getMock());       
+    /**
+     * replace the class being mocked in the container by the mock
+     * @param container
+     */
+    public void replace(DefaultPicoContainer container) {
+        container.removeComponent(clazz);
+        container.addComponent(getMock());
     }
 
 }
