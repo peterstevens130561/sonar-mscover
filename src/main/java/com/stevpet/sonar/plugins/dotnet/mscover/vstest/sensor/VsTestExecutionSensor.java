@@ -22,6 +22,8 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor;
 
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.injectors.ConstructorInjection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.DependedUpon;
@@ -52,6 +54,9 @@ public class VsTestExecutionSensor implements Sensor {
     private MsCoverProperties propertiesHelper;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private AbstractVsTestRunnerFactory vsTestRunnerFactory = new DefaultVsTestRunnerFactory();
+    private DefaultPicoContainer container;
+    private VsTestExecutionSensorDirector director = new VsTestExecutionSensorDirector();
+ 
     
     public VsTestExecutionSensor(VsTestEnvironment vsTestEnvironment, MsCoverProperties propertiesHelper,FileSystem fileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         this.vsTestEnvironment = vsTestEnvironment;
@@ -59,7 +64,6 @@ public class VsTestExecutionSensor implements Sensor {
         this.microsoftWindowsEnvironment=microsoftWindowsEnvironment;
         this.propertiesHelper = propertiesHelper;
     }
-
 
     public boolean shouldExecuteOnProject(Project project) {
         return propertiesHelper.runVsTest();
@@ -71,17 +75,27 @@ public class VsTestExecutionSensor implements Sensor {
             LogInfo("tests have run already");
             return;
         }
+        
         if(!project.isRoot()) {
             LogInfo("MsCover/VsTestExecutionSensor won't execute as project is not root {}",project.getName());
             return;
         }
         
         LogInfo("MsCover/VsTestExecutionSensor : started running tests");
-
+        wire();
+        director.wire(container);
+        director.execute();
         runUnitTests();   
         updateTestEnvironment();
     }
 
+    private void wire() {
+        container = new DefaultPicoContainer(new ConstructorInjection());
+        container.addComponent(vsTestEnvironment)
+        .addComponent(fileSystem)
+        .addComponent(microsoftWindowsEnvironment)
+        .addComponent(propertiesHelper);
+    }
     private String runUnitTests() {
         TestResultsCleaner cleaner = new TestResultsCleaner(fileSystem);
         cleaner.execute();
