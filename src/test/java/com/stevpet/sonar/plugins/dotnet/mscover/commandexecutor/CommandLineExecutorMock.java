@@ -24,11 +24,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import org.mockito.ArgumentCaptor;
-import org.sonar.api.utils.command.Command;
 import static org.junit.Assert.assertEquals;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 
 public class CommandLineExecutorMock extends GenericClassMock<CommandLineExecutor> {
 

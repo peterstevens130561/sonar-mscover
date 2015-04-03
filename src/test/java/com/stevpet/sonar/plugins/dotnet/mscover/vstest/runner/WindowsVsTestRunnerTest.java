@@ -36,7 +36,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindow
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.CodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
@@ -48,7 +47,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 

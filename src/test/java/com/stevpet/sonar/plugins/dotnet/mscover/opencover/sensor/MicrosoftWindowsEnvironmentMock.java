@@ -22,7 +22,6 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +31,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 public class MicrosoftWindowsEnvironmentMock extends GenericClassMock<MicrosoftWindowsEnvironment>{

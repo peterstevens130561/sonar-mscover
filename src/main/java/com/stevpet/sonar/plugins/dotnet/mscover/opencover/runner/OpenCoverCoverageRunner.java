@@ -1,6 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

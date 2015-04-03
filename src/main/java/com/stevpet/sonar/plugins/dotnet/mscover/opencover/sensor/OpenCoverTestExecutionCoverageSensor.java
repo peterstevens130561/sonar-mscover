@@ -38,9 +38,7 @@ import org.sonar.plugins.dotnet.api.DotNetConstants;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AbstractDotNetSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleaner;  
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;  
 @DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
 @DependedUpon("OpenCoverRunningVsTest")
 public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
@@ -116,6 +114,5 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     }
 
 
-    
 
 }

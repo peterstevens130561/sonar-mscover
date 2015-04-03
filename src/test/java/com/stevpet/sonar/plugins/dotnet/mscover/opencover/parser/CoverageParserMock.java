@@ -9,8 +9,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-
-import  org.mockito.ArgumentMatcher;
 public class CoverageParserMock extends GenericClassMock<CoverageParser> {
 
     public CoverageParserMock() {

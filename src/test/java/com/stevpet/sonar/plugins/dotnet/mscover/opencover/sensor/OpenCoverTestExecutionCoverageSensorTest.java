@@ -22,21 +22,11 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
-import java.io.File;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.OpenCoverCommandBuilderMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.VsTestRunnerCommandBuilderMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutorMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactoryMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubjectMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParserMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactoryMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerFactoryMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock;
 
 public class OpenCoverTestExecutionCoverageSensorTest {
@@ -46,19 +36,6 @@ public class OpenCoverTestExecutionCoverageSensorTest {
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     private ProjectMock project = new ProjectMock();
     private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
-    private OpenCoverCommandMock openCoverCommandMock = new OpenCoverCommandMock();
-    private FileSystemMock moduleFileSystemMock = new FileSystemMock();
-    private OpenCoverCommandBuilderMock openCoverCommandBuilderMock = new OpenCoverCommandBuilderMock();
-    private AssembliesFinderFactoryMock assembliesFinderFactoryMock = new AssembliesFinderFactoryMock();
-    private AssembliesFinderMock assembliesFinderMock = new AssembliesFinderMock();
-    private CommandLineExecutorMock commandLineExecutorMock = new CommandLineExecutorMock();
-    private VSTestStdOutParserMock vsTestStdOutParserMock = new VSTestStdOutParserMock();
-    private OpenCoverParserFactoryMock openCoverParserFactoryMock = new OpenCoverParserFactoryMock();
-    private XmlParserSubjectMock xmlParserSubjectMock = new XmlParserSubjectMock();
-    private VsTestRunnerFactoryMock vsTestRunnerFactoryMock = new VsTestRunnerFactoryMock();
-    private VsTestRunnerMock vsTestRunnerMock = new VsTestRunnerMock();
-    private VsTestRunnerCommandBuilderMock vsTestRunnerCommandBuilderMock = new VsTestRunnerCommandBuilderMock();
-    private FakesRemoverMock fakesRemoverMock = new FakesRemoverMock();
     private FileSystemMock fileSystemMock = new FileSystemMock();
     
     @Before
