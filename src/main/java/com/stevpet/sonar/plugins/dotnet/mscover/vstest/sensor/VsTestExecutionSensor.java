@@ -94,15 +94,6 @@ public class VsTestExecutionSensor implements Sensor {
     }
     
 
-
-
-    /**
-     * @param vsTestRunnerFactory the vsTestRunnerFactory to set
-     */
-    public void setVsTestRunnerFactory(
-            AbstractVsTestRunnerFactory vsTestRunnerFactory) {
-    }
-
     private void LogInfo(String msg, Object ...objects ) {
         Log.info(LOGPREFIX + msg,objects);
     }

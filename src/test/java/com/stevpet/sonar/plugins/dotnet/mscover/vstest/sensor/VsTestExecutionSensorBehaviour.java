@@ -87,7 +87,7 @@ public class VsTestExecutionSensorBehaviour {
 
     protected void givenANewSensor() {
         sensor=new VsTestExecutionSensor(vsTestEnvironmentMock.getMock(),msCoverProperties,fileSystem,microsoftWindowsEnvironment);
-        sensor.setVsTestRunnerFactory(vsTestRunnerFactory);
+        //sensor.setVsTestRunnerFactory(vsTestRunnerFactory);
     }
 
     public void givenTestResultsPath(String resultsPath) {
