@@ -41,13 +41,10 @@ import org.sonar.test.TestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.SolutionHasNoProjectsSonarException;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.VisualStudioProjectMock;
 
 public class AssembliesFinderConfigTest {
-
-    
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     private VisualStudioProjectMock visualStudioProjectMock = new VisualStudioProjectMock();
     private AssembliesFinder assembliesFinder;
