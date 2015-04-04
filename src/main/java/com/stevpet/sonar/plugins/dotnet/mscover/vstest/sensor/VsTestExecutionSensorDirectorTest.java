@@ -32,6 +32,13 @@ public class VsTestExecutionSensorDirectorTest extends SensorTest {
 
     private VsTestExecutionSensorDirector director = new VsTestExecutionSensorDirector();
     private DefaultPicoContainer container;
+	private InjectingFakesRemoverMock injectingFakesRemoverMock;
+	private TestResultsCleanerMock testResultsCleanerMock;
+	private VsTestConfigFinderMock vsTestConfigFinderMock;
+	private CommandLineExecutorMock commandLineExecutorMock;
+	private AssembliesFinderMock assembliesFinderMock;
+	private CoverageParserMock coverageParserMock;
+	private WindowsCodeCoverageCommandShim windowsCodeCoverageCommandShim;
     @Before
     public void before() {
         container = super.getContainerWithSensorMocks();
@@ -52,48 +59,31 @@ public class VsTestExecutionSensorDirectorTest extends SensorTest {
     
     @Test
     public void VsTestExecutionSensorDirector_Test() {
-        //Given a solution 
-        InjectingFakesRemoverMock injectingFakesRemoverMock = new InjectingFakesRemoverMock();
-        injectingFakesRemoverMock.replace(container);
-        
-        TestResultsCleanerMock testResultsCleanerMock = new TestResultsCleanerMock();
-        testResultsCleanerMock.replace(container);
-        
-       
-        msCoverPropertiesMock.givenOpenCoverInstallPath("opencover");
+        createMocks();
         VsTestEnvironment testEnvironment = container.getComponent(VsTestEnvironment.class);
+        //given workdir is "bogus/.sonar"
         File workDir=new File("bogus/.sonar");
         fileSystemMock.givenWorkDir(workDir);
         testEnvironment.setCoverageXmlPath("bogus/.sonar/coverage.xml");
-        VsTestConfigFinderMock vsTestConfigFinderMock = new VsTestConfigFinderMock();
+        //given testsettings file is "bogus"
         vsTestConfigFinderMock.givenGetTestSettingsFileOrDie(new File("bogus"));
-        vsTestConfigFinderMock.replace(container);
         
+        //given a solution with one project
         microsoftWindowsEnvironmentMock.givenHasSolutionWithProject(1);
         
+        //given assemblies "one,two"
         List<String> assemblies=new ArrayList<String>();
         assemblies.add("one");
         assemblies.add("two");
         microsoftWindowsEnvironmentMock.givenHasAssemblies(assemblies );
         
-        CommandLineExecutorMock commandLineExecutorMock = new CommandLineExecutorMock();
-        container.addComponent(commandLineExecutorMock.getMock());
-        container.removeComponent(LockedWindowsCommandLineExecutor.class);
+        //given results file is "myfunny.trx" and coverage file is "pietje.coverage"
         String stdOut="\nResults File: myfunny.trx\nAttachments:\n  pietje.coverage";
         commandLineExecutorMock.givenGetStdOut(stdOut);
         
-        AssembliesFinderMock assembliesFinderMock = new AssembliesFinderMock();
-        container.addComponent(assembliesFinderMock.getMock());
-        container.removeComponent(DefaultAssembliesFinder.class);
         assembliesFinderMock.onFindUnitTestAssembliesDir("mytestdir");
-        CoverageParserMock coverageParserMock = new CoverageParserMock();
-        coverageParserMock.replace(container);
-        container.removeComponent(OpenCoverCoverageParser.class);
 
-        WindowsCodeCoverageCommandShim windowsCodeCoverageCommandShim=new WindowsCodeCoverageCommandShim();
-        container.removeComponent(WindowsCodeCoverageCommand.class);
-        container.addComponent(windowsCodeCoverageCommandShim);
-
+        // when analysed
         director.execute();
         
         //then vstest.console.exe is invoked
@@ -103,10 +93,41 @@ public class VsTestExecutionSensorDirectorTest extends SensorTest {
         String prefix = workDir.getAbsolutePath();
         String expectedCommandLine=prefix + "\\CodeCoverage\\CodeCoverage.exe pietje.coverage bogus\\.sonar\\coverage.xml";
         commandLineExecutorMock.thenCommandLine(expectedCommandLine);
-        
+        // and then path to test results file is 
         assertEquals("path to test results file","myfunny.trx",testEnvironment.getXmlResultsPath());
         injectingFakesRemoverMock.thenExecuteInvoked();
         testResultsCleanerMock.thenExecuteInvoked();
     }
+
+
+	private void createMocks() {
+		injectingFakesRemoverMock = new InjectingFakesRemoverMock();
+        injectingFakesRemoverMock.replace(container);
+        
+        testResultsCleanerMock = new TestResultsCleanerMock();
+        testResultsCleanerMock.replace(container);
+        
+        msCoverPropertiesMock.givenOpenCoverInstallPath("opencover");
+
+        
+        vsTestConfigFinderMock = new VsTestConfigFinderMock();
+        vsTestConfigFinderMock.replace(container);
+        
+        commandLineExecutorMock = new CommandLineExecutorMock();
+        container.addComponent(commandLineExecutorMock.getMock());
+        container.removeComponent(LockedWindowsCommandLineExecutor.class);
+        
+        assembliesFinderMock = new AssembliesFinderMock();
+        container.addComponent(assembliesFinderMock.getMock());
+        container.removeComponent(DefaultAssembliesFinder.class);
+        
+        coverageParserMock = new CoverageParserMock();
+        coverageParserMock.replace(container);
+        container.removeComponent(OpenCoverCoverageParser.class);
+        
+        windowsCodeCoverageCommandShim = new WindowsCodeCoverageCommandShim();
+        container.removeComponent(WindowsCodeCoverageCommand.class);
+        container.addComponent(windowsCodeCoverageCommandShim);
+	}
     
 }
