@@ -33,7 +33,7 @@ import org.sonar.api.utils.command.Command;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.helpers.SonarWindowsFileSystemHelper;
 
-public class WindowsCodeCoverageCommand implements CodeCoverageCommand {
+public class WindowsCodeCoverageCommand extends CodeCoverageCommand {
     private String coveragePath;
     private String outputPath;
     private String sonarPath;

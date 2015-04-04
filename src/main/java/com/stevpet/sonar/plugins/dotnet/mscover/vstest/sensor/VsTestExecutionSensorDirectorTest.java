@@ -12,11 +12,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.picocontainer.DefaultPicoContainer;
 
-
-
-
-
-
+import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommandShim;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutorMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageParserMock;
@@ -62,6 +59,7 @@ public class VsTestExecutionSensorDirectorTest extends SensorTest {
         TestResultsCleanerMock testResultsCleanerMock = new TestResultsCleanerMock();
         testResultsCleanerMock.replace(container);
         
+       
         msCoverPropertiesMock.givenOpenCoverInstallPath("opencover");
         VsTestEnvironment testEnvironment = container.getComponent(VsTestEnvironment.class);
         fileSystemMock.givenWorkDir(new File("bogus/.sonar"));
@@ -91,9 +89,15 @@ public class VsTestExecutionSensorDirectorTest extends SensorTest {
         coverageParserMock.replace(container);
         container.removeComponent(OpenCoverCoverageParser.class);
 
+        WindowsCodeCoverageCommandShim windowsCodeCoverageCommandShim=new WindowsCodeCoverageCommandShim();
+        container.removeComponent(WindowsCodeCoverageCommand.class);
+        container.addComponent(windowsCodeCoverageCommandShim);
+
         director.execute();
         
+        commandLineExecutorMock.thenCommandLine("C:/Program Files (x86)/Microsoft Visual Studio 11.0/Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe /Settings:E:\\Users\\stevpet\\My Documents\\GitHub\\sonar-mscover\\bogus /EnableCodeCoverage /Logger:trx");
         commandLineExecutorMock.thenCommandLine("opencover/OpenCover.Console.Exe -register:user -excludebyfile:*\\*.Designer.cs -excludebyattribute:*ExcludeFromCodeCoverage* \"-targetdir:mytestdir\" -mergebyhash: \"-output:bogus/.sonar/coverage.xml\" \"-filter:+[one]* +[two]* \"");
+        
         coverageParserMock.thenParse("bogus/.sonar/coverage.xml");
         assertEquals("path to test results file","myfunny.trx",testEnvironment.getXmlResultsPath());
         injectingFakesRemoverMock.thenExecuteInvoked();

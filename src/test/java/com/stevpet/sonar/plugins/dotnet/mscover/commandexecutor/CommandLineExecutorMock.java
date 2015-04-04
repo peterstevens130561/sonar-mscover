@@ -23,13 +23,21 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Matchers.eq;
+
 import org.mockito.ArgumentCaptor;
+import org.sonar.api.utils.command.Command;
+
 import static org.junit.Assert.assertEquals;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 
 public class CommandLineExecutorMock extends GenericClassMock<CommandLineExecutor> {
-
+    ArgumentCaptor<ShellCommand> argument = ArgumentCaptor.forClass(ShellCommand.class);
     public CommandLineExecutorMock() {
         super(CommandLineExecutor.class);
     }
@@ -39,10 +47,42 @@ public class CommandLineExecutorMock extends GenericClassMock<CommandLineExecuto
     }
 
     public void thenCommandLine(String commandLine) {
-        ArgumentCaptor<ShellCommand> argument = ArgumentCaptor.forClass(ShellCommand.class);
-        verify(instance).execute(argument.capture());
-        ShellCommand actualCommand=argument.getValue();
-        assertEquals(commandLine,actualCommand.toCommandLine());
+        ShellCommand fakeCommand = new FakeCommand(commandLine);
+        verify(instance).execute(eq(fakeCommand));
     }
     
+    private class FakeCommand implements ShellCommand {
+        private String commandLine;
+        FakeCommand(String commandLine) {
+            this.commandLine = commandLine;
+        }
+        @Override
+        public String toCommandLine() {
+            return commandLine;
+        }
+        @Override
+        public Command toCommand() {
+            return null;
+        }
+        
+        @Override
+        public
+        boolean equals(Object other) {
+            if(other==null) {
+                return false ;
+            }
+            if(!(other instanceof ShellCommand)) {
+                return false ;
+            }
+            ShellCommand otherShellCommand = (ShellCommand) other ;
+            String otherLine=otherShellCommand.toCommandLine();
+            boolean result= otherLine.equals(commandLine);
+            return result;
+        }
+        
+        @Override 
+        public String toString() {
+        	return commandLine;
+        }
+    }
 }
