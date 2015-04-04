@@ -22,30 +22,22 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageParserM
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.CoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.OpenCoverCoverageRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.utils.SensorTest;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleanerMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinderMock;
 
 import static org.picocontainer.Characteristics.CACHE;
-public class OpenCoverDirectorTest {
+public class OpenCoverDirectorTest extends SensorTest {
 
     DefaultPicoContainer container;
     private OpenCoverDirector director = new OpenCoverDirector();
     
-    private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
-    private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
-    private FileSystemMock fileSystemMock = new FileSystemMock();
     
     @Before()
     public void before() {
-        container = new DefaultPicoContainer();
-        container.addComponent(msCoverPropertiesMock.getMock())
-        .as(CACHE).addComponent(VsTestEnvironment.class)
-        .addComponent(OpenCoverCommand.class)
-        .as(CACHE).addComponent(microsoftWindowsEnvironmentMock.getMock())
-        .as(CACHE).addComponent(fileSystemMock.getMock());
-        
+        container = super.getContainerWithSensorMocks();
         director.wire(container);
     }
    

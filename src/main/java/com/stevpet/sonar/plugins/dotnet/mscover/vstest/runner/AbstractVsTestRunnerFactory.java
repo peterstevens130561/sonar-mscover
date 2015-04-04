@@ -27,6 +27,7 @@ import org.sonar.api.batch.fs.FileSystem;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
@@ -38,7 +39,7 @@ public interface AbstractVsTestRunnerFactory {
             VSTestCommand vsTestCommand,
             CommandLineExecutor commandLineExecutor,
             VSTestStdOutParser vsTestStdOutParser,
-            AssembliesFinder assembliesFinder);
+            AssembliesFinder assembliesFinder, VsTestEnvironment testEnvironment);
 
     VsTestRunner createBasicTestRunnner(MsCoverProperties propertiesHelper,
             FileSystem fileSystem,

@@ -96,16 +96,6 @@ public class VsTestExecutionSensor implements Sensor {
         .addComponent(microsoftWindowsEnvironment)
         .addComponent(propertiesHelper);
     }
-    private String runUnitTests() {
-        TestResultsCleaner cleaner = new TestResultsCleaner(fileSystem);
-        cleaner.execute();
-        unitTestRunner = vsTestRunnerFactory.createBasicTestRunnner(propertiesHelper, fileSystem,microsoftWindowsEnvironment);
-        unitTestRunner.setDoCodeCoverage(true);
-        unitTestRunner.execute();
-        return unitTestRunner.getCoverageXmlPath();
-    }
-
-
     
     private void updateTestEnvironment() {
         String testResultsPath=unitTestRunner.getResultsXmlPath();

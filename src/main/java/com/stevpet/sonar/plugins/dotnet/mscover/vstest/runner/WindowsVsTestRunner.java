@@ -31,6 +31,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecu
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
 /**
  * @author stevpet
@@ -48,6 +49,7 @@ public class WindowsVsTestRunner  implements VsTestRunner {
     private String resultsPath;
     private boolean doCodeCoverage;
     private VsTestRunnerCommandBuilder commandBuilder;
+    private VsTestEnvironment testEnvironment;
     
     public WindowsVsTestRunner(
             FileSystem fileSystem, 
@@ -56,12 +58,14 @@ public class WindowsVsTestRunner  implements VsTestRunner {
             VSTestCommand vsTestCommand,
             CommandLineExecutor commandLineExecutor,
             VSTestStdOutParser vsTestStdOutParser,
-            VsTestRunnerCommandBuilder commandBuilder) {
+            VsTestRunnerCommandBuilder commandBuilder,
+            VsTestEnvironment testEnvironment) {
         this.commandBuilder = commandBuilder;
         this.fileSystem = fileSystem;
         this.codeCoverageCommand = codeCoverageCommand;
         this.executor = commandLineExecutor;
         this.vsTestStdOutParser = vsTestStdOutParser;
+        this.testEnvironment=testEnvironment;
     }
 
 
@@ -124,7 +128,7 @@ public class WindowsVsTestRunner  implements VsTestRunner {
     @Override
     public String getCoverageXmlPath() {
         // TODO Auto-generated method stub
-        return null;
+        return testEnvironment.getXmlCoveragePath();
     }
 
 

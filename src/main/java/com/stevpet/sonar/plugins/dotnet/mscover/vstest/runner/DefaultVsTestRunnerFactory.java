@@ -31,6 +31,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecu
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 
@@ -50,6 +51,7 @@ public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
      * @param microsoftWindowsEnvironment
      *            - directory that holds the solution
      * @param vsTestStdOutParser
+     * @param testEnvironment 
      * @param assembliesFinderFactory
      * @return
      */
@@ -59,7 +61,7 @@ public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
             VSTestCommand vsTestCommand,
             CommandLineExecutor commandLineExecutor,
             VSTestStdOutParser vsTestStdOutParser,
-            AssembliesFinder assembliesFinder) {
+            AssembliesFinder assembliesFinder, VsTestEnvironment testEnvironment) {
 
         WindowsCodeCoverageCommand codeCoverageCommand = new WindowsCodeCoverageCommand();
         TestConfigFinder testConfigFinder = new VsTestConfigFinder();
@@ -69,7 +71,7 @@ public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
         
         VsTestRunner unitTestRunner = new WindowsVsTestRunner(fileSystem, codeCoverageCommand,
                 testConfigFinder, vsTestCommand, commandLineExecutor,
-                vsTestStdOutParser, vsTestRunnerCommandBuilder);
+                vsTestStdOutParser, vsTestRunnerCommandBuilder,testEnvironment);
         return unitTestRunner;
     }
 
