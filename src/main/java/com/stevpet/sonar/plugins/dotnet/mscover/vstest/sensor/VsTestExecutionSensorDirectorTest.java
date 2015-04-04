@@ -104,8 +104,6 @@ public class VsTestExecutionSensorDirectorTest extends SensorTest {
         String expectedCommandLine=prefix + "\\CodeCoverage\\CodeCoverage.exe pietje.coverage bogus\\.sonar\\coverage.xml";
         commandLineExecutorMock.thenCommandLine(expectedCommandLine);
         
-        // and then vstest coverage parser is invoked
-        coverageParserMock.thenParse("bogus/.sonar/coverage.xml");
         assertEquals("path to test results file","myfunny.trx",testEnvironment.getXmlResultsPath());
         injectingFakesRemoverMock.thenExecuteInvoked();
         testResultsCleanerMock.thenExecuteInvoked();

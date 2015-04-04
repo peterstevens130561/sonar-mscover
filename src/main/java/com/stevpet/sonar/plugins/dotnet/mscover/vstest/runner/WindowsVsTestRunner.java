@@ -78,7 +78,8 @@ public class WindowsVsTestRunner  implements VsTestRunner {
      */
     public void execute() {
         ShellCommand vsTestCommand = commandBuilder.build(doCodeCoverage);
-        executeShellCommand(vsTestCommand);
+        executor.execute(vsTestCommand);
+        stdOutString = executor.getStdOut();
         getResultPaths();
         if (doCodeCoverage) {
             convertCoverageFileToXml();
@@ -94,15 +95,9 @@ public class WindowsVsTestRunner  implements VsTestRunner {
         codeCoverageCommand.setCoveragePath(coveragePath);
         codeCoverageCommand.setOutputPath(getCoverageXmlPath());
         codeCoverageCommand.install();
-        executeShellCommand(codeCoverageCommand);
+        executor.execute(codeCoverageCommand);
     }
 
-    int executeShellCommand(ShellCommand command) {
-    	boolean isShell = command instanceof ShellCommand;
-        int exitCode = executor.execute(command);
-        stdOutString = executor.getStdOut();
-        return exitCode;
-    }
 
     protected void getResultPaths() {
         vsTestStdOutParser.setResults(stdOutString);
@@ -121,16 +116,20 @@ public class WindowsVsTestRunner  implements VsTestRunner {
 
     @Override
     public boolean shouldRun() {
-        // TODO Auto-generated method stub
         return false;
     }
 
 
     @Override
     public String getCoverageXmlPath() {
-        // TODO Auto-generated method stub
         return testEnvironment.getXmlCoveragePath();
     }
+
+
+	@Override
+	public String getStdOut() {
+		return stdOutString;
+	}
 
 
 }

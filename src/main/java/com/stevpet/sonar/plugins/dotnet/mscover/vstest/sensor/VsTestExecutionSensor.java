@@ -52,7 +52,6 @@ public class VsTestExecutionSensor implements Sensor {
 
     private MsCoverProperties propertiesHelper;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-    private AbstractVsTestRunnerFactory vsTestRunnerFactory = new DefaultVsTestRunnerFactory();
     private DefaultPicoContainer container;
     private VsTestExecutionSensorDirector director = new VsTestExecutionSensorDirector();
  
@@ -69,7 +68,6 @@ public class VsTestExecutionSensor implements Sensor {
     }
 
     public void analyse(Project project, SensorContext context) {
-
         if(vsTestEnvironment.getTestsHaveRun()) {
             LogInfo("tests have run already");
             return;
@@ -83,8 +81,8 @@ public class VsTestExecutionSensor implements Sensor {
         LogInfo("MsCover/VsTestExecutionSensor : started running tests");
         wire();
         director.wire(container);
+        vsTestEnvironment.setCoverageXmlFile(project,"coverage-report.xml"); 
         director.execute();  
-        updateTestEnvironment();
     }
 
     private void wire() {
@@ -95,18 +93,7 @@ public class VsTestExecutionSensor implements Sensor {
         .addComponent(propertiesHelper);
     }
     
-    private void updateTestEnvironment() {
-        String testResultsPath=unitTestRunner.getResultsXmlPath();
-        vsTestEnvironment.setTestResultsXmlPath(testResultsPath);
-        
-        String coverageXmlPath=unitTestRunner.getCoverageXmlPath();
-        vsTestEnvironment.setCoverageXmlPath(coverageXmlPath);
-        vsTestEnvironment.setTestsHaveRun();
-        
-        LogInfo("running tests completed");
-        LogInfo("coverage in {}",coverageXmlPath);
-        LogInfo("results in {}",testResultsPath);
-    }
+
 
 
     /**
@@ -114,7 +101,6 @@ public class VsTestExecutionSensor implements Sensor {
      */
     public void setVsTestRunnerFactory(
             AbstractVsTestRunnerFactory vsTestRunnerFactory) {
-        this.vsTestRunnerFactory = vsTestRunnerFactory;
     }
 
     private void LogInfo(String msg, Object ...objects ) {

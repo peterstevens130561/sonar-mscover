@@ -46,7 +46,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private static String WONT_EXECUTE = "VsTest.Console using OpenCover.Console.Exe won't execute as ";
     private static final Logger LOG = LoggerFactory.getLogger(OpenCoverTestExecutionCoverageSensor.class);
     private final MsCoverProperties propertiesHelper ;
-    private VsTestEnvironment testEnvironment;
+    private VsTestEnvironment vsTestEnvironment;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private FileSystem fileSystem;
     private DefaultPicoContainer openCoverContainer;
@@ -58,7 +58,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         super(microsoftWindowsEnvironment, propertiesHelper.getMode());
         this.propertiesHelper = propertiesHelper;
         this.fileSystem = fileSystem;
-        this.testEnvironment = testEnvironment;
+        this.vsTestEnvironment = testEnvironment;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
     }
 
@@ -73,7 +73,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
      */
     @Override
     public boolean shouldExecuteOnProject(Project project) {
-        if (testEnvironment.getTestsHaveRun()) {
+        if (vsTestEnvironment.getTestsHaveRun()) {
             logReasonToNotExecute("test execution has already been done.");
             return false;
         }
@@ -101,14 +101,14 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     public void analyse(Project project, SensorContext context) {
         wire();
         openCoverDirector.wire(openCoverContainer);
-        testEnvironment.setCoverageXmlFile(project,"coverage-report.xml"); 
+        vsTestEnvironment.setCoverageXmlFile(project,"coverage-report.xml"); 
         openCoverDirector.execute(); 
     }
 
     private void wire() {
         openCoverContainer = new DefaultPicoContainer(new ConstructorInjection());
         openCoverContainer.addComponent(propertiesHelper)
-        .addComponent(testEnvironment)
+        .addComponent(vsTestEnvironment)
         .addComponent(microsoftWindowsEnvironment)
         .addComponent(fileSystem);
     }

@@ -5,8 +5,10 @@ import org.picocontainer.DefaultPicoContainer;
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.InjectingFakesRemover;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleaner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
@@ -32,9 +34,31 @@ public class VsTestExecutionSensorDirector {
     }
 
     public void execute() {
-        VsTestRunner unitTestRunner = container.getComponent(VsTestRunner.class);
-        unitTestRunner.setDoCodeCoverage(true);
-        unitTestRunner.execute();
+        TestResultsCleaner testResultsCleaner = container.getComponent(TestResultsCleaner.class);
+        testResultsCleaner.execute();
+        
+        InjectingFakesRemover fakesRemover=container.getComponent(InjectingFakesRemover.class);
+        fakesRemover.execute();
+        
+        VsTestEnvironment testEnvironment = container.getComponent(VsTestEnvironment.class);
+ 
+        String stdOut=executeTestRunner();
+        String resultsPath=getLocationOfTestResultsFile(stdOut);  
+        testEnvironment.setTestResultsXmlPath(resultsPath);
+        testEnvironment.setTestsHaveRun();
     }
 
+    private String executeTestRunner() {
+        VsTestRunner runner = container.getComponent(VsTestRunner.class);
+        runner.setDoCodeCoverage(true);
+        runner.execute();
+        return runner.getStdOut();   
+    }
+    
+    private String getLocationOfTestResultsFile(String stdOut) {
+        VSTestStdOutParser vsTestStdOutParser = container.getComponent(VSTestStdOutParser.class);
+        vsTestStdOutParser.setResults(stdOut);
+        return vsTestStdOutParser.getTestResultsXmlPath(); 
+
+    }
 }
