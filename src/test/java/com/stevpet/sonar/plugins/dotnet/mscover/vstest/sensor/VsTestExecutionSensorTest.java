@@ -22,28 +22,14 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor;
 
-import org.junit.Before;
+
 import org.junit.Test;
 
 
 public class VsTestExecutionSensorTest  {
 
     private VsTestExecutionSensorBehaviour bd = new VsTestExecutionSensorBehaviour();
-    private VsTestEnvironmentMock testEnvironment ;
-    
-    @Before
-    public void before() {
-        testEnvironment=bd.getTestEnvironment();
-    }
-    @Test
-    public void testVsTestExecutionSensor() {
-        bd.givenANewSensor();
-        bd.verifyThatTheTestExecutionSensorExists();
-    }
-    
-
-    
-  
+ 
 
     @Test
     public void testRunPropertyNotSet_ShouldNotRun() {

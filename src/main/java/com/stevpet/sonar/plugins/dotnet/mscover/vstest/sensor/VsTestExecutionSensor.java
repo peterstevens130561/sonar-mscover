@@ -35,9 +35,6 @@ import org.sonar.api.resources.Project;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AbstractVsTestRunnerFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultVsTestRunnerFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 
 @DependedUpon(VsTestExecutionSensor.DEPENDS)
 public class VsTestExecutionSensor implements Sensor {
@@ -48,8 +45,6 @@ public class VsTestExecutionSensor implements Sensor {
     private final static String LOGPREFIX = "MsCover/VsTestExecutionSensor : ";
     private VsTestEnvironment vsTestEnvironment;
     private FileSystem fileSystem;
-    private VsTestRunner unitTestRunner;
-
     private MsCoverProperties propertiesHelper;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private DefaultPicoContainer container;

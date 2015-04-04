@@ -26,7 +26,6 @@ public class OpenCoverDirector {
 
     private DefaultPicoContainer container;
 
-    
     public void wire(DefaultPicoContainer container) {
         container.addComponent(new ProcessLock("opencover"))
         .addComponent(LockedWindowsCommandLineExecutor.class)

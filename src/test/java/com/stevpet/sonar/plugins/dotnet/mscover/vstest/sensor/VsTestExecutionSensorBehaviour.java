@@ -50,7 +50,6 @@ public class VsTestExecutionSensorBehaviour {
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment = mock(MicrosoftWindowsEnvironment.class);
     private Project project = mock(Project.class);
     private SensorContext context = mock(SensorContext.class);
-    private AbstractVsTestRunnerFactory vsTestRunnerFactory = mock(AbstractVsTestRunnerFactory.class);
     private VsTestRunner vsTestRunner = mock(VsTestRunner.class);
 
 
