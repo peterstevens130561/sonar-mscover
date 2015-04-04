@@ -37,7 +37,6 @@ import org.sonar.api.resources.Project;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AbstractVsTestRunnerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 
 public class VsTestExecutionSensorBehaviour {

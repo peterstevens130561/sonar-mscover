@@ -24,9 +24,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
 public interface CoveragePoint {
 
-    abstract int getToCover();
+    int getToCover();
 
-    abstract int getCovered();  
+    int getCovered();  
     
 
 }

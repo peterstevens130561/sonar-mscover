@@ -24,7 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
 public interface CoverageLine {
     
-    abstract int getLine();
+    int getLine();
     
-    abstract void setLine(int line);
+    void setLine(int line);
 }

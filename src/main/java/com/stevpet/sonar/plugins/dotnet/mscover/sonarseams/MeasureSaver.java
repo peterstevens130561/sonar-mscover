@@ -43,23 +43,23 @@ public interface MeasureSaver {
      * to translate it to a resource.
      * @param file
      */
-    public void setFile(File file);
+    void setFile(File file);
 
     /**
      * if the file is to be included in the analysis then the measure will be saved
      * @param measure
      */
-    public void saveFileMeasure(Measure measure);
+    void saveFileMeasure(Measure measure);
 
-    public void saveFileMeasure(Metric metric, double value);
+    void saveFileMeasure(Metric metric, double value);
 
-    public void saveSummaryMeasure(Metric tests, double executedTests);
+    void saveSummaryMeasure(Metric tests, double executedTests);
 
-    public void setIgnoreTwiceSameMeasure();
+    void setIgnoreTwiceSameMeasure();
 
-    public void setExceptionOnTwiceSameMeasure();
+    void setExceptionOnTwiceSameMeasure();
 
-    public void setProjectAndContext(Project project,
+    void setProjectAndContext(Project project,
             SensorContext sensorContext);
 
 }

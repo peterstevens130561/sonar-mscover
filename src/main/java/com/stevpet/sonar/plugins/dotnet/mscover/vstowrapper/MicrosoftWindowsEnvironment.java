@@ -37,7 +37,7 @@ public interface MicrosoftWindowsEnvironment {
     
     List<File> getUnitTestSourceFiles();
     
-    public List<String> getAssemblies();
+    List<String> getAssemblies();
 
 
     /**

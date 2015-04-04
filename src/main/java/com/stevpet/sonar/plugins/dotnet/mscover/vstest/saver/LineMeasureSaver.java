@@ -28,6 +28,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.FileLineCoverage;
 
 public interface LineMeasureSaver {
 
-    public void saveMeasures(
+    void saveMeasures(
             FileLineCoverage coverageData, File file);
 }

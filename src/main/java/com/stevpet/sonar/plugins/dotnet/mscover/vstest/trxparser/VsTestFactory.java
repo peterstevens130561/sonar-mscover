@@ -34,7 +34,7 @@ public interface VsTestFactory {
      * @param unitTestResultRegistry
      * @return
      */
-    public abstract XmlParserSubject createUnitTestResultsParser(
+    XmlParserSubject createUnitTestResultsParser(
             UnitTestRegistry registry);
 
 }
