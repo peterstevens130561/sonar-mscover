@@ -38,58 +38,65 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+
 @DependsUpon("OpenCoverRunningVsTest")
 public class OpenCoverCoverageResultsSensor extends AbstractDotNetSensor {
 
-    private static final Logger LOG = LoggerFactory.getLogger(OpenCoverCoverageResultsSensor.class);
-    private MsCoverProperties propertiesHelper;
-    private VsTestEnvironment vsTestEnvironment;
-    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-    private MeasureSaver measureSaver;
-    public OpenCoverCoverageResultsSensor(
-            MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-            MsCoverProperties propertiesHelper,
-            VsTestEnvironment vsTestEnvironment,
-            MeasureSaver measureSaver) {
+	private static final Logger LOG = LoggerFactory
+			.getLogger(OpenCoverCoverageResultsSensor.class);
+	private MsCoverProperties propertiesHelper;
+	private VsTestEnvironment vsTestEnvironment;
+	private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
+	private MeasureSaver measureSaver;
 
-        super(microsoftWindowsEnvironment,propertiesHelper.getMode());
-        this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
-        this.propertiesHelper = propertiesHelper;
-        this.vsTestEnvironment=vsTestEnvironment;
-        this.measureSaver = measureSaver;
-    }
+	public OpenCoverCoverageResultsSensor(
+			MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
+			MsCoverProperties propertiesHelper,
+			VsTestEnvironment vsTestEnvironment, MeasureSaver measureSaver) {
 
-    @Override
-    public String[] getSupportedLanguages() {
-        return new String[] {"cs"};
-    }
+		super(microsoftWindowsEnvironment, propertiesHelper.getMode());
+		this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
+		this.propertiesHelper = propertiesHelper;
+		this.vsTestEnvironment = vsTestEnvironment;
+		this.measureSaver = measureSaver;
+	}
 
-    @Override
-    public boolean shouldExecuteOnProject(Project project) {
-        if(!super.shouldExecuteOnProject(project)) {
-            return false;
-        }
-        if(!propertiesHelper.runOpenCover()) {
-            return false;
-        }
+	@Override
+	public String[] getSupportedLanguages() {
+		return new String[] { "cs" };
+	}
 
-        LOG.info("Will execute " + project.getName());
-        return true;
-    }
-    @Override
-    public void analyse(Project project, SensorContext sensorContext) {
-        if(!vsTestEnvironment.getTestsHaveRun()) {
-            LOG.info("Will not store OpenCover coverage data, as tests have not run");
-            return ;
-        }
-        LOG.info("Saving opencover line & branch coverage for " + project.getName());
-        measureSaver.setProjectAndContext(project, sensorContext);
-        SonarCoverageSaver sonarCoverageSaver = new SonarCoverageSaver(measureSaver);
-        SonarCoverage sonarCoverageRegistry = vsTestEnvironment.getSonarCoverage();
-        List<File> testSourceFiles=microsoftWindowsEnvironment.getUnitTestSourceFiles();
-        sonarCoverageSaver.setCoverageRegistry(sonarCoverageRegistry);
-        sonarCoverageSaver.setExcludeSourceFiles(testSourceFiles);
-        sonarCoverageSaver.save();
-    }
+	@Override
+	public boolean shouldExecuteOnProject(Project project) {
+		if (!super.shouldExecuteOnProject(project)) {
+			return false;
+		}
+		if (!propertiesHelper.runOpenCover()) {
+			return false;
+		}
+
+		LOG.info("Will execute " + project.getName());
+		return true;
+	}
+
+	@Override
+	public void analyse(Project project, SensorContext sensorContext) {
+		if (!vsTestEnvironment.getTestsHaveRun()) {
+			LOG.info("Will not store OpenCover coverage data, as tests have not run");
+			return;
+		}
+		LOG.info("Saving opencover line & branch coverage for "
+				+ project.getName());
+		measureSaver.setProjectAndContext(project, sensorContext);
+		SonarCoverageSaver sonarCoverageSaver = new SonarCoverageSaver(
+				measureSaver);
+		SonarCoverage sonarCoverageRegistry = vsTestEnvironment
+				.getSonarCoverage();
+		List<File> testSourceFiles = microsoftWindowsEnvironment
+				.getUnitTestSourceFiles();
+		sonarCoverageSaver.setCoverageRegistry(sonarCoverageRegistry);
+		sonarCoverageSaver.setExcludeSourceFiles(testSourceFiles);
+		sonarCoverageSaver.save();
+	}
 
 }
