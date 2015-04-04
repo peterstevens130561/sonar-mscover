@@ -40,6 +40,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCode
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -175,7 +176,8 @@ public class WindowsVsTestRunnerTest {
         .addComponent(assembliesFinderMock.getMock())
         .addComponent(WindowsCodeCoverageCommand.class)
         .addComponent(VsTestRunnerCommandBuilder.class)
-        .addComponent(WindowsVsTestRunner.class);
+        .addComponent(WindowsVsTestRunner.class)
+        .addComponent(VsTestEnvironment.class);
         runner = container.getComponent(WindowsVsTestRunner.class);
     }
 }

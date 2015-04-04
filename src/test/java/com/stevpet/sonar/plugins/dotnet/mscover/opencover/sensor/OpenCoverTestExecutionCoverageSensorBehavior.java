@@ -39,7 +39,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParser
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParserMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactoryMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerFactoryMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock;
 
 public class OpenCoverTestExecutionCoverageSensorBehavior {
@@ -121,10 +120,6 @@ public class OpenCoverTestExecutionCoverageSensorBehavior {
         //sensor.setOpenCoverParserFactory(openCoverParserFactoryMock.getMock());
     }
 
-    public void givenTestRunnerFactory(
-            VsTestRunnerFactoryMock vsTestRunnerFactoryMock) {
-        //sensor.setVsTestRunnerFactory(vsTestRunnerFactoryMock.getMock());
-    }
 
     public void givenFakesRemover(FakesRemoverMock fakesRemoverMock) {
         //sensor.setFakesRemover(fakesRemoverMock.getMock());

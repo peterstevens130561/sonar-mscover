@@ -56,14 +56,6 @@ public class VsTestExecutionSensorBehaviour {
     private VsTestRunner vsTestRunner = mock(VsTestRunner.class);
 
 
-    protected void givenStubbedVsTestRunner() {
-        when(vsTestRunnerFactory.createBasicTestRunnner(any(PropertiesHelper.class), 
-                any(FileSystem.class), 
-                any(MicrosoftWindowsEnvironment.class)
-                )
-                ).thenReturn(vsTestRunner);
-    }
-
     protected void analyseProject() {
         sensor.analyse(project, context);
     }

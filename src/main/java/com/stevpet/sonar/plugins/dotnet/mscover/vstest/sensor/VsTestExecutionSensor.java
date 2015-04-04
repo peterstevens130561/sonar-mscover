@@ -84,8 +84,7 @@ public class VsTestExecutionSensor implements Sensor {
         LogInfo("MsCover/VsTestExecutionSensor : started running tests");
         wire();
         director.wire(container);
-        director.execute();
-        runUnitTests();   
+        director.execute();  
         updateTestEnvironment();
     }
 

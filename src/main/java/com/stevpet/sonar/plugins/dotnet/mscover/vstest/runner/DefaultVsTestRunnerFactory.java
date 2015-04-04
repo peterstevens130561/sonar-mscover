@@ -75,20 +75,6 @@ public class DefaultVsTestRunnerFactory implements AbstractVsTestRunnerFactory {
         return unitTestRunner;
     }
 
-    @Override
-    @Deprecated
-    public VsTestRunner createBasicTestRunnner(
-            MsCoverProperties propertiesHelper, FileSystem fileSystem,
-            MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
-        // TODO Auto-generated method stub
-        VSTestCommand vsTestCommand = VSTestCommand.create();
-        CommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
-        VSTestStdOutParser vsTestStdOutParser = new VSTestStdOutParser();
-        AssembliesFinder assembliesFinder = new DefaultAssembliesFinder(propertiesHelper);
-        return this.createBasicTestRunnner(propertiesHelper, fileSystem,
-                microsoftWindowsEnvironment, vsTestCommand,
-                commandLineExecutor, vsTestStdOutParser,
-                assembliesFinder);
-    }
+  
 
 }
