@@ -33,13 +33,16 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
+
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.SolutionHasNoProjectsSonarException;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.VisualStudioProjectMock;
 
 public class AssembliesFinderConfigTest {
@@ -54,7 +57,7 @@ public class AssembliesFinderConfigTest {
 
     @Before()
     public void before() {
-        assembliesFinder = new AssembliesFinderFactory().create(msCoverPropertiesMock.getMock());
+        assembliesFinder = new DefaultAssembliesFinder(msCoverPropertiesMock.getMock());
         testResourceDir=TestUtils.getResource("AssembliesFinderConfigTest");
         
     }

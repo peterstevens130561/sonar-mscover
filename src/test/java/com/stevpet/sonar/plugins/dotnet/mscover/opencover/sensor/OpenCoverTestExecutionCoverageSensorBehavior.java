@@ -38,7 +38,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverComma
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverParserFactoryMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParserMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactoryMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestEnvironmentMock;
 
 public class OpenCoverTestExecutionCoverageSensorBehavior {
@@ -101,10 +100,6 @@ public class OpenCoverTestExecutionCoverageSensorBehavior {
         //sensor.setOpenCoverCommandBuilder(openCoverCommandBuilderMock.getMock());
     }
 
-    public void givenAssembliesFinderFactory(
-            AssembliesFinderFactoryMock assembliesFinderFactoryMock) {
-        //sensor.setAssembliesFinderFactory(assembliesFinderFactoryMock.getMock());
-    }
 
     public void givenCommandLineExecutor(
             CommandLineExecutorMock commandLineExecutorMock) {

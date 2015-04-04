@@ -36,7 +36,7 @@ import org.sonar.test.TestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinderFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -53,7 +53,7 @@ public class AssembliesFinderPatternTest {
         settings=mock(Settings.class);
         when(settings.getStringArrayBySeparator(anyString(), anyString())).thenCallRealMethod();
         propertiesHelper = PropertiesHelper.create(settings);
-        finder = new AssembliesFinderFactory().create(propertiesHelper);
+        finder = new DefaultAssembliesFinder(propertiesHelper);
     }
     @Test
     public void simpleFinder() throws IOException {
