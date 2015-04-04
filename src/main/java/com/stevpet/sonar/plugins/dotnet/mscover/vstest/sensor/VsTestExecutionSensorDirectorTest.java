@@ -62,7 +62,8 @@ public class VsTestExecutionSensorDirectorTest extends SensorTest {
        
         msCoverPropertiesMock.givenOpenCoverInstallPath("opencover");
         VsTestEnvironment testEnvironment = container.getComponent(VsTestEnvironment.class);
-        fileSystemMock.givenWorkDir(new File("bogus/.sonar"));
+        File workDir=new File("bogus/.sonar");
+        fileSystemMock.givenWorkDir(workDir);
         testEnvironment.setCoverageXmlPath("bogus/.sonar/coverage.xml");
         VsTestConfigFinderMock vsTestConfigFinderMock = new VsTestConfigFinderMock();
         vsTestConfigFinderMock.givenGetTestSettingsFileOrDie(new File("bogus"));
@@ -95,9 +96,15 @@ public class VsTestExecutionSensorDirectorTest extends SensorTest {
 
         director.execute();
         
+        //then vstest.console.exe is invoked
         commandLineExecutorMock.thenCommandLine("C:/Program Files (x86)/Microsoft Visual Studio 11.0/Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe /Settings:E:\\Users\\stevpet\\My Documents\\GitHub\\sonar-mscover\\bogus /EnableCodeCoverage /Logger:trx");
-        commandLineExecutorMock.thenCommandLine("opencover/OpenCover.Console.Exe -register:user -excludebyfile:*\\*.Designer.cs -excludebyattribute:*ExcludeFromCodeCoverage* \"-targetdir:mytestdir\" -mergebyhash: \"-output:bogus/.sonar/coverage.xml\" \"-filter:+[one]* +[two]* \"");
         
+        // and then codecoverage is invoked
+        String prefix = workDir.getAbsolutePath();
+        String expectedCommandLine=prefix + "\\CodeCoverage\\CodeCoverage.exe pietje.coverage bogus\\.sonar\\coverage.xml";
+        commandLineExecutorMock.thenCommandLine(expectedCommandLine);
+        
+        // and then vstest coverage parser is invoked
         coverageParserMock.thenParse("bogus/.sonar/coverage.xml");
         assertEquals("path to test results file","myfunny.trx",testEnvironment.getXmlResultsPath());
         injectingFakesRemoverMock.thenExecuteInvoked();

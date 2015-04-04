@@ -23,18 +23,12 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.atLeast;
 import static org.mockito.Matchers.eq;
 
 import org.mockito.ArgumentCaptor;
 import org.sonar.api.utils.command.Command;
 
-import static org.junit.Assert.assertEquals;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 
 public class CommandLineExecutorMock extends GenericClassMock<CommandLineExecutor> {
     ArgumentCaptor<ShellCommand> argument = ArgumentCaptor.forClass(ShellCommand.class);
