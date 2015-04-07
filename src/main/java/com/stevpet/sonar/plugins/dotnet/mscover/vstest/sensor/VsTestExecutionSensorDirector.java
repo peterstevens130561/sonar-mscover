@@ -57,7 +57,7 @@ public class VsTestExecutionSensorDirector {
     
     private String getLocationOfTestResultsFile(String stdOut) {
         VSTestStdOutParser vsTestStdOutParser = container.getComponent(VSTestStdOutParser.class);
-        vsTestStdOutParser.setResults(stdOut);
+        vsTestStdOutParser.setStdOut(stdOut);
         return vsTestStdOutParser.getTestResultsXmlPath(); 
 
     }

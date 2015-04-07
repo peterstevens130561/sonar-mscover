@@ -123,7 +123,7 @@ public class WindowsVsTestRunnerTest {
     private void assertResultsParserIsInvoked(String testResult) {
         verify(vsTestResultsParser,times(1)).getCoveragePath();
         verify(vsTestResultsParser,times(1)).getTestResultsXmlPath();
-        verify(vsTestResultsParser,times(1)).setResults(testResult);
+        verify(vsTestResultsParser,times(1)).setStdOut(testResult);
         verify(vsTestResultsParser,times(1)).getTestResultsXmlPath();
         verify(vsTestResultsParser,times(1)).getCoveragePath();
     }

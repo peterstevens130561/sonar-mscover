@@ -9,7 +9,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCom
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.CoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.OpenCoverCoverageRunner;
@@ -21,6 +20,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleaner
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageParserStep;
 
 public class OpenCoverDirector {
 
@@ -29,7 +29,6 @@ public class OpenCoverDirector {
     public void wire(DefaultPicoContainer container) {
         container.addComponent(new ProcessLock("opencover"))
         .addComponent(LockedWindowsCommandLineExecutor.class)
-        .addComponent(WindowsVsTestRunner.class)
         .addComponent(VsTestConfigFinder.class)
         .addComponent(WindowsCodeCoverageCommand.class)
         .addComponent(OpenCoverCoverageRunner.class)
@@ -76,7 +75,7 @@ public class OpenCoverDirector {
     
     private String getLocationOfTestResultsFile(String stdOut) {
         VSTestStdOutParser vsTestStdOutParser = container.getComponent(VSTestStdOutParser.class);
-        vsTestStdOutParser.setResults(stdOut);
+        vsTestStdOutParser.setStdOut(stdOut);
         return vsTestStdOutParser.getTestResultsXmlPath(); 
 
     }
@@ -84,7 +83,7 @@ public class OpenCoverDirector {
     private SonarCoverage parseCoverageFile(VsTestEnvironment testEnvironment) {
         SonarCoverage sonarCoverageRegistry = new SonarCoverage();
 
-        CoverageParser parser = container.getComponent(CoverageParser.class);
+        CoverageParserStep parser = container.getComponent(CoverageParserStep.class);
         parser.parse(sonarCoverageRegistry,new File(testEnvironment.getXmlCoveragePath()));
         return sonarCoverageRegistry;
     }

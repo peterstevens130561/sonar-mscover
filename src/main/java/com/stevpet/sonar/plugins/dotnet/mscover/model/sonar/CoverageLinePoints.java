@@ -26,14 +26,14 @@ import java.util.List;
 
 public interface CoverageLinePoints {
 
-    abstract CoveragePoint getLast();
+    CoveragePoint getLast();
 
-    abstract int size();
+    int size();
 
-    abstract SonarCoverageSummary getSummary();
+    SonarCoverageSummary getSummary();
     
-    abstract CoveragePoint addPoint(int line, boolean visited);
+    CoveragePoint addPoint(int line, boolean visited);
 
-    abstract List<CoverageLinePoint> getPoints();
+    List<CoverageLinePoint> getPoints();
 
 }

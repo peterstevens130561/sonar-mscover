@@ -22,6 +22,8 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
+import java.io.File;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
@@ -31,12 +33,13 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecu
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunnerStep;
 
 /**
  * @author stevpet
  * 
  */
-public class WindowsVsTestRunner  implements VsTestRunner {
+public class WindowsVsTestRunner  implements VsTestRunner,TestRunnerStep {
     static final Logger LOG = LoggerFactory
             .getLogger(WindowsVsTestRunner.class);
     protected VSTestStdOutParser vsTestStdOutParser;
@@ -97,7 +100,7 @@ public class WindowsVsTestRunner  implements VsTestRunner {
 
 
     protected void getResultPaths() {
-        vsTestStdOutParser.setResults(stdOutString);
+        vsTestStdOutParser.setStdOut(stdOutString);
         this.coveragePath=vsTestStdOutParser.getCoveragePath();
         this.resultsPath = vsTestStdOutParser.getTestResultsXmlPath();
     }
@@ -127,6 +130,5 @@ public class WindowsVsTestRunner  implements VsTestRunner {
 	public String getStdOut() {
 		return stdOutString;
 	}
-
 
 }
