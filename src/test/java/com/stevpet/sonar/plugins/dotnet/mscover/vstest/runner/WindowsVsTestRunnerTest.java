@@ -41,6 +41,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecu
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunnerStep;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -53,7 +54,7 @@ import static org.mockito.Mockito.times;
 
 public class WindowsVsTestRunnerTest {
 
-    private VsTestRunner runner;
+    private TestRunnerStep runner;
     private TestConfigFinder testConfigFinder=mock(TestConfigFinder.class);
     private CommandLineExecutor commandLineExecutor= mock(CommandLineExecutor.class);
     private VSTestCommand vsTestCommand= mock(VSTestCommand.class);

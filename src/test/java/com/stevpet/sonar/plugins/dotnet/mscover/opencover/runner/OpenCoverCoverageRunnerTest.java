@@ -11,6 +11,7 @@ import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.injectors.ConstructorInjection;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.VsTestRunnerCommandBuilderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExexutorStub;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
@@ -22,12 +23,14 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.NoAssembliesDef
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParserMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunnerStep;
 
 
 public class OpenCoverCoverageRunnerTest {
@@ -41,6 +44,8 @@ public class OpenCoverCoverageRunnerTest {
     private FileSystemMock fileSystemMock = new FileSystemMock();
     private AssembliesFinderMock assembliesFinderMock = new AssembliesFinderMock();
     private List<String> assemblies;
+	private VsTestRunnerCommandBuilderMock vsTestRunnerCommandBuilderMock = new VsTestRunnerCommandBuilderMock();
+	private VSTestStdOutParserMock vsStdOutParserMock= new VSTestStdOutParserMock();
     
     /**
      * Setting up the mocks/stubs to work with. Note that it is assumed the builder does its work.
@@ -53,11 +58,12 @@ public class OpenCoverCoverageRunnerTest {
         assemblies= new ArrayList<String>();
         
         microsoftWindowsEnvironmentMock.givenHasAssemblies(assemblies);
-        openCoverCoverageRunner = new OpenCoverCoverageRunner(openCoverCommand, 
+
+		openCoverCoverageRunner = new OpenCoverCoverageRunner(openCoverCommand, 
                 msCoverPropertiesMock.getMock(), 
                 testEnvironment, 
                 microsoftWindowsEnvironmentMock.getMock(), 
-                commandLineExecutorStub,assembliesFinderMock.getMock());
+                commandLineExecutorStub,assembliesFinderMock.getMock(), vsTestRunnerCommandBuilderMock.getMock(),vsStdOutParserMock.getMock());
         assembliesFinderMock.onFindUnitTestAssembliesDir("somedir");
     }
     
@@ -125,7 +131,7 @@ public class OpenCoverCoverageRunnerTest {
         OpenCoverCoverageRunner runner = openCoverContainer.getComponent(OpenCoverCoverageRunner.class);
         assertNotNull("creating OpenCoverCoverageRunner through IOC",runner);
         
-        VsTestRunner vsTestRunner = openCoverContainer.getComponent(WindowsVsTestRunner.class);
+        TestRunnerStep vsTestRunner = openCoverContainer.getComponent(WindowsVsTestRunner.class);
         assertNotNull(vsTestRunner);
     }
 }
