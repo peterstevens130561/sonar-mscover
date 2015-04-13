@@ -146,4 +146,9 @@ public class OpenCoverCommand implements ShellCommand {
         String filterArgument = sb.toString().replaceAll(";$","");
         addArgument(option,filterArgument);
     }
+    
+    @Override
+    public String toString() {
+    	return toCommandLine();
+    }
 }

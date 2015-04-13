@@ -31,9 +31,9 @@ import java.util.regex.Pattern;
 import org.sonar.api.utils.SonarException;
 
 import com.google.common.io.Files;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestStdOutParserStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunnerStdOutParser;
 
-public class VSTestStdOutParser implements TestStdOutParserStep {
+public class VSTestStdOutParser implements TestRunnerStdOutParser {
 
     private String results;
     private static Pattern RESULTS_PATTERN = Pattern.compile("\\nResults File: (.*\\.trx)");

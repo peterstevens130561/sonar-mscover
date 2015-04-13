@@ -29,10 +29,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleaner
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageParserStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.OpenCoverWorkflowSteps;
 public class OpenCoverDirectorTest extends SensorTest {
 
     DefaultPicoContainer container;
-    private OpenCoverDirector director = new OpenCoverDirector();
+    private OpenCoverWorkflowSteps steps = new OpenCoverWorkflowSteps();
+    private OpenCoverDirector director = new OpenCoverDirector(steps);
     
     
     @Before()

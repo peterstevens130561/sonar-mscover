@@ -15,6 +15,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunnerStep;
 
 public class VsTestExecutionSensorDirector {
 
@@ -42,23 +43,9 @@ public class VsTestExecutionSensorDirector {
         
         VsTestEnvironment testEnvironment = container.getComponent(VsTestEnvironment.class);
  
-        String stdOut=executeTestRunner();
-        String resultsPath=getLocationOfTestResultsFile(stdOut);  
-        testEnvironment.setTestResultsXmlPath(resultsPath);
-        testEnvironment.setTestsHaveRun();
-    }
-
-    private String executeTestRunner() {
-        VsTestRunner runner = container.getComponent(VsTestRunner.class);
-        runner.setDoCodeCoverage(true);
+        TestRunnerStep runner = container.getComponent(TestRunnerStep.class);
         runner.execute();
-        return runner.getStdOut();   
-    }
-    
-    private String getLocationOfTestResultsFile(String stdOut) {
-        VSTestStdOutParser vsTestStdOutParser = container.getComponent(VSTestStdOutParser.class);
-        vsTestStdOutParser.setStdOut(stdOut);
-        return vsTestStdOutParser.getTestResultsXmlPath(); 
+        testEnvironment.setTestResultsFile(runner.getTestResultsFile());
 
     }
 }

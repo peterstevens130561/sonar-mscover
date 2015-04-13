@@ -93,8 +93,8 @@ public class VsTestExecutionSensorDirectorTest extends SensorTest {
         String prefix = workDir.getAbsolutePath();
         String expectedCommandLine=prefix + "\\CodeCoverage\\CodeCoverage.exe pietje.coverage bogus\\.sonar\\coverage.xml";
         commandLineExecutorMock.thenCommandLine(expectedCommandLine);
-        // and then path to test results file is 
-        assertEquals("path to test results file","myfunny.trx",testEnvironment.getXmlResultsPath());
+        // and then name of test results file is 
+        assertEquals("path to test results file","myfunny.trx",new File(testEnvironment.getXmlResultsPath()).getName());
         injectingFakesRemoverMock.thenExecuteInvoked();
         testResultsCleanerMock.thenExecuteInvoked();
     }

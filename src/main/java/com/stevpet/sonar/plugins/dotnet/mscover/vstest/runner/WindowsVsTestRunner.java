@@ -39,7 +39,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunnerStep;
  * @author stevpet
  * 
  */
-public class WindowsVsTestRunner  implements VsTestRunner,TestRunnerStep {
+public class WindowsVsTestRunner  implements TestRunnerStep {
     static final Logger LOG = LoggerFactory
             .getLogger(WindowsVsTestRunner.class);
     protected VSTestStdOutParser vsTestStdOutParser;
@@ -49,7 +49,6 @@ public class WindowsVsTestRunner  implements VsTestRunner,TestRunnerStep {
     private CommandLineExecutor executor;
     private FileSystem fileSystem;
     private String resultsPath;
-    private boolean doCodeCoverage;
     private VsTestRunnerCommandBuilder commandBuilder;
     private VsTestEnvironment testEnvironment;
     
@@ -77,23 +76,22 @@ public class WindowsVsTestRunner  implements VsTestRunner,TestRunnerStep {
      * ()
      */
     public void execute() {
-        ShellCommand vsTestCommand = commandBuilder.build(doCodeCoverage);
+        ShellCommand vsTestCommand = commandBuilder.build(true);
         executor.execute(vsTestCommand);
         stdOutString = executor.getStdOut();
         getResultPaths();
-        if (doCodeCoverage) {
-            convertCoverageFileToXml();
-        }
+        convertCoverageFileToXml();
     }
 
     /**
      * Converts the .coverage file into an xml file
      */
     protected void convertCoverageFileToXml() {
-        String sonarPath = fileSystem.workDir().getAbsolutePath();
+    	File workDir=fileSystem.workDir();
+        String sonarPath = workDir.getAbsolutePath();
         codeCoverageCommand.setSonarPath(sonarPath);
         codeCoverageCommand.setCoveragePath(coveragePath);
-        codeCoverageCommand.setOutputPath(getCoverageXmlPath());
+        codeCoverageCommand.setOutputPath(testEnvironment.getXmlCoveragePath());
         codeCoverageCommand.install();
         executor.execute(codeCoverageCommand);
     }
@@ -105,30 +103,10 @@ public class WindowsVsTestRunner  implements VsTestRunner,TestRunnerStep {
         this.resultsPath = vsTestStdOutParser.getTestResultsXmlPath();
     }
     
-    public String getResultsXmlPath() {
-        return resultsPath;
-    }
-
-    @Override
-    public void setDoCodeCoverage(boolean doCodeCoverage) {
-        this.doCodeCoverage=doCodeCoverage;
-    }
-
-    @Override
-    public boolean shouldRun() {
-        return false;
-    }
-
-
-    @Override
-    public String getCoverageXmlPath() {
-        return testEnvironment.getXmlCoveragePath();
-    }
-
 
 	@Override
-	public String getStdOut() {
-		return stdOutString;
+	public File getTestResultsFile() {
+		return new File(resultsPath);
 	}
 
 }

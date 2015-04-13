@@ -40,7 +40,7 @@ public class FileSystemMock extends GenericClassMock<FileSystem> {
     }
     
     public FileSystemMock givenWorkDir(String testResourcePath) {
-        File path=TestUtils.getResource(testResourcePath);
+        File path=new File(testResourcePath);
         when(instance.workDir()).thenReturn(path);
         return this;
     }

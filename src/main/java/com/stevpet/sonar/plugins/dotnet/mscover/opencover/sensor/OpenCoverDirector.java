@@ -21,69 +21,59 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageParserStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunnerStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowSteps;
 
 public class OpenCoverDirector {
 
-    private DefaultPicoContainer container;
+    private DefaultPicoContainer picoContainer;
+	private WorkflowSteps workflowSteps;
 
+    public OpenCoverDirector(WorkflowSteps workflowSteps) {
+    	this.workflowSteps=workflowSteps;
+    }
     public void wire(DefaultPicoContainer container) {
-        container.addComponent(new ProcessLock("opencover"))
-        .addComponent(LockedWindowsCommandLineExecutor.class)
-        .addComponent(VsTestConfigFinder.class)
-        .addComponent(WindowsCodeCoverageCommand.class)
-        .addComponent(OpenCoverCoverageRunner.class)
-        .addComponent(VSTestStdOutParser.class)
-        .addComponent(DefaultAssembliesFinder.class)
-        .addComponent(VsTestRunnerCommandBuilder.class)
+        this.picoContainer=container;
+        container
         .addComponent(TestResultsCleaner.class)
-        .addComponent(OpenCoverCoverageParser.class)
-        .addComponent(VSTestCommand.class)
         .addComponent(InjectingFakesRemover.class);
-        this.container=container;
+    	addSteps();
     }
     
     public void execute() {
-        TestResultsCleaner testResultsCleaner = container.getComponent(TestResultsCleaner.class);
+        TestResultsCleaner testResultsCleaner = picoContainer.getComponent(TestResultsCleaner.class);
         testResultsCleaner.execute();
         
-        InjectingFakesRemover fakesRemover=container.getComponent(InjectingFakesRemover.class);
+        InjectingFakesRemover fakesRemover=picoContainer.getComponent(InjectingFakesRemover.class);
         fakesRemover.execute();
         
-        VsTestEnvironment testEnvironment = container.getComponent(VsTestEnvironment.class);
-        VSTestCommand testCommand = buildTestRunner();
-       String stdOut=executeVsTestOpenCoverRunner(testCommand); 
-       String resultsPath=getLocationOfTestResultsFile(stdOut);  
-       testEnvironment.setTestResultsXmlPath(resultsPath);
+        VsTestEnvironment testEnvironment = picoContainer.getComponent(VsTestEnvironment.class);
+       File file=executeVsTestOpenCoverRunner(); 
+       testEnvironment.setTestResultsXmlPath(file.getAbsolutePath());
        SonarCoverage sonarCoverageRegistry=parseCoverageFile(testEnvironment);
        testEnvironment.setSonarCoverage(sonarCoverageRegistry);
        testEnvironment.setTestsHaveRun();
     }
     
-    private VSTestCommand buildTestRunner() {
-        VsTestRunnerCommandBuilder unitTestRunner = container.getComponent(VsTestRunnerCommandBuilder.class);
-        VSTestCommand testCommand=unitTestRunner.build(false);
-        return testCommand;
+    private void addSteps() {
+    	picoContainer.addComponent(workflowSteps.getTestRunner())
+    	.addComponent(workflowSteps.getCoverageSaver())
+    	.addComponent(workflowSteps.getCoverageParser())
+    	.addComponent(workflowSteps.getTestResultsParser())
+    	.addComponent(workflowSteps.getTestResultsSaver());
+    	workflowSteps.getComponents(picoContainer);
     }
 
-    private String executeVsTestOpenCoverRunner(VSTestCommand testCommand) {
-        OpenCoverCommand openCoverCommand=container.getComponent(OpenCoverCommand.class);
-        openCoverCommand.setTargetCommand(testCommand);   
-        CoverageRunner runner = container.getComponent(OpenCoverCoverageRunner.class);
+    private File executeVsTestOpenCoverRunner() {
+        TestRunnerStep runner = picoContainer.getComponent(OpenCoverCoverageRunner.class);
         runner.execute();
-        return runner.getStdOut();   
-    }
-    
-    private String getLocationOfTestResultsFile(String stdOut) {
-        VSTestStdOutParser vsTestStdOutParser = container.getComponent(VSTestStdOutParser.class);
-        vsTestStdOutParser.setStdOut(stdOut);
-        return vsTestStdOutParser.getTestResultsXmlPath(); 
-
+        return runner.getTestResultsFile();
     }
     
     private SonarCoverage parseCoverageFile(VsTestEnvironment testEnvironment) {
         SonarCoverage sonarCoverageRegistry = new SonarCoverage();
 
-        CoverageParserStep parser = container.getComponent(CoverageParserStep.class);
+        CoverageParserStep parser = picoContainer.getComponent(CoverageParserStep.class);
         parser.parse(sonarCoverageRegistry,new File(testEnvironment.getXmlCoveragePath()));
         return sonarCoverageRegistry;
     }

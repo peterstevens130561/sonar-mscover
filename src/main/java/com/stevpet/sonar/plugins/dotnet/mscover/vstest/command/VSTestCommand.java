@@ -51,7 +51,9 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
         return new VSTestCommand();
     }
     
-  
+    public void setExecutableDir(String path) {
+    	commandPath=path + "\\vstest.console.exe";
+    }
     /**
      * @return Creates the commandline with all options
      */
@@ -119,5 +121,9 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
         return assembliesDir;
     }
 
+    @Override
+    public String toString() {
+    	return toCommandLine();
+    }
 
 }

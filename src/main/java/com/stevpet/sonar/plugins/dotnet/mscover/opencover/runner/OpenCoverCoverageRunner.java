@@ -7,9 +7,12 @@ import java.util.List;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverTarget;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.NoAssembliesDefinedException;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunnerStep;
@@ -21,26 +24,34 @@ public class OpenCoverCoverageRunner implements CoverageRunner,TestRunnerStep {
     private VsTestEnvironment testEnvironment;
     private CommandLineExecutor commandLineExecutor;
     private AssembliesFinder assembliesFinder;
+	private VsTestRunnerCommandBuilder vsTestRunnerCommandBuilder;
+	private VSTestStdOutParser vsTestStdOutParser;
     public OpenCoverCoverageRunner(OpenCoverCommand openCoverCommand,
             MsCoverProperties msCoverProperties, 
             VsTestEnvironment testEnvironment,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             CommandLineExecutor commandLineExecutor,
-            AssembliesFinder assembliesFinder) {
+            AssembliesFinder assembliesFinder, 
+            VsTestRunnerCommandBuilder vsTestRunnerCommandBuilder, 
+            VSTestStdOutParser vsTestStdOutParser) {
         this.openCoverCommand = openCoverCommand;
         this.msCoverProperties = msCoverProperties;
         this.testEnvironment=testEnvironment;
         this.microsoftWindowsEnvironment=microsoftWindowsEnvironment;
         this.commandLineExecutor= commandLineExecutor;
         this.assembliesFinder=assembliesFinder;
+        this.vsTestRunnerCommandBuilder = vsTestRunnerCommandBuilder;
+        this.vsTestStdOutParser=vsTestStdOutParser;
     }
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.CoverageRunner#execute()
      */
     @Override
     public void execute() {
+    	OpenCoverTarget openCoverTarget=vsTestRunnerCommandBuilder.build(false);
         VisualStudioSolution solution=microsoftWindowsEnvironment.getCurrentSolution();
         String targetDir=assembliesFinder.findUnitTestAssembliesDir(solution);
+        openCoverCommand.setTargetCommand(openCoverTarget);
         openCoverCommand.setTargetDir(targetDir);
         
         List<String> excludeFilters = new ArrayList<String>();
@@ -58,6 +69,8 @@ public class OpenCoverCoverageRunner implements CoverageRunner,TestRunnerStep {
         }
 
         commandLineExecutor.execute(openCoverCommand);
+
+        
     }
         public String getAssembliesToIncludeInCoverageFilter(List<String> assemblies) {
             if(assemblies ==null || assemblies.size()==0) {
@@ -71,12 +84,12 @@ public class OpenCoverCoverageRunner implements CoverageRunner,TestRunnerStep {
             return filterBuilder.toString();
         }
  
-        /* (non-Javadoc)
-         * @see com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.CoverageRunner#getStdOut()
-         */
-        @Override
-        public String getStdOut() {
-            return commandLineExecutor.getStdOut();
-        }
+
+		@Override
+		public File getTestResultsFile() {
+			// TODO Auto-generated method stub
+	        vsTestStdOutParser.setStdOut(commandLineExecutor.getStdOut());
+	        return vsTestStdOutParser.getTestResultsFile();
+		}
 
 }

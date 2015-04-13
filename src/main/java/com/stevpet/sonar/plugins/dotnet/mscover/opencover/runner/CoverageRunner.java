@@ -7,10 +7,5 @@ public interface CoverageRunner {
      */
     void execute();
 
-    /**
-     * 
-     * @return the output of stdout after execute
-     */
-    String getStdOut();
 
 }

@@ -75,5 +75,8 @@ public class VsTestEnvironment implements BatchExtension {
         String openCoverCoveragePath= opencoverCoverageFile.getAbsolutePath();
         setCoverageXmlPath(openCoverCoveragePath); 
     }
+	public void setTestResultsFile(File testResultsFile) {
+		resultsXmlPath=testResultsFile.getAbsolutePath();
+	}
 
 }
