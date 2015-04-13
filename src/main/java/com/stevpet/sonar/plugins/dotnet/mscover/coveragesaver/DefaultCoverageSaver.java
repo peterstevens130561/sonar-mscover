@@ -8,26 +8,26 @@ import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.BranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.FileCoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarBranchSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.SonarLineSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.DefaultBranchSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.DefaultLineFileCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.LineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageSaver;
 
 public class DefaultCoverageSaver implements CoverageSaver {
 
-    private MeasureSaver measureSaver;
-    private SonarBranchSaver branchCoverageSaver;
-    private SonarLineSaver lineCoverageSaver;
+    private BranchFileCoverageSaver branchCoverageSaver;
+    private LineFileCoverageSaver lineCoverageSaver;
 	private List<File> testFiles;
     
-    public DefaultCoverageSaver(MeasureSaver measureSaver,
-    		SonarBranchSaver branchCoverageSaver, SonarLineSaver lineCoverageSaver){
-    	this.measureSaver = measureSaver;
+    public DefaultCoverageSaver(
+    		BranchFileCoverageSaver branchCoverageSaver, LineFileCoverageSaver lineCoverageSaver){
     	this.branchCoverageSaver = branchCoverageSaver;
     	this.lineCoverageSaver = lineCoverageSaver;
-    	
     }
+    
 	
 	@Override
 	public void save(Project project, SensorContext sonarContext,
@@ -36,7 +36,6 @@ public class DefaultCoverageSaver implements CoverageSaver {
             saveFileResults(fileCoverage);
         }
 	}
-
 	
     public void setExcludeSourceFiles(List<File> testFiles) {
         this.testFiles=testFiles;
@@ -45,10 +44,8 @@ public class DefaultCoverageSaver implements CoverageSaver {
         File file=new File(fileCoverage.getAbsolutePath());
 
         if(testFiles !=null && !testFiles.contains(file)) {	
-        	for(FileCoverageSaver fileCoverageSaver : fileCoverageSavers) {
                 lineCoverageSaver.saveMeasures(fileCoverage.getLinePoints(), file);
                 branchCoverageSaver.saveMeasures(fileCoverage.getBranchPoints(), file);
-        	}
         }
 	}
 

@@ -48,8 +48,8 @@ public class SonarCoverageSaver {
     }
     
     public void save() {
-        sonarBranchSaver = SonarBranchSaver.create(measureSaver);
-        sonarLineSaver = SonarLineSaver.create(measureSaver);
+        sonarBranchSaver = new DefaultBranchSaver(measureSaver);
+        sonarLineSaver = new DefaultLineFileCoverageSaver(measureSaver);
         for(SonarFileCoverage fileCoverage:sonarCoverageRegistry.getValues()) {
             saveFileResults(fileCoverage);
         }

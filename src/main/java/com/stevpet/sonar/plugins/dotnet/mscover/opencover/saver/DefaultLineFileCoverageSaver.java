@@ -36,24 +36,26 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
-public class SonarLineSaver implements FileCoverageSaver {
+public class DefaultLineFileCoverageSaver implements  LineFileCoverageSaver {
 
     private MeasureSaver measureSaver;
 
-    private SonarLineSaver(MeasureSaver measureSaver) {
+    public  DefaultLineFileCoverageSaver(MeasureSaver measureSaver) {
         this.measureSaver = measureSaver ;
     }
     
-    public static FileCoverageSaver create(MeasureSaver measureSaver) {
-        return new SonarLineSaver(measureSaver);
-    }
+
     private final PropertiesBuilder<String, Integer> lineHitsBuilder = new PropertiesBuilder<String, Integer>(
             CoreMetrics.COVERAGE_LINE_HITS_DATA);
     
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.sensor.opencover.FileCoverageSaver#saveMeasures(com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints, java.io.File)
      */
-    public void saveMeasures(
+    /* (non-Javadoc)
+	 * @see com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.LineFileCoverageSaver#saveMeasures(com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints, java.io.File)
+	 */
+    @Override
+	public void saveMeasures(
             CoverageLinePoints coveragePoints, File file) {
         measureSaver.setFile(file);
         SonarCoverageSummary summary=coveragePoints.getSummary();

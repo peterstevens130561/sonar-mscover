@@ -35,7 +35,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
-public class SonarBranchSaver implements FileCoverageSaver {
+public class DefaultBranchSaver implements BranchFileCoverageSaver {
 
    private MeasureSaver measureSaver;
     
@@ -44,15 +44,16 @@ public class SonarBranchSaver implements FileCoverageSaver {
     private final PropertiesBuilder<String, Integer> lineCoveredConditionsBuilder = new PropertiesBuilder<String, Integer>(
             CoreMetrics.COVERED_CONDITIONS_BY_LINE);
     
-    private SonarBranchSaver(MeasureSaver measureSaver) {
+    public DefaultBranchSaver(MeasureSaver measureSaver) {
         this.measureSaver = measureSaver ;
     }
     
-    public static FileCoverageSaver create(MeasureSaver measureSaver) {
-        return new SonarBranchSaver(measureSaver);
-    }
     
-    public void saveMeasures(CoverageLinePoints coveragePoints, File file) {
+    /* (non-Javadoc)
+	 * @see com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.BranchFileCoverageSaver#saveMeasures(com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints, java.io.File)
+	 */
+    @Override
+	public void saveMeasures(CoverageLinePoints coveragePoints, File file) {
         measureSaver.setFile(file);
         SonarCoverageSummary summary=coveragePoints.getSummary();
         measureSaver.saveFileMeasure(CoreMetrics.UNCOVERED_CONDITIONS,(double) summary.getToCover()-summary.getCovered());
