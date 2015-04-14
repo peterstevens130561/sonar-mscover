@@ -27,6 +27,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleaner
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunnerStep;
 
 public class VsTestExecutionSensorDirectorTest extends SensorTest {
 
@@ -51,9 +52,9 @@ public class VsTestExecutionSensorDirectorTest extends SensorTest {
     public void createRunner() {
         //given the container is initialized
         //when I create the unit test runner
-        VsTestRunner unitTestRunner = container.getComponent(VsTestRunner.class);
+        TestRunnerStep unitTestRunner = container.getComponent(TestRunnerStep.class);
         //then the runner is created and of type WindowsVsTestRunner
-        assertNotNull("create WindowsVsTestRunner",unitTestRunner);
+        assertNotNull("could not create WindowsVsTestRunner",unitTestRunner);
         assertTrue("of type WindowsVsTestRunner",unitTestRunner instanceof WindowsVsTestRunner);
     }
     
