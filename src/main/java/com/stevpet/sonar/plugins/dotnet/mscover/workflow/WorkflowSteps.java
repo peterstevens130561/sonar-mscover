@@ -2,6 +2,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.workflow;
 
 import org.picocontainer.DefaultPicoContainer;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
+
 /**
  * workflow deals with a specific usecase / scenario of the plugin. For each workflow a Null object exists
  *

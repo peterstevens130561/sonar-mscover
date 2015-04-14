@@ -1,7 +1,8 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.workflow;
+package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver;
 
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.resources.Project;
+
+import java.io.File;
+import java.util.List;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
@@ -12,5 +13,7 @@ public interface CoverageSaver {
 	 * @param context
 	 * @param coverage - completed coverage data
 	 */
-	void save(Project project, SensorContext sonarContext,SonarCoverage sonarCoverage);
+	void save(SonarCoverage sonarCoverage);
+
+	void setExcludeSourceFiles(List<File> testFiles);
 }

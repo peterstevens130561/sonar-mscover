@@ -26,6 +26,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DefaultBranchFileCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DefaultLineFileCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.FileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
@@ -48,7 +51,7 @@ public class SonarCoverageSaver {
     }
     
     public void save() {
-        sonarBranchSaver = new DefaultBranchSaver(measureSaver);
+        sonarBranchSaver = new DefaultBranchFileCoverageSaver(measureSaver);
         sonarLineSaver = new DefaultLineFileCoverageSaver(measureSaver);
         for(SonarFileCoverage fileCoverage:sonarCoverageRegistry.getValues()) {
             saveFileResults(fileCoverage);

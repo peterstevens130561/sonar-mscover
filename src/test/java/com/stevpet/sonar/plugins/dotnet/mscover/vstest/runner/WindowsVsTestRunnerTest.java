@@ -37,6 +37,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommandShim;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
@@ -63,6 +64,7 @@ public class WindowsVsTestRunnerTest {
     private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     private AssembliesFinderMock assembliesFinderMock = new AssembliesFinderMock();
+    private VsTestEnvironment testEnvironment = new VsTestEnvironment();
     
     @Before
     public void before() {
@@ -86,6 +88,7 @@ public class WindowsVsTestRunnerTest {
         String testResult = "Oh jeh";
         String resultsPath = "results.trx";
         createRunner();
+        testEnvironment.setCoverageXmlPath(".sonar/coverage.xml");
         
         givenTestSettingsFile(testSettingsFile);     
         givenSolutionDir(solutionDir);    
@@ -96,6 +99,7 @@ public class WindowsVsTestRunnerTest {
         String sonarWorkingDirectory="bogus";
         //String coverageXmlPath =sonarWorkingDirectory + "/coverage.xml";
         //runner.setCoverageXmlPath(coverageXmlPath);
+        when(vsTestResultsParser.getCoveragePath()).thenReturn(sonarWorkingDirectory + "/coverage.xml");
         fileSystemMock.givenWorkDir(sonarWorkingDirectory);
         runner.execute();
 
@@ -132,7 +136,7 @@ public class WindowsVsTestRunnerTest {
             List<String> unitTestAssemblies, VSTestCommand vsTestCommand) {
         verify(vsTestCommand,times(1)).setUnitTestAssembliesPath(unitTestAssemblies);
         verify(vsTestCommand,times(1)).setTestSettingsFile(testSettingsFile);
-        verify(vsTestCommand,times(1)).setCodeCoverage(false);
+        verify(vsTestCommand,times(1)).setCodeCoverage(true);
         verify(vsTestCommand,times(0)).toCommand();
         verify(vsTestCommand,times(0)).toCommandLine();
     }
@@ -175,10 +179,10 @@ public class WindowsVsTestRunnerTest {
         .addComponent(msCoverPropertiesMock.getMock())
         .addComponent(microsoftWindowsEnvironmentMock.getMock())
         .addComponent(assembliesFinderMock.getMock())
-        .addComponent(WindowsCodeCoverageCommand.class)
+        .addComponent(WindowsCodeCoverageCommandShim.class)
         .addComponent(VsTestRunnerCommandBuilder.class)
         .addComponent(WindowsVsTestRunner.class)
-        .addComponent(VsTestEnvironment.class);
+        .addComponent(testEnvironment);
         runner = container.getComponent(WindowsVsTestRunner.class);
     }
 }

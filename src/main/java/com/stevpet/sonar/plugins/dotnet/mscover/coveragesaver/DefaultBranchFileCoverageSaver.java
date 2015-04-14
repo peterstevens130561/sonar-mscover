@@ -20,7 +20,7 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver;
+package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver;
 
 import java.io.File;
 
@@ -30,12 +30,13 @@ import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.utils.ParsingUtils;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.BranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
-public class DefaultBranchSaver implements BranchFileCoverageSaver {
+public class DefaultBranchFileCoverageSaver implements BranchFileCoverageSaver {
 
    private MeasureSaver measureSaver;
     
@@ -44,7 +45,7 @@ public class DefaultBranchSaver implements BranchFileCoverageSaver {
     private final PropertiesBuilder<String, Integer> lineCoveredConditionsBuilder = new PropertiesBuilder<String, Integer>(
             CoreMetrics.COVERED_CONDITIONS_BY_LINE);
     
-    public DefaultBranchSaver(MeasureSaver measureSaver) {
+    public DefaultBranchFileCoverageSaver(MeasureSaver measureSaver) {
         this.measureSaver = measureSaver ;
     }
     

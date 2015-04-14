@@ -20,7 +20,7 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver;
+package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver;
 
 import java.io.File;
 
