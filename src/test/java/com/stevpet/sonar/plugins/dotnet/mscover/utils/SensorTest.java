@@ -23,8 +23,7 @@ public class SensorTest {
     public DefaultPicoContainer getContainerWithSensorMocks() {
         container.addComponent(msCoverPropertiesMock.getMock());
         container.as(CACHE).addComponent(VsTestEnvironment.class);
-        container.addComponent(OpenCoverCommand.class)
-        .addComponent(microsoftWindowsEnvironmentMock.getMock())
+        container.addComponent(microsoftWindowsEnvironmentMock.getMock())
         .addComponent(fileSystemMock.getMock());
         return container;
     }

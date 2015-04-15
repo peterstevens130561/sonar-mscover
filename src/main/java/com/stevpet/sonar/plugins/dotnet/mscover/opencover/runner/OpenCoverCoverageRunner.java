@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
@@ -18,6 +21,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunner;
 
 public class OpenCoverCoverageRunner implements CoverageRunner,TestRunner {
+	private final static Logger LOG = LoggerFactory.getLogger(OpenCoverCoverageRunner.class);
     private OpenCoverCommand openCoverCommand;
     private MsCoverProperties msCoverProperties;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
@@ -48,6 +52,7 @@ public class OpenCoverCoverageRunner implements CoverageRunner,TestRunner {
      */
     @Override
     public void execute() {
+    	LOG.info("Invoked");
     	OpenCoverTarget openCoverTarget=vsTestRunnerCommandBuilder.build(false);
         VisualStudioSolution solution=microsoftWindowsEnvironment.getCurrentSolution();
         String targetDir=assembliesFinder.findUnitTestAssembliesDir(solution);

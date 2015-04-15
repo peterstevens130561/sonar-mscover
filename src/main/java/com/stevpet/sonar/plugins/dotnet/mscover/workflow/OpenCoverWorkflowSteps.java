@@ -4,11 +4,19 @@ import org.picocontainer.DefaultPicoContainer;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DefaultBranchFileCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DefaultCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DefaultLineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.NullCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.OpenCoverCoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.InjectingFakesRemover;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediator;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.InjectedMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
@@ -19,31 +27,31 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerComman
 public class OpenCoverWorkflowSteps implements WorkflowSteps {
 
 	@Override
-	public Class getTestRunner() {
+	public Class<? extends TestRunner> getTestRunner() {
 		return OpenCoverCoverageRunner.class;
 	}
 
 
 	@Override
-	public Class getCoverageParser() {
+	public Class< ? extends CoverageParserStep> getCoverageParser() {
 		return OpenCoverCoverageParser.class;
 	}
 
 
 	@Override
-	public Class getTestResultsParser() {
+	public Class<? extends TestResultsBuilder> getTestResultsParser() {
 		return NullTestResultsBuilder.class;
 	}
 
 
 	@Override
-	public Class getCoverageSaver() {
-		return NullCoverageSaver.class;
+	public Class<? extends CoverageSaver> getCoverageSaver() {
+		return DefaultCoverageSaver.class;
 	}
 
 
 	@Override
-	public Class getTestResultsSaver() {
+	public Class<? extends TestResultsSaver> getTestResultsSaver() {
 		return NullTestResultsSaver.class;
 	}
 	
@@ -55,13 +63,18 @@ public class OpenCoverWorkflowSteps implements WorkflowSteps {
 
 	private void getTestRunnerComponents(DefaultPicoContainer container) {
         container.addComponent(new ProcessLock("opencover"))
+        .addComponent(OpenCoverCommand.class)
         .addComponent(LockedWindowsCommandLineExecutor.class)
         .addComponent(VsTestConfigFinder.class)
         .addComponent(WindowsCodeCoverageCommand.class)
         .addComponent(VSTestStdOutParser.class)
         .addComponent(DefaultAssembliesFinder.class)
         .addComponent(VsTestRunnerCommandBuilder.class)
-        .addComponent(VSTestCommand.class);	
+        .addComponent(VSTestCommand.class)
+        .addComponent(DefaultLineFileCoverageSaver.class)
+        .addComponent(DefaultBranchFileCoverageSaver.class)
+        .addComponent(InjectedMeasureSaver.class)
+        .addComponent(DefaultResourceMediator.class);
 	}
 
 }

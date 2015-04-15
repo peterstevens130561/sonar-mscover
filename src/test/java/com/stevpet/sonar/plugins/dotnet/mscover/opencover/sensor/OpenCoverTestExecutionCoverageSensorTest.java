@@ -97,13 +97,13 @@ public class OpenCoverTestExecutionCoverageSensorTest {
         classUnderTest.verifyShouldAnalyseReturns(false);
     }
     @Test
-    public void testShouldExecuteOnProject_TestsNotExecutedSolutionHasTestProject_ProjectIsCsharp_RunOpenCover_ShouldExecute() {
+    public void testShouldExecuteOnProject_TestsNotExecutedSolutionHasTestProject_ProjectIsCsharp_RunOpenCover_ShouldNotExecute() {
         classUnderTest.givenANewSensor();
         microsoftWindowsEnvironmentMock.givenHasTestProject();
         fileSystemMock.givenLanguage("cs");
         project.givenIsRootProject(true);
         msCoverPropertiesMock.givenRunOpenCover(true);
-        classUnderTest.verifyShouldAnalyseReturns(true);
+        classUnderTest.verifyShouldAnalyseReturns(false);
     }
     
 

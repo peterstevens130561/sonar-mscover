@@ -10,11 +10,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
  */
 public interface WorkflowSteps {
 	
-	public Class<TestRunner> getTestRunner();
-	public Class<CoverageParserStep> getCoverageParser();
-	public Class<TestResultsBuilder> getTestResultsParser();
-	public Class<CoverageSaver> getCoverageSaver();
-	public Class<TestResultsSaver> getTestResultsSaver();
+	public Class<? extends TestRunner> getTestRunner();
+	public Class<? extends CoverageParserStep> getCoverageParser();
+	public Class<? extends TestResultsBuilder> getTestResultsParser();
+	public Class<? extends CoverageSaver> getCoverageSaver();
+	public Class<? extends TestResultsSaver> getTestResultsSaver();
 	
 	/**
 	 * The steps may need specific components, add these here

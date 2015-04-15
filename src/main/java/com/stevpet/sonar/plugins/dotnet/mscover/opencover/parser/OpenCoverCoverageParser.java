@@ -3,6 +3,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser;
 import java.io.File;
 import java.util.Collection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs;
@@ -16,7 +19,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageParserStep;
 /**
  * Parses an opencover created coverage file
  */
-public class OpenCoverCoverageParser implements CoverageParserStep {  
+public class OpenCoverCoverageParser implements CoverageParserStep {
+	private final static Logger LOG = LoggerFactory.getLogger(OpenCoverCoverageParser.class);
     private MsCoverProperties msCoverProperties;
 
     public OpenCoverCoverageParser(MsCoverProperties msCoverProperties) {

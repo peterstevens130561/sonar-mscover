@@ -93,7 +93,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
         }
         if (propertiesHelper.runOpenCover()) {
             LOG.info("will run opencover with vstest embedded");
-            return true;
+            return false;
         }
         return false;
     }
