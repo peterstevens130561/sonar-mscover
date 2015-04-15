@@ -21,10 +21,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageParserStep;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunnerStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowSteps;
 
-public class OpenCoverDirector {
+public class OpenCoverDirector implements WorkflowDirector {
 
     private DefaultPicoContainer picoContainer;
 	private WorkflowSteps workflowSteps;
@@ -32,7 +33,11 @@ public class OpenCoverDirector {
     public OpenCoverDirector(WorkflowSteps workflowSteps) {
     	this.workflowSteps=workflowSteps;
     }
-    public void wire(DefaultPicoContainer container) {
+    /* (non-Javadoc)
+	 * @see com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.WorkflowDirector#wire(org.picocontainer.DefaultPicoContainer)
+	 */
+    @Override
+	public void wire(DefaultPicoContainer container) {
         this.picoContainer=container;
         container
         .addComponent(TestResultsCleaner.class)
@@ -40,7 +45,11 @@ public class OpenCoverDirector {
     	addSteps();
     }
     
-    public void execute() {
+    /* (non-Javadoc)
+	 * @see com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.WorkflowDirector#execute()
+	 */
+    @Override
+	public void execute() {
         TestResultsCleaner testResultsCleaner = picoContainer.getComponent(TestResultsCleaner.class);
         testResultsCleaner.execute();
         
@@ -65,7 +74,7 @@ public class OpenCoverDirector {
     }
 
     private File executeVsTestOpenCoverRunner() {
-        TestRunnerStep runner = picoContainer.getComponent(OpenCoverCoverageRunner.class);
+        TestRunner runner = picoContainer.getComponent(OpenCoverCoverageRunner.class);
         runner.execute();
         return runner.getTestResultsFile();
     }

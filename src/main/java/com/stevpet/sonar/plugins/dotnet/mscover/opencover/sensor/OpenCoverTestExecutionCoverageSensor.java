@@ -40,6 +40,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AbstractDotNetSensor
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;  
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.OpenCoverWorkflowSteps;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
 @DependsUpon(DotNetConstants.CORE_PLUGIN_EXECUTED)
 @DependedUpon("OpenCoverRunningVsTest")
 public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
@@ -53,7 +54,7 @@ public class OpenCoverTestExecutionCoverageSensor extends AbstractDotNetSensor {
     private DefaultPicoContainer openCoverContainer;
 
     private OpenCoverWorkflowSteps steps = new OpenCoverWorkflowSteps();
-    private OpenCoverDirector openCoverDirector = new OpenCoverDirector(steps);
+    private WorkflowDirector openCoverDirector = new OpenCoverDirector(steps);
     public OpenCoverTestExecutionCoverageSensor(MsCoverProperties propertiesHelper, 
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
             FileSystem fileSystem,

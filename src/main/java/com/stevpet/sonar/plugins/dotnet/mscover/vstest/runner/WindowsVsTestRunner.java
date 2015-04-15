@@ -33,13 +33,13 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecu
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunnerStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunner;
 
 /**
  * @author stevpet
  * 
  */
-public class WindowsVsTestRunner  implements TestRunnerStep {
+public class WindowsVsTestRunner  implements TestRunner {
     static final Logger LOG = LoggerFactory
             .getLogger(WindowsVsTestRunner.class);
     protected VSTestStdOutParser vsTestStdOutParser;

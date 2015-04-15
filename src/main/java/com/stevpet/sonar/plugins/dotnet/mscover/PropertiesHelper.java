@@ -40,7 +40,8 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
     public enum RunMode {
         SKIP,
         REUSE,
-        RUNVSTEST
+        RUNVSTEST,
+        NULL
     }
     private final Settings settings;
     public static final String MSCOVER = "sonar.mscover.";

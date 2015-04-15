@@ -15,9 +15,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunnerStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunner;
 
-public class OpenCoverCoverageRunner implements CoverageRunner,TestRunnerStep {
+public class OpenCoverCoverageRunner implements CoverageRunner,TestRunner {
     private OpenCoverCommand openCoverCommand;
     private MsCoverProperties msCoverProperties;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;

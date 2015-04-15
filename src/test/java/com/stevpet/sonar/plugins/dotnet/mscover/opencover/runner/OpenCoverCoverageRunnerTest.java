@@ -31,7 +31,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunnerStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunner;
 
 
 public class OpenCoverCoverageRunnerTest {
@@ -141,7 +141,7 @@ public class OpenCoverCoverageRunnerTest {
         OpenCoverCoverageRunner runner = openCoverContainer.getComponent(OpenCoverCoverageRunner.class);
         assertNotNull("creating OpenCoverCoverageRunner through IOC",runner);
         
-        TestRunnerStep vsTestRunner = openCoverContainer.getComponent(WindowsVsTestRunner.class);
+        TestRunner vsTestRunner = openCoverContainer.getComponent(WindowsVsTestRunner.class);
         assertNotNull(vsTestRunner);
     }
 }

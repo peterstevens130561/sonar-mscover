@@ -10,7 +10,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
  */
 public interface WorkflowSteps {
 	
-	public Class<TestRunnerStep> getTestRunner();
+	public Class<TestRunner> getTestRunner();
 	public Class<CoverageParserStep> getCoverageParser();
 	public Class<TestResultsBuilder> getTestResultsParser();
 	public Class<CoverageSaver> getCoverageSaver();
