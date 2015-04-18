@@ -47,14 +47,16 @@ public class UnitTestMethodResult  {
     public String getTestId() {
         return testId;
     }
-    public void setTestId(String testId) {
+    public UnitTestMethodResult setTestId(String testId) {
         this.testId = testId;
+        return this;
     }
     public String getTestName() {
         return methodId.getMethodName();
     }
-    public void setTestName(String testName) {
+    public UnitTestMethodResult setTestName(String testName) {
         methodId.setMethodName(testName);
+        return this;
     }
     public String getDuration() {
         return duration;
@@ -65,23 +67,27 @@ public class UnitTestMethodResult  {
     public String getClassName() {
         return methodId.getClassName();
     }
-    public void setDuration(String duration) {
+    public UnitTestMethodResult setDuration(String duration) {
         this.duration = duration;
+        return this;
     }
     public String getOutcome() {
         return outcome;
     }
-    public void setOutcome(String outcome) {
+    public UnitTestMethodResult setOutcome(String outcome) {
         this.outcome = outcome;
+        return this;
     }
     public String getRelativeResultsDirectory() {
         return relativeResultsDirectory;
     }
-    public void setRelativeResultsDirectory(String relativeResultsDirectory) {
+    public UnitTestMethodResult setRelativeResultsDirectory(String relativeResultsDirectory) {
         this.relativeResultsDirectory = relativeResultsDirectory;
+        return this;
     }
-    public void setCodeBase(String value) {
+    public UnitTestMethodResult setCodeBase(String value) {
         this.codeBase = value;
+        return this;
         
     }
     
@@ -89,20 +95,21 @@ public class UnitTestMethodResult  {
      * set the module to the last segment in the codeBase
      * @param path to the dll, may use / or \ in the path, 
      */
-    public void setModuleFromCodeBase(String codeBase) {
+    public UnitTestMethodResult setModuleFromCodeBase(String codeBase) {
         if(StringUtils.isEmpty(codeBase)) {
             throw new SonarException("module can't be null");
         }
         codeBase=codeBase.replace("\\","/");
         String[] parts = codeBase.split("/");
         methodId.setModuleName(parts[parts.length-1]);
+        return this;
     }
     
     /**
      * 
      * @param value is the fully qualified classname (namespace + class)
      */
-    public void setNamespaceNameFromClassName(String value) {
+    public UnitTestMethodResult setNamespaceNameFromClassName(String value) {
         if(StringUtils.isEmpty(value)) {
             throw new SonarException("namespacename can't be null");
         }
@@ -114,9 +121,10 @@ public class UnitTestMethodResult  {
             namespaceName=value.substring(0, lastDot); 
         }
         methodId.setNamespaceName(namespaceName);
+        return this;
     }
     
-    public void setClassName(String value) {
+    public UnitTestMethodResult setClassName(String value) {
         if(StringUtils.isEmpty(value)) {
             throw new SonarException("className can't be null");
         }
@@ -128,19 +136,22 @@ public class UnitTestMethodResult  {
             className=value.substring(lastDot+1); 
         }
         methodId.setClassName(className);
+        return this;
     }
     public MethodId getMethodId() {
         return methodId;
     }
-    public void setMessage(String value) {
-        message=value;     
+    public UnitTestMethodResult setMessage(String value) {
+        message=value; 
+        return this;
     }
 
     public String getMessage() {
         return message;
     }
-    public void setStackTrace(String value) {
+    public UnitTestMethodResult setStackTrace(String value) {
        stackTrace=value; 
+       return this;
     }
     
     public String getStackTrace() {

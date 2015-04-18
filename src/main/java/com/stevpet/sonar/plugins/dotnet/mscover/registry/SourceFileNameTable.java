@@ -42,11 +42,21 @@ public class SourceFileNameTable  {
         maxId = maxId>i?maxId:i;
     }
     
+    /**
+     * 
+     * @param fileId
+     * @return
+     * @deprecated {@link get(int index}
+     */
+    @Deprecated
     public SourceFileNameRow get(String fileId) {
     	int index = Integer.parseInt(fileId);
        return rows.get(index);
     }
 
+    public SourceFileNameRow get(int index) {
+       return rows.get(index);
+    }
     public int size() {
         return rows.size();
     }

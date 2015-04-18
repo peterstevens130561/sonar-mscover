@@ -29,6 +29,7 @@ public class SourceFileNameRow {
     private int sourceFileID;
     private String sourceFileName;
     
+    @Deprecated
     public  void setField(String name, String text) {
         if(name.equals(SOURCE_FILE_ID_ELEMENTNAME)) {
             sourceFileID = Integer.parseInt(text);
@@ -53,11 +54,13 @@ public class SourceFileNameRow {
         return sourceFileName;
     }
     
-    public void setSourceFileID(int value) {
+    public SourceFileNameRow setSourceFileID(int value) {
         sourceFileID = value;
+        return this;
     }
 
-    public void setSourceFileName(String value) {
+    public SourceFileNameRow setSourceFileName(String value) {
         sourceFileName = value;
+        return this;
     }
 }
