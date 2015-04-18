@@ -5,12 +5,14 @@ import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
+
 public class NullTestResultsBuilder implements TestResultsBuilder {
 	private final static Logger LOG = LoggerFactory.getLogger(NullTestResultsBuilder.class);
 	@Override
-	public UnitTestResults parse(File testResultsFile, File coverageFile) {
+	public ProjectUnitTestResults parse(File testResultsFile, File coverageFile) {
 		LOG.info("Invoked");
-		return new UnitTestResults();
+		return new ProjectUnitTestResults();
 	}
 
 }

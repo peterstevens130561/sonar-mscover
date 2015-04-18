@@ -17,10 +17,8 @@ public class CoverageParserMock extends GenericClassMock<CoverageParserStep> {
     }
 
     public void thenParse(String path) {
-
         verify(instance,times(1)).parse(any(SonarCoverage.class), eq(new File(path)));
     }
    
-
 }
 

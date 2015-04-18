@@ -27,6 +27,11 @@ import java.util.Map;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
 
+/**
+ * The table provides a means to lookup id by the name {@link getSourceFileId}
+ * and name by the id {@link getSourceFileName)
+ *
+ */
 public class SourceFileNameTable  {
     private Map<Integer,SourceFileNameRow> rows = new HashMap<Integer,SourceFileNameRow>();
     private Map<String,Integer> mapNameToId = new HashMap<String,Integer>();
@@ -38,7 +43,8 @@ public class SourceFileNameTable  {
     }
     
     public SourceFileNameRow get(String fileId) {
-       return rows.get(fileId);
+    	int index = Integer.parseInt(fileId);
+       return rows.get(index);
     }
 
     public int size() {

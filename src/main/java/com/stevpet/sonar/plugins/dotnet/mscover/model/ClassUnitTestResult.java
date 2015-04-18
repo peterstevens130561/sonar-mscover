@@ -22,20 +22,35 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UnitTestClassResult {
+public class ClassUnitTestResult {
     private int error ;
     
     private List<UnitTestMethodResult> tests = new ArrayList<UnitTestMethodResult>() ;
+    private File file;
     
-    public void add(UnitTestMethodResult unitTest) {
+    public ClassUnitTestResult(File file) {
+    	this.file=file;
+	}
+
+    @Deprecated
+	public ClassUnitTestResult() {
+	}
+
+	public void add(UnitTestMethodResult unitTest) {
         tests.add(unitTest);
         String outcome=unitTest.getOutcome();
         if(!"Passed".equals(outcome)) {
             error++;
         }
+    }
+    
+    
+    public File getFile() {
+    	return file;
     }
     
     public double getPassed() {

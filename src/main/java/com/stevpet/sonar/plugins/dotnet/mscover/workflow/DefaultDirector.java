@@ -7,11 +7,15 @@ import org.picocontainer.DefaultPicoContainer;
 
 
 
-
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
+/**
+ * Directs the workflowsteps for the usual test coverage steps
+ *
+ */
 public class DefaultDirector implements WorkflowDirector {
 
 	private final WorkflowSteps workflowSteps;
@@ -50,7 +54,7 @@ public class DefaultDirector implements WorkflowDirector {
         coverageSaver.save(sonarCoverage);
         
         TestResultsBuilder testResultsBuilder = picoContainer.getComponent(TestResultsBuilder.class);
-        UnitTestResults testResults=testResultsBuilder.parse(testResultsFile, coverageFile);
+        ProjectUnitTestResults testResults=testResultsBuilder.parse(testResultsFile, coverageFile);
         
         TestResultsSaver testResultsSaver = picoContainer.getComponent(TestResultsSaver.class);
         testResultsSaver.save(testResults);	

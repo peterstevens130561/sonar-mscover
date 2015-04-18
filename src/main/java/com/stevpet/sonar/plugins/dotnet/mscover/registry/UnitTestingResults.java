@@ -24,13 +24,19 @@ package com.stevpet.sonar.plugins.dotnet.mscover.registry;
 
 
 import java.util.Collection;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.jfree.util.Log;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
-public class UnitTestResultRegistry {
+
+/**
+ * holds the parsed unit testing results
+ */
+public class UnitTestingResults {
+	//Key: MethodId
     Map<String,UnitTestMethodResult> unitTestResultsById = new HashMap<String,UnitTestMethodResult>();
     
     public void add(UnitTestMethodResult unitTestResult) {

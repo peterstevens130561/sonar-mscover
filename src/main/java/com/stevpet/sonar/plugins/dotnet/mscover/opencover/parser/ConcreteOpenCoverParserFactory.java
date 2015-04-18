@@ -58,6 +58,10 @@ public class ConcreteOpenCoverParserFactory implements OpenCoverParserFactory {
         return parser;
     }
 
+    /**
+     * @deprecated since April 16,2015 see com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.OpenCoverFileNamesParser
+     */
+    @Deprecated
     public XmlParserSubject createOpenCoverFileNamesParser(
             MethodToSourceFileIdMap map,
             SourceFileNameTable sourceFileNamesRegistry) {

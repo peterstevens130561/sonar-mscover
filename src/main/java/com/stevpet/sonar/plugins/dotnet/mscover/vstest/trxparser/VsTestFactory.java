@@ -33,7 +33,10 @@ public interface VsTestFactory {
      * @param unitTestFilesregistry
      * @param unitTestResultRegistry
      * @return
+     * 
+     * @deprecated sine April 16th 2015
      */
+	@Deprecated
     XmlParserSubject createUnitTestResultsParser(
             UnitTestRegistry registry);
 

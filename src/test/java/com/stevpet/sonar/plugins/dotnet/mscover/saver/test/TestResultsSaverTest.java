@@ -29,7 +29,7 @@ import org.junit.Test;
 import org.sonar.api.measures.CoreMetrics;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestClassResult;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModelMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeamMock;
 
@@ -89,7 +89,7 @@ public class TestResultsSaverTest {
     
     @Test
     public void saveTestCaseMeasures_EmptyResults_MinimalDetail() {
-        UnitTestClassResult fileResults = new UnitTestClassResult();
+        ClassUnitTestResult fileResults = new ClassUnitTestResult();
         ResourceSeamMock sonarFile = new ResourceSeamMock();
         saver.saveTestCaseMeasures(fileResults, sonarFile.getMock());
         String expected="<tests-details></tests-detailsX>";

@@ -44,6 +44,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowSteps;
 
 
+/**
+ * The new sensor which should ultimately cover all unit testing workflows.
+ */
 public class WorkflowSensor implements Sensor {
     
     public static final String DEPENDS="VsTestSensor";
@@ -52,7 +55,6 @@ public class WorkflowSensor implements Sensor {
     private final static String LOGPREFIX = "WorkflowSensor : ";
     private MsCoverProperties propertiesHelper;
     private DefaultPicoContainer container;
-    private WorkflowDirector director;
 	private VsTestEnvironment vsTestEnvironment;
     
     public WorkflowSensor(VsTestEnvironment vsTestEnvironment, MsCoverProperties propertiesHelper,FileSystem fileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {

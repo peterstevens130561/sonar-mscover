@@ -98,7 +98,10 @@ public class UnitTestMethodResult  {
         methodId.setModuleName(parts[parts.length-1]);
     }
     
-    
+    /**
+     * 
+     * @param value is the fully qualified classname (namespace + class)
+     */
     public void setNamespaceNameFromClassName(String value) {
         if(StringUtils.isEmpty(value)) {
             throw new SonarException("namespacename can't be null");

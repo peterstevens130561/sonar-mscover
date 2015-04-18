@@ -29,6 +29,7 @@ public class ConcreteVsTestFactory implements VsTestFactory {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.VsTestFactory#createUnitTestResultsParser(com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry)
      */
+	@Deprecated
     public XmlParserSubject createUnitTestResultsParser(UnitTestRegistry registry) {
         XmlParserSubject parser = new ResultsParserSubject();
         
@@ -37,11 +38,11 @@ public class ConcreteVsTestFactory implements VsTestFactory {
         parser.registerObserver(resultsObserver);
         
         UnitTestResultObserver unitTestResultObserver = new UnitTestResultObserver();
-        unitTestResultObserver.setRegistry(registry.getResults());
+        unitTestResultObserver.setRegistry(registry.getTestingResults());
         parser.registerObserver(unitTestResultObserver);
         
         UnitTestObserver unitTestObserver = new UnitTestObserver();
-        unitTestObserver.setRegistry(registry.getResults());
+        unitTestObserver.setRegistry(registry.getTestingResults());
         parser.registerObserver(unitTestObserver);
 
         return parser;

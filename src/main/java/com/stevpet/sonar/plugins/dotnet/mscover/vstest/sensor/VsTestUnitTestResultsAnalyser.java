@@ -39,7 +39,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFilePathHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestingResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TrxTestSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
@@ -138,8 +138,8 @@ public class VsTestUnitTestResultsAnalyser {
         File projectDirectory =  fileSystem.baseDir();
         sourceFilePathHelper.setProjectFile(projectDirectory);
         
-        UnitTestResultRegistry unitTestResultRegistry = registry.getResults();
-        filesResultRegistry.mapResults(unitTestResultRegistry, map);
+        UnitTestingResults unitTestResultRegistry = registry.getTestingResults();
+        filesResultRegistry.mapMethodsToFileId(unitTestResultRegistry, map);
        
         TrxTestSaver testSaver = new TrxTestSaver(sensorContext, project, resourceMediator,measureSaver);
 

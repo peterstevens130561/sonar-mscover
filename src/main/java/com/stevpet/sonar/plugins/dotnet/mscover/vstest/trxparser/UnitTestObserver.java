@@ -28,7 +28,7 @@ import org.sonar.api.utils.SonarException;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestingResults;
 
 /**
  *   <TestDefinitions>
@@ -45,9 +45,9 @@ public class UnitTestObserver extends BaseParserObserver {
         setPattern("TestDefinitions/(UnitTest|UnitTest/TestMethod)");
     }
     
-    private UnitTestResultRegistry registry;
+    private UnitTestingResults registry;
     private UnitTestMethodResult unitTestResult;
-    public void setRegistry(UnitTestResultRegistry registry) {
+    public void setRegistry(UnitTestingResults registry) {
         this.registry = registry;
     }
     

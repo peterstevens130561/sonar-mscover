@@ -31,7 +31,7 @@ import org.sonar.test.TestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestResultRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestingResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.UnitTestObserver;
@@ -56,7 +56,7 @@ public class ResultsParserTest {
     public void parser_GetResults_ShouldMatch() {
         XmlParserSubject parserSubject = new ResultsParserSubject();
         File file = TestUtils.getResource("results.trx");
-        UnitTestResultRegistry results = new UnitTestResultRegistry();
+        UnitTestingResults results = new UnitTestingResults();
         UnitTestResultObserver resultsObserver = new UnitTestResultObserver();
         resultsObserver.setRegistry(results);
         parserSubject.registerObserver(resultsObserver);
@@ -69,7 +69,7 @@ public class ResultsParserTest {
     public void parser_GetResultsWithError_ShouldMatch() {
         XmlParserSubject parserSubject = new ResultsParserSubject();
         File file = TestUtils.getResource("ResultsWithError.trx");
-        UnitTestResultRegistry results = new UnitTestResultRegistry();
+        UnitTestingResults results = new UnitTestingResults();
         UnitTestResultObserver resultsObserver = new UnitTestResultObserver();
         resultsObserver.setRegistry(results);
         parserSubject.registerObserver(resultsObserver);
@@ -111,7 +111,7 @@ public class ResultsParserTest {
     public void parser_GetTest_ShouldMatch() {
         XmlParserSubject parserSubject = new ResultsParserSubject();
         File file = TestUtils.getResource("results.trx");
-        UnitTestResultRegistry results = new UnitTestResultRegistry();
+        UnitTestingResults results = new UnitTestingResults();
         UnitTestResultObserver resultsObserver = new UnitTestResultObserver();
         resultsObserver.setRegistry(results);
         parserSubject.registerObserver(resultsObserver);
