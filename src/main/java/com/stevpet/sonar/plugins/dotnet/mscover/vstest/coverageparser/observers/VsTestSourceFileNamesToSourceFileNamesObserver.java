@@ -23,6 +23,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 
@@ -36,15 +37,16 @@ public class VsTestSourceFileNamesToSourceFileNamesObserver extends VsTestCovera
     }
 
 
-    public void observeElement(String name, String text) {
-        if("SourceFileID".equals(name)) {
-            model = new SourceFileNameRow();
-        }
-        model.setField(name,text);
-        if("SourceFileName".equals(name)) {
-            registry.add(model.getSourceFileID(), model);
-        }
+    @ElementMatcher(elementName="SourceFileID")
+    public void sourceFileIDMatcher(String value) {
+    	model = registry.newRow().setSourceFileID(Integer.parseInt(value)).addToParent();
     }
+
+    @ElementMatcher(elementName="SourceFileName")
+    public void sourceFileNameMatcher(String value){
+    	model.setSourceFileName(value);
+    }
+
     public void setRegistry(SourceFileNameTable registry) {
         this.registry=registry;
     }

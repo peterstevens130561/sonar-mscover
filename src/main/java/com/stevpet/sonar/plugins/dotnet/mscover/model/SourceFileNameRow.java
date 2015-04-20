@@ -22,13 +22,27 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
+
 public class SourceFileNameRow {
     
     private static final String SOURCE_FILE_NAME_ELEMENTNAME = "SourceFileName";
     private static final String SOURCE_FILE_ID_ELEMENTNAME = "SourceFileID";
     private int sourceFileID;
     private String sourceFileName;
+	private SourceFileNameTable parent;
     
+    public SourceFileNameRow() {
+    }
+    
+    public SourceFileNameRow(SourceFileNameTable parent) {
+    	this.parent=parent;
+    }
+    
+    public SourceFileNameRow addToParent() {
+    	parent.add(this);
+    	return this;
+    }
     @Deprecated
     public  void setField(String name, String text) {
         if(name.equals(SOURCE_FILE_ID_ELEMENTNAME)) {
@@ -43,8 +57,7 @@ public class SourceFileNameRow {
         sourceFileID=id;
         sourceFileName=name;
     }
-    public SourceFileNameRow() {
-    }
+
 
     public int getSourceFileID() {
         return sourceFileID;

@@ -36,14 +36,21 @@ public class SourceFileNameTable  {
     private Map<Integer,SourceFileNameRow> rows = new HashMap<Integer,SourceFileNameRow>();
     private Map<String,Integer> mapNameToId = new HashMap<String,Integer>();
     private int maxId=0;
+    @Deprecated
     public void add(int i, SourceFileNameRow model) {
         rows.put(i,model);
         mapNameToId.put(model.getSourceFileName(),i);
         maxId = maxId>i?maxId:i;
     }
     
+    public void add(SourceFileNameRow row) {
+    	int key=row.getSourceFileID();
+        rows.put(key,row);
+        mapNameToId.put(row.getSourceFileName(),key);
+        maxId = maxId>key?maxId:key;
+    }
     public SourceFileNameRow newRow() {
-    	return new SourceFileNameRow();
+    	return new SourceFileNameRow(this);
     }
     /**
      * 

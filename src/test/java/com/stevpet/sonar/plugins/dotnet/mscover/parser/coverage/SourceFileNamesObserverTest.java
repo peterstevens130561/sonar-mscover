@@ -71,17 +71,6 @@ public class SourceFileNamesObserverTest {
     }
     
     @Test
-    public void TwoFileNames_ShouldBeTwoInRegistry() {
-        SourceFileNameTable registry = new SourceFileNameTable();
-        observer.setRegistry(registry) ;
-        observer.observeElement(SOURCE_FILE_ID, "1");
-        observer.observeElement(SOURCE_FILE_NAME, "a/b/c");
-        observer.observeElement(SOURCE_FILE_ID, "2");
-        observer.observeElement(SOURCE_FILE_NAME, "a/b/d");
-        Assert.assertEquals(2,registry.size());
-    }
-    
-    @Test
     public void ParseFileWithObserver() throws XMLStreamException {
         //Arrange
         XmlParserSubject parser = new CoverageParserSubject();
