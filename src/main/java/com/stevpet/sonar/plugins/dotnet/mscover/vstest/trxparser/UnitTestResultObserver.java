@@ -57,9 +57,7 @@ public class UnitTestResultObserver extends BaseParserObserver {
     public void testId(String value) {
         unitTestResult=registry.getById(value);
         if(unitTestResult==null) {
-            unitTestResult = new UnitTestMethodResult();
-            unitTestResult.setTestId(value);
-            registry.add(unitTestResult);      
+            unitTestResult = registry.newEntry().setTestId(value).addToParent();    
         }
     }
     @AttributeMatcher(attributeName = "testName", elementName = "UnitTestResult")

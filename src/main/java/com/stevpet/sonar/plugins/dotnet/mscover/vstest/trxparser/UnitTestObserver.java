@@ -55,9 +55,7 @@ public class UnitTestObserver extends BaseParserObserver {
     public void id(String value) {
         unitTestResult=registry.getById(value);
         if(unitTestResult==null) {
-            unitTestResult = new UnitTestMethodResult();
-            unitTestResult.setTestId(value);
-            registry.add(unitTestResult);
+            unitTestResult = registry.newEntry().setTestId(value).addToParent();
         }
     }
     

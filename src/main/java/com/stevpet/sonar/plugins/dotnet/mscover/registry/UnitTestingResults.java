@@ -47,6 +47,10 @@ public class UnitTestingResults {
         unitTestResultsById.put(testId,unitTestResult);
     }
     
+    public UnitTestMethodResult newEntry() {
+    	return new UnitTestMethodResult(this);
+    }
+    
     /**
      * gets the testResult identified by the name
      * @param testName

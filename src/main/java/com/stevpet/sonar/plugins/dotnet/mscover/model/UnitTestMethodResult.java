@@ -25,6 +25,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model;
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.SonarException;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestingResults;
+
 
 public class UnitTestMethodResult  {
     private MethodId methodId = new MethodId();
@@ -35,8 +37,24 @@ public class UnitTestMethodResult  {
     private String codeBase;
     private String message = StringUtils.EMPTY;
     private String stackTrace;
+	private UnitTestingResults parent;
 
-    public String getModuleName() {
+    public UnitTestMethodResult(UnitTestingResults unitTestingResults) {
+		this.parent = unitTestingResults;
+	}
+
+    public UnitTestMethodResult() {
+	}
+
+	/**
+     * add this method to the parent
+     * @return 
+     */
+    public UnitTestMethodResult addToParent() {
+    	parent.add(this);
+    	return this;
+    }
+	public String getModuleName() {
         return methodId.getModuleName();
     }
     public String getNamespaceName() {

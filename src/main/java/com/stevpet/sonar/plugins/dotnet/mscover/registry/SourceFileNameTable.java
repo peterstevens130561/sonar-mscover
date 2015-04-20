@@ -42,6 +42,9 @@ public class SourceFileNameTable  {
         maxId = maxId>i?maxId:i;
     }
     
+    public SourceFileNameRow newRow() {
+    	return new SourceFileNameRow();
+    }
     /**
      * 
      * @param fileId

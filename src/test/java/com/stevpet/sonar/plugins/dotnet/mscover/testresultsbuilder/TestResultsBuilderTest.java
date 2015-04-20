@@ -37,13 +37,11 @@ public class TestResultsBuilderTest {
 		testResultsBuilder = new DefaultTestResultsBuilder(fileNamesParserMock.getMock(), testResultsParserMock.getMock());
 		sourceFileNamesTable = new SourceFileNameTable();
 		fileNamesParserMock.givenSourceFileNamesTable(sourceFileNamesTable);
+		fileNamesParserMock.givenGetMethodToSourceFileIdMap(methodToSourceFileIdMap);
 	}
 	
 	@Test
 	public void NoTestResults_ShouldHaveEmptyResults() {
-		methodToSourceFileIdMap = new MethodToSourceFileIdMap();
-		testResults = new UnitTestRegistry();
-
 		ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.parse(null, null);
 		assertNotNull("parse should always return valid object",projectUnitTestResults);
 		assertEquals("no results expected",0,projectUnitTestResults.values().size());
@@ -51,28 +49,18 @@ public class TestResultsBuilderTest {
 	
 	@Test
 	public void OneFileWithResult_ShowHaveInFile() {
-
-		methodToSourceFileIdMap = new MethodToSourceFileIdMap();
 		methodToSourceFileIdMap.add(new MethodId(MODULE,NAMESPACE,CLASS,"method1"), "1");
-		fileNamesParserMock.givenGetMethodToSourceFileIdMap(methodToSourceFileIdMap);
-		
-		SourceFileNameRow row = new SourceFileNameRow();
-		row.setSourceFileID(1);
-		row.setSourceFileName("myname");
-		
-
+	
+		SourceFileNameRow row=sourceFileNamesTable.newRow().setSourceFileID(1).setSourceFileName("myname");
 		sourceFileNamesTable.add(1, row);
-
-		
+	
 		UnitTestingResults results=testResults.getTestingResults();
-		UnitTestMethodResult testResult=new UnitTestMethodResult();
-		testResult.setClassName(FULLCLASSNAME)
+
+		results.newEntry().setClassName(FULLCLASSNAME)
 			.setNamespaceNameFromClassName(FULLCLASSNAME)
 			.setModuleFromCodeBase(MODULE)
-			.setTestName("method1");
-		results.add(testResult);
-
-		
+			.setTestName("method1").addToParent();
+	
 		ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.parse(null, null);
 		assertNotNull("parse should always return valid object",projectUnitTestResults);
 		assertEquals("One results expected",1,projectUnitTestResults.values().size());
@@ -87,20 +75,14 @@ public class TestResultsBuilderTest {
 		SourceFileNameRow row = new SourceFileNameRow();
 		row.setSourceFileID(1);
 		row.setSourceFileName("myname");
-		
-
 		sourceFileNamesTable.add(1, row);
-
 		
 		UnitTestingResults results=testResults.getTestingResults();
-		UnitTestMethodResult testResult=new UnitTestMethodResult();
-		testResult.setClassName(FULLCLASSNAME)
+		results.newEntry().setClassName(FULLCLASSNAME)
 			.setNamespaceNameFromClassName(FULLCLASSNAME)
 			.setModuleFromCodeBase(MODULE)
-			.setTestName("bogus");
-		results.add(testResult);
+			.setTestName("bogus").addToParent();
 
-		
 		ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.parse(null, null);
 		assertNotNull("parse should always return valid object",projectUnitTestResults);
 		assertEquals("No results expected",0,projectUnitTestResults.values().size());
