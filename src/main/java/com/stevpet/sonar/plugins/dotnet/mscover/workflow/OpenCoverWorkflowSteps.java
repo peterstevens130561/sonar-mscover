@@ -17,6 +17,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.InjectingFakesR
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.ResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.InjectedMeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.DefaultTestResultsBuilder;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.DefaultTestResultsParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.OpenCoverFileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
@@ -40,7 +43,7 @@ public class OpenCoverWorkflowSteps implements WorkflowSteps {
 
 	@Override
 	public Class<? extends TestResultsBuilder> getTestResultsParser() {
-		return NullTestResultsBuilder.class;
+		return DefaultTestResultsBuilder.class;
 	}
 
 
@@ -60,7 +63,6 @@ public class OpenCoverWorkflowSteps implements WorkflowSteps {
 		getTestRunnerComponents(container);
 	}
 	
-
 	private void getTestRunnerComponents(DefaultPicoContainer container) {
         container.addComponent(new ProcessLock("opencover"))
         .addComponent(OpenCoverCommand.class)
@@ -75,6 +77,13 @@ public class OpenCoverWorkflowSteps implements WorkflowSteps {
         .addComponent(DefaultBranchFileCoverageSaver.class)
         .addComponent(InjectedMeasureSaver.class)
         .addComponent(DefaultResourceMediator.class);
+        addTestResultsBuilderComponents(container);
+	}
+	
+	private void addTestResultsBuilderComponents(DefaultPicoContainer container) {
+		container
+		.addComponent(OpenCoverFileNamesParser.class)
+		.addComponent(DefaultTestResultsParser.class);
 	}
 
 }

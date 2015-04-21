@@ -22,23 +22,19 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.saver.test;
 
-import java.util.List;
-
-import org.apache.commons.lang.StringEscapeUtils;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.resources.ResourceSeam;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
 public class TestResultsSaver {
 
     private MeasureSaver measureSaver;
-
+    public TestResultsFormatter testResultsFormatter = new DefaultTestResultsFormatter() ;
     public TestResultsSaver(MeasureSaver measureSaver) {
         this.measureSaver = measureSaver;
     }
@@ -66,54 +62,9 @@ public class TestResultsSaver {
 
     public void saveTestCaseMeasures(ClassUnitTestResult fileResults,
             ResourceSeam sonarFile) {
-        StringBuilder testCaseDetails = new StringBuilder(256);
-        testCaseDetails.append("<tests-details>");
-        List<UnitTestMethodResult> details = fileResults.getUnitTests();
-        for (UnitTestMethodResult detail : details) {
-            testCaseDetails.append("<testcase status=\""
-                    + getSonarStatus(detail.getOutcome()) + "\"");
-            testCaseDetails.append(" time=\"0\"");
-            testCaseDetails.append(" name=\"");
-            testCaseDetails.append(detail.getTestName());
-            testCaseDetails.append("\">");
-            if (isNotPassed(detail)) {
-                testCaseDetails.append("<error ");
-                testCaseDetails.append(getMessageAttribute(detail));
-                testCaseDetails.append(">");
-                testCaseDetails.append("<![CDATA[");
-                testCaseDetails.append(
-                        StringEscapeUtils.escapeXml(detail.getStackTrace()))
-                        .append("]]>");
-                testCaseDetails.append("</error>");
-            }
-            testCaseDetails.append("</testcase>");
-        }
-        testCaseDetails.append("</tests-details>");
-        String data = testCaseDetails.toString();
+        String data = testResultsFormatter.formatClassUnitTestResults(fileResults);
         Measure testData = new Measure(CoreMetrics.TEST_DATA, data);
         testData.setPersistenceMode(PersistenceMode.DATABASE);
         sonarFile.saveMeasure(testData);
-    }
-
-    private boolean isNotPassed(UnitTestMethodResult detail) {
-        return !"Passed".equals(detail.getOutcome());
-    }
-
-    private String getSonarStatus(String outcome) {
-        if ("Passed".equals(outcome)) {
-            return "ok";
-        } else {
-            return "error";
-        }
-    }
-
-    private String getMessageAttribute(UnitTestMethodResult result) {
-        String errorMessage = result.getMessage();
-        String xmlErrorMessage = StringEscapeUtils.escapeXml(errorMessage);
-        StringBuilder sb = new StringBuilder();
-        sb.append("message=\"");
-        sb.append(xmlErrorMessage);
-        sb.append("\"");
-        return sb.toString();
     }
 }
