@@ -49,9 +49,13 @@ public class SourceFileNameTable  {
         mapNameToId.put(row.getSourceFileName(),key);
         maxId = maxId>key?maxId:key;
     }
-    public SourceFileNameRow newRow() {
-    	return new SourceFileNameRow(this);
+    
+    public SourceFileNameRow getNewRow(String fileId) {
+    	SourceFileNameRow row = new SourceFileNameRow().setSourceFileID(Integer.parseInt(fileId));
+    	add(row);
+    	return row;
     }
+
     /**
      * 
      * @param fileId

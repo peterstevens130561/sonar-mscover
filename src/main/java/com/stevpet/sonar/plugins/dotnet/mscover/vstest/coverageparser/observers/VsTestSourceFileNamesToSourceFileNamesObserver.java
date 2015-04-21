@@ -39,7 +39,7 @@ public class VsTestSourceFileNamesToSourceFileNamesObserver extends VsTestCovera
 
     @ElementMatcher(elementName="SourceFileID")
     public void sourceFileIDMatcher(String value) {
-    	model = registry.newRow().setSourceFileID(Integer.parseInt(value)).addToParent();
+    	model = registry.getNewRow(value);
     }
 
     @ElementMatcher(elementName="SourceFileName")
