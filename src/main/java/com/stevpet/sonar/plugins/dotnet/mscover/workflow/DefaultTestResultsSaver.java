@@ -3,16 +3,10 @@ package com.stevpet.sonar.plugins.dotnet.mscover.workflow;
 
 import org.jfree.util.Log;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.resources.File;
-import org.sonar.api.resources.Project;
-import org.sonar.api.resources.ProjectFileSystem;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
-import org.sonar.api.scan.filesystem.PathResolver;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestResultsFormatter;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;

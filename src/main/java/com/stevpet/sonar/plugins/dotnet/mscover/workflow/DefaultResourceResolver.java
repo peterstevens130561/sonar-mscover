@@ -4,6 +4,11 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.File;
 import org.sonar.api.scan.filesystem.PathResolver;
 
+/**
+ * Wrapper for the fromIOFile statuc
+ * @author stevpet
+ *
+ */
 public class DefaultResourceResolver implements ResourceResolver {
 	
 	private final PathResolver pathResolver ;

@@ -15,7 +15,6 @@ import static org.mockito.Mockito.anyDouble;
 import static org.mockito.Mockito.when;
 
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
@@ -42,15 +41,13 @@ public class DefaultTestResultsSaverTest {
 	}
 	
 	@Test
-	public void noResults_nothingSaved() {
-		projectUnitTestResults = new ProjectUnitTestResults();		
+	public void noResults_nothingSaved() {		
 		testResultsSaver.save(projectUnitTestResults);
 		verify(testResultsFormatter,times(0)).formatClassUnitTestResults(null);
 	}
 	
 	@Test
 	public void oneResults_oneFormatted() {
-		projectUnitTestResults = new ProjectUnitTestResults();	
 		projectUnitTestResults.addFile(new File("bogus"));
 		when(resourceResolver.getFile(any(File.class))).thenReturn(org.sonar.api.resources.File.create("bogus"));
 		testResultsSaver.save(projectUnitTestResults);
@@ -59,7 +56,6 @@ public class DefaultTestResultsSaverTest {
 	
 	@Test
 	public void oneResults_oneMeasureSaved() {
-		projectUnitTestResults = new ProjectUnitTestResults();	
 		projectUnitTestResults.addFile(new File("bogus"));
 		when(resourceResolver.getFile(any(File.class))).thenReturn(org.sonar.api.resources.File.create("bogus"));
 		testResultsSaver.save(projectUnitTestResults);
@@ -68,7 +64,6 @@ public class DefaultTestResultsSaverTest {
 	
 	@Test
 	public void oneInvalidResults_noMeasureSaved() {
-		projectUnitTestResults = new ProjectUnitTestResults();	
 		projectUnitTestResults.addFile(null);
 		when(resourceResolver.getFile(any(File.class))).thenReturn(org.sonar.api.resources.File.create("bogus"));
 		testResultsSaver.save(projectUnitTestResults);
@@ -76,7 +71,6 @@ public class DefaultTestResultsSaverTest {
 	}
 	@Test
 	public void oneResults_metricsSavedSaved() {
-		projectUnitTestResults = new ProjectUnitTestResults();	
 		projectUnitTestResults.addFile(new File("bogus"));
 		when(resourceResolver.getFile(any(File.class))).thenReturn(org.sonar.api.resources.File.create("bogus"));
 		testResultsSaver.save(projectUnitTestResults);
@@ -84,7 +78,6 @@ public class DefaultTestResultsSaverTest {
 	}
 	@Test
 	public void twoResults_twoSaved() {
-		projectUnitTestResults = new ProjectUnitTestResults();	
 		projectUnitTestResults.addFiles("bogus","bogus2");
 		when(resourceResolver.getFile(any(File.class))).thenReturn(org.sonar.api.resources.File.create("bogus"));
 		testResultsSaver.save(projectUnitTestResults);
