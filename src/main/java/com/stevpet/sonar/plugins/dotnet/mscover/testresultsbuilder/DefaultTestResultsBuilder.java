@@ -42,7 +42,7 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
     	SourceFileNameTable sourceFileNamesTable= fileNamesParser.getSourceFileNamesTable();
     	
 
-    	testResultsParser.parse(coverageFile);
+    	testResultsParser.parse(testResultsFile);
     	UnitTestRegistry testResults = testResultsParser.getUnitTestRegistry();
     	
     	return mapUnitTestResultsToFile(testResults.getTestingResults(),methodToSourceFileIdMap,sourceFileNamesTable);

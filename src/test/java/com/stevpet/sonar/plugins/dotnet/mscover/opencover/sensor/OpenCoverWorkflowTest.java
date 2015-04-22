@@ -11,28 +11,32 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.picocontainer.DefaultPicoContainer;
+import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.VsTestRunnerCommandBuilderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutorMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
+import com.stevpet.sonar.plugins.dotnet.mscover.mock.SensorContextMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageParserMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.CoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.OpenCoverCoverageRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.utils.SensorTest;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommandMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleanerMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinderMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageParserStep;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultDirector;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.OpenCoverWorkflowSteps;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
-public class OpenCoverDirectorTest extends SensorTest {
+
+import static org.mockito.Mockito.mock;
+public class OpenCoverWorkflowTest extends SensorTest {
 
     DefaultPicoContainer container;
     private OpenCoverWorkflowSteps steps = new OpenCoverWorkflowSteps();
@@ -69,7 +73,7 @@ public class OpenCoverDirectorTest extends SensorTest {
      */
    
     @Test
-    public void OpenCoverDirector_Replace() {
+    public void OpenCoverWorkflow_SociableTest() {
         //Given a solution 
         InjectingFakesRemoverMock injectingFakesRemoverMock = new InjectingFakesRemoverMock();
         injectingFakesRemoverMock.replace(container);
@@ -79,7 +83,8 @@ public class OpenCoverDirectorTest extends SensorTest {
         
         msCoverPropertiesMock.givenOpenCoverInstallPath("opencover");
         VsTestEnvironment testEnvironment = container.getComponent(VsTestEnvironment.class);
-        testEnvironment.setCoverageXmlPath("bogus/.sonar/coverage.xml");
+        File coverageFile = TestUtils.getResource("coverage-report.xml");
+        testEnvironment.setCoverageXmlPath(coverageFile.getAbsolutePath());
         VsTestConfigFinderMock vsTestConfigFinderMock = new VsTestConfigFinderMock();
         vsTestConfigFinderMock.givenGetTestSettingsFileOrDie(new File("bogus"));
         vsTestConfigFinderMock.replace(container);
@@ -94,7 +99,8 @@ public class OpenCoverDirectorTest extends SensorTest {
         CommandLineExecutorMock commandLineExecutorMock = new CommandLineExecutorMock();
         container.addComponent(commandLineExecutorMock.getMock());
         container.removeComponent(LockedWindowsCommandLineExecutor.class);
-        String stdOut="\nResults File: myfunny.trx";
+        File resultsFile = TestUtils.getResource("results.trx");
+        String stdOut="\nResults File: " + resultsFile.getAbsolutePath();
         commandLineExecutorMock.givenGetStdOut(stdOut);
         
         AssembliesFinderMock assembliesFinderMock = new AssembliesFinderMock();
@@ -111,17 +117,22 @@ public class OpenCoverDirectorTest extends SensorTest {
         container.removeComponent(VSTestCommand.class);
         container.addComponent(vsTestCommandMock.getMock());
         
+        container.removeComponent(DefaultResourceResolver.class);
+        container.addComponent(mock(ResourceResolver.class));
+        SensorContextMock sensorContextMock = new SensorContextMock();
+		container.addComponent(sensorContextMock.getMock());
         director.execute();
         
-        commandLineExecutorMock.thenCommandLine("opencover/OpenCover.Console.Exe -register:user -excludebyfile:*\\*.Designer.cs -excludebyattribute:*ExcludeFromCodeCoverage* " +
+        String coveragePath=coverageFile.getAbsolutePath().replaceAll("\\\\","/");
+		commandLineExecutorMock.thenCommandLine("opencover/OpenCover.Console.Exe -register:user -excludebyfile:*\\*.Designer.cs -excludebyattribute:*ExcludeFromCodeCoverage* " +
         		"\"-target:vstest.console.exe\" \"-targetdir:mytestdir\" -mergebyhash: " + 
-        		"\"-targetargs:arguments\" \"-output:coverage.xml\" \"-filter:+[one]* +[two]* \"");
-        coverageParserMock.thenParse("coverage.xml");
+        		"\"-targetargs:arguments\" \"-output:" + coveragePath  + "\" \"-filter:+[one]* +[two]* \"");
+        coverageParserMock.thenParse(coveragePath);
         //only interested in the name, as the absolute path makes it non runnable on other environments
         String resultsPath=testEnvironment.getXmlResultsPath();
         assertNotNull("test results file not set",resultsPath);
-        File resultsFile = new File(resultsPath);
-        assertEquals("path to test results file","myfunny.trx",resultsFile.getName());
+        File actualResultsFile = new File(resultsPath);
+        assertEquals("path to test results file",resultsFile.getName(),actualResultsFile.getName());
         //injectingFakesRemoverMock.thenExecuteInvoked();
         //testResultsCleanerMock.thenExecuteInvoked();
     }

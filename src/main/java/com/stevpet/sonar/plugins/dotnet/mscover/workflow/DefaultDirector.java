@@ -2,7 +2,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.workflow;
 
 import java.io.File;
 
+import org.apache.commons.lang.StringUtils;
 import org.picocontainer.DefaultPicoContainer;
+
 
 
 
@@ -38,7 +40,9 @@ public class DefaultDirector implements WorkflowDirector {
 	@Override
 	public void execute() {
 		VsTestEnvironment testEnvironment = picoContainer.getComponent(VsTestEnvironment.class);
-		testEnvironment.setCoverageXmlPath("coverage.xml");
+		if(StringUtils.isEmpty(testEnvironment.getXmlCoveragePath())) {
+			testEnvironment.setCoverageXmlPath("coverage.xml");
+		}
 		TestRunner runner = picoContainer.getComponent(TestRunner.class);
 		runner.execute();
 		

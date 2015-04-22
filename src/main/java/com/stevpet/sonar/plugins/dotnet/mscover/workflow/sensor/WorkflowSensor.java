@@ -75,7 +75,8 @@ public class WorkflowSensor implements Sensor {
     	LogInfo("Starting");
     	LogChanger.setPattern();
         container.addComponent(DefaultDirector.class)
-                .addComponent(getWorkflow());
+        	.addComponent(context)
+            .addComponent(getWorkflow());
         WorkflowDirector  director=container.getComponent(WorkflowDirector.class);
         director.wire(container);
         vsTestEnvironment.setCoverageXmlFile(project,"coverage-report.xml"); 
