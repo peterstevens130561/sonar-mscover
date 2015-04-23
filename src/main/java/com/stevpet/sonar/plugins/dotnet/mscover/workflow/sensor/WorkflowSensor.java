@@ -32,6 +32,7 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.InjectedMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
@@ -57,12 +58,13 @@ public class WorkflowSensor implements Sensor {
     private DefaultPicoContainer container;
 	private VsTestEnvironment vsTestEnvironment;
     
-    public WorkflowSensor(VsTestEnvironment vsTestEnvironment, MsCoverProperties propertiesHelper,FileSystem fileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+    public WorkflowSensor(InjectedMeasureSaver injectedMeasureSaver,VsTestEnvironment vsTestEnvironment, MsCoverProperties propertiesHelper,FileSystem fileSystem,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         container = new DefaultPicoContainer(new ConstructorInjection());
         container.addComponent(vsTestEnvironment)
         .addComponent(fileSystem)
         .addComponent(microsoftWindowsEnvironment)
-        .addComponent(propertiesHelper);
+        .addComponent(propertiesHelper)
+        .addComponent(injectedMeasureSaver);
         this.propertiesHelper = propertiesHelper;
         this.vsTestEnvironment = vsTestEnvironment;
     }

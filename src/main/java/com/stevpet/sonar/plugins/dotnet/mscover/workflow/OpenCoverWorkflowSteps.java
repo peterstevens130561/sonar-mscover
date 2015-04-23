@@ -83,7 +83,7 @@ public class OpenCoverWorkflowSteps implements WorkflowSteps {
         .addComponent(VSTestCommand.class)
         .addComponent(DefaultLineFileCoverageSaver.class)
         .addComponent(DefaultBranchFileCoverageSaver.class)
-        .addComponent(InjectedMeasureSaver.class)
+        //.addComponent(InjectedMeasureSaver.class)
         .addComponent(DefaultResourceMediator.class);
         addTestResultsBuilderComponents(container);
 	}
