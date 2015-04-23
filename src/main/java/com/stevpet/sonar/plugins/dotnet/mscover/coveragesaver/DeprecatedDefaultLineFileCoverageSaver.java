@@ -36,11 +36,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 
-public class DefaultLineFileCoverageSaver implements  LineFileCoverageSaver {
+@Deprecated
+public class DeprecatedDefaultLineFileCoverageSaver implements  LineFileCoverageSaver {
 
     private MeasureSaver measureSaver;
 
-    public  DefaultLineFileCoverageSaver(MeasureSaver measureSaver) {
+    public  DeprecatedDefaultLineFileCoverageSaver(MeasureSaver measureSaver) {
         this.measureSaver = measureSaver ;
     }
     

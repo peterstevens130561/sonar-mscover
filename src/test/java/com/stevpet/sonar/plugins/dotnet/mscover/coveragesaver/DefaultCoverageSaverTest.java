@@ -34,7 +34,7 @@ public class DefaultCoverageSaverTest {
 	@Test
 	public void createWithLineandBranchCoverageSaver() {
 		container
-		.addComponent(DefaultLineFileCoverageSaver.class)
+		.addComponent(DeprecatedDefaultLineFileCoverageSaver.class)
 		.addComponent(DefaultBranchFileCoverageSaver.class);
 		CoverageSaver saver = container.getComponent(DefaultCoverageSaver.class);
 		assertNotNull("could not create coveragesaver with both savers",saver);
@@ -43,7 +43,7 @@ public class DefaultCoverageSaverTest {
 	@Test
 	public void createWithOnlyLineCoverageSaver() {
 		container
-		.addComponent(DefaultLineFileCoverageSaver.class)
+		.addComponent(DeprecatedDefaultLineFileCoverageSaver.class)
 		.addComponent(NullBranchFileCoverageSaver.class);
 		CoverageSaver saver = container.getComponent(DefaultCoverageSaver.class);
 		assertNotNull("could not create coveragesaver with null branch saver saver",saver);

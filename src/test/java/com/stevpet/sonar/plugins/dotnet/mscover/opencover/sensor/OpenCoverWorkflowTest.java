@@ -20,6 +20,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageParserM
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.CoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.OpenCoverCoverageRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.MeasureSaverMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.utils.SensorTest;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
@@ -121,6 +122,7 @@ public class OpenCoverWorkflowTest extends SensorTest {
         container.addComponent(mock(ResourceResolver.class));
         SensorContextMock sensorContextMock = new SensorContextMock();
 		container.addComponent(sensorContextMock.getMock());
+		container.addComponent(new MeasureSaverMock().getMock());
         director.execute();
         
         String coveragePath=coverageFile.getAbsolutePath().replaceAll("\\\\","/");

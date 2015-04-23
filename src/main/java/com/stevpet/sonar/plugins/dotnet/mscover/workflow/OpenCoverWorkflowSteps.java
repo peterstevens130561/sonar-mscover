@@ -7,7 +7,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCom
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DefaultBranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DefaultCoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DefaultLineFileCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DeprecatedDefaultLineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.NullCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
@@ -81,7 +81,7 @@ public class OpenCoverWorkflowSteps implements WorkflowSteps {
         .addComponent(DefaultAssembliesFinder.class)
         .addComponent(VsTestRunnerCommandBuilder.class)
         .addComponent(VSTestCommand.class)
-        .addComponent(DefaultLineFileCoverageSaver.class)
+        .addComponent(DeprecatedDefaultLineFileCoverageSaver.class)
         .addComponent(DefaultBranchFileCoverageSaver.class)
         //.addComponent(InjectedMeasureSaver.class)
         .addComponent(DefaultResourceMediator.class);
