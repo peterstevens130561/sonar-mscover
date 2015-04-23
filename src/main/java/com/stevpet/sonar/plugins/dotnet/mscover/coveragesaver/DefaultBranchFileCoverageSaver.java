@@ -1,66 +1,39 @@
-/*******************************************************************************
- *
- * SonarQube MsCover Plugin
- * Copyright (C) 2015 SonarSource
- * dev@sonar.codehaus.org
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
- *
- * Author: Peter Stevens, peter@famstevens.eu
- *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver;
 
-import java.io.File;
-
+import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.PropertiesBuilder;
+import org.sonar.api.resources.File;
 import org.sonar.api.utils.ParsingUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.BranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary;
-import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.ResourceResolver;
 
 public class DefaultBranchFileCoverageSaver implements BranchFileCoverageSaver {
-
-   private MeasureSaver measureSaver;
-    
-    private final PropertiesBuilder<String, Integer> lineConditionsBuilder = new PropertiesBuilder<String, Integer>(
-            CoreMetrics.CONDITIONS_BY_LINE);
-    private final PropertiesBuilder<String, Integer> lineCoveredConditionsBuilder = new PropertiesBuilder<String, Integer>(
-            CoreMetrics.COVERED_CONDITIONS_BY_LINE);
-    
-    public DefaultBranchFileCoverageSaver(MeasureSaver measureSaver) {
-        this.measureSaver = measureSaver ;
+	private ResourceResolver resourceResolver;
+	private SensorContext sensorContext;
+  
+    public  DefaultBranchFileCoverageSaver(ResourceResolver resourceResolver,SensorContext sensorContext) {
+        this.resourceResolver = resourceResolver;
+        this.sensorContext = sensorContext;
     }
     
-    
-    /* (non-Javadoc)
-	 * @see com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.BranchFileCoverageSaver#saveMeasures(com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints, java.io.File)
-	 */
-    @Override
-	public void saveMeasures(CoverageLinePoints coveragePoints, File file) {
-        measureSaver.setFile(file);
+	@Override
+	public void saveMeasures(CoverageLinePoints coveragePoints, java.io.File file) {
+    	File resource = resourceResolver.getFile(file);
         SonarCoverageSummary summary=coveragePoints.getSummary();
-        measureSaver.saveFileMeasure(CoreMetrics.UNCOVERED_CONDITIONS,(double) summary.getToCover()-summary.getCovered());
-        measureSaver.saveFileMeasure(CoreMetrics.CONDITIONS_TO_COVER,(double)summary.getToCover());
-        measureSaver.saveFileMeasure(CoreMetrics.BRANCH_COVERAGE,convertPercentage(summary.getCoverage()));
+		sensorContext.saveMeasure(resource,CoreMetrics.UNCOVERED_CONDITIONS,(double) summary.getToCover()-summary.getCovered());
+		sensorContext.saveMeasure(resource,CoreMetrics.CONDITIONS_TO_COVER,(double)summary.getToCover());
+		sensorContext.saveMeasure(resource,CoreMetrics.BRANCH_COVERAGE,convertPercentage(summary.getCoverage()));
 
+	    PropertiesBuilder<String, Integer> lineConditionsBuilder = new PropertiesBuilder<String, Integer>(
+	            CoreMetrics.CONDITIONS_BY_LINE);
+	    PropertiesBuilder<String, Integer> lineCoveredConditionsBuilder = new PropertiesBuilder<String, Integer>(
+	            CoreMetrics.COVERED_CONDITIONS_BY_LINE);
         lineConditionsBuilder.clear();
         lineCoveredConditionsBuilder.clear();
         for (CoverageLinePoint linePoint : coveragePoints.getPoints()) {
@@ -69,12 +42,13 @@ public class DefaultBranchFileCoverageSaver implements BranchFileCoverageSaver {
             lineCoveredConditionsBuilder.add(Integer.toString(lineNumber), linePoint.getCovered());
         }
         Measure lineConditionsMeasure= lineConditionsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
-        measureSaver.saveFileMeasure(lineConditionsMeasure);
+        sensorContext.saveMeasure(resource,lineConditionsMeasure);
         Measure lineCoveredConditionsMeasure=lineCoveredConditionsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
-        measureSaver.saveFileMeasure(lineCoveredConditionsMeasure); 
+        sensorContext.saveMeasure(resource,lineCoveredConditionsMeasure); 
     }
     
     protected double convertPercentage(Number percentage) {
         return ParsingUtils.scaleValue(percentage.doubleValue() * 100.0);
     }
+
 }
