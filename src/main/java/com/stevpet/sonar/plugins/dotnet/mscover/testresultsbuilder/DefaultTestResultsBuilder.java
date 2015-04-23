@@ -68,6 +68,9 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
 			if(!unitTestFilesResultRegistry.containsKey(filePath)) {
 				unitTestFilesResultRegistry.put(filePath, new ClassUnitTestResult(new File(filePath)));
 			}
+			ClassUnitTestResult classUnitTestResult=unitTestFilesResultRegistry.get(filePath);
+			classUnitTestResult.add(unitTest);
+			
 		}
 		ProjectUnitTestResults projectUnitTestResults = new ProjectUnitTestResults();
 		projectUnitTestResults.addAll(unitTestFilesResultRegistry.values());

@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver;
+package com.stevpet.sonar.plugins.dotnet.mscover;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +11,8 @@ import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.File;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DefaultLineFileCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.LineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
