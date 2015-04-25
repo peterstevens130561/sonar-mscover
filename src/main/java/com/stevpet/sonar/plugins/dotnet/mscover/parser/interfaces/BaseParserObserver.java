@@ -68,7 +68,6 @@ public abstract class BaseParserObserver implements ParserObserver {
      * @see com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserObserver#observeElement(java.lang.String, java.lang.String)
      */
     public void observeElement(String name, String text) {
-
     }
 
 

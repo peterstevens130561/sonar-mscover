@@ -20,26 +20,18 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.opencover.model;
+package com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser;
 
-public interface SequencePoint {
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 
+public abstract class VsTestCoverageObserver extends BaseParserObserver {
 
-    /**
-     * @return the line
-     */
-    public abstract int getLine();
+    public VsTestCoverageObserver() {
+        super();
+    }
 
-    /**
-     * @return the offset to start of line of this point
-     */
-    public abstract int getOffset();
-
-    /**
-     * @param string the offset to set (offset to start of line fo this point)
-     */
-    public abstract void setOffset(String string);
-
-    public abstract void setStartLine(String string);
+    public abstract void setVsTestRegistry(SonarCoverage registry);
 
 }
