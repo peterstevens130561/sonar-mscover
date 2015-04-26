@@ -22,41 +22,33 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestCoverageObserver;
 
 
-public class VsTestSourceFileNamesToSourceFileNamesObserver extends VsTestCoverageObserver{
-
-    private SourceFileNameTable registry ;
-    private SourceFileNameRow model;
-    public VsTestSourceFileNamesToSourceFileNamesObserver() {
+public class FileNamesObserver extends VsTestCoverageObserver {
+    SonarCoverage registry;
+    private String fileID;
+    public FileNamesObserver()  {
         setPattern("SourceFileNames/(SourceFileID|SourceFileName)");
     }
-
-
+    
+    
     @ElementMatcher(elementName="SourceFileID")
     public void sourceFileIDMatcher(String value) {
-    	model = registry.getNewRow(value);
+        fileID=value;
     }
-
+    
     @ElementMatcher(elementName="SourceFileName")
-    public void sourceFileNameMatcher(String value){
-    	model.setSourceFileName(value);
-    }
-
-    public void setRegistry(SourceFileNameTable registry) {
-        this.registry=registry;
+    public void sourceFileNameMatcher(String sourceFileName){
+    	SonarFileCoverage coveredFile=registry.getCoveredFile(fileID);
+        coveredFile.setAbsolutePath(sourceFileName); 
     }
 
 
-    @Override
-    public void setVsTestRegistry(VsTestCoverageRegistry vsTestRegistry) {
-        this.registry=vsTestRegistry.getSourceFileNameTable();
-    }
-
-
+	@Override
+	public void setVsTestRegistry(SonarCoverage registry) {
+		this.registry = registry;
+	}
 }

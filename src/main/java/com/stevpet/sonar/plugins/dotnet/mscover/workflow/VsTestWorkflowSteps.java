@@ -83,7 +83,7 @@ public class VsTestWorkflowSteps implements WorkflowSteps {
 	
 	private void addTestResultsBuilderComponents(DefaultPicoContainer container) {
 		container
-		.addComponent(VsTestFileNamesParser.class)
+		//.addComponent(VsTestFileNamesParser.class)
 		.addComponent(DefaultTestResultsParser.class);
-	}}
+	}
 }

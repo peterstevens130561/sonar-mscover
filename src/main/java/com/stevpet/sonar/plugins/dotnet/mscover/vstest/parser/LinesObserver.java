@@ -27,12 +27,12 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 
-public class VsTestLinesObserver extends VsTestCoverageObserver {
+public class LinesObserver extends VsTestCoverageObserver {
     private boolean covered;
     private int line;
 	private SonarCoverage registry;
 
-    public VsTestLinesObserver() {
+    public LinesObserver() {
         setPattern("Module/NamespaceTable/Class/Method/Lines/(LnStart|LnEnd|Coverage|SourceFileID)");
     }
 
