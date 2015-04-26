@@ -41,7 +41,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor.VsTestUnitTestResu
 @DependsUpon("OpenCoverRunningVsTest")
 public class OpenCoverTestResultsSaverSensor extends AbstractDotNetSensor {
 
-    private static final Logger LOG = LoggerFactory.getLogger(OpenCoverCoverageResultsSensor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OpenCoverTestResultsSaverSensor.class);
     private MsCoverProperties propertiesHelper;
     private VsTestEnvironment vsTestEnvironment;
     private VsTestUnitTestResultsAnalyser analyser = new VsTestUnitTestResultsAnalyser();
