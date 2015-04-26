@@ -22,6 +22,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesF
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.testesultsbuilder.VsTestFileNamesParser;
 
 public class VsTestWorkflowSteps implements WorkflowSteps {
 

@@ -4,7 +4,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatche
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 
-public class VsTestFileNamesAndIdObserver extends BaseParserObserver {
+public class VsTestSourceFileNamesObserver extends BaseParserObserver {
 	private SourceFileNameTable sourceFileNameTable;
 	private String sourceFileID;
 	
@@ -13,7 +13,7 @@ public class VsTestFileNamesAndIdObserver extends BaseParserObserver {
 		
 	} 
 	
-    public VsTestFileNamesAndIdObserver()  {
+    public VsTestSourceFileNamesObserver()  {
         setPattern("SourceFileNames/(SourceFileID|SourceFileName)");
     }
     

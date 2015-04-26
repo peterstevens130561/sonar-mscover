@@ -21,7 +21,7 @@ public class VsTestFileNamesParser implements FileNamesParser{
 		methodObserver.setRegistry(methodToSourceFileIdMap);
 		parserSubject.registerObserver(methodObserver);
 
-		VsTestFileNamesAndIdObserver sourceFileNamesObserver = new VsTestFileNamesAndIdObserver();
+		VsTestSourceFileNamesObserver sourceFileNamesObserver = new VsTestSourceFileNamesObserver();
 		sourceFileNamesObserver.setRegistry(sourceFileNameTable);
 		parserSubject.registerObserver(sourceFileNamesObserver);
 		parserSubject.parseFile(coverageFile);
