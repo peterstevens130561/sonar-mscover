@@ -27,7 +27,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestBlockDe
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestLineDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestBlockDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestLineDecorator;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.OpenCoverTestResultsSaverSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.InjectedResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.IntegrationTestCoverSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.SonarCoverageHelperFactory;
@@ -122,7 +121,6 @@ public List getExtensions() {
             PropertiesHelper.class,
             VisualStudioProjectBuilder.class,
             SonarCoverageHelperFactory.class,
-            OpenCoverTestResultsSaverSensor.class,
         IntegrationTestCoverSensor.class,
         IntegrationTestLineDecorator.class,
         UnitTestLineDecorator.class,
