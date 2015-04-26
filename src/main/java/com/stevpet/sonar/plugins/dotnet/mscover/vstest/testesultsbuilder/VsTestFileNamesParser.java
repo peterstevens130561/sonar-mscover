@@ -1,0 +1,40 @@
+package com.stevpet.sonar.plugins.dotnet.mscover.vstest.testesultsbuilder;
+
+import java.io.File;
+
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.FileNamesParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
+
+public class VsTestFileNamesParser implements FileNamesParser{
+
+	MethodToSourceFileIdMap methodToSourceFileIdMap ;
+	SourceFileNameTable sourceFileNameTable;
+	@Override
+	public void parse(File coverageFile) {
+		methodToSourceFileIdMap = new MethodToSourceFileIdMap();
+		sourceFileNameTable = new SourceFileNameTable();
+		XmlParserSubject parserSubject = new CoverageParserSubject();
+		VsTestMethodObserver methodObserver = new VsTestMethodObserver();
+		methodObserver.setRegistry(methodToSourceFileIdMap);
+		parserSubject.registerObserver(methodObserver);
+
+		VsTestFileNamesAndIdObserver sourceFileNamesObserver = new VsTestFileNamesAndIdObserver();
+		sourceFileNamesObserver.setRegistry(sourceFileNameTable);
+		parserSubject.registerObserver(sourceFileNamesObserver);
+		parserSubject.parseFile(coverageFile);
+	}
+
+	@Override
+	public MethodToSourceFileIdMap getMethodToSourceFileIdMap() {
+		return methodToSourceFileIdMap;
+	}
+
+	@Override
+	public SourceFileNameTable getSourceFileNamesTable() {
+		return sourceFileNameTable;
+	}
+
+}

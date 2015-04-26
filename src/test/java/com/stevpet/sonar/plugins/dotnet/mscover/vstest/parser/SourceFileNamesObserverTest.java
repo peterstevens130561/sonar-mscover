@@ -2,8 +2,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser;
 
 import static org.junit.Assert.*;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
@@ -15,7 +13,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
 
-public class VsTestSourceFileNamesObserverTest extends ObserverTest {
+public class SourceFileNamesObserverTest extends ObserverTest {
 	private VsTestCoverageObserver observer;
 	private SonarCoverage registry;
 	private XmlParserSubject parser;
@@ -31,8 +29,8 @@ public class VsTestSourceFileNamesObserverTest extends ObserverTest {
 	}
 	
 	@Test
-	public void noFileNames() throws ParserConfigurationException, TransformerException {
-		createCoverage();
+	public void noFileNames() {
+		createNewDoc();
 		String coverageDoc=docToString();
 		parser.parseString(coverageDoc);
 		assertNotNull(registry.getValues());
@@ -40,7 +38,7 @@ public class VsTestSourceFileNamesObserverTest extends ObserverTest {
 	}
 	@Test
 	public void oneFileName() throws ParserConfigurationException, TransformerException {
-		createCoverage();
+		createNewDoc();
 		createFileName("first","1");
 		String coverageDoc=docToString();
 		parser.parseString(coverageDoc);
@@ -51,7 +49,7 @@ public class VsTestSourceFileNamesObserverTest extends ObserverTest {
 	
 	@Test
 	public void twoFileNames() throws ParserConfigurationException, TransformerException {
-		createCoverage();
+		createNewDoc();
 		createFileName("first","1");
 		createFileName("second","10");
 		String coverageDoc=docToString();
@@ -62,23 +60,5 @@ public class VsTestSourceFileNamesObserverTest extends ObserverTest {
 		assertEquals("expect file","second",registry.getCoveredFile("10").getAbsolutePath());
 	}
 	
-	private void createCoverage() throws ParserConfigurationException, TransformerException {
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		doc = builder.newDocument();
-		rootElement = doc.createElement("CoverageDSPriv");
-		doc.appendChild(rootElement);
-	}
-	
-	private void createFileName(String name, String id) {
-		Element fileNamesElement = doc.createElement("SourceFileNames");
-		rootElement.appendChild(fileNamesElement);
-		Element sourceFileIdElement = doc.createElement("SourceFileID");
-		sourceFileIdElement.setTextContent(id);
-		fileNamesElement.appendChild(sourceFileIdElement);
-		Element sourceFileNameElement =doc.createElement("SourceFileName");
-		sourceFileNameElement.setTextContent(name);
-		fileNamesElement.appendChild(sourceFileNameElement);
-	}
 }
 

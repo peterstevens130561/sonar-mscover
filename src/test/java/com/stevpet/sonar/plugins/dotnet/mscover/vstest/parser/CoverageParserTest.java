@@ -5,8 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.IOException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -16,13 +14,12 @@ import org.codehaus.plexus.util.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageParserStep;
 
-public class VsTestCoverageParserTest extends ObserverTest {
+public class CoverageParserTest extends ObserverTest {
 
 	private SonarCoverage sonarCoverage;
 	private CoverageParserStep coverageParser ;
@@ -59,17 +56,24 @@ public class VsTestCoverageParserTest extends ObserverTest {
 		FileUtils.fileAppend(coverageFile.getAbsolutePath(), docToString());
 		coverageParser.parse(sonarCoverage, coverageFile);
 		// should be empty
-		assertEquals("one file expected",0,sonarCoverage.getValues().size());
+		assertEquals("one file expected",1,sonarCoverage.getValues().size());
+		SonarFileCoverage fileCoverage=sonarCoverage.getCoveredFile("1");
+		assertEquals("filename","file1",fileCoverage.getAbsolutePath());
+		CoverageLinePoint linePoint=fileCoverage.getLinePoints().getPoints().get(0);
+		assertEquals("line",20,linePoint.getLine());
+		
 	}
-	private void createCoverage() throws ParserConfigurationException, TransformerException {
+	private void createCoverage() {
 		createNewDoc();
+	}
+	
+	private void createOneFileCoverage()  {
+		createNewDoc();
+
+		createModuleToMethod();
+		addLine("1","20","0");
 		createFileName("file1","1");
 
-	}
-
-
-	
-	private void createOneFileCoverage() {
-		createNewDoc();		
+		
 	}
 }

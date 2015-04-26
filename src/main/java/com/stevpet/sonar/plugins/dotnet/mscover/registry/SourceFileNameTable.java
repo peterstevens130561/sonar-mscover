@@ -36,6 +36,15 @@ public class SourceFileNameTable  {
     private Map<Integer,SourceFileNameRow> rows = new HashMap<Integer,SourceFileNameRow>();
     private Map<String,Integer> mapNameToId = new HashMap<String,Integer>();
     private int maxId=0;
+    /**
+     * add a row with given fileID and filePath
+     * @param fileID 
+     * @param filePath
+     */
+    public void add(String fileID,String filePath) {
+    	SourceFileNameRow row = getNewRow(fileID);
+    	row.setSourceFileName(filePath);
+    }
     @Deprecated
     public void add(int i, SourceFileNameRow model) {
         rows.put(i,model);

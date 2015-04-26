@@ -53,8 +53,9 @@ public final class MethodId  {
         return moduleName;
     }
 
-    public void setModuleName(String moduleName) {
+    public MethodId setModuleName(String moduleName) {
         this.moduleName=validate(moduleName);
+        return this;
 
     }
 
@@ -83,24 +84,27 @@ public final class MethodId  {
         return namespaceName;
     }
 
-    public void setNamespaceName(String namespaceName) {
+    public MethodId setNamespaceName(String namespaceName) {
         this.namespaceName = namespaceName;
+        return this;
     }
 
     public String getClassName() {
         return className;
     }
 
-    public void setClassName(String className) {
+    public MethodId setClassName(String className) {
         this.className = className;
+        return this;
     }
 
     public String getMethodName() {
         return methodName;
     }
 
-    public void setMethodName(String methodName) {
+    public MethodId setMethodName(String methodName) {
         this.methodName = removeArgumentList(methodName);
+        return this;
     }
     
     private String removeArgumentList(String method) {

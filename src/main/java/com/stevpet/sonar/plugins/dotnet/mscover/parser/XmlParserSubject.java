@@ -274,6 +274,12 @@ public abstract class XmlParserSubject implements ParserSubject {
         try {
             method.invoke(observer, elementValue);
         } catch (InvocationTargetException e) {
+        	if(e.getTargetException()!=null) {
+        		String msg="Exception thrown when invoking method" +  
+                        observer.getClass().getName() + ":" + method.getName() + lineMsg();
+                LOG.error(msg,e.getTargetException());  
+                throw new SonarException(msg,e);
+        	}
             String msg = "Invocation Target Exception thrown when invoking method " + 
                     observer.getClass().getName() + ":" + method.getName() + lineMsg();
             LOG.error(msg, e);
