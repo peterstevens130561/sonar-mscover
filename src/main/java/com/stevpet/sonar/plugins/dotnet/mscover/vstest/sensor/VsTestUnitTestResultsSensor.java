@@ -46,7 +46,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
 
-@DependsUpon({VsTestExecutionSensor.DEPENDS,DotNetConstants.CORE_PLUGIN_EXECUTED})
+@DependsUpon({DotNetConstants.CORE_PLUGIN_EXECUTED})
 public class VsTestUnitTestResultsSensor implements Sensor {;
     static final Logger LOG = LoggerFactory
             .getLogger(VsTestUnitTestResultsSensor.class);
