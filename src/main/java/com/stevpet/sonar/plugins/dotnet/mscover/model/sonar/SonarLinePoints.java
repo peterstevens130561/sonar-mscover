@@ -43,6 +43,9 @@ public class SonarLinePoints implements CoverageLinePoints {
         return points.size();
     }
 
+    /**
+     * add a point. If the line is the same as the previous one added, and this one is not covered, then the line is considered not covered
+     */
     public SonarLinePoint addPoint(int line, boolean b) {
         SonarLinePoint point;
         if(size()==0 || getLastLine() != line) {

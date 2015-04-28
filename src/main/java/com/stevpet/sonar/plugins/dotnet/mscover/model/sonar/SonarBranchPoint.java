@@ -58,4 +58,8 @@ public class SonarBranchPoint implements CoverageLinePoint{
     public void incrementVisitedBranches() {
         this.branchesVisited +=1;
     }
+	@Override
+	public void setCovered(int covered) {
+		branchesVisited=covered;
+	}
 }

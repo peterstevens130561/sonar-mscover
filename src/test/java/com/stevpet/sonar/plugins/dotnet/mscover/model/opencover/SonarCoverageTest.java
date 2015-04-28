@@ -29,7 +29,7 @@ import org.junit.Test;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
-public class CoverageModelTest {
+public class SonarCoverageTest {
 
     private SonarCoverage model;
     @Before

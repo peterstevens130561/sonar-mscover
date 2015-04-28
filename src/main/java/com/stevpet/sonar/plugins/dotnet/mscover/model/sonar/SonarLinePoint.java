@@ -52,6 +52,10 @@ public class SonarLinePoint implements CoverageLinePoint{
     public int getCovered() {
         return covered;
     }
+	@Override
+	public void setCovered(int covered) {
+		this.covered = covered;
+	}
     
    
 }

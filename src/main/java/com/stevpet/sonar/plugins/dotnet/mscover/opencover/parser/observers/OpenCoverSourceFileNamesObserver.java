@@ -26,20 +26,22 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
 
 public class OpenCoverSourceFileNamesObserver extends OpenCoverObserver {
-
+	private String fileID;
     private SonarFileCoverage fileCoverage;
     public OpenCoverSourceFileNamesObserver() {
         setPattern("Modules/Module/Files/File");
     }
 
+    
     @AttributeMatcher(attributeName = "uid", elementName = "File")
     public void uidMatcher(String attributeValue) {
-        fileCoverage = getRegistry().getCoveredFile(attributeValue);
+        fileID=attributeValue;
     }
     
     @AttributeMatcher(attributeName="fullPath",elementName="File")
-    public void fileMatcher(String attributeValue) {
-        fileCoverage.setAbsolutePath(attributeValue);
+    public void fileMatcher(String sourceFileName) {
+    	getRegistry().linkFileNameToFileId(sourceFileName, fileID);
+
     }
 
 }
