@@ -1,7 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.ittest.vstest;
 
 import org.picocontainer.DefaultPicoContainer;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
@@ -52,7 +51,6 @@ public class VsTestIntegrationTestWorkflowSteps implements WorkflowSteps {
 	
 	private void getCoverageSaverComponents(DefaultPicoContainer container) {
         container
-        .addComponent(DefaultResourceResolver.class)
 		.addComponent(IntegrationTestLineFileCoverageSaver.class)
         .addComponent(NullBranchFileCoverageSaver.class);	
 	}
@@ -61,6 +59,6 @@ public class VsTestIntegrationTestWorkflowSteps implements WorkflowSteps {
 		container
         .addComponent(WindowsCommandLineExecutor.class)
         .addComponent(WindowsCodeCoverageCommand.class);
-	}
+	}	
 	
 }

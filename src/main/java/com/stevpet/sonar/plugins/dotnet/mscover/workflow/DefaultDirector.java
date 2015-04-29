@@ -47,7 +47,6 @@ public class DefaultDirector implements WorkflowDirector {
 		runner.execute();
 		
 		File testResultsFile=runner.getTestResultsFile();
-		testEnvironment.setTestResultsFile(testResultsFile);
 		
 		File coverageFile=new File(testEnvironment.getXmlCoveragePath());
         SonarCoverage sonarCoverage= new SonarCoverage();
