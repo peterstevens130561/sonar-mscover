@@ -10,9 +10,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DefaultCoverageSav
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DefaultLineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageReader;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.OpenCoverCoverageRunner;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediator;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.DefaultTestResultsFormatter;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.DefaultTestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.DefaultTestResultsParser;
@@ -33,7 +32,7 @@ public class OpenCoverWorkflowSteps implements WorkflowSteps {
 
 	@Override
 	public Class< ? extends CoverageReaderStep> getCoverageReader() {
-		return OpenCoverCoverageReader.class;
+		return DefaultCoverageReader.class;
 	}
 
 
@@ -77,7 +76,8 @@ public class OpenCoverWorkflowSteps implements WorkflowSteps {
         .addComponent(VsTestRunnerCommandBuilder.class)
         .addComponent(VSTestCommand.class)
         .addComponent(DefaultLineFileCoverageSaver.class)
-        .addComponent(DefaultBranchFileCoverageSaver.class);
+        .addComponent(DefaultBranchFileCoverageSaver.class)
+        .addComponent(OpenCoverCoverageParser.class);
         addTestResultsBuilderComponents(container);
 	}
 	

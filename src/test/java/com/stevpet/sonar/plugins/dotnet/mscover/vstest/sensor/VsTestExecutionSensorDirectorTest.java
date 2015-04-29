@@ -17,7 +17,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCode
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutorMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageReaderMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageReader;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.AssembliesFinderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.InjectingFakesRemoverMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.utils.SensorTest;
@@ -27,6 +27,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleaner
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultCoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunner;
 
 public class VsTestExecutionSensorDirectorTest extends SensorTest {
@@ -124,7 +125,7 @@ public class VsTestExecutionSensorDirectorTest extends SensorTest {
         
         coverageParserMock = new CoverageReaderMock();
         coverageParserMock.replace(container);
-        container.removeComponent(OpenCoverCoverageReader.class);
+        container.removeComponent(DefaultCoverageReader.class);
         
         windowsCodeCoverageCommandShim = new WindowsCodeCoverageCommandShim();
         container.removeComponent(WindowsCodeCoverageCommand.class);

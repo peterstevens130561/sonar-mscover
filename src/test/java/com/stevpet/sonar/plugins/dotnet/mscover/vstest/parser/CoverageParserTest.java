@@ -14,20 +14,22 @@ import org.codehaus.plexus.util.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReaderStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultCoverageReader;
 
 public class CoverageParserTest extends ObserverTest {
 
 	private SonarCoverage sonarCoverage;
-	private CoverageReaderStep coverageReader ;
+	private CoverageParser coverageParser ;
 	private File coverageFile;
 	
 	@Before
 	public void before() {
-		coverageReader = new VsTestCoverageReader();
+		coverageParser = new VsTestCoverageParser();
 		sonarCoverage = new SonarCoverage();
 		String tmpPath=System.getenv("TMP");
 		File parentDir=new File(tmpPath);
@@ -43,7 +45,7 @@ public class CoverageParserTest extends ObserverTest {
 	public void emptyCoverageFile_EmptyCoverage() throws TransformerConfigurationException, IOException, TransformerFactoryConfigurationError, TransformerException, ParserConfigurationException {
 		createCoverage();
 		FileUtils.fileAppend(coverageFile.getAbsolutePath(), docToString());
-		coverageReader.read(sonarCoverage, coverageFile);
+		coverageParser.parser(sonarCoverage, coverageFile);
 		// should be empty
 		assertEquals("no coverage info expected",0,sonarCoverage.getValues().size());
 	}
@@ -54,7 +56,7 @@ public class CoverageParserTest extends ObserverTest {
 	public void OneLiner_ExpectInCoverage() throws TransformerConfigurationException, IOException, TransformerFactoryConfigurationError, TransformerException, ParserConfigurationException {
 		createOneFileCoverage();
 		FileUtils.fileAppend(coverageFile.getAbsolutePath(), docToString());
-		coverageReader.read(sonarCoverage, coverageFile);
+		coverageParser.parser(sonarCoverage, coverageFile);
 		// should be empty
 		assertEquals("one file expected",1,sonarCoverage.getValues().size());
 		SonarFileCoverage fileCoverage=sonarCoverage.getCoveredFile("1");
