@@ -22,16 +22,16 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageParserStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReaderStep;
 
-public class IntegrationTestCoverageParser implements CoverageParserStep {
-	private final static Logger LOG = LoggerFactory.getLogger(IntegrationTestCoverageParser.class);
+public class IntegrationTestCoverageReader implements CoverageReaderStep {
+	private final static Logger LOG = LoggerFactory.getLogger(IntegrationTestCoverageReader.class);
 	private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 	private MsCoverProperties msCoverProperties;
 	private FileSystem fileSystem;
 	private CommandLineExecutor commandLineExecutor;
 	private CodeCoverageCommand convertCoverageToXmlCommand;
-	public IntegrationTestCoverageParser(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
+	public IntegrationTestCoverageReader(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
 			MsCoverProperties msCoverProperties,
 			FileSystem fileSystem,
 			CommandLineExecutor commandLineExecutor,
@@ -46,7 +46,7 @@ public class IntegrationTestCoverageParser implements CoverageParserStep {
 	 * @param file may be either a single file to parse, or a directory which holds files
 	 */
 	@Override
-	public void parse(SonarCoverage registry, File file) {
+	public void read(SonarCoverage registry, File file) {
 	     List<String> artifactNames = microsoftWindowsEnvironment.getArtifactNames();
 		String integrationTestsDir=msCoverProperties.getIntegrationTestsDir();
 		if(StringUtils.isNotEmpty(integrationTestsDir)) {

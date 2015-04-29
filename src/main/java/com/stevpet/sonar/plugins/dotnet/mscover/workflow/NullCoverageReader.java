@@ -8,11 +8,11 @@ import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
-public class NullCoverageParser implements CoverageParserStep {
-	private final static Logger LOG = LoggerFactory.getLogger(NullCoverageParser.class);
+public class NullCoverageReader implements CoverageReaderStep {
+	private final static Logger LOG = LoggerFactory.getLogger(NullCoverageReader.class);
 	
 	@Override
-	public void parse(SonarCoverage registry, File file) {
+	public void read(SonarCoverage registry, File file) {
 		LOG.info("Invoked");
 	}
 

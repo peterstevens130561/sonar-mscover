@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.NullCoverageParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.NullCoverageReader;
 
 public class NullCoverageSaver implements CoverageSaver {
 	private final static Logger LOG = LoggerFactory.getLogger(NullCoverageSaver.class);

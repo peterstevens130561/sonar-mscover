@@ -13,9 +13,9 @@ public class NullWorkflowSteps implements WorkflowSteps {
 	}
 
 	@Override
-	public Class  getCoverageParser() {
+	public Class  getCoverageReader() {
 
-		return NullCoverageParser.class;
+		return NullCoverageReader.class;
 	}
 
 	@Override

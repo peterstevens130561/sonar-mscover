@@ -16,7 +16,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.DefaultTestRe
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.DefaultTestResultsParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.OpenCoverFileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.VsTestCoverageParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.VsTestCoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
@@ -33,8 +33,8 @@ public class VsTestWorkflowSteps implements WorkflowSteps {
 
 
 	@Override
-	public Class< ? extends CoverageParserStep> getCoverageParser() {
-		return VsTestCoverageParser.class;
+	public Class< ? extends CoverageReaderStep> getCoverageReader() {
+		return VsTestCoverageReader.class;
 	}
 
 

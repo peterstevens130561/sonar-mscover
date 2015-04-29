@@ -16,8 +16,8 @@ import org.sonar.test.TestUtils;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutorMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.SensorContextMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageParserMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageReaderMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.CoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.OpenCoverCoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.MeasureSaverMock;
@@ -28,7 +28,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleanerMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinderMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageParserStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReaderStep;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.OpenCoverWorkflowSteps;
@@ -51,8 +51,8 @@ public class OpenCoverWorkflowTest extends SensorTest {
    
     @Test
     public void OpenCoverDirector_ParserCreation() {
-        CoverageParserStep parser = container.getComponent(CoverageParserStep.class);
-        assertNotNull("create parser",parser);
+        CoverageReaderStep reader = container.getComponent(CoverageReaderStep.class);
+        assertNotNull("create parser",reader);
     }
     
     @Test
@@ -63,9 +63,9 @@ public class OpenCoverWorkflowTest extends SensorTest {
     
     @Test
     public void OpenCoverDirector_CoverageParserCreation() {
-        CoverageParserStep parser = container.getComponent(CoverageParserStep.class);
+        CoverageReaderStep parser = container.getComponent(CoverageReaderStep.class);
         assertNotNull("create opencover coverage parser",parser);
-        assertTrue("should be right class",parser instanceof OpenCoverCoverageParser);
+        assertTrue("should be right class",parser instanceof OpenCoverCoverageReader);
     }
     
     /*
@@ -107,9 +107,9 @@ public class OpenCoverWorkflowTest extends SensorTest {
         container.addComponent(assembliesFinderMock.getMock());
         container.removeComponent(DefaultAssembliesFinder.class);
         assembliesFinderMock.onFindUnitTestAssembliesDir("mytestdir");
-        CoverageParserMock coverageParserMock = new CoverageParserMock();
+        CoverageReaderMock coverageParserMock = new CoverageReaderMock();
         coverageParserMock.replace(container);
-        container.removeComponent(OpenCoverCoverageParser.class);
+        container.removeComponent(OpenCoverCoverageReader.class);
 
         VSTestCommandMock vsTestCommandMock = new VSTestCommandMock();
         vsTestCommandMock.giveExeDir("vstest.console.exe");

@@ -16,8 +16,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCode
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommandShim;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutorMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageParserMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageReaderMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.AssembliesFinderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.InjectingFakesRemoverMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.utils.SensorTest;
@@ -38,7 +38,7 @@ public class VsTestExecutionSensorDirectorTest extends SensorTest {
 	private VsTestConfigFinderMock vsTestConfigFinderMock;
 	private CommandLineExecutorMock commandLineExecutorMock;
 	private AssembliesFinderMock assembliesFinderMock;
-	private CoverageParserMock coverageParserMock;
+	private CoverageReaderMock coverageParserMock;
 	private WindowsCodeCoverageCommandShim windowsCodeCoverageCommandShim;
     @Before
     public void before() {
@@ -122,9 +122,9 @@ public class VsTestExecutionSensorDirectorTest extends SensorTest {
         container.addComponent(assembliesFinderMock.getMock());
         container.removeComponent(DefaultAssembliesFinder.class);
         
-        coverageParserMock = new CoverageParserMock();
+        coverageParserMock = new CoverageReaderMock();
         coverageParserMock.replace(container);
-        container.removeComponent(OpenCoverCoverageParser.class);
+        container.removeComponent(OpenCoverCoverageReader.class);
         
         windowsCodeCoverageCommandShim = new WindowsCodeCoverageCommandShim();
         container.removeComponent(WindowsCodeCoverageCommand.class);

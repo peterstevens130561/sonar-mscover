@@ -42,7 +42,7 @@ public class ConcreteOpenCoverParserFactory implements OpenCoverParserFactory {
     /**
      * Creates the complete parser, with the observers registered
      * @param registry initialized registry
-     * @deprecated {@link com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser}
+     * @deprecated {@link com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageReader}
      */
     @Deprecated
     public XmlParserSubject createOpenCoverParser(SonarCoverage registry) {
@@ -80,7 +80,7 @@ public class ConcreteOpenCoverParserFactory implements OpenCoverParserFactory {
     /**
      * Creates the complete parser, with the observers registered
      * @param registry initialized registry
-     * @deprecated {@link com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser}
+     * @deprecated {@link com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageReader}
      */
     @Deprecated
     public XmlParserSubject createOpenCoverParser(SonarCoverage registry,

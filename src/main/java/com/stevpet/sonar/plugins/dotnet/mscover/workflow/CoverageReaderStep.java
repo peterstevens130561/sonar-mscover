@@ -8,12 +8,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
  * Load a coverage file into memory.
  *
  */
-public interface CoverageParserStep {
+public interface CoverageReaderStep {
 
 	/**
-	 * The coverage parser may  be invoked multiple times during a run
+	 * The coverage read may  be invoked multiple times during a run
 	 * @param registry in which to put to parser results
 	 * @param file to parse
 	 */
-    void parse(SonarCoverage registry, File file);
+    void read(SonarCoverage registry, File file);
 }

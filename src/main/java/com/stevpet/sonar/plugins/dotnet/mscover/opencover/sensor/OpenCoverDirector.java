@@ -9,7 +9,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCom
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.CoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.OpenCoverCoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
@@ -20,7 +20,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleaner
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageParserStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReaderStep;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowSteps;
@@ -67,7 +67,7 @@ public class OpenCoverDirector implements WorkflowDirector {
     private void addSteps() {
     	picoContainer.addComponent(workflowSteps.getTestRunner())
     	.addComponent(workflowSteps.getCoverageSaver())
-    	.addComponent(workflowSteps.getCoverageParser())
+    	.addComponent(workflowSteps.getCoverageReader())
     	.addComponent(workflowSteps.getTestResultsParser())
     	.addComponent(workflowSteps.getTestResultsSaver());
     	workflowSteps.getComponents(picoContainer);
@@ -82,8 +82,8 @@ public class OpenCoverDirector implements WorkflowDirector {
     private SonarCoverage parseCoverageFile(VsTestEnvironment testEnvironment) {
         SonarCoverage sonarCoverageRegistry = new SonarCoverage();
 
-        CoverageParserStep parser = picoContainer.getComponent(CoverageParserStep.class);
-        parser.parse(sonarCoverageRegistry,new File(testEnvironment.getXmlCoveragePath()));
+        CoverageReaderStep parser = picoContainer.getComponent(CoverageReaderStep.class);
+        parser.read(sonarCoverageRegistry,new File(testEnvironment.getXmlCoveragePath()));
         return sonarCoverageRegistry;
     }
 

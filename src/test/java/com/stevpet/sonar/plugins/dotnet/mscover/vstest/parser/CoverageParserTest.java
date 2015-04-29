@@ -17,17 +17,17 @@ import org.junit.Test;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageParserStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReaderStep;
 
 public class CoverageParserTest extends ObserverTest {
 
 	private SonarCoverage sonarCoverage;
-	private CoverageParserStep coverageParser ;
+	private CoverageReaderStep coverageReader ;
 	private File coverageFile;
 	
 	@Before
 	public void before() {
-		coverageParser = new VsTestCoverageParser();
+		coverageReader = new VsTestCoverageReader();
 		sonarCoverage = new SonarCoverage();
 		String tmpPath=System.getenv("TMP");
 		File parentDir=new File(tmpPath);
@@ -43,7 +43,7 @@ public class CoverageParserTest extends ObserverTest {
 	public void emptyCoverageFile_EmptyCoverage() throws TransformerConfigurationException, IOException, TransformerFactoryConfigurationError, TransformerException, ParserConfigurationException {
 		createCoverage();
 		FileUtils.fileAppend(coverageFile.getAbsolutePath(), docToString());
-		coverageParser.parse(sonarCoverage, coverageFile);
+		coverageReader.read(sonarCoverage, coverageFile);
 		// should be empty
 		assertEquals("no coverage info expected",0,sonarCoverage.getValues().size());
 	}
@@ -54,7 +54,7 @@ public class CoverageParserTest extends ObserverTest {
 	public void OneLiner_ExpectInCoverage() throws TransformerConfigurationException, IOException, TransformerFactoryConfigurationError, TransformerException, ParserConfigurationException {
 		createOneFileCoverage();
 		FileUtils.fileAppend(coverageFile.getAbsolutePath(), docToString());
-		coverageParser.parse(sonarCoverage, coverageFile);
+		coverageReader.read(sonarCoverage, coverageFile);
 		// should be empty
 		assertEquals("one file expected",1,sonarCoverage.getValues().size());
 		SonarFileCoverage fileCoverage=sonarCoverage.getCoveredFile("1");
