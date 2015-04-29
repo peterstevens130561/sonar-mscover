@@ -2,8 +2,13 @@ package com.stevpet.sonar.plugins.dotnet.mscover.ittest.vstest;
 
 import org.picocontainer.DefaultPicoContainer;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DefaultCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.NullBranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageParserStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.NullTestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.NullTestResultsSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.NullTestRunner;
@@ -21,8 +26,7 @@ public class VsTestIntegrationTestWorkflowSteps implements WorkflowSteps {
 
 	@Override
 	public Class<? extends CoverageParserStep> getCoverageParser() {
-		// TODO Auto-generated method stub
-		return null;
+		return IntegrationTestCoverageParser.class;
 	}
 
 	@Override
@@ -32,8 +36,7 @@ public class VsTestIntegrationTestWorkflowSteps implements WorkflowSteps {
 
 	@Override
 	public Class<? extends CoverageSaver> getCoverageSaver() {
-		// TODO Auto-generated method stub
-		return null;
+		return DefaultCoverageSaver.class;
 	}
 
 	@Override
@@ -42,9 +45,22 @@ public class VsTestIntegrationTestWorkflowSteps implements WorkflowSteps {
 	}
 
 	@Override
-	public void getComponents(DefaultPicoContainer picoContainer) {
-		// TODO Auto-generated method stub
-
+	public void getComponents(DefaultPicoContainer container) {
+		getCoverageParserComponents(container);
+		getCoverageSaverComponents(container);
+	}
+	
+	private void getCoverageSaverComponents(DefaultPicoContainer container) {
+        container
+        .addComponent(DefaultResourceResolver.class)
+		.addComponent(IntegrationTestLineFileCoverageSaver.class)
+        .addComponent(NullBranchFileCoverageSaver.class);	
 	}
 
+	private void getCoverageParserComponents(DefaultPicoContainer container) {
+		container
+        .addComponent(WindowsCommandLineExecutor.class)
+        .addComponent(WindowsCodeCoverageCommand.class);
+	}
+	
 }
