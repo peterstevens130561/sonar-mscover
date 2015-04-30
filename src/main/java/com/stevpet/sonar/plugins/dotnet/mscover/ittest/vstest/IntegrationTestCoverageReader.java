@@ -21,6 +21,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecu
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.CoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReaderStep;
 
@@ -31,16 +32,19 @@ public class IntegrationTestCoverageReader implements CoverageReaderStep {
 	private FileSystem fileSystem;
 	private CommandLineExecutor commandLineExecutor;
 	private CodeCoverageCommand convertCoverageToXmlCommand;
+	private CoverageParser coverageParser;
 	public IntegrationTestCoverageReader(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
 			MsCoverProperties msCoverProperties,
 			FileSystem fileSystem,
 			CommandLineExecutor commandLineExecutor,
-			CodeCoverageCommand codeCoverageCommand) {
+			CodeCoverageCommand codeCoverageCommand,
+			CoverageParser coverageParser) {
 		this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
 		this.msCoverProperties=msCoverProperties;
 		this.fileSystem=fileSystem;
 		this.commandLineExecutor = commandLineExecutor;
 		this.convertCoverageToXmlCommand = codeCoverageCommand;
+		this.coverageParser = coverageParser;
 	}
 	/**
 	 * @param file may be either a single file to parse, or a directory which holds files
@@ -55,7 +59,8 @@ public class IntegrationTestCoverageReader implements CoverageReaderStep {
 			//coverageHelper.analyse(project,xmlFiles,artifactNames);
 		} else {
 			String xmlPath = getCoverageXmlPath();
-			//coverageHelper.analyse(project, xmlPath,artifactNames); 
+			File coverageFile = new File(xmlPath);
+			coverageParser.parser(registry, coverageFile);
 			return;
 		}
 		logInfo("Done");
@@ -72,18 +77,13 @@ public class IntegrationTestCoverageReader implements CoverageReaderStep {
 	        coverageFiles.add(file);
 	        tryAnalyseFiles(coverageFiles);     
 	    }
-	    private void tryAnalyseFiles(List<File> coverageFiles)
-	            throws XMLStreamException, IOException {
-	        String projectDirectory = fileSystem.baseDir().getAbsolutePath();
-	        VsTestCoverageRegistry aggregatedSolutionCoverage=new VsTestCoverageRegistry(projectDirectory);
+	    private void tryAnalyseFiles(List<File> coverageFiles) {
+	        SonarCoverage aggregatedSolutionCoverage=new SonarCoverage();
 	        for(File coverageFile:coverageFiles) { 
-	            VsTestCoverageRegistry currentsolutionCoverage=new VsTestCoverageRegistry(projectDirectory);
-	            invokeParserSubject(currentsolutionCoverage,coverageFile);
+	            SonarCoverage currentsolutionCoverage=new SonarCoverage();
+	            coverageParser.parser(currentsolutionCoverage,coverageFile);
 	            aggregatedSolutionCoverage.merge(currentsolutionCoverage);
 	        }
-	        
-	        saveLineMeasures(aggregatedSolutionCoverage.getSolutionLineCoverageData());
-	        
 	    }
 	   private List<File> convertVsTestCoverageFilesToXml(String integrationTestsDir) {
 	        List<File> xmlFiles = new ArrayList<File>();

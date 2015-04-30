@@ -47,6 +47,7 @@ public class ConcreteVsTestParserFactory implements VsTestParserFactory {
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.CoverageParserFactory#createDefault(com.stevpet.sonar.plugins.dotnet.mscover.registry.FileBlocksRegistry, com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNamesRegistry)
      */
+    @Deprecated
     public XmlParserSubject createCoverageParser(VsTestCoverageRegistry registry,List<String> modules) {
 
         ModuleNameObserver moduleNameObserver = new ModuleNameObserver();
