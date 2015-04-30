@@ -22,6 +22,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.CoverageParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.FilteringCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReaderStep;
 
@@ -32,13 +33,13 @@ public class IntegrationTestCoverageReader implements CoverageReaderStep {
 	private FileSystem fileSystem;
 	private CommandLineExecutor commandLineExecutor;
 	private CodeCoverageCommand convertCoverageToXmlCommand;
-	private CoverageParser coverageParser;
+	private FilteringCoverageParser coverageParser;
 	public IntegrationTestCoverageReader(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
 			MsCoverProperties msCoverProperties,
 			FileSystem fileSystem,
 			CommandLineExecutor commandLineExecutor,
 			CodeCoverageCommand codeCoverageCommand,
-			CoverageParser coverageParser) {
+			FilteringCoverageParser coverageParser) {
 		this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
 		this.msCoverProperties=msCoverProperties;
 		this.fileSystem=fileSystem;
@@ -51,94 +52,86 @@ public class IntegrationTestCoverageReader implements CoverageReaderStep {
 	 */
 	@Override
 	public void read(SonarCoverage registry, File file) {
-	     List<String> artifactNames = microsoftWindowsEnvironment.getArtifactNames();
+
 		String integrationTestsDir=msCoverProperties.getIntegrationTestsDir();
 		if(StringUtils.isNotEmpty(integrationTestsDir)) {
-			logInfo("will take coverage data from directory:" + integrationTestsDir);
-			List<File> xmlFiles=convertVsTestCoverageFilesToXml(integrationTestsDir);
-			//coverageHelper.analyse(project,xmlFiles,artifactNames);
+			readFilesFromDir(integrationTestsDir);
 		} else {
-			String xmlPath = getCoverageXmlPath();
-			File coverageFile = new File(xmlPath);
-			coverageParser.parser(registry, coverageFile);
-			return;
+			String coveragePath = msCoverProperties.getIntegrationTestsPath();
+			readFile(registry,coveragePath);
 		}
 		logInfo("Done");
-
 	}
 	
-	 private void tryAnalyse(String coveragePath)
-	            throws XMLStreamException, IOException {
-	        LOG.info("MsCoverPlugin : name=" + project.getName());
-	        String projectDirectory = fileSystem.baseDir().getAbsolutePath();
-	        LOG.info("MsCoverPlugin : directory=" + projectDirectory);
-	        File file = getCoverageFile(coveragePath);
-	        List<File> coverageFiles = new ArrayList<File>();
-	        coverageFiles.add(file);
-	        tryAnalyseFiles(coverageFiles);     
-	    }
-	    private void tryAnalyseFiles(List<File> coverageFiles) {
-	        SonarCoverage aggregatedSolutionCoverage=new SonarCoverage();
-	        for(File coverageFile:coverageFiles) { 
-	            SonarCoverage currentsolutionCoverage=new SonarCoverage();
-	            coverageParser.parser(currentsolutionCoverage,coverageFile);
-	            aggregatedSolutionCoverage.merge(currentsolutionCoverage);
-	        }
-	    }
-	   private List<File> convertVsTestCoverageFilesToXml(String integrationTestsDir) {
-	        List<File> xmlFiles = new ArrayList<File>();
-	        Collection<File> files=FileUtils.listFiles(new File(integrationTestsDir),new String[] {"coverage"} ,true);
-	        for(File file:files) {
-	            String xmlPath=transformIfNeeded(file.getAbsolutePath());
-	            xmlFiles.add(new File(xmlPath));
-	        }
-	        return xmlFiles;
-	    }
+	private void readFile(SonarCoverage registry,String coveragePath) {
+		String xmlPath = getCoverageXmlPath(coveragePath);
+		File coverageFile = new File(xmlPath);
+		coverageParser.parser(registry, coverageFile);
+	}
 
-	    private String getCoverageXmlPath() {
-	        String coveragePath = msCoverProperties.getIntegrationTestsPath();
-	        String xmlPath;
-	        if (coveragePath.endsWith(".coverage")) {
-	            xmlPath = transformIfNeeded(coveragePath);
-	        } else if (coveragePath.endsWith(".xml")) {
-	            xmlPath = coveragePath;
-	        } else {
-	            throw new SonarException("Invalid coverage format " + coveragePath);
-	        }
-	        return xmlPath;
-	    }
+	private void readFilesFromDir(String integrationTestsDir) {
+		List<String> artifactNames= microsoftWindowsEnvironment.getArtifactNames();
+		coverageParser.setModulesToParse(artifactNames);
+		List<File> coverageFiles=convertVsTestCoverageFilesToXml(integrationTestsDir);
+		SonarCoverage aggregatedSolutionCoverage=new SonarCoverage();
+		for(File coverageFile:coverageFiles) { 
+			SonarCoverage currentsolutionCoverage=new SonarCoverage();
+			coverageParser.parser(currentsolutionCoverage,coverageFile);
+			aggregatedSolutionCoverage.merge(currentsolutionCoverage);
+		}
+	}
 
+	private List<File> convertVsTestCoverageFilesToXml(String integrationTestsDir) {
+		List<File> xmlFiles = new ArrayList<File>();
+		Collection<File> files=FileUtils.listFiles(new File(integrationTestsDir),new String[] {"coverage"} ,true);
+		for(File file:files) {
+			String xmlPath=transformIfNeeded(file.getAbsolutePath());
+			xmlFiles.add(new File(xmlPath));
+		}
+		return xmlFiles;
+	}
 
-	    private String transformIfNeeded(String coveragePath) {
-	        String xmlPath;
-	        xmlPath = coveragePath.replace(".coverage", ".xml");
-	        if (transformationNeeded(xmlPath, coveragePath)) {
-	            convertCoverageToXmlCommand.setSonarPath(fileSystem.workDir().getAbsolutePath());
-	            convertCoverageToXmlCommand.setCoveragePath(coveragePath);
-	            convertCoverageToXmlCommand.setOutputPath(xmlPath);
-	            convertCoverageToXmlCommand.install();
-	            LOG.info("IntegrationCoverSensor: creating .xml file");
-	            int exitCode = commandLineExecutor.execute(convertCoverageToXmlCommand);
-	            if (exitCode != 0) {
-	                throw new SonarException("failed");
-	            }
-	        } else {
-	            LOG.info("Reusing xml file, as it is newer than the .coverage file");
-	        }
-	        return xmlPath;
-	    }
+	private String getCoverageXmlPath(String coveragePath) {
 
+		String xmlPath;
+		if (coveragePath.endsWith(".coverage")) {
+			xmlPath = transformIfNeeded(coveragePath);
+		} else if (coveragePath.endsWith(".xml")) {
+			xmlPath = coveragePath;
+		} else {
+			throw new SonarException("Invalid coverage format " + coveragePath);
+		}
+		return xmlPath;
+	}
 
-	    private boolean transformationNeeded(String xmlPath,String coveragePath) {
-	        File xmlFile = new File(xmlPath);
-	        File coverageFile = new File(coveragePath);
-	        return !xmlFile.exists() || FileUtils.isFileNewer(coverageFile, xmlFile);
+	private String transformIfNeeded(String coveragePath) {
+		String xmlPath;
+		xmlPath = coveragePath.replace(".coverage", ".xml");
+		if (transformationNeeded(xmlPath, coveragePath)) {
+			convertCoverageToXmlCommand.setSonarPath(fileSystem.workDir().getAbsolutePath());
+			convertCoverageToXmlCommand.setCoveragePath(coveragePath);
+			convertCoverageToXmlCommand.setOutputPath(xmlPath);
+			convertCoverageToXmlCommand.install();
+			LOG.info("IntegrationCoverSensor: creating .xml file");
+			int exitCode = commandLineExecutor.execute(convertCoverageToXmlCommand);
+			if (exitCode != 0) {
+				throw new SonarException("failed");
+			}
+		} else {
+			LOG.info("Reusing xml file, as it is newer than the .coverage file");
+		}
+		return xmlPath;
+	}
 
-	    }
-	    
-	    private void logInfo(String string) {
-	        LOG.info("IntegrationTestCoverSensor: " + string);
-	    }
+	private boolean transformationNeeded(String xmlPath,String coveragePath) {
+		File xmlFile = new File(xmlPath);
+		File coverageFile = new File(coveragePath);
+		return !xmlFile.exists() || FileUtils.isFileNewer(coverageFile, xmlFile);
 
+	}
+
+	private void logInfo(String string) {
+		LOG.info("IntegrationTestCoverSensor: " + string);
+	}
 
 }

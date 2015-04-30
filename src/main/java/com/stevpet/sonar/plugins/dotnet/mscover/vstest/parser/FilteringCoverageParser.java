@@ -11,8 +11,7 @@ public interface FilteringCoverageParser  extends CoverageParser{
 	/**
 	 * Use to set the modules that should be included
 	 * @param modules modules (including suffix) to parse
-	 * @return
+	 * @return 
 	 */
 	FilteringCoverageParser setModulesToParse(List<String> modules);
-
 }

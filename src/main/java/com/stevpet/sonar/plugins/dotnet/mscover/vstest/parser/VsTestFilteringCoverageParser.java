@@ -12,21 +12,21 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestSourceFileNamesToCoverageObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestSourceFileNamesToSourceFileNamesObserver;
 
-public class VsTestFilteredCoverageParser implements FilteringCoverageParser {
+/**
+ * parses VsTest generated coverage files
+ * @see FilteringCoverageParser
+ *
+ */
+public class VsTestFilteringCoverageParser implements FilteringCoverageParser {
 
 	private List<String> modules;
-	/* (non-Javadoc)
-	 * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.FilteringCoverageParser#setModulesToParse(java.util.List)
-	 */
+
 	@Override
 	public FilteringCoverageParser setModulesToParse(List<String> modules) {
 		this.modules = modules;
 		return this;
 	}
-	/* (non-Javadoc)
-	 * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.FilteringCoverageParser#parser(com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage, java.io.File)
-	 */
-	@Override
+
 	@Override
 	public void parser(SonarCoverage registry,  File file) {
 	      ModuleNameObserver moduleNameObserver = new ModuleNameObserver();

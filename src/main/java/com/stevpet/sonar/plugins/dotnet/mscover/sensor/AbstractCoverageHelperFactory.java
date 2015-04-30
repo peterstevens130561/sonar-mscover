@@ -26,7 +26,7 @@ import org.sonar.api.batch.fs.FileSystem;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
-
+@Deprecated
 public interface AbstractCoverageHelperFactory {
     CoverageSaver createVsTestIntegrationTestCoverageHelper(
             FileSystem fileSystem,MeasureSaver measureSaver);

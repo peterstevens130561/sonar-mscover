@@ -9,6 +9,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
  */
 public interface CoverageParser {
 
+	/**
+	 * Parse the file, and put coverage information into the registry.
+	 * @param registry - empty registry at start, to be filled with line/branch coverage info from file
+	 * @param file - coveragefile
+	 */
 	void parser(SonarCoverage registry, File file);
 
 }

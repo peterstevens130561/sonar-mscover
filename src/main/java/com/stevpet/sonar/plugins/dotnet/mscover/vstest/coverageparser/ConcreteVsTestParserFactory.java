@@ -38,6 +38,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestSourceFileNamesToSourceFileNamesObserver;
 
 
+@Deprecate
 public class ConcreteVsTestParserFactory implements VsTestParserFactory {
     
     @Override
