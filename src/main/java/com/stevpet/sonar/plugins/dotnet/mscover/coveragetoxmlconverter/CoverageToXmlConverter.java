@@ -9,4 +9,11 @@ public interface CoverageToXmlConverter {
 	 */
 	void convert(String destination, String source);
 
+	/**
+	 * does the conversion if destinationPath does not exist, or is older than source
+	 * @param destination
+	 * @param source
+	 */
+	void convertIfNeeded(String destination, String source);
+
 }

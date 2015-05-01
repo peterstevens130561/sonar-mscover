@@ -2,6 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter;
 
 import java.io.File;
 
+import org.apache.commons.io.FileUtils;
 import org.sonar.api.batch.fs.FileSystem;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.CodeCoverageCommand;
@@ -30,6 +31,22 @@ public class VsTestCoverageToXmlConverter implements CoverageToXmlConverter {
 		codeCoverageCommand.setOutputPath(destination);
 		codeCoverageCommand.install();
 		commandLineExecutor.execute(codeCoverageCommand);
+	}
+
+
+	@Override
+	public void convertIfNeeded(String destination, String source) {
+		if(transformationNeeded(destination,source)) {
+			convert(destination,source);
+		}
+		
+	}
+	
+	protected boolean transformationNeeded(String destination,String source) {
+		File xmlFile = new File(destination);
+		File coverageFile = new File(source);
+		return !xmlFile.exists() || FileUtils.isFileNewer(coverageFile, xmlFile);
+
 	}
 }
 

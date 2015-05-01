@@ -102,19 +102,8 @@ public class IntegrationTestCoverageReader implements CoverageReaderStep {
 	private String transformIfNeeded(String sourcePath) {
 		String destinationPath;
 		destinationPath = sourcePath.replace(".coverage", ".xml");
-		if (transformationNeeded(destinationPath, sourcePath)) {
-			coverageToXmlConverter.convert(destinationPath, sourcePath);
-		} else {
-			LOG.info("Reusing xml file, as it is newer than the .coverage file");
-		}
+		coverageToXmlConverter.convertIfNeeded(destinationPath, sourcePath);
 		return destinationPath;
-	}
-
-	private boolean transformationNeeded(String xmlPath,String coveragePath) {
-		File xmlFile = new File(xmlPath);
-		File coverageFile = new File(coveragePath);
-		return !xmlFile.exists() || FileUtils.isFileNewer(coverageFile, xmlFile);
-
 	}
 
 	private void logInfo(String string) {
