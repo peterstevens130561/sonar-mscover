@@ -72,9 +72,5 @@ public class LinesObserverTest extends ObserverTest {
 			createNewDoc();
 			createModuleToMethod();
 	}
-
-
-
-
 			
 }

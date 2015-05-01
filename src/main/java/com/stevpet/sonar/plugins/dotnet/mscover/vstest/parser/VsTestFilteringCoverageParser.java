@@ -6,11 +6,8 @@ import java.util.List;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.ModuleNameObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestCoverageObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestLinesToCoverageObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestSourceFileNamesToCoverageObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers.VsTestSourceFileNamesToSourceFileNamesObserver;
+
+
 
 /**
  * parses VsTest generated coverage files
@@ -34,9 +31,8 @@ public class VsTestFilteringCoverageParser implements FilteringCoverageParser {
 	        XmlParserSubject parserSubject = new CoverageParserSubject();
 
 	        VsTestCoverageObserver[] observers = {
-	                new VsTestSourceFileNamesToCoverageObserver(),
-	                new VsTestLinesToCoverageObserver(),
-	                new VsTestSourceFileNamesToSourceFileNamesObserver(),
+					new FileNamesObserver(),
+					new LinesObserver(),
 	                moduleNameObserver
 	        };
 	        
@@ -44,7 +40,6 @@ public class VsTestFilteringCoverageParser implements FilteringCoverageParser {
 	            observer.setVsTestRegistry(registry);
 	            parserSubject.registerObserver(observer);            
 	        }
-	        return parserSubject;
 	}
 
 }

@@ -8,6 +8,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DefaultCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.NullBranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.VsTestCoverageParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.VsTestFilteringCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReaderStep;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.NullTestResultsBuilder;
@@ -47,7 +48,7 @@ public class VsTestIntegrationTestWorkflowSteps implements WorkflowSteps {
 
 	@Override
 	public void getComponents(DefaultPicoContainer container) {
-		getCoverageParserComponents(container);
+		getCoverageReaderComponents(container);
 		getCoverageSaverComponents(container);
 	}
 	
@@ -57,10 +58,10 @@ public class VsTestIntegrationTestWorkflowSteps implements WorkflowSteps {
         .addComponent(NullBranchFileCoverageSaver.class);	
 	}
 
-	private void getCoverageParserComponents(DefaultPicoContainer container) {
+	private void getCoverageReaderComponents(DefaultPicoContainer container) {
 		container
         .addComponent(WindowsCommandLineExecutor.class)
-        .addComponent(VsTestCoverageParser.class)
+        .addComponent(VsTestFilteringCoverageParser.class)
         .addComponent(WindowsCodeCoverageCommand.class);
 	}	
 	
