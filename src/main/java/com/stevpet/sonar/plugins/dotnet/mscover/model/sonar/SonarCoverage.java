@@ -61,6 +61,10 @@ public class SonarCoverage {
     	fileCoverage.setAbsolutePath(sourceFileName);
     }
 
+    public boolean fileIdExists(String fileID) {
+    	Integer ID = Integer.parseInt(fileID);
+    	return idMap.containsKey(ID);
+    }
     public Collection<SonarFileCoverage> getValues() {
         return idMap.values();
     }

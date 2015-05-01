@@ -42,8 +42,9 @@ public class FileNamesObserver extends VsTestCoverageObserver {
     
     @ElementMatcher(elementName="SourceFileName")
     public void sourceFileNameMatcher(String sourceFileName){
-    	SonarFileCoverage coveredFile=registry.getCoveredFile(fileID);
-        coveredFile.setAbsolutePath(sourceFileName); 
+    	if(registry.fileIdExists(fileID)) {
+    		registry.linkFileNameToFileId(sourceFileName, fileID);
+    	}
     }
 
 

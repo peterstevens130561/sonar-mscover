@@ -40,6 +40,7 @@ public class VsTestFilteringCoverageParser implements FilteringCoverageParser {
 	            observer.setVsTestRegistry(registry);
 	            parserSubject.registerObserver(observer);            
 	        }
+	        parserSubject.parseFile(file);
 	}
 
 }
