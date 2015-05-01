@@ -20,7 +20,7 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.model.opencover;
+package com.stevpet.sonar.plugins.dotnet.mscover.model.sonarcoverage;
 
 import org.junit.Assert;
 import org.junit.Before;

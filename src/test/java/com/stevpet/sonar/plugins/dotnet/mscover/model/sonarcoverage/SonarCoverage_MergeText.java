@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.model.opencover;
+package com.stevpet.sonar.plugins.dotnet.mscover.model.sonarcoverage;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
