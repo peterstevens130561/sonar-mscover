@@ -33,7 +33,7 @@ public class ModuleNameObserverTest {
 		MockitoAnnotations.initMocks(this);
 		observer = new ModuleNameObserver();
 		parser = new CoverageParserSubject();
-		observer.injectParserData(parserData);
+		observer.setParserData(parserData);
 		//parser.registerObserver(observer);
 	}
 	

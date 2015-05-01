@@ -37,7 +37,11 @@ public abstract class BaseParserObserver implements ParserObserver {
         hasError=true;
     }
     
-    public void injectParserData(ParserData parserData) {
+    /**
+     * parser state data to be manipulated by the observer, to be inserted by the parser.
+     * @param parserData - valid parserData object
+     */
+    public void setParserData(ParserData parserData) {
         this.parserData = parserData;
     }
     

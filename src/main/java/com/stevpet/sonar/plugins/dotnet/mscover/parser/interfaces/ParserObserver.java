@@ -46,5 +46,5 @@ public interface ParserObserver {
      * is responsible for logging;
      */
     boolean hasError();
-    void injectParserData(ParserData parserData);
+    void setParserData(ParserData parserData);
 }

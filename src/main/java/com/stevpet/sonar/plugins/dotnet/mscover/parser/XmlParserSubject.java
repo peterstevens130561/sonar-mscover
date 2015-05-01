@@ -145,7 +145,7 @@ public abstract class XmlParserSubject implements ParserSubject {
 
     private void injectVariablesInObservers() {
     for(ParserObserver observer:observers) {
-        observer.injectParserData(parserData);
+        observer.setParserData(parserData);
     }    
 }
 
