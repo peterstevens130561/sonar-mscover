@@ -45,7 +45,7 @@ public class CoverageParserTest extends ObserverTest {
 	public void emptyCoverageFile_EmptyCoverage() throws TransformerConfigurationException, IOException, TransformerFactoryConfigurationError, TransformerException, ParserConfigurationException {
 		createCoverage();
 		FileUtils.fileAppend(coverageFile.getAbsolutePath(), docToString());
-		coverageParser.parser(sonarCoverage, coverageFile);
+		coverageParser.parse(sonarCoverage, coverageFile);
 		// should be empty
 		assertEquals("no coverage info expected",0,sonarCoverage.getValues().size());
 	}
@@ -56,7 +56,7 @@ public class CoverageParserTest extends ObserverTest {
 	public void OneLiner_ExpectInCoverage() throws TransformerConfigurationException, IOException, TransformerFactoryConfigurationError, TransformerException, ParserConfigurationException {
 		createOneFileCoverage();
 		FileUtils.fileAppend(coverageFile.getAbsolutePath(), docToString());
-		coverageParser.parser(sonarCoverage, coverageFile);
+		coverageParser.parse(sonarCoverage, coverageFile);
 		// should be empty
 		assertEquals("one file expected",1,sonarCoverage.getValues().size());
 		SonarFileCoverage fileCoverage=sonarCoverage.getCoveredFile("1");

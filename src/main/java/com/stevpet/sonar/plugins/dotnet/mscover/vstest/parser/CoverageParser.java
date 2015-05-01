@@ -14,6 +14,6 @@ public interface CoverageParser {
 	 * @param registry - empty registry at start, to be filled with line/branch coverage info from file
 	 * @param file - coveragefile
 	 */
-	void parser(SonarCoverage registry, File file);
+	void parse(SonarCoverage registry, File file);
 
 }

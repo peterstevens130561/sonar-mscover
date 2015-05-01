@@ -25,7 +25,7 @@ public class VsTestFilteringCoverageParser implements FilteringCoverageParser {
 	}
 
 	@Override
-	public void parser(SonarCoverage registry,  File file) {
+	public void parse(SonarCoverage registry,  File file) {
 	      ModuleNameObserver moduleNameObserver = new ModuleNameObserver();
 	        moduleNameObserver.addModulesToParse(modules);
 	        XmlParserSubject parserSubject = new CoverageParserSubject();

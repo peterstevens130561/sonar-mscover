@@ -29,7 +29,7 @@ public class OpenCoverCoverageParser implements CoverageParser {
     }
 
     @Override
-    public void parser(SonarCoverage registry,File file) {
+    public void parse(SonarCoverage registry,File file) {
         XmlParserSubject parser = new OpenCoverParserSubject();
         Collection<String> pdbsThatCanBeIgnoredWhenMissing = msCoverProperties.getPdbsThatMayBeIgnoredWhenMissing();
         OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs  missingPdbObserver = new OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs() ;

@@ -11,7 +11,7 @@ public class VsTestCoverageParser implements CoverageParser {
 	 * @see com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.CoverageParser#parser(com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage, java.io.File)
 	 */
 	@Override
-	public void parser(SonarCoverage registry, File file) {
+	public void parse(SonarCoverage registry, File file) {
 		XmlParserSubject parserSubject = new CoverageParserSubject();
 
 		VsTestCoverageObserver[] observers = {

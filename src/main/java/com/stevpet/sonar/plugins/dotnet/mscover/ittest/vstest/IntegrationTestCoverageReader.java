@@ -66,7 +66,7 @@ public class IntegrationTestCoverageReader implements CoverageReaderStep {
 	private void readFile(SonarCoverage registry,String coveragePath) {
 		String xmlPath = getCoverageXmlPath(coveragePath);
 		File coverageFile = new File(xmlPath);
-		coverageParser.parser(registry, coverageFile);
+		coverageParser.parse(registry, coverageFile);
 	}
 
 	private void readFilesFromDir(String integrationTestsDir) {
@@ -76,7 +76,7 @@ public class IntegrationTestCoverageReader implements CoverageReaderStep {
 		SonarCoverage aggregatedSolutionCoverage=new SonarCoverage();
 		for(File coverageFile:coverageFiles) { 
 			SonarCoverage currentsolutionCoverage=new SonarCoverage();
-			coverageParser.parser(currentsolutionCoverage,coverageFile);
+			coverageParser.parse(currentsolutionCoverage,coverageFile);
 			aggregatedSolutionCoverage.merge(currentsolutionCoverage);
 		}
 	}

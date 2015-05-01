@@ -30,7 +30,7 @@ public class VsTestFilteringCoverageParserTest {
 		//equal to not specifying any module
 		parser.setModulesToParse(null);
 		
-		parser.parser(sonarCoverage, coverageFile);
+		parser.parse(sonarCoverage, coverageFile);
 		
 		assertEquals("expect all 8 sourcefiles in assembly to be included",8,sonarCoverage.getValues().size());
 	}
@@ -42,7 +42,7 @@ public class VsTestFilteringCoverageParserTest {
 		modules.add("tfsblame.exe");
 		parser.setModulesToParse(modules);
 		
-		parser.parser(sonarCoverage, coverageFile);
+		parser.parse(sonarCoverage, coverageFile);
 		
 		assertEquals("expect all 8 sourcefiles in assembly to be included",8,sonarCoverage.getValues().size());		
 	}
@@ -54,7 +54,7 @@ public class VsTestFilteringCoverageParserTest {
 		modules.add("bogus.exe");
 		parser.setModulesToParse(modules);
 		
-		parser.parser(sonarCoverage, coverageFile);	
+		parser.parse(sonarCoverage, coverageFile);	
 		
 		assertEquals("expect no sourcefiles in assembly to be included",0,sonarCoverage.getValues().size());		
 	}

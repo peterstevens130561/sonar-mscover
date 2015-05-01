@@ -22,6 +22,6 @@ public class DefaultCoverageReader implements CoverageReaderStep {
 	@Override
 	public void read(SonarCoverage registry, File file) {
 		CoverageParser parser = new VsTestCoverageParser();
-		parser.parser(registry, file);
+		parser.parse(registry, file);
 	}
 }
