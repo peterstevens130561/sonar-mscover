@@ -31,6 +31,7 @@ import org.sonar.api.batch.fs.FileSystem;
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.CodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.CoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunner;
@@ -44,66 +45,36 @@ public class WindowsVsTestRunner  implements TestRunner {
             .getLogger(WindowsVsTestRunner.class);
     protected VSTestStdOutParser vsTestStdOutParser;
     private String coveragePath;
-    private CodeCoverageCommand codeCoverageCommand;
     private  String stdOutString;
     private CommandLineExecutor executor;
-    private FileSystem fileSystem;
     private String resultsPath;
     private VsTestRunnerCommandBuilder commandBuilder;
     private VsTestEnvironment testEnvironment;
+	private CoverageToXmlConverter coverageToXmlConverter;
     
     public WindowsVsTestRunner(
-            FileSystem fileSystem, 
-            CodeCoverageCommand codeCoverageCommand,
-            CommandLineExecutor commandLineExecutor,
+    		CoverageToXmlConverter coverageToXmlConverter,
             VSTestStdOutParser vsTestStdOutParser,
             VsTestRunnerCommandBuilder commandBuilder,
+            CommandLineExecutor commandLineExecutor,
             VsTestEnvironment testEnvironment) {
         this.commandBuilder = commandBuilder;
-        this.fileSystem = fileSystem;
-        this.codeCoverageCommand = codeCoverageCommand;
-        this.executor = commandLineExecutor;
+        this.coverageToXmlConverter = coverageToXmlConverter;
         this.vsTestStdOutParser = vsTestStdOutParser;
+        this.executor=commandLineExecutor;
         this.testEnvironment=testEnvironment;
     }
 
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner#runTests
-     * ()
-     */
     public void execute() {
         ShellCommand vsTestCommand = commandBuilder.build(true);
         executor.execute(vsTestCommand);
         stdOutString = executor.getStdOut();
-        getResultPaths();
-        convertCoverageFileToXml();
-    }
-
-    /**
-     * Converts the .coverage file into an xml file
-     */
-    protected void convertCoverageFileToXml() {
-    	File workDir=fileSystem.workDir();
-        String sonarPath = workDir.getAbsolutePath();
-        codeCoverageCommand.setSonarPath(sonarPath);
-        codeCoverageCommand.setCoveragePath(coveragePath);
-        codeCoverageCommand.setOutputPath(testEnvironment.getXmlCoveragePath());
-        codeCoverageCommand.install();
-        executor.execute(codeCoverageCommand);
-    }
-
-
-    protected void getResultPaths() {
         vsTestStdOutParser.setStdOut(stdOutString);
         this.coveragePath=vsTestStdOutParser.getCoveragePath();
         this.resultsPath = vsTestStdOutParser.getTestResultsXmlPath();
+        coverageToXmlConverter.convert(testEnvironment.getXmlCoveragePath(),coveragePath);
     }
     
-
 	@Override
 	public File getTestResultsFile() {
 		return new File(resultsPath);

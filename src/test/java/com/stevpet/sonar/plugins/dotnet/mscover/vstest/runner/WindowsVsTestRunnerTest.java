@@ -28,6 +28,8 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.injectors.ConstructorInjection;
 
@@ -39,6 +41,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommandShim;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.CoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
@@ -65,10 +68,11 @@ public class WindowsVsTestRunnerTest {
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     private AssembliesFinderMock assembliesFinderMock = new AssembliesFinderMock();
     private VsTestEnvironment testEnvironment = new VsTestEnvironment();
+    @Mock CoverageToXmlConverter coverageToXmlConverter;
     
     @Before
     public void before() {
-        
+        MockitoAnnotations.initMocks(this);
     }
     
     @Test
@@ -179,6 +183,7 @@ public class WindowsVsTestRunnerTest {
         .addComponent(msCoverPropertiesMock.getMock())
         .addComponent(microsoftWindowsEnvironmentMock.getMock())
         .addComponent(assembliesFinderMock.getMock())
+        .addComponent(coverageToXmlConverter)
         .addComponent(WindowsCodeCoverageCommandShim.class)
         .addComponent(VsTestRunnerCommandBuilder.class)
         .addComponent(WindowsVsTestRunner.class)

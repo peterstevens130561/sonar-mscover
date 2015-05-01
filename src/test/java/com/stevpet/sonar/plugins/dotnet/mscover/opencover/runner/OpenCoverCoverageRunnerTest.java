@@ -15,6 +15,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.VsTestRunnerCommandBuilderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExexutorStub;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.VsTestCoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.AssembliesFinderMock;
@@ -137,6 +138,7 @@ public class OpenCoverCoverageRunnerTest {
         .addComponent(VSTestCommand.class)
         .addComponent(DefaultAssembliesFinder.class)
         .addComponent(VSTestStdOutParser.class)
+        .addComponent(VsTestCoverageToXmlConverter.class)
         .addComponent(VsTestRunnerCommandBuilder.class);
         OpenCoverCoverageRunner runner = openCoverContainer.getComponent(OpenCoverCoverageRunner.class);
         assertNotNull("creating OpenCoverCoverageRunner through IOC",runner);

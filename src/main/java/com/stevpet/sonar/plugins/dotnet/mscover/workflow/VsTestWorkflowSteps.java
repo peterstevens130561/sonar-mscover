@@ -9,6 +9,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DefaultBranchFileC
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DefaultCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DefaultLineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.NullCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.VsTestCoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.DefaultTestResultsFormatter;
@@ -78,7 +79,8 @@ public class VsTestWorkflowSteps implements WorkflowSteps {
         .addComponent(VsTestRunnerCommandBuilder.class)
         .addComponent(VSTestCommand.class)
         .addComponent(DefaultLineFileCoverageSaver.class)
-        .addComponent(DefaultBranchFileCoverageSaver.class);
+        .addComponent(DefaultBranchFileCoverageSaver.class)
+        .addComponent(VsTestCoverageToXmlConverter.class);
         addTestResultsBuilderComponents(container);
 	}
 	

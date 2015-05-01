@@ -4,6 +4,7 @@ import org.picocontainer.DefaultPicoContainer;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.VsTestCoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.InjectingFakesRemover;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
@@ -16,7 +17,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunner;
-
+@Deprecated
 public class VsTestExecutionSensorDirector {
 
     private DefaultPicoContainer container ;
@@ -31,6 +32,7 @@ public class VsTestExecutionSensorDirector {
         .addComponent(VSTestStdOutParser.class)
         .addComponent(VsTestConfigFinder.class)
         .addComponent(WindowsCodeCoverageCommand.class)
+        .addComponent(VsTestCoverageToXmlConverter.class)
         .addComponent(WindowsVsTestRunner.class);
     }
 

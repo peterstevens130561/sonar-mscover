@@ -10,12 +10,16 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.picocontainer.DefaultPicoContainer;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommandShim;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutorMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.CoverageToXmlConverter;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.VsTestCoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageReaderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.AssembliesFinderMock;
@@ -41,8 +45,10 @@ public class VsTestExecutionSensorDirectorTest extends SensorTest {
 	private AssembliesFinderMock assembliesFinderMock;
 	private CoverageReaderMock coverageParserMock;
 	private WindowsCodeCoverageCommandShim windowsCodeCoverageCommandShim;
+	private CoverageToXmlConverter coverageToXmlConverter;
     @Before
     public void before() {
+    	MockitoAnnotations.initMocks(this);
         container = super.getContainerWithSensorMocks();
         director.wire(container);
 

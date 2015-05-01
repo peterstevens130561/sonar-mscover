@@ -41,6 +41,8 @@ public class SourceFileNamesObserverTest extends ObserverTest {
 		createNewDoc();
 		createFileName("first","1");
 		String coverageDoc=docToString();
+		//filenames will only be registered if the lines have been loaded
+		registry.getCoveredFile("1");
 		parser.parseString(coverageDoc);
 		assertNotNull(registry.getValues());
 		assertEquals("one element expected",1,registry.getValues().size());	
@@ -53,6 +55,9 @@ public class SourceFileNamesObserverTest extends ObserverTest {
 		createFileName("first","1");
 		createFileName("second","10");
 		String coverageDoc=docToString();
+		// filenames will only be registered if the lines have been loaded
+		registry.getCoveredFile("1");
+		registry.getCoveredFile("10");
 		parser.parseString(coverageDoc);
 		assertNotNull(registry.getValues());
 		assertEquals("two elements expected",2,registry.getValues().size());
