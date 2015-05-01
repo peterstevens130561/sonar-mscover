@@ -18,6 +18,7 @@ import org.sonar.api.utils.SonarException;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.CodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.CoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageSaver;
@@ -30,22 +31,16 @@ public class IntegrationTestCoverageReader implements CoverageReaderStep {
 	private final static Logger LOG = LoggerFactory.getLogger(IntegrationTestCoverageReader.class);
 	private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 	private MsCoverProperties msCoverProperties;
-	private FileSystem fileSystem;
-	private CommandLineExecutor commandLineExecutor;
-	private CodeCoverageCommand convertCoverageToXmlCommand;
 	private FilteringCoverageParser coverageParser;
+	private CoverageToXmlConverter coverageToXmlConverter;
 	public IntegrationTestCoverageReader(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
 			MsCoverProperties msCoverProperties,
-			FileSystem fileSystem,
-			CommandLineExecutor commandLineExecutor,
-			CodeCoverageCommand codeCoverageCommand,
-			FilteringCoverageParser coverageParser) {
+			FilteringCoverageParser coverageParser,
+			CoverageToXmlConverter coverageToXmlConverter) {
 		this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
 		this.msCoverProperties=msCoverProperties;
-		this.fileSystem=fileSystem;
-		this.commandLineExecutor = commandLineExecutor;
-		this.convertCoverageToXmlCommand = codeCoverageCommand;
 		this.coverageParser = coverageParser;
+				this.coverageToXmlConverter =coverageToXmlConverter;
 	}
 	/**
 	 * @param file may be either a single file to parse, or a directory which holds files
@@ -104,23 +99,15 @@ public class IntegrationTestCoverageReader implements CoverageReaderStep {
 		return xmlPath;
 	}
 
-	private String transformIfNeeded(String coveragePath) {
-		String xmlPath;
-		xmlPath = coveragePath.replace(".coverage", ".xml");
-		if (transformationNeeded(xmlPath, coveragePath)) {
-			convertCoverageToXmlCommand.setSonarPath(fileSystem.workDir().getAbsolutePath());
-			convertCoverageToXmlCommand.setCoveragePath(coveragePath);
-			convertCoverageToXmlCommand.setOutputPath(xmlPath);
-			convertCoverageToXmlCommand.install();
-			LOG.info("IntegrationCoverSensor: creating .xml file");
-			int exitCode = commandLineExecutor.execute(convertCoverageToXmlCommand);
-			if (exitCode != 0) {
-				throw new SonarException("failed");
-			}
+	private String transformIfNeeded(String sourcePath) {
+		String destinationPath;
+		destinationPath = sourcePath.replace(".coverage", ".xml");
+		if (transformationNeeded(destinationPath, sourcePath)) {
+			coverageToXmlConverter.convert(destinationPath, sourcePath);
 		} else {
 			LOG.info("Reusing xml file, as it is newer than the .coverage file");
 		}
-		return xmlPath;
+		return destinationPath;
 	}
 
 	private boolean transformationNeeded(String xmlPath,String coveragePath) {

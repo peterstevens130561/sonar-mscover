@@ -7,6 +7,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLi
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DefaultCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.NullBranchFileCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.VsTestCoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.VsTestCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.VsTestFilteringCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReaderStep;
@@ -62,7 +63,8 @@ public class VsTestIntegrationTestWorkflowSteps implements WorkflowSteps {
 		container
         .addComponent(WindowsCommandLineExecutor.class)
         .addComponent(VsTestFilteringCoverageParser.class)
-        .addComponent(WindowsCodeCoverageCommand.class);
+        .addComponent(WindowsCodeCoverageCommand.class)
+        .addComponent(VsTestCoverageToXmlConverter.class);
 	}	
 	
 }
