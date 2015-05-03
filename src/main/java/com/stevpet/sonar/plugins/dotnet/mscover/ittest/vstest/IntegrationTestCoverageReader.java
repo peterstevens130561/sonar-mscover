@@ -48,60 +48,58 @@ public class IntegrationTestCoverageReader implements CoverageReaderStep {
 	@Override
 	public void read(SonarCoverage registry, File file) {
 
-		String integrationTestsDir=msCoverProperties.getIntegrationTestsDir();
-		if(StringUtils.isNotEmpty(integrationTestsDir)) {
-			readFilesFromDir(integrationTestsDir);
-		} else {
-			String coveragePath = msCoverProperties.getIntegrationTestsPath();
-			readFile(registry,coveragePath);
+		String integrationTestsPath=msCoverProperties.getIntegrationTestsDir();
+		String coveragePath = msCoverProperties.getIntegrationTestsPath();
+		if(StringUtils.isNotEmpty(integrationTestsPath)) {
+			File integrationTestsDir=new File(integrationTestsPath);
+			readFilesFromDir(registry,integrationTestsDir);
+		} else if(StringUtils.isNotEmpty(coveragePath)) {
+			File coverageFile=new File(coveragePath);
+			readFile(registry,coverageFile);
 		}
 		logInfo("Done");
 	}
 	
-	private void readFile(SonarCoverage registry,String coveragePath) {
-		String xmlPath = getCoverageXmlPath(coveragePath);
-		File coverageFile = new File(xmlPath);
-		coverageParser.parse(registry, coverageFile);
+	private void readFile(SonarCoverage registry,File coverageFile) {
+		File xmlFile= getCoverageXmlFile(coverageFile);
+		coverageParser.parse(registry, xmlFile);
 	}
 
-	private void readFilesFromDir(String integrationTestsDir) {
+	private void readFilesFromDir(SonarCoverage registry,File integrationTestsDir) {
 		List<String> artifactNames= microsoftWindowsEnvironment.getArtifactNames();
 		coverageParser.setModulesToParse(artifactNames);
 		List<File> coverageFiles=convertVsTestCoverageFilesToXml(integrationTestsDir);
-		SonarCoverage aggregatedSolutionCoverage=new SonarCoverage();
 		for(File coverageFile:coverageFiles) { 
 			SonarCoverage currentsolutionCoverage=new SonarCoverage();
 			coverageParser.parse(currentsolutionCoverage,coverageFile);
-			aggregatedSolutionCoverage.merge(currentsolutionCoverage);
+			registry.merge(currentsolutionCoverage);
 		}
 	}
 
-	private List<File> convertVsTestCoverageFilesToXml(String integrationTestsDir) {
+	private List<File> convertVsTestCoverageFilesToXml(File integrationTestsDir) {
 		List<File> xmlFiles = new ArrayList<File>();
-		Collection<File> files=FileUtils.listFiles(new File(integrationTestsDir),new String[] {"coverage"} ,true);
-		for(File file:files) {
-			String xmlPath=transformIfNeeded(file.getAbsolutePath());
-			xmlFiles.add(new File(xmlPath));
+		Collection<File> files=FileUtils.listFiles(integrationTestsDir,new String[] {"coverage"} ,true);
+		for(File coverageFile:files) {
+			File xmlFile=getCoverageXmlFile(coverageFile);
+			xmlFiles.add(xmlFile);
 		}
 		return xmlFiles;
 	}
 
-	private String getCoverageXmlPath(String coveragePath) {
-
-		String xmlPath;
+	private File getCoverageXmlFile(File coverageFile) {
+		File xmlFile;
+		String coveragePath=coverageFile.getName();
 		if (coveragePath.endsWith(".coverage")) {
-			xmlPath = transformIfNeeded(coveragePath);
+			xmlFile = coverageToXmlConverter.convertIfNeeded(coverageFile);
+
 		} else if (coveragePath.endsWith(".xml")) {
-			xmlPath = coveragePath;
+			xmlFile = new File(coveragePath);
 		} else {
 			throw new SonarException("Invalid coverage format " + coveragePath);
 		}
-		return xmlPath;
+		return xmlFile;
 	}
 
-	private String transformIfNeeded(String sourcePath) {
-		return coverageToXmlConverter.convertIfNeeded( new File(sourcePath));
-	}
 
 	private void logInfo(String string) {
 		LOG.info("IntegrationTestCoverSensor: " + string);

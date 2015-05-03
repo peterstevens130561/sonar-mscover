@@ -6,3 +6,5 @@ TestResults/
 /.classpath
 /.project
 .suo
+*.ucls
+*.png
