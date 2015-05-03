@@ -22,12 +22,12 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
 
 public class OpenCoverSourceFileNamesObserver extends OpenCoverObserver {
 	private String fileID;
-    private SonarFileCoverage fileCoverage;
+	private SonarCoverage registry;
     public OpenCoverSourceFileNamesObserver() {
         setPattern("Modules/Module/Files/File");
     }
@@ -40,8 +40,12 @@ public class OpenCoverSourceFileNamesObserver extends OpenCoverObserver {
     
     @AttributeMatcher(attributeName="fullPath",elementName="File")
     public void fileMatcher(String sourceFileName) {
-    	getRegistry().linkFileNameToFileId(sourceFileName, fileID);
+    	registry.linkFileNameToFileId(sourceFileName, fileID);
 
+    }
+    
+    public void setRegistry(SonarCoverage registry) {
+        this.registry = registry;
     }
 
 }
