@@ -19,7 +19,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleaner
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReaderStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowSteps;
@@ -67,7 +67,7 @@ public class OpenCoverDirector implements WorkflowDirector {
     	picoContainer.addComponent(workflowSteps.getTestRunner())
     	.addComponent(workflowSteps.getCoverageSaver())
     	.addComponent(workflowSteps.getCoverageReader())
-    	.addComponent(workflowSteps.getTestResultsParser())
+    	.addComponent(workflowSteps.getTestResultsBuilder())
     	.addComponent(workflowSteps.getTestResultsSaver());
     	workflowSteps.getComponents(picoContainer);
     }
@@ -81,7 +81,7 @@ public class OpenCoverDirector implements WorkflowDirector {
     private SonarCoverage parseCoverageFile(VsTestEnvironment testEnvironment) {
         SonarCoverage sonarCoverageRegistry = new SonarCoverage();
 
-        CoverageReaderStep parser = picoContainer.getComponent(CoverageReaderStep.class);
+        CoverageReader parser = picoContainer.getComponent(CoverageReader.class);
         parser.read(sonarCoverageRegistry,new File(testEnvironment.getXmlCoveragePath()));
         return sonarCoverageRegistry;
     }

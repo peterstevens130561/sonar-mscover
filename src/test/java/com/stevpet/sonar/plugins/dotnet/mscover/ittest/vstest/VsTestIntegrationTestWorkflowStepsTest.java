@@ -14,7 +14,7 @@ import org.sonar.api.scan.filesystem.PathResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DefaultCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.utils.SensorTest;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReaderStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
@@ -39,13 +39,13 @@ public class VsTestIntegrationTestWorkflowStepsTest extends SensorTest {
    
     @Test
     public void director_ParserCreation() {
-        CoverageReaderStep reader = container.getComponent(CoverageReaderStep.class);
+        CoverageReader reader = container.getComponent(CoverageReader.class);
         assertNotNull("create integration test coverage parser",reader);
     }
       
     @Test
     public void OpenCoverDirector_CoverageParserCreation() {
-        CoverageReaderStep reader = container.getComponent(CoverageReaderStep.class);
+        CoverageReader reader = container.getComponent(CoverageReader.class);
         assertNotNull("create integration test coverage parser",reader);
         assertTrue("should be right class",reader instanceof IntegrationTestCoverageReader);
     }

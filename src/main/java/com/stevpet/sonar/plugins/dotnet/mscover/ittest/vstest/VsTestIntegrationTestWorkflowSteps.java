@@ -10,7 +10,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.NullBranchFileCove
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.VsTestCoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.VsTestCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.VsTestFilteringCoverageParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReaderStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.NullTestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.NullTestResultsSaver;
@@ -28,12 +28,12 @@ public class VsTestIntegrationTestWorkflowSteps implements WorkflowSteps {
 	}
 
 	@Override
-	public Class<? extends CoverageReaderStep> getCoverageReader() {
+	public Class<? extends CoverageReader> getCoverageReader() {
 		return IntegrationTestCoverageReader.class;
 	}
 
 	@Override
-	public Class<? extends TestResultsBuilder> getTestResultsParser() {
+	public Class<? extends TestResultsBuilder> getTestResultsBuilder() {
 		return NullTestResultsBuilder.class;
 	}
 

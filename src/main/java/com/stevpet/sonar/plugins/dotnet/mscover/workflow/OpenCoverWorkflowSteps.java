@@ -31,13 +31,13 @@ public class OpenCoverWorkflowSteps implements WorkflowSteps {
 
 
 	@Override
-	public Class< ? extends CoverageReaderStep> getCoverageReader() {
+	public Class< ? extends CoverageReader> getCoverageReader() {
 		return DefaultCoverageReader.class;
 	}
 
 
 	@Override
-	public Class<? extends TestResultsBuilder> getTestResultsParser() {
+	public Class<? extends TestResultsBuilder> getTestResultsBuilder() {
 		return DefaultTestResultsBuilder.class;
 	}
 

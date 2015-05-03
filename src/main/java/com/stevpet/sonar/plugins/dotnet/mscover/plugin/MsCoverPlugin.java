@@ -22,27 +22,25 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.plugin;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestBlockDecorator;
-import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestLineDecorator;
-import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestBlockDecorator;
-import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestLineDecorator;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.InjectedResourceMediator;
-import com.stevpet.sonar.plugins.dotnet.mscover.sensor.IntegrationTestCoverSensor;
-import com.stevpet.sonar.plugins.dotnet.mscover.sensor.SonarCoverageHelperFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.InjectedMeasureSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation.SimpleMicrosoftWindowsEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation.VisualStudioProjectBuilder;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.WorkflowSensor;
+import java.util.Arrays;
+import java.util.List;
 
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
 
-import java.util.Arrays;
-import java.util.List;
+import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestBlockDecorator;
+import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestLineDecorator;
+import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestBlockDecorator;
+import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestLineDecorator;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.InjectedResourceMediator;
+import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.InjectedMeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation.SimpleMicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation.VisualStudioProjectBuilder;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.WorkflowSensor;
 
 /**
  * This class is the entry point for all extensions
@@ -120,8 +118,6 @@ public List getExtensions() {
             VsTestEnvironment.class,
             PropertiesHelper.class,
             VisualStudioProjectBuilder.class,
-            SonarCoverageHelperFactory.class,
-        IntegrationTestCoverSensor.class,
         IntegrationTestLineDecorator.class,
         UnitTestLineDecorator.class,
         IntegrationTestBlockDecorator.class,

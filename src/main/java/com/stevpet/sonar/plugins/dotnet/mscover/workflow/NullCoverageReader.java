@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
-public class NullCoverageReader implements CoverageReaderStep {
+public class NullCoverageReader implements CoverageReader {
 	private final static Logger LOG = LoggerFactory.getLogger(NullCoverageReader.class);
 	
 	@Override

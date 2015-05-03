@@ -25,9 +25,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.sensor.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.CoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.FilteringCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReaderStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReader;
 
-public class IntegrationTestCoverageReader implements CoverageReaderStep {
+public class IntegrationTestCoverageReader implements CoverageReader {
 	private final static Logger LOG = LoggerFactory.getLogger(IntegrationTestCoverageReader.class);
 	private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 	private MsCoverProperties msCoverProperties;

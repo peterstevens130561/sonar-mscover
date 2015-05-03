@@ -8,7 +8,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
  * Load a coverage file into memory.
  *
  */
-public interface CoverageReaderStep {
+public interface CoverageReader {
 
 	/**
 	 * The coverage read may  be invoked multiple times during a run

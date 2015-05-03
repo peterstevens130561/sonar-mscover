@@ -27,7 +27,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleanerMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinderMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReaderStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultCoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultResourceResolver;
@@ -51,7 +51,7 @@ public class OpenCoverWorkflowTest extends SensorTest {
    
     @Test
     public void OpenCoverDirector_ParserCreation() {
-        CoverageReaderStep reader = container.getComponent(CoverageReaderStep.class);
+        CoverageReader reader = container.getComponent(CoverageReader.class);
         assertNotNull("create parser",reader);
     }
     
@@ -63,7 +63,7 @@ public class OpenCoverWorkflowTest extends SensorTest {
     
     @Test
     public void OpenCoverDirector_CoverageParserCreation() {
-        CoverageReaderStep parser = container.getComponent(CoverageReaderStep.class);
+        CoverageReader parser = container.getComponent(CoverageReader.class);
         assertNotNull("create opencover coverage parser",parser);
         assertTrue("should be right class",parser instanceof DefaultCoverageReader);
     }

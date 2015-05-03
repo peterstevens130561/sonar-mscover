@@ -32,7 +32,7 @@ public class DefaultDirector implements WorkflowDirector {
 		workflowSteps.getComponents(picoContainer);
 	    picoContainer.addComponent(workflowSteps.getCoverageReader())
 	    .addComponent(workflowSteps.getCoverageSaver())
-	    .addComponent(workflowSteps.getTestResultsParser())
+	    .addComponent(workflowSteps.getTestResultsBuilder())
 	    .addComponent(workflowSteps.getTestResultsSaver())
 	    .addComponent(workflowSteps.getTestRunner());
 	}
@@ -50,7 +50,7 @@ public class DefaultDirector implements WorkflowDirector {
 		
 		File coverageFile=new File(testEnvironment.getXmlCoveragePath());
         SonarCoverage sonarCoverage= new SonarCoverage();
-        CoverageReaderStep reader = picoContainer.getComponent(CoverageReaderStep.class);
+        CoverageReader reader = picoContainer.getComponent(CoverageReader.class);
         reader.read(sonarCoverage,coverageFile);
         
         CoverageSaver coverageSaver = picoContainer.getComponent(CoverageSaver.class);

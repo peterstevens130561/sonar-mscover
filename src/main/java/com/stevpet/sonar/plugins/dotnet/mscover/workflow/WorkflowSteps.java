@@ -11,8 +11,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 public interface WorkflowSteps {
 	
 	public Class<? extends TestRunner> getTestRunner();
-	public Class<? extends CoverageReaderStep> getCoverageReader();
-	public Class<? extends TestResultsBuilder> getTestResultsParser();
+	public Class<? extends CoverageReader> getCoverageReader();
+	public Class<? extends TestResultsBuilder> getTestResultsBuilder();
 	public Class<? extends CoverageSaver> getCoverageSaver();
 	public Class<? extends TestResultsSaver> getTestResultsSaver();
 	

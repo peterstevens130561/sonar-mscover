@@ -7,12 +7,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.CoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.VsTestCoverageParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReaderStep;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReader;
 
 /**
  * reader for coverage file created by vstest
  */
-public class DefaultCoverageReader implements CoverageReaderStep {
+public class DefaultCoverageReader implements CoverageReader {
 	
 	private CoverageParser coverageParser;
 	
