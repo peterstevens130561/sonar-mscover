@@ -36,10 +36,6 @@ public class ClassUnitTestResult {
     	this.file=file;
 	}
 
-    @Deprecated
-	public ClassUnitTestResult() {
-	}
-
 	public void add(UnitTestMethodResult unitTest) {
         tests.add(unitTest);
         String outcome=unitTest.getOutcome();

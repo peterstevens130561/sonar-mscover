@@ -22,6 +22,8 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
+import java.io.File;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,12 +34,12 @@ public class UnitTestFileResultModelTest {
     
     @Before
     public void before() {
-        fileResult = new ClassUnitTestResult() ;
+    	
+        fileResult = new ClassUnitTestResult(new File("bogus")) ;
     }
     @Test
     public void create() {
-        ClassUnitTestResult model = new ClassUnitTestResult() ;
-        Assert.assertNotNull(model);
+        Assert.assertNotNull(fileResult);
     }
     
     @Test

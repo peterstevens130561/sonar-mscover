@@ -55,8 +55,7 @@ public class SourceFileNamesModelTest {
    public void SetNameField_ShouldBeSet() {
        SourceFileNameRow model = new SourceFileNameRow() ;
        String text= "a/b/c/";
-       String field = "SourceFileName";
-       model.setField(field, text);
+       model.setSourceFileName(text);
        Assert.assertEquals(text, model.getSourceFileName());
        Assert.assertEquals(0,model.getSourceFileID());
    }
@@ -64,9 +63,8 @@ public class SourceFileNamesModelTest {
    @Test
    public void SetIDField_ShouldBeSet() {
        SourceFileNameRow model = new SourceFileNameRow() ;
-       String text= "1";
-       String field = "SourceFileID";
-       model.setField(field, text);
+       int fileID=1;
+       model.setSourceFileID(fileID);
        Assert.assertEquals(1, model.getSourceFileID());
        Assert.assertNull(model.getSourceFileName());
    }

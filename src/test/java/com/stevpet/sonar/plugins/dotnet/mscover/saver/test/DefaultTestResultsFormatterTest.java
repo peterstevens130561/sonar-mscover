@@ -2,6 +2,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.saver.test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
@@ -9,17 +12,21 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 
 public class DefaultTestResultsFormatterTest {
 	private TestResultsFormatter testResultsFormatter = new DefaultTestResultsFormatter();
+	private ClassUnitTestResult classUnitTestResult;
+	
+	@Before
+	public void before() {
+		classUnitTestResult = new ClassUnitTestResult(new File("bogus"));
+	}
 	
 	@Test
 	public void noResults_JustHeader() {
-		ClassUnitTestResult classUnitTestResult = new ClassUnitTestResult();
 		String result=testResultsFormatter.formatClassUnitTestResults(classUnitTestResult);
 		assertEquals("expect just the wrapper","<tests-details></tests-details>",result);
 	}
 	
 	@Test
 	public void passedtest_HeaderAndBody() {
-		ClassUnitTestResult classUnitTestResult = new ClassUnitTestResult();
 		UnitTestMethodResult unitTest = new UnitTestMethodResult();
 		unitTest.setTestName("TestMethod").setOutcome("Passed").setDuration("1ms").setMessage("Message").setStackTrace("Stacktrace");
 		classUnitTestResult.add(unitTest);
@@ -29,7 +36,6 @@ public class DefaultTestResultsFormatterTest {
 	
 	@Test
 	public void failedtest_HeaderAndBody() {
-		ClassUnitTestResult classUnitTestResult = new ClassUnitTestResult();
 		UnitTestMethodResult unitTest = new UnitTestMethodResult();
 		unitTest.setTestName("TestMethod").setOutcome("Failed").setDuration("1ms").setMessage("Message").setStackTrace("Stacktrace");
 		classUnitTestResult.add(unitTest);

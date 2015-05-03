@@ -157,7 +157,6 @@ public class WindowsVsTestRunnerTest {
         microsoftWindowsEnvironmentMock.givenHasSolution(solution);
     }
 
-    @SuppressWarnings("unchecked")
     private void givenUnitTestAssemblies(List<String> unitTestAssemblies) {
         assembliesFinderMock.givenFindUnitTestAssembliesFromConfig(unitTestAssemblies);
     }
