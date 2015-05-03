@@ -1,6 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -15,7 +14,6 @@ import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutorMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
-import com.stevpet.sonar.plugins.dotnet.mscover.mock.SensorContextMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageReaderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.CoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.OpenCoverCoverageRunner;

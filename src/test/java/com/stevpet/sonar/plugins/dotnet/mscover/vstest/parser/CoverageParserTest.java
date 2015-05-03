@@ -18,8 +18,6 @@ import org.junit.Test;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReader;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultCoverageReader;
 
 public class CoverageParserTest extends ObserverTest {
 

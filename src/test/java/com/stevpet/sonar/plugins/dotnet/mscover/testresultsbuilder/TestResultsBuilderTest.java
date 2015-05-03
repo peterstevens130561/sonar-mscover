@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
@@ -51,7 +50,7 @@ public class TestResultsBuilderTest {
 	public void OneFileWithResult_ShowHaveInFile() {
 		methodToSourceFileIdMap.add(new MethodId(MODULE,NAMESPACE,CLASS,"method1"), "1");
 	
-		SourceFileNameRow row=sourceFileNamesTable.getNewRow("1").setSourceFileName("myname");
+		sourceFileNamesTable.getNewRow("1").setSourceFileName("myname");
 	
 		UnitTestingResults results=testResults.getTestingResults();
 
@@ -72,7 +71,7 @@ public class TestResultsBuilderTest {
 		methodToSourceFileIdMap.add(new MethodId(MODULE,NAMESPACE,CLASS,"method1"), "1");
 		fileNamesParserMock.givenGetMethodToSourceFileIdMap(methodToSourceFileIdMap);
 		
-		SourceFileNameRow row=sourceFileNamesTable.getNewRow("1").setSourceFileName("myname");
+		sourceFileNamesTable.getNewRow("1").setSourceFileName("myname");
 		
 		UnitTestingResults results=testResults.getTestingResults();
 		results.newEntry().setClassName(FULLCLASSNAME)

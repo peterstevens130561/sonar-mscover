@@ -11,9 +11,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageException;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.LineCoverageTestUtilities;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SolutionLineCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 
 public class SonarCoverage_MergeText {
 

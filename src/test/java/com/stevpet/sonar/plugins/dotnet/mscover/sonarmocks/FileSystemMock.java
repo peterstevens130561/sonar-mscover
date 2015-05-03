@@ -28,8 +28,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.test.TestUtils;
-
 import static org.mockito.Mockito.when;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 

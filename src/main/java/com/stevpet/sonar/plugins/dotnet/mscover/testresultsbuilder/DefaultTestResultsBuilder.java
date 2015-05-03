@@ -3,7 +3,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -14,11 +13,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestFilesResultRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestingResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestResultsBuilder;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestResults;
 
 public class DefaultTestResultsBuilder implements TestResultsBuilder {
 	private static final Logger LOG = LoggerFactory.getLogger(DefaultTestResultsBuilder.class);

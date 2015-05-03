@@ -18,7 +18,6 @@ import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.File;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.DefaultLineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.LineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.ittest.vstest.IntegrationTestLineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
