@@ -69,30 +69,31 @@ public class VsTestIntegrationTestWorkflowStepsIntegrationTest {
 		workflow = new VsTestIntegrationTestWorkflowSteps();
 		director = new DefaultDirector(workflow);					
 	}
+	
 	@Test
 	public void IntegrationTest() {
 		//given a single xml file
-		File testFile=TestUtils.getResource("mscoverage.xml");
+		File testFile=TestUtils.getResource("coverage.xml");
 		//given the property points to this file
 		when(msCoverProperties.getIntegrationTestsPath()).thenReturn(testFile.getAbsolutePath());
 		
-		List<String> artifactNames = new ArrayList();
+		List<String> artifactNames = new ArrayList<String>();
 		when(microsoftWindowsEnvironment.getArtifactNames()).thenReturn( artifactNames);
 		director.wire(container);
 		director.execute();
 
-		verify(sensorContext,times(4)).saveMeasure(any(Resource.class),metricsArgument.capture(),valueArgument.capture());
-		assertEquals("lines_to_cover",metricsArgument.getAllValues().get(0).getKey());
-		assertEquals("number of lines", 3.0,valueArgument.getAllValues().get(0).doubleValue(),0.1);
+		verify(sensorContext,times(8)).saveMeasure(any(Resource.class),metricsArgument.capture(),valueArgument.capture());
+		assertEquals("it_lines_to_cover",metricsArgument.getAllValues().get(0).getKey());
+		assertEquals("number of lines", 18.0,valueArgument.getAllValues().get(0).doubleValue(),0.1);
 
-		assertEquals("uncovered_lines",metricsArgument.getAllValues().get(1).getKey());
-		assertEquals("uncovered lines", 2.0,valueArgument.getAllValues().get(1).doubleValue(),0.1);
+		assertEquals("it_uncovered_lines",metricsArgument.getAllValues().get(1).getKey());
+		assertEquals("uncovered lines", 1.0,valueArgument.getAllValues().get(1).doubleValue(),0.1);
 
-		assertEquals("coverage",metricsArgument.getAllValues().get(2).getKey());
-		assertEquals("coverage", 33.0,valueArgument.getAllValues().get(2).doubleValue(),0.1);
+		assertEquals("it_coverage",metricsArgument.getAllValues().get(2).getKey());
+		assertEquals("coverage", 94.0,valueArgument.getAllValues().get(2).doubleValue(),0.1);
 
-		assertEquals("line_coverage",metricsArgument.getAllValues().get(3).getKey());
-		assertEquals("line coverage", 33.0,valueArgument.getAllValues().get(3).doubleValue(),0.1);
+		assertEquals("it_line_coverage",metricsArgument.getAllValues().get(3).getKey());
+		assertEquals("line coverage", 94.0,valueArgument.getAllValues().get(3).doubleValue(),0.1);
 
 	}
 }

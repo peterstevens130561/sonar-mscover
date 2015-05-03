@@ -100,7 +100,6 @@ public class IntegrationTestCoverageReader implements CoverageReaderStep {
 		return xmlFile;
 	}
 
-
 	private void logInfo(String string) {
 		LOG.info("IntegrationTestCoverSensor: " + string);
 	}

@@ -33,6 +33,7 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.PathResolver;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.ittest.vstest.VsTestIntegrationTestWorkflowSteps;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.InjectedMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
@@ -83,15 +84,35 @@ public class WorkflowSensor implements Sensor {
     public void analyse(Project project, SensorContext context) {
     	LogInfo("Starting");
     	LogChanger.setPattern();
-        container.addComponent(DefaultDirector.class)
-        	.addComponent(context)
-            .addComponent(getWorkflow());
-        WorkflowDirector  director=container.getComponent(WorkflowDirector.class);
-        director.wire(container);
-        vsTestEnvironment.setCoverageXmlFile(project,"coverage-report.xml"); 
-        director.execute();  
+    	executeUnitTests(project, context); 
+    	executeIntegrationTests(project,context);
         LogInfo("Done");
     }
+
+    private void executeIntegrationTests(Project project, SensorContext context) {
+    	DefaultPicoContainer childContainer = prepareChildContainer(context);
+        childContainer.addComponent(VsTestIntegrationTestWorkflowSteps.class);
+        WorkflowDirector  director=childContainer.getComponent(WorkflowDirector.class);
+        director.wire(childContainer);
+        vsTestEnvironment.setCoverageXmlFile(project,"coverage-report.xml"); 
+        director.execute();  	
+    }
+	private void executeUnitTests(Project project, SensorContext context) {
+		DefaultPicoContainer childContainer = prepareChildContainer(context);
+        childContainer.addComponent(getWorkflow());
+        WorkflowDirector  director=childContainer.getComponent(WorkflowDirector.class);
+        director.wire(childContainer);
+        vsTestEnvironment.setCoverageXmlFile(project,"coverage-report.xml"); 
+        director.execute();
+	}
+
+	private DefaultPicoContainer prepareChildContainer(SensorContext context) {
+		DefaultPicoContainer childContainer = new DefaultPicoContainer();
+		container.addChildContainer(childContainer);
+        childContainer.addComponent(DefaultDirector.class)
+        	.addComponent(context);
+		return childContainer;
+	}
  
 	private Class<? extends WorkflowSteps> getWorkflow() {
 		Class<? extends WorkflowSteps> workflow = NullWorkflowSteps.class;
