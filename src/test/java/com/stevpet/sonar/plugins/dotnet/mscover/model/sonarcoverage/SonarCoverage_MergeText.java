@@ -6,7 +6,6 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.CoveragePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageException;
@@ -141,8 +140,7 @@ public class SonarCoverage_MergeText {
     }
 
     private void givenFileWithCoverageData(String name,String id, int [] coverage) {
-    	SonarFileCoverage fileCoverage=populatedRepository.getCoveredFile(id);
-    	CoveragePoint point = new CoveragePoint();   
+    	SonarFileCoverage fileCoverage=populatedRepository.getCoveredFile(id); 
     	for(int i=0;i<coverage.length;i++) {
     		fileCoverage.addLinePoint(i, coverage[i]>0);
     	}

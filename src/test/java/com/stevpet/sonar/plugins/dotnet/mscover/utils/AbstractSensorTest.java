@@ -6,12 +6,11 @@ import org.picocontainer.DefaultPicoContainer;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.SensorContextMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindowsEnvironmentMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
-public class SensorTest {
+public abstract class AbstractSensorTest {
 
     protected MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     protected MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();

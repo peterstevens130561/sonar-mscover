@@ -18,7 +18,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageReaderM
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.CoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.OpenCoverCoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.MeasureSaverMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.utils.SensorTest;
+import com.stevpet.sonar.plugins.dotnet.mscover.utils.AbstractSensorTest;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommandMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
@@ -34,7 +34,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.workflow.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
 
 import static org.mockito.Mockito.mock;
-public class OpenCoverWorkflowTest extends SensorTest {
+public class OpenCoverWorkflowTest extends AbstractSensorTest {
 
     DefaultPicoContainer container;
     private OpenCoverWorkflowSteps steps = new OpenCoverWorkflowSteps();

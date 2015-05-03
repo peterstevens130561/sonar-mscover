@@ -8,12 +8,14 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.picocontainer.DefaultPicoContainer;
+import org.sonar.api.batch.SensorContext;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.DefaultResourceMediator;
-import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.SonarMeasureSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.ResourceResolver;
 
 public class DefaultCoverageSaverTest {
 	private static final String SECOND_FILE = "b/c";
@@ -24,18 +26,21 @@ public class DefaultCoverageSaverTest {
 	private List<File> testFiles;
 	private BranchFileCoverageSaverMock branchFileCoverageSaverMock = new BranchFileCoverageSaverMock();
 	private LineFileCoverageSaverMock lineFileCoverageSaverMock = new LineFileCoverageSaverMock();
+	@Mock private SensorContext sensorContext;
+	@Mock private ResourceResolver resourceResolver;
+	
 	@Before
 	public void before() {
-		container.addComponent(SonarMeasureSaver.class)
-		.addComponent(DefaultResourceMediator.class)
-		.addComponent(DefaultCoverageSaver.class);
+		MockitoAnnotations.initMocks(this);
+		container.addComponent(DefaultCoverageSaver.class).addComponent(sensorContext).addComponent(resourceResolver);
 		testFiles = new ArrayList<File>();
 	}
+	
 	@Test
 	public void createWithLineandBranchCoverageSaver() {
 		container
-		.addComponent(DeprecatedDefaultLineFileCoverageSaver.class)
-		.addComponent(DeprecatedDefaultBranchFileCoverageSaver.class);
+		.addComponent(DefaultLineFileCoverageSaver.class)
+		.addComponent(DefaultBranchFileCoverageSaver.class);
 		CoverageSaver saver = container.getComponent(DefaultCoverageSaver.class);
 		assertNotNull("could not create coveragesaver with both savers",saver);
 	}
@@ -43,7 +48,7 @@ public class DefaultCoverageSaverTest {
 	@Test
 	public void createWithOnlyLineCoverageSaver() {
 		container
-		.addComponent(DeprecatedDefaultLineFileCoverageSaver.class)
+		.addComponent(DefaultLineFileCoverageSaver.class)
 		.addComponent(NullBranchFileCoverageSaver.class);
 		CoverageSaver saver = container.getComponent(DefaultCoverageSaver.class);
 		assertNotNull("could not create coveragesaver with null branch saver saver",saver);

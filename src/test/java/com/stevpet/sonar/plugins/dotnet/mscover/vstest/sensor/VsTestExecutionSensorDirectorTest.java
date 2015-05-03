@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.picocontainer.DefaultPicoContainer;
 
@@ -19,22 +18,19 @@ import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCode
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutorMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.CoverageToXmlConverter;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.VsTestCoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageReaderMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.AssembliesFinderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.InjectingFakesRemoverMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.utils.SensorTest;
+import com.stevpet.sonar.plugins.dotnet.mscover.utils.AbstractSensorTest;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleanerMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinderMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.WindowsVsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultCoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunner;
 
-public class VsTestExecutionSensorDirectorTest extends SensorTest {
+public class VsTestExecutionSensorDirectorTest extends AbstractSensorTest {
 
     private VsTestExecutionSensorDirector director = new VsTestExecutionSensorDirector();
     private DefaultPicoContainer container;

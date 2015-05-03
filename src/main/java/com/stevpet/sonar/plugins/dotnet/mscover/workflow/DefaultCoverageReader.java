@@ -4,7 +4,6 @@ import java.io.File;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.CoverageParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.VsTestCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReader;
 
 /**
@@ -19,7 +18,6 @@ public class DefaultCoverageReader implements CoverageReader {
 	}
 	@Override
 	public void read(SonarCoverage registry, File file) {
-		CoverageParser parser = new VsTestCoverageParser();
-		parser.parse(registry, file);
+		coverageParser.parse(registry, file);
 	}
 }

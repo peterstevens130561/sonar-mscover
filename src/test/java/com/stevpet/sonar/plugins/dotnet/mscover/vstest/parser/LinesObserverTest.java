@@ -2,14 +2,11 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser;
 
 import static org.junit.Assert.*;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.w3c.dom.Element;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;

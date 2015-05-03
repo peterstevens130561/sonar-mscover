@@ -38,7 +38,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindow
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommandShim;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.CoverageToXmlConverter;

@@ -17,7 +17,6 @@ public class SourceFileNamesObserverTest extends ObserverTest {
 	private VsTestCoverageObserver observer;
 	private SonarCoverage registry;
 	private XmlParserSubject parser;
-	private Element rootElement;
 
 	@Before
 	public void before() {

@@ -31,7 +31,6 @@ import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 
 /**
  * Used to parse only those modules that are of interest to this project. Especially for imported coverage files this

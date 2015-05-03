@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
@@ -19,7 +18,6 @@ public class VsTestMethodObserverTest extends ObserverTest {
 	private static final String MODULE_NAME = "module.dll";
 	private static final String FILEID = "8";
 	private VsTestMethodObserver observer;
-	private SonarCoverage registry;
 	private XmlParserSubject parser;
 	private MethodToSourceFileIdMap methodToSourceFileIdMap;
 	@Before
@@ -27,7 +25,6 @@ public class VsTestMethodObserverTest extends ObserverTest {
 		observer = new VsTestMethodObserver();
 		methodToSourceFileIdMap = new MethodToSourceFileIdMap();
 		observer.setRegistry(methodToSourceFileIdMap);
-		registry = new SonarCoverage();
 		parser = new CoverageParserSubject();
 		parser.registerObserver(observer);		
 	}

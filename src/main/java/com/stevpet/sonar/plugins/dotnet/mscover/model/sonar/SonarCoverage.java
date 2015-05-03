@@ -130,7 +130,6 @@ public class SonarCoverage {
 			List<CoverageLinePoint> destinationLinePoints) {
 		for(int index=0;index< sourceLinePoints.size();index++) {
 			CoverageLinePoint linePoint=sourceLinePoints.get(index);
-			int line=linePoint.getLine();
 			int covered = linePoint.getCovered();
 			if(covered>0) {
 				destinationLinePoints.get(index).setCovered(covered);

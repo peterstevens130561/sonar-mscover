@@ -15,7 +15,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenC
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverSourceFileNamesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.CoverageParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReader;
 
 /**
  * Parses an opencover created coverage file
