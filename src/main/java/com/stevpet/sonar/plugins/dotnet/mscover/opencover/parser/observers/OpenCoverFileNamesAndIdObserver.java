@@ -50,7 +50,7 @@ public class OpenCoverFileNamesAndIdObserver extends BaseParserObserver {
     @AttributeMatcher(attributeName="fullPath",elementName="File")
     public void fileMatcher(String attributeValue) {
         model.setSourceFileName(attributeValue);
-        registry.add(model.getSourceFileID(), model);
+        registry.add(model);
     }
 
 }

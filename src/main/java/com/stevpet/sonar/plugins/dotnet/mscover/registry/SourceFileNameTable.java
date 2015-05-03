@@ -45,12 +45,6 @@ public class SourceFileNameTable  {
     	SourceFileNameRow row = getNewRow(fileID);
     	row.setSourceFileName(filePath);
     }
-    @Deprecated
-    public void add(int i, SourceFileNameRow model) {
-        rows.put(i,model);
-        mapNameToId.put(model.getSourceFileName(),i);
-        maxId = maxId>i?maxId:i;
-    }
     
     public void add(SourceFileNameRow row) {
     	int key=row.getSourceFileID();
@@ -65,14 +59,7 @@ public class SourceFileNameTable  {
     	return row;
     }
 
-    /**
-     * 
-     * @param fileId
-     * @return
-     * @deprecated {@link get(int index}
-     */
-    @Deprecated
-    public SourceFileNameRow get(String fileId) {
+    private SourceFileNameRow get(String fileId) {
     	int index = Integer.parseInt(fileId);
        return rows.get(index);
     }
@@ -111,7 +98,7 @@ public class SourceFileNameTable  {
         if(id==null) {
             id= ++maxId;
             SourceFileNameRow model = new SourceFileNameRow(id,fileName);
-            add(id,model);
+            add(model);
         }
         return id;
     }

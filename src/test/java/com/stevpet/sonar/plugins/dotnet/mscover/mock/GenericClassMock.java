@@ -27,7 +27,7 @@ import org.picocontainer.DefaultPicoContainer;
 
 public class GenericClassMock<T> implements ClassMock<T> {
     protected T instance = null;
-    private Class clazz;
+    private Class<? extends Object> clazz;
     
     public GenericClassMock(Class<T> clazz) {
         instance = mock(clazz);

@@ -14,23 +14,24 @@ import ch.qos.logback.core.spi.AppenderAttachable;
 public class LogChanger {
 	private static final Logger LOG = LoggerFactory.getLogger(LogChanger.class);
 	
+	@SuppressWarnings("unchecked")
 	public static void setPattern() {
-	PatternLayoutEncoder encoder = new PatternLayoutEncoder(); 
-	ch.qos.logback.classic.Logger loggerImpl =(ch.qos.logback.classic.Logger) LOG;
-			encoder.setContext(loggerImpl.getLoggerContext());
-			encoder.setPattern("%level %logger{5} %msg%n");
-			encoder.start();
-	
-	Logger rootLogger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-	AppenderAttachable<ILoggingEvent> appenderAttachable = (AppenderAttachable<ILoggingEvent>) rootLogger;
-	Iterator<Appender<ILoggingEvent>> iterator = appenderAttachable.iteratorForAppenders();
-	while (iterator.hasNext()) {
-	   Appender<ILoggingEvent> appender = iterator.next();
-	   if (appender instanceof OutputStreamAppender) {
-	      ((OutputStreamAppender)appender).setEncoder(encoder);
-	   }
-	   appender.stop();
-	   appender.start();
-	}
+		PatternLayoutEncoder encoder = new PatternLayoutEncoder(); 
+		ch.qos.logback.classic.Logger loggerImpl =(ch.qos.logback.classic.Logger) LOG;
+		encoder.setContext(loggerImpl.getLoggerContext());
+		encoder.setPattern("%level %logger{5} %msg%n");
+		encoder.start();
+
+		Logger rootLogger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+		AppenderAttachable<ILoggingEvent> appenderAttachable = (AppenderAttachable<ILoggingEvent>) rootLogger;
+		Iterator<Appender<ILoggingEvent>> iterator = appenderAttachable.iteratorForAppenders();
+		while (iterator.hasNext()) {
+			Appender<ILoggingEvent> appender = iterator.next();
+			if (appender instanceof OutputStreamAppender) {
+				((OutputStreamAppender)appender).setEncoder(encoder);
+			}
+			appender.stop();
+			appender.start();
+		}
 	}
 }
