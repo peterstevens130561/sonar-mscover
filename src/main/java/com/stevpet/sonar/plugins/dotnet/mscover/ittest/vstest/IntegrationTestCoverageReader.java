@@ -100,10 +100,7 @@ public class IntegrationTestCoverageReader implements CoverageReaderStep {
 	}
 
 	private String transformIfNeeded(String sourcePath) {
-		String destinationPath;
-		destinationPath = sourcePath.replace(".coverage", ".xml");
-		coverageToXmlConverter.convertIfNeeded(destinationPath, sourcePath);
-		return destinationPath;
+		return coverageToXmlConverter.convertIfNeeded( new File(sourcePath));
 	}
 
 	private void logInfo(String string) {

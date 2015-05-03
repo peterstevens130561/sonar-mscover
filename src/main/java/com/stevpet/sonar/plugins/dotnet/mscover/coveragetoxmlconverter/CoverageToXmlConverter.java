@@ -1,5 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter;
 
+import java.io.File;
+
 public interface CoverageToXmlConverter {
 
 	/**
@@ -7,13 +9,13 @@ public interface CoverageToXmlConverter {
 	 * @param destination full path to .xml file
 	 * @param source full path to .coverage file
 	 */
-	void convert(String destination, String source);
+	void convert(File destination, File source);
 
 	/**
 	 * does the conversion if destinationPath does not exist, or is older than source
-	 * @param destination
+
 	 * @param source
 	 */
-	void convertIfNeeded(String destination, String source);
+	File convertIfNeeded(File source);
 
 }

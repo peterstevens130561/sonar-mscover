@@ -23,29 +23,30 @@ public class VsTestCoverageToXmlConverter implements CoverageToXmlConverter {
 
 
 	@Override
-	public void convert(String destination, String source) {
+	public void convert(File destination, File source) {
 		File workDir=fileSystem.workDir();
 		String sonarPath = workDir.getAbsolutePath();
 		codeCoverageCommand.setSonarPath(sonarPath);
-		codeCoverageCommand.setCoveragePath(source);
-		codeCoverageCommand.setOutputPath(destination);
+		codeCoverageCommand.setCoveragePath(source.getAbsolutePath());
+		codeCoverageCommand.setOutputPath(destination.getAbsolutePath());
 		codeCoverageCommand.install();
 		commandLineExecutor.execute(codeCoverageCommand);
 	}
 
 
 	@Override
-	public void convertIfNeeded(String destination, String source) {
+	public File convertIfNeeded(File  source) {
+		String destinationPath=source.getAbsolutePath().replace(".coverage", ".xml");
+		File destination = new File(destinationPath);
 		if(transformationNeeded(destination,source)) {
 			convert(destination,source);
 		}
+		return destination;
 		
 	}
 	
-	protected boolean transformationNeeded(String destination,String source) {
-		File xmlFile = new File(destination);
-		File coverageFile = new File(source);
-		return !xmlFile.exists() || FileUtils.isFileNewer(coverageFile, xmlFile);
+	protected boolean transformationNeeded(File destination,File source) {
+		return !destination.exists() || FileUtils.isFileNewer(source, destination);
 
 	}
 }

@@ -72,7 +72,7 @@ public class WindowsVsTestRunner  implements TestRunner {
         vsTestStdOutParser.setStdOut(stdOutString);
         this.coveragePath=vsTestStdOutParser.getCoveragePath();
         this.resultsPath = vsTestStdOutParser.getTestResultsXmlPath();
-        coverageToXmlConverter.convert(testEnvironment.getXmlCoveragePath(),coveragePath);
+        coverageToXmlConverter.convert(new File(testEnvironment.getXmlCoveragePath()),new File(coveragePath));
     }
     
 	@Override

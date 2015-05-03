@@ -22,8 +22,8 @@ public class VsTestCoverageToXmlConverterTest {
 	@Mock private FileSystem fileSystem ;
 	@Mock private CodeCoverageCommand codecoverageCommand;
 	private File workDirFile=new File("C:\\etc\\workdir");
-	private String destination="destination.xml";
-	private String source = "source.coverage";
+	private File destination=new File("destination.xml");
+	private File source = new File("source.coverage");
 	
 	private CoverageToXmlConverter converter ;
 	@Before
@@ -36,7 +36,7 @@ public class VsTestCoverageToXmlConverterTest {
 	
 	@Test
 	public void convert_SetOutputPath() {
-		verify(codecoverageCommand,times(1)).setOutputPath(eq(destination));
+		verify(codecoverageCommand,times(1)).setOutputPath(eq(destination.getAbsolutePath()));
 	}
 
 	@Test

@@ -70,11 +70,11 @@ public class VsTestExecutionSensorDirectorTest extends SensorTest {
         createMocks();
         VsTestEnvironment testEnvironment = container.getComponent(VsTestEnvironment.class);
         //given workdir is "bogus/.sonar"
-        File workDir=new File("bogus/.sonar");
+        File workDir=new File("\\bogus/.sonar");
         fileSystemMock.givenWorkDir(workDir);
         testEnvironment.setCoverageXmlPath("bogus/.sonar/coverage.xml");
         //given testsettings file is "bogus"
-        vsTestConfigFinderMock.givenGetTestSettingsFileOrDie(new File("bogus"));
+        vsTestConfigFinderMock.givenGetTestSettingsFileOrDie(new File("C:\\bogus"));
         
         //given a solution with one project
         microsoftWindowsEnvironmentMock.givenHasSolutionWithProject(1);
@@ -95,11 +95,15 @@ public class VsTestExecutionSensorDirectorTest extends SensorTest {
         director.execute();
         
         //then vstest.console.exe is invoked
-        commandLineExecutorMock.thenCommandLine("C:/Program Files (x86)/Microsoft Visual Studio 11.0/Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe /Settings:E:\\Users\\stevpet\\My Documents\\GitHub\\sonar-mscover\\bogus /EnableCodeCoverage /Logger:trx");
+        commandLineExecutorMock.thenCommandLine("C:/Program Files (x86)/Microsoft Visual Studio 11.0/Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe " +
+        "/Settings:C:\\bogus /EnableCodeCoverage /Logger:trx");
         
         // and then codecoverage is invoked
         String prefix = workDir.getAbsolutePath();
-        String expectedCommandLine=prefix + "\\CodeCoverage\\CodeCoverage.exe pietje.coverage bogus\\.sonar\\coverage.xml";
+        File coverageFile = new File("pietje.coverage");
+        File outputFile = new File("bogus/.sonar/coverage.xml");
+        String expectedCommandLine=prefix + "\\CodeCoverage\\CodeCoverage.exe \"" + coverageFile.getAbsolutePath() + "\" \"" +
+        		outputFile.getAbsolutePath() + "\"";
         commandLineExecutorMock.thenCommandLine(expectedCommandLine);
         // and then name of test results file is 
         assertEquals("path to test results file","myfunny.trx",new File(testEnvironment.getXmlResultsPath()).getName());

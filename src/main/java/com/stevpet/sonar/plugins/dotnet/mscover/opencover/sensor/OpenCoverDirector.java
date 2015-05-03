@@ -9,7 +9,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCom
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.CoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.OpenCoverCoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
