@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
 
 public class NullTestResultsBuilder implements TestResultsBuilder {
 	private static final Logger LOG = LoggerFactory.getLogger(NullTestResultsBuilder.class);

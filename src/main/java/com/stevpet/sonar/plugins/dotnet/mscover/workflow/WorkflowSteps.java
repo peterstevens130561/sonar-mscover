@@ -3,6 +3,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.workflow;
 import org.picocontainer.DefaultPicoContainer;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 
 /**

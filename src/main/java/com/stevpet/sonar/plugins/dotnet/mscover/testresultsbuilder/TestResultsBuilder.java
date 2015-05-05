@@ -1,8 +1,6 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.workflow;
+package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder;
 
 import java.io.File;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 
 public interface TestResultsBuilder {
 	/**

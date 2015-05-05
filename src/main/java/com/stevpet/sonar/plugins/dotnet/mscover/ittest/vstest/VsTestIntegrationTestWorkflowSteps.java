@@ -8,13 +8,13 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.nullsaver.NullBranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.VsTestCoverageToXmlConverter;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.nullrestrunner.NullTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.VsTestFilteringCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.NullTestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.NullTestResultsSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestResultsSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowSteps;
 
