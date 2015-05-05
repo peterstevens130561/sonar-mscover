@@ -10,11 +10,11 @@ import org.mockito.MockitoAnnotations;
 import org.picocontainer.DefaultPicoContainer;
 import org.sonar.api.scan.filesystem.PathResolver;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.utils.AbstractSensorTest;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
 

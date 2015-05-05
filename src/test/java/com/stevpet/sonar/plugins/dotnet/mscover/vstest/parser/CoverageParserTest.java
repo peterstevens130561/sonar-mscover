@@ -15,6 +15,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.CoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;

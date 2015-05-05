@@ -2,9 +2,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser;
 
 import java.io.File;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReader;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;

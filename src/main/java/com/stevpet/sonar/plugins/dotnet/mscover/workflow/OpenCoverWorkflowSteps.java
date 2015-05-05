@@ -19,6 +19,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.DefaultTestResultsFor
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.DefaultTestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.DefaultTestResultsParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.TestResultsSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverCoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VSTestStdOutParser;

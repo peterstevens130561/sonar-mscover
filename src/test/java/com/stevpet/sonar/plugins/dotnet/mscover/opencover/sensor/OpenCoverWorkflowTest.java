@@ -14,6 +14,8 @@ import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutorMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.DefaultCoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageReaderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.CoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
@@ -28,8 +30,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleanerMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinderMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.CoverageReader;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultCoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.OpenCoverWorkflowSteps;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;

@@ -23,7 +23,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.saver.test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestResultsSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.TestResultsSaver;
 
 public class TestResultsSaverMock extends GenericClassMock<TestResultsSaver> {
 
