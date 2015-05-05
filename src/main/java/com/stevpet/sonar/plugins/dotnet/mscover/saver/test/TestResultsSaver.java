@@ -34,7 +34,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.MeasureSaver;
 public class TestResultsSaver {
 
     private MeasureSaver measureSaver;
-    public TestResultsFormatter testResultsFormatter = new DefaultTestResultsFormatter() ;
+    private TestResultsFormatter testResultsFormatter = new DefaultTestResultsFormatter() ;
     public TestResultsSaver(MeasureSaver measureSaver) {
         this.measureSaver = measureSaver;
     }

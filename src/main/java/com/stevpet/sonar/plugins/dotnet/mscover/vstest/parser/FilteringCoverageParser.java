@@ -3,6 +3,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser;
 
 import java.util.List;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.CoverageParser;
+
 /**
  * extension of {@link CoverageParser} to allow parsing of relevant modules onlhy
  */

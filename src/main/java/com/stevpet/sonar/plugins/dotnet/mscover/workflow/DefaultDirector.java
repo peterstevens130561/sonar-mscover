@@ -11,6 +11,8 @@ import org.picocontainer.DefaultPicoContainer;
 
 
 
+
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;

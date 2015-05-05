@@ -68,8 +68,9 @@ public abstract class XmlParserSubject implements ParserSubject {
     }
 
     public List<ParserObserver> getObservers() {
-        return observers ;
+        return observers;
     }
+
     public abstract String[] getHierarchy();
 
     public void parseString(String string) {
@@ -86,7 +87,7 @@ public abstract class XmlParserSubject implements ParserSubject {
             throw new SonarException(msg, e);
         }
     }
-    
+
     /**
      * Gets the cursor for the given file
      * 
@@ -100,7 +101,8 @@ public abstract class XmlParserSubject implements ParserSubject {
         try {
             SMInputFactory inf = new SMInputFactory(
                     XMLInputFactory.newInstance());
-            InputStream inputStream = new ByteArrayInputStream(string.getBytes());
+            InputStream inputStream = new ByteArrayInputStream(
+                    string.getBytes());
             SMHierarchicCursor cursor = inf.rootElementCursor(inputStream);
             result = cursor.advance();
         } catch (XMLStreamException e) {
@@ -110,6 +112,7 @@ public abstract class XmlParserSubject implements ParserSubject {
         }
         return result;
     }
+
     public void parseFile(File file) {
         SMInputCursor cursor;
         try {
@@ -119,7 +122,8 @@ public abstract class XmlParserSubject implements ParserSubject {
             LOG.error("FactoryConfigurationError", e);
             throw new SonarException(e);
         } catch (XMLStreamException e) {
-            String msg = "XMLStreamException in " + file.getAbsolutePath() + " column/line " + column + "/" + line;
+            String msg = "XMLStreamException in " + file.getAbsolutePath()
+                    + " column/line " + column + "/" + line;
             LOG.error(msg, e);
             throw new SonarException(msg, e);
         }
@@ -128,8 +132,8 @@ public abstract class XmlParserSubject implements ParserSubject {
     }
 
     private void checkOnErrors(File file) {
-        for(ParserObserver observer:observers) {
-            if(observer.hasError()) {
+        for (ParserObserver observer : observers) {
+            if (observer.hasError()) {
                 throw new ParserSubjectErrorException(file);
             }
         }
@@ -142,10 +146,10 @@ public abstract class XmlParserSubject implements ParserSubject {
     }
 
     private void injectVariablesInObservers() {
-    for(ParserObserver observer:observers) {
-        observer.setParserData(parserData);
-    }    
-}
+        for (ParserObserver observer : observers) {
+            observer.setParserData(parserData);
+        }
+    }
 
     public void registerObserver(ParserObserver observer) {
         observers.add(observer);
@@ -156,7 +160,7 @@ public abstract class XmlParserSubject implements ParserSubject {
         boolean parsedChild = false;
         parserData.levelDown();
         while ((childCursor.getNext()) != null) {
-            if(!parserData.parseLevelAndBelow()) {
+            if (!parserData.parseLevelAndBelow()) {
                 processStartElement(path, childCursor);
                 parsedChild = true;
             }
@@ -193,7 +197,7 @@ public abstract class XmlParserSubject implements ParserSubject {
         for (ParserObserver observer : observers) {
             if (observer.isMatch(path)) {
                 observer.observeElement(name, text);
-                invokeAnnotatedElementMethods(path,name, text, observer);
+                invokeAnnotatedElementMethods(path, name, text, observer);
             }
         }
     }
@@ -215,7 +219,8 @@ public abstract class XmlParserSubject implements ParserSubject {
             location = elementCursor.getCursorLocation();
 
         } catch (XMLStreamException e) {
-            throw new MsCoverParserException("Exception thrown on getting location",e);
+            throw new MsCoverParserException(
+                    "Exception thrown on getting location", e);
         }
         line = location.getLineNumber();
         column = location.getColumnNumber();
@@ -234,13 +239,13 @@ public abstract class XmlParserSubject implements ParserSubject {
         }
     }
 
-    private void invokeAnnotatedElementMethods(String elementPath,String elementName,
-            String elementValue, ParserObserver observer) {
+    private void invokeAnnotatedElementMethods(String elementPath,
+            String elementName, String elementValue, ParserObserver observer) {
         Method[] methods = observer.getClass().getMethods();
         for (Method method : methods) {
             invokeAnnotatedElementMethod(elementName, elementValue, observer,
                     method);
-            invokePathMatcherMethod(elementPath,elementValue,observer,method);
+            invokePathMatcherMethod(elementPath, elementValue, observer, method);
         }
     }
 
@@ -250,11 +255,12 @@ public abstract class XmlParserSubject implements ParserSubject {
         if (annos == null) {
             return;
         }
-        if(path.equals(annos.path())) {
-            invokeMethod(elementValue,observer,method);
+        if (path.equals(annos.path())) {
+            invokeMethod(elementValue, observer, method);
         }
-        
+
     }
+
     private void invokeAnnotatedElementMethod(String elementName,
             String elementValue, ParserObserver observer, Method method) {
         ElementMatcher annos = method.getAnnotation(ElementMatcher.class);
@@ -272,33 +278,43 @@ public abstract class XmlParserSubject implements ParserSubject {
         try {
             method.invoke(observer, elementValue);
         } catch (InvocationTargetException e) {
-        	if(e.getTargetException()!=null) {
-        		String msg="Exception thrown when invoking method" +  
-                        observer.getClass().getName() + ":" + method.getName() + lineMsg();
-                LOG.error(msg,e.getTargetException());  
-                throw new SonarException(msg,e);
-        	}
-            String msg = "Invocation Target Exception thrown when invoking method " + 
-                    observer.getClass().getName() + ":" + method.getName() + lineMsg();
+            if (e.getTargetException() != null) {
+                String msg = "Exception thrown when invoking method"
+                        + observer.getClass().getName() + ":"
+                        + method.getName() + lineMsg();
+                LOG.error(msg, e.getTargetException());
+                throw new SonarException(msg, e);
+            }
+            String msg = "Invocation Target Exception thrown when invoking method "
+                    + observer.getClass().getName()
+                    + ":"
+                    + method.getName()
+                    + lineMsg();
             LOG.error(msg, e);
-            throw new SonarException(msg,e);
+            throw new SonarException(msg, e);
         } catch (IllegalAccessException e) {
-            String msg = "Illegal Access Exception thrown when invoking method " + 
-                    observer.getClass().getName() + ":" + method.getName() + lineMsg();
+            String msg = "Illegal Access Exception thrown when invoking method "
+                    + observer.getClass().getName()
+                    + ":"
+                    + method.getName()
+                    + lineMsg();
             LOG.error(msg, e);
-            throw new SonarException(msg,e);
+            throw new SonarException(msg, e);
         } catch (IllegalArgumentException e) {
-            String msg = "Illegal Argument Exception thrown when invoking method " + 
-                    observer.getClass().getName() + ":" + method.getName() + lineMsg();
+            String msg = "Illegal Argument Exception thrown when invoking method "
+                    + observer.getClass().getName()
+                    + ":"
+                    + method.getName()
+                    + lineMsg();
             LOG.error(msg, e);
-            throw new SonarException(msg,e);
+            throw new SonarException(msg, e);
         }
     }
 
     private String lineMsg() {
-        return " line/column = " + line + "/" + column ;
+        return " line/column = " + line + "/" + column;
     }
-    
+
     private void invokeAnnotatedMethods(String elementName,
             String attributeValue, String attributeName, ParserObserver observer) {
         Method[] methods = observer.getClass().getMethods();
@@ -363,6 +379,5 @@ public abstract class XmlParserSubject implements ParserSubject {
         }
         return result;
     }
-
 
 }

@@ -6,6 +6,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCom
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverFileNamesParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.DefaultCoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultBranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultCoverageSaver;

@@ -28,8 +28,8 @@ public class OpenCoverCoverageRunner implements TestRunner {
     private VsTestEnvironment testEnvironment;
     private CommandLineExecutor commandLineExecutor;
     private AssembliesFinder assembliesFinder;
-	private VsTestRunnerCommandBuilder vsTestRunnerCommandBuilder;
-	private VSTestStdOutParser vsTestStdOutParser;
+    private VsTestRunnerCommandBuilder vsTestRunnerCommandBuilder;
+    private VSTestStdOutParser vsTestStdOutParser;
     public OpenCoverCoverageRunner(OpenCoverCommand openCoverCommand,
             MsCoverProperties msCoverProperties, 
             VsTestEnvironment testEnvironment,
@@ -77,24 +77,23 @@ public class OpenCoverCoverageRunner implements TestRunner {
 
         
     }
-        public String getAssembliesToIncludeInCoverageFilter(List<String> assemblies) {
-            if(assemblies ==null || assemblies.size()==0) {
-                throw new NoAssembliesDefinedException();
-            }
-            final StringBuilder filterBuilder = new StringBuilder();
-            // We add all the covered assemblies
-            for (String assemblyName : assemblies) {
-              filterBuilder.append("+[" + assemblyName + "]* ");
-            }
-            return filterBuilder.toString();
-        }
- 
+    public String getAssembliesToIncludeInCoverageFilter(List<String> assemblies) {
+    	if(assemblies ==null || assemblies.size()==0) {
+    		throw new NoAssembliesDefinedException();
+    	}
+    	final StringBuilder filterBuilder = new StringBuilder();
+    	// We add all the covered assemblies
+    	for (String assemblyName : assemblies) {
+    		filterBuilder.append("+[" + assemblyName + "]* ");
+    	}
+    	return filterBuilder.toString();
+    }
 
-		@Override
-		public File getTestResultsFile() {
-			// TODO Auto-generated method stub
-	        vsTestStdOutParser.setStdOut(commandLineExecutor.getStdOut());
-	        return vsTestStdOutParser.getTestResultsFile();
-		}
+
+    @Override
+    public File getTestResultsFile() {
+    	vsTestStdOutParser.setStdOut(commandLineExecutor.getStdOut());
+    	return vsTestStdOutParser.getTestResultsFile();
+    }
 
 }

@@ -27,35 +27,33 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 
+public class VsTestSourceFileNamesToSourceFileNamesObserver extends
+        VsTestCoverageObserver {
 
-public class VsTestSourceFileNamesToSourceFileNamesObserver extends VsTestCoverageObserver{
-
-    private SourceFileNameTable registry ;
+    private SourceFileNameTable registry;
     private SourceFileNameRow model;
+
     public VsTestSourceFileNamesToSourceFileNamesObserver() {
         setPattern("SourceFileNames/(SourceFileID|SourceFileName)");
     }
 
-
-    @ElementMatcher(elementName="SourceFileID")
+    @ElementMatcher(elementName = "SourceFileID")
     public void sourceFileIDMatcher(String value) {
-    	model = registry.getNewRow(value);
+        model = registry.getNewRow(value);
     }
 
-    @ElementMatcher(elementName="SourceFileName")
-    public void sourceFileNameMatcher(String value){
-    	model.setSourceFileName(value);
+    @ElementMatcher(elementName = "SourceFileName")
+    public void sourceFileNameMatcher(String value) {
+        model.setSourceFileName(value);
     }
 
     public void setRegistry(SourceFileNameTable registry) {
-        this.registry=registry;
+        this.registry = registry;
     }
-
 
     @Override
     public void setVsTestRegistry(VsTestCoverageRegistry vsTestRegistry) {
-        this.registry=vsTestRegistry.getSourceFileNameTable();
+        this.registry = vsTestRegistry.getSourceFileNameTable();
     }
-
 
 }

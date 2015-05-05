@@ -27,46 +27,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClassUnitTestResult {
-    private int error ;
-    
-    private List<UnitTestMethodResult> tests = new ArrayList<UnitTestMethodResult>() ;
-    private File file;
-    
-    public ClassUnitTestResult(File file) {
-    	this.file=file;
-	}
+    private int error;
 
-	public void add(UnitTestMethodResult unitTest) {
+    private List<UnitTestMethodResult> tests = new ArrayList<UnitTestMethodResult>();
+    private File file;
+
+    public ClassUnitTestResult(File file) {
+        this.file = file;
+    }
+
+    public void add(UnitTestMethodResult unitTest) {
         tests.add(unitTest);
-        String outcome=unitTest.getOutcome();
-        if(!"Passed".equals(outcome)) {
+        String outcome = unitTest.getOutcome();
+        if (!"Passed".equals(outcome)) {
             error++;
         }
     }
-    
-    
+
     public File getFile() {
-    	return file;
+        return file;
     }
-    
+
     public double getPassed() {
         return (double) tests.size() - error;
     }
-    
+
     public double getFail() {
-        return (double) error ;
+        return (double) error;
     }
-    
+
     public double getTests() {
         return (double) tests.size();
     }
+
     public double getDensity() {
-        if(tests.isEmpty()) {
+        if (tests.isEmpty()) {
             return 1.0;
         }
-        return getPassed()/getTests();
+        return getPassed() / getTests();
     }
-    
+
     public List<UnitTestMethodResult> getUnitTests() {
         return tests;
     }

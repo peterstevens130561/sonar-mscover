@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.workflow;
+package com.stevpet.sonar.plugins.dotnet.mscover.coveragereader;
 
 import java.io.File;
 
