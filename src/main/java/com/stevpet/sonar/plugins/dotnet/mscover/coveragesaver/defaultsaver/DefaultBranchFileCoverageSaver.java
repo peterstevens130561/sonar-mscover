@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver;
+package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver;
 
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
@@ -8,10 +8,11 @@ import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.File;
 import org.sonar.api.utils.ParsingUtils;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.BranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.ResourceResolver;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 
 public class DefaultBranchFileCoverageSaver implements BranchFileCoverageSaver {
 	private ResourceResolver resourceResolver;

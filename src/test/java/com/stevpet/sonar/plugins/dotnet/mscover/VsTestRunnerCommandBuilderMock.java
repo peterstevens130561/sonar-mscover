@@ -1,9 +1,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
-
+import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunnerCommandBuilder;
 
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.when;

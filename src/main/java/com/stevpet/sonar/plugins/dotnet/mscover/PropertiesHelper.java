@@ -219,7 +219,7 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
         } catch (IllegalArgumentException e) {
             String msg = "Invalid property value " + MSCOVER_MODE +"=" + name;
             Log.error(msg);
-            throw new MsCoverException(msg);
+            throw new MsCoverException(msg,e);
         }
         return runMode;
     }

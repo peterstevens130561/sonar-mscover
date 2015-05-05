@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.workflow;
+package com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver;
 
 import org.sonar.api.resources.File;
 

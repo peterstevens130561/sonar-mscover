@@ -20,12 +20,10 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces;
+package com.stevpet.sonar.plugins.dotnet.mscover.parser;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserData;
 
 
 public abstract class BaseParserObserver implements ParserObserver {

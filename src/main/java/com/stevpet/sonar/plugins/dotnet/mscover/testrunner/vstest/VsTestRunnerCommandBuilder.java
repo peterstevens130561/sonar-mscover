@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
+package com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest;
 
 import java.io.File;
 import java.util.List;
@@ -9,6 +9,8 @@ import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestConfigFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 

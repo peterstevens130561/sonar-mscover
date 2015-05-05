@@ -23,7 +23,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
 
 public abstract class VsTestCoverageObserver extends BaseParserObserver {
 

@@ -3,7 +3,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.workflow;
 import org.picocontainer.DefaultPicoContainer;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.NullCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.nullsaver.NullCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.nullrestrunner.NullTestRunner;
 
 
 public class NullWorkflowSteps implements WorkflowSteps {

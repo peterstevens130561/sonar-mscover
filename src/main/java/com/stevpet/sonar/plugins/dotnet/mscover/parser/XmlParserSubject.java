@@ -48,8 +48,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatche
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.PathMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.exceptions.MsCoverParserException;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.exceptions.ParserSubjectErrorException;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.ParserSubject;
 
 public abstract class XmlParserSubject implements ParserSubject {
 

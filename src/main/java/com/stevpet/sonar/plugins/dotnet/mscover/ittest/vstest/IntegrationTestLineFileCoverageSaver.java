@@ -14,7 +14,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoveragePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarLinePoint;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.ResourceResolver;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 
 public class IntegrationTestLineFileCoverageSaver implements
 		LineFileCoverageSaver {

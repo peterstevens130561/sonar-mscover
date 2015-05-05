@@ -1,9 +1,11 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.workflow;
+package com.stevpet.sonar.plugins.dotnet.mscover.testrunner.nullrestrunner;
 
 import java.io.File;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 
 public class NullTestRunner implements TestRunner {
 

@@ -2,7 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.testesultsbuilder;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.PathMatcher;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces.BaseParserObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 
 public class VsTestMethodObserver extends BaseParserObserver {

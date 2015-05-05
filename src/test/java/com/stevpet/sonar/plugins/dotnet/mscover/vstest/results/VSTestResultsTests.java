@@ -32,6 +32,8 @@ import org.junit.Test;
 import org.sonar.api.utils.SonarException;
 import org.sonar.test.TestUtils;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VSTestStdOutParser;
+
 public class VSTestResultsTests {
     @Test
     public void ReadResults_GetCoverageFile() throws IOException {

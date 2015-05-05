@@ -20,7 +20,7 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
+package com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 import org.sonar.api.utils.SonarException;
 
 import com.google.common.io.Files;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestRunnerStdOutParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunnerStdOutParser;
 
 public class VSTestStdOutParser implements TestRunnerStdOutParser {
 

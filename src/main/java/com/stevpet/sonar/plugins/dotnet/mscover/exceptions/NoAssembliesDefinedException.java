@@ -1,6 +1,7 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
+package com.stevpet.sonar.plugins.dotnet.mscover.exceptions;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
+
 
 
 public class NoAssembliesDefinedException extends

@@ -20,7 +20,8 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.parser.interfaces;
+package com.stevpet.sonar.plugins.dotnet.mscover.parser;
+
 
 
 

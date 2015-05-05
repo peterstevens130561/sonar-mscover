@@ -143,13 +143,6 @@ private static void logSkippedProject(VisualStudioSolutionProject solutionProjec
     boolean isTestProject = isTestProject(projectName);
     LOG.info("Adding the Visual Studio " + (isTestProject ? "test " : "") + "project: " + projectName + "... " + projectFile.getAbsolutePath());
 
-    if (isTestProject) {
-        
-      //solutionProject.addTestDirs(projectFile.getParentFile());
-    } else {
-      //solutionProject.addSourceDirs(projectFile.getParentFile());
-    }
-
     for (File file : project.getSourceFiles()) {
       if (!file.isFile()) {
         LOG.warn("Cannot find the file " + file.getAbsolutePath() + " of project " + projectName);

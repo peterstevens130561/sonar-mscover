@@ -1,18 +1,21 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.workflow;
 
 
-import org.jfree.util.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.resources.File;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestResultsFormatter;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 
 public class DefaultTestResultsSaver implements TestResultsSaver {
-
+	private static final Logger Log = LoggerFactory.getLogger(DefaultTestResultsSaver.class);
 	TestResultsSaver testResultsSaver ;
 	SensorContext sensorContext;
 	private TestResultsFormatter testResultsFormatter;

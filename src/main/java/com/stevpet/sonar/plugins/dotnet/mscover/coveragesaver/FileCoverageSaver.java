@@ -28,7 +28,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 
 public interface FileCoverageSaver {
 
-    public abstract void saveMeasures(CoverageLinePoints coveragePoints,
+    abstract void saveMeasures(CoverageLinePoints coveragePoints,
             File file);
 
 }
