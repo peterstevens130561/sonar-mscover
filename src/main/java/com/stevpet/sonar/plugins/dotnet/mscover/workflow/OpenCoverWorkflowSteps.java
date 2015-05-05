@@ -4,12 +4,12 @@ import org.picocontainer.DefaultPicoContainer;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultBranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultLineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.OpenCoverCoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;

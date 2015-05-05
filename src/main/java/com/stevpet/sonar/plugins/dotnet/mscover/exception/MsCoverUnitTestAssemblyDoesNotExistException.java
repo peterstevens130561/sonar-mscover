@@ -20,11 +20,9 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.exceptions;
+package com.stevpet.sonar.plugins.dotnet.mscover.exception;
 
 import java.io.File;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 
 public class MsCoverUnitTestAssemblyDoesNotExistException extends
         MsCoverException {

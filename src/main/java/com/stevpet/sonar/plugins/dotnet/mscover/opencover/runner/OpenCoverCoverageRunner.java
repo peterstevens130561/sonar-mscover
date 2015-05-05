@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
-import com.stevpet.sonar.plugins.dotnet.mscover.exceptions.NoAssembliesDefinedException;
+import com.stevpet.sonar.plugins.dotnet.mscover.exception.NoAssembliesDefinedException;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverTarget;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;

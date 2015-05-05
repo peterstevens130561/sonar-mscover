@@ -7,11 +7,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestingResults;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestResultsBuilder;
 
 public class TestResultsBuilderTest {
 	private TestResultsBuilder testResultsBuilder ;

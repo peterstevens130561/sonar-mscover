@@ -20,17 +20,14 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.registry;
+package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
 
 import java.util.Collection;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import org.jfree.util.Log;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 
 /**
  * holds the parsed unit testing results

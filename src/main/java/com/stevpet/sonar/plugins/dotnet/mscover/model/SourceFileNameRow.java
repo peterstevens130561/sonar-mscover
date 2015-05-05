@@ -22,7 +22,6 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 
 public class SourceFileNameRow {
     

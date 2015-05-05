@@ -2,8 +2,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder;
 
 import java.io.File;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 
 public interface FileNamesParser {
 

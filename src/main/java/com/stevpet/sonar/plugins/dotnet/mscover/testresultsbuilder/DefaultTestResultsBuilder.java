@@ -10,11 +10,11 @@ import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestingResults;
 
 public class DefaultTestResultsBuilder implements TestResultsBuilder {
 	private static final Logger LOG = LoggerFactory.getLogger(DefaultTestResultsBuilder.class);

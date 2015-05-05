@@ -25,8 +25,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model;
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.SonarException;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestingResults;
-
 
 public class UnitTestMethodResult  {
     private MethodId methodId = new MethodId();

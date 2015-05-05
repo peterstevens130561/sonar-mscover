@@ -24,7 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver;
 
 import org.junit.Test;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.exceptions.MsCoverUnitTestAssemblyDoesNotExistException;
+import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverUnitTestAssemblyDoesNotExistException;
 
 public class FailedAssemblyResolverTest {
     private AssemblyResolverTestUtils utils = new AssemblyResolverTestUtils();

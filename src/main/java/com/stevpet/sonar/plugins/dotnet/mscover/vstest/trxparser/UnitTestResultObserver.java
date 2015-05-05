@@ -23,10 +23,10 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestingResults;
 
 /*
  *   <UnitTestResult executionId="a3a9f8e0-1cbf-41c5-ae89-a579d2e6ece5" 

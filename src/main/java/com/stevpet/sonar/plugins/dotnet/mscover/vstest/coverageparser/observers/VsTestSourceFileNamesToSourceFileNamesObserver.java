@@ -23,8 +23,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 
 

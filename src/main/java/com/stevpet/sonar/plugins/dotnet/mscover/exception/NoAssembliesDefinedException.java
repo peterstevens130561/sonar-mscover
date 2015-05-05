@@ -1,6 +1,5 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.exceptions;
+package com.stevpet.sonar.plugins.dotnet.mscover.exception;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 
 
 

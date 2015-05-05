@@ -20,12 +20,10 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.registry;
+package com.stevpet.sonar.plugins.dotnet.mscover.model;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
 
 /**
  * The table provides a means to lookup id by the name {@link getSourceFileId}

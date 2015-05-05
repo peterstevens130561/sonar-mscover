@@ -1,6 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.ProcessLock;
 
 /**
  * Simple cross process locking mechanism, prevents that other sonar-runner processes execute

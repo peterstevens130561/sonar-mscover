@@ -2,8 +2,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder;
 
 
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable;
+
 import static org.mockito.Mockito.when;
 
 public class FileNamesParserMock extends GenericClassMock<FileNamesParser> {

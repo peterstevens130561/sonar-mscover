@@ -24,7 +24,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.registry;
 
 
 import java.util.Collection;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 
 public class VsTestCoverageRegistry {
     

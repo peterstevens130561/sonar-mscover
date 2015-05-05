@@ -27,6 +27,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 
 public class SourceFileNameTable_GetSourceFileId_Test {
     private SourceFileNameTable table = new SourceFileNameTable();
