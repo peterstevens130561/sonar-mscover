@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner;
+package com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 
-public class OpenCoverCoverageRunner implements CoverageRunner,TestRunner {
+public class OpenCoverCoverageRunner implements TestRunner {
 	private final static Logger LOG = LoggerFactory.getLogger(OpenCoverCoverageRunner.class);
     private OpenCoverCommand openCoverCommand;
     private MsCoverProperties msCoverProperties;

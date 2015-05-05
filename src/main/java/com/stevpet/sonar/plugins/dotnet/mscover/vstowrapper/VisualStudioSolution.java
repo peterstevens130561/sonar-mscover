@@ -28,10 +28,6 @@ import java.util.List;
 import org.sonar.api.resources.Project;
 
 
-
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation.SimpleVisualStudioProject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation.VisualStudioSolutionProject;
-
 public interface VisualStudioSolution {
 
     File getSolutionDir();
@@ -47,9 +43,9 @@ public interface VisualStudioSolution {
 
     List<VisualStudioSolutionProject> projects();
 
-    void addVisualStudioProject(SimpleVisualStudioProject project);
+    void addVisualStudioProject(VisualStudioProject project);
 
-    void addUnitTestVisualStudioProject(SimpleVisualStudioProject project);
+    void addUnitTestVisualStudioProject(VisualStudioProject project);
 
     List<File> getUnitTestSourceFiles();
 

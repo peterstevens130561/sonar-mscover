@@ -1,8 +1,6 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
+package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper;
 
 import java.io.File;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 
 public interface AssemblyLocator {
 

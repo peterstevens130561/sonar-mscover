@@ -1,5 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.WindowsCodeCoverageCommand;
+
 
 /**
  * Use shim to disable the install attempt. When invoking execute make sure a mock is used, as the command should

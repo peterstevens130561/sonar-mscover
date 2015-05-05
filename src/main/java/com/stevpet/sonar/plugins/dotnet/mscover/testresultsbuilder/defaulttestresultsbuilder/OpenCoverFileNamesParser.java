@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder;
+package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder;
 
 import java.io.File;
 
@@ -8,6 +8,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenC
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.FileNamesParser;
 
 public class OpenCoverFileNamesParser implements FileNamesParser {
 

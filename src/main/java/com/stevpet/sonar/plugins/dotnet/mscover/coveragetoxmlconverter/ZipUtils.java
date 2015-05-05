@@ -20,7 +20,7 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command;
+package com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter;
 
 import org.apache.commons.io.IOUtils;
 

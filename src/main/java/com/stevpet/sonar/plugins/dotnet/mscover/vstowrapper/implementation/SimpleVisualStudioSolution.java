@@ -30,6 +30,7 @@ import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolutionProject;
 
 /**
  * All information which can be extracted solely out of a .sln file.
@@ -78,12 +79,12 @@ public VisualStudioProject getProject(File file) {
 
 
 @Override
-public void addVisualStudioProject(SimpleVisualStudioProject project) {
+public void addVisualStudioProject(VisualStudioProject project) {
     visualStudioProjects.add(project); 
 }
 
 @Override
-public void addUnitTestVisualStudioProject(SimpleVisualStudioProject project) {
+public void addUnitTestVisualStudioProject(VisualStudioProject project) {
     unitTestVisualStudioProjects.add(project);    // TODO Auto-generated method stub
     
 }

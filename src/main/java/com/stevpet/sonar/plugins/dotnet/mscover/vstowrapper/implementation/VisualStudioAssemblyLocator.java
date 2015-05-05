@@ -25,6 +25,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AssemblyLocator;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 
 import org.slf4j.Logger;

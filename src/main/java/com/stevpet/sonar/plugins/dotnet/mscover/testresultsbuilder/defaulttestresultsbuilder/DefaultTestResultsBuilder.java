@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder;
+package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder;
 
 import java.io.File;
 import java.util.Collection;
@@ -15,6 +15,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.FileNamesParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsParser;
 
 public class DefaultTestResultsBuilder implements TestResultsBuilder {
 	private static final Logger LOG = LoggerFactory.getLogger(DefaultTestResultsBuilder.class);
