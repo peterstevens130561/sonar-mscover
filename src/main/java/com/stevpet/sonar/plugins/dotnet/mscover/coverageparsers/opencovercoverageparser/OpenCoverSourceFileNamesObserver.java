@@ -20,14 +20,32 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.vstest.saver;
+package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser;
 
-import java.io.File;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.FileLineCoverage;
+public class OpenCoverSourceFileNamesObserver extends OpenCoverObserver {
+	private String fileID;
+	private SonarCoverage registry;
+    public OpenCoverSourceFileNamesObserver() {
+        setPattern("Modules/Module/Files/File");
+    }
 
-public interface LineMeasureSaver {
+    
+    @AttributeMatcher(attributeName = "uid", elementName = "File")
+    public void uidMatcher(String attributeValue) {
+        fileID=attributeValue;
+    }
+    
+    @AttributeMatcher(attributeName="fullPath",elementName="File")
+    public void fileMatcher(String sourceFileName) {
+    	registry.linkFileNameToFileId(sourceFileName, fileID);
 
-    void saveMeasures(
-            FileLineCoverage coverageData, File file);
+    }
+    
+    public void setRegistry(SonarCoverage registry) {
+        this.registry = registry;
+    }
+
 }

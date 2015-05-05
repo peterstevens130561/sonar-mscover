@@ -20,7 +20,7 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers;
+package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 

@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder;
+package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers;
 
 import java.io.File;
 

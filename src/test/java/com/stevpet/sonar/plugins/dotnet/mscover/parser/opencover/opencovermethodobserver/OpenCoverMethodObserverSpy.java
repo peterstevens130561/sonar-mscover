@@ -22,7 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.opencovermethodobserver;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverMethodObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverMethodObserver;
 
 public class OpenCoverMethodObserverSpy extends OpenCoverMethodObserver {
 

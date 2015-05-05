@@ -27,9 +27,9 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.BranchOffsetToLineMapper;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.OpenCoverSequencePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.SequencePoint;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.BranchOffsetToLineMapper;
 
 public class BranchOffsetToLineMapperTest {
     

@@ -20,32 +20,37 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers;
+package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
 
-public class OpenCoverSourceFileNamesObserver extends OpenCoverObserver {
-	private String fileID;
-	private SonarCoverage registry;
-    public OpenCoverSourceFileNamesObserver() {
-        setPattern("Modules/Module/Files/File");
-    }
+public class OpenCoverFileNamesAndIdObserver extends BaseParserObserver {
 
     
+    private SourceFileNameTable registry ;
+    private SourceFileNameRow model;
+
+    public OpenCoverFileNamesAndIdObserver() {
+        setPattern("Modules/Module/Files/File");
+    }
+    
+    public void setRegistry(SourceFileNameTable registry) {
+        this.registry=registry;
+    }
+
     @AttributeMatcher(attributeName = "uid", elementName = "File")
     public void uidMatcher(String attributeValue) {
-        fileID=attributeValue;
+        model = new SourceFileNameRow();
+        model.setSourceFileID(Integer.parseInt(attributeValue));
     }
     
     @AttributeMatcher(attributeName="fullPath",elementName="File")
-    public void fileMatcher(String sourceFileName) {
-    	registry.linkFileNameToFileId(sourceFileName, fileID);
-
-    }
-    
-    public void setRegistry(SonarCoverage registry) {
-        this.registry = registry;
+    public void fileMatcher(String attributeValue) {
+        model.setSourceFileName(attributeValue);
+        registry.add(model);
     }
 
 }

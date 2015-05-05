@@ -1,14 +1,13 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder;
+package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser;
 
 import java.io.File;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverFileNamesAndIdObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverMethodObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverFileNamesAndIdObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverMethodObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.observers.OpenCoverParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
-import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.FileNamesParser;
 
 public class OpenCoverFileNamesParser implements FileNamesParser {
 

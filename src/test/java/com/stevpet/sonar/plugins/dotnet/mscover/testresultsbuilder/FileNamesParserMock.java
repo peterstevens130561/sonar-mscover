@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder;
 
 
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
