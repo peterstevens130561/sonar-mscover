@@ -49,7 +49,7 @@ public class ProcessLock {
 
     }
     
-    public void lock() {
+    void lock() {
         try {
             channel = new RandomAccessFile(lockFile,"rw").getChannel();
         } catch (FileNotFoundException e) {
@@ -65,7 +65,7 @@ public class ProcessLock {
         }
     }
     
-    public void release() {
+    void release() {
         try {
             lock.release();
         } catch (IOException e) {
