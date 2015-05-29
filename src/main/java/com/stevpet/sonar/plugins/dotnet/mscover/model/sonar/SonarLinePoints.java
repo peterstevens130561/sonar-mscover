@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SonarLinePoints implements CoverageLinePoints {
-    List<CoverageLinePoint> points = new ArrayList<CoverageLinePoint>();
+    private List<CoverageLinePoint> points = new ArrayList<CoverageLinePoint>();
 
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoveragePoints#getLast()

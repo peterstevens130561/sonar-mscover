@@ -3,6 +3,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.ittest.vstest;
 import org.picocontainer.DefaultPicoContainer;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestFilteringCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultCoverageSaver;
@@ -14,7 +15,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.NullTestResults
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.TestResultsSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.nullrestrunner.NullTestRunner;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.VsTestFilteringCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.NullTestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowSteps;
 

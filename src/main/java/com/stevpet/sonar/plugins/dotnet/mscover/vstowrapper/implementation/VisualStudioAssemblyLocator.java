@@ -40,14 +40,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class VisualStudioAssemblyLocator implements AssemblyLocator {
+class VisualStudioAssemblyLocator implements AssemblyLocator {
 
   private static final Logger LOG = LoggerFactory.getLogger(VisualStudioAssemblyLocator.class);
   private static final Comparator<File> FILE_LAST_MODIFIED_COMPARATOR = new FileLastModifiedComparator();
 
   private final Settings settings;
 
-  public VisualStudioAssemblyLocator(Settings settings) {
+  VisualStudioAssemblyLocator(Settings settings) {
     this.settings = settings;
   }
 
@@ -86,7 +86,7 @@ public File locateAssembly(String projectName, File projectFile, VisualStudioPro
     return candidates.get(0);
   }
 
-  @VisibleForTesting
+  private @VisibleForTesting
   @Nullable
   String extension(File projectFile, String outputType) {
     String result;
@@ -132,7 +132,7 @@ private boolean isRelative(String path) {
     return !path.matches("^\\/|([A-Z]:\\/).*");
 }
 
-  public static class FileLastModifiedComparator implements Comparator<File>, Serializable {
+  private static class FileLastModifiedComparator implements Comparator<File>, Serializable {
 
     private static final long serialVersionUID = 1L;
 

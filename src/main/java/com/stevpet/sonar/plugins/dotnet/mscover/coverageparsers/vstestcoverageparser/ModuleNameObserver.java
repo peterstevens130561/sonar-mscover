@@ -20,8 +20,7 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers;
-
+package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,50 +28,56 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 
 /**
- * Used to parse only those modules that are of interest to this project. Especially for imported coverage files this
- * saves a lot of time
+ * Used to parse only those modules that are of interest to this project.
+ * Especially for imported coverage files this saves a lot of time
+ * 
  * @author stevpet
- *
+ * 
  */
 public class ModuleNameObserver extends VsTestCoverageObserver {
-    private static final Logger LOG  = LoggerFactory.getLogger(ModuleNameObserver.class);   
+    private static final Logger LOG = LoggerFactory
+            .getLogger(ModuleNameObserver.class);
     private List<String> modulesToParse = new ArrayList<String>();
 
     public ModuleNameObserver() {
         setPattern("Module/ModuleName");
     }
-    
+
     /**
-     * modules with name (including the .dll, or .exe part) in the list will be parsed, all others will be ignored
-     * @param modules modules to parse
+     * modules with name (including the .dll, or .exe part) in the list will be
+     * parsed, all others will be ignored
+     * 
+     * @param modules
+     *            modules to parse
      */
     public void addModulesToParse(List<String> modules) {
-        for(String  module : modules) {
+        if (modules == null) {
+            return;
+        }
+        for (String module : modules) {
             modulesToParse.add(module.toLowerCase());
         }
     }
-   
 
-
-    @ElementMatcher(elementName="ModuleName")
+    @ElementMatcher(elementName = "ModuleName")
     public void moduleNameMatcher(String value) {
-        if(modulesToParse.isEmpty()) {
+        if (modulesToParse.isEmpty()) {
             return;
         }
-        boolean shouldSkip=!modulesToParse.contains(value);
-        if(!shouldSkip) {
-            LOG.info("Module {} will be parsed",value);           
+        boolean shouldSkip = !modulesToParse.contains(value);
+        if (!shouldSkip) {
+            LOG.info("Module {} will be parsed", value);
         }
-        if(shouldSkip) {
+        if (shouldSkip) {
             setSkipTillNextElement("Module");
         }
     }
 
-    @Override
-    public void setVsTestRegistry(VsTestCoverageRegistry vsTestRegistry) {       
+    public void setVsTestRegistry(SonarCoverage registry) {
+        // Ignoring intentionally
     }
 }

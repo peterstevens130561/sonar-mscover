@@ -37,20 +37,19 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment
  * @author stevpet
  * 
  */
-public class WindowsVsTestRunner  implements TestRunner {
+public class WindowsVsTestRunner implements TestRunner {
     static final Logger LOG = LoggerFactory
             .getLogger(WindowsVsTestRunner.class);
     protected VSTestStdOutParser vsTestStdOutParser;
     private String coveragePath;
-    private  String stdOutString;
+    private String stdOutString;
     private CommandLineExecutor executor;
     private String resultsPath;
     private VsTestRunnerCommandBuilder commandBuilder;
     private VsTestEnvironment testEnvironment;
-	private CoverageToXmlConverter coverageToXmlConverter;
-    
-    public WindowsVsTestRunner(
-    		CoverageToXmlConverter coverageToXmlConverter,
+    private CoverageToXmlConverter coverageToXmlConverter;
+
+    public WindowsVsTestRunner(CoverageToXmlConverter coverageToXmlConverter,
             VSTestStdOutParser vsTestStdOutParser,
             VsTestRunnerCommandBuilder commandBuilder,
             CommandLineExecutor commandLineExecutor,
@@ -58,8 +57,8 @@ public class WindowsVsTestRunner  implements TestRunner {
         this.commandBuilder = commandBuilder;
         this.coverageToXmlConverter = coverageToXmlConverter;
         this.vsTestStdOutParser = vsTestStdOutParser;
-        this.executor=commandLineExecutor;
-        this.testEnvironment=testEnvironment;
+        this.executor = commandLineExecutor;
+        this.testEnvironment = testEnvironment;
     }
 
     public void execute() {
@@ -67,14 +66,16 @@ public class WindowsVsTestRunner  implements TestRunner {
         executor.execute(vsTestCommand);
         stdOutString = executor.getStdOut();
         vsTestStdOutParser.setStdOut(stdOutString);
-        this.coveragePath=vsTestStdOutParser.getCoveragePath();
+        this.coveragePath = vsTestStdOutParser.getCoveragePath();
         this.resultsPath = vsTestStdOutParser.getTestResultsXmlPath();
-        coverageToXmlConverter.convert(new File(testEnvironment.getXmlCoveragePath()),new File(coveragePath));
+        coverageToXmlConverter.convert(
+                new File(testEnvironment.getXmlCoveragePath()), new File(
+                        coveragePath));
     }
-    
-	@Override
-	public File getTestResultsFile() {
-		return new File(resultsPath);
-	}
+
+    @Override
+    public File getTestResultsFile() {
+        return new File(resultsPath);
+    }
 
 }

@@ -6,10 +6,13 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
+
 import org.mockito.MockitoAnnotations;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.ModuleNameObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.ParserData;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
 

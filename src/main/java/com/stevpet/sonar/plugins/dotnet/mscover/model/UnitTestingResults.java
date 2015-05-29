@@ -22,7 +22,6 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,25 +32,26 @@ import org.jfree.util.Log;
  * holds the parsed unit testing results
  */
 public class UnitTestingResults {
-	//Key: MethodId
-    Map<String,UnitTestMethodResult> unitTestResultsById = new HashMap<String,UnitTestMethodResult>();
-    
-    public void add(UnitTestMethodResult unitTestResult) {
-        String testId=unitTestResult.getTestId();
-        if(unitTestResultsById.containsKey(testId)) {
+    // Key: MethodId
+    private Map<String, UnitTestMethodResult> unitTestResultsById = new HashMap<String, UnitTestMethodResult>();
+
+    void add(UnitTestMethodResult unitTestResult) {
+        String testId = unitTestResult.getTestId();
+        if (unitTestResultsById.containsKey(testId)) {
             Log.warn("UnitTestResult for test already stored :" + testId);
         }
-        unitTestResultsById.put(testId,unitTestResult);
+        unitTestResultsById.put(testId, unitTestResult);
     }
-    
+
     public UnitTestMethodResult newEntry() {
-    	return new UnitTestMethodResult(this);
+        return new UnitTestMethodResult(this);
     }
-    
+
     /**
      * gets the testResult identified by the name
+     * 
      * @param testName
-     * @return 
+     * @return
      */
     public UnitTestMethodResult getById(String testName) {
         return unitTestResultsById.get(testName);
@@ -60,7 +60,7 @@ public class UnitTestingResults {
     public int size() {
         return unitTestResultsById.size();
     }
-    
+
     public Collection<UnitTestMethodResult> values() {
         return unitTestResultsById.values();
     }

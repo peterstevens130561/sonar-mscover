@@ -29,14 +29,14 @@ public class ParserData {
     /**
      * go next level down in the xml tree
      */
-    public void levelDown() {
+    void levelDown() {
         ++level;
     }
     
     /**
      * go level up in the xml tree
      */
-    public void levelUp() {
+    void levelUp() {
         --level;
     }
     
@@ -45,7 +45,7 @@ public class ParserData {
     }
     
 
-    public boolean parseLevelAndBelow()  {
+    boolean parseLevelAndBelow()  {
         boolean skip=skipLevel >0 && level >= skipLevel;
         if(!skip) {
             skipLevel=0;
@@ -53,7 +53,7 @@ public class ParserData {
         return skip;
     }
 
-    public Object getLevel() {
+    Object getLevel() {
         return level;
     }
 

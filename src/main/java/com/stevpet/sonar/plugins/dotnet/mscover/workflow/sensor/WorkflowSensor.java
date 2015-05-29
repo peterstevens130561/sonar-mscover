@@ -33,7 +33,6 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.PathResolver;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.ittest.vstest.VsTestIntegrationTestWorkflowSteps;
-import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.InjectedMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
@@ -50,81 +49,81 @@ import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowSteps;
  */
 public class WorkflowSensor implements Sensor {
 
-	public static final String DEPENDS = "VsTestSensor";
-	private static final Logger Log = LoggerFactory.getLogger(WorkflowSensor.class);
-	private final static String LOGPREFIX = "WorkflowSensor : ";
-	private MsCoverProperties propertiesHelper;
-	private DefaultPicoContainer container;
-	private VsTestEnvironment vsTestEnvironment;
+    private static final Logger Log = LoggerFactory
+            .getLogger(WorkflowSensor.class);
+    private static final String LOGPREFIX = "WorkflowSensor : ";
+    private MsCoverProperties propertiesHelper;
+    private DefaultPicoContainer container;
+    private VsTestEnvironment vsTestEnvironment;
 
-	public WorkflowSensor(InjectedMeasureSaver injectedMeasureSaver,
-			VsTestEnvironment vsTestEnvironment,
-			MsCoverProperties propertiesHelper, FileSystem fileSystem,
-			MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-			PathResolver pathResolver) {
-		container = new DefaultPicoContainer(new ConstructorInjection());
-		container.addComponent(vsTestEnvironment).addComponent(fileSystem)
-				.addComponent(microsoftWindowsEnvironment)
-				.addComponent(propertiesHelper)
-				.addComponent(injectedMeasureSaver).addComponent(pathResolver);
-		this.propertiesHelper = propertiesHelper;
-		this.vsTestEnvironment = vsTestEnvironment;
-	}
+    public WorkflowSensor(
+            VsTestEnvironment vsTestEnvironment,
+            MsCoverProperties propertiesHelper, FileSystem fileSystem,
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
+            PathResolver pathResolver) {
+        container = new DefaultPicoContainer(new ConstructorInjection());
+        container.addComponent(vsTestEnvironment).addComponent(fileSystem)
+                .addComponent(microsoftWindowsEnvironment)
+                .addComponent(propertiesHelper)
+                .addComponent(pathResolver);
+        this.propertiesHelper = propertiesHelper;
+        this.vsTestEnvironment = vsTestEnvironment;
+    }
 
-	public boolean shouldExecuteOnProject(Project project) {
-		return propertiesHelper.getRunMode() != RunMode.SKIP;
-	}
+    public boolean shouldExecuteOnProject(Project project) {
+        return propertiesHelper.getRunMode() != RunMode.SKIP;
+    }
 
-	public void analyse(Project project, SensorContext context) {
-		LogInfo("Starting");
-		LogChanger.setPattern();
-		executeUnitTests(project, context);
-		executeIntegrationTests(project, context);
-		LogInfo("Done");
-	}
+    public void analyse(Project project, SensorContext context) {
+        LogInfo("Starting");
+        LogChanger.setPattern();
+        executeUnitTests(project, context);
+        executeIntegrationTests(project, context);
+        LogInfo("Done");
+    }
 
-	private void executeIntegrationTests(Project project, SensorContext context) {
-		DefaultPicoContainer childContainer = prepareChildContainer(context);
-		childContainer.addComponent(VsTestIntegrationTestWorkflowSteps.class);
-		WorkflowDirector director = childContainer
-				.getComponent(WorkflowDirector.class);
-		director.wire(childContainer);
-		vsTestEnvironment.setCoverageXmlFile(project, "coverage-report.xml");
-		director.execute();
-	}
+    private void executeIntegrationTests(Project project, SensorContext context) {
+        DefaultPicoContainer childContainer = prepareChildContainer(context);
+        childContainer.addComponent(VsTestIntegrationTestWorkflowSteps.class);
+        WorkflowDirector director = childContainer
+                .getComponent(WorkflowDirector.class);
+        director.wire(childContainer);
+        vsTestEnvironment.setCoverageXmlFile(project, "coverage-report.xml");
+        director.execute();
+    }
 
-	private void executeUnitTests(Project project, SensorContext context) {
-		DefaultPicoContainer childContainer = prepareChildContainer(context);
-		childContainer.addComponent(getWorkflow());
-		WorkflowDirector director = childContainer
-				.getComponent(WorkflowDirector.class);
-		director.wire(childContainer);
-		vsTestEnvironment.setCoverageXmlFile(project, "coverage-report.xml");
-		director.execute();
-	}
+    private void executeUnitTests(Project project, SensorContext context) {
+        DefaultPicoContainer childContainer = prepareChildContainer(context);
+        childContainer.addComponent(getWorkflow());
+        WorkflowDirector director = childContainer
+                .getComponent(WorkflowDirector.class);
+        director.wire(childContainer);
+        vsTestEnvironment.setCoverageXmlFile(project, "coverage-report.xml");
+        director.execute();
+    }
 
-	private DefaultPicoContainer prepareChildContainer(SensorContext context) {
-		DefaultPicoContainer childContainer = new DefaultPicoContainer();
-		container.addChildContainer(childContainer);
-		childContainer.addComponent(DefaultDirector.class)
-				.addComponent(context);
-		return childContainer;
-	}
+    private DefaultPicoContainer prepareChildContainer(SensorContext context) {
+        DefaultPicoContainer childContainer = new DefaultPicoContainer();
+        container.addChildContainer(childContainer);
+        childContainer.addComponent(DefaultDirector.class)
+                .addComponent(context);
+        return childContainer;
+    }
 
-	private Class<? extends WorkflowSteps> getWorkflow() {
-		Class<? extends WorkflowSteps> workflow = NullWorkflowSteps.class;
-		if (propertiesHelper.getRunMode() == RunMode.RUNVSTEST) {
-			if (propertiesHelper.runOpenCover()) {
-				workflow = OpenCoverWorkflowSteps.class;
-			} else {
-				workflow = VsTestWorkflowSteps.class;
-			}
-		}
-		return workflow;
-	}
+    private Class<? extends WorkflowSteps> getWorkflow() {
+        Class<? extends WorkflowSteps> workflow = NullWorkflowSteps.class;
+        if (propertiesHelper.getRunMode() == RunMode.RUNVSTEST) {
+            if (propertiesHelper.runOpenCover()) {
+                workflow = OpenCoverWorkflowSteps.class;
+            } else {
+                workflow = VsTestWorkflowSteps.class;
+            }
+        }
+        return workflow;
+    }
 
-	private void LogInfo(String msg, Object... objects) {
-		Log.info(LOGPREFIX + msg, objects);
-	}
+    private void LogInfo(String msg, Object... objects) {
+        Log.info(LOGPREFIX + msg, objects);
+    }
 
 }

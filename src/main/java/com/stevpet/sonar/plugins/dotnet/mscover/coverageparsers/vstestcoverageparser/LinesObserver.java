@@ -20,40 +20,38 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers;
+package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 
-public class VsTestSourceFileNamesToSourceFileNamesObserver extends
-        VsTestCoverageObserver {
+public class LinesObserver extends VsTestCoverageObserver {
+    private boolean covered;
+    private int line;
+    private SonarCoverage registry;
 
-    private SourceFileNameTable registry;
-    private SourceFileNameRow model;
+    public LinesObserver() {
+        setPattern("Module/NamespaceTable/Class/Method/Lines/(LnStart|LnEnd|Coverage|SourceFileID)");
+    }
 
-    public VsTestSourceFileNamesToSourceFileNamesObserver() {
-        setPattern("SourceFileNames/(SourceFileID|SourceFileName)");
+    @ElementMatcher(elementName = "LnStart")
+    public void lnStartMatcher(String value) {
+        line = Integer.parseInt(value);
+    }
+
+    @ElementMatcher(elementName = "Coverage")
+    public void coverageMatcher(String coverage) {
+        covered = "0".equals(coverage);
     }
 
     @ElementMatcher(elementName = "SourceFileID")
-    public void sourceFileIDMatcher(String value) {
-        model = registry.getNewRow(value);
-    }
-
-    @ElementMatcher(elementName = "SourceFileName")
-    public void sourceFileNameMatcher(String value) {
-        model.setSourceFileName(value);
-    }
-
-    public void setRegistry(SourceFileNameTable registry) {
-        this.registry = registry;
+    public void sourceFileIdMatcher(String value) {
+        registry.getCoveredFile(value).addLinePoint(line, covered);
     }
 
     @Override
-    public void setVsTestRegistry(VsTestCoverageRegistry vsTestRegistry) {
-        this.registry = vsTestRegistry.getSourceFileNameTable();
+    public void setVsTestRegistry(SonarCoverage registry) {
+        this.registry = registry;
     }
 
 }

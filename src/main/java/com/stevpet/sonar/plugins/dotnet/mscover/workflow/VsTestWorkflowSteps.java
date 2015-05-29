@@ -4,6 +4,7 @@ import org.picocontainer.DefaultPicoContainer;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ProcessLock;
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.DefaultCoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
@@ -56,8 +57,14 @@ public class VsTestWorkflowSteps implements WorkflowSteps {
     }
 
     public void getComponents(DefaultPicoContainer container) {
+        
+        getCoverageReaderComponents(container);
         getTestRunnerComponents(container);
         getTestResultsSaverComponents(container);
+    }
+
+    private void getCoverageReaderComponents(DefaultPicoContainer container) {
+        container.addComponent(VsTestCoverageParser.class);
     }
 
     private void getTestResultsSaverComponents(DefaultPicoContainer container) {

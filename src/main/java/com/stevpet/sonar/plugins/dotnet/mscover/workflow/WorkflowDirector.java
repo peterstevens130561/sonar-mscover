@@ -4,8 +4,8 @@ import org.picocontainer.DefaultPicoContainer;
 
 public interface WorkflowDirector {
 
-	void wire(DefaultPicoContainer container);
+    void wire(DefaultPicoContainer container);
 
-	void execute();
+    void execute();
 
 }

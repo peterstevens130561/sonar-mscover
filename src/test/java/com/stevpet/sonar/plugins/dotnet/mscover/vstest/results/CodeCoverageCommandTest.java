@@ -33,7 +33,7 @@ public class CodeCoverageCommandTest {
     private static String defaultPath = "C:/Program Files (x86)/Microsoft Visual Studio 11.0/Team Tools/Dynamic Code Coverage Tools/CodeCoverage.exe";
     @Test(expected=SonarException.class)
     public void emptyCommand() {
-        WindowsCodeCoverageCommand command = WindowsCodeCoverageCommand.create();
+        WindowsCodeCoverageCommand command = new WindowsCodeCoverageCommand();
         String emptyCommandLine = command.toCommandLine();
         Assert.assertEquals(defaultPath, emptyCommandLine);
     }    
@@ -41,7 +41,7 @@ public class CodeCoverageCommandTest {
 
     @Test
     public void sunnyCommand() {
-        WindowsCodeCoverageCommand command = WindowsCodeCoverageCommand.create() ;
+        WindowsCodeCoverageCommand command = new WindowsCodeCoverageCommand() ;
         command.setCoveragePath("stevpet.coverage");
         command.setOutputPath("stevpet.xml");
         String commandLine = command.toCommandLine();
@@ -51,7 +51,7 @@ public class CodeCoverageCommandTest {
     
     @Test
     public void mixedPath_mustBeWindows() {
-        WindowsCodeCoverageCommand command = WindowsCodeCoverageCommand.create() ;
+        WindowsCodeCoverageCommand command = new WindowsCodeCoverageCommand() ;
         command.setCoveragePath("john/aap\\wim.xml");
         command.setOutputPath("stevpet.xml");
         String commandLine = command.toCommandLine();
@@ -61,7 +61,7 @@ public class CodeCoverageCommandTest {
     
     @Test
     public void spacedCoveragePath_MustBeEnclosedBetweenParenthesis() {
-        WindowsCodeCoverageCommand command = WindowsCodeCoverageCommand.create() ;
+        WindowsCodeCoverageCommand command = new WindowsCodeCoverageCommand() ;
         command.setCoveragePath("john/aap\\wi m.xml");
         command.setOutputPath("stevpet.xml");
         String commandLine = command.toCommandLine();
@@ -71,7 +71,7 @@ public class CodeCoverageCommandTest {
     
     @Test
     public void spacedOutputPath_MustBeEnclosedBetweenParenthesis() {
-        WindowsCodeCoverageCommand command = WindowsCodeCoverageCommand.create() ;
+        WindowsCodeCoverageCommand command = new WindowsCodeCoverageCommand() ;
         command.setCoveragePath("john/aap\\wim.xml");
         command.setOutputPath("stev pet.xml");
         String commandLine = command.toCommandLine();
@@ -81,14 +81,14 @@ public class CodeCoverageCommandTest {
     
     @Test(expected=IllegalArgumentException.class)
     public void invalidCoveragePath_MustThrowException() {
-        CodeCoverageCommand command = WindowsCodeCoverageCommand.create() ;
+        CodeCoverageCommand command = new WindowsCodeCoverageCommand() ;
         command.setCoveragePath("john\r/aap\\wim.xml");
         Assert.fail();
     }
     
     @Test(expected=IllegalArgumentException.class)
     public void invalidOutputPath_MustThrowException() {
-        CodeCoverageCommand command = WindowsCodeCoverageCommand.create() ;
+        CodeCoverageCommand command = new WindowsCodeCoverageCommand() ;
         command.setOutputPath("john\r/aap\\wim.xml");
         Assert.fail();
     }

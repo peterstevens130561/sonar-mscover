@@ -48,7 +48,7 @@ public class DefaultBranchFileCoverageSaver implements BranchFileCoverageSaver {
         sensorContext.saveMeasure(resource,lineCoveredConditionsMeasure); 
     }
     
-    protected double convertPercentage(Number percentage) {
+    private double convertPercentage(Number percentage) {
         return ParsingUtils.scaleValue(percentage.doubleValue() * 100.0);
     }
 

@@ -43,10 +43,6 @@ public class WindowsCodeCoverageCommand extends CodeCoverageCommand {
     public WindowsCodeCoverageCommand() {
     }
 
-    public static WindowsCodeCoverageCommand create() {
-        return new WindowsCodeCoverageCommand();
-    }
-
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.CodeCoverageCommand#setCoveragePath(java.lang.String)
      */

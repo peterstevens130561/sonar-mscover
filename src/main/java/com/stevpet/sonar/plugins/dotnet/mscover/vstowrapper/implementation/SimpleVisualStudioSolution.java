@@ -65,18 +65,6 @@ public List<VisualStudioProject> getUnitTestProjects() {
     return unitTestVisualStudioProjects;
 }
 
-@Deprecated
-@Override
-public VisualStudioProject getProjectFromSonarProject(Project project) {
-    return null;
-}
-
-@Deprecated
-@Override
-public VisualStudioProject getProject(File file) {
-    return null;
-}
-
 
 @Override
 public void addVisualStudioProject(VisualStudioProject project) {

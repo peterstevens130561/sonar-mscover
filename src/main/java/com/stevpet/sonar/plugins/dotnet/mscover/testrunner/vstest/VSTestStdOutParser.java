@@ -36,52 +36,51 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunnerStdOutParse
 public class VSTestStdOutParser implements TestRunnerStdOutParser {
 
     private String results;
-    private static Pattern RESULTS_PATTERN = Pattern.compile("\\nResults File: (.*\\.trx)");
-    private static Pattern ATTACHMENTS_PATTERN = Pattern.compile("\\nAttachments:\\r?\\n  (.*\\.coverage)");
+    private static Pattern RESULTS_PATTERN = Pattern
+            .compile("\\nResults File: (.*\\.trx)");
+    private static Pattern ATTACHMENTS_PATTERN = Pattern
+            .compile("\\nAttachments:\\r?\\n  (.*\\.coverage)");
 
     public void setFile(File resultsFile) {
-       try {
-        results=Files.toString(resultsFile, Charset.defaultCharset());
-    } catch (IOException e) {
-        throw new SonarException("Failed to read",e);
-    }       
+        try {
+            results = Files.toString(resultsFile, Charset.defaultCharset());
+        } catch (IOException e) {
+            throw new SonarException("Failed to read", e);
+        }
     }
 
-
-    public String getTestResultsXmlPath()  {
-        return  getPieceFromResults(RESULTS_PATTERN);
+    public String getTestResultsXmlPath() {
+        return getPieceFromResults(RESULTS_PATTERN);
 
     }
 
     public String getCoveragePath() {
         return getPieceFromResults(ATTACHMENTS_PATTERN);
     }
-    
-    private String getPieceFromResults(Pattern pattern)  {
+
+    private String getPieceFromResults(Pattern pattern) {
         Matcher matcher = pattern.matcher(results);
-        if(!matcher.find()) {
-            throw new SonarException("Could not find area " + pattern.toString());
+        if (!matcher.find()) {
+            throw new SonarException("Could not find area "
+                    + pattern.toString());
         }
-        String result=matcher.group(1).trim();
+        String result = matcher.group(1).trim();
         return result;
     }
 
-
     @Override
     public void setStdOut(String string) {
-            results= string;
+        results = string;
     }
 
-	@Override
-	public File getTestResultsFile() {
-		return new File(getTestResultsXmlPath());
-	}
+    @Override
+    public File getTestResultsFile() {
+        return new File(getTestResultsXmlPath());
+    }
 
-
-	@Override
-	public File getCoverageFile() {
-		return new File(getCoveragePath());
-	}
-
+    @Override
+    public File getCoverageFile() {
+        return new File(getCoveragePath());
+    }
 
 }

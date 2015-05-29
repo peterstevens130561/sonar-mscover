@@ -28,18 +28,18 @@ public interface SequencePoint {
     /**
      * @return the line
      */
-    abstract int getLine();
+    int getLine();
 
     /**
      * @return the offset to start of line of this point
      */
-    abstract int getOffset();
+    int getOffset();
 
     /**
      * @param string the offset to set (offset to start of line fo this point)
      */
-    abstract void setOffset(String string);
+    void setOffset(String string);
 
-    abstract void setStartLine(String string);
+    void setStartLine(String string);
 
 }

@@ -17,10 +17,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCom
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.DefaultCoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageReaderMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner.CoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.MeasureSaverMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverCoverageRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.utils.AbstractSensorTest;
@@ -120,7 +118,6 @@ public class OpenCoverWorkflowTest extends AbstractSensorTest {
         container.addComponent(mock(ResourceResolver.class));
         //SensorContextMock sensorContextMock = new SensorContextMock();
 		//container.addComponent(sensorContextMock.getMock());
-		container.addComponent(new MeasureSaverMock().getMock());
         director.execute();
         
         String coveragePath=coverageFile.getAbsolutePath().replaceAll("\\\\","/");

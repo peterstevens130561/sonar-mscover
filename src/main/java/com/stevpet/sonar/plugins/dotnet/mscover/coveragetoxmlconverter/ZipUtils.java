@@ -36,7 +36,7 @@ import java.util.zip.ZipFile;
 /**
  * ZIP Utilities
  */
-public final class ZipUtils {
+final class ZipUtils {
 
   private static final int BUFFER_SIZE = 2048;
 
@@ -56,7 +56,7 @@ public final class ZipUtils {
    * @throws IOException
    *           if a problem occurs while extracting
    */
-  public static File extractArchiveFolderIntoDirectory(String archivePath, String folderToExtract, String outputDirectory)
+  static File extractArchiveFolderIntoDirectory(String archivePath, String folderToExtract, String outputDirectory)
       throws IOException {
     File destinationFolder = new File(outputDirectory);
     destinationFolder.mkdirs();

@@ -23,17 +23,15 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
 
 
-public class VisualStudioPlugin {
+class VisualStudioPlugin {
 
-  public static final String VISUAL_STUDIO_SOLUTION_PROPERTY_KEY = "sonar.visualstudio.solution";
-  public static final String VISUAL_STUDIO_ENABLE_PROPERTY_KEY = "sonar.visualstudio.enable";
-  public static final String VISUAL_STUDIO_OUTPUT_PATHS_PROPERTY_KEY = "sonar.visualstudio.outputPaths";
-  public static final String VISUAL_STUDIO_TEST_PROJECT_PATTERN = "sonar.visualstudio.testProjectPattern";
-  public static final String VISUAL_STUDIO_SKIPPED_PROJECT_PATTERN = "sonar.visualstudio.skippedProjectPattern";
-  public static final String VISUAL_STUDIO_SKIP_IF_NOT_BUILT = "sonar.visualstudio.skipIfNotBuilt";
+  static final String VISUAL_STUDIO_SOLUTION_PROPERTY_KEY = "sonar.visualstudio.solution";
+  static final String VISUAL_STUDIO_ENABLE_PROPERTY_KEY = "sonar.visualstudio.enable";
+  static final String VISUAL_STUDIO_OUTPUT_PATHS_PROPERTY_KEY = "sonar.visualstudio.outputPaths";
+  static final String VISUAL_STUDIO_TEST_PROJECT_PATTERN = "sonar.visualstudio.testProjectPattern";
+  static final String VISUAL_STUDIO_SKIPPED_PROJECT_PATTERN = "sonar.visualstudio.skippedProjectPattern";
+  static final String VISUAL_STUDIO_SKIP_IF_NOT_BUILT = "sonar.visualstudio.skipIfNotBuilt";
 
-  public static final String VISUAL_STUDIO_OLD_SKIPPED_PROJECTS = "sonar.visualstudio.skippedProjects";
-  public static final String VISUAL_STUDIO_OLD_SOLUTION_PROPERTY_KEY = "sonar.dotnet.visualstudio.solution.file";
-
-
+  static final String VISUAL_STUDIO_OLD_SKIPPED_PROJECTS = "sonar.visualstudio.skippedProjects";
+  static final String VISUAL_STUDIO_OLD_SOLUTION_PROPERTY_KEY = "sonar.dotnet.visualstudio.solution.file";
 }

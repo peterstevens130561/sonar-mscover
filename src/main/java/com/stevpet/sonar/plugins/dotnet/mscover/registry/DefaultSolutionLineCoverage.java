@@ -44,7 +44,7 @@ public class DefaultSolutionLineCoverage implements SolutionLineCoverage {
 
     private int coveredLineCount;
 
-    public DefaultSolutionLineCoverage(String projectDirectory) {
+    DefaultSolutionLineCoverage(String projectDirectory) {
         pathHelper = new SourceFilePathHelper();
         pathHelper.setProjectPath(projectDirectory);
     }

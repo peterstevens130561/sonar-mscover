@@ -28,7 +28,6 @@ import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.api.resources.Project;
 
-
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.ProjectSeam;
 import com.stevpet.sonar.plugins.dotnet.mscover.seams.SonarProjectSeam;
@@ -39,44 +38,53 @@ public class VsTestEnvironment implements BatchExtension {
     private ProjectSeam projectSeam = new SonarProjectSeam();
     private String coverageXmlPath;
     private String resultsXmlPath;
-    private boolean testsHaveRun=false;
+    private boolean testsHaveRun = false;
 
     private SonarCoverage sonarCoverage;
+
     public String getXmlCoveragePath() {
         return coverageXmlPath;
     }
+
     public void setCoverageXmlPath(String xmlCoveragePath) {
         this.coverageXmlPath = xmlCoveragePath;
     }
+
     public String getXmlResultsPath() {
         return resultsXmlPath;
     }
+
     public void setTestResultsXmlPath(String xmlResultsPath) {
         this.resultsXmlPath = xmlResultsPath;
     }
+
     public void setTestsHaveRun() {
-        testsHaveRun=true;      
+        testsHaveRun = true;
     }
+
     public boolean getTestsHaveRun() {
         return testsHaveRun;
     }
-    
+
     public void setSonarCoverage(SonarCoverage sonarCoverage) {
         this.sonarCoverage = sonarCoverage;
         this.setTestsHaveRun();
     }
-    
+
     public SonarCoverage getSonarCoverage() {
         return sonarCoverage;
     }
+
     public void setCoverageXmlFile(Project project, String string) {
         projectSeam.setProject(project);
-        File opencoverCoverageFile= projectSeam.getSonarFile("coverage-report.xml");
-        String openCoverCoveragePath= opencoverCoverageFile.getAbsolutePath();
-        setCoverageXmlPath(openCoverCoveragePath); 
+        File opencoverCoverageFile = projectSeam
+                .getSonarFile("coverage-report.xml");
+        String openCoverCoveragePath = opencoverCoverageFile.getAbsolutePath();
+        setCoverageXmlPath(openCoverCoveragePath);
     }
-	public void setTestResultsFile(File testResultsFile) {
-		resultsXmlPath=testResultsFile.getAbsolutePath();
-	}
+
+    public void setTestResultsFile(File testResultsFile) {
+        resultsXmlPath = testResultsFile.getAbsolutePath();
+    }
 
 }

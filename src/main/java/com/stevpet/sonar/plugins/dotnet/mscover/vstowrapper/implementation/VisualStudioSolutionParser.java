@@ -33,12 +33,12 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class VisualStudioSolutionParser {
+class VisualStudioSolutionParser {
 
   private static final String PROJECT_LINE_LOOKAHEAD = "Project(";
   private static final Pattern PROJECT_LINE_PATTERN = Pattern.compile("Project\\(\"[^\"]++\"\\)\\s*+=\\s*+\"([^\"]++)\",\\s*+\"([^\"]++)\",\\s*+\"[^\"]++\"");
 
-  public SimpleVisualStudioSolution parse(File file) {
+  SimpleVisualStudioSolution parse(File file) {
     ImmutableList.Builder<VisualStudioSolutionProject> projectsBuilder = ImmutableList.builder();
 
     try {

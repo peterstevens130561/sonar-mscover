@@ -8,33 +8,34 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
 
-public class VsTestFileNamesParser implements FileNamesParser{
+public class VsTestFileNamesParser implements FileNamesParser {
 
-	MethodToSourceFileIdMap methodToSourceFileIdMap ;
-	SourceFileNameTable sourceFileNameTable;
-	@Override
-	public void parse(File coverageFile) {
-		methodToSourceFileIdMap = new MethodToSourceFileIdMap();
-		sourceFileNameTable = new SourceFileNameTable();
-		XmlParserSubject parserSubject = new CoverageParserSubject();
-		VsTestMethodObserver methodObserver = new VsTestMethodObserver();
-		methodObserver.setRegistry(methodToSourceFileIdMap);
-		parserSubject.registerObserver(methodObserver);
+    MethodToSourceFileIdMap methodToSourceFileIdMap;
+    SourceFileNameTable sourceFileNameTable;
 
-		VsTestSourceFileNamesObserver sourceFileNamesObserver = new VsTestSourceFileNamesObserver();
-		sourceFileNamesObserver.setRegistry(sourceFileNameTable);
-		parserSubject.registerObserver(sourceFileNamesObserver);
-		parserSubject.parseFile(coverageFile);
-	}
+    @Override
+    public void parse(File coverageFile) {
+        methodToSourceFileIdMap = new MethodToSourceFileIdMap();
+        sourceFileNameTable = new SourceFileNameTable();
+        XmlParserSubject parserSubject = new CoverageParserSubject();
+        VsTestMethodObserver methodObserver = new VsTestMethodObserver();
+        methodObserver.setRegistry(methodToSourceFileIdMap);
+        parserSubject.registerObserver(methodObserver);
 
-	@Override
-	public MethodToSourceFileIdMap getMethodToSourceFileIdMap() {
-		return methodToSourceFileIdMap;
-	}
+        VsTestSourceFileNamesObserver sourceFileNamesObserver = new VsTestSourceFileNamesObserver();
+        sourceFileNamesObserver.setRegistry(sourceFileNameTable);
+        parserSubject.registerObserver(sourceFileNamesObserver);
+        parserSubject.parseFile(coverageFile);
+    }
 
-	@Override
-	public SourceFileNameTable getSourceFileNamesTable() {
-		return sourceFileNameTable;
-	}
+    @Override
+    public MethodToSourceFileIdMap getMethodToSourceFileIdMap() {
+        return methodToSourceFileIdMap;
+    }
+
+    @Override
+    public SourceFileNameTable getSourceFileNamesTable() {
+        return sourceFileNameTable;
+    }
 
 }

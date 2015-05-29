@@ -78,7 +78,7 @@ public class DefaultLineFileCoverageSaver implements  LineFileCoverageSaver {
      * Generates a measure that contains the visits of each line of the source
      * file.
      */
-    public Measure getHitData(CoverageLinePoints coveragePoints) {
+    private Measure getHitData(CoverageLinePoints coveragePoints) {
         PropertiesBuilder<String, Integer> hitsBuilder =  lineHitsBuilder;
 
         hitsBuilder.clear();
@@ -90,7 +90,7 @@ public class DefaultLineFileCoverageSaver implements  LineFileCoverageSaver {
         return hitsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
     }
     
-    protected double convertPercentage(Number percentage) {
+    private double convertPercentage(Number percentage) {
         return ParsingUtils.scaleValue(percentage.doubleValue() * 100.0);
     }
     

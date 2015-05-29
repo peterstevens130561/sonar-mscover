@@ -49,13 +49,20 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.PathMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.exceptions.MsCoverParserException;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.exceptions.ParserSubjectErrorException;
 
+/**
+ * Each parser should implement this class
+ * 
+ *
+ */
 public abstract class XmlParserSubject implements ParserSubject {
 
+    private static final String FACTORY_CONFIGURATION_ERROR = "FactoryConfigurationError";
+    private static final String COULD_NOT_CREATE_CURSOR = "Could not create cursor ";
     private static final Logger LOG = LoggerFactory
             .getLogger(XmlParserSubject.class);
     private List<ParserObserver> observers = new ArrayList<ParserObserver>();
 
-    List<String> parentElements = new ArrayList<String>();
+    private List<String> parentElements = new ArrayList<String>();
     private int line;
     private int column;
     private ParserData parserData = new ParserData();
@@ -73,13 +80,14 @@ public abstract class XmlParserSubject implements ParserSubject {
 
     public abstract String[] getHierarchy();
 
+    @SuppressWarnings("ucd")
     public void parseString(String string) {
         SMInputCursor cursor;
         try {
             cursor = getCursorFromString(string);
             parse(cursor);
         } catch (FactoryConfigurationError e) {
-            LOG.error("FactoryConfigurationError", e);
+            LOG.error(FACTORY_CONFIGURATION_ERROR, e);
             throw new SonarException(e);
         } catch (XMLStreamException e) {
             String msg = "XMLStreamException in string";
@@ -96,7 +104,7 @@ public abstract class XmlParserSubject implements ParserSubject {
      * @throws FactoryConfigurationError
      * @throws XMLStreamException
      */
-    public SMInputCursor getCursorFromString(String string) {
+    private SMInputCursor getCursorFromString(String string) {
         SMInputCursor result = null;
         try {
             SMInputFactory inf = new SMInputFactory(
@@ -106,7 +114,7 @@ public abstract class XmlParserSubject implements ParserSubject {
             SMHierarchicCursor cursor = inf.rootElementCursor(inputStream);
             result = cursor.advance();
         } catch (XMLStreamException e) {
-            String msg = "Could not create cursor " + e.getMessage();
+            String msg = COULD_NOT_CREATE_CURSOR + e.getMessage();
             LOG.error(msg);
             throw new SonarException(msg, e);
         }
@@ -119,7 +127,7 @@ public abstract class XmlParserSubject implements ParserSubject {
             cursor = getCursor(file);
             parse(cursor);
         } catch (FactoryConfigurationError e) {
-            LOG.error("FactoryConfigurationError", e);
+            LOG.error(FACTORY_CONFIGURATION_ERROR, e);
             throw new SonarException(e);
         } catch (XMLStreamException e) {
             String msg = "XMLStreamException in " + file.getAbsolutePath()
@@ -365,7 +373,7 @@ public abstract class XmlParserSubject implements ParserSubject {
      * @throws FactoryConfigurationError
      * @throws XMLStreamException
      */
-    public SMInputCursor getCursor(File file) {
+    private SMInputCursor getCursor(File file) {
         SMInputCursor result = null;
         try {
             SMInputFactory inf = new SMInputFactory(
@@ -373,7 +381,7 @@ public abstract class XmlParserSubject implements ParserSubject {
             SMHierarchicCursor cursor = inf.rootElementCursor(file);
             result = cursor.advance();
         } catch (XMLStreamException e) {
-            String msg = "Could not create cursor " + e.getMessage();
+            String msg = COULD_NOT_CREATE_CURSOR + e.getMessage();
             LOG.error(msg);
             throw new SonarException(msg, e);
         }

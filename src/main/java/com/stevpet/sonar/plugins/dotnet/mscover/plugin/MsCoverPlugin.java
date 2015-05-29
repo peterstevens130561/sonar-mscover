@@ -35,8 +35,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestBlockDe
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestLineDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestBlockDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestLineDecorator;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.InjectedResourceMediator;
-import com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.InjectedMeasureSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation.SimpleMicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation.VisualStudioProjectBuilder;
@@ -112,12 +110,10 @@ public final class MsCoverPlugin extends SonarPlugin {
 public List getExtensions() {
       
     return Arrays.asList(
-            SimpleMicrosoftWindowsEnvironment.class,
-            InjectedResourceMediator.class,
-            InjectedMeasureSaver.class,
-            VsTestEnvironment.class,
-            PropertiesHelper.class,
-            VisualStudioProjectBuilder.class,
+        SimpleMicrosoftWindowsEnvironment.class,
+        VsTestEnvironment.class,
+        PropertiesHelper.class,
+        VisualStudioProjectBuilder.class,
         IntegrationTestLineDecorator.class,
         UnitTestLineDecorator.class,
         IntegrationTestBlockDecorator.class,

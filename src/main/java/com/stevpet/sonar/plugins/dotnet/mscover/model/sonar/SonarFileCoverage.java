@@ -27,7 +27,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
  * Coverage info per file
  */
 public class SonarFileCoverage {
-    String absolutePath ;
+    private String absolutePath ;
 
     private CoverageLinePoints linePoints = new SonarLinePoints();
     private CoverageLinePoints branchPoints = new SonarBranchPoints();

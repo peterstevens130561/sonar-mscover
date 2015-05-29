@@ -54,7 +54,7 @@ public class CutOffDateFilter implements DateFilter {
     private Map<Integer,Integer> lineCoverageData = new HashMap<Integer,Integer>();
     private Map<Integer,Date> lineCommitsData; 
     
-    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd") ;
+    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd") ;
     
     private TimeMachine timeMachine;
     

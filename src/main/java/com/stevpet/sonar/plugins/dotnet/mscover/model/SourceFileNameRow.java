@@ -32,15 +32,6 @@ public class SourceFileNameRow {
     public SourceFileNameRow() {
     }
     
-    public SourceFileNameRow(SourceFileNameTable parent) {
-    	this.parent=parent;
-    }
-    
-    public SourceFileNameRow addToParent() {
-    	parent.add(this);
-    	return this;
-    }
-
 
     public SourceFileNameRow(int id,String name) {
         sourceFileID=id;

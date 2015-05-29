@@ -20,10 +20,10 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.observers;
+package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.VsTestCoverageRegistry;
 
 public abstract class VsTestCoverageObserver extends BaseParserObserver {
 
@@ -31,6 +31,6 @@ public abstract class VsTestCoverageObserver extends BaseParserObserver {
         super();
     }
 
-    public abstract void setVsTestRegistry(VsTestCoverageRegistry vsTestRegistry);
+    public abstract void setVsTestRegistry(SonarCoverage registry);
 
 }

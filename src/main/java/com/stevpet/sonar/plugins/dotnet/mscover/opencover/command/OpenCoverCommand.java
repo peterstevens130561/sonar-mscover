@@ -36,7 +36,7 @@ public class OpenCoverCommand implements ShellCommand {
 
     private  String path;
 
-    Map<String,String> arguments = Maps.newHashMap();
+    private Map<String,String> arguments = Maps.newHashMap();
     
     public OpenCoverCommand(MsCoverProperties msCoverProperties) {
         path=msCoverProperties.getOpenCoverInstallPath();

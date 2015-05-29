@@ -20,35 +20,33 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser;
+package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 
-
 public class FileNamesObserver extends VsTestCoverageObserver {
     SonarCoverage registry;
     private String fileID;
-    public FileNamesObserver()  {
+
+    public FileNamesObserver() {
         setPattern("SourceFileNames/(SourceFileID|SourceFileName)");
     }
-    
-    
-    @ElementMatcher(elementName="SourceFileID")
+
+    @ElementMatcher(elementName = "SourceFileID")
     public void sourceFileIDMatcher(String value) {
-        fileID=value;
-    }
-    
-    @ElementMatcher(elementName="SourceFileName")
-    public void sourceFileNameMatcher(String sourceFileName){
-    	if(registry.fileIdExists(fileID)) {
-    		registry.linkFileNameToFileId(sourceFileName, fileID);
-    	}
+        fileID = value;
     }
 
+    @ElementMatcher(elementName = "SourceFileName")
+    public void sourceFileNameMatcher(String sourceFileName) {
+        if (registry.fileIdExists(fileID)) {
+            registry.linkFileNameToFileId(sourceFileName, fileID);
+        }
+    }
 
-	@Override
-	public void setVsTestRegistry(SonarCoverage registry) {
-		this.registry = registry;
-	}
+    @Override
+    public void setVsTestRegistry(SonarCoverage registry) {
+        this.registry = registry;
+    }
 }

@@ -84,6 +84,13 @@ public class MethodIdModelEqualityTest {
         int hash2=method2.hashCode();
         assertTrue(hash1==hash2);
     }
+    
+    @Test
+    public void differentType_ShouldBeUnequal() {
+        String myString = " bogus";
+        MethodId method1 = createMethodeOne();
+        assertTrue("different type, should be unequal",!method1.equals(myString));
+    }
     private MethodId createMethodeOne() {
         return new MethodId("module.dll","namespace","class","method");
     }

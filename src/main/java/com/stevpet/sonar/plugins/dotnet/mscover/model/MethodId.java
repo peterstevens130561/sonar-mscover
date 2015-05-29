@@ -29,8 +29,8 @@ import org.sonar.api.utils.SonarException;
 
 public final class MethodId  {
     private String moduleName,namespaceName,className,methodName;
-    Pattern pattern = Pattern.compile("[^a-zA-Z0-9\\._-]");
-    Pattern moduleSuffixPattern = Pattern.compile("\\.(exe|dll)");
+    private Pattern pattern = Pattern.compile("[^a-zA-Z0-9\\._-]");
+    private  Pattern moduleSuffixPattern = Pattern.compile("\\.(exe|dll)");
 
     public MethodId() { 
     }
@@ -141,6 +141,9 @@ public final class MethodId  {
             return true;
         }
         if(null == o) {
+            return false;
+        }
+        if(! (o instanceof MethodId)) {
             return false;
         }
         MethodId otherMethodId = (MethodId)o;

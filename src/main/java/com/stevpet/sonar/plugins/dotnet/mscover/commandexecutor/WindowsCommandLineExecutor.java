@@ -40,7 +40,7 @@ public class WindowsCommandLineExecutor implements CommandLineExecutor {
     private StringStreamConsumer stdOut = new StringStreamConsumer();
     private StringStreamConsumer stdErr = new StringStreamConsumer();
 
-    protected CommandExecutor commandExecutor = CommandExecutor.create();
+    private CommandExecutor commandExecutor = CommandExecutor.create();
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor#execute(com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.ShellCommand)
      */
@@ -73,7 +73,7 @@ public class WindowsCommandLineExecutor implements CommandLineExecutor {
         return stdErr.toString();
     }
     
-    class StringStreamConsumer implements StreamConsumer {
+    private class StringStreamConsumer implements StreamConsumer {
         private StringBuilder log;
 
         StringStreamConsumer() {

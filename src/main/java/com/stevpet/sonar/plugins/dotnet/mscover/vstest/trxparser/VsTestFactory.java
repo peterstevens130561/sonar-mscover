@@ -29,6 +29,7 @@ public interface VsTestFactory {
 
     /**
      * Create the complete unit test results parser
+     * 
      * @param summaryResults
      * @param unitTestFilesregistry
      * @param unitTestResultRegistry
@@ -36,8 +37,7 @@ public interface VsTestFactory {
      * 
      * @deprecated sine April 16th 2015
      */
-	@Deprecated
-    XmlParserSubject createUnitTestResultsParser(
-            UnitTestRegistry registry);
+    @Deprecated
+    XmlParserSubject createUnitTestResultsParser(UnitTestRegistry registry);
 
 }
