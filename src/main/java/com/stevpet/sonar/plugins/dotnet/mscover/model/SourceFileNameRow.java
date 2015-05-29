@@ -27,7 +27,6 @@ public class SourceFileNameRow {
     
     private int sourceFileID;
     private String sourceFileName;
-	private SourceFileNameTable parent;
     
     public SourceFileNameRow() {
     }

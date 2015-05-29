@@ -37,7 +37,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.SequencePoint;
  */
 public class BranchOffsetToLineMapper {
     private static final Logger LOG = LoggerFactory.getLogger(BranchOffsetToLineMapper.class);
-    List<SequencePoint> sequencePoints;
+    private List<SequencePoint> sequencePoints;
     public void addSequencePoint(SequencePoint sequencePoint) {
         if(sequencePoint.getOffset()==0) {
             sequencePoints = new ArrayList<SequencePoint>();

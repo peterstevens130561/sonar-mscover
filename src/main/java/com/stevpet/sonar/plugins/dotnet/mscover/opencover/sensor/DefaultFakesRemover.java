@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 
 public class DefaultFakesRemover implements FakesRemover {
 
-    FilenameFilter fakesFilter = new FakesFilter();
+    private FilenameFilter fakesFilter = new FakesFilter();
     private static Logger LOG = LoggerFactory.getLogger(DefaultFakesRemover.class);
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.RemoveFakes#removeFakes(java.io.File)

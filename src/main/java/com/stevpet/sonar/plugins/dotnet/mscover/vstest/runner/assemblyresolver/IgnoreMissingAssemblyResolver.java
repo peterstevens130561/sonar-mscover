@@ -32,7 +32,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 
 public class IgnoreMissingAssemblyResolver extends AssemblyResolverController {
 
-    private Logger Log = LoggerFactory.getLogger(IgnoreMissingAssemblyResolver.class);
+    private Logger log = LoggerFactory.getLogger(IgnoreMissingAssemblyResolver.class);
   
   
     public File resolveAssembly(File assemblyFile, VisualStudioProject project,
@@ -45,7 +45,7 @@ public class IgnoreMissingAssemblyResolver extends AssemblyResolverController {
         
         String assemblyName = assemblyFile.getName();
         if(canBeIgnoredIfMissing.contains(assemblyName)) {
-            Log.warn("Ignoring non-existent unit test assembly {}",assemblyName);
+            log.warn("Ignoring non-existent unit test assembly {}",assemblyName);
             return null;
         }
         return assemblyFile;
