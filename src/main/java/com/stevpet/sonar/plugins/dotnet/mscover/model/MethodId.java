@@ -42,7 +42,7 @@ public final class MethodId  {
         setMethodName(methodName);
     }
     
-    public MethodId(MethodId methodId) {
+    private MethodId(MethodId methodId) {
         setModuleName(new String(methodId.getModuleName()));
         setNamespaceName(new String(methodId.getNamespaceName()));
         setClassName(new String(methodId.getClassName()));

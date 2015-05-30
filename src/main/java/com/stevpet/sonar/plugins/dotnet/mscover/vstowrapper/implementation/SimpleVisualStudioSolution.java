@@ -26,7 +26,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
@@ -35,6 +34,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution
 /**
  * All information which can be extracted solely out of a .sln file.
  */
+@SuppressWarnings("ucd")
 public class SimpleVisualStudioSolution implements VisualStudioSolution{
 
   private final List<VisualStudioSolutionProject> projects;

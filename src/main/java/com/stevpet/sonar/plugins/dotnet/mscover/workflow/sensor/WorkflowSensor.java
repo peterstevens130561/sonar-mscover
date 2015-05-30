@@ -49,7 +49,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowSteps;
  */
 public class WorkflowSensor implements Sensor {
 
-    private static final Logger Log = LoggerFactory
+    private static final Logger LOG = LoggerFactory
             .getLogger(WorkflowSensor.class);
     private static final String LOGPREFIX = "WorkflowSensor : ";
     private MsCoverProperties propertiesHelper;
@@ -123,7 +123,7 @@ public class WorkflowSensor implements Sensor {
     }
 
     private void LogInfo(String msg, Object... objects) {
-        Log.info(LOGPREFIX + msg, objects);
+        LOG.info(LOGPREFIX + msg, objects);
     }
 
 }

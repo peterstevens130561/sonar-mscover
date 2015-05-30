@@ -15,7 +15,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTe
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.TestResultsSaver;
 
 public class DefaultTestResultsSaver implements TestResultsSaver {
-    private static final Logger Log = LoggerFactory
+    private static final Logger LOG = LoggerFactory
             .getLogger(DefaultTestResultsSaver.class);
     TestResultsSaver testResultsSaver;
     SensorContext sensorContext;
@@ -40,7 +40,7 @@ public class DefaultTestResultsSaver implements TestResultsSaver {
             }
             File sonarFile = resourceResolver.getFile(file);
             if (sonarFile == null) {
-                Log.warn("Could not find resource for "
+                LOG.warn("Could not find resource for "
                         + file.getAbsolutePath());
                 continue;
             }
