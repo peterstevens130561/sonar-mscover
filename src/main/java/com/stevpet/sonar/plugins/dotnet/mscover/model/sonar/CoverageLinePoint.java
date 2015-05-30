@@ -24,16 +24,18 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
 public interface CoverageLinePoint extends CoveragePoint {
     int getLine();
-    
+
     /**
-     * set line 
+     * set line
+     * 
      * @param line
      */
     void setLine(int line);
 
     /**
      * set number of time covered
+     * 
      * @param covered
      */
-	void setCovered(int covered);
+    void setCovered(int covered);
 }

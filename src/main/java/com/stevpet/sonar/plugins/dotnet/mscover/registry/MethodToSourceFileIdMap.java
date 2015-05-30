@@ -22,17 +22,10 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.registry;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.utils.SonarException;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 
 
