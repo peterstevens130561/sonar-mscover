@@ -5,10 +5,6 @@ import java.io.File;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.ResultsParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.UnitTestObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.trxparser.UnitTestResultObserver;
 
 public class DefaultTestResultsParser implements TestResultsParser {
 	
