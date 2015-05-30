@@ -11,6 +11,7 @@ public class LockedWindowsCommandLineExecutor extends
         WindowsCommandLineExecutor {
     private final ProcessLock processLock;
 
+    @SuppressWarnings("ucd")
     public LockedWindowsCommandLineExecutor(ProcessLock processLock) {
         this.processLock=processLock;
     }

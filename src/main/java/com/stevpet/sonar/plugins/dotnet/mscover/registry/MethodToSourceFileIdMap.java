@@ -81,21 +81,4 @@ public class MethodToSourceFileIdMap {
         return methodRegistry.size();
     }
 
-    public void dumpMap() {
-        File dump = new File("mapdump.txt") ;
-        StringBuilder sb = new StringBuilder();
-        for(Entry<?, ?> entry : methodRegistry.entrySet()) {
-            String line = entry.getKey().toString() + " " + entry.getValue() + "\r\n";
-            sb.append(line);
-        }
-        try {
-            FileUtils.write(dump, sb.toString());
-        } catch (IOException e) {
-            throw new SonarException(e);
-        }
-        LOG.warn("dumped map to " + dump.getAbsolutePath());
-    }
-
-
-
 }

@@ -15,6 +15,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 public class OpenCoverCoverageParser implements CoverageParser {
     private MsCoverProperties msCoverProperties;
 
+    @SuppressWarnings("ucd")
     public OpenCoverCoverageParser(MsCoverProperties msCoverProperties) {
         this.msCoverProperties = msCoverProperties;
     }

@@ -54,7 +54,7 @@ public class CutOffDateFilter implements DateFilter {
     private Map<Integer,Integer> lineCoverageData = new HashMap<Integer,Integer>();
     private Map<Integer,Date> lineCommitsData; 
     
-    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd") ;
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd") ;
     
     private TimeMachine timeMachine;
     
@@ -67,7 +67,7 @@ public class CutOffDateFilter implements DateFilter {
             return;
         }
         try {
-            cutoffDate=dateFormat.parse(date);
+            cutoffDate=DATE_FORMAT.parse(date);
         } catch (ParseException e) {
             LOG.error("Invalid cutoffDate (" + date + " ) ", e);
         }
@@ -111,7 +111,7 @@ public class CutOffDateFilter implements DateFilter {
         int lineNr=Integer.parseInt(lineParts[0]);
         Date commitDate = null;
         try {
-            commitDate = dateFormat.parse(lineParts[1]);
+            commitDate = DATE_FORMAT.parse(lineParts[1]);
         } catch (ParseException e) {
             String msg="Invalid commitdate on line " + lineNr + "=" + lineParts[1] + " ";
             LOG.error(msg,e);

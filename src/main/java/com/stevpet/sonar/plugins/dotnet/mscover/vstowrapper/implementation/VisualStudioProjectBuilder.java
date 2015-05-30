@@ -56,6 +56,7 @@ public class VisualStudioProjectBuilder extends ProjectBuilder {
   private final Settings settings;
 private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 
+  @SuppressWarnings("ucd")
   public VisualStudioProjectBuilder(Settings settings,MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
     this.settings = settings;
     this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;

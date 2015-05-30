@@ -27,8 +27,5 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
 
 public abstract class OpenCoverObserver extends BaseParserObserver {
 
-	public void setRegistry(SonarCoverage registry) {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void setRegistry(SonarCoverage registry);
 }

@@ -38,6 +38,7 @@ public class OpenCoverCommand implements ShellCommand {
 
     private Map<String,String> arguments = Maps.newHashMap();
     
+    @SuppressWarnings("ucd")
     public OpenCoverCommand(MsCoverProperties msCoverProperties) {
         path=msCoverProperties.getOpenCoverInstallPath();
     }

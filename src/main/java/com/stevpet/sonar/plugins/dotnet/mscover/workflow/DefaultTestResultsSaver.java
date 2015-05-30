@@ -22,6 +22,7 @@ public class DefaultTestResultsSaver implements TestResultsSaver {
     private TestResultsFormatter testResultsFormatter;
     private ResourceResolver resourceResolver;
 
+    @SuppressWarnings("ucd")
     public DefaultTestResultsSaver(SensorContext sensorContext,
             ResourceResolver resourceResolver,
             TestResultsFormatter testResultsFormatter) {

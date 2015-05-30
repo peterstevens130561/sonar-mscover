@@ -34,7 +34,6 @@ public class DefaultTestResultsParser implements TestResultsParser {
 
 	@Override
 	public UnitTestRegistry getUnitTestRegistry() {
-		// TODO Auto-generated method stub
 		return registry;
 	}
 }

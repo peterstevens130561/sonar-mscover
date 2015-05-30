@@ -56,6 +56,7 @@ public class WorkflowSensor implements Sensor {
     private DefaultPicoContainer container;
     private VsTestEnvironment vsTestEnvironment;
 
+    @SuppressWarnings("ucd")
     public WorkflowSensor(
             VsTestEnvironment vsTestEnvironment,
             MsCoverProperties propertiesHelper, FileSystem fileSystem,

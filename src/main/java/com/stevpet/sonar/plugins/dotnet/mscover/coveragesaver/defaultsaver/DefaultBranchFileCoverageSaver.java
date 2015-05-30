@@ -18,6 +18,7 @@ public class DefaultBranchFileCoverageSaver implements BranchFileCoverageSaver {
 	private ResourceResolver resourceResolver;
 	private SensorContext sensorContext;
   
+    @SuppressWarnings("ucd")
     public  DefaultBranchFileCoverageSaver(ResourceResolver resourceResolver,SensorContext sensorContext) {
         this.resourceResolver = resourceResolver;
         this.sensorContext = sensorContext;

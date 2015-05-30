@@ -42,6 +42,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 @Extension
 public class IntegrationTestLineDecorator extends BaseDecorator {
 
+  @SuppressWarnings("ucd")
   public IntegrationTestLineDecorator(MsCoverProperties msCoverProperties,TimeMachine timeMachine) {
 
     super(msCoverProperties,timeMachine);

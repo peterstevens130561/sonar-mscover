@@ -14,6 +14,7 @@ public class DefaultResourceResolver implements ResourceResolver {
 	private final PathResolver pathResolver ;
 	private final FileSystem fileSystem ;
 	
+	@SuppressWarnings("ucd")
 	public DefaultResourceResolver(PathResolver pathResolver,FileSystem fileSystem) {
 		this.pathResolver = pathResolver;
 		this.fileSystem=fileSystem;

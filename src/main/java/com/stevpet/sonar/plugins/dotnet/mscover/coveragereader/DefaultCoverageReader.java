@@ -13,6 +13,7 @@ public class DefaultCoverageReader implements CoverageReader {
 	
 	private CoverageParser coverageParser;
 	
+	@SuppressWarnings("ucd")
 	public DefaultCoverageReader(CoverageParser parser) {
 		this.coverageParser = parser;
 	}
