@@ -28,6 +28,9 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 public class CommandHelper {
+    private CommandHelper() {
+    }
+    
     /**
      * Put parenthesis around each of the elements i.e. 'joa Jewel' results in '"joa Jewel"'
      * @param elements
