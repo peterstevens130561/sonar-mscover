@@ -56,13 +56,23 @@ public class VsTestConfigFinder implements TestConfigFinder {
         if(StringUtils.isEmpty(testSettings)) {
             msg=PropertiesHelper.MSCOVER_TESTSETTINGS + " not set, and no testsettings file found";
             testSettingsFile= findDefaultFileUpwards(solutionDirectory);
-
-        } else {
-            msg=PropertiesHelper.MSCOVER_TESTSETTINGS + "=" + testSettings + " not found";
-            testSettingsFile= findSameFileUpwards(solutionDirectory,testSettings);
+            if(testSettingsFile==null) {
+                LOG.error(msg);
+                throw new SonarException(msg);
+            }
+            return testSettingsFile;
         }
+        
+        testSettingsFile=findAbsoluteFile(testSettings);
+        if(testSettingsFile!=null) {
+            return testSettingsFile;
+        }
+        
+
+        testSettingsFile= findSameFileUpwards(solutionDirectory,testSettings);
 
         if(testSettingsFile == null || !testSettingsFile.exists()) {
+            msg=PropertiesHelper.MSCOVER_TESTSETTINGS + "=" + testSettings + " not found";
             LOG.error(msg);
             throw new SonarException(msg);
         }
@@ -106,29 +116,43 @@ public class VsTestConfigFinder implements TestConfigFinder {
         return matchingFile;
     }
 
-    private File findSameFileUpwards(File solutionDirectory,String setting) {
-        String fullPath=solutionDirectory.getAbsolutePath() + "\\" + setting ;
-        File file = new File(fullPath);
+    private File findAbsoluteFile(String setting) {
+        File absoluteFile = new File(setting);
+        if(absoluteFile.isAbsolute()) {
+            if(!absoluteFile.exists()) {
+                throw new SonarException("absolute test runner setting does not exist" + setting);
+            }
+            return absoluteFile;
+        }
         
-        try {
-            file = file.getCanonicalFile();
-        } catch (IOException e) {
-            String msg="IOException on " + file.getAbsolutePath();
-            LOG.error(msg);
-            throw new SonarException(msg,e);
-        } 
-        File folder=file.getParentFile();
-        String name=file.getName();
+        return null;
+    }
+    private File findSameFileUpwards(File solutionDirectory,String setting) {
+        File folder=solutionDirectory.getAbsoluteFile();
         while(folder !=null) {
-            String fullName = folder.getAbsolutePath() + "\\" + name;
-            file = new File(fullName);
-            if(file.exists()){
-                return file ;
+            File file=new File(folder,setting);
+            File canonicalFile = getCanonicalFile(file);
+            if(canonicalFile.exists()){
+                return canonicalFile;
             }
             folder = folder.getParentFile();
         }
         return null;
     }
- 
- 
+
+    /**
+     * get the canonicalFile (so any ../ is removed)
+     * @param file
+     * @return the canonical file
+     */
+    private File getCanonicalFile(File file) {
+        File canonicalFile;
+        try {
+            canonicalFile = file.getCanonicalFile();
+        } catch (IOException e) {
+            throw new SonarException("IOException on " + file.getAbsolutePath(),e);
+        }
+        return canonicalFile;
+    }
+
 }
