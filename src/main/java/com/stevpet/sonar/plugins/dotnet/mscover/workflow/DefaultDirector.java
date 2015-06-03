@@ -13,6 +13,7 @@ import org.picocontainer.DefaultPicoContainer;
 
 
 
+
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
@@ -28,15 +29,14 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment
  */
 public class DefaultDirector implements WorkflowDirector {
 
-	private final WorkflowSteps workflowSteps;
+	private WorkflowSteps workflowSteps;
 	private DefaultPicoContainer picoContainer;
-
-	public DefaultDirector(WorkflowSteps workflowSteps) {
-		this.workflowSteps = workflowSteps;
-	}
+	
+    
 	@Override
 	public void wire(DefaultPicoContainer container) {
 		this.picoContainer = container;
+		workflowSteps=picoContainer.getComponent(WorkflowSteps.class);
 		workflowSteps.getComponents(picoContainer);
 	    picoContainer.addComponent(workflowSteps.getCoverageReader())
 	    .addComponent(workflowSteps.getCoverageSaver())
@@ -47,6 +47,7 @@ public class DefaultDirector implements WorkflowDirector {
 
 	@Override
 	public void execute() {
+	    workflowSteps=picoContainer.getComponent(WorkflowSteps.class);
 		VsTestEnvironment testEnvironment = picoContainer.getComponent(VsTestEnvironment.class);
 		if(StringUtils.isEmpty(testEnvironment.getXmlCoveragePath())) {
 			testEnvironment.setCoverageXmlPath("coverage.xml");
@@ -70,5 +71,6 @@ public class DefaultDirector implements WorkflowDirector {
         TestResultsSaver testResultsSaver = picoContainer.getComponent(TestResultsSaver.class);
         testResultsSaver.save(testResults);	
 	}
+
 
 }

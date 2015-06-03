@@ -22,7 +22,7 @@ public class VsTestIntegrationTestWorkflowStepsTest extends AbstractSensorTest {
 
     DefaultPicoContainer container;
     private VsTestIntegrationTestWorkflowSteps steps = new VsTestIntegrationTestWorkflowSteps();
-    private WorkflowDirector director = new DefaultDirector(steps);
+    private WorkflowDirector director = new DefaultDirector();
 	@Mock private ResourceResolver resourceResolver;
     
     @Before()
@@ -31,7 +31,8 @@ public class VsTestIntegrationTestWorkflowStepsTest extends AbstractSensorTest {
 		MockitoAnnotations.initMocks(this);
         container
         .addComponent(PathResolver.class)
-        .addComponent(resourceResolver);
+        .addComponent(resourceResolver)
+        .addComponent(steps);
         
         director.wire(container);
     }

@@ -38,7 +38,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestLineDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation.SimpleMicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation.VisualStudioProjectBuilder;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.WorkflowSensor;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.UnitTestWorkflowSensor;
 
 /**
  * This class is the entry point for all extensions
@@ -118,7 +118,7 @@ public List getExtensions() {
         UnitTestLineDecorator.class,
         IntegrationTestBlockDecorator.class,
         UnitTestBlockDecorator.class,
-        WorkflowSensor.class
+        UnitTestWorkflowSensor.class
         );
   }
 }
