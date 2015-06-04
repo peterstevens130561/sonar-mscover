@@ -37,12 +37,13 @@ public class OpenCoverWorkflowTest extends AbstractSensorTest {
 
     DefaultPicoContainer container;
     private OpenCoverWorkflowSteps steps = new OpenCoverWorkflowSteps();
-    private WorkflowDirector director = new DefaultDirector(steps);
+    private WorkflowDirector director = new DefaultDirector();
     
     
     @Before()
     public void before() {
         container = super.getContainerWithSensorMocks();
+        container.addComponent(steps);
         director.wire(container);
     }
    

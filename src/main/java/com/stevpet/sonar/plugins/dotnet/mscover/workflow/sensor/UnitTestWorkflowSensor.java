@@ -23,21 +23,17 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor;
 
 import org.picocontainer.DefaultPicoContainer;
-import org.picocontainer.injectors.ConstructorInjection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.PathResolver;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.ittest.vstest.VsTestIntegrationTestWorkflowSteps;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.NullWorkflowSteps;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.OpenCoverWorkflowSteps;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.VsTestWorkflowSteps;
@@ -51,7 +47,7 @@ public class UnitTestWorkflowSensor extends WorkflowSensor {
 
     private static final Logger LOG = LoggerFactory
             .getLogger(UnitTestWorkflowSensor.class);
-    private static final String LOGPREFIX = "WorkflowSensor : ";
+    private static final String LOGPREFIX = "UnitTestWorkflowSensor : ";
     private MsCoverProperties propertiesHelper;
     private VsTestEnvironment vsTestEnvironment;
     private WorkflowDirector workFlowDirector;
@@ -76,17 +72,10 @@ public class UnitTestWorkflowSensor extends WorkflowSensor {
         LogInfo("Starting");
         LogChanger.setPattern();
         executeUnitTests(project, context);
-        executeIntegrationTests(project, context);
+
         LogInfo("Done");
     }
 
-    private void executeIntegrationTests(Project project, SensorContext context) {
-        DefaultPicoContainer childContainer = prepareChildContainer(context);
-        childContainer.addComponent(VsTestIntegrationTestWorkflowSteps.class);
-        vsTestEnvironment.setCoverageXmlFile(project, "coverage-report.xml");
-        workFlowDirector.wire(childContainer);
-        workFlowDirector.execute();
-    }
 
     private void executeUnitTests(Project project, SensorContext context) {
         DefaultPicoContainer childContainer = prepareChildContainer(context);
@@ -98,7 +87,8 @@ public class UnitTestWorkflowSensor extends WorkflowSensor {
 
     private Class<? extends WorkflowSteps> getWorkflow() {
         Class<? extends WorkflowSteps> workflow = NullWorkflowSteps.class;
-        if (propertiesHelper.getRunMode() == RunMode.RUNVSTEST) {
+        RunMode runMode=propertiesHelper.getRunMode();
+        if (runMode== RunMode.RUNVSTEST) {
             if (propertiesHelper.runOpenCover()) {
                 workflow = OpenCoverWorkflowSteps.class;
             } else {

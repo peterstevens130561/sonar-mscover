@@ -58,16 +58,16 @@ public class VsTestIntegrationTestWorkflowStepsIntegrationTest {
 		vsTestEnvironment = new VsTestEnvironment();
 	
 		MockitoAnnotations.initMocks(this);
-	
+        workflow = new VsTestIntegrationTestWorkflowSteps();	
 		container.addComponent(msCoverProperties)
 		.addComponent(sensorContext)
 		.addComponent(resourceResolver)
 		.addComponent(vsTestEnvironment)
 		.addComponent(fileSystem)
-		.addComponent(microsoftWindowsEnvironment);
+		.addComponent(microsoftWindowsEnvironment)
+		.addComponent(workflow);
 		
-		workflow = new VsTestIntegrationTestWorkflowSteps();
-		director = new DefaultDirector(workflow);					
+		director = new DefaultDirector();					
 	}
 	
 	@Test
