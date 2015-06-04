@@ -43,10 +43,6 @@ public class OpenCoverCommand implements ShellCommand {
         path=msCoverProperties.getOpenCoverInstallPath();
     }
     
-    public OpenCoverCommand() {
-        
-    }
-    
     public OpenCoverCommand(String path) {
         this.path=path;
 
