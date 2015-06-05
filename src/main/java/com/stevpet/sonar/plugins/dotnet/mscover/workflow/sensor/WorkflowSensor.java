@@ -3,6 +3,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.injectors.ConstructorInjection;
 import org.sonar.api.BatchExtension;
+import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
@@ -14,7 +15,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
 
-public abstract class WorkflowSensor implements BatchExtension {
+public abstract class WorkflowSensor implements Sensor {
     private DefaultPicoContainer container;
     private MsCoverProperties msCoverProperties;
     
@@ -30,11 +31,11 @@ public abstract class WorkflowSensor implements BatchExtension {
                 .addComponent(workflowDirector);
         this.msCoverProperties=msCoverProperties;
     }
-    boolean shouldExecuteOnProject(Project project) {
+    public boolean shouldExecuteOnProject(Project project) {
             return project.isRoot() && msCoverProperties.getRunMode() != RunMode.SKIP;
     }        
 
-    abstract void analyse(Project project, SensorContext context);
+    public abstract void analyse(Project project, SensorContext context);
     
     public DefaultPicoContainer getContainer() {
         return container;
