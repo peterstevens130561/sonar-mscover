@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.FileId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 
@@ -35,25 +36,25 @@ public class SourceFileNameTable_GetSourceFileId_Test {
     @Test
     public void firstToAdd_ExpectIndex1() {
         String name = "myname";
-        int index=table.getSourceFileId(name);
-        assertEquals("expect index 1 for the first to add",1,index);
+        FileId fileId=table.getSourceFileId(name);
+        assertEquals("expect index 1 for the first to add",1,(int)fileId.getId());
     }
     
     @Test
     public void firstToAdd_ExpectFoundAt1() {
         String name = "myname";
         table.getSourceFileId(name);
-        int index=table.getSourceFileId(name);
-        assertEquals("expect index 1 for the first to add",1,index);
+        FileId fileId=table.getSourceFileId(name);
+        assertEquals("expect index 1 for the first to add",1,(int)fileId.getId());
     }
     
     
     @Test
     public void secondToAdd_ExpectFoundAtNext() {
         String name = "myname";
-        SourceFileNameRow model = new SourceFileNameRow(3,"strange");
+        SourceFileNameRow model = new SourceFileNameRow(new FileId("3"),"strange");
         table.add(model);
-        int index=table.getSourceFileId(name);
-        assertEquals("expect index 4 for the item added",4,index);
+        FileId fileId=table.getSourceFileId(name);
+        assertEquals("expect index 4 for the item added",4,(int)fileId.getId());
     }
 }

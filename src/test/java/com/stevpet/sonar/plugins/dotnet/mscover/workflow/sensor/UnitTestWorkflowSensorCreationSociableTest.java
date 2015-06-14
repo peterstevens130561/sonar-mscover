@@ -6,17 +6,11 @@ import java.util.List;
 
 import org.junit.Test;
 import org.picocontainer.DefaultPicoContainer;
-import org.sonar.api.BatchExtension;
-import org.sonar.api.Extension;
-import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.scan.filesystem.PathResolver;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.MsCoverPlugin;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.OpenCoverWorkflowSteps;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowSteps;
 
 public class UnitTestWorkflowSensorCreationSociableTest {
 

@@ -44,7 +44,7 @@ public class OpenCoverFileNamesAndIdObserver extends BaseParserObserver {
     @AttributeMatcher(attributeName = "uid", elementName = "File")
     public void uidMatcher(String attributeValue) {
         model = new SourceFileNameRow();
-        model.setSourceFileID(Integer.parseInt(attributeValue));
+        model.setSourceFileID(attributeValue);
     }
     
     @AttributeMatcher(attributeName="fullPath",elementName="File")

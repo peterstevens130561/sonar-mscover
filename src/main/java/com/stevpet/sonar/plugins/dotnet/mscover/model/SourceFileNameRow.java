@@ -25,34 +25,39 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
 public class SourceFileNameRow {
     
-    private int sourceFileID;
-    private String sourceFileName;
+    private FileId sourceFileID;
+    private SourceFile sourceFile;
     
     public SourceFileNameRow() {
     }
     
 
-    public SourceFileNameRow(int id,String name) {
-        sourceFileID=id;
-        sourceFileName=name;
+    public SourceFileNameRow(FileId fileId,SourceFile sourceFile) {
+        sourceFileID=fileId;
+        this.sourceFile=sourceFile;
     }
 
 
-    public int getSourceFileID() {
+    public FileId getSourceFileID() {
         return sourceFileID;
     }
     
-    public String getSourceFileName() {
-        return sourceFileName;
+    public SourceFile getSourceFile() {
+        return sourceFile;
     }
     
-    public SourceFileNameRow setSourceFileID(int value) {
-        sourceFileID = value;
+    public SourceFileNameRow setSourceFileID(String id) {
+        sourceFileID = new FileId(id);
         return this;
     }
 
-    public SourceFileNameRow setSourceFileName(String value) {
-        sourceFileName = value;
+    /**
+     * Set absolutePath to source file
+     * @param absolutePath
+     * @return
+     */
+    public SourceFileNameRow setSourceFileName(String absolutePath) {
+        this.sourceFile = new SourceFile(absolutePath);
         return this;
     }
 }

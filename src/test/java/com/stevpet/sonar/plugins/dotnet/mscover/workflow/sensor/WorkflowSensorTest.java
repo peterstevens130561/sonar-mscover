@@ -69,8 +69,14 @@ public class WorkflowSensorTest extends WorkflowSensorTestUtil {
         }
 
         @Override
-        void analyse(Project project, SensorContext context) {
+        public void analyse(Project project, SensorContext context) {
 
+        }
+
+        @Override
+        void resolve() {
+            // TODO Auto-generated method stub
+            
         }
         
     }

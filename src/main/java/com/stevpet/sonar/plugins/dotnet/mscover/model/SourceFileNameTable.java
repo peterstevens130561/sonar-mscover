@@ -31,9 +31,9 @@ import java.util.Map;
  *
  */
 public class SourceFileNameTable  {
-    private Map<Integer,SourceFileNameRow> rows = new HashMap<Integer,SourceFileNameRow>();
-    private Map<String,Integer> mapNameToId = new HashMap<String,Integer>();
-    private int maxId=0;
+    private Map<FileId,SourceFileNameRow> rows = new HashMap<FileId,SourceFileNameRow>();
+    private Map<SourceFile,FileId> mapNameToId = new HashMap<SourceFile,FileId>();
+    private FileId maxId = new FileId("0");
     /**
      * add a row with given fileID and filePath
      * @param fileID 
@@ -45,21 +45,20 @@ public class SourceFileNameTable  {
     }
     
     public void add(SourceFileNameRow row) {
-    	int key=row.getSourceFileID();
+    	FileId key=row.getSourceFileID();
         rows.put(key,row);
-        mapNameToId.put(row.getSourceFileName(),key);
-        maxId = maxId>key?maxId:key;
+        mapNameToId.put(row.getSourceFile(),key);
+        maxId = maxId.compareTo(key)>0?maxId:key;
     }
     
     public SourceFileNameRow getNewRow(String fileId) {
-    	SourceFileNameRow row = new SourceFileNameRow().setSourceFileID(Integer.parseInt(fileId));
+    	SourceFileNameRow row = new SourceFileNameRow().setSourceFileID(fileId);
     	add(row);
     	return row;
     }
 
-    private SourceFileNameRow get(String fileId) {
-    	int index = Integer.parseInt(fileId);
-       return rows.get(index);
+    private SourceFileNameRow get(FileId fileId) {
+       return rows.get(fileId);
     }
 
     public SourceFileNameRow get(int index) {
@@ -78,12 +77,12 @@ public class SourceFileNameTable  {
      * @param fileID
      * @return sourcefilename matching fileId, or null if not found
      */
-    public String getSourceFileName(String fileID) {
+    public SourceFile getSourceFileName(FileId fileID) {
         SourceFileNameRow model = get(fileID);
         if(model==null) {
             return null;
         }
-        return model.getSourceFileName();
+        return model.getSourceFile();
     }
     
     /**
@@ -91,14 +90,15 @@ public class SourceFileNameTable  {
      * @param fileName
      * @return
      */
-    public int getSourceFileId(String fileName) {
-        Integer id=mapNameToId.get(fileName);
-        if(id==null) {
-            id= ++maxId;
-            SourceFileNameRow model = new SourceFileNameRow(id,fileName);
+    public FileId getSourceFileId(String fileName) {
+        FileId fileId=mapNameToId.get(fileName);
+        if(fileId==null) {
+            maxId.setNext();
+            fileId = (FileId) maxId.clone();
+            SourceFileNameRow model = new SourceFileNameRow(fileId,fileName);
             add(model);
         }
-        return id;
+        return fileId;
     }
 
 

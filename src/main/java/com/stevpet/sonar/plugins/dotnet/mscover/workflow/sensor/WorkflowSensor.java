@@ -2,7 +2,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor;
 
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.injectors.ConstructorInjection;
-import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.FileId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
@@ -60,8 +61,8 @@ public class VsTestMethodObserverTest extends ObserverTest {
 		String doc=docToString();
 		parser.parseString(doc);
 		MethodId expectedId=new MethodId(MODULE_NAME,NAMESPACE_NAME,CLASS_NAME,"method");
-		String actualFileId=methodToSourceFileIdMap.get(expectedId);
-		assertEquals("fileId of method",FILEID,actualFileId);
+		FileId fileId=methodToSourceFileIdMap.getFileId(expectedId);
+		assertEquals("fileId of method",FILEID,fileId.getId());
 	}
 	
 	@Test

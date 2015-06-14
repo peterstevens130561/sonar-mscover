@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.FileId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 
 public class MethodToSourceFileIdMapTest {
@@ -47,8 +48,8 @@ public class MethodToSourceFileIdMapTest {
     }
 
     private void thenNormalGetFails(MethodId specFlowMethodId) {
-        String gottenFile=map.get(specFlowMethodId);
-        assertNull("normal get should fail",gottenFile);
+        FileId gottenFile=map.getFileId(specFlowMethodId);
+        assertNull("normal get should fail",gottenFile.getId());
     }
     
     private void thenLongestMatchIsFound(String scenarioNameInCoverage,

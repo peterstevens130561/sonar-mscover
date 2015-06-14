@@ -37,9 +37,9 @@ public class SourceFileNamesModelTest {
     @Test
     public void SetFileID_ShouldGetSame() {
         SourceFileNameRow model = new SourceFileNameRow() ;
-        int id = 1;
+        String id = "1";
         model.setSourceFileID(id);
-        Assert.assertEquals(id, model.getSourceFileID());
+        Assert.assertEquals("should be same",1, (int)model.getSourceFileID().getId());
     }
     
     @Test
@@ -57,15 +57,15 @@ public class SourceFileNamesModelTest {
        String text= "a/b/c/";
        model.setSourceFileName(text);
        Assert.assertEquals(text, model.getSourceFileName());
-       Assert.assertEquals(0,model.getSourceFileID());
+       Assert.assertEquals(null,model.getSourceFileID());
    }
     
    @Test
    public void SetIDField_ShouldBeSet() {
        SourceFileNameRow model = new SourceFileNameRow() ;
-       int fileID=1;
-       model.setSourceFileID(fileID);
-       Assert.assertEquals(1, model.getSourceFileID());
+       String id="1";
+       model.setSourceFileID(id);
+       Assert.assertEquals(1, (int)model.getSourceFileID().getId());
        Assert.assertNull(model.getSourceFileName());
    }
 }

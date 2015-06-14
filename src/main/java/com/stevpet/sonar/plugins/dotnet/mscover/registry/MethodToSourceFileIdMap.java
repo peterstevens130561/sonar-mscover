@@ -24,9 +24,13 @@ package com.stevpet.sonar.plugins.dotnet.mscover.registry;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.stevpet.sonar.plugins.dotnet.mscover.model.FileId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.NullFileId;
 
 
 public class MethodToSourceFileIdMap {
@@ -41,14 +45,14 @@ public class MethodToSourceFileIdMap {
         methodRegistry.put(methodClone, sourceFileId);
     }
     
-    public String get(MethodId methodId) {
+ 
+    public FileId getFileId(MethodId methodId) {
         if(methodId==null) {
-            return null;
+            return new NullFileId();
         }
         String fileId=methodRegistry.get(methodId);
-        return fileId;
+        return new FileId(fileId);
     }
- 
     public String getLongestContainedMethod(MethodId methodId) {
         if(methodId==null) {
             return null;

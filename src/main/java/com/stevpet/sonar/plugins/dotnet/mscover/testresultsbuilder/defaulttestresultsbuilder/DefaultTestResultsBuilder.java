@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.FileId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
@@ -54,11 +55,8 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
 		Collection<UnitTestMethodResult>unitTests=unitTestingResults.values();
 		for(UnitTestMethodResult unitTest:unitTests) {
 			MethodId methodId=unitTest.getMethodId();
-			String fileId = map.getLongestContainedMethod(methodId);
-			if(fileId==null) {
-				LOG.warn("Could not find fileId for " + methodId + " most likely lines were hidden (#hidden)");
-				continue;
-			}
+			FileId fileId = map.getFileId(methodId);
+
 			String filePath = sourceFileNamesTable.getSourceFileName(fileId);
 			if(filePath==null) {
 				LOG.warn("Could not find filename for method " + methodId + "");

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.FileId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
@@ -49,7 +50,8 @@ public class VsTestSourceFileNamesObserverTest extends ObserverTest {
 	@Test
 	public void oneFile_ShouldBeRightElement() {
 		createOneFile();
-		assertEquals("expect name","file1",sourceFileNameTable.getSourceFileName("1"));
+		FileId fileId = new FileId("1");
+		assertEquals("expect name","file1",sourceFileNameTable.getSourceFileName(fileId));
 	}
 
 	private void createOneFile() {
