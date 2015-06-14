@@ -34,8 +34,6 @@ public abstract class WorkflowSensor implements Sensor {
     public boolean shouldExecuteOnProject(Project project) {
             return project.isRoot() && msCoverProperties.getRunMode() != RunMode.SKIP;
     }        
-
-    public abstract void analyse(Project project, SensorContext context);
     
     public DefaultPicoContainer getContainer() {
         return container;
@@ -46,5 +44,8 @@ public abstract class WorkflowSensor implements Sensor {
         childContainer.addComponent(context);
         return childContainer;
     }
-
+    /**
+     * 
+     */
+    abstract void resolve();
 }

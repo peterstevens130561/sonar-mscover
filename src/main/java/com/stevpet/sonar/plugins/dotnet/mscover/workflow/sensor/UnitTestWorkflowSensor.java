@@ -102,4 +102,10 @@ public class UnitTestWorkflowSensor extends WorkflowSensor {
         LOG.info(LOGPREFIX + msg, objects);
     }
 
+    @Override
+    void resolve() {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

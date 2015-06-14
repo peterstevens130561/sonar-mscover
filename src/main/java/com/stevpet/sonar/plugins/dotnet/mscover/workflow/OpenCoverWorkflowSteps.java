@@ -30,6 +30,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder
 
 public class OpenCoverWorkflowSteps implements WorkflowSteps {
 
+
+    private DefaultPicoContainer container;
+
     @Override
     public Class<? extends TestRunner> getTestRunner() {
         return OpenCoverCoverageRunner.class;
@@ -55,6 +58,22 @@ public class OpenCoverWorkflowSteps implements WorkflowSteps {
         return DefaultTestResultsSaver.class;
     }
 
+    /**
+     * register all the dependencies in the container
+     * @param container with sonar provided dependencies
+     */
+    public void register(DefaultPicoContainer container) {
+        this.container=container;
+        getComponents(container);
+    }
+    
+    /**
+     * create the object graph
+     */
+    public void resolve() {
+        TestRunner testRunner = container.getComponent(TestRunner.class);
+        
+    }
     @Override
     public void getComponents(DefaultPicoContainer container) {
         getTestRunnerComponents(container);

@@ -33,8 +33,9 @@ public class UnitTestWorkflowSensorCreationSociableTest {
     @Test
     public void ExecuteUnitTestWorkflowSensor() {
         DefaultPicoContainer container = composeDependencies();
-        container.addComponent(OpenCoverWorkflowSteps.class);
-        WorkflowSteps steps=container.getComponent(OpenCoverWorkflowSteps.class);
+        container.addComponent(UnitTestWorkflowSensor.class);
+        WorkflowSensor sensor=container.getComponent(UnitTestWorkflowSensor.class);
+        sensor.resolve();
         
     }
     private DefaultPicoContainer composeDependencies() {
