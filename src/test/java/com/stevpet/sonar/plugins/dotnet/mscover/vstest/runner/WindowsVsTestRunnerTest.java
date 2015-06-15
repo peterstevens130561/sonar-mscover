@@ -68,12 +68,13 @@ public class WindowsVsTestRunnerTest {
     private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     private AssembliesFinderMock assembliesFinderMock = new AssembliesFinderMock();
-    private VsTestEnvironment testEnvironment = new VsTestEnvironment();
+    private VsTestEnvironment testEnvironment;
     @Mock CoverageToXmlConverter coverageToXmlConverter;
     
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
+        testEnvironment= new VsTestEnvironment(fileSystemMock.getMock());
     }
     
     @Test

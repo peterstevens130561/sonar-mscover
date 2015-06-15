@@ -40,7 +40,7 @@ public class OpenCoverCoverageRunnerTest {
     private OpenCoverCoverageRunner openCoverCoverageRunner;
     private OpenCoverCommand  openCoverCommand ;
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
-    private VsTestEnvironment testEnvironment = new VsTestEnvironment();
+    private VsTestEnvironment testEnvironment;
     private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
     private CommandLineExexutorStub commandLineExecutorStub = new CommandLineExexutorStub();
     private FileSystemMock fileSystemMock = new FileSystemMock();
@@ -60,6 +60,7 @@ public class OpenCoverCoverageRunnerTest {
     public void before() {
         msCoverPropertiesMock.givenOpenCoverInstallPath("opencover");
         openCoverCommand = new OpenCoverCommand(msCoverPropertiesMock.getMock());
+        testEnvironment = new VsTestEnvironment(fileSystemMock.getMock());
         testEnvironment.setCoverageXmlPath("coverage.xml");
         assemblies= new ArrayList<String>();
         

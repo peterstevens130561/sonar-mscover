@@ -55,7 +55,7 @@ public class VsTestIntegrationTestWorkflowStepsIntegrationTest {
 	@Before
 	public void before() {
 		container = new DefaultPicoContainer();
-		vsTestEnvironment = new VsTestEnvironment();
+		vsTestEnvironment = new VsTestEnvironment(fileSystem);
 	
 		MockitoAnnotations.initMocks(this);
         workflow = new VsTestIntegrationTestWorkflowSteps();	
