@@ -23,10 +23,12 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.plugin;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 import java.util.List;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,9 +45,16 @@ public class MsCoverPlugingetExtensions {
         List<String> allowedInterfaces =Arrays.asList("org.sonar.api.batch.Sensor","org.sonar.api.BatchExtension","org.sonar.api.batch.Decorator");
 
         List<Class> plugins = classUnderTest.getExtensions();
+        StringBuilder sb = new StringBuilder();
         for(Class plugin:plugins) {
             boolean found = checkImplementation(allowedInterfaces, plugin);
-            assertTrue(plugin.getName(),found);
+            if ( !found) {
+                sb.append(plugin.getName()).append(" ");
+            }
+        }
+        String failedPlugins=sb.toString();
+        if(StringUtils.isNotEmpty(failedPlugins)) {
+            fail("following plugins do not implement an extenstion " + failedPlugins);
         }
     }
     private boolean checkImplementation(List<String> allowedInterfaces,

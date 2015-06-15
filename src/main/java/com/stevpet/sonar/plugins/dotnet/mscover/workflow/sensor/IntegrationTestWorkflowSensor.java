@@ -32,7 +32,7 @@ public class IntegrationTestWorkflowSensor extends WorkflowSensor {
     }
 
     @Override
-    void analyse(Project project, SensorContext context) {
+    public void analyse(Project project, SensorContext context) {
         LogInfo("Starting");
         LogChanger.setPattern();
         DefaultPicoContainer childContainer = prepareChildContainer(context);
