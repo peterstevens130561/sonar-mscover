@@ -47,7 +47,7 @@ public class SourceFileNamesModelTest {
         SourceFileNameRow model = new SourceFileNameRow() ;
         String name = "a/b/c/";
         model.setSourceFileName(name);
-        Assert.assertEquals(name, model.getSourceFileName());
+        Assert.assertEquals(name, model.getSourceFile());
     }   
     
 

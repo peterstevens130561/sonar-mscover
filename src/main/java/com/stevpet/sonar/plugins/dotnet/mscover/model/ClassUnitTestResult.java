@@ -26,14 +26,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ClassUnitTestResult {
     private int error;
 
     private List<UnitTestMethodResult> tests = new ArrayList<UnitTestMethodResult>();
-    private File file;
+    private SourceFile sourceFile;
 
-    public ClassUnitTestResult(File file) {
-        this.file = file;
+    public ClassUnitTestResult(SourceFile sourceFile) {
+        this.sourceFile = sourceFile;
     }
 
     public void add(UnitTestMethodResult unitTest) {
@@ -44,8 +45,8 @@ public class ClassUnitTestResult {
         }
     }
 
-    public File getFile() {
-        return file;
+    public SourceFile getSourceFile() {
+        return sourceFile;
     }
 
     public double getPassed() {

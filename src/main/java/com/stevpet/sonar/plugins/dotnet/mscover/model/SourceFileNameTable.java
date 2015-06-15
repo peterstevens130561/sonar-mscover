@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+
 /**
  * The table provides a means to lookup id by the name {@link getSourceFileId}
  * and name by the id {@link getSourceFileName)
@@ -87,18 +88,26 @@ public class SourceFileNameTable  {
     
     /**
      * makes sure that the file is in the table, returns it's id
-     * @param fileName
+     * @param sourceFile
      * @return
      */
-    public FileId getSourceFileId(String fileName) {
-        FileId fileId=mapNameToId.get(fileName);
+    public FileId getSourceFileId(SourceFile sourceFile) {
+        FileId fileId=mapNameToId.get(sourceFile);
         if(fileId==null) {
             maxId.setNext();
             fileId = (FileId) maxId.clone();
-            SourceFileNameRow model = new SourceFileNameRow(fileId,fileName);
+            SourceFileNameRow model = new SourceFileNameRow(fileId,sourceFile);
             add(model);
         }
         return fileId;
+    }
+
+    public SourceFile getSourceFile(FileId fileId) {
+        SourceFileNameRow model = get(fileId);
+        if(model==null) {
+            return null;
+        }
+        return model.getSourceFile();
     }
 
 

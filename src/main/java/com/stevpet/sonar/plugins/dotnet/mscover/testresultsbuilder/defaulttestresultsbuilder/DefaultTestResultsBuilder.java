@@ -12,6 +12,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.FileId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFile;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
@@ -50,23 +51,23 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
     }   
 	
 	public ProjectUnitTestResults mapUnitTestResultsToFile(UnitTestingResults unitTestingResults, MethodToSourceFileIdMap map,SourceFileNameTable sourceFileNamesTable) {
-		Map<String,ClassUnitTestResult> unitTestFilesResultRegistry = new HashMap<String,ClassUnitTestResult>();
+		Map<SourceFile,ClassUnitTestResult> unitTestFilesResultRegistry = new HashMap<SourceFile,ClassUnitTestResult>();
 
 		Collection<UnitTestMethodResult>unitTests=unitTestingResults.values();
 		for(UnitTestMethodResult unitTest:unitTests) {
 			MethodId methodId=unitTest.getMethodId();
 			FileId fileId = map.getFileId(methodId);
 
-			String filePath = sourceFileNamesTable.getSourceFileName(fileId);
-			if(filePath==null) {
+			SourceFile sourceFile = sourceFileNamesTable.getSourceFile(fileId);
+			if(sourceFile==null) {
 				LOG.warn("Could not find filename for method " + methodId + "");
 				continue;
 			}
 
-			if(!unitTestFilesResultRegistry.containsKey(filePath)) {
-				unitTestFilesResultRegistry.put(filePath, new ClassUnitTestResult(new File(filePath)));
+			if(!unitTestFilesResultRegistry.containsKey(sourceFile)) {
+				unitTestFilesResultRegistry.put(sourceFile, new ClassUnitTestResult(sourceFile));
 			}
-			ClassUnitTestResult classUnitTestResult=unitTestFilesResultRegistry.get(filePath);
+			ClassUnitTestResult classUnitTestResult=unitTestFilesResultRegistry.get(sourceFile);
 			classUnitTestResult.add(unitTest);
 			
 		}
