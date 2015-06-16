@@ -74,7 +74,7 @@ public class WindowsVsTestRunnerTest {
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
-        testEnvironment= new VsTestEnvironment(fileSystemMock.getMock());
+        testEnvironment= new VsTestEnvironment();
     }
     
     @Test

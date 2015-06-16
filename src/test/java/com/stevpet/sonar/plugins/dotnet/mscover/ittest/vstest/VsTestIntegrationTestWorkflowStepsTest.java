@@ -31,7 +31,6 @@ public class VsTestIntegrationTestWorkflowStepsTest extends AbstractSensorTest {
 		MockitoAnnotations.initMocks(this);
         container
         .addComponent(PathResolver.class)
-        .addComponent(resourceResolver)
         .addComponent(steps);
         
         director.wire(container);

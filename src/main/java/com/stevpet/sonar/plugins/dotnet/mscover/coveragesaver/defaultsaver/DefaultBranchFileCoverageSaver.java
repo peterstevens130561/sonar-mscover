@@ -27,6 +27,9 @@ public class DefaultBranchFileCoverageSaver implements BranchFileCoverageSaver {
 	@Override
 	public void saveMeasures(CoverageLinePoints coveragePoints, java.io.File file) {
     	File resource = resourceResolver.getFile(file);
+    	if(resource==null) {
+    	    return;
+    	}
         SonarCoverageSummary summary=coveragePoints.getSummary();
 		sensorContext.saveMeasure(resource,CoreMetrics.UNCOVERED_CONDITIONS,(double) summary.getToCover()-summary.getCovered());
 		sensorContext.saveMeasure(resource,CoreMetrics.CONDITIONS_TO_COVER,(double)summary.getToCover());

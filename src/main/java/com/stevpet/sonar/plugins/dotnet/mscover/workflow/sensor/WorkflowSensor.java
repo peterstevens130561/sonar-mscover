@@ -41,8 +41,7 @@ public abstract class WorkflowSensor implements Sensor {
         return container;
     }
     protected DefaultPicoContainer prepareChildContainer(SensorContext context) {
-        DefaultPicoContainer childContainer = new DefaultPicoContainer();
-        container.addChildContainer(childContainer);
+        DefaultPicoContainer childContainer = new DefaultPicoContainer(container);
         childContainer.addComponent(context);
         return childContainer;
     }

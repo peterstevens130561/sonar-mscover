@@ -51,6 +51,7 @@ public class UnitTestWorkflowSensor extends WorkflowSensor {
     private MsCoverProperties propertiesHelper;
     private VsTestEnvironment vsTestEnvironment;
     private WorkflowDirector workFlowDirector;
+    private FileSystem fileSystem;
 
     @SuppressWarnings("ucd")
 
@@ -62,6 +63,7 @@ public class UnitTestWorkflowSensor extends WorkflowSensor {
         this.propertiesHelper = propertiesHelper;
         this.vsTestEnvironment = vsTestEnvironment;
         this.workFlowDirector = workflowDirector;
+        this.fileSystem=fileSystem;
     }
 
     /* (non-Javadoc)
@@ -79,7 +81,7 @@ public class UnitTestWorkflowSensor extends WorkflowSensor {
 
     private void executeUnitTests(Project project, SensorContext context) {
         DefaultPicoContainer childContainer = prepareChildContainer(context);
-        vsTestEnvironment.setCoverageXmlFile(project, "coverage-report.xml");
+        vsTestEnvironment.setCoverageXmlFile(fileSystem, "coverage-report.xml");
         childContainer.addComponent(getWorkflow());
         workFlowDirector.wire(childContainer);
         workFlowDirector.execute();

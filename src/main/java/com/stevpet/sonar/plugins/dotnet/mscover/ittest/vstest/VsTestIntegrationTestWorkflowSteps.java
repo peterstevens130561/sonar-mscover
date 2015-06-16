@@ -10,6 +10,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.Defau
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.nullsaver.NullBranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.VsTestCoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.WindowsCodeCoverageCommand;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.NullTestResultsSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.TestResultsSaver;
@@ -52,7 +53,8 @@ public class VsTestIntegrationTestWorkflowSteps implements WorkflowSteps {
     }
 
     private void getCoverageSaverComponents(DefaultPicoContainer container) {
-        container.addComponent(IntegrationTestLineFileCoverageSaver.class)
+        container.addComponent(DefaultResourceResolver.class)
+        .addComponent(IntegrationTestLineFileCoverageSaver.class)
                 .addComponent(NullBranchFileCoverageSaver.class);
     }
 

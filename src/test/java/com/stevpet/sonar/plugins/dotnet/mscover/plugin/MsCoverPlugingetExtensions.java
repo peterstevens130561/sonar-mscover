@@ -42,7 +42,7 @@ public class MsCoverPlugingetExtensions {
     @Test
     public void allElementsImplementBatchExtension_Pass() {
         SonarPlugin classUnderTest = new MsCoverPlugin() ;
-        List<String> allowedInterfaces =Arrays.asList("org.sonar.api.batch.Sensor","org.sonar.api.BatchExtension","org.sonar.api.batch.Decorator");
+        List<String> allowedInterfaces =Arrays.asList("org.sonar.api.batch.Sensor","org.sonar.api.BatchExtension","org.sonar.api.BatchComponent","org.sonar.api.batch.Decorator");
 
         List<Class> plugins = classUnderTest.getExtensions();
         StringBuilder sb = new StringBuilder();

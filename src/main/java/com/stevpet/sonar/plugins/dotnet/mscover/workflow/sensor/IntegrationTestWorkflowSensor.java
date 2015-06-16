@@ -21,6 +21,8 @@ public class IntegrationTestWorkflowSensor extends WorkflowSensor {
     private static final String LOGPREFIX = "IntegrationTestWorkflowSensor : ";
     private VsTestEnvironment vsTestEnvironment;
     private WorkflowDirector workFlowDirector;
+
+    private FileSystem fileSystem;
     public IntegrationTestWorkflowSensor(VsTestEnvironment vsTestEnvironment,
             MsCoverProperties msCoverProperties, FileSystem fileSystem,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
@@ -29,6 +31,7 @@ public class IntegrationTestWorkflowSensor extends WorkflowSensor {
                 microsoftWindowsEnvironment, pathResolver, workflowDirector);
         this.vsTestEnvironment = vsTestEnvironment;
         this.workFlowDirector = workflowDirector;
+        this.fileSystem=fileSystem;
     }
 
     @Override
@@ -37,7 +40,7 @@ public class IntegrationTestWorkflowSensor extends WorkflowSensor {
         LogChanger.setPattern();
         DefaultPicoContainer childContainer = prepareChildContainer(context);
         childContainer.addComponent(VsTestIntegrationTestWorkflowSteps.class);
-        vsTestEnvironment.setCoverageXmlFile(project, "coverage-report.xml");
+        vsTestEnvironment.setCoverageXmlFile(fileSystem, "coverage-report.xml");
         workFlowDirector.wire(childContainer);
         workFlowDirector.execute();
         LogInfo("Done");

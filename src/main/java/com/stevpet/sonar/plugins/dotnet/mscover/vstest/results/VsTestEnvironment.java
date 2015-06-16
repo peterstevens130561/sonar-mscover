@@ -24,6 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
 
 import java.io.File;
 
+import org.sonar.api.BatchComponent;
 import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.api.batch.fs.FileSystem;
@@ -32,18 +33,14 @@ import org.sonar.api.resources.Project;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 @InstantiationStrategy(InstantiationStrategy.PER_BATCH)
-public class VsTestEnvironment implements BatchExtension {
+public class VsTestEnvironment implements BatchComponent {
 
     private String coverageXmlPath;
     private String resultsXmlPath;
     private boolean testsHaveRun = false;
 
     private SonarCoverage sonarCoverage;
-    private final FileSystem fileSystem;
 
-    public VsTestEnvironment(FileSystem fileSystem) {
-        this.fileSystem = fileSystem;
-    }
     public String getXmlCoveragePath() {
         return coverageXmlPath;
     }
@@ -77,7 +74,7 @@ public class VsTestEnvironment implements BatchExtension {
         return sonarCoverage;
     }
 
-    public void setCoverageXmlFile(Project project, String string) {
+    public void setCoverageXmlFile(FileSystem fileSystem, String string) {
         File opencoverCoverageFile = new File(fileSystem.workDir(),string);
         String openCoverCoveragePath = opencoverCoverageFile.getAbsolutePath();
         setCoverageXmlPath(openCoverCoveragePath);
