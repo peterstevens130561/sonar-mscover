@@ -90,5 +90,10 @@ public class WindowsCommandLineExecutor implements CommandLineExecutor {
             log.append(line);
             log.append("\r\n");
         }
+        
+    }
+    
+    void setCommandExecutor(CommandExecutor commandExecutor) {
+        this.commandExecutor = commandExecutor;
     }
 }

@@ -27,7 +27,6 @@ public class NullWorkflowSteps implements WorkflowSteps {
 
     @Override
     public Class<? extends TestResultsBuilder> getTestResultsBuilder() {
-
         return NullTestResultsBuilder.class;
     }
 

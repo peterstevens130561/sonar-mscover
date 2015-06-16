@@ -69,7 +69,7 @@ public class WorkflowSensorTest extends WorkflowSensorTestUtil {
         }
 
         @Override
-        void analyse(Project project, SensorContext context) {
+        public void analyse(Project project, SensorContext context) {
 
         }
         
