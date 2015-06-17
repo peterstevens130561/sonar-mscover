@@ -52,6 +52,7 @@ public class UnitTestWorkflowSensor extends WorkflowSensor {
     private VsTestEnvironment vsTestEnvironment;
     private WorkflowDirector workFlowDirector;
     private FileSystem fileSystem;
+    private MicrosoftWindowsEnvironment microsoftWindowsenvironment;
 
     @SuppressWarnings("ucd")
 
@@ -64,6 +65,7 @@ public class UnitTestWorkflowSensor extends WorkflowSensor {
         this.vsTestEnvironment = vsTestEnvironment;
         this.workFlowDirector = workflowDirector;
         this.fileSystem=fileSystem;
+        this.microsoftWindowsenvironment=microsoftWindowsEnvironment;
     }
 
     /* (non-Javadoc)
@@ -102,6 +104,11 @@ public class UnitTestWorkflowSensor extends WorkflowSensor {
 
     private void LogInfo(String msg, Object... objects) {
         LOG.info(LOGPREFIX + msg, objects);
+    }
+
+    @Override
+    public boolean shouldExecuteWorkflow() {
+        return microsoftWindowsenvironment.hasUnitTestSourceFiles();
     }
 
 }

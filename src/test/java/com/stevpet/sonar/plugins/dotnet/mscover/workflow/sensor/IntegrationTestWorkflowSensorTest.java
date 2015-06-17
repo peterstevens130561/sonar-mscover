@@ -23,14 +23,12 @@ public class IntegrationTestWorkflowSensorTest extends WorkflowSensorTestUtil {
     
     @Test
     public void ExecutedOnce() {
-        when(propertiesHelper.isIntegrationTestsEnabled()).thenReturn(true);
         whenAnalysed();
         thenExecutedOnce();
     }
     
     @Test
     public void VsTest() {
-        when(propertiesHelper.isIntegrationTestsEnabled()).thenReturn(true);
         whenAnalysed();
         assertEquals("expect vsTest based integration test workflow",VsTestIntegrationTestWorkflowSteps.class,workflowDirector.getWorkflow().getClass());
     }

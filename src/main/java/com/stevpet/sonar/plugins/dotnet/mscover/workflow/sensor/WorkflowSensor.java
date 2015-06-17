@@ -33,10 +33,16 @@ public abstract class WorkflowSensor implements Sensor {
         this.msCoverProperties=msCoverProperties;
     }
     public boolean shouldExecuteOnProject(Project project) {
-            return project.isRoot() && msCoverProperties.getRunMode() != RunMode.SKIP;
+            return project.isRoot() && msCoverProperties.getRunMode() != RunMode.SKIP && shouldExecuteWorkflow();
     }        
 
-    public abstract void analyse(Project project, SensorContext context);
+    /**
+     * check to performed by the workflowsensor as to whether it actually should run
+     * @return
+     */
+    public abstract boolean shouldExecuteWorkflow();
+  
+    //public abstract void analyse(Project project, SensorContext context);
     
     public DefaultPicoContainer getContainer() {
         return container;

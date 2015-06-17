@@ -39,9 +39,6 @@ public class IntegrationTestWorkflowSensor extends WorkflowSensor {
 
     @Override
     public void analyse(Project project, SensorContext context) {
-        if(!msCoverProperties.isIntegrationTestsEnabled()) {
-            return;
-        }
         LogInfo("Starting");
         LogChanger.setPattern();
         DefaultPicoContainer childContainer = prepareChildContainer(context);
@@ -55,5 +52,10 @@ public class IntegrationTestWorkflowSensor extends WorkflowSensor {
 
     private void LogInfo(String msg, Object... objects) {
         LOG.info(LOGPREFIX + msg, objects);
+    }
+
+    @Override
+    public boolean shouldExecuteWorkflow() {
+        return msCoverProperties.isIntegrationTestsEnabled();
     }
 }

@@ -72,6 +72,11 @@ public class WorkflowSensorTest extends WorkflowSensorTestUtil {
         public void analyse(Project project, SensorContext context) {
 
         }
+
+        @Override
+        public boolean shouldExecuteWorkflow() {
+            return true;
+        }
         
     }
 }

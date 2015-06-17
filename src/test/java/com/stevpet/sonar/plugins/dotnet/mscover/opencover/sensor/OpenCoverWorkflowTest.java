@@ -88,7 +88,7 @@ public class OpenCoverWorkflowTest extends AbstractSensorTest {
         vsTestConfigFinderMock.replace(container);
         
         microsoftWindowsEnvironmentMock.givenHasSolutionWithProject(1);
-        
+        microsoftWindowsEnvironmentMock.givenHasUnitTestSourceFiles(true);
         List<String> assemblies=new ArrayList<String>();
         assemblies.add("one");
         assemblies.add("two");

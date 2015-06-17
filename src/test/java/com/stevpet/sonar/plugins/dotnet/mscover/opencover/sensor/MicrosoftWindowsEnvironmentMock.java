@@ -77,5 +77,9 @@ public class MicrosoftWindowsEnvironmentMock extends GenericClassMock<MicrosoftW
     public void givenHasAssemblies(List<String> assemblies) {
         when(instance.getAssemblies()).thenReturn(assemblies);
     }
+
+    public void givenHasUnitTestSourceFiles(boolean value) {
+        when(instance.hasUnitTestSourceFiles()).thenReturn(value);
+    }
     
 }

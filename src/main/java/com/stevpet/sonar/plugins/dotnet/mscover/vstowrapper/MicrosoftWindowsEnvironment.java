@@ -35,6 +35,10 @@ public interface MicrosoftWindowsEnvironment {
 
     void setCurrentSolution(VisualStudioSolution currentSolution);
     
+    /**
+     * 
+     * @return (empty) list of unittest sourcefiles.
+     */
     List<File> getUnitTestSourceFiles();
     
     List<String> getAssemblies();
@@ -45,5 +49,12 @@ public interface MicrosoftWindowsEnvironment {
      * @return
      */
     List<String> getArtifactNames();
+
+
+    /**
+     * 
+     * @return true if there is one or more unittest sourcefiles
+     */
+    boolean hasUnitTestSourceFiles();
 
 }

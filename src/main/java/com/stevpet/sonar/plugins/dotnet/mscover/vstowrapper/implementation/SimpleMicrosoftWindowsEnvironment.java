@@ -62,7 +62,6 @@ public class SimpleMicrosoftWindowsEnvironment implements BatchExtension,Microso
     }
 
 
-
     @Override
     public List<File> getUnitTestSourceFiles() {
         return getCurrentSolution().getUnitTestSourceFiles();
@@ -81,5 +80,11 @@ public class SimpleMicrosoftWindowsEnvironment implements BatchExtension,Microso
     @Override
     public List<String> getArtifactNames() {
         return getCurrentSolution().getArtifactNames();
+    }
+
+
+    @Override
+    public boolean hasUnitTestSourceFiles() {
+        return getUnitTestSourceFiles().size()>0;
     }
 }

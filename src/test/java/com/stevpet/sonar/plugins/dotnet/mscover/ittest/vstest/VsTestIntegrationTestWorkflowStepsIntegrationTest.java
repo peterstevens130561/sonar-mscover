@@ -96,4 +96,5 @@ public class VsTestIntegrationTestWorkflowStepsIntegrationTest {
 		assertEquals("line coverage", 94.0,valueArgument.getAllValues().get(3).doubleValue(),0.1);
 
 	}
+	
 }
