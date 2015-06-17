@@ -20,6 +20,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.nullsaver.NullBran
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 
 public class DefaultCoverageSaverTest {
 	private static final String SECOND_FILE = "b/c";
@@ -32,11 +33,13 @@ public class DefaultCoverageSaverTest {
 	private LineFileCoverageSaverMock lineFileCoverageSaverMock = new LineFileCoverageSaverMock();
 	@Mock private SensorContext sensorContext;
 	@Mock private ResourceResolver resourceResolver;
+	@Mock private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 	
 	@Before
 	public void before() {
 		MockitoAnnotations.initMocks(this);
-		container.addComponent(DefaultCoverageSaver.class).addComponent(sensorContext).addComponent(resourceResolver);
+		container.addComponent(DefaultCoverageSaver.class)
+		.addComponent(sensorContext).addComponent(resourceResolver).addComponent(microsoftWindowsEnvironment);
 		testFiles = new ArrayList<File>();
 	}
 	

@@ -53,8 +53,7 @@ public class VsTestIntegrationTestWorkflowSteps implements WorkflowSteps {
     }
 
     private void getCoverageSaverComponents(DefaultPicoContainer container) {
-        container.addComponent(DefaultResourceResolver.class)
-        .addComponent(IntegrationTestLineFileCoverageSaver.class)
+        container.addComponent(IntegrationTestLineFileCoverageSaver.class)
                 .addComponent(NullBranchFileCoverageSaver.class);
     }
 

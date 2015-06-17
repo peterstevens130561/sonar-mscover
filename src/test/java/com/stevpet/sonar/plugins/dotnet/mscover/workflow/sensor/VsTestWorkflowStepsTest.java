@@ -15,6 +15,7 @@ import org.sonar.api.scan.filesystem.PathResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.TestResultsSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
@@ -43,6 +44,7 @@ public class VsTestWorkflowStepsTest {
        picoContainer.addComponent(vsTestEnvironment);
        picoContainer.addComponent(fileSystem)
        .addComponent(microsoftWindowsEnvironment)
+       .addComponent(DefaultResourceResolver.class)
        .addComponent(msCoverProperties)
        .addComponent(sensorContext)
        .addComponent(pathResolver)

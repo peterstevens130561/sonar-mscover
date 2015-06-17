@@ -11,6 +11,7 @@ import org.sonar.api.scan.filesystem.PathResolver;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
@@ -42,7 +43,7 @@ public abstract class WorkflowSensor implements Sensor {
     }
     protected DefaultPicoContainer prepareChildContainer(SensorContext context) {
         DefaultPicoContainer childContainer = new DefaultPicoContainer(container);
-        childContainer.addComponent(context);
+        childContainer.addComponent(context).addComponent(DefaultResourceResolver.class);
         return childContainer;
     }
 

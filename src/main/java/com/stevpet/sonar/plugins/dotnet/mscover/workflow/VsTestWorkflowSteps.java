@@ -68,7 +68,7 @@ public class VsTestWorkflowSteps implements WorkflowSteps {
     }
 
     private void getTestResultsSaverComponents(DefaultPicoContainer container) {
-        container.addComponent(DefaultResourceResolver.class).addComponent(
+        container.addComponent(
                 DefaultTestResultsFormatter.class);
     }
 

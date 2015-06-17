@@ -13,6 +13,7 @@ import org.sonar.api.scan.filesystem.PathResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.utils.AbstractSensorTest;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultDirector;
@@ -31,6 +32,7 @@ public class VsTestIntegrationTestWorkflowStepsTest extends AbstractSensorTest {
 		MockitoAnnotations.initMocks(this);
         container
         .addComponent(PathResolver.class)
+        .addComponent(DefaultResourceResolver.class)
         .addComponent(steps);
         
         director.wire(container);

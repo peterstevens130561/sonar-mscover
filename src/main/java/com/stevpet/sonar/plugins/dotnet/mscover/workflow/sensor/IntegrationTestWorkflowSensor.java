@@ -23,6 +23,8 @@ public class IntegrationTestWorkflowSensor extends WorkflowSensor {
     private WorkflowDirector workFlowDirector;
 
     private FileSystem fileSystem;
+
+    private MsCoverProperties msCoverProperties;
     public IntegrationTestWorkflowSensor(VsTestEnvironment vsTestEnvironment,
             MsCoverProperties msCoverProperties, FileSystem fileSystem,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
@@ -32,10 +34,14 @@ public class IntegrationTestWorkflowSensor extends WorkflowSensor {
         this.vsTestEnvironment = vsTestEnvironment;
         this.workFlowDirector = workflowDirector;
         this.fileSystem=fileSystem;
+        this.msCoverProperties=msCoverProperties;
     }
 
     @Override
     public void analyse(Project project, SensorContext context) {
+        if(!msCoverProperties.isIntegrationTestsEnabled()) {
+            return;
+        }
         LogInfo("Starting");
         LogChanger.setPattern();
         DefaultPicoContainer childContainer = prepareChildContainer(context);
