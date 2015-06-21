@@ -41,7 +41,7 @@ public class MsCoverPlugingetExtensions {
     @Test
     public void allElementsImplementBatchExtension_Pass() {
         SonarPlugin classUnderTest = new MsCoverPlugin() ;
-        List<String> allowedInterfaces =Arrays.asList("org.sonar.api.batch.Sensor","org.sonar.api.BatchExtension","org.sonar.api.BatchComponent","org.sonar.api.batch.Decorator");
+        List<String> allowedInterfaces =Arrays.asList("org.sonar.api.resources.Language","org.sonar.api.batch.Sensor","org.sonar.api.BatchExtension","org.sonar.api.BatchComponent","org.sonar.api.batch.Decorator");
 
         List<Class> plugins = classUnderTest.getExtensions();
         StringBuilder sb = new StringBuilder();
@@ -60,6 +60,7 @@ public class MsCoverPlugingetExtensions {
             Class plugin) {
         LOG.info("checking {}",plugin.getName());
         boolean found = false;
+        
         for(Class intf: plugin.getInterfaces()) {
             LOG.info(intf.getName());
             if(allowedInterfaces.contains(intf.getName())) {
