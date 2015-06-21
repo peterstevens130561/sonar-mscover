@@ -30,7 +30,7 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
-import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +39,6 @@ import java.util.List;
  * Decorates resources that do not have coverage metrics because they were not touched by any test, and thus not present in the coverage
  * report file.
  */
-@Extension
 public class UnitTestLineDecorator extends BaseDecorator {
 
   public UnitTestLineDecorator(MsCoverProperties properties,TimeMachine timeMachine) {

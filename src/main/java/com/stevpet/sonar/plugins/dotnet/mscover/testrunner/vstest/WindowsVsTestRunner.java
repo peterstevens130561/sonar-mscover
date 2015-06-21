@@ -32,7 +32,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.CoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 
 /**
  * @author stevpet
@@ -49,20 +48,18 @@ public class WindowsVsTestRunner implements TestRunner {
     private VsTestRunnerCommandBuilder commandBuilder;
     private VsTestEnvironment testEnvironment;
     private CoverageToXmlConverter coverageToXmlConverter;
-    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
+
 
     public WindowsVsTestRunner(CoverageToXmlConverter coverageToXmlConverter,
             VSTestStdOutParser vsTestStdOutParser,
             VsTestRunnerCommandBuilder commandBuilder,
             CommandLineExecutor commandLineExecutor,
-            VsTestEnvironment testEnvironment,
-            MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+            VsTestEnvironment testEnvironment) {
         this.commandBuilder = commandBuilder;
         this.coverageToXmlConverter = coverageToXmlConverter;
         this.vsTestStdOutParser = vsTestStdOutParser;
         this.executor = commandLineExecutor;
         this.testEnvironment = testEnvironment;
-        this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
     }
 
     public void execute() {

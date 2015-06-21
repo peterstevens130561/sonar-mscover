@@ -25,11 +25,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
 import java.io.File;
 
 import org.sonar.api.BatchComponent;
-import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.resources.Project;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 @InstantiationStrategy(InstantiationStrategy.PER_BATCH)

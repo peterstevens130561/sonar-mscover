@@ -33,9 +33,8 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
-import com.stevpet.sonar.plugins.dotnet.mscover.plugin.Extension;
 
-@Extension
+
 public class UnitTestBlockDecorator extends BaseDecorator {
     public UnitTestBlockDecorator(MsCoverProperties propertiesHelper, TimeMachine timeMachine) {
         super(propertiesHelper, timeMachine);

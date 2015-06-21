@@ -1,0 +1,26 @@
+package com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.sonar.api.utils.command.CommandExecutor;
+
+public class WindowsCommandLineExecutor_ExecuteTest {
+    @Mock private CommandExecutor commandExecutor ;
+    @Mock private ShellCommand shellCommand;
+    
+    @Before
+    public void before() {
+        MockitoAnnotations.initMocks(this);
+    }
+    
+    @Test
+    public void executeTestPass() {
+        WindowsCommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
+        commandLineExecutor.setCommandExecutor(commandExecutor);
+        commandLineExecutor.execute(shellCommand);
+        
+        //verify(commandExecutor,times(1)).execute(eq(shellCommand), stdOut, stdErr, timeoutMilliseconds));
+    }
+}

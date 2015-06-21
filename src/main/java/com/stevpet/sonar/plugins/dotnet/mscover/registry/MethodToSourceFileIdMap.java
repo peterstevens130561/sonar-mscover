@@ -24,15 +24,11 @@ package com.stevpet.sonar.plugins.dotnet.mscover.registry;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 
 
 public class MethodToSourceFileIdMap {
     
-    private static final Logger LOG = LoggerFactory
-            .getLogger(MethodToSourceFileIdMap.class);
     private Map<MethodId,String> methodRegistry = new HashMap<MethodId,String>();
 
    

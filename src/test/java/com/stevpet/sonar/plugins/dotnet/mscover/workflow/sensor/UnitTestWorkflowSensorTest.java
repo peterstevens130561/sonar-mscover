@@ -3,20 +3,12 @@ package com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
-import org.picocontainer.DefaultPicoContainer;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
- import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
-import com.stevpet.sonar.plugins.dotnet.mscover.ittest.vstest.VsTestIntegrationTestWorkflowSteps;
+import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.NullWorkflowSteps;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.OpenCoverWorkflowSteps;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.VsTestWorkflowSteps;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowSteps;
 public class UnitTestWorkflowSensorTest extends WorkflowSensorTestUtil {
 
     @Before
