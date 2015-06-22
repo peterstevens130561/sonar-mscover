@@ -67,6 +67,7 @@ private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     build(context, new VisualStudioAssemblyLocator(settings));
   }
 
+  @SuppressWarnings("ucd")
   public void build(Context context, AssemblyLocator assemblyLocator) {
     ProjectDefinition sonarProject = context.projectReactor().getRoot();
 
