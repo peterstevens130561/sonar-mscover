@@ -27,12 +27,23 @@ import java.util.List;
 
 public interface VisualStudioSolution {
 
+    /**
+     * directory of the solutionfile
+     * @return directory of the solutionfile
+     */
     File getSolutionDir();
 
     List<VisualStudioProject> getProjects();
 
+    /**
+     * 
+     * @return list of unittest projects. List can be empty, but not null
+     */
     List<VisualStudioProject> getUnitTestProjects();
 
+    /**
+     * @return list of projects. List can be empty, but not null
+     */
     List<VisualStudioSolutionProject> projects();
 
     void addVisualStudioProject(VisualStudioProject project);
@@ -42,5 +53,10 @@ public interface VisualStudioSolution {
     List<File> getUnitTestSourceFiles();
 
     List<String> getArtifactNames();
+
+    /**
+     * @return the solution file
+     */
+    File getSolutionFile();
 
 }

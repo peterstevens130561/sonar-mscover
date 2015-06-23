@@ -56,6 +56,10 @@ public File getSolutionDir() {
 }
 
 @Override
+public File getSolutionFile() {
+    return solutionFile;
+}
+@Override
 public List<VisualStudioProject> getProjects() {
     return visualStudioProjects;
 }
