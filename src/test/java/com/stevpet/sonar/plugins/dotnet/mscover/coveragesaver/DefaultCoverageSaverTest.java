@@ -20,7 +20,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.nullsaver.NullBran
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 public class DefaultCoverageSaverTest {
 	private static final String SECOND_FILE = "b/c";

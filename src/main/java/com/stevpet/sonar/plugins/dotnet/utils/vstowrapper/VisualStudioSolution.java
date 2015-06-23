@@ -20,41 +20,43 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper;
+package com.stevpet.sonar.plugins.dotnet.utils.vstowrapper;
 
 import java.io.File;
 import java.util.List;
 
-import org.sonar.api.batch.InstantiationStrategy;
+public interface VisualStudioSolution {
 
-@InstantiationStrategy(InstantiationStrategy.PER_BATCH)
-public interface MicrosoftWindowsEnvironment {
+    /**
+     * directory of the solutionfile
+     * @return directory of the solutionfile
+     */
+    File getSolutionDir();
 
-    VisualStudioSolution getCurrentSolution();
+    List<VisualStudioProject> getProjects();
 
-
-    void setCurrentSolution(VisualStudioSolution currentSolution);
-    
     /**
      * 
-     * @return (empty) list of unittest sourcefiles.
+     * @return list of unittest projects. List can be empty, but not null
      */
-    List<File> getUnitTestSourceFiles();
-    
-    List<String> getAssemblies();
-
+    List<VisualStudioProject> getUnitTestProjects();
 
     /**
-     * get the list of assemblies
-     * @return
+     * @return list of projects. List can be empty, but not null
      */
+    List<VisualStudioSolutionProject> projects();
+
+    void addVisualStudioProject(VisualStudioProject project);
+
+    void addUnitTestVisualStudioProject(VisualStudioProject project);
+
+    List<File> getUnitTestSourceFiles();
+
     List<String> getArtifactNames();
 
-
     /**
-     * 
-     * @return true if there is one or more unittest sourcefiles
+     * @return the solution file
      */
-    boolean hasUnitTestSourceFiles();
+    File getSolutionFile();
 
 }

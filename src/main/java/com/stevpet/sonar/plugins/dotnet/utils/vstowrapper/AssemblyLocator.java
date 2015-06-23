@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper;
+package com.stevpet.sonar.plugins.dotnet.utils.vstowrapper;
 
 import java.io.File;
 

@@ -3,8 +3,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor;
 import java.io.File;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 
 public class InjectingFakesRemover extends DefaultFakesRemover {
     private AssembliesFinder assembliesFinder;

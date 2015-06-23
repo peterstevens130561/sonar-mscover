@@ -20,13 +20,13 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
+package com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.Files;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolutionProject;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolutionProject;
 
 import java.io.File;
 import java.io.IOException;

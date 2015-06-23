@@ -20,7 +20,7 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
+package com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Strings;

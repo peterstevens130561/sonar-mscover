@@ -20,7 +20,7 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
+package com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation;
 
 
 import java.io.File;
@@ -31,9 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 
 /**
  * Intended to replace the dotnet fun, so is a minimalistic implementation

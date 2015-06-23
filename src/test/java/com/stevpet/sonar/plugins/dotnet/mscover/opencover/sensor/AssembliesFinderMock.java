@@ -29,9 +29,9 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 import java.util.List;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 
 public class AssembliesFinderMock extends GenericClassMock<AssembliesFinder> {
 

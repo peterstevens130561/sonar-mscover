@@ -26,7 +26,7 @@ import java.io.File;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 
 public class HintPathAssemblyResolver extends AssemblyResolverController {  
     public File resolveAssembly(File assemblyFile, VisualStudioProject project,

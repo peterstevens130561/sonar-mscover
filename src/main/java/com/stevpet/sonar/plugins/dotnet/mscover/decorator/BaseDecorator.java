@@ -42,7 +42,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter.ResourceFilterFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 /**
  * Decorates resources that do not have coverage metrics because they were not

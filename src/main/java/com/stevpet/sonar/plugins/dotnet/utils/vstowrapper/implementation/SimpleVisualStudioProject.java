@@ -20,11 +20,11 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
+package com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation;
 
 import javax.annotation.Nullable;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 
 import java.io.File;
 import java.util.ArrayList;

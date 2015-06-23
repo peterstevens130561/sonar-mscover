@@ -20,7 +20,7 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
+package com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
@@ -28,9 +28,9 @@ import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AssemblyLocator;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolutionProject;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.AssemblyLocator;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolutionProject;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;

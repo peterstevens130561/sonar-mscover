@@ -26,10 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.VisualStudioProjectMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

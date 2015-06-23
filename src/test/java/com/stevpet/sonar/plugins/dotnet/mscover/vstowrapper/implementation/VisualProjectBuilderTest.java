@@ -12,8 +12,11 @@ import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.SettingsMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.SimpleMicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioPlugin;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioProjectBuilder;
 
 
 public class VisualProjectBuilderTest {

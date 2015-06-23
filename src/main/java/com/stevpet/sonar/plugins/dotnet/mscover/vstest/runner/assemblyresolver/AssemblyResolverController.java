@@ -27,8 +27,8 @@ import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 
 public abstract class AssemblyResolverController implements AssemblyResolver {
     private static Logger LOG = LoggerFactory.getLogger(AssemblyResolverController.class);

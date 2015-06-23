@@ -23,6 +23,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 
 import static org.mockito.Mockito.when;
 public class VisualStudioProjectMock extends GenericClassMock<VisualStudioProject> {

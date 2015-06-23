@@ -17,8 +17,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VSTestStdOutPa
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 
 public class OpenCoverCoverageRunner implements TestRunner {
 	private final static Logger LOG = LoggerFactory.getLogger(OpenCoverCoverageRunner.class);

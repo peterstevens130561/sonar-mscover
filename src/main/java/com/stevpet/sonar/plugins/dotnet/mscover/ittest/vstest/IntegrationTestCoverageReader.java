@@ -16,7 +16,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoveragepa
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.CoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 public class IntegrationTestCoverageReader implements CoverageReader {
 	private final static Logger LOG = LoggerFactory.getLogger(IntegrationTestCoverageReader.class);

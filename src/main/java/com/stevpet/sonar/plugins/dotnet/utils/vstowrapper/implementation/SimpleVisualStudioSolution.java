@@ -20,16 +20,15 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
+package com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolutionProject;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolutionProject;
 
 /**
  * All information which can be extracted solely out of a .sln file.

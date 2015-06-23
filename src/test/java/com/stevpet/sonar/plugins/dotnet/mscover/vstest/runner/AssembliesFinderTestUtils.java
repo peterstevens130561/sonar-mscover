@@ -29,12 +29,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
-
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 
 public class AssembliesFinderTestUtils {
 

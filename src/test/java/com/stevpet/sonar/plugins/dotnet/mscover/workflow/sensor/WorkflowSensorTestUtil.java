@@ -11,9 +11,9 @@ import org.sonar.api.scan.filesystem.PathResolver;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowSteps;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 public class WorkflowSensorTestUtil {
 

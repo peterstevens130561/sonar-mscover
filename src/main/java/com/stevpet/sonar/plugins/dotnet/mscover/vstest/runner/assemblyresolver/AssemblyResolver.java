@@ -25,7 +25,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver;
 import java.io.File;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 
 
 public interface AssemblyResolver  {

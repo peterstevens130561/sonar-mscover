@@ -9,7 +9,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.B
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.FailedAssemblyResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.HintPathAssemblyResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.IgnoreMissingAssemblyResolver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 
 public class DefaultAssembliesFinder extends AbstractAssembliesFinder implements
 		AssemblyResolver {

@@ -20,43 +20,18 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper;
+package com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation;
 
-import java.io.File;
-import java.util.List;
 
-public interface VisualStudioSolution {
+class VisualStudioPlugin {
 
-    /**
-     * directory of the solutionfile
-     * @return directory of the solutionfile
-     */
-    File getSolutionDir();
+  static final String VISUAL_STUDIO_SOLUTION_PROPERTY_KEY = "sonar.visualstudio.solution";
+  static final String VISUAL_STUDIO_ENABLE_PROPERTY_KEY = "sonar.visualstudio.enable";
+  static final String VISUAL_STUDIO_OUTPUT_PATHS_PROPERTY_KEY = "sonar.visualstudio.outputPaths";
+  static final String VISUAL_STUDIO_TEST_PROJECT_PATTERN = "sonar.visualstudio.testProjectPattern";
+  static final String VISUAL_STUDIO_SKIPPED_PROJECT_PATTERN = "sonar.visualstudio.skippedProjectPattern";
+  static final String VISUAL_STUDIO_SKIP_IF_NOT_BUILT = "sonar.visualstudio.skipIfNotBuilt";
 
-    List<VisualStudioProject> getProjects();
-
-    /**
-     * 
-     * @return list of unittest projects. List can be empty, but not null
-     */
-    List<VisualStudioProject> getUnitTestProjects();
-
-    /**
-     * @return list of projects. List can be empty, but not null
-     */
-    List<VisualStudioSolutionProject> projects();
-
-    void addVisualStudioProject(VisualStudioProject project);
-
-    void addUnitTestVisualStudioProject(VisualStudioProject project);
-
-    List<File> getUnitTestSourceFiles();
-
-    List<String> getArtifactNames();
-
-    /**
-     * @return the solution file
-     */
-    File getSolutionFile();
-
+  static final String VISUAL_STUDIO_OLD_SKIPPED_PROJECTS = "sonar.visualstudio.skippedProjects";
+  static final String VISUAL_STUDIO_OLD_SOLUTION_PROPERTY_KEY = "sonar.dotnet.visualstudio.solution.file";
 }

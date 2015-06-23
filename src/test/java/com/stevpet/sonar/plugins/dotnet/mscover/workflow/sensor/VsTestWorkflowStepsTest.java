@@ -20,9 +20,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBu
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.TestResultsSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.VsTestWorkflowSteps;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowSteps;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 public class VsTestWorkflowStepsTest {
 

@@ -40,13 +40,13 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.WindowsVsTestRunner;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommandShim;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.CoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;

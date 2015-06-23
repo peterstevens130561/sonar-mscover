@@ -20,18 +20,41 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
+package com.stevpet.sonar.plugins.dotnet.utils.vstowrapper;
+
+import java.io.File;
+import java.util.List;
+
+import org.sonar.api.batch.InstantiationStrategy;
+
+@InstantiationStrategy(InstantiationStrategy.PER_BATCH)
+public interface MicrosoftWindowsEnvironment {
+
+    VisualStudioSolution getCurrentSolution();
 
 
-class VisualStudioPlugin {
+    void setCurrentSolution(VisualStudioSolution currentSolution);
+    
+    /**
+     * 
+     * @return (empty) list of unittest sourcefiles.
+     */
+    List<File> getUnitTestSourceFiles();
+    
+    List<String> getAssemblies();
 
-  static final String VISUAL_STUDIO_SOLUTION_PROPERTY_KEY = "sonar.visualstudio.solution";
-  static final String VISUAL_STUDIO_ENABLE_PROPERTY_KEY = "sonar.visualstudio.enable";
-  static final String VISUAL_STUDIO_OUTPUT_PATHS_PROPERTY_KEY = "sonar.visualstudio.outputPaths";
-  static final String VISUAL_STUDIO_TEST_PROJECT_PATTERN = "sonar.visualstudio.testProjectPattern";
-  static final String VISUAL_STUDIO_SKIPPED_PROJECT_PATTERN = "sonar.visualstudio.skippedProjectPattern";
-  static final String VISUAL_STUDIO_SKIP_IF_NOT_BUILT = "sonar.visualstudio.skipIfNotBuilt";
 
-  static final String VISUAL_STUDIO_OLD_SKIPPED_PROJECTS = "sonar.visualstudio.skippedProjects";
-  static final String VISUAL_STUDIO_OLD_SOLUTION_PROPERTY_KEY = "sonar.dotnet.visualstudio.solution.file";
+    /**
+     * get the list of assemblies
+     * @return
+     */
+    List<String> getArtifactNames();
+
+
+    /**
+     * 
+     * @return true if there is one or more unittest sourcefiles
+     */
+    boolean hasUnitTestSourceFiles();
+
 }

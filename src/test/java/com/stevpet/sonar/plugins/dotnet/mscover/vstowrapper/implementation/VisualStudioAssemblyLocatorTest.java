@@ -32,8 +32,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.SettingsMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AssemblyLocator;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProjectMock;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.AssemblyLocator;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioAssemblyLocator;
 
 public class VisualStudioAssemblyLocatorTest {
     private SettingsMock settingsMock = new SettingsMock();

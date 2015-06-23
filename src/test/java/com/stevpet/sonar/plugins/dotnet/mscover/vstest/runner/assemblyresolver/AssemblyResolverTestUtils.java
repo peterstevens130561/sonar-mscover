@@ -28,7 +28,7 @@ import static org.junit.Assert.assertNull;
 
 import java.io.File;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 
 public class AssemblyResolverTestUtils {
 

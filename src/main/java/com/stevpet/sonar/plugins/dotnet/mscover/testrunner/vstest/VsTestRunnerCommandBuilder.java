@@ -11,8 +11,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestConfigFinder;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.MicrosoftWindowsEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioSolution;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 
 public  class VsTestRunnerCommandBuilder {
 

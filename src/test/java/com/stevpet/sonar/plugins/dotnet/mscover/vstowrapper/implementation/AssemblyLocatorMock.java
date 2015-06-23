@@ -3,8 +3,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
 import java.io.File;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.AssemblyLocator;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.VisualStudioProject;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.AssemblyLocator;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
