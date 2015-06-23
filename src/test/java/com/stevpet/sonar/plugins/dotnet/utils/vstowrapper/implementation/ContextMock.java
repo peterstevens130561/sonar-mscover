@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.vstowrapper.implementation;
+package com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation;
 
 import org.sonar.api.batch.bootstrap.ProjectBuilder.Context;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
