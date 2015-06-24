@@ -40,9 +40,6 @@ import com.stevpet.sonar.plugings.dotnet.resharper.failingissues.IssueListener;
 import com.stevpet.sonar.plugings.dotnet.resharper.failingissues.IssueModel;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
-import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolutionProject;
-import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioPlugin;
-
 import javax.xml.stream.XMLStreamException;
 
 import java.io.File;
@@ -61,10 +58,10 @@ import java.util.Set;
  */
 public class ReSharperResultParser implements BatchExtension {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ReSharperResultParser.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(ReSharperResultParser.class);
 
     private final VisualStudioSolution vsSolution;
-    private VisualStudioSolutionProject visualStudioProject;
     private Project sonarProject;
     private SensorContext context;
     private RuleFinder ruleFinder;
@@ -73,69 +70,74 @@ public class ReSharperResultParser implements BatchExtension {
 
     private final static String issuesLink = "https://jira.codehaus.org/browse/SONARPLUGINS/component/16153";
     private final static String missingIssueTypesRuleKey = "ReSharperInspectCode#Sonar.UnknownIssueType";
-    
+
     private final ReSharperConfiguration configuration;
     private List<IssueListener> observers = new ArrayList<IssueListener>();
 
     /**
      * Constructs a @link{ReSharperResultParser}.
      */
-    public ReSharperResultParser(MicrosoftWindowsEnvironment env, Project sonarProject, SensorContext context, RuleFinder ruleFinder, ReSharperConfiguration configuration) {
+    public ReSharperResultParser(MicrosoftWindowsEnvironment env,
+            Project sonarProject, SensorContext context, RuleFinder ruleFinder,
+            ReSharperConfiguration configuration) {
         super();
 
         this.vsSolution = env.getCurrentSolution();
-        this.configuration=configuration;
+        this.configuration = configuration;
         if (vsSolution == null) {
             // not a .NET project
             return;
         }
 
-        this.visualStudioProject = vsSolution.getProjectFromSonarProject(sonarProject);
-
         this.sonarProject = sonarProject;
         this.context = context;
         this.ruleFinder = ruleFinder;
 
-        String projLanguage =  sonarProject.getLanguageKey();
+        String projLanguage = sonarProject.getLanguageKey();
         repositoryKey = ReSharperConstants.REPOSITORY_KEY + "-" + projLanguage;
 
-        includeAllFiles = configuration.getBoolean(ReSharperConstants.INCLUDE_ALL_FILES);
+        includeAllFiles = configuration
+                .getBoolean(ReSharperConstants.INCLUDE_ALL_FILES);
 
     }
 
     /**
      * Add a listener to parsing events
      * 
-     * @param issueListener instance of class implementing IssueListener
+     * @param issueListener
+     *            instance of class implementing IssueListener
      */
     public void addObserver(IssueListener issueListener) {
-    	observers.add(issueListener);
+        observers.add(issueListener);
     }
+
     /**
      * Parses a processed violation file.
-     *
+     * 
      * @param file
-     *          the file to parse
+     *            the file to parse
      */
     public void parse(File file) {
 
         SMInputFactory inputFactory = StaxParserUtils.initStax();
-        LOG.debug("Parsing " +  file.getAbsolutePath());
+        LOG.debug("Parsing " + file.getAbsolutePath());
         FileInputStream fileInputStream = null;
         try {
 
             fileInputStream = new FileInputStream(file);
-            SMHierarchicCursor cursor = inputFactory.rootElementCursor(new InputStreamReader(fileInputStream, sonarProject.getFileSystem().getSourceCharset()));
+            SMHierarchicCursor cursor = inputFactory
+                    .rootElementCursor(new InputStreamReader(fileInputStream,
+                            sonarProject.getFileSystem().getSourceCharset()));
             SMInputCursor mainCursor = cursor.advance().childElementCursor();
 
             MissingIssueTypeHelper missingTypesHelper = new MissingIssueTypeHelper();
             checkInVisitors();
             while (mainCursor.getNext() != null) {
 
-                String nodeName =mainCursor.getQName().getLocalPart();
+                String nodeName = mainCursor.getQName().getLocalPart();
 
                 if (nodeName.equals("Issues")) {
-                    parseIssuesBloc(mainCursor, missingTypesHelper);
+                    parseIssuesBlock(mainCursor, missingTypesHelper);
                 } else if (nodeName.equals("IssueTypes")) {
                     missingTypesHelper.setInputCursor(mainCursor);
                 }
@@ -147,9 +149,12 @@ public class ReSharperResultParser implements BatchExtension {
 
             cursor.getStreamReader().closeCompletely();
         } catch (XMLStreamException e) {
-            throw new SonarException("Error while reading ReSharper result file: " + file.getAbsolutePath(), e);
+            throw new SonarException(
+                    "Error while reading ReSharper result file: "
+                            + file.getAbsolutePath(), e);
         } catch (FileNotFoundException e) {
-            throw new SonarException("Cannot find ReSharper result file: " + file.getAbsolutePath(), e);
+            throw new SonarException("Cannot find ReSharper result file: "
+                    + file.getAbsolutePath(), e);
         } finally {
             IOUtils.closeQuietly(fileInputStream);
             checkOutVisitors();
@@ -164,34 +169,37 @@ public class ReSharperResultParser implements BatchExtension {
             return !_missingIssueTypes.isEmpty();
         }
 
-        public MissingIssueTypeHelper(){
+        public MissingIssueTypeHelper() {
             _missingIssueTypes = new HashSet<String>();
         }
 
-        public void setInputCursor(SMInputCursor issuesTypeCursor) throws XMLStreamException {
-            SMInputCursor _issueTypeCursor = issuesTypeCursor.childElementCursor("IssueType");
+        public void setInputCursor(SMInputCursor issuesTypeCursor)
+                throws XMLStreamException {
+            SMInputCursor _issueTypeCursor = issuesTypeCursor
+                    .childElementCursor("IssueType");
             LOG.debug("Parsing IssueTypes");
-            while (_issueTypeCursor.getNext() != null){
+            while (_issueTypeCursor.getNext() != null) {
                 String issueTypeId = _issueTypeCursor.getAttrValue("Id");
-                StringBuilder xml =  new StringBuilder("<IssueType " );
+                StringBuilder xml = new StringBuilder("<IssueType ");
                 int attrCount = _issueTypeCursor.getAttrCount();
-                for (int i = 0; i < attrCount; i++ )
-                {
-                    String name = _issueTypeCursor.getAttrName(i).getLocalPart();
+                for (int i = 0; i < attrCount; i++) {
+                    String name = _issueTypeCursor.getAttrName(i)
+                            .getLocalPart();
                     String value = _issueTypeCursor.getAttrValue(i);
                     xml.append(name + "=\"" + value + "\" ");
                 }
                 xml.append("/>");
 
                 String xmlOut = xml.toString();
-                LOG.debug("Found IssueType " + issueTypeId + " with value " + xmlOut);
+                LOG.debug("Found IssueType " + issueTypeId + " with value "
+                        + xmlOut);
 
                 _issueTypeCache.put(issueTypeId, xmlOut);
             }
 
         }
 
-        public void addMissingIssueType(String issueTypeName){
+        public void addMissingIssueType(String issueTypeName) {
             _missingIssueTypes.add(issueTypeName);
         }
 
@@ -202,56 +210,55 @@ public class ReSharperResultParser implements BatchExtension {
             if (!hasMissingIssues()) {
                 return;
             }
-            StringBuilder logMessageBuf = new StringBuilder( "The following IssueTypes are not known to the SonarQube ReSharper plugin.\n" +
-                    "Add the following text to the 'ReSharper custom rules' property in the Settings UI to add local " +
-                    "support for these rules and submit them to " + issuesLink + " so that they can be included in " +
-                    "future releases.\n");
+            StringBuilder logMessageBuf = new StringBuilder(
+                    "The following IssueTypes are not known to the SonarQube ReSharper plugin.\n"
+                            + "Add the following text to the 'ReSharper custom rules' property in the Settings UI to add local "
+                            + "support for these rules and submit them to "
+                            + issuesLink + " so that they can be included in "
+                            + "future releases.\n");
 
-            for(String missingIssueType: _missingIssueTypes)
-            {
+            for (String missingIssueType : _missingIssueTypes) {
 
-                if (!_issueTypeCache.containsKey(missingIssueType)){
-                    logMessageBuf.append( " -IssueType not found- ");
+                if (!_issueTypeCache.containsKey(missingIssueType)) {
+                    logMessageBuf.append(" -IssueType not found- ");
                 } else {
                     String messageText = _issueTypeCache.get(missingIssueType);
-                    logMessageBuf.append( messageText + "\n");
+                    logMessageBuf.append(messageText + "\n");
                 }
             }
 
             String logMessage = logMessageBuf.toString();
             LOG.warn(logMessage);
 
-            Rule currentRule = ruleFinder.find(RuleQuery.create().withRepositoryKey(repositoryKey).withConfigKey(missingIssueTypesRuleKey));
+            Rule currentRule = ruleFinder.find(RuleQuery.create()
+                    .withRepositoryKey(repositoryKey)
+                    .withConfigKey(missingIssueTypesRuleKey));
 
             if (currentRule != null) {
-                Violation violation = Violation.create(currentRule, sonarProject);
+                Violation violation = Violation.create(currentRule,
+                        sonarProject);
                 violation.setMessage(logMessage);
                 context.saveViolation(violation);
-            }  else {
+            } else {
                 LOG.warn("Could not find rule for " + missingIssueTypesRuleKey);
             }
         }
 
     }
 
-    private void parseIssuesBloc(SMInputCursor cursor, MissingIssueTypeHelper missingTypesHelper) throws XMLStreamException {
+    private void parseIssuesBlock(SMInputCursor cursor,
+            MissingIssueTypeHelper missingTypesHelper)
+            throws XMLStreamException {
         // Cursor on <Issues>
         SMInputCursor projectsCursor = cursor.childElementCursor("Project");
         while (projectsCursor.getNext() != null) {
-
-            //compare with vsProject to only run the current project's block
-            String projectName = projectsCursor.getAttrValue("Name");
-            String thisName =  visualStudioProject.getName();
-            if (projectName.equals(thisName))  {
-                parseProjectBloc(projectsCursor, missingTypesHelper);
-            } else {
-                LOG.debug("Skipping project block due to name mismatch.  Currently analyzing '" + thisName +"', processing '" + projectName + "'");
-            }
+            parseProjectBlock(projectsCursor, missingTypesHelper);
         }
     }
 
-
-    private void parseProjectBloc(SMInputCursor projectCursor, MissingIssueTypeHelper missingTypesHelper) throws XMLStreamException {
+    private void parseProjectBlock(SMInputCursor projectCursor,
+            MissingIssueTypeHelper missingTypesHelper)
+            throws XMLStreamException {
         // Cursor in on <Project>
         SMInputCursor issuesCursor = projectCursor.childElementCursor("Issue");
         while (issuesCursor.getNext() != null) {
@@ -259,63 +266,66 @@ public class ReSharperResultParser implements BatchExtension {
             String typeId = issuesCursor.getAttrValue("TypeId");
             String configRuleKey = "ReSharperInspectCode#" + typeId;
 
-            LOG.debug("Searching for rule '"+configRuleKey+"' in repository '" + repositoryKey +"'");
-            Rule currentRule = ruleFinder.find(RuleQuery.create().withRepositoryKey(repositoryKey).withConfigKey(configRuleKey));
+            LOG.debug("Searching for rule '" + configRuleKey
+                    + "' in repository '" + repositoryKey + "'");
+            Rule currentRule = ruleFinder.find(RuleQuery.create()
+                    .withRepositoryKey(repositoryKey)
+                    .withConfigKey(configRuleKey));
             if (currentRule != null) {
                 LOG.debug("Rule found: " + configRuleKey);
                 createViolation(issuesCursor, currentRule);
             } else {
-                LOG.warn("Could not find the following rule in the ReSharper rule repository: " + configRuleKey);
+                LOG.warn("Could not find the following rule in the ReSharper rule repository: "
+                        + configRuleKey);
                 missingTypesHelper.addMissingIssueType(typeId);
             }
         }
     }
 
-
-    private void createViolation(SMInputCursor violationsCursor, Rule currentRule) throws XMLStreamException {
+    private void createViolation(SMInputCursor violationsCursor,
+            Rule currentRule) throws XMLStreamException {
         String relativeFilePath = violationsCursor.getAttrValue("File");
 
-        //Paths in the resharper results file are relative to the Solution file
+        // Paths in the resharper results file are relative to the Solution file
         LOG.debug("createViolation for relativePath: " + relativeFilePath);
-        File sourceFile = new File(vsSolution.getSolutionDir(), relativeFilePath);
+        File sourceFile = new File(vsSolution.getSolutionDir(),
+                relativeFilePath);
 
-        final org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File.fromIOFile(sourceFile, sonarProject);
+        final org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File
+                .fromIOFile(sourceFile, sonarProject);
 
-        try{
-            LOG.debug("searching for sourceFile " + sourceFile.getCanonicalFile().getPath() + " - Exists: " + sourceFile.exists());
+        try {
+            LOG.debug("searching for sourceFile "
+                    + sourceFile.getCanonicalFile().getPath() + " - Exists: "
+                    + sourceFile.exists());
         } catch (Exception ex) {
             LOG.warn("Exception: " + ex.getMessage());
         }
 
-        if (context.isExcluded(sonarFile)) {
-            LOG.debug("File is marked as excluded, so not reporting violation: {}", sonarFile.getName());
-        } else if (includeAllFiles || visualStudioProject.contains(sourceFile)) {
-        	IssueModel issue = new IssueModel(violationsCursor);
-        	greetVisitors(issue);
-        	ReSharperViolation violationBuilder = new ReSharperViolation(context,sonarProject,visualStudioProject);
-        	violationBuilder.createFileOrProjectViolation(violationsCursor, currentRule, sourceFile);
-        } else {
-            LOG.debug("Violation not being saved for unsupported file {}", sourceFile.getName());
-        }
-
+        IssueModel issue = new IssueModel(violationsCursor);
+        greetVisitors(issue);
+        ReSharperViolation violationBuilder = new ReSharperViolation(context,
+                sonarProject);
+        violationBuilder.createFileOrProjectViolation(violationsCursor,
+                currentRule, sourceFile);
     }
-    
+
     private void checkInVisitors() {
-    	for(IssueListener issueListener : observers) {
-    		issueListener.parsingStart(configuration);
-    	}
-    }
-    private void greetVisitors(IssueModel issue) {
-    	for(IssueListener issueListener : observers) {
-    		issueListener.parsedIssue(issue);
-    	}
-    }
-    
-    private void checkOutVisitors() {
-    	for(IssueListener issueListener : observers) {
-    		issueListener.parsingComplete();
-    	}
+        for (IssueListener issueListener : observers) {
+            issueListener.parsingStart(configuration);
+        }
     }
 
+    private void greetVisitors(IssueModel issue) {
+        for (IssueListener issueListener : observers) {
+            issueListener.parsedIssue(issue);
+        }
+    }
+
+    private void checkOutVisitors() {
+        for (IssueListener issueListener : observers) {
+            issueListener.parsingComplete();
+        }
+    }
 
 }

@@ -30,6 +30,9 @@ import org.sonar.api.Property;
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
 
+import com.stevpet.sonar.plugings.dotnet.resharper.profiles.ReSharperProfileExporter;
+import com.stevpet.sonar.plugings.dotnet.resharper.profiles.ReSharperProfileImporter;
+import com.stevpet.sonar.plugings.dotnet.resharper.profiles.ReSharperSonarWayProfileCSharp;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestBlockDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestLineDecorator;
@@ -124,7 +127,10 @@ public List getExtensions() {
         UnitTestBlockDecorator.class,
         UnitTestWorkflowSensor.class,
         IntegrationTestWorkflowSensor.class,
-        SupportedLanguage.class
+        SupportedLanguage.class,
+        ReSharperProfileExporter.class,
+        ReSharperProfileImporter.class,
+        ReSharperSonarWayProfileCSharp.class
         );
   }
 }

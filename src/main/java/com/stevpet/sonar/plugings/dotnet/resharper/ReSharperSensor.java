@@ -25,14 +25,12 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
-import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugings.dotnet.resharper.inspectcode.ReSharperCommandBuilder;
 import com.stevpet.sonar.plugings.dotnet.resharper.inspectcode.ReSharperRunner;
-import com.stevpet.sonar.plugings.dotnet.resharper.profiles.ReSharperProfileExporter;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 
@@ -47,25 +45,26 @@ import java.util.List;
  */
 public abstract class ReSharperSensor implements Sensor {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ReSharperSensor.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(ReSharperSensor.class);
 
     private ProjectFileSystem fileSystem;
     private ReSharperResultParser resharperResultParser;
 
+    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 
-	private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-
-	private Settings settings;
+    private Settings settings;
 
     /**
      * Constructs a {@link org.sonar.plugins.csharp.resharper.ReSharperSensor}.
      */
-    public ReSharperSensor(ProjectFileSystem fileSystem, RulesProfile rulesProfile, ReSharperProfileExporter profileExporter,
-                              ReSharperResultParser resharperResultParser, Settings settings, MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+    public ReSharperSensor(ProjectFileSystem fileSystem,
+            ReSharperResultParser resharperResultParser, Settings settings,
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         this.fileSystem = fileSystem;
         this.resharperResultParser = resharperResultParser;
         this.settings = settings;
-        this.microsoftWindowsEnvironment=microsoftWindowsEnvironment;
+        this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
 
     }
 
@@ -77,11 +76,11 @@ public abstract class ReSharperSensor implements Sensor {
         Collection<File> reportFiles = null;
         String mode = settings.getString(ReSharperConstants.MODE);
         if (ReSharperConstants.MODE_REUSE_REPORT.equalsIgnoreCase(mode)) {
-            //reportFiles = getExistingReports(project);
+            // reportFiles = getExistingReports(project);
         } else {
             reportFiles = inspectCode(project);
         }
-        if(reportFiles == null || reportFiles.isEmpty()) {
+        if (reportFiles == null || reportFiles.isEmpty()) {
             LOG.warn("Nothing to report");
             return;
         }
@@ -92,55 +91,64 @@ public abstract class ReSharperSensor implements Sensor {
         }
     }
 
-
     private Collection<File> inspectCode(Project project) {
         File reportFile;
         try {
-            ReSharperRunner runner = ReSharperRunner.create(settings.getString(ReSharperConstants.INSTALL_DIR_KEY));
-            VisualStudioSolution vsSolution = microsoftWindowsEnvironment.getCurrentSolution();
+            ReSharperRunner runner = ReSharperRunner.create(settings
+                    .getString(ReSharperConstants.INSTALL_DIR_KEY));
+            VisualStudioSolution vsSolution = microsoftWindowsEnvironment
+                    .getCurrentSolution();
             List<String> properties = getProperties();
-            ReSharperCommandBuilder builder = runner.createCommandBuilder(vsSolution,properties);
-            reportFile= new File(fileSystem.getSonarWorkingDirectory(), ReSharperConstants.REPORT_FILENAME);
+            ReSharperCommandBuilder builder = runner.createCommandBuilder(
+                    vsSolution, properties);
+            reportFile = new File(fileSystem.getSonarWorkingDirectory(),
+                    ReSharperConstants.REPORT_FILENAME);
             builder.setReportFile(reportFile);
-            
-            String additionalArguments = settings.getString(ReSharperConstants.INSPECTCODE_PROPERTIES);
+
+            String additionalArguments = settings
+                    .getString(ReSharperConstants.INSPECTCODE_PROPERTIES);
             builder.setProperties(additionalArguments);
-            String cachesHome=settings.getString(ReSharperConstants.CACHES_HOME);
+            String cachesHome = settings
+                    .getString(ReSharperConstants.CACHES_HOME);
             builder.setCachesHome(cachesHome);
-            
-            String profile=settings.getString(ReSharperConstants.INSPECTCODE_PROFILE);
+
+            String profile = settings
+                    .getString(ReSharperConstants.INSPECTCODE_PROFILE);
             builder.setProfile(profile);
-            
-            int timeout = settings.getInt(ReSharperConstants.TIMEOUT_MINUTES_KEY);
+
+            int timeout = settings
+                    .getInt(ReSharperConstants.TIMEOUT_MINUTES_KEY);
             runner.execute(builder, timeout);
         } catch (ReSharperException e) {
-            throw new SonarException("ReSharper execution failed." + e.getMessage(), e);
+            throw new SonarException("ReSharper execution failed."
+                    + e.getMessage(), e);
         }
         Collection<File> reportFiles = Collections.singleton(reportFile);
         return reportFiles;
     }
 
-	private List<String> getProperties() {
-		List<String> properties = new ArrayList<String>();
-		addPropertyIfDefined(properties, "Platform","sonar.dotnet.buildPlatform");
-		addPropertyIfDefined(properties, "Configuration","sonar.dotnet.buildConfiguration");
-		return properties;
-	}
+    private List<String> getProperties() {
+        List<String> properties = new ArrayList<String>();
+        addPropertyIfDefined(properties, "Platform",
+                "sonar.dotnet.buildPlatform");
+        addPropertyIfDefined(properties, "Configuration",
+                "sonar.dotnet.buildConfiguration");
+        return properties;
+    }
 
-	private void addPropertyIfDefined(List<String> properties, String msBuildPropertyName,String sonarPropertyName) {
-		String value=settings.getString(sonarPropertyName);
-		if(!StringUtils.isEmpty(value)) {
-			value=value.replace(" ", "");
-			properties.add(msBuildPropertyName + "=" + value);
-		}
-	}
-	
- 
+    private void addPropertyIfDefined(List<String> properties,
+            String msBuildPropertyName, String sonarPropertyName) {
+        String value = settings.getString(sonarPropertyName);
+        if (!StringUtils.isEmpty(value)) {
+            value = value.replace(" ", "");
+            properties.add(msBuildPropertyName + "=" + value);
+        }
+    }
 
     private void analyseResults(File reportFile) throws SonarException {
         if (reportFile.exists()) {
             LOG.debug("ReSharper report found at location" + reportFile);
-    		resharperResultParser.addObserver(new FailingIssueListener());
+            resharperResultParser.addObserver(new FailingIssueListener());
             resharperResultParser.parse(reportFile);
         } else {
             String msg = "No ReSharper report found for path " + reportFile;
@@ -148,6 +156,5 @@ public abstract class ReSharperSensor implements Sensor {
             throw new SonarException(msg);
         }
     }
-
 
 }

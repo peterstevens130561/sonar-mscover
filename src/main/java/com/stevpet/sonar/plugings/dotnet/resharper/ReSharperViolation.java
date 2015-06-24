@@ -31,81 +31,73 @@ import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.resources.Project;
 
-import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
-
 public class ReSharperViolation {
     private static final Logger LOG = LoggerFactory.getLogger(ReSharperViolation.class);
-	private Project project;
-	private VisualStudioProject vsProject;
+    private Project project;
     private SensorContext context;
     private Violation violation ;
 
 
 
-		public ReSharperViolation(SensorContext context,Project project,VisualStudioProject vsProject) {
-    		this.context = context;
-    		this.project = project;
-    		this.vsProject = vsProject;
-    	}
-    	
-    	public void  createFileOrProjectViolation(SMInputCursor violationsCursor, Rule currentRule, File sourceFile)
-    			throws XMLStreamException {
-    		try {
-    			violation=createViolationAgainstFile(violationsCursor, currentRule, sourceFile);
-    		} catch (Exception ex){
-    		    LOG.warn("Violation could not be saved against file, associating to VS project instead: " + sourceFile.getPath());
-    		    violation=createViolationAgainstProject(violationsCursor, currentRule, sourceFile);
-    		}
-            context.saveViolation(violation);
-    	}
-	    private Violation createViolationAgainstFile(SMInputCursor violationsCursor, Rule currentRule, File sourceFile) throws Exception {
-	        final org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File.fromIOFile(sourceFile, project);
+    public ReSharperViolation(SensorContext context,Project project) {
+        this.context = context;
+        this.project = project;
+    }
 
-	        Violation violation = Violation.create(currentRule, sonarFile);
+    public void  createFileOrProjectViolation(SMInputCursor violationsCursor, Rule currentRule, File sourceFile)
+            throws XMLStreamException {
+        try {
+            violation=createViolationAgainstFile(violationsCursor, currentRule, sourceFile);
+        } catch (Exception ex){
+            LOG.warn("Violation could not be saved against file, associating to VS project instead: " + sourceFile.getPath());
+            violation=createViolationAgainstProject(violationsCursor, currentRule, sourceFile);
+        }
+        context.saveViolation(violation);
+    }
 
-	        String message = violationsCursor.getAttrValue("Message");
+    private Violation createViolationAgainstFile(SMInputCursor violationsCursor, Rule currentRule, File sourceFile) throws Exception {
+        final org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File.fromIOFile(sourceFile, project);
 
-	        String lineNumber = violationsCursor.getAttrValue("Line");
-	        if (lineNumber != null) {
-	            violation.setLineId(Integer.parseInt(lineNumber));
+        Violation violation = Violation.create(currentRule, sonarFile);
 
-	            if (!vsProject.contains(sourceFile))
-	            {
-	                message += " (for file " + sonarFile.getName();
-	                if (lineNumber != null) {
-	                    message += " line " + lineNumber;
-	                }
-	                message +=  ")";
+        String message = violationsCursor.getAttrValue("Message");
 
-	            }
-	        }
+        String lineNumber = violationsCursor.getAttrValue("Line");
+        if (lineNumber != null) {
+            violation.setLineId(Integer.parseInt(lineNumber));
+            message += " (for file " + sonarFile.getName();
+            if (lineNumber != null) {
+                message += " line " + lineNumber;
+            }
+            message +=  ")";
+        }
 
-	        violation.setMessage(message.trim());
-	        return violation;
-	    }
+        violation.setMessage(message.trim());
+        return violation;
+    }
 
-	    private Violation createViolationAgainstProject(SMInputCursor violationsCursor, Rule currentRule, File sourceFile) throws XMLStreamException {
-	        Violation violation = Violation.create(currentRule, project);
-	        String lineNumber = violationsCursor.getAttrValue("Line");
+    private Violation createViolationAgainstProject(SMInputCursor violationsCursor, Rule currentRule, File sourceFile) throws XMLStreamException {
+        Violation violation = Violation.create(currentRule, project);
+        String lineNumber = violationsCursor.getAttrValue("Line");
 
-	        String message = violationsCursor.getAttrValue("Message");
+        String message = violationsCursor.getAttrValue("Message");
 
-	        message += " (for file " + sourceFile.getName();
-	        if (lineNumber != null) {
-	            message += " line " + lineNumber;
-	        }
-	        message +=  ")";
+        message += " (for file " + sourceFile.getName();
+        if (lineNumber != null) {
+            message += " line " + lineNumber;
+        }
+        message +=  ")";
 
-	        violation.setMessage(message.trim());
-	        return violation;
-	    }
-	    
-	    public Violation getViolation() {
-			return violation;
-		}
+        violation.setMessage(message.trim());
+        return violation;
+    }
 
-		public void setViolation(Violation violation) {
-			this.violation = violation;
-		}
+    public Violation getViolation() {
+        return violation;
+    }
+
+    public void setViolation(Violation violation) {
+        this.violation = violation;
+    }
 
 }
