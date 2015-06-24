@@ -23,12 +23,6 @@
       <version>4.2</version>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-	     <groupId>org.codehaus.sonar-plugins.dotnet</groupId>
-	     <artifactId>sonar-dotnet-gallio-plugin</artifactId>
-	     <version>2.2-SNAPSHOT</version>
-	     <type>sonar-plugin</type>
-    </dependency>
     
        <dependency>
 	     <groupId>org.codehaus.sonar-plugins.dotnet</groupId>
