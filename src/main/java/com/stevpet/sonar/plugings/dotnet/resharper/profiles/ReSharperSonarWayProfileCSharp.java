@@ -22,7 +22,7 @@ package com.stevpet.sonar.plugings.dotnet.resharper.profiles;
 import org.sonar.api.config.Settings;
 
 public final class ReSharperSonarWayProfileCSharp extends ReSharperSonarWayProfile {
-	public ReSharperSonarWayProfileCSharp(ReSharperProfileImporter.CSharpRegularReSharperProfileImporter profileImporter, Settings settings) {
+	public ReSharperSonarWayProfileCSharp(CSharpRegularReSharperProfileImporter profileImporter, Settings settings) {
         super(profileImporter, "cs", settings);
     }
 }

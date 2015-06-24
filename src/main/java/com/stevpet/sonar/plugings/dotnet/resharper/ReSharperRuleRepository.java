@@ -57,7 +57,7 @@ public class ReSharperRuleRepository extends RuleRepository {
         List<Rule> rules = new ArrayList<Rule>();
 
         // ReSharper rules
-        InputStream rulesFileStream = ReSharperRuleRepository.class.getResourceAsStream("/com/wrightfully/sonar/plugins/dotnet/resharper/rules/DefaultRules.ReSharper");
+        InputStream rulesFileStream = ReSharperRuleRepository.class.getResourceAsStream(ReSharperConstants.DEFAULT_RULES);
         Reader reader = new InputStreamReader(rulesFileStream);
         ReSharperFileParser parser = new ReSharperFileParser();
         List<ReSharperRule> reSharperRules = parser.parseRules(reader);

@@ -26,6 +26,7 @@ import org.sonar.api.profiles.ProfileDefinition;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.utils.ValidationMessages;
 
+import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConstants;
 import com.stevpet.sonar.plugings.dotnet.resharper.customseverities.AllCustomSeveritiesProvidersMerger;
 import com.stevpet.sonar.plugings.dotnet.resharper.customseverities.CustomSeverities;
 import com.stevpet.sonar.plugings.dotnet.resharper.customseverities.PropertyBasedCustomSeverities;
@@ -49,7 +50,7 @@ public class ReSharperSonarWayProfile extends ProfileDefinition {
 
     public RulesProfile createProfile(ValidationMessages messages) {
         RulesProfile profile = profileImporter.importProfile(
-                new InputStreamReader(getClass().getResourceAsStream("/com/wrightfully/sonar/plugins/dotnet/resharper/rules/DefaultRules.ReSharper")), messages);
+                new InputStreamReader(getClass().getResourceAsStream(ReSharperConstants.DEFAULT_RULES)), messages);
         profile.setLanguage(languageKey);
         AllCustomSeveritiesProvidersMerger merger = new AllCustomSeveritiesProvidersMerger() ;
         merger.setSettings(settings);

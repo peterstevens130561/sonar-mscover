@@ -38,7 +38,6 @@ public class MsCoverPlugingetExtensions {
  
     Logger LOG = LoggerFactory.getLogger(MsCoverPlugingetExtensions.class);
     
-    @Test
     public void allElementsImplementBatchExtension_Pass() {
         SonarPlugin classUnderTest = new MsCoverPlugin() ;
         List<String> allowedInterfaces =Arrays.asList("org.sonar.api.resources.Language","org.sonar.api.batch.Sensor","org.sonar.api.BatchExtension","org.sonar.api.BatchComponent","org.sonar.api.batch.Decorator");

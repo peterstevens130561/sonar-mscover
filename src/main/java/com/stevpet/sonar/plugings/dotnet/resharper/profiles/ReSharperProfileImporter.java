@@ -36,24 +36,12 @@ import java.util.List;
 /**
  * Class that allows to import ReSharper rule definition files into a Sonar Rule Profile
  */
-public class ReSharperProfileImporter extends ProfileImporter {
+public abstract class ReSharperProfileImporter extends ProfileImporter {
 
     private static final Logger LOG = LoggerFactory.getLogger(ReSharperProfileImporter.class);
 
     private RuleFinder ruleFinder;
     private String languageKey;
-
-    public static class CSharpRegularReSharperProfileImporter extends ReSharperProfileImporter {
-        public CSharpRegularReSharperProfileImporter(RuleFinder ruleFinder) {
-            super("cs", ruleFinder);
-        }
-    }
-
-    public static class VbNetRegularReSharperProfileImporter extends ReSharperProfileImporter {
-        public VbNetRegularReSharperProfileImporter(RuleFinder ruleFinder) {
-            super("vbnet", ruleFinder);
-        }
-    }
 
     protected ReSharperProfileImporter(String languageKey, RuleFinder ruleFinder) {
         super(ReSharperConstants.REPOSITORY_KEY + "-" + languageKey, ReSharperConstants.REPOSITORY_NAME);

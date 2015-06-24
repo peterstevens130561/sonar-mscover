@@ -36,19 +36,7 @@ import java.util.List;
 /**
  * Class that allows to export a Sonar profile into a ReSharper rule definition file.
  */
-public class ReSharperProfileExporter extends ProfileExporter {
-
-    public static class CSharpRegularReSharperProfileExporter extends ReSharperProfileExporter {
-        public CSharpRegularReSharperProfileExporter() {
-            super("cs");
-        }
-    }
-
-    public static class VbNetRegularReSharperProfileExporter extends ReSharperProfileExporter {
-        public VbNetRegularReSharperProfileExporter() {
-            super("vbnet");
-        }
-    }
+public abstract class ReSharperProfileExporter extends ProfileExporter {
 
     protected ReSharperProfileExporter(String languageKey) {
         super(ReSharperConstants.REPOSITORY_KEY + "-" + languageKey, ReSharperConstants.REPOSITORY_NAME);
