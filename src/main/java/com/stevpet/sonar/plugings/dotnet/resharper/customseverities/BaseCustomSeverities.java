@@ -40,7 +40,7 @@ import org.xml.sax.InputSource;
 
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConfiguration;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperException;
-import com.stevpet.sonar.plugings.dotnet.resharper.profiles.ReSharperRule.ReSharperSeverity;
+import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperSeverity;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperUtils;
 
 public abstract class BaseCustomSeverities implements CustomSeverities {

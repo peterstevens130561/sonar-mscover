@@ -24,6 +24,8 @@ import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RulePriority;
 import org.sonar.api.rules.ActiveRule;
 
+import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperSeverity;
+
 import java.lang.Override;
 
 /**
@@ -172,7 +174,7 @@ public class ReSharperRule {
      *          sonar priority
      */
     public void setSonarPriority(RulePriority sonarPriority){
-        ReSharperRule.ReSharperSeverity resharperPriority = TranslateSonarPriorityIntoResharperSeverity(sonarPriority);
+        ReSharperSeverity resharperPriority = TranslateSonarPriorityIntoResharperSeverity(sonarPriority);
         setSeverity(resharperPriority);
     }
 
@@ -182,26 +184,13 @@ public class ReSharperRule {
         return sonarPriority;
     }
 
-
-    //http://www.jetbrains.com/resharper/webhelp/Reference__Options__Code_Inspection__Inspection_Severity.html
-    //http://www.jetbrains.com/resharper/webhelp/Code_Analysis__Code_Highlighting.html
-    public enum ReSharperSeverity {
-        ERROR,   //Errors have the highest priority of all - they prevent your code from compiling.
-        WARNING,  // ReSharper provides you with warnings that do not prevent your code from compiling but may nevertheless represent serious coding inefficiencies.
-        SUGGESTION,  //Code suggestions provide insights into code structure, drawing your attention to things that aren't necessarily bad or wrong, but probably useful to know.
-        INFO, //See IssueType "InvocationIsSkipped" has undocumented "INFO" severity -- http://youtrack.jetbrains.com/issue/RSRP-390375
-        HINT, //This is the lowest possible severity level. A hint simply brings your attention to a particular code detail and recommends a way of improvement.
-        DO_NOT_SHOW
-    }
-
-
     private RulePriority TranslateResharperPriorityIntoSonarSeverity(ReSharperSeverity severity) {
 
         switch (severity) {
             case ERROR:
-                return RulePriority.BLOCKER;
-            case WARNING:
                 return RulePriority.CRITICAL;
+            case WARNING:
+                return RulePriority.MAJOR;
             case SUGGESTION:
                 return RulePriority.MINOR;
             case HINT:
@@ -219,6 +208,7 @@ public class ReSharperRule {
             case BLOCKER:
                 return ReSharperSeverity.ERROR;
             case CRITICAL:
+                return ReSharperSeverity.ERROR;
             case MAJOR:
                 return ReSharperSeverity.WARNING;
             case MINOR:

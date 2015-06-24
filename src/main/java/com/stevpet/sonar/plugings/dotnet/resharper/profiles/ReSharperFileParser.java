@@ -27,10 +27,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperSeverity;
+
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,9 +86,9 @@ public class ReSharperFileParser {
 
                     String severity = ruleElement.getAttribute("Severity");
                     try {
-                        rule.setSeverity(ReSharperRule.ReSharperSeverity.valueOf(severity));
+                        rule.setSeverity(ReSharperSeverity.valueOf(severity));
                     } catch (Exception ex) {
-                        rule.setSeverity(ReSharperRule.ReSharperSeverity.WARNING);
+                        rule.setSeverity(ReSharperSeverity.WARNING);
                         String logMsg = "exception while parsing resharper severity '" + severity +"': " + ex.getMessage();
                         logWarningMessage(logMsg);
                     }

@@ -28,14 +28,6 @@ public class ReSharperUtils {
     private static final Logger LOG = LoggerFactory.getLogger(ReSharperUtils.class);
 	  //http://www.jetbrains.com/resharper/webhelp/Reference__Options__Code_Inspection__Inspection_Severity.html
     //http://www.jetbrains.com/resharper/webhelp/Code_Analysis__Code_Highlighting.html
-    public enum ReSharperSeverity {
-        ERROR,   //Errors have the highest priority of all - they prevent your code from compiling.
-        WARNING,  // ReSharper provides you with warnings that do not prevent your code from compiling but may nevertheless represent serious coding inefficiencies.
-        SUGGESTION,  //Code suggestions provide insights into code structure, drawing your attention to things that aren't necessarily bad or wrong, but probably useful to know.
-        INFO, //See IssueType "InvocationIsSkipped" has undocumented "INFO" severity -- http://youtrack.jetbrains.com/issue/RSRP-390375
-        HINT, //This is the lowest possible severity level. A hint simply brings your attention to a particular code detail and recommends a way of improvement.
-        DO_NOT_SHOW
-    }
 
     public static ReSharperSeverity getResharperSeverity(String severity) {
         ReSharperSeverity result;
