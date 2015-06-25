@@ -49,7 +49,7 @@ public class ReSharperSensor implements Sensor {
             .getLogger(ReSharperSensor.class);
 
     private ProjectFileSystem fileSystem;
-    private ReSharperResultParser resharperResultParser;
+    private InspectCodeResultsParser resharperResultParser;
 
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 
@@ -59,7 +59,7 @@ public class ReSharperSensor implements Sensor {
      * Constructs a {@link org.sonar.plugins.csharp.resharper.ReSharperSensor}.
      */
     public ReSharperSensor(ProjectFileSystem fileSystem,
-            ReSharperResultParser resharperResultParser, Settings settings,
+            InspectCodeResultsParser resharperResultParser, Settings settings,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         this.fileSystem = fileSystem;
         this.resharperResultParser = resharperResultParser;
@@ -118,6 +118,9 @@ public class ReSharperSensor implements Sensor {
 
             int timeout = settings
                     .getInt(ReSharperConstants.TIMEOUT_MINUTES_KEY);
+            if(timeout==0) {
+                timeout=60;
+            }
             runner.execute(builder, timeout);
         } catch (ReSharperException e) {
             throw new SonarException("ReSharper execution failed."
