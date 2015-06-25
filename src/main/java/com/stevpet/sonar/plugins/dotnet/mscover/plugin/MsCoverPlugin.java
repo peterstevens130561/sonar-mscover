@@ -30,8 +30,10 @@ import org.sonar.api.Property;
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
 
+import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConfiguration;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperResultParser;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperRuleRepositoryProvider;
+import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperSensor;
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.CSharpRegularReSharperProfileExporter;
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.CSharpRegularReSharperProfileImporter;
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.ReSharperProfileExporter;
@@ -134,9 +136,11 @@ public List getExtensions() {
         SupportedLanguage.class,
         CSharpRegularReSharperProfileExporter.class,
         CSharpRegularReSharperProfileImporter.class,
+        ReSharperConfiguration.class,
         ReSharperSonarWayProfileCSharp.class,
         ReSharperResultParser.class,
-        ReSharperRuleRepositoryProvider.class
+        ReSharperRuleRepositoryProvider.class,
+        ReSharperSensor.class
         );
   }
 }

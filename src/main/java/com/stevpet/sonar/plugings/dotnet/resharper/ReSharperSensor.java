@@ -43,7 +43,7 @@ import java.util.List;
 /**
  * Collects the ReSharper reporting into sonar.
  */
-public abstract class ReSharperSensor implements Sensor {
+public class ReSharperSensor implements Sensor {
 
     private static final Logger LOG = LoggerFactory
             .getLogger(ReSharperSensor.class);
@@ -155,6 +155,11 @@ public abstract class ReSharperSensor implements Sensor {
             LOG.error(msg);
             throw new SonarException(msg);
         }
+    }
+
+    @Override
+    public boolean shouldExecuteOnProject(Project project) {
+        return true;
     }
 
 }
