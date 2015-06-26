@@ -24,9 +24,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
-import org.sonar.api.resources.ProjectFileSystem;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugings.dotnet.resharper.inspectcode.ReSharperCommandBuilder;
@@ -48,7 +49,7 @@ public class ReSharperSensor implements Sensor {
     private static final Logger LOG = LoggerFactory
             .getLogger(ReSharperSensor.class);
 
-    private ProjectFileSystem fileSystem;
+    private FileSystem fileSystem;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 
     private Settings settings;
@@ -59,7 +60,7 @@ public class ReSharperSensor implements Sensor {
     /**
      * Constructs a {@link org.sonar.plugins.csharp.resharper.ReSharperSensor}.
      */
-    public ReSharperSensor(ProjectFileSystem fileSystem,
+    public ReSharperSensor(FileSystem fileSystem,
             Settings settings,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             InspectCodeResultsParser inspectCodeResultsParser,
@@ -105,7 +106,7 @@ public class ReSharperSensor implements Sensor {
             List<String> properties = getProperties();
             ReSharperCommandBuilder builder = runner.createCommandBuilder(
                     vsSolution, properties);
-            reportFile = new File(fileSystem.getSonarWorkingDirectory(),
+            reportFile = new File(fileSystem.workDir(),
                     ReSharperConstants.REPORT_FILENAME);
             builder.setReportFile(reportFile);
 

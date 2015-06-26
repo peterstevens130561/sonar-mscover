@@ -43,12 +43,13 @@ public class DefaultInspectCodeIssuesSaver implements InspectCodeIssuesSaver {
         }
         Issuable issuable = perspectives.as(Issuable.class, myResource);
         if (issuable != null) {
-            Issue issue = issuable
-                    .newIssueBuilder()
-                    .ruleKey(
-                            RuleKey.of("resharper-cs",
-                                    inspectCodeIssue.getTypeId())).line(10)
-                    .message(inspectCodeIssue.getMessage()).build();
+            int line = Integer.parseInt(inspectCodeIssue.getLine());
+            RuleKey key=RuleKey.of("resharper-cs",inspectCodeIssue.getTypeId());
+            String message=inspectCodeIssue.getMessage();
+            Issue issue = issuable.newIssueBuilder()
+                    .ruleKey(key)
+                    .line(line)
+                    .message(message).build();
             try {
                 issuable.addIssue(issue);
             } catch ( MessageException e) {

@@ -68,13 +68,8 @@ public class VSTestResultsTests {
     @Test
     public void ReadOpenCoverResults_NoCoverageFile() throws IOException {
         VSTestStdOutParser vsTestResults = prepareForOpenCoverLog();
-        try {
-            vsTestResults.getCoveragePath();
-        } catch (SonarException e) {
-            assertEquals("Could not find area \\nAttachments:\\r?\\n  (.*\\.coverage)",e.getMessage());
-            return;
-        }
-        fail("expected exception");
+        String coveragePath=vsTestResults.getCoveragePath();
+        assertNull("path should be null",coveragePath);
   
     }
     
