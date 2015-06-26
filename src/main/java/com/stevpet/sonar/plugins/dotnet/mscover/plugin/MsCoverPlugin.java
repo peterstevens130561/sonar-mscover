@@ -30,6 +30,7 @@ import org.sonar.api.Property;
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
 
+import com.stevpet.sonar.plugings.dotnet.resharper.DefaultInspectCodeIssuesSaver;
 import com.stevpet.sonar.plugings.dotnet.resharper.DefaultInspectCodeResultsParser;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConfiguration;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperResultParser;
@@ -144,7 +145,8 @@ public List getExtensions() {
         ReSharperRuleRepositoryProvider.class,
         ReSharperSensor.class,
         DefaultInspectCodeResultsParser.class,
-        DefaultResourceResolver.class
+        DefaultResourceResolver.class,
+        DefaultInspectCodeIssuesSaver.class
         );
   }
 }

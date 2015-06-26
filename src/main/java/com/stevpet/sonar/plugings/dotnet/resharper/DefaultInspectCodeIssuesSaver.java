@@ -14,7 +14,7 @@ import org.sonar.api.rule.RuleKey;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 
-public class DefaultInspectCodeIssuesSaver {
+public class DefaultInspectCodeIssuesSaver implements InspectCodeIssuesSaver {
 
     private Logger Log = LoggerFactory.getLogger(DefaultInspectCodeIssuesSaver.class);
     private ResourcePerspectives perspectives;
@@ -25,6 +25,10 @@ public class DefaultInspectCodeIssuesSaver {
         this.resourceResolver = resourceResolver;
     }
 
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugings.dotnet.resharper.InspectCodeIssuesSaver#saveIssues(java.util.List)
+     */
+    @Override
     public void saveIssues(List<InspectCodeIssue> issues) {
         for (InspectCodeIssue issue : issues) {
             saveIssue(issue);

@@ -54,17 +54,21 @@ public class ReSharperSensor implements Sensor {
     private Settings settings;
 
     private InspectCodeResultsParser inspectCodeResultsParser;
+    private InspectCodeIssuesSaver inspectCodeIssuesSaver;
 
     /**
      * Constructs a {@link org.sonar.plugins.csharp.resharper.ReSharperSensor}.
      */
     public ReSharperSensor(ProjectFileSystem fileSystem,
             Settings settings,
-            MicrosoftWindowsEnvironment microsoftWindowsEnvironment,InspectCodeResultsParser inspectCodeResultsParser) {
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
+            InspectCodeResultsParser inspectCodeResultsParser,
+            InspectCodeIssuesSaver inspectCodeIssuesSaver) {
         this.fileSystem = fileSystem;
         this.settings = settings;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.inspectCodeResultsParser = inspectCodeResultsParser;
+        this.inspectCodeIssuesSaver= inspectCodeIssuesSaver;
 
     }
 
@@ -152,6 +156,7 @@ public class ReSharperSensor implements Sensor {
         if (reportFile.exists()) {
             LOG.debug("ReSharper report found at location" + reportFile);
             List<InspectCodeIssue>issues=inspectCodeResultsParser.parse(reportFile);
+            inspectCodeIssuesSaver.saveIssues(issues);
             
         } else {
             String msg = "No ReSharper report found for path " + reportFile;
