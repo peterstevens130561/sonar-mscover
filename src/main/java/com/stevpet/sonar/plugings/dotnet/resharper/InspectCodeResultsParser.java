@@ -1,16 +1,17 @@
 package com.stevpet.sonar.plugings.dotnet.resharper;
 
 import java.io.File;
+import java.util.List;
 
-import com.stevpet.sonar.plugings.dotnet.resharper.failingissues.IssueListener;
+import org.sonar.api.BatchExtension;
 
-public interface InspectCodeResultsParser {
+public interface InspectCodeResultsParser extends BatchExtension {
     /**
      * Parses a processed violation file.
      * 
      * @param file
      *            the file to parse
      */
-    abstract void parse(File file);
+    List<InspectCodeIssue> parse(File file);
 
 }

@@ -1,10 +1,11 @@
 package com.stevpet.sonar.plugings.dotnet.resharper;
 
 import java.io.File;
+import java.util.List;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 
-public class InspectCodeParserSubject extends XmlParserSubject implements InspectCodeResultsParser  {
+public class InspectCodeParserSubject extends XmlParserSubject  {
     
     @Override
     public String[] getHierarchy() {
@@ -12,9 +13,5 @@ public class InspectCodeParserSubject extends XmlParserSubject implements Inspec
         return hierarchy;
     }
 
-    @Override
-    public void parse(File file) {
-        super.parseFile(file);
-    }
 }
     

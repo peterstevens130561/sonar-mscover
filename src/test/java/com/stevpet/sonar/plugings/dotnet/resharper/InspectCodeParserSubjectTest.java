@@ -9,10 +9,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 public class InspectCodeParserSubjectTest {
 
     private File report;
@@ -25,7 +21,7 @@ public class InspectCodeParserSubjectTest {
         report=TestUtils.getResource("/InspectCode/resharper-report.xml");     
         parser.registerObserver(issueObserver);
         // When
-        parser.parse(report);
+        parser.parseFile(report);
     }
     
     @Test
