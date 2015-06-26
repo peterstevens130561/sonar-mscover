@@ -21,7 +21,7 @@ public class IssueObserver extends BaseParserObserver {
     
     @AttributeMatcher(elementName="Issue", attributeName = "File")
     public void fileMatcher(String value) {
-        issue.setFile(value);
+        issue.setRelativePath(value);
     }
     
     @AttributeMatcher(elementName="Issue", attributeName="Line")

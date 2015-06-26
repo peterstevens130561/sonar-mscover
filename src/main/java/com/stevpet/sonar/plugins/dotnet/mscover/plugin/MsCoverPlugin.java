@@ -46,6 +46,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestLineDec
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestBlockDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestLineDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.language.SupportedLanguage;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.IntegrationTestWorkflowSensor;
@@ -142,7 +143,8 @@ public List getExtensions() {
         ReSharperResultParser.class,
         ReSharperRuleRepositoryProvider.class,
         ReSharperSensor.class,
-        DefaultInspectCodeResultsParser.class
+        DefaultInspectCodeResultsParser.class,
+        DefaultResourceResolver.class
         );
   }
 }

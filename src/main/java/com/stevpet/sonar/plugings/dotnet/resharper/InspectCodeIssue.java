@@ -1,8 +1,10 @@
 package com.stevpet.sonar.plugings.dotnet.resharper;
 
+import java.io.File;
+
 public class InspectCodeIssue {
     private String typeId;
-    private String file;
+    private String relativePath;
     private String line;
     private String message;
     public String getTypeId() {
@@ -11,11 +13,14 @@ public class InspectCodeIssue {
     public void setTypeId(String typeId) {
         this.typeId = typeId;
     }
-    public String getFile() {
-        return file;
+    public File getFile() {
+        return new File(relativePath);
     }
-    public void setFile(String file) {
-        this.file = file;
+    /**
+     * @param relativePath - relative to solution dir
+     */
+    public void setRelativePath(String relativePath) {
+        this.relativePath = relativePath;
     }
     public String getLine() {
         return line;

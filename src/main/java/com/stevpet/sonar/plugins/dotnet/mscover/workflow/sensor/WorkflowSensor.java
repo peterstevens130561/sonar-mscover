@@ -15,11 +15,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
-public abstract class WorkflowSensor implements Sensor {
+public abstract class WorkflowSensor implements Sensor { // NO_UCD (use default)
     private DefaultPicoContainer container;
     private MsCoverProperties msCoverProperties;
     
-    public WorkflowSensor(VsTestEnvironment vsTestEnvironment,
+    public WorkflowSensor(VsTestEnvironment vsTestEnvironment, // NO_UCD (use default)
             MsCoverProperties msCoverProperties, FileSystem fileSystem,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             PathResolver pathResolver, WorkflowDirector workflowDirector) {
@@ -31,7 +31,7 @@ public abstract class WorkflowSensor implements Sensor {
                 .addComponent(workflowDirector);
         this.msCoverProperties=msCoverProperties;
     }
-    public boolean shouldExecuteOnProject(Project project) {
+    public boolean shouldExecuteOnProject(Project project) { // NO_UCD (test only)
             return project.isRoot() && msCoverProperties.getRunMode() != RunMode.SKIP && shouldExecuteWorkflow();
     }        
 
