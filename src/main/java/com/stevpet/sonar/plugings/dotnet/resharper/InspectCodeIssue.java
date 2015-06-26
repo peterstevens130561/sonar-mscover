@@ -1,6 +1,5 @@
 package com.stevpet.sonar.plugings.dotnet.resharper;
 
-import java.io.File;
 
 public class InspectCodeIssue {
     private String typeId;
@@ -12,9 +11,6 @@ public class InspectCodeIssue {
     }
     public void setTypeId(String typeId) {
         this.typeId = typeId;
-    }
-    public File getFile() {
-        return new File(relativePath);
     }
     /**
      * @param relativePath - relative to solution dir
@@ -33,6 +29,9 @@ public class InspectCodeIssue {
     }
     public void setMessage(String message) {
         this.message = message;
+    }
+    public String getRelativePath() {
+        return relativePath;
     }
 
 }

@@ -1,8 +1,9 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver;
 
+import org.sonar.api.BatchExtension;
 import org.sonar.api.resources.File;
 
-public interface ResourceResolver {
+public interface ResourceResolver extends BatchExtension {
 
     /**
      * 

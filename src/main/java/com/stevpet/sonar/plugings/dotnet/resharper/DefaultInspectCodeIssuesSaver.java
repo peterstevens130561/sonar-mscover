@@ -4,13 +4,12 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.component.Perspectives;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
-import org.sonar.api.issue.internal.DefaultIssue;
 import org.sonar.api.resources.File;
 import org.sonar.api.rule.RuleKey;
+import org.sonar.api.utils.MessageException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 
@@ -36,9 +35,10 @@ public class DefaultInspectCodeIssuesSaver implements InspectCodeIssuesSaver {
     }
 
     private void saveIssue(InspectCodeIssue inspectCodeIssue) {
-        File myResource = resourceResolver.getFile(inspectCodeIssue.getFile());
+        String relativePath=inspectCodeIssue.getRelativePath();
+        File myResource = File.create(relativePath);
         if(myResource==null) {
-            Log.debug("could not resolve " + inspectCodeIssue.getFile().getAbsolutePath());
+            Log.debug("could not resolve " + inspectCodeIssue.getRelativePath());
             return;
         }
         Issuable issuable = perspectives.as(Issuable.class, myResource);
@@ -46,10 +46,14 @@ public class DefaultInspectCodeIssuesSaver implements InspectCodeIssuesSaver {
             Issue issue = issuable
                     .newIssueBuilder()
                     .ruleKey(
-                            RuleKey.of("ReSharperInspectCode",
+                            RuleKey.of("resharper-cs",
                                     inspectCodeIssue.getTypeId())).line(10)
                     .message(inspectCodeIssue.getMessage()).build();
-            issuable.addIssue(issue);
+            try {
+                issuable.addIssue(issue);
+            } catch ( MessageException e) {
+                Log.info(e.getMessage());
+            }
         }
     }
 }

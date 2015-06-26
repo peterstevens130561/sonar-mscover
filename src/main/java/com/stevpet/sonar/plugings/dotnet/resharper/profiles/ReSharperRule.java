@@ -20,6 +20,7 @@
 package com.stevpet.sonar.plugings.dotnet.resharper.profiles;
 
 import org.apache.commons.lang.StringUtils;
+import org.sonar.api.rule.RuleKey;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RulePriority;
 import org.sonar.api.rules.ActiveRule;
@@ -261,11 +262,10 @@ public class ReSharperRule {
         {
             desc += "<br />(Category: "+category + ")";
         }
-
         Rule sonarRule = Rule.create()
-                .setKey(getKey())
+                .setKey(getId())
                 .setName(getId())
-                .setConfigKey("ReSharperInspectCode#" + getId())
+                .setConfigKey("ReSharperInspectCode:" + getId())
                 .setDescription(desc)
                 .setSeverity(getSonarPriority());
 

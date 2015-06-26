@@ -54,6 +54,7 @@ public class ReSharperRuleRepository extends RuleRepository {
 
     @Override
     public List<Rule> createRules() {
+        LOG.info("--- Creating rules");
         List<Rule> rules = new ArrayList<Rule>();
 
         // ReSharper rules
@@ -62,6 +63,7 @@ public class ReSharperRuleRepository extends RuleRepository {
         ReSharperFileParser parser = new ReSharperFileParser();
         List<ReSharperRule> reSharperRules = parser.parseRules(reader);
         for(ReSharperRule rRule: reSharperRules) {
+            LOG.info("--- adding rule");
             rules.add(rRule.toSonarRule());
         }
 
@@ -75,7 +77,9 @@ public class ReSharperRuleRepository extends RuleRepository {
                 List<ReSharperRule> customReSharperRules = parser.parseRules(customRulesReader);
                 for(ReSharperRule rRule: customReSharperRules) {
                     //TODO: do i need to check if the rule has already been added?
-                    rules.add(rRule.toSonarRule());
+                    if(!rules.add(rRule.toSonarRule())) {
+                        LOG.warn("--- could not add " + rRule.toSonarRule().toString());
+                    }
                 }
             } catch (Exception ex)
             {

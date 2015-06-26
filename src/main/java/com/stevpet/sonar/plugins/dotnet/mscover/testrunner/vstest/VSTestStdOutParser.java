@@ -28,13 +28,15 @@ import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.SonarException;
 
 import com.google.common.io.Files;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunnerStdOutParser;
 
 public class VSTestStdOutParser implements TestRunnerStdOutParser {
-
+    private Logger Log = LoggerFactory.getLogger(VSTestStdOutParser.class);
     private String results;
     private static Pattern RESULTS_PATTERN = Pattern
             .compile("\\nResults File: (.*\\.trx)");
@@ -60,11 +62,13 @@ public class VSTestStdOutParser implements TestRunnerStdOutParser {
 
     private String getPieceFromResults(Pattern pattern) {
         Matcher matcher = pattern.matcher(results);
+        String result;
         if (!matcher.find()) {
-            throw new SonarException("Could not find area "
-                    + pattern.toString());
+            Log.warn("Could not find area " + pattern.toString());
+            result=null;
+        } else {
+            result = matcher.group(1).trim();
         }
-        String result = matcher.group(1).trim();
         return result;
     }
 
