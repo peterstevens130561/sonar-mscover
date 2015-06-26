@@ -33,7 +33,6 @@ import org.sonar.api.SonarPlugin;
 import com.stevpet.sonar.plugings.dotnet.resharper.DefaultInspectCodeIssuesSaver;
 import com.stevpet.sonar.plugings.dotnet.resharper.DefaultInspectCodeResultsParser;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConfiguration;
-import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperResultParser;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperRuleRepositoryProvider;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperSensor;
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.CSharpRegularReSharperProfileExporter;
@@ -93,13 +92,25 @@ public final class MsCoverPlugin extends SonarPlugin {
     @SuppressWarnings({ "rawtypes" })
     public List getExtensions() {
 
-        return Arrays.asList(SimpleMicrosoftWindowsEnvironment.class, VsTestEnvironment.class, PropertiesHelper.class,
-                VisualStudioProjectBuilder.class, IntegrationTestLineDecorator.class, UnitTestLineDecorator.class,
-                IntegrationTestBlockDecorator.class, DefaultDirector.class, UnitTestBlockDecorator.class,
-                UnitTestWorkflowSensor.class, IntegrationTestWorkflowSensor.class, SupportedLanguage.class,
-                CSharpRegularReSharperProfileExporter.class, CSharpRegularReSharperProfileImporter.class,
-                ReSharperConfiguration.class, ReSharperSonarWayProfileCSharp.class, ReSharperResultParser.class,
-                ReSharperRuleRepositoryProvider.class, ReSharperSensor.class, DefaultInspectCodeResultsParser.class,
-                DefaultResourceResolver.class, DefaultInspectCodeIssuesSaver.class);
+        return Arrays.asList(SimpleMicrosoftWindowsEnvironment.class,
+                VsTestEnvironment.class,
+                PropertiesHelper.class,
+                VisualStudioProjectBuilder.class,
+                IntegrationTestLineDecorator.class,
+                UnitTestLineDecorator.class,
+                IntegrationTestBlockDecorator.class,
+                DefaultDirector.class, UnitTestBlockDecorator.class,
+                UnitTestWorkflowSensor.class,
+                IntegrationTestWorkflowSensor.class,
+                SupportedLanguage.class,
+                CSharpRegularReSharperProfileExporter.class,
+                CSharpRegularReSharperProfileImporter.class,
+                ReSharperConfiguration.class, 
+                ReSharperSonarWayProfileCSharp.class,
+                ReSharperRuleRepositoryProvider.class, 
+                ReSharperSensor.class, 
+                DefaultInspectCodeResultsParser.class,
+                DefaultResourceResolver.class, 
+                DefaultInspectCodeIssuesSaver.class);
     }
 }

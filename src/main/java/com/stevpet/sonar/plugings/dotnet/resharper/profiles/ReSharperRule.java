@@ -20,7 +20,6 @@
 package com.stevpet.sonar.plugings.dotnet.resharper.profiles;
 
 import org.apache.commons.lang.StringUtils;
-import org.sonar.api.rule.RuleKey;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RulePriority;
 import org.sonar.api.rules.ActiveRule;
