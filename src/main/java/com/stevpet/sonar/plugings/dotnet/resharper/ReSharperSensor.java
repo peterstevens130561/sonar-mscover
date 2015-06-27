@@ -50,26 +50,27 @@ public class ReSharperSensor implements Sensor {
             .getLogger(ReSharperSensor.class);
 
     private FileSystem fileSystem;
-    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 
     private Settings settings;
 
     private InspectCodeResultsParser inspectCodeResultsParser;
     private InspectCodeIssuesSaver inspectCodeIssuesSaver;
 
+    private InspectCodeRunner inspectCodeRunner;
+
     /**
      * Constructs a {@link org.sonar.plugins.csharp.resharper.ReSharperSensor}.
      */
     public ReSharperSensor(FileSystem fileSystem,
             Settings settings,
-            MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             InspectCodeResultsParser inspectCodeResultsParser,
-            InspectCodeIssuesSaver inspectCodeIssuesSaver) {
+            InspectCodeIssuesSaver inspectCodeIssuesSaver,
+            InspectCodeRunner inspectCodeRunner) {
         this.fileSystem = fileSystem;
         this.settings = settings;
-        this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.inspectCodeResultsParser = inspectCodeResultsParser;
         this.inspectCodeIssuesSaver= inspectCodeIssuesSaver;
+        this.inspectCodeRunner = inspectCodeRunner;
 
     }
 
@@ -79,96 +80,20 @@ public class ReSharperSensor implements Sensor {
     public void analyse(Project project, SensorContext context) {
 
         Collection<File> reportFiles = null;
-        String mode = settings.getString(ReSharperConstants.MODE);
-        if (ReSharperConstants.MODE_REUSE_REPORT.equalsIgnoreCase(mode)) {
-            // reportFiles = getExistingReports(project);
-        } else {
-            reportFiles = inspectCode(project);
-        }
-        if (reportFiles == null || reportFiles.isEmpty()) {
-            LOG.warn("Nothing to report");
-            return;
-        }
-        // and analyze results
+        reportFiles = inspectCodeRunner.inspectCode(project);
         for (File reportFile : reportFiles) {
             LOG.debug("Analysing report" + reportFile.getName());
-            analyseResults(reportFile);
-        }
-    }
-
-    private Collection<File> inspectCode(Project project) {
-        File reportFile;
-        try {
-            ReSharperRunner runner = ReSharperRunner.create(settings
-                    .getString(ReSharperConstants.INSTALL_DIR_KEY));
-            VisualStudioSolution vsSolution = microsoftWindowsEnvironment
-                    .getCurrentSolution();
-            List<String> properties = getProperties();
-            ReSharperCommandBuilder builder = runner.createCommandBuilder(
-                    vsSolution, properties);
-            reportFile = new File(fileSystem.workDir(),
-                    ReSharperConstants.REPORT_FILENAME);
-            builder.setReportFile(reportFile);
-
-            String additionalArguments = settings
-                    .getString(ReSharperConstants.INSPECTCODE_PROPERTIES);
-            builder.setProperties(additionalArguments);
-            String cachesHome = settings
-                    .getString(ReSharperConstants.CACHES_HOME);
-            builder.setCachesHome(cachesHome);
-
-            String profile = settings
-                    .getString(ReSharperConstants.INSPECTCODE_PROFILE);
-            builder.setProfile(profile);
-
-            int timeout = settings
-                    .getInt(ReSharperConstants.TIMEOUT_MINUTES_KEY);
-            if(timeout==0) {
-                timeout=60;
-            }
-            runner.execute(builder, timeout);
-        } catch (ReSharperException e) {
-            throw new SonarException("ReSharper execution failed."
-                    + e.getMessage(), e);
-        }
-        Collection<File> reportFiles = Collections.singleton(reportFile);
-        return reportFiles;
-    }
-
-    private List<String> getProperties() {
-        List<String> properties = new ArrayList<String>();
-        addPropertyIfDefined(properties, "Platform",
-                "sonar.dotnet.buildPlatform");
-        addPropertyIfDefined(properties, "Configuration",
-                "sonar.dotnet.buildConfiguration");
-        return properties;
-    }
-
-    private void addPropertyIfDefined(List<String> properties,
-            String msBuildPropertyName, String sonarPropertyName) {
-        String value = settings.getString(sonarPropertyName);
-        if (!StringUtils.isEmpty(value)) {
-            value = value.replace(" ", "");
-            properties.add(msBuildPropertyName + "=" + value);
-        }
-    }
-
-    private void analyseResults(File reportFile) throws SonarException {
-        if (reportFile.exists()) {
-            LOG.debug("ReSharper report found at location" + reportFile);
             List<InspectCodeIssue>issues=inspectCodeResultsParser.parse(reportFile);
             inspectCodeIssuesSaver.saveIssues(issues);
-            
-        } else {
-            String msg = "No ReSharper report found for path " + reportFile;
-            LOG.error(msg);
-            throw new SonarException(msg);
         }
     }
 
     @Override
     public boolean shouldExecuteOnProject(Project project) {
-        return true;
+        boolean hasCs = fileSystem.languages().contains("cs");
+        boolean skip = ReSharperConstants.MODE_SKIP.equalsIgnoreCase(settings.getString(ReSharperConstants.MODE));
+        boolean isRoot = project.isRoot();
+        return hasCs && !skip && isRoot;
     }
 
 }

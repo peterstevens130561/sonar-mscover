@@ -60,4 +60,5 @@ public final class ReSharperConstants {
     public static final String INSPECTCODE_PROFILE = "sonar.resharper.inspectcode.profile";
 	public static final String MODE_REUSE_REPORT = "resuseReport";
 	public static final String DEFAULT_RULES = "/ReSharper/DefaultRules.ReSharper";
+    public static final String MODE_SKIP = "skip";
 }
