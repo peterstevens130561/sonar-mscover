@@ -78,14 +78,9 @@ public class ReSharperSensor implements Sensor {
      * {@inheritDoc}
      */
     public void analyse(Project project, SensorContext context) {
-
-        Collection<File> reportFiles = null;
-        reportFiles = inspectCodeRunner.inspectCode(project);
-        for (File reportFile : reportFiles) {
-            LOG.debug("Analysing report" + reportFile.getName());
-            List<InspectCodeIssue>issues=inspectCodeResultsParser.parse(reportFile);
-            inspectCodeIssuesSaver.saveIssues(issues);
-        }
+        File reportFile = inspectCodeRunner.inspectCode(project);
+        List<InspectCodeIssue>issues=inspectCodeResultsParser.parse(reportFile);
+        inspectCodeIssuesSaver.saveIssues(issues);
     }
 
     @Override

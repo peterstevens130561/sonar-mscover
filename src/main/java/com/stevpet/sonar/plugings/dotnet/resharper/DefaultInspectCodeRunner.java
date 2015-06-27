@@ -2,8 +2,6 @@ package com.stevpet.sonar.plugings.dotnet.resharper;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -34,7 +32,7 @@ public class DefaultInspectCodeRunner implements InspectCodeRunner {
      * executes inspectcode with settings found in the current working dir.
      * @return the reportfile
      */
-    public Collection<File> inspectCode(Project project) {
+    public File inspectCode(Project project) {
         File reportFile;
         try {
             ReSharperRunner runner = ReSharperRunner.create(settings
@@ -69,8 +67,7 @@ public class DefaultInspectCodeRunner implements InspectCodeRunner {
             throw new SonarException("ReSharper execution failed."
                     + e.getMessage(), e);
         }
-        Collection<File> reportFiles = Collections.singleton(reportFile);
-        return reportFiles;
+        return reportFile;
     }
     
     private List<String> getProperties() {

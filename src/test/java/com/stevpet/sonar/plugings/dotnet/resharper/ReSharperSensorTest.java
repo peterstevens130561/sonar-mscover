@@ -1,5 +1,8 @@
 package com.stevpet.sonar.plugings.dotnet.resharper;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -10,8 +13,12 @@ import org.mockito.Mock;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.AdditionalMatchers.eq;
 
 import org.sonar.api.batch.Sensor;
+import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
@@ -26,6 +33,7 @@ public class ReSharperSensorTest {
     @Mock private InspectCodeIssuesSaver inspectCodeIssuesSaver;
     @Mock private InspectCodeRunner inspectCodeRunner;
     @Mock private Project project;
+    @Mock private SensorContext context;
     private SortedSet<String> languages;
     @Before
     public void before() {
@@ -93,5 +101,20 @@ public class ReSharperSensorTest {
             //Then
             assertFalse("cs, but not root, should not execute",execute);
             
+    }
+    
+    @Test
+    public void analyse() {
+        File report = new File("report");
+        when(inspectCodeRunner.inspectCode(project)).thenReturn(report);
+        
+        List<InspectCodeIssue> issues = new ArrayList<InspectCodeIssue>();
+        when(inspectCodeResultsParser.parse(report)).thenReturn(issues);
+        
+        sensor.analyse(project, context);
+        
+        verify(inspectCodeRunner,times(1)).inspectCode(project);
+        verify(inspectCodeResultsParser,times(1)).parse(report);
+        verify(inspectCodeIssuesSaver,times(1)).saveIssues(issues);
     }
 }
