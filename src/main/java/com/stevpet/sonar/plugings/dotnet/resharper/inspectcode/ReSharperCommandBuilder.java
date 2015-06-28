@@ -22,9 +22,11 @@ package com.stevpet.sonar.plugings.dotnet.resharper.inspectcode;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.BatchExtension;
 import org.sonar.api.utils.command.Command;
 
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperException;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 
 import java.io.File;
@@ -34,7 +36,8 @@ import java.util.List;
 /**
  * Class used to build the command line to run ReSharper inspectcoe.
  */
-public final class ReSharperCommandBuilder {
+public class ReSharperCommandBuilder implements BatchExtension,ShellCommand{
+
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(ReSharperCommandBuilder.class);
@@ -46,9 +49,9 @@ public final class ReSharperCommandBuilder {
 	private VisualStudioSolution solution;
 	private List<String> propertiesList;
 
-
-	private ReSharperCommandBuilder() {
-	}
+    public ReSharperCommandBuilder() {
+        
+    }
 
 	/**
 	 * Constructs a {@link ReSharperCommandBuilder} object for the given Visual
@@ -62,15 +65,18 @@ public final class ReSharperCommandBuilder {
 	 * 
 	 * @return a ReSharper builder for this project
 	 */
-	public static ReSharperCommandBuilder createBuilder(
-			VisualStudioSolution solution, 
-			List<String> properties) {
+	public static ReSharperCommandBuilder createBuilder() {
 		ReSharperCommandBuilder builder = new ReSharperCommandBuilder();
-		builder.solution = solution;
-		builder.propertiesList = properties;
 		return builder;
 	}
 
+	public void setSolution(VisualStudioSolution visualStudioSolution) {
+	    this.solution=visualStudioSolution;
+	}
+	
+	public void setProperties(List<String> properties) {
+	    this.propertiesList=properties;
+	}
 	/**
 	 * Sets the report file to generate
 	 * 
@@ -196,6 +202,11 @@ public final class ReSharperCommandBuilder {
 			this.propertiesList.add(properties);
 		}
 	}
+
+    @Override
+    public String toCommandLine() {
+        return toCommand().toString();
+    }
 
 
 }

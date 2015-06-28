@@ -19,35 +19,18 @@
  */
 package com.stevpet.sonar.plugings.dotnet.resharper;
 
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
-import org.sonar.api.utils.SonarException;
-
-import com.stevpet.sonar.plugings.dotnet.resharper.inspectcode.ReSharperCommandBuilder;
-import com.stevpet.sonar.plugings.dotnet.resharper.inspectcode.ReSharperRunner;
-import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
-import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
-
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Collects the ReSharper reporting into sonar.
  */
 public class ReSharperSensor implements Sensor {
-
-    private static final Logger LOG = LoggerFactory
-            .getLogger(ReSharperSensor.class);
 
     private FileSystem fileSystem;
 
@@ -78,7 +61,7 @@ public class ReSharperSensor implements Sensor {
      * {@inheritDoc}
      */
     public void analyse(Project project, SensorContext context) {
-        File reportFile = inspectCodeRunner.inspectCode(project);
+        File reportFile = inspectCodeRunner.inspectCode();
         List<InspectCodeIssue>issues=inspectCodeResultsParser.parse(reportFile);
         inspectCodeIssuesSaver.saveIssues(issues);
     }

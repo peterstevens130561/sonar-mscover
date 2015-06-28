@@ -32,15 +32,16 @@ import org.sonar.api.SonarPlugin;
 
 import com.stevpet.sonar.plugings.dotnet.resharper.DefaultInspectCodeIssuesSaver;
 import com.stevpet.sonar.plugings.dotnet.resharper.DefaultInspectCodeResultsParser;
+import com.stevpet.sonar.plugings.dotnet.resharper.DefaultInspectCodeRunner;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConfiguration;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperRuleRepositoryProvider;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperSensor;
+import com.stevpet.sonar.plugings.dotnet.resharper.inspectcode.ReSharperCommandBuilder;
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.CSharpRegularReSharperProfileExporter;
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.CSharpRegularReSharperProfileImporter;
-import com.stevpet.sonar.plugings.dotnet.resharper.profiles.ReSharperProfileExporter;
-import com.stevpet.sonar.plugings.dotnet.resharper.profiles.ReSharperProfileImporter;
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.ReSharperSonarWayProfileCSharp;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestBlockDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestLineDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestBlockDecorator;
@@ -111,6 +112,9 @@ public final class MsCoverPlugin extends SonarPlugin {
                 ReSharperSensor.class, 
                 DefaultInspectCodeResultsParser.class,
                 DefaultResourceResolver.class, 
-                DefaultInspectCodeIssuesSaver.class);
+                DefaultInspectCodeIssuesSaver.class,
+                DefaultInspectCodeRunner.class,
+                ReSharperCommandBuilder.class,
+                WindowsCommandLineExecutor.class);
     }
 }

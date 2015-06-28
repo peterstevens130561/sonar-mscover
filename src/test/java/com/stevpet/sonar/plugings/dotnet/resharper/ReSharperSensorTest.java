@@ -15,8 +15,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.AdditionalMatchers.eq;
-
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
@@ -106,14 +104,14 @@ public class ReSharperSensorTest {
     @Test
     public void analyse() {
         File report = new File("report");
-        when(inspectCodeRunner.inspectCode(project)).thenReturn(report);
+        when(inspectCodeRunner.inspectCode()).thenReturn(report);
         
         List<InspectCodeIssue> issues = new ArrayList<InspectCodeIssue>();
         when(inspectCodeResultsParser.parse(report)).thenReturn(issues);
         
         sensor.analyse(project, context);
         
-        verify(inspectCodeRunner,times(1)).inspectCode(project);
+        verify(inspectCodeRunner,times(1)).inspectCode();
         verify(inspectCodeResultsParser,times(1)).parse(report);
         verify(inspectCodeIssuesSaver,times(1)).saveIssues(issues);
     }

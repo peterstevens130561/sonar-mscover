@@ -12,5 +12,5 @@ public interface InspectCodeRunner extends BatchExtension {
      * @param project
      * @return resharper report
      */
-    File inspectCode(Project project);
+    File inspectCode();
 }

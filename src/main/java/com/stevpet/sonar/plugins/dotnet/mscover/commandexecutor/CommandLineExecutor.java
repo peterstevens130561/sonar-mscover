@@ -1,6 +1,6 @@
 /*******************************************************************************
  *
- * SonarQube MsCover Plugin
+ * SonarQube MsCsover Plugin
  * Copyright (C) 2015 SonarSource
  * dev@sonar.codehaus.org
  *
@@ -22,16 +22,25 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor;
 
+import org.sonar.api.BatchExtension;
 
-public interface CommandLineExecutor {
+
+public interface CommandLineExecutor extends BatchExtension {
 
     /**
-     * Execute a windows commandline command. Sets new stdout / stderr
+     * Execute a windows commandline command. Sets new stdout / stderr. timeout set to 30 minutes;
      * @param command
-     * @return exit code (0=ok)
+     * @return exit code (0=ok). Exception thrown in other cases...
      */
     int execute(ShellCommand command);
 
+    /**
+     * Execute a commandline command
+     * @param command
+     * @param timeoutMinutes 
+     * @return exitcode (0=ok) Exception thrown in other cases...
+     */
+    int execute(ShellCommand command,int timeoutMinutes);
     /**
      * 
      * @return stdout result. after execute.

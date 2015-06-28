@@ -45,9 +45,13 @@ public class WindowsCommandLineExecutor implements CommandLineExecutor {
      * @see com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor#execute(com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.ShellCommand)
      */
     public int execute(ShellCommand command) {
+        return execute(command,30);
+    }
+    
+    public int execute(ShellCommand command,int timeOutMinutes) {
         stdOut = new StringStreamConsumer();
         stdErr = new StringStreamConsumer();
-        long timeOut = (long) (30 * 60000);
+        long timeOut = (long) (timeOutMinutes * 60000);
         int exitCode = commandExecutor.execute(command.toCommand(),
                 stdOut, stdErr, timeOut);
         if (exitCode != 0 && exitCode != 1) {
