@@ -3,13 +3,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver;
 import java.io.File;
 import java.util.List;
 
-
-
-
-
-
-
-
+import org.jfree.util.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,41 +16,45 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
 
 public class DefaultCoverageSaver implements CoverageSaver {
 
-	private final static Logger LOG = LoggerFactory.getLogger(DefaultCoverageSaver.class);
+    private final static Logger LOG = LoggerFactory.getLogger(DefaultCoverageSaver.class);
     private BranchFileCoverageSaver branchCoverageSaver;
     private LineFileCoverageSaver lineCoverageSaver;
-	private List<File> testFiles;
+    private List<File> testFiles;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-    
+
     public DefaultCoverageSaver(
-    		BranchFileCoverageSaver branchCoverageSaver, LineFileCoverageSaver lineCoverageSaver,MicrosoftWindowsEnvironment microsoftWindowsEnvironment){
-    	this.branchCoverageSaver = branchCoverageSaver;
-    	this.lineCoverageSaver = lineCoverageSaver;
-    	this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
+            BranchFileCoverageSaver branchCoverageSaver, LineFileCoverageSaver lineCoverageSaver,
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+        this.branchCoverageSaver = branchCoverageSaver;
+        this.lineCoverageSaver = lineCoverageSaver;
+        this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
     }
-    
-	
-	@Override
-	public void save(SonarCoverage sonarCoverage) {
-		LOG.info("Invoked");
-		this.testFiles=microsoftWindowsEnvironment.getUnitTestSourceFiles();
-        for(SonarFileCoverage fileCoverage:sonarCoverage.getValues()) {
+
+    @Override
+    public void save(SonarCoverage sonarCoverage) {
+        this.testFiles = microsoftWindowsEnvironment.getUnitTestSourceFiles();
+        if (testFiles == null) {
+            LOG.warn("no testfiles to exclude from results");
+        }
+        for (SonarFileCoverage fileCoverage : sonarCoverage.getValues()) {
             saveFileResults(fileCoverage);
         }
-	}
-	
-	@Deprecated
-    public void setExcludeSourceFiles(List<File> testFiles) {
-        this.testFiles=testFiles;
     }
-    
-	private void saveFileResults(SonarFileCoverage fileCoverage) {
-        File file=new File(fileCoverage.getAbsolutePath());
 
-        if(testFiles ==null || !testFiles.contains(file)) {	
-                lineCoverageSaver.saveMeasures(fileCoverage.getLinePoints(), file);
-                branchCoverageSaver.saveMeasures(fileCoverage.getBranchPoints(), file);
+    @Deprecated
+    public void setExcludeSourceFiles(List<File> testFiles) {
+        this.testFiles = testFiles;
+    }
+
+    private void saveFileResults(SonarFileCoverage fileCoverage) {
+        File file = new File(fileCoverage.getAbsolutePath());
+
+        if (testFiles != null && testFiles.contains(file)) {
+            LOG.debug("excluding test file from coverage" + file.getAbsolutePath());
+        } else {
+            lineCoverageSaver.saveMeasures(fileCoverage.getLinePoints(), file);
+            branchCoverageSaver.saveMeasures(fileCoverage.getBranchPoints(), file);
         }
-	}
+    }
 
 }

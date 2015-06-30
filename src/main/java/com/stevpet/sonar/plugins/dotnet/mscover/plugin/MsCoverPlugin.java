@@ -40,6 +40,7 @@ import com.stevpet.sonar.plugings.dotnet.resharper.inspectcode.ReSharperCommandB
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.CSharpRegularReSharperProfileExporter;
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.CSharpRegularReSharperProfileImporter;
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.ReSharperSonarWayProfileCSharp;
+import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.CPlusPlusPreprocessorSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestBlockDecorator;
@@ -115,6 +116,7 @@ public final class MsCoverPlugin extends SonarPlugin {
                 DefaultInspectCodeIssuesSaver.class,
                 DefaultInspectCodeRunner.class,
                 ReSharperCommandBuilder.class,
-                WindowsCommandLineExecutor.class);
+                WindowsCommandLineExecutor.class,
+                CPlusPlusPreprocessorSensor.class);
     }
 }
