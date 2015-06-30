@@ -97,7 +97,6 @@ public class DefaultCoverageSaverTest {
 	
 	private void givenExclude(String path) {
 		testFiles.add(new File(path));
-		saver.setExcludeSourceFiles(testFiles);
 	}
 	
 	private void whenSaverInvoked() {

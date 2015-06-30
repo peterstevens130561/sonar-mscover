@@ -14,6 +14,4 @@ public interface CoverageSaver {
 	 * @param coverage - completed coverage data
 	 */
 	void save(SonarCoverage sonarCoverage);
-
-	void setExcludeSourceFiles(List<File> testFiles);
 }

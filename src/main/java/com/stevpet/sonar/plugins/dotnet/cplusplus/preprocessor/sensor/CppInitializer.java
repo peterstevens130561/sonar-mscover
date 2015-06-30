@@ -19,44 +19,39 @@
  */
 package com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor;
 
-import org.sonar.api.batch.Sensor;
-import org.sonar.api.batch.SensorContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.Initializer;
 import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
-import java.io.File;
-import java.util.List;
 
 /**
  * Collects the ReSharper reporting into sonar.
  */
-public class CPlusPlusPreprocessorSensor implements Sensor {
-
+public class CppInitializer extends Initializer{
+    private final static Logger LOG = LoggerFactory.getLogger(CppInitializer.class);
   
-    private Settings settings;
     private FileSystem fileSystem;
 
     /**
      * Constructs a {@link org.sonar.plugins.csharp.resharper.ReSharperSensor}.
      */
-    public CPlusPlusPreprocessorSensor(FileSystem fileSystem,
-            Settings settings) {
+    public CppInitializer(FileSystem fileSystem) {
         this.fileSystem = fileSystem;
-        this.settings = settings;
 
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public void analyse(Project project, SensorContext context) {
-    }
 
     @Override
     public boolean shouldExecuteOnProject(Project project) {
-        boolean hasCs = fileSystem.languages().contains("c++");
+        boolean hasCs = fileSystem.languages().contains("cpp");
         boolean isRoot = project.isRoot();
         return hasCs && isRoot;
+    }
+
+    @Override
+    public void execute(Project project) {
+        LOG.info("----- C++ Preprocessor is running -----");
     }
 
 }

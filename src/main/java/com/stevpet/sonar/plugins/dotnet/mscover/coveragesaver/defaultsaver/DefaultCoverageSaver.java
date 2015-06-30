@@ -19,7 +19,6 @@ public class DefaultCoverageSaver implements CoverageSaver {
     private final static Logger LOG = LoggerFactory.getLogger(DefaultCoverageSaver.class);
     private BranchFileCoverageSaver branchCoverageSaver;
     private LineFileCoverageSaver lineCoverageSaver;
-    private List<File> testFiles;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 
     public DefaultCoverageSaver(
@@ -32,25 +31,20 @@ public class DefaultCoverageSaver implements CoverageSaver {
 
     @Override
     public void save(SonarCoverage sonarCoverage) {
-        this.testFiles = microsoftWindowsEnvironment.getUnitTestSourceFiles();
+        List<File> testFiles = microsoftWindowsEnvironment.getUnitTestSourceFiles();
         if (testFiles == null) {
-            LOG.warn("no testfiles to exclude from results");
+            LOG.warn("solution has no testfiles to exclude from results");
         }
         for (SonarFileCoverage fileCoverage : sonarCoverage.getValues()) {
-            saveFileResults(fileCoverage);
+            saveFileResults(fileCoverage,testFiles);
         }
     }
 
-    @Deprecated
-    public void setExcludeSourceFiles(List<File> testFiles) {
-        this.testFiles = testFiles;
-    }
-
-    private void saveFileResults(SonarFileCoverage fileCoverage) {
+    private void saveFileResults(SonarFileCoverage fileCoverage,List<File> testFiles) {
         File file = new File(fileCoverage.getAbsolutePath());
 
         if (testFiles != null && testFiles.contains(file)) {
-            LOG.debug("excluding test file from coverage" + file.getAbsolutePath());
+            LOG.debug("excluding test file from coverage " + file.getAbsolutePath());
         } else {
             lineCoverageSaver.saveMeasures(fileCoverage.getLinePoints(), file);
             branchCoverageSaver.saveMeasures(fileCoverage.getBranchPoints(), file);

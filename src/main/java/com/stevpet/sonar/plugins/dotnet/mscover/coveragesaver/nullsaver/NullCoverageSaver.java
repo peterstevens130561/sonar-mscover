@@ -18,9 +18,5 @@ public class NullCoverageSaver implements CoverageSaver {
 		LOG.info("Invoked");
 	}
 
-	@Override
-	public void setExcludeSourceFiles(List<File> testFiles) {
-		// As this is null class, no implementation		
-	}
 
 }
