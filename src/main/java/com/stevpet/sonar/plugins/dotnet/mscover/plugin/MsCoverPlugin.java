@@ -40,6 +40,8 @@ import com.stevpet.sonar.plugings.dotnet.resharper.inspectcode.ReSharperCommandB
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.CSharpRegularReSharperProfileExporter;
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.CSharpRegularReSharperProfileImporter;
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.ReSharperSonarWayProfileCSharp;
+import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperBuilder;
+import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperConstants;
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.CPlusPlusPreprocessorInitializer;
 import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
@@ -87,7 +89,11 @@ import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConstants;
         @Property(key = ReSharperConstants.CUSTOM_SEVERITIES_PATH, name = "Path to custom severities settings", description = "Absolute path to file with exported ReSharper settings: RESHARPER, Manage Options...,Import/Export Settiings, Export to file,CodeInspection", type = PropertyType.STRING, global = true, project = false),
         @Property(key = ReSharperConstants.INSPECTCODE_PROPERTIES, name = "properties argument for inspectcode", type = PropertyType.STRING, global = true, project = true),
         @Property(key = ReSharperConstants.CACHES_HOME, name = "caches home", type = PropertyType.STRING, global = false, project = true),
-        @Property(key = ReSharperConstants.INSPECTCODE_PROFILE, name = "path to .DotSettings file on server", type = PropertyType.STRING, global = false, project = true) })
+        @Property(key = ReSharperConstants.INSPECTCODE_PROFILE, name = "path to .DotSettings file on server", type = PropertyType.STRING, global = false, project = true),
+        @Property(key= BuildWrapperConstants.BUILDWRAPPER_INSTALLDIR_KEY, name="directory where buildwrapper is installed", type=PropertyType.STRING,global=true,project=true),
+        @Property(key= BuildWrapperConstants.BUILDWRAPPER_MSBUILD_INSTALLDIR_KEY,name="msbuild install dir",global=true,project=true),
+        @Property(key= BuildWrapperConstants.BUILDWRAPPER_MSBUILD_OPTIONS_KEY, name="msbuild options",type=PropertyType.STRING,global=true,project=true),
+        @Property(key= BuildWrapperConstants.BUILDWRAPPER_OUTDIR_KEY,name="buildwrapper output dir",global=true,project=true)})
 public final class MsCoverPlugin extends SonarPlugin {
 
     // This is where you're going to declare all your Sonar extensions
@@ -117,6 +123,8 @@ public final class MsCoverPlugin extends SonarPlugin {
                 DefaultInspectCodeRunner.class,
                 ReSharperCommandBuilder.class,
                 WindowsCommandLineExecutor.class,
-                CPlusPlusPreprocessorInitializer.class);
+                CPlusPlusPreprocessorInitializer.class,
+                BuildWrapperBuilder.class)
+                ;
     }
 }

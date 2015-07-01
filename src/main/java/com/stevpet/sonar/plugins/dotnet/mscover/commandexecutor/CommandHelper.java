@@ -50,4 +50,12 @@ public class CommandHelper {
         }
         return parenthesized;
     }
+
+    public static String parenthesizeArgument(String str) {
+        String escapedStr="";
+        if(!StringUtils.isEmpty(str) ) {
+            escapedStr = "\"" + str + "\"";
+        }
+        return escapedStr;
+    }
 }

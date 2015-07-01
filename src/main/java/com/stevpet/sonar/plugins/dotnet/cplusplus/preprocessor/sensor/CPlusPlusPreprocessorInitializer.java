@@ -19,51 +19,85 @@
  */
 package com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor;
 
+import java.io.File;
+
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.batch.DependedUpon;
 import org.sonar.api.batch.Initializer;
-import org.sonar.api.batch.Sensor;
-import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
+import org.sonar.api.utils.SonarException;
 
-import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperSensor;
-
-import java.io.File;
-import java.util.List;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 
 /**
  * Collects the ReSharper reporting into sonar.
  */
-public class CPlusPlusPreprocessorInitializer extends Initializer{
+public class CPlusPlusPreprocessorInitializer extends Initializer {
+
+
     private final static Logger LOG = LoggerFactory.getLogger(CPlusPlusPreprocessorInitializer.class);
-  
+
+
     private Settings settings;
     private FileSystem fileSystem;
+
+    private CommandLineExecutor commandLineExecutor;
+
+    private BuildWrapperBuilder buildWrapperBuilder;
 
     /**
      * Constructs a {@link org.sonar.plugins.csharp.resharper.ReSharperSensor}.
      */
     public CPlusPlusPreprocessorInitializer(FileSystem fileSystem,
-            Settings settings) {
+            Settings settings,
+            CommandLineExecutor commandLineExecutor,
+            BuildWrapperBuilder buildWrapperBuilder) {
         this.fileSystem = fileSystem;
         this.settings = settings;
+        this.commandLineExecutor = commandLineExecutor;
+        this.buildWrapperBuilder = buildWrapperBuilder;
 
     }
-
 
     @Override
     public boolean shouldExecuteOnProject(Project project) {
         boolean hasCs = fileSystem.languages().contains("cpp");
         boolean isRoot = project.isRoot();
-        return hasCs && isRoot;
+        // return hasCs && isRoot;
+        return true;
     }
 
     @Override
     public void execute(Project project) {
         LOG.info("----- C++ Preprocessor is running -----");
+        String relativePath = getRequiredProperty(BuildWrapperConstants.BUILDWRAPPER_OUTDIR_KEY);
+        String msBuildInstallDir=getRequiredProperty(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_INSTALLDIR_KEY);
+        String buildWrapperInstallDir=getRequiredProperty(BuildWrapperConstants.BUILDWRAPPER_INSTALLDIR_KEY);
+        
+        File outputDir = new File(fileSystem.workDir(), relativePath);
+        String absolutePathInUnixFormat=outputDir.getAbsolutePath().replaceAll("\\\\", "/");
+        LOG.info("set " + BuildWrapperConstants.BUILD_WRAPPER_CFAMILY_OUTPUT_KEY + "=" + absolutePathInUnixFormat);        
+        settings.appendProperty(BuildWrapperConstants.BUILD_WRAPPER_CFAMILY_OUTPUT_KEY, absolutePathInUnixFormat);
+
+        buildWrapperBuilder
+                .setInstallDir(buildWrapperInstallDir)
+                .setMsBuildOptions(settings.getString(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_OPTIONS_KEY))
+                .setOutputPath(absolutePathInUnixFormat)
+                .setMsBuildDir(msBuildInstallDir);
+        
+        commandLineExecutor.execute(buildWrapperBuilder);
+    }
+    
+    private String getRequiredProperty(String key) {
+        String value=settings.getString(key);
+        if(StringUtils.isEmpty(key)) {
+            throw new SonarException("Property not set, but required " + key);
+            
+        }
+        return value;
     }
 
 }

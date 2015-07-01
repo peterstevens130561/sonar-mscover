@@ -57,6 +57,7 @@ public class WindowsCommandLineExecutor implements CommandLineExecutor {
         if (exitCode != 0 && exitCode != 1) {
             String msg = command.toCommandLine() + " failed with exitCode "
                     + exitCode;
+            LOG.error(stdOut.toString());
             LOG.error(stdErr.toString());
             throw new SonarException(msg);
         }
