@@ -20,7 +20,10 @@
 package com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,20 +45,17 @@ public class CPlusPlusPreprocessorInitializer extends Initializer {
 
 
     private Settings settings;
-    private FileSystem fileSystem;
 
     private CommandLineExecutor commandLineExecutor;
-
     private BuildWrapperBuilder buildWrapperBuilder;
 
     /**
      * Constructs a {@link org.sonar.plugins.csharp.resharper.ReSharperSensor}.
      */
-    public CPlusPlusPreprocessorInitializer(FileSystem fileSystem,
+    public CPlusPlusPreprocessorInitializer(
             Settings settings,
             CommandLineExecutor commandLineExecutor,
             BuildWrapperBuilder buildWrapperBuilder) {
-        this.fileSystem = fileSystem;
         this.settings = settings;
         this.commandLineExecutor = commandLineExecutor;
         this.buildWrapperBuilder = buildWrapperBuilder;
@@ -64,20 +64,26 @@ public class CPlusPlusPreprocessorInitializer extends Initializer {
 
     @Override
     public boolean shouldExecuteOnProject(Project project) {
-        boolean hasCs = fileSystem.languages().contains("cpp");
+        boolean hasCpp = hasCppFiles();
         boolean isRoot = project.isRoot();
-        // return hasCs && isRoot;
-        return true;
+        return hasCpp && isRoot;
     }
 
+    private boolean hasCppFiles() {
+        String extensions[] = {"cpp","h"};
+        File currentDir = new File(".");
+        LOG.debug("Looking for cpp files in " + currentDir.getAbsolutePath());
+        Collection<File> files= FileUtils.listFiles(new File("."),extensions,true);
+        LOG.debug("found " + files.size() + " files");
+        return files.size()>0;
+    }
     @Override
     public void execute(Project project) {
-        LOG.info("----- C++ Preprocessor is running -----");
+        LOG.info("----- C++ Initializer is running -----");
         String relativePath = getRequiredProperty(BuildWrapperConstants.BUILDWRAPPER_OUTDIR_KEY);
-        String msBuildInstallDir=getRequiredProperty(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_INSTALLDIR_KEY);
         String buildWrapperInstallDir=getRequiredProperty(BuildWrapperConstants.BUILDWRAPPER_INSTALLDIR_KEY);
         
-        File outputDir = new File(fileSystem.workDir(), relativePath);
+        File outputDir = new File("." + relativePath);
         String absolutePathInUnixFormat=outputDir.getAbsolutePath().replaceAll("\\\\", "/");
         LOG.info("set " + BuildWrapperConstants.BUILD_WRAPPER_CFAMILY_OUTPUT_KEY + "=" + absolutePathInUnixFormat);        
         settings.appendProperty(BuildWrapperConstants.BUILD_WRAPPER_CFAMILY_OUTPUT_KEY, absolutePathInUnixFormat);
@@ -85,8 +91,7 @@ public class CPlusPlusPreprocessorInitializer extends Initializer {
         buildWrapperBuilder
                 .setInstallDir(buildWrapperInstallDir)
                 .setMsBuildOptions(settings.getString(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_OPTIONS_KEY))
-                .setOutputPath(absolutePathInUnixFormat)
-                .setMsBuildDir(msBuildInstallDir);
+                .setOutputPath(absolutePathInUnixFormat);
         
         commandLineExecutor.execute(buildWrapperBuilder);
     }

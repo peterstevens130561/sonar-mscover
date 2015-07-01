@@ -14,7 +14,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
 
     private String installDir;
-    private String msBuildDir;
     private String outputPath;
     private String msBuildOptions;
     private Command command;
@@ -23,10 +22,6 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
         return this;
     }
     
-    public BuildWrapperBuilder setMsBuildDir(String msBuildDir) {
-        this.msBuildDir=msBuildDir;
-        return this;
-    }
     
     /**
      * Set the directory where wrapper should store its output
@@ -55,7 +50,7 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
         command = Command.create(path);
         command.addArgument("--out-dir");
         command.addArgument(CommandHelper.parenthesizeArgument(outputPath));
-        String msBuildPath=CommandHelper.parenthesizeArgument(msBuildDir + "\\msbuild");
+        String msBuildPath="msbuild";
         command.addArgument(msBuildPath);
         command.addArgument("/t:Rebuild");
         if(StringUtils.isNotEmpty(msBuildOptions)) {

@@ -23,11 +23,11 @@ public class BuildWrapperBuilderTest {
         //Given
         File myDir = new File("mydir");
         outputPath = "F:/Development/Solution/wrapper";
-        buildWrapperBuilder.setInstallDir(myDir.getAbsolutePath()).setMsBuildOptions("debug crapper").setOutputPath(outputPath).setMsBuildDir("fun");
+        buildWrapperBuilder.setInstallDir(myDir.getAbsolutePath()).setMsBuildOptions("debug crapper").setOutputPath(outputPath);
         //When
         String commandLine=buildWrapperBuilder.toCommandLine();
         //Then
-        assertEquals(myDir.getAbsolutePath() + "\\build-wrapper.exe --out-dir \"F:/Development/Solution/wrapper\" \"fun\\msbuild\" /t:Rebuild debug crapper",commandLine);
+        assertEquals(myDir.getAbsolutePath() + "\\build-wrapper.exe --out-dir \"F:/Development/Solution/wrapper\" msbuild /t:Rebuild debug crapper",commandLine);
         
     }
 }
