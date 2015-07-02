@@ -38,10 +38,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecu
 /**
  * Collects the ReSharper reporting into sonar.
  */
-public class CPlusPlusPreprocessorInitializer extends Initializer {
+public class BuildWrapperInitializer extends Initializer {
 
 
-    private final static Logger LOG = LoggerFactory.getLogger(CPlusPlusPreprocessorInitializer.class);
+    private final static Logger LOG = LoggerFactory.getLogger(BuildWrapperInitializer.class);
 
 
     private Settings settings;
@@ -52,7 +52,7 @@ public class CPlusPlusPreprocessorInitializer extends Initializer {
     /**
      * Constructs a {@link org.sonar.plugins.csharp.resharper.ReSharperSensor}.
      */
-    public CPlusPlusPreprocessorInitializer(
+    public BuildWrapperInitializer(
             Settings settings,
             CommandLineExecutor commandLineExecutor,
             BuildWrapperBuilder buildWrapperBuilder) {
@@ -66,10 +66,11 @@ public class CPlusPlusPreprocessorInitializer extends Initializer {
     public boolean shouldExecuteOnProject(Project project) {
         boolean hasCpp = hasCppFiles();
         boolean isRoot = project.isRoot();
-        return hasCpp && isRoot;
+        boolean isEnabled = settings.getBoolean(BuildWrapperConstants.BUILDWRAPPER_ENABLED_KEY);
+        return isEnabled &&hasCpp && isRoot;
     }
 
-    private boolean hasCppFiles() {
+    protected boolean hasCppFiles() {
         String extensions[] = {"cpp","h"};
         File currentDir = new File(".");
         LOG.debug("Looking for cpp files in " + currentDir.getAbsolutePath());
@@ -88,9 +89,10 @@ public class CPlusPlusPreprocessorInitializer extends Initializer {
         LOG.info("set " + BuildWrapperConstants.BUILD_WRAPPER_CFAMILY_OUTPUT_KEY + "=" + absolutePathInUnixFormat);        
         settings.appendProperty(BuildWrapperConstants.BUILD_WRAPPER_CFAMILY_OUTPUT_KEY, absolutePathInUnixFormat);
 
+        String msbuildOptions = settings.getString(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_OPTIONS_KEY);
         buildWrapperBuilder
                 .setInstallDir(buildWrapperInstallDir)
-                .setMsBuildOptions(settings.getString(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_OPTIONS_KEY))
+                .setMsBuildOptions(msbuildOptions)
                 .setOutputPath(absolutePathInUnixFormat);
         
         commandLineExecutor.execute(buildWrapperBuilder);
@@ -98,7 +100,7 @@ public class CPlusPlusPreprocessorInitializer extends Initializer {
     
     private String getRequiredProperty(String key) {
         String value=settings.getString(key);
-        if(StringUtils.isEmpty(key)) {
+        if(StringUtils.isEmpty(value)) {
             throw new SonarException("Property not set, but required " + key);
             
         }
