@@ -103,6 +103,7 @@ public class BuildWrapperInitializerTest {
         } catch ( SonarException e) {
             String msg=e.getMessage();
             assertTrue("should throw exception with reference to missing property",msg.contains("Property not set"));
+            return;
         }
         fail("expected exception");
     }
