@@ -19,13 +19,17 @@ public class DefaultInspectCodeIssuesSaver implements InspectCodeIssuesSaver {
     private ResourcePerspectives perspectives;
     private ResourceResolver resourceResolver;
 
-    public DefaultInspectCodeIssuesSaver(ResourcePerspectives resourcePerspectives,ResourceResolver resourceResolver) {
+    public DefaultInspectCodeIssuesSaver(ResourcePerspectives resourcePerspectives, ResourceResolver resourceResolver) {
         this.perspectives = resourcePerspectives;
         this.resourceResolver = resourceResolver;
     }
 
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugings.dotnet.resharper.InspectCodeIssuesSaver#saveIssues(java.util.List)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.stevpet.sonar.plugings.dotnet.resharper.InspectCodeIssuesSaver#saveIssues
+     * (java.util.List)
      */
     @Override
     public void saveIssues(List<InspectCodeIssue> issues) {
@@ -35,26 +39,27 @@ public class DefaultInspectCodeIssuesSaver implements InspectCodeIssuesSaver {
     }
 
     private void saveIssue(InspectCodeIssue inspectCodeIssue) {
-        String relativePath=inspectCodeIssue.getRelativePath();
+        String relativePath = inspectCodeIssue.getRelativePath();
         File myResource = File.create(relativePath);
-        if(myResource==null) {
+        if (myResource == null) {
             Log.debug("could not resolve " + inspectCodeIssue.getRelativePath());
             return;
         }
         Issuable issuable = perspectives.as(Issuable.class, myResource);
-        if (issuable != null) {
-            int line = Integer.parseInt(inspectCodeIssue.getLine());
-            RuleKey key=RuleKey.of("resharper-cs",inspectCodeIssue.getTypeId());
-            String message=inspectCodeIssue.getMessage();
-            Issue issue = issuable.newIssueBuilder()
-                    .ruleKey(key)
-                    .line(line)
-                    .message(message).build();
-            try {
-                issuable.addIssue(issue);
-            } catch ( MessageException e) {
-                Log.info(e.getMessage());
-            }
+        if (issuable == null) {
+            return;
+        }
+        int line = Integer.parseInt(inspectCodeIssue.getLine());
+        RuleKey key = RuleKey.of("resharper-cs", inspectCodeIssue.getTypeId());
+        String message = inspectCodeIssue.getMessage();
+        Issue issue = issuable.newIssueBuilder()
+                .ruleKey(key)
+                .line(line)
+                .message(message).build();
+        try {
+            issuable.addIssue(issue);
+        } catch (MessageException e) {
+            Log.warn(e.getMessage());
         }
     }
 }

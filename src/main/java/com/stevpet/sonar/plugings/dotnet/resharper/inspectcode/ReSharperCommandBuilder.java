@@ -138,7 +138,7 @@ public class ReSharperCommandBuilder implements BatchExtension,ShellCommand{
 		LOG.debug("- Report file               : " + resharperReportFile);
 		command.addArgument("/output=" + resharperReportFile.getAbsolutePath());
 
-		LOG.debug("- Solution file               : " + solution);
+		LOG.debug("- Solution file               : " + solution.toString());
 
 		for (String argument : arguments) {
 			LOG.debug(" - Argument : " + argument);

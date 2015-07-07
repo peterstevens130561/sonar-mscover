@@ -32,7 +32,7 @@ public class DefaultCoverageSaver implements CoverageSaver {
     @Override
     public void save(SonarCoverage sonarCoverage) {
         List<File> testFiles = microsoftWindowsEnvironment.getUnitTestSourceFiles();
-        if (testFiles == null) {
+        if (testFiles == null || testFiles.size()==0) {
             LOG.warn("solution has no testfiles to exclude from results");
         }
         for (SonarFileCoverage fileCoverage : sonarCoverage.getValues()) {
