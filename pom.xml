@@ -67,11 +67,6 @@
       <scope>test</scope>
     </dependency>
        <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>10.0.1</version>
-      </dependency>
-       <dependency>
        	<groupId>org.picocontainer</groupId>
        	<artifactId>picocontainer</artifactId>
        	<version>2.15</version>
@@ -170,15 +165,6 @@
     
   </build>
 
-  <dependencyManagement>
-  	<dependencies>
-  		<dependency>
-  			<groupId>org.sonar.plugins.scmactivity</groupId>
-  			<artifactId>sonar-scm-activity-plugin</artifactId>
-  			<version>1.7-SNAPSHOT</version>
-  		</dependency>
-  	</dependencies>
-  </dependencyManagement>
   <description>Plugin to report test / code coverage for ms environment</description>
   <scm>
 	<url>scm:git:https://github.com/peterstevens130561/sonar-mscover</url>
