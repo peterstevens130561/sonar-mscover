@@ -90,7 +90,7 @@
        <dependency>
        	<groupId>com.stevpet.sonar</groupId>
        	<artifactId>plugins-dotnet-utils</artifactId>
-       	<version>1.1-SNAPSHOT</version>
+       	<version>1.2-SNAPSHOT</version>
        </dependency>
   </dependencies>
 
