@@ -24,12 +24,6 @@
       <scope>provided</scope>
     </dependency>
     
-       <dependency>
-	     <groupId>org.codehaus.sonar-plugins.dotnet</groupId>
-	     <artifactId>sonar-dotnet-plugin</artifactId>
-	     <version>2.2-SNAPSHOT</version>
-	     <type>sonar-plugin</type>
-    </dependency>
     <dependency>
         <groupId>org.codehaus.sonar</groupId>
     <artifactId>sonar-core</artifactId>
@@ -77,11 +71,6 @@
         <artifactId>guava</artifactId>
         <version>10.0.1</version>
       </dependency>
-       <dependency>
-       	<groupId>org.codehaus.sonar-plugins.scm-activity</groupId>
-       	<artifactId>sonar-scm-activity-plugin</artifactId>
-       	<version>1.7-SNAPSHOT</version>
-       </dependency>
        <dependency>
        	<groupId>org.picocontainer</groupId>
        	<artifactId>picocontainer</artifactId>

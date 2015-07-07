@@ -26,8 +26,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.plexus.util.FileUtils;
 import org.sonar.api.utils.command.Command;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
@@ -79,7 +79,7 @@ public class WindowsCodeCoverageCommand extends CodeCoverageCommand {
         File binaryFolder = new File(binaryFolderPath);
         if (binaryFolder.exists()) {
             try {
-                FileUtils.deleteDirectory(binaryFolderPath);
+                FileUtils.deleteDirectory(binaryFolder);
             } catch (IOException e) {
                 throw new MsCoverException("Could not delete directory "
                         + binaryFolderPath + e.getMessage(), e);
