@@ -4,11 +4,9 @@ import java.io.File;
 
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.BatchExtension;
-import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.command.Command;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 
 public class BuildWrapperBuilder implements ShellCommand, BatchExtension {

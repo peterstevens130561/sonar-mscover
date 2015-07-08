@@ -61,4 +61,9 @@ public final class ReSharperConstants {
 	public static final String MODE_REUSE_REPORT = "resuseReport";
 	public static final String DEFAULT_RULES = "/ReSharper/DefaultRules.ReSharper";
     public static final String MODE_SKIP = "skip";
+    public static final String BUILD_CONFIGURATION_KEY = "sonar.dotnet.buildConfiguration";
+    public static final String BUILD_CONFIGURATIONS_DEFVALUE = "Debug";
+
+    public static final String BUILD_PLATFORM_KEY = "sonar.dotnet.buildPlatform";
+    public static final String BUILD_PLATFORM_DEFVALUE = "x64";
 }
