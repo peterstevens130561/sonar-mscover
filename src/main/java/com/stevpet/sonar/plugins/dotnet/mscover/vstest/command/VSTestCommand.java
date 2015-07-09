@@ -84,6 +84,9 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
             platform="x64";
         }
         command.addArgument("/Platform:" + platform);
+        if("x64".equals(platform)) {
+            command.addArgument("/inIsolation");
+        }
     }
     
     public String getTestSettingsPath() {

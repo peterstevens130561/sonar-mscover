@@ -44,12 +44,12 @@ public class VSTestCommandTest {
     
     @Test
     public void minimalCommand_OkPath() {             
-        platformTest("Any CPU", " /Platform:x64");
+        platformTest("Any CPU", " /Platform:x64 /inIsolation");
     }
 
     @Test
     public void platform64_OkPath() {
-        platformTest("x64"," /Platform:x64");
+        platformTest("x64"," /Platform:x64 /inIsolation");
     }
     
     @Test
