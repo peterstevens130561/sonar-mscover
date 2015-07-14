@@ -1,8 +1,12 @@
 package com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
 import org.sonar.api.utils.command.Command;
 
@@ -10,7 +14,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 
 public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
-
+    private static final String EXECUTABLE = "build-wrapper.exe";
+    private static Logger LOG = LoggerFactory.getLogger(BuildWrapperBuilder.class);
     private String installDir;
     private String outputPath;
     private String msBuildOptions;
@@ -43,7 +48,21 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
     }
     @Override
     public Command toCommand() {
-        File executable = new File(installDir,"build-wrapper.exe");
+        File executable = new File(installDir,EXECUTABLE);
+        if(!executable.exists()) {
+            String msg="Executable does not exist: " + executable.getAbsolutePath();
+            LOG.error(msg);
+
+            while(executable !=null && !executable.exists()) {
+                LOG.error("-- trying " + executable.getAbsolutePath());
+                executable=executable.getParentFile();
+            }
+            if(executable!=null) {
+                LOG.error("-- path found at " + executable.getAbsolutePath());
+            }
+            
+            throw new BuildWrapperException(msg);
+        }
         String path=executable.getAbsolutePath();
         command = Command.create(path);
         command.addArgument("--out-dir");
@@ -55,6 +74,12 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
             command.addArgument(msBuildOptions);
         }
         return command;
+    }
+
+
+    @Override
+    public String getExecutable() {
+        return EXECUTABLE;
     }
 
 }

@@ -92,7 +92,7 @@ import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConstants;
         @Property(key = ReSharperConstants.INSPECTCODE_PROFILE, name = "path to .DotSettings file on server", type = PropertyType.STRING, global = false, project = true),
         
         @Property(key= BuildWrapperConstants.BUILDWRAPPER_INSTALLDIR_KEY, name="directory where buildwrapper is installed", type=PropertyType.STRING,global=true,project=true),
-        @Property(key= BuildWrapperConstants.BUILDWRAPPER_MSBUILD_OPTIONS_KEY, name="msbuild options",type=PropertyType.STRING,global=true,project=true,defaultValue="true"),
+        @Property(key= BuildWrapperConstants.BUILDWRAPPER_MSBUILD_OPTIONS_KEY, name="msbuild options",type=PropertyType.STRING,global=true,project=true),
         @Property(key=ReSharperConstants.BUILD_CONFIGURATION_KEY, name="Configuration",type=PropertyType.STRING,global=true,project=true,defaultValue=ReSharperConstants.BUILD_CONFIGURATIONS_DEFVALUE),
         @Property(key=ReSharperConstants.BUILD_PLATFORM_KEY, name="Platform",type=PropertyType.STRING,global=true,project=true,defaultValue=ReSharperConstants.BUILD_PLATFORM_DEFVALUE),
         @Property(key= BuildWrapperConstants.BUILDWRAPPER_ENABLED_KEY, name="buildwrapper enabled",type=PropertyType.BOOLEAN,global=true,project=true),

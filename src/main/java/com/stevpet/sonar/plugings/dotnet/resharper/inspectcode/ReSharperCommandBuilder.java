@@ -208,5 +208,11 @@ public class ReSharperCommandBuilder implements BatchExtension,ShellCommand{
         return toCommand().toString();
     }
 
+    @Override
+    public String getExecutable() {
+        // TODO Auto-generated method stub
+        return "ReSharper";
+    }
+
 
 }

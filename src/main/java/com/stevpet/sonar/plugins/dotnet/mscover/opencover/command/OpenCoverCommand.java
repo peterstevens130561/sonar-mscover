@@ -148,4 +148,9 @@ public class OpenCoverCommand implements ShellCommand {
     public String toString() {
     	return toCommandLine();
     }
+
+    @Override
+    public String getExecutable() {
+        return "OpenCover";
+    }
 }

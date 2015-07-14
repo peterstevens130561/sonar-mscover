@@ -77,13 +77,13 @@ public class BuildWrapperInitializer extends Initializer {
     }
     @Override
     public void execute(Project project) {
-        LOG.info("----- C++ Initializer is running -----");
+        LOG.debug("----- C++ Initializer is running -----");
         String relativePath = getRequiredProperty(BuildWrapperConstants.BUILDWRAPPER_OUTDIR_KEY);
         String buildWrapperInstallDir=getRequiredProperty(BuildWrapperConstants.BUILDWRAPPER_INSTALLDIR_KEY);
         
         File outputDir = new File("." + relativePath);
         String absolutePathInUnixFormat=outputDir.getAbsolutePath().replaceAll("\\\\", "/");
-        LOG.info("set " + BuildWrapperConstants.BUILD_WRAPPER_CFAMILY_OUTPUT_KEY + "=" + absolutePathInUnixFormat);        
+        LOG.debug("set " + BuildWrapperConstants.BUILD_WRAPPER_CFAMILY_OUTPUT_KEY + "=" + absolutePathInUnixFormat);        
         settings.appendProperty(BuildWrapperConstants.BUILD_WRAPPER_CFAMILY_OUTPUT_KEY, absolutePathInUnixFormat);
 
         String msbuildOptions = settings.getString(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_OPTIONS_KEY);

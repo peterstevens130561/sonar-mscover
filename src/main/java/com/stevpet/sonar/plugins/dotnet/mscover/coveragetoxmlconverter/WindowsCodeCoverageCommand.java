@@ -138,4 +138,9 @@ public class WindowsCodeCoverageCommand extends CodeCoverageCommand {
         return command;
     }
 
+    @Override
+    public String getExecutable() {
+        return binaryName;
+    }
+
 }

@@ -28,5 +28,7 @@ public interface ShellCommand {
     String toCommandLine();
     Command toCommand();
     
+    String getExecutable();
+    
  
 }

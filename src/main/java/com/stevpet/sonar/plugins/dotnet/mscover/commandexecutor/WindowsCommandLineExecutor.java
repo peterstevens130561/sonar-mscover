@@ -39,6 +39,7 @@ public class WindowsCommandLineExecutor implements CommandLineExecutor {
             .getLogger(WindowsCommandLineExecutor.class);
     private StringStreamConsumer stdOut = new StringStreamConsumer();
     private StringStreamConsumer stdErr = new StringStreamConsumer();
+    private String executable;
 
     private CommandExecutor commandExecutor = CommandExecutor.create();
     /* (non-Javadoc)
@@ -52,6 +53,7 @@ public class WindowsCommandLineExecutor implements CommandLineExecutor {
         stdOut = new StringStreamConsumer();
         stdErr = new StringStreamConsumer();
         long timeOut = (long) (timeOutMinutes * 60000);
+        executable=command.getExecutable();
         int exitCode = commandExecutor.execute(command.toCommand(),
                 stdOut, stdErr, timeOut);
         if (exitCode != 0 && exitCode != 1) {
@@ -91,7 +93,7 @@ public class WindowsCommandLineExecutor implements CommandLineExecutor {
         }
 
         public void consumeLine(String line) {
-            LOG.info(line);
+            LOG.debug(executable + "--" + line);
             log.append(line);
             log.append("\r\n");
         }
