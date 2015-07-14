@@ -93,7 +93,6 @@ public class WindowsCommandLineExecutor implements CommandLineExecutor {
         }
 
         public void consumeLine(String line) {
-            LOG.debug(executable + "--" + line);
             log.append(line);
             log.append("\r\n");
         }

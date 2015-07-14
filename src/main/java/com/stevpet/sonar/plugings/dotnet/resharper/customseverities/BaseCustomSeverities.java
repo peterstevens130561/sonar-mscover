@@ -38,7 +38,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConfiguration;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperException;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperSeverity;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperUtils;
@@ -47,7 +46,7 @@ public abstract class BaseCustomSeverities implements CustomSeverities {
 
     private static final String CUSTOM_SEVERITIES_PREFIX = "/Default/CodeInspection/Highlighting/InspectionSeverities";
     private static final Logger LOG = LoggerFactory.getLogger(PropertyBasedCustomSeverities.class);
-    private ReSharperConfiguration configuration ;
+    private Settings configuration ;
     private String definitionKey;
     CustomSeveritiesMap severities = new CustomSeveritiesMap();
     
@@ -211,14 +210,11 @@ public abstract class BaseCustomSeverities implements CustomSeverities {
 
 
     public void setSettings(Settings settings) {
-            setConfiguration(new ReSharperConfiguration(settings));
+            this.configuration=settings;
         }
     
-     public ReSharperConfiguration getConfiguration() {
+     public Settings getConfiguration() {
          return configuration;
-     }
-     public void setConfiguration(ReSharperConfiguration configuration) {
-         this.configuration = configuration;
      }
 
     abstract String getDefinitionKey();

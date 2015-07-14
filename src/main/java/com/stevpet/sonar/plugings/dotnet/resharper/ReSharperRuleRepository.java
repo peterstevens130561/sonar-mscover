@@ -38,6 +38,9 @@ import java.util.List;
 
 /**
  * Loads the ReSharper rules configuration file.
+ * To update the configuration file use InspectCode /dumpIssuesTypes /output=results.xml, 
+ * then copy/paste the contents into DefaultRules.ReSharper
+ * 
  */
 public class ReSharperRuleRepository extends RuleRepository {
 
@@ -76,7 +79,6 @@ public class ReSharperRuleRepository extends RuleRepository {
                 Reader customRulesReader = new StringReader(customRulesXml);
                 List<ReSharperRule> customReSharperRules = parser.parseRules(customRulesReader);
                 for(ReSharperRule rRule: customReSharperRules) {
-                    //TODO: do i need to check if the rule has already been added?
                     if(!rules.add(rRule.toSonarRule())) {
                         LOG.warn("--- could not add " + rRule.toSonarRule().toString());
                     }
