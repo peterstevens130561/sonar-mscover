@@ -78,5 +78,9 @@ public class CommandLineExecutorMock extends GenericClassMock<CommandLineExecuto
         public String toString() {
         	return commandLine;
         }
+        @Override
+        public String getExecutable() {
+            return null;
+        }
     }
 }

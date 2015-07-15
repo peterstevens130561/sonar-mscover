@@ -21,8 +21,10 @@ package com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor;
 
 import java.io.File;
 import java.util.Collection;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.fest.util.Files;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Initializer;
@@ -91,8 +93,12 @@ public class BuildWrapperInitializer extends Initializer {
                 .setInstallDir(buildWrapperInstallDir)
                 .setMsBuildOptions(msbuildOptions)
                 .setOutputPath(absolutePathInUnixFormat);
-        
+        try {
         commandLineExecutor.execute(buildWrapperBuilder);
+        } catch (SonarException e) {
+            String msg="build-wrapper failed with message " + e.getMessage();
+            LOG.error(msg);
+        }
     }
     
     private String getRequiredProperty(String key) {

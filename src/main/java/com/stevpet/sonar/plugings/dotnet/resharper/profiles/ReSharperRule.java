@@ -25,6 +25,7 @@ import org.sonar.api.rules.RulePriority;
 import org.sonar.api.rules.ActiveRule;
 
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperSeverity;
+import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperUtils;
 
 import java.lang.Override;
 
@@ -174,52 +175,19 @@ public class ReSharperRule {
      *          sonar priority
      */
     public void setSonarPriority(RulePriority sonarPriority){
-        ReSharperSeverity resharperPriority = TranslateSonarPriorityIntoResharperSeverity(sonarPriority);
+        ReSharperSeverity resharperPriority = ReSharperUtils.translateSonarPriorityIntoResharperSeverity(sonarPriority);
         setSeverity(resharperPriority);
     }
 
     public RulePriority getSonarPriority()
     {
-        RulePriority sonarPriority = TranslateResharperPriorityIntoSonarSeverity(getSeverity());
+
+        ReSharperSeverity reSharperSeverity=getSeverity();
+        RulePriority sonarPriority=ReSharperUtils.translateResharperPriorityIntoSonarPriority(reSharperSeverity);
         return sonarPriority;
     }
 
-    private RulePriority TranslateResharperPriorityIntoSonarSeverity(ReSharperSeverity severity) {
 
-        switch (severity) {
-            case ERROR:
-                return RulePriority.CRITICAL;
-            case WARNING:
-                return RulePriority.MAJOR;
-            case SUGGESTION:
-                return RulePriority.MINOR;
-            case HINT:
-            case INFO:
-            case DO_NOT_SHOW:
-                return RulePriority.INFO ;
-            default:
-                return null;
-        }
-    }
-
-    private ReSharperSeverity TranslateSonarPriorityIntoResharperSeverity(RulePriority priority) {
-
-        switch (priority) {
-            case BLOCKER:
-                return ReSharperSeverity.ERROR;
-            case CRITICAL:
-                return ReSharperSeverity.ERROR;
-            case MAJOR:
-                return ReSharperSeverity.WARNING;
-            case MINOR:
-                return ReSharperSeverity.SUGGESTION;
-            case INFO:
-                return ReSharperSeverity.HINT;
-            default:
-                return null;
-        }
-
-    }
 
     public Rule toSonarRule() {
 

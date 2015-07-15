@@ -44,21 +44,21 @@ public class ReSharperUtils {
     /**
      * translate the resharper severity into sonar priority
      */
-    public static  RulePriority translateResharperPriorityIntoSonarPriority(ReSharperSeverity reSharperSeverity) {
-        switch (reSharperSeverity) {
-            case ERROR:
-                return RulePriority.BLOCKER;
-            case WARNING :
-                return RulePriority.CRITICAL;
-            case SUGGESTION:
-                return RulePriority.MINOR;
-            case HINT:
-            case INFO:
-            case DO_NOT_SHOW:
-                return RulePriority.INFO ;
-            default:
-                return null;
-        }
+    public static  RulePriority translateResharperPriorityIntoSonarPriority(ReSharperSeverity severity) {
+        switch (severity) {
+        case ERROR:
+            return RulePriority.CRITICAL;
+        case WARNING:
+            return RulePriority.MAJOR;
+        case SUGGESTION:
+            return RulePriority.MINOR;
+        case HINT:
+        case INFO:
+        case DO_NOT_SHOW:
+            return RulePriority.INFO ;
+        default:
+            return null;
+    }
     }
 
     /**
@@ -68,19 +68,20 @@ public class ReSharperUtils {
      */
    public static  ReSharperSeverity translateSonarPriorityIntoResharperSeverity(RulePriority priority) {
 
-        switch (priority) {
-            case BLOCKER:
-                return ReSharperSeverity.ERROR;
-            case CRITICAL:
-            case MAJOR:
-                return ReSharperSeverity.WARNING;
-            case MINOR:
-                return ReSharperSeverity.SUGGESTION;
-            case INFO:
-                return ReSharperSeverity.HINT;
-            default:
-                return null;
-        }
+       switch (priority) {
+       case BLOCKER:
+           return ReSharperSeverity.ERROR;
+       case CRITICAL:
+           return ReSharperSeverity.ERROR;
+       case MAJOR:
+           return ReSharperSeverity.WARNING;
+       case MINOR:
+           return ReSharperSeverity.SUGGESTION;
+       case INFO:
+           return ReSharperSeverity.HINT;
+       default:
+           return null;
+   }
 
     }
 
