@@ -5,14 +5,14 @@
   <groupId>com.stevpet.sonar</groupId>
   <artifactId>sonar-mscover-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
-  <version>2.2.1-SNAPSHOT</version>
+  <version>2.2.2-SNAPSHOT</version>
 
   <name>Sonar Integration Test Plugin MSCover</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <sonar.buildVersion>5.0</sonar.buildVersion>
-    <jdk.min.version>1.5</jdk.min.version>
+    <jdk.min.version>1.7</jdk.min.version>
     <powermock.version>1.4.10</powermock.version>
   </properties>
 
