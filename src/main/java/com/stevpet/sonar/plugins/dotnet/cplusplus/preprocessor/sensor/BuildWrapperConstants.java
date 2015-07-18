@@ -6,4 +6,5 @@ public class BuildWrapperConstants {
     public static final String BUILDWRAPPER_OUTDIR_KEY = "sonar.buildwrapper.outputdir";
     public static final String BUILD_WRAPPER_CFAMILY_OUTPUT_KEY = "sonar.cfamily.build-wrapper-output";
     public static final String BUILDWRAPPER_ENABLED_KEY = "sonar.buildwrapper.enabled";
+    public static final String BUILDWRAPPER_MSBUILD_DIR_KEY = "sonar.buildwrapper.msbuild.directory";
 }

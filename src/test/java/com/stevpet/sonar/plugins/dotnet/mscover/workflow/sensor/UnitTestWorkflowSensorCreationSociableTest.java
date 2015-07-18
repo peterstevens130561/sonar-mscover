@@ -7,7 +7,9 @@ import java.util.List;
 
 import org.junit.Test;
 import org.picocontainer.DefaultPicoContainer;
+import org.sonar.api.Extension;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
+import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.Settings;
 import org.sonar.api.scan.filesystem.PathResolver;
 
@@ -31,20 +33,22 @@ public class UnitTestWorkflowSensorCreationSociableTest {
     public void ExecuteUnitTestWorkflowSensor() {
         DefaultPicoContainer container = composeDependencies();
         container.addComponent(OpenCoverWorkflowSteps.class);
-        WorkflowSteps steps=container.getComponent(OpenCoverWorkflowSteps.class);
-        assertNotNull("expect to be resolved",steps);
-        
+        WorkflowSteps steps = container.getComponent(OpenCoverWorkflowSteps.class);
+        assertNotNull("expect to be resolved", steps);
+
     }
+
     private DefaultPicoContainer composeDependencies() {
         MsCoverPlugin plugin = new MsCoverPlugin();
         List<?> extensions = plugin.getExtensions();
         DefaultPicoContainer container = new DefaultPicoContainer();
-        for(Object extension:extensions) {
-            container.addComponent(extension);
+        for (Object extension : extensions) {
+            if (!(extension instanceof PropertyDefinition)) {
+                container.addComponent(extension);
+            }
         }
         container.addComponent(PathResolver.class).addComponent(DefaultFileSystem.class).addComponent(Settings.class);
         return container;
     }
-    
-  
+
 }

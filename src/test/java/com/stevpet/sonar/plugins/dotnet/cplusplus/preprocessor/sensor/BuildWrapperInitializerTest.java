@@ -79,6 +79,7 @@ public class BuildWrapperInitializerTest {
         when(settings.getString(BuildWrapperConstants.BUILDWRAPPER_OUTDIR_KEY)).thenReturn("outdir");
         when(settings.getString(BuildWrapperConstants.BUILDWRAPPER_INSTALLDIR_KEY)).thenReturn("installdir");
         when(settings.getString(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_OPTIONS_KEY)).thenReturn("option");
+        when(settings.getString(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_DIR_KEY)).thenReturn("msbuildinstall");
         
         //When
         buildWrapperInitializer.execute(project);
@@ -88,6 +89,7 @@ public class BuildWrapperInitializerTest {
         verify(buildWrapperBuilder,times(1)).setOutputPath(outputPath);
         verify(buildWrapperBuilder,times(1)).setInstallDir("installdir");
         verify(buildWrapperBuilder,times(1)).setMsBuildOptions("option");
+        verify(buildWrapperBuilder,times(1)).setMsBuildPath("msbuildinstall");
         verify(commandLineExecutor,times(1)).execute(buildWrapperBuilder);
         verify(settings,times(1)).appendProperty(BuildWrapperConstants.BUILD_WRAPPER_CFAMILY_OUTPUT_KEY, outputPath);
 

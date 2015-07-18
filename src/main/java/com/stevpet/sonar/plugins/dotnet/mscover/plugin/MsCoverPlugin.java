@@ -22,6 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.plugin;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,6 +30,7 @@ import org.sonar.api.Properties;
 import org.sonar.api.Property;
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
+import org.sonar.api.config.PropertyDefinition;
 
 import com.stevpet.sonar.plugings.dotnet.resharper.DefaultInspectCodeIssuesSaver;
 import com.stevpet.sonar.plugings.dotnet.resharper.DefaultInspectCodeResultsParser;
@@ -90,19 +92,16 @@ import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConstants;
         @Property(key = ReSharperConstants.CACHES_HOME, name = "caches home", type = PropertyType.STRING, global = false, project = true),
         @Property(key = ReSharperConstants.INSPECTCODE_PROFILE, name = "path to .DotSettings file on server", type = PropertyType.STRING, global = false, project = true),
         @Property(key = ReSharperConstants.FAIL_ON_EXCEPTION_KEY, name = "fail analysis on thrown exception", type = PropertyType.BOOLEAN,global=true,project=false,defaultValue="true"),
-        @Property(key= BuildWrapperConstants.BUILDWRAPPER_INSTALLDIR_KEY, name="directory where buildwrapper is installed", type=PropertyType.STRING,global=true,project=true),
-        @Property(key= BuildWrapperConstants.BUILDWRAPPER_MSBUILD_OPTIONS_KEY, name="msbuild options",type=PropertyType.STRING,global=true,project=true),
         @Property(key=ReSharperConstants.BUILD_CONFIGURATION_KEY, name="Configuration",type=PropertyType.STRING,global=true,project=true,defaultValue=ReSharperConstants.BUILD_CONFIGURATIONS_DEFVALUE),
-        @Property(key=ReSharperConstants.BUILD_PLATFORM_KEY, name="Platform",type=PropertyType.STRING,global=true,project=true,defaultValue=ReSharperConstants.BUILD_PLATFORM_DEFVALUE),
-        @Property(key= BuildWrapperConstants.BUILDWRAPPER_ENABLED_KEY, name="buildwrapper enabled",type=PropertyType.BOOLEAN,global=true,project=true),
-        @Property(key= BuildWrapperConstants.BUILDWRAPPER_OUTDIR_KEY,name="buildwrapper output dir",global=true,project=true)})
+        @Property(key=ReSharperConstants.BUILD_PLATFORM_KEY, name="Platform",type=PropertyType.STRING,global=true,project=true,defaultValue=ReSharperConstants.BUILD_PLATFORM_DEFVALUE)
+        })
 public final class MsCoverPlugin extends SonarPlugin {
 
     // This is where you're going to declare all your Sonar extensions
     @SuppressWarnings({ "rawtypes" })
     public List getExtensions() {
 
-        return Arrays.asList(SimpleMicrosoftWindowsEnvironment.class,
+        List clazzes=Arrays.asList(SimpleMicrosoftWindowsEnvironment.class,
                 VsTestEnvironment.class,
                 PropertiesHelper.class,
                 VisualStudioProjectBuilder.class,
@@ -127,5 +126,9 @@ public final class MsCoverPlugin extends SonarPlugin {
                 BuildWrapperInitializer.class,
                 BuildWrapperBuilder.class)
                 ;
+        List extensions = new ArrayList();
+        extensions.addAll(clazzes);
+        extensions.addAll(BuildWrapperInitializer.getProperties());
+        return extensions;
     }
 }

@@ -2,6 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 
 import org.apache.commons.lang.StringUtils;
@@ -20,6 +21,7 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
     private String outputPath;
     private String msBuildOptions;
     private Command command;
+    private String msBuildDir;
     public BuildWrapperBuilder setInstallDir(String installDir) {
         this.installDir=installDir;
         return this;
@@ -36,9 +38,17 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
         return this;
     }
     
+    /**
+     * @param msBuildDir to dir where msbuild is installed
+     * @return this
+     */
+    public BuildWrapperBuilder setMsBuildPath(String msBuildDir) {
+        this.msBuildDir=msBuildDir;
+        return this;
+    }
+    
     @Override
     public String toCommandLine() {
-        // TODO Auto-generated method stub
         return toCommand().toString();
     }
 
@@ -65,6 +75,8 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
         }
         String path=executable.getAbsolutePath();
         command = Command.create(path);
+        createMsBuildPath();
+        
         command.addArgument("--out-dir");
         command.addArgument(CommandHelper.parenthesizeArgument(outputPath));
         String msBuildPath="msbuild";
@@ -74,6 +86,24 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
             command.addArgument(msBuildOptions);
         }
         return command;
+    }
+
+
+    private void createMsBuildPath() {
+        if(!StringUtils.isEmpty(msBuildDir)) {
+            File msBuildDirFile = new File(msBuildDir);
+            if(!msBuildDirFile.exists()) {
+                throw new MsBuildDirNotFoundException(msBuildDir);
+            }
+            File msBuildFile = new File(msBuildDirFile,"msbuild.exe");
+            if(!msBuildFile.exists()) {
+                throw new MsBuildNotFoundException(msBuildFile);
+            }
+
+        }
+        String pathEnv=System.getenv("PATH");
+        pathEnv=msBuildDir + ";" + pathEnv;
+        command.setEnvironmentVariable("PATH", pathEnv);
     }
 
 

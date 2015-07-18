@@ -20,15 +20,25 @@
 package com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.Properties;
+import org.sonar.api.Property;
+import org.sonar.api.PropertyType;
 import org.sonar.api.batch.Initializer;
+import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.config.PropertyDefinition.Builder;
+import org.sonar.api.config.PropertyDefinitions;
 import org.sonar.api.config.Settings;
+import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.Project;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
@@ -38,9 +48,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecu
  */
 public class BuildWrapperInitializer extends Initializer {
 
-
     private final static Logger LOG = LoggerFactory.getLogger(BuildWrapperInitializer.class);
-
 
     private Settings settings;
 
@@ -65,48 +73,87 @@ public class BuildWrapperInitializer extends Initializer {
         boolean hasCpp = hasCppFiles();
         boolean isRoot = project.isRoot();
         boolean isEnabled = settings.getBoolean(BuildWrapperConstants.BUILDWRAPPER_ENABLED_KEY);
-        return isEnabled &&hasCpp && isRoot;
+        return isEnabled && hasCpp && isRoot;
     }
 
     protected boolean hasCppFiles() {
-        String extensions[] = {"cpp","h"};
+        String extensions[] = { "cpp", "h" };
         File currentDir = new File(".");
         LOG.debug("Looking for cpp files in " + currentDir.getAbsolutePath());
-        Collection<File> files= FileUtils.listFiles(new File("."),extensions,true);
+        Collection<File> files = FileUtils.listFiles(new File("."), extensions, true);
         LOG.debug("found " + files.size() + " files");
-        return files.size()>0;
+        return files.size() > 0;
     }
+
     @Override
     public void execute(Project project) {
         LOG.debug("----- C++ Initializer is running -----");
         String relativePath = getRequiredProperty(BuildWrapperConstants.BUILDWRAPPER_OUTDIR_KEY);
-        String buildWrapperInstallDir=getRequiredProperty(BuildWrapperConstants.BUILDWRAPPER_INSTALLDIR_KEY);
-        
+        String buildWrapperInstallDir = getRequiredProperty(BuildWrapperConstants.BUILDWRAPPER_INSTALLDIR_KEY);
+
         File outputDir = new File("." + relativePath);
-        String absolutePathInUnixFormat=outputDir.getAbsolutePath().replaceAll("\\\\", "/");
-        LOG.debug("set " + BuildWrapperConstants.BUILD_WRAPPER_CFAMILY_OUTPUT_KEY + "=" + absolutePathInUnixFormat);        
+        String absolutePathInUnixFormat = outputDir.getAbsolutePath().replaceAll("\\\\", "/");
+        LOG.debug("set " + BuildWrapperConstants.BUILD_WRAPPER_CFAMILY_OUTPUT_KEY + "=" + absolutePathInUnixFormat);
         settings.appendProperty(BuildWrapperConstants.BUILD_WRAPPER_CFAMILY_OUTPUT_KEY, absolutePathInUnixFormat);
 
         String msbuildOptions = settings.getString(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_OPTIONS_KEY);
+        String msBuildDir = settings.getString(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_DIR_KEY);
         buildWrapperBuilder
                 .setInstallDir(buildWrapperInstallDir)
                 .setMsBuildOptions(msbuildOptions)
-                .setOutputPath(absolutePathInUnixFormat);
+                .setOutputPath(absolutePathInUnixFormat)
+                .setMsBuildPath(msBuildDir);
         try {
-        commandLineExecutor.execute(buildWrapperBuilder);
+            commandLineExecutor.execute(buildWrapperBuilder);
         } catch (SonarException e) {
-            String msg="build-wrapper failed with message " + e.getMessage();
+            String msg = "build-wrapper failed with message " + e.getMessage();
             LOG.error(msg);
         }
     }
-    
+
     private String getRequiredProperty(String key) {
-        String value=settings.getString(key);
-        if(StringUtils.isEmpty(value)) {
+        String value = settings.getString(key);
+        if (StringUtils.isEmpty(value)) {
             throw new SonarException("Property not set, but required " + key);
-            
+
         }
         return value;
     }
 
+    public static Collection<PropertyDefinition> getProperties() {
+        Collection<PropertyDefinition> properties = new ArrayList<>();
+        properties.add(createProperty(BuildWrapperConstants.BUILDWRAPPER_ENABLED_KEY)
+                .name("enabled")
+                .description("set to true to enable build-wrapper")
+                .type(PropertyType.BOOLEAN)
+                .defaultValue("true")
+                .build());
+        properties.add(createProperty(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_DIR_KEY)
+                .name("msbuild install dir")
+                .description("directory where msbuild is installed")
+                .type(PropertyType.STRING)
+                .build());
+        properties.add(createProperty(BuildWrapperConstants.BUILDWRAPPER_INSTALLDIR_KEY)
+                .name("build-wrapper install dir")
+                .description("directory where build-wrapper is installed")
+                .type(PropertyType.STRING)
+                .build());
+        properties.add(createProperty(BuildWrapperConstants.BUILDWRAPPER_OUTDIR_KEY)
+                .name("output dir")
+                .description("directory where build-wrapper results are stored, relative to solution")
+                .type(PropertyType.STRING)
+                .build());
+        properties.add(createProperty(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_OPTIONS_KEY)
+                .name("msbuild options")
+                .description("list of options to pass on to msbuild")
+                .type(PropertyType.STRING)
+                .build());
+        return properties;
+
+    }
+
+    private static Builder createProperty(String key) {
+        return PropertyDefinition.builder(key).subCategory("Build Wrapper");
+
+    }
 }
