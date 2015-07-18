@@ -19,11 +19,16 @@
  */
 package com.stevpet.sonar.plugings.dotnet.resharper;
 
+import org.jfree.util.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
+import org.sonar.api.utils.SonarException;
+
 import java.io.File;
 import java.util.List;
 
@@ -31,7 +36,7 @@ import java.util.List;
  * Collects the ReSharper reporting into sonar.
  */
 public class ReSharperSensor implements Sensor {
-
+    private Logger LOG = LoggerFactory.getLogger(ReSharperSensor.class);
     private FileSystem fileSystem;
 
     private Settings settings;
@@ -61,9 +66,16 @@ public class ReSharperSensor implements Sensor {
      * {@inheritDoc}
      */
     public void analyse(Project project, SensorContext context) {
+        try {
         File reportFile = inspectCodeRunner.inspectCode();
         List<InspectCodeIssue>issues=inspectCodeResultsParser.parse(reportFile);
         inspectCodeIssuesSaver.saveIssues(issues);
+        } catch ( Exception e ) {
+            if(settings.getBoolean(ReSharperConstants.FAIL_ON_EXCEPTION_KEY)) {
+                LOG.error(e.getMessage());
+                throw e;
+            }
+        }
     }
 
     @Override

@@ -89,7 +89,7 @@ import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConstants;
         @Property(key = ReSharperConstants.INSPECTCODE_PROPERTIES, name = "properties argument for inspectcode", type = PropertyType.STRING, global = true, project = true),
         @Property(key = ReSharperConstants.CACHES_HOME, name = "caches home", type = PropertyType.STRING, global = false, project = true),
         @Property(key = ReSharperConstants.INSPECTCODE_PROFILE, name = "path to .DotSettings file on server", type = PropertyType.STRING, global = false, project = true),
-        
+        @Property(key = ReSharperConstants.FAIL_ON_EXCEPTION_KEY, name = "fail analysis on thrown exception", type = PropertyType.BOOLEAN,global=true,project=false,defaultValue="true"),
         @Property(key= BuildWrapperConstants.BUILDWRAPPER_INSTALLDIR_KEY, name="directory where buildwrapper is installed", type=PropertyType.STRING,global=true,project=true),
         @Property(key= BuildWrapperConstants.BUILDWRAPPER_MSBUILD_OPTIONS_KEY, name="msbuild options",type=PropertyType.STRING,global=true,project=true),
         @Property(key=ReSharperConstants.BUILD_CONFIGURATION_KEY, name="Configuration",type=PropertyType.STRING,global=true,project=true,defaultValue=ReSharperConstants.BUILD_CONFIGURATIONS_DEFVALUE),

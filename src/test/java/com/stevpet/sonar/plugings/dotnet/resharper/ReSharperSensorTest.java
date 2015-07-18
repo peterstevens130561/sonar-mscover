@@ -12,14 +12,19 @@ import org.mockito.Mock;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyList;
+
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
+import org.sonar.api.utils.SonarException;
 
 
 public class ReSharperSensorTest {
@@ -114,5 +119,30 @@ public class ReSharperSensorTest {
         verify(inspectCodeRunner,times(1)).inspectCode();
         verify(inspectCodeResultsParser,times(1)).parse(report);
         verify(inspectCodeIssuesSaver,times(1)).saveIssues(issues);
+    }
+    
+    @Test
+    public void throwException() {
+        when(settings.getBoolean(ReSharperConstants.FAIL_ON_EXCEPTION_KEY)).thenReturn(true);
+        when(inspectCodeRunner.inspectCode()).thenThrow(new SonarException("rethrow me"));
+        try {
+            sensor.analyse(project, context);
+        } catch (SonarException e) {
+            return;
+        }
+        fail("should have thrown exception, as set to fail");
+    }
+    
+    @Test
+    public void catchException() {
+        when(settings.getBoolean(ReSharperConstants.FAIL_ON_EXCEPTION_KEY)).thenReturn(false);
+        when(inspectCodeRunner.inspectCode()).thenThrow(new SonarException("do not rethrow me"));
+        try {
+            sensor.analyse(project, context);
+        } catch (SonarException e) {
+            fail("should not have rethrown exception");
+        }
+        verify(inspectCodeResultsParser,times(0)).parse(any(File.class));
+        verify(inspectCodeIssuesSaver,times(0)).saveIssues(anyList());
     }
 }

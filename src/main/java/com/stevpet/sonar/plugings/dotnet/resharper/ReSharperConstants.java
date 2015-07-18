@@ -66,4 +66,5 @@ public final class ReSharperConstants {
 
     public static final String BUILD_PLATFORM_KEY = "sonar.dotnet.buildPlatform";
     public static final String BUILD_PLATFORM_DEFVALUE = "x64";
+    public static final String FAIL_ON_EXCEPTION_KEY = "sonar.resharper.inspectcode.failonexception";
 }
