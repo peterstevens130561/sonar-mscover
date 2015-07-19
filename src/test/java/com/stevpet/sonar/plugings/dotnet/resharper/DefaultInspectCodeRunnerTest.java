@@ -54,7 +54,7 @@ public class DefaultInspectCodeRunnerTest {
     public void basicArgumentsOnFoundFile() {
         File testPath=TestUtils.getResource("/InspectCode/inspectcode.exe");
         File testDir=testPath.getParentFile();
-        when(settings.getString(ReSharperConstants.INSTALL_DIR_KEY)).thenReturn(testDir.getAbsolutePath());
+        when(settings.getString(ReSharperConfiguration.INSTALL_DIR_KEY)).thenReturn(testDir.getAbsolutePath());
         inspectCodeRunner.inspectCode();
         
         verify(reSharperCommandBuilder,times(1)).setExecutable(new File(testDir,"inspectcode.exe"));
@@ -66,8 +66,8 @@ public class DefaultInspectCodeRunnerTest {
         //Given
         File testPath=TestUtils.getResource("/InspectCode/inspectcode.exe");
         File testDir=testPath.getParentFile();
-        when(settings.getString(ReSharperConstants.INSTALL_DIR_KEY)).thenReturn(testDir.getAbsolutePath());
-        when(settings.getInt(ReSharperConstants.TIMEOUT_MINUTES_KEY)).thenReturn(45);
+        when(settings.getString(ReSharperConfiguration.INSTALL_DIR_KEY)).thenReturn(testDir.getAbsolutePath());
+        when(settings.getInt(ReSharperConfiguration.TIMEOUT_MINUTES_KEY)).thenReturn(45);
         //When
         inspectCodeRunner.inspectCode();
         

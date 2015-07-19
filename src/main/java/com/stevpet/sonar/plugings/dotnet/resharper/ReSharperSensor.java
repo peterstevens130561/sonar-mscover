@@ -45,6 +45,7 @@ public class ReSharperSensor implements Sensor {
     private InspectCodeIssuesSaver inspectCodeIssuesSaver;
 
     private InspectCodeRunner inspectCodeRunner;
+    private ReSharperConfiguration configuration;
 
     /**
      * Constructs a {@link org.sonar.plugins.csharp.resharper.ReSharperSensor}.
@@ -53,12 +54,14 @@ public class ReSharperSensor implements Sensor {
             Settings settings,
             InspectCodeResultsParser inspectCodeResultsParser,
             InspectCodeIssuesSaver inspectCodeIssuesSaver,
-            InspectCodeRunner inspectCodeRunner) {
+            InspectCodeRunner inspectCodeRunner,
+            ReSharperConfiguration configuration) {
         this.fileSystem = fileSystem;
         this.settings = settings;
         this.inspectCodeResultsParser = inspectCodeResultsParser;
         this.inspectCodeIssuesSaver= inspectCodeIssuesSaver;
         this.inspectCodeRunner = inspectCodeRunner;
+        this.configuration=configuration;
 
     }
 
@@ -71,7 +74,7 @@ public class ReSharperSensor implements Sensor {
         List<InspectCodeIssue>issues=inspectCodeResultsParser.parse(reportFile);
         inspectCodeIssuesSaver.saveIssues(issues);
         } catch ( Exception e ) {
-            if(settings.getBoolean(ReSharperConstants.FAIL_ON_EXCEPTION_KEY)) {
+            if(configuration.failOnException()) {
                 LOG.error(e.getMessage());
                 throw e;
             }
@@ -81,7 +84,7 @@ public class ReSharperSensor implements Sensor {
     @Override
     public boolean shouldExecuteOnProject(Project project) {
         boolean hasCs = fileSystem.languages().contains("cs");
-        boolean skip = ReSharperConstants.MODE_SKIP.equalsIgnoreCase(settings.getString(ReSharperConstants.MODE));
+        boolean skip = ReSharperConfiguration.MODE_SKIP.equalsIgnoreCase(settings.getString(ReSharperConfiguration.MODE));
         boolean isRoot = project.isRoot();
         return hasCs && !skip && isRoot;
     }

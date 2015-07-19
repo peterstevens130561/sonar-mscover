@@ -28,7 +28,7 @@ import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.RulePriority;
 import org.sonar.api.rules.RuleQuery;
 import org.sonar.api.utils.ValidationMessages;
-import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConstants;
+import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConfiguration;
 
 import java.io.Reader;
 import java.util.List;
@@ -44,7 +44,7 @@ public abstract class ReSharperProfileImporter extends ProfileImporter {
     private String languageKey;
 
     protected ReSharperProfileImporter(String languageKey, RuleFinder ruleFinder) {
-        super(ReSharperConstants.REPOSITORY_KEY + "-" + languageKey, ReSharperConstants.REPOSITORY_NAME);
+        super(ReSharperConfiguration.REPOSITORY_KEY + "-" + languageKey, ReSharperConfiguration.REPOSITORY_NAME);
         setSupportedLanguages(languageKey);
         this.ruleFinder = ruleFinder;
         this.languageKey = languageKey;

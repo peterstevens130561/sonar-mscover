@@ -58,7 +58,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.IntegrationTestW
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.UnitTestWorkflowSensor;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.SimpleMicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioProjectBuilder;
-import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConstants;
+import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConfiguration;
 
 /**
  * This class is the entry point for all extensions
@@ -78,22 +78,18 @@ import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConstants;
         @Property(key = PropertiesHelper.MSCOVER_IGNOREMISSING_DLL, name = "list of dlls that may be ignored if missing", defaultValue = "", global = false, project = true, type = PropertyType.STRING),
         @Property(key = PropertiesHelper.MSCOVER_UNITTEST_HINTPATH, name = "hintpath for unit testing dlls", defaultValue = "", global = false, project = true, type = PropertyType.STRING),
         @Property(key = PropertiesHelper.MSCOVER_OPENCOVER_SKIPAUTOPROPS, name = "skip autoproperties", defaultValue = "true", global = true, project = true, type = PropertyType.BOOLEAN),
-        @Property(key = ReSharperConstants.MODE, defaultValue = "", name = "ReSharper activation mode", description = "Possible values : empty (means active), 'skip' and 'reuseReport'.", global = false, project = false, type = PropertyType.SINGLE_SELECT_LIST, options = {
+        @Property(key = ReSharperConfiguration.MODE, defaultValue = "", name = "ReSharper activation mode", description = "Possible values : empty (means active), 'skip' and 'reuseReport'.", global = false, project = false, type = PropertyType.SINGLE_SELECT_LIST, options = {
                 "skip", "reuseReport" }),
-        @Property(key = ReSharperConstants.REPORTS_PATH_KEY, defaultValue = "", name = "Path of the ReSharper report file(s)", description = "Path of the ReSharper report file(s) used when reuse report mode is activated. "
-                + "This can be an absolute path, or a path relative to each project base directory.", global = false, project = false),
-        @Property(key = ReSharperConstants.INSTALL_DIR_KEY, defaultValue = ReSharperConstants.INSTALL_DIR_DEFVALUE, name = "ReSharper Command Line Tools install directory", description = "Absolute path of the ReSharper Command Line Tools installation folder.", global = true, project = false),
-        @Property(key = ReSharperConstants.TIMEOUT_MINUTES_KEY, defaultValue = ReSharperConstants.TIMEOUT_MINUTES_DEFVALUE + "", name = "ReSharper program timeout", description = "Maximum number of minutes before the ReSharper program will be stopped.", global = true, project = true, type = PropertyType.INTEGER),
-        @Property(key = ReSharperConstants.INCLUDE_ALL_FILES, defaultValue = "true", name = "ReSharper file inclusion mode", description = "Determines if violations are reported on any file (ignores filters and unsupported file types) or only those supported by the dotNet core plugin.", global = false, project = false, type = PropertyType.BOOLEAN),
-        @Property(key = ReSharperConstants.CUSTOM_SEVERITIES_DEFINITON, defaultValue = "", name = "ReSharper custom severities", description = "Add &lt;String&gt; vales from ReSharper's custom definitions (including &lt:wpf:ResourceDictionary&gt;) A restart is required to take affect.", type = PropertyType.TEXT, global = true, project = false),
-        @Property(key = ReSharperConstants.PROFILE_NAME, defaultValue = ReSharperConstants.PROFILE_DEFAULT, name = "Profile", description = "Profile to which rules will be saved on restart, if profile does not exist", type = PropertyType.STRING, global = true, project = false),
-        @Property(key = ReSharperConstants.CUSTOM_SEVERITIES_PATH, name = "Path to custom severities settings", description = "Absolute path to file with exported ReSharper settings: RESHARPER, Manage Options...,Import/Export Settiings, Export to file,CodeInspection", type = PropertyType.STRING, global = true, project = false),
-        @Property(key = ReSharperConstants.INSPECTCODE_PROPERTIES, name = "properties argument for inspectcode", type = PropertyType.STRING, global = true, project = true),
-        @Property(key = ReSharperConstants.CACHES_HOME, name = "caches home", type = PropertyType.STRING, global = false, project = true),
-        @Property(key = ReSharperConstants.INSPECTCODE_PROFILE, name = "path to .DotSettings file on server", type = PropertyType.STRING, global = false, project = true),
-        @Property(key = ReSharperConstants.FAIL_ON_EXCEPTION_KEY, name = "fail analysis on thrown exception", type = PropertyType.BOOLEAN,global=true,project=false,defaultValue="true"),
-        @Property(key=ReSharperConstants.BUILD_CONFIGURATION_KEY, name="Configuration",type=PropertyType.STRING,global=true,project=true,defaultValue=ReSharperConstants.BUILD_CONFIGURATIONS_DEFVALUE),
-        @Property(key=ReSharperConstants.BUILD_PLATFORM_KEY, name="Platform",type=PropertyType.STRING,global=true,project=true,defaultValue=ReSharperConstants.BUILD_PLATFORM_DEFVALUE)
+
+        @Property(key = ReSharperConfiguration.INCLUDE_ALL_FILES, defaultValue = "true", name = "ReSharper file inclusion mode", description = "Determines if violations are reported on any file (ignores filters and unsupported file types) or only those supported by the dotNet core plugin.", global = false, project = false, type = PropertyType.BOOLEAN),
+        @Property(key = ReSharperConfiguration.CUSTOM_SEVERITIES_DEFINITON, defaultValue = "", name = "ReSharper custom severities", description = "Add &lt;String&gt; vales from ReSharper's custom definitions (including &lt:wpf:ResourceDictionary&gt;) A restart is required to take affect.", type = PropertyType.TEXT, global = true, project = false),
+        @Property(key = ReSharperConfiguration.PROFILE_NAME, defaultValue = ReSharperConfiguration.PROFILE_DEFAULT, name = "Profile", description = "Profile to which rules will be saved on restart, if profile does not exist", type = PropertyType.STRING, global = true, project = false),
+        @Property(key = ReSharperConfiguration.CUSTOM_SEVERITIES_PATH, name = "Path to custom severities settings", description = "Absolute path to file with exported ReSharper settings: RESHARPER, Manage Options...,Import/Export Settiings, Export to file,CodeInspection", type = PropertyType.STRING, global = true, project = false),
+        @Property(key = ReSharperConfiguration.INSPECTCODE_PROPERTIES, name = "properties argument for inspectcode", type = PropertyType.STRING, global = true, project = true),
+        @Property(key = ReSharperConfiguration.CACHES_HOME, name = "caches home", type = PropertyType.STRING, global = false, project = true),
+        @Property(key = ReSharperConfiguration.INSPECTCODE_PROFILE, name = "path to .DotSettings file on server", type = PropertyType.STRING, global = false, project = true),
+        @Property(key=ReSharperConfiguration.BUILD_CONFIGURATION_KEY, name="Configuration",type=PropertyType.STRING,global=true,project=true,defaultValue=ReSharperConfiguration.BUILD_CONFIGURATIONS_DEFVALUE),
+        @Property(key=ReSharperConfiguration.BUILD_PLATFORM_KEY, name="Platform",type=PropertyType.STRING,global=true,project=true,defaultValue=ReSharperConfiguration.BUILD_PLATFORM_DEFVALUE)
         })
 public final class MsCoverPlugin extends SonarPlugin {
 
@@ -104,6 +100,7 @@ public final class MsCoverPlugin extends SonarPlugin {
         List clazzes=Arrays.asList(SimpleMicrosoftWindowsEnvironment.class,
                 VsTestEnvironment.class,
                 PropertiesHelper.class,
+                ReSharperConfiguration.class,
                 VisualStudioProjectBuilder.class,
                 IntegrationTestLineDecorator.class,
                 UnitTestLineDecorator.class,
@@ -129,6 +126,7 @@ public final class MsCoverPlugin extends SonarPlugin {
         List extensions = new ArrayList();
         extensions.addAll(clazzes);
         extensions.addAll(BuildWrapperConstants.getProperties());
+        extensions.addAll(ReSharperConfiguration.getProperties());
         return extensions;
     }
 }

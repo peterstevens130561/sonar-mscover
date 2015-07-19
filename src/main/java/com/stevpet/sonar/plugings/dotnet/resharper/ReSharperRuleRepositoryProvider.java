@@ -34,7 +34,7 @@ import java.util.List;
  * Creates ReSharper rule repositories for every language supported by ReSharper.
  */
 @Properties({
-        @Property(key = ReSharperConstants.CUSTOM_RULES_PROP_KEY,
+        @Property(key = ReSharperConfiguration.CUSTOM_RULES_PROP_KEY,
                 defaultValue = "", name = "ReSharper custom rules",
                 description = "Add &lt;IssueType&gt; values from ReSharper's results file for issues that are not built-in to the plugin's rules. A restart is required to take affect.",
                 type = PropertyType.TEXT, global = true, project = false)
@@ -51,9 +51,9 @@ public class ReSharperRuleRepositoryProvider extends ExtensionProvider implement
     public Object provide() {
         List<ReSharperRuleRepository> extensions = new ArrayList<ReSharperRuleRepository>();
 
-        for (String languageKey : ReSharperConstants.SUPPORTED_LANGUAGES) {
+        for (String languageKey : ReSharperConfiguration.SUPPORTED_LANGUAGES) {
             // every repository key should be "resharper-<language_key>"
-            String repoKey = ReSharperConstants.REPOSITORY_KEY + "-" + languageKey;
+            String repoKey = ReSharperConfiguration.REPOSITORY_KEY + "-" + languageKey;
             extensions.add(new ReSharperRuleRepository(repoKey, languageKey, settings));
         }
 

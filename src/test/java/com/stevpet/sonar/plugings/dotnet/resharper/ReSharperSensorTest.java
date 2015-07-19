@@ -37,14 +37,16 @@ public class ReSharperSensorTest {
     @Mock private InspectCodeRunner inspectCodeRunner;
     @Mock private Project project;
     @Mock private SensorContext context;
+    @Mock private ReSharperConfiguration resharperConfiguration;
     private SortedSet<String> languages;
     @Before
     public void before() {
         org.mockito.MockitoAnnotations.initMocks(this);
-        sensor = new ReSharperSensor(fileSystem, settings, inspectCodeResultsParser, inspectCodeIssuesSaver, inspectCodeRunner);
+        sensor = new ReSharperSensor(fileSystem, settings, inspectCodeResultsParser, inspectCodeIssuesSaver, inspectCodeRunner,resharperConfiguration);
         languages = new TreeSet<String>();
         when(fileSystem.languages()).thenReturn(languages);
         when(project.isRoot()).thenReturn(true);
+        when(resharperConfiguration.failOnException()).thenReturn(true);
     }
     
     @Test
@@ -73,7 +75,7 @@ public class ReSharperSensorTest {
     public void Cs_Disable_ShouldNotRun() {
         //Given language is cs
         languages.add("cs");
-        when(settings.getString(ReSharperConstants.MODE)).thenReturn(ReSharperConstants.MODE_SKIP);
+        when(settings.getString(ReSharperConfiguration.MODE)).thenReturn(ReSharperConfiguration.MODE_SKIP);
         //When
         boolean execute=sensor.shouldExecuteOnProject(project);
         //Then
@@ -86,7 +88,7 @@ public class ReSharperSensorTest {
         //Given language is cs
         languages.add("cs");
         languages.add("c++");
-        when(settings.getString(ReSharperConstants.MODE)).thenReturn("");
+        when(settings.getString(ReSharperConfiguration.MODE)).thenReturn("");
         //When
         boolean execute=sensor.shouldExecuteOnProject(project);
         //Then
@@ -123,7 +125,7 @@ public class ReSharperSensorTest {
     
     @Test
     public void throwException() {
-        when(settings.getBoolean(ReSharperConstants.FAIL_ON_EXCEPTION_KEY)).thenReturn(true);
+        when(resharperConfiguration.failOnException()).thenReturn(true);
         when(inspectCodeRunner.inspectCode()).thenThrow(new SonarException("rethrow me"));
         try {
             sensor.analyse(project, context);
@@ -135,7 +137,7 @@ public class ReSharperSensorTest {
     
     @Test
     public void catchException() {
-        when(settings.getBoolean(ReSharperConstants.FAIL_ON_EXCEPTION_KEY)).thenReturn(false);
+        when(resharperConfiguration.failOnException()).thenReturn(false);
         when(inspectCodeRunner.inspectCode()).thenThrow(new SonarException("do not rethrow me"));
         try {
             sensor.analyse(project, context);

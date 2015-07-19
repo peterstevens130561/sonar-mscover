@@ -23,13 +23,13 @@ import java.io.StringReader;
 
 import org.xml.sax.InputSource;
 
-import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConstants;
+import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConfiguration;
 
 public class PropertyBasedCustomSeverities extends BaseCustomSeverities {
     
     @Override
     String getDefinitionKey() {
-        return ReSharperConstants.CUSTOM_SEVERITIES_DEFINITON;
+        return ReSharperConfiguration.CUSTOM_SEVERITIES_DEFINITON;
     }
     
     @Override

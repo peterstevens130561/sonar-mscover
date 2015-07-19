@@ -56,22 +56,22 @@ public class DefaultInspectCodeRunner implements InspectCodeRunner {
         File inspectCodeFile = getInspectCodeFile();
         resharperCommandBuilder.setExecutable(inspectCodeFile);
         reportFile = new File(fileSystem.workDir(),
-                ReSharperConstants.REPORT_FILENAME);
+                ReSharperConfiguration.REPORT_FILENAME);
         resharperCommandBuilder.setReportFile(reportFile);
 
         String additionalArguments = settings
-                .getString(ReSharperConstants.INSPECTCODE_PROPERTIES);
+                .getString(ReSharperConfiguration.INSPECTCODE_PROPERTIES);
         resharperCommandBuilder.setProperties(additionalArguments);
         String cachesHome = settings
-                .getString(ReSharperConstants.CACHES_HOME);
+                .getString(ReSharperConfiguration.CACHES_HOME);
         resharperCommandBuilder.setCachesHome(cachesHome);
 
         String profile = settings
-                .getString(ReSharperConstants.INSPECTCODE_PROFILE);
+                .getString(ReSharperConfiguration.INSPECTCODE_PROFILE);
         resharperCommandBuilder.setProfile(profile);
 
         int timeout = settings
-                .getInt(ReSharperConstants.TIMEOUT_MINUTES_KEY);
+                .getInt(ReSharperConfiguration.TIMEOUT_MINUTES_KEY);
         if (timeout == 0) {
             timeout = 60;
         }
@@ -85,13 +85,13 @@ public class DefaultInspectCodeRunner implements InspectCodeRunner {
     }
 
     private File getInspectCodeFile() {
-        String dir = settings.getString(ReSharperConstants.INSTALL_DIR_KEY);
+        String dir = settings.getString(ReSharperConfiguration.INSTALL_DIR_KEY);
         if (StringUtils.isEmpty(dir)) {
-            dir = ReSharperConstants.INSTALL_DIR_DEFVALUE;
+            dir = ReSharperConfiguration.INSTALL_DIR_DEFVALUE;
         }
         File inspectCodeFile = new File(dir, RESHARPER_EXECUTABLE);
         if (!inspectCodeFile.exists()) {
-            String message = "inspectcode not found in" + inspectCodeFile.getAbsolutePath() + "check property " + ReSharperConstants.INSTALL_DIR_KEY ;
+            String message = "inspectcode not found in" + inspectCodeFile.getAbsolutePath() + "check property " + ReSharperConfiguration.INSTALL_DIR_KEY ;
             Log.error(message);
             throw new SonarException(message);
         }

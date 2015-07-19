@@ -56,9 +56,9 @@ public class ProcessLock {
             throw new SonarException("Could not find lockFile " + lockFile.getAbsolutePath(),e);
         }
         try {
-            LOG.info("Acquiring processlock on " + lockFile.getAbsolutePath());
+            LOG.debug("Acquiring processlock on " + lockFile.getAbsolutePath());
             lock = channel.lock();
-            LOG.info("Acquired processlock on " + lockFile.getAbsolutePath());
+            LOG.debug("Acquired processlock on " + lockFile.getAbsolutePath());
         } catch (IOException e) {
 
             throw new SonarException("Could not lock " + lockFile.getAbsolutePath(),e);
@@ -76,6 +76,6 @@ public class ProcessLock {
         } catch (IOException e) {
             throw new SonarException("Could not release " + lockFile.getAbsolutePath(),e);
         }
-        LOG.info("Released processlock on " + lockFile.getAbsolutePath());
+        LOG.debug("Released processlock on " + lockFile.getAbsolutePath());
     }
 }

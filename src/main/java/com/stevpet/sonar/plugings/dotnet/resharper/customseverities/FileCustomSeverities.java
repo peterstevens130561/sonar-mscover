@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 
-import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConstants;
+import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConfiguration;
 
 public class FileCustomSeverities extends BaseCustomSeverities {
 
@@ -47,14 +47,14 @@ public class FileCustomSeverities extends BaseCustomSeverities {
             InputStream inputStream = new BOMInputStream(fileReader);
             return new InputSource(inputStream);           
         } catch (FileNotFoundException e) {
-            LOG.error("could not open " + path + "defined in " + ReSharperConstants.CUSTOM_SEVERITIES_PATH + " reason:", e);
+            LOG.error("could not open " + path + "defined in " + ReSharperConfiguration.CUSTOM_SEVERITIES_PATH + " reason:", e);
         }
         return null;
     }
 
     @Override
     String getDefinitionKey() {
-        return ReSharperConstants.CUSTOM_SEVERITIES_PATH;
+        return ReSharperConfiguration.CUSTOM_SEVERITIES_PATH;
     }
 
 }

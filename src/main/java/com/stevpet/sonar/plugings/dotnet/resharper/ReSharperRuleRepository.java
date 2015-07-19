@@ -51,7 +51,7 @@ public class ReSharperRuleRepository extends RuleRepository {
 
     public ReSharperRuleRepository(String repoKey, String languageKey, Settings settings) {
         super(repoKey, languageKey);
-        setName(ReSharperConstants.REPOSITORY_NAME);
+        setName(ReSharperConfiguration.REPOSITORY_NAME);
         this.settings = settings;
     }
 
@@ -61,7 +61,7 @@ public class ReSharperRuleRepository extends RuleRepository {
         List<Rule> rules = new ArrayList<Rule>();
 
         // ReSharper rules
-        InputStream rulesFileStream = ReSharperRuleRepository.class.getResourceAsStream(ReSharperConstants.DEFAULT_RULES);
+        InputStream rulesFileStream = ReSharperRuleRepository.class.getResourceAsStream(ReSharperConfiguration.DEFAULT_RULES);
         Reader reader = new InputStreamReader(rulesFileStream);
         ReSharperFileParser parser = new ReSharperFileParser();
         List<ReSharperRule> reSharperRules = parser.parseRules(reader);
@@ -71,7 +71,7 @@ public class ReSharperRuleRepository extends RuleRepository {
         }
 
         // Custom rules through the Web interface
-        String customRules = settings.getString(ReSharperConstants.CUSTOM_RULES_PROP_KEY);
+        String customRules = settings.getString(ReSharperConfiguration.CUSTOM_RULES_PROP_KEY);
         if (StringUtils.isNotBlank(customRules)) {
             try {
                 String customRulesXml = "<Report><IssueTypes>" + customRules + "</IssueTypes></Report>";

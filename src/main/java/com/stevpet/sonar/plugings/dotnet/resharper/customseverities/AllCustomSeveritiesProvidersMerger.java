@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 
-import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConstants;
+import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConfiguration;
 
 public class AllCustomSeveritiesProvidersMerger {
     
@@ -52,8 +52,8 @@ public class AllCustomSeveritiesProvidersMerger {
     * @see com.wrightfully.sonar.plugins.dotnet.resharper.customseverities.CustomSeverities#getProfileName()
     */
    public String getProfileName() {
-           String profileName=ReSharperConstants.PROFILE_DEFAULT;
-           String customName=settings.getString(ReSharperConstants.PROFILE_NAME);
+           String profileName=ReSharperConfiguration.PROFILE_DEFAULT;
+           String customName=settings.getString(ReSharperConfiguration.PROFILE_NAME);
            if(customName != null && customName.length()>0) {
                profileName = customName;
            } else {

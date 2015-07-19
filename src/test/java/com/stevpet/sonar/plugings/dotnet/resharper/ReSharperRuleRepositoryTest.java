@@ -40,7 +40,7 @@ public class ReSharperRuleRepositoryTest {
     @Test
     public void shouldLoadTheCustomRules() {
         RuleRepository ruleRepository = new ReSharperRuleRepository("resharper","cs",settings);
-        when(settings.getString(ReSharperConstants.CUSTOM_RULES_PROP_KEY)).thenReturn("bogus");
+        when(settings.getString(ReSharperConfiguration.CUSTOM_RULES_PROP_KEY)).thenReturn("bogus");
         List<Rule> rules = ruleRepository.createRules();
         
         assertNotNull("expect list of rules",rules);
