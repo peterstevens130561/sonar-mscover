@@ -62,6 +62,11 @@ public class WindowsCommandLineExecutor implements CommandLineExecutor {
             LOG.error(stdOut.toString());
             LOG.error(stdErr.toString());
             throw new SonarException(msg);
+        } else {
+            LOG.debug("--stdout--");
+            LOG.debug(stdOut.toString());
+            LOG.debug("--stderr--");
+            LOG.debug(stdErr.toString());
         }
         return exitCode;
     }

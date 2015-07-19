@@ -133,11 +133,13 @@ public class BuildWrapperInitializer extends Initializer {
                 .description("directory where msbuild is installed")
                 .type(PropertyType.STRING)
                 .build());
+        /*
         properties.add(createProperty(BuildWrapperConstants.BUILDWRAPPER_INSTALLDIR_KEY)
                 .name("build-wrapper install dir")
                 .description("directory where build-wrapper is installed")
                 .type(PropertyType.STRING)
                 .build());
+                */
         properties.add(createProperty(BuildWrapperConstants.BUILDWRAPPER_OUTDIR_KEY)
                 .name("output dir")
                 .description("directory where build-wrapper results are stored, relative to solution")
