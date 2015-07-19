@@ -21,7 +21,6 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
     private String outputPath;
     private String msBuildOptions;
     private Command command;
-    private String msBuildDir;
 
     public BuildWrapperBuilder setInstallDir(String installDir) {
         this.installDir = installDir;
@@ -39,15 +38,6 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
         return this;
     }
 
-    /**
-     * @param msBuildDir
-     *            to dir where msbuild is installed
-     * @return this
-     */
-    public BuildWrapperBuilder setMsBuildPath(String msBuildDir) {
-        this.msBuildDir = msBuildDir;
-        return this;
-    }
 
     @Override
     public String toCommandLine() {
@@ -78,8 +68,6 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
         }
         String path = executable.getAbsolutePath();
         command = Command.create(path);
-        createMsBuildPath();
-
         command.addArgument("--out-dir");
         command.addArgument(CommandHelper.parenthesizeArgument(outputPath));
         String msBuildPath = "msbuild";
@@ -91,27 +79,6 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
         return command;
     }
 
-    private void createMsBuildPath() {
-        return;
-        if (StringUtils.isEmpty(msBuildDir)) {
-            return;
-        }
-        File msBuildDirFile = new File(msBuildDir);
-        if (!msBuildDirFile.exists()) {
-            throw new MsBuildDirNotFoundException(msBuildDir);
-        }
-        File msBuildFile = new File(msBuildDirFile, "msbuild.exe");
-        if (!msBuildFile.exists()) {
-            throw new MsBuildNotFoundException(msBuildFile);
-        }
-        String pathEnv = System.getenv("PATH");
-        String newEnv = msBuildDir.replaceAll("/", "\\\\") + ";" + pathEnv;
-        command.setEnvironmentVariable("PATH", newEnv);
-        LOG.info("-- changed PATH --");
-        LOG.info("path set to " + command.getEnvironmentVariables().get("PATH"));
-        
-
-    }
 
     @Override
     public String getExecutable() {

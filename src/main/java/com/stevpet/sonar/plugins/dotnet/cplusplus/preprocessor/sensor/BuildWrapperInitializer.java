@@ -97,12 +97,11 @@ public class BuildWrapperInitializer extends Initializer {
         settings.appendProperty(BuildWrapperConstants.BUILD_WRAPPER_CFAMILY_OUTPUT_KEY, absolutePathInUnixFormat);
 
         String msbuildOptions = settings.getString(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_OPTIONS_KEY);
-        String msBuildDir = settings.getString(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_DIR_KEY);
+
         buildWrapperBuilder
                 .setInstallDir(buildWrapperInstallDir)
                 .setMsBuildOptions(msbuildOptions)
-                .setOutputPath(absolutePathInUnixFormat)
-                .setMsBuildPath(msBuildDir);
+                .setOutputPath(absolutePathInUnixFormat);
         try {
             commandLineExecutor.execute(buildWrapperBuilder);
         } catch (SonarException e) {
@@ -120,42 +119,4 @@ public class BuildWrapperInitializer extends Initializer {
         return value;
     }
 
-    public static Collection<PropertyDefinition> getProperties() {
-        Collection<PropertyDefinition> properties = new ArrayList<>();
-        properties.add(createProperty(BuildWrapperConstants.BUILDWRAPPER_ENABLED_KEY)
-                .name("enabled")
-                .description("set to true to enable build-wrapper")
-                .type(PropertyType.BOOLEAN)
-                .defaultValue("true")
-                .build());
-        properties.add(createProperty(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_DIR_KEY)
-                .name("msbuild install dir")
-                .description("directory where msbuild is installed")
-                .type(PropertyType.STRING)
-                .build());
-        /*
-        properties.add(createProperty(BuildWrapperConstants.BUILDWRAPPER_INSTALLDIR_KEY)
-                .name("build-wrapper install dir")
-                .description("directory where build-wrapper is installed")
-                .type(PropertyType.STRING)
-                .build());
-                */
-        properties.add(createProperty(BuildWrapperConstants.BUILDWRAPPER_OUTDIR_KEY)
-                .name("output dir")
-                .description("directory where build-wrapper results are stored, relative to solution")
-                .type(PropertyType.STRING)
-                .build());
-        properties.add(createProperty(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_OPTIONS_KEY)
-                .name("msbuild options")
-                .description("list of options to pass on to msbuild")
-                .type(PropertyType.STRING)
-                .build());
-        return properties;
-
-    }
-
-    private static Builder createProperty(String key) {
-        return PropertyDefinition.builder(key).subCategory("Build Wrapper");
-
-    }
 }

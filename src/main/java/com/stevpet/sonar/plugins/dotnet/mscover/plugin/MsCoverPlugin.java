@@ -128,7 +128,7 @@ public final class MsCoverPlugin extends SonarPlugin {
                 ;
         List extensions = new ArrayList();
         extensions.addAll(clazzes);
-        extensions.addAll(BuildWrapperInitializer.getProperties());
+        extensions.addAll(BuildWrapperConstants.getProperties());
         return extensions;
     }
 }

@@ -32,56 +32,10 @@ public class BuildWrapperBuilderTest {
         //When
         String commandLine=buildWrapperBuilder.toCommandLine();
         //Then
-        assertEquals(myDir.getAbsolutePath() + "\\build-wrapper.exe --out-dir \"F:/Development/Solution/wrapper\" msbuild /t:Rebuild debug crapper",commandLine);
+        assertEquals( myDir.getAbsolutePath() + "\\build-wrapper.exe --out-dir \"F:/Development/Solution/wrapper\" msbuild /t:Rebuild debug crapper",commandLine);
         
     }
     
-    @Test
-    public void msBuildSpecifiedInvalidDir() {
-        //Given
-        File myDir = TestUtils.getResource("BuildWrapper/build-wrapper.exe").getParentFile();
-        outputPath = "F:/Development/Solution/wrapper";
-        buildWrapperBuilder.setInstallDir(myDir.getAbsolutePath()).setMsBuildOptions("debug crapper").setOutputPath(outputPath).setMsBuildPath(myDir.getAbsolutePath());
-        //When
-        try {
-            buildWrapperBuilder.toCommandLine();
-        } catch (MsBuildNotFoundException e) {
-            return;
-        }
-        fail("should have thrown exception, as msbuild not installed in directory");
-        
-    }
-    
-    @Test
-    public void msBuildSpecifiedUnknownDir() {
-        //Given
-        File myDir = TestUtils.getResource("BuildWrapper/build-wrapper.exe").getParentFile();
-        outputPath = "F:/Development/Solution/wrapper";
-        buildWrapperBuilder.setInstallDir(myDir.getAbsolutePath()).setMsBuildOptions("debug crapper").setOutputPath(outputPath).setMsBuildPath("realsillydir");
-        //When
-        try {
-            buildWrapperBuilder.toCommandLine();
-        } catch (MsBuildDirNotFoundException e) {
-            return;
-        }
-        fail("should have thrown exception, directory does not exist");
-        
-    }
-    
-    @Test
-    public void msBuildSpecifiedExistsr() {
-        //Given
-        File myDir = TestUtils.getResource("BuildWrapper/build-wrapper.exe").getParentFile();
-        File msbuildDir=TestUtils.getResource("BuildWrapper/MsBuildDir/msbuild.exe").getParentFile();
-        outputPath = "F:/Development/Solution/wrapper";
-        buildWrapperBuilder.setInstallDir(myDir.getAbsolutePath()).setMsBuildOptions("debug crapper").setOutputPath(outputPath).setMsBuildPath(msbuildDir.getAbsolutePath());
-        Command command=buildWrapperBuilder.toCommand();
-        Map<String,String> map=command.getEnvironmentVariables();
-        assertTrue("should have PATH",map.containsKey("PATH"));
-        String path=map.get("PATH");
-        String paths[] = path.split(";");
-        assertEquals("should be first",msbuildDir.getAbsolutePath(),paths[0]);
-    }
     
     @Test
     public void invalidDirSpecified() {

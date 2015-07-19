@@ -16,10 +16,10 @@ public class BuildWrapperPropertiesTest {
     public void twoProperties() {
        List classes = Arrays.asList(BuildWrapperInitializer.class);
        List myList = new ArrayList();
-       Collection<PropertyDefinition> properties=BuildWrapperInitializer.getProperties();
+       Collection<PropertyDefinition> properties=BuildWrapperConstants.getProperties();
        myList.addAll(classes);
        myList.addAll(properties);
-       assertEquals("expect  properties",6,myList.size());
+       assertEquals("expect  properties",5,myList.size());
 
     }
     
