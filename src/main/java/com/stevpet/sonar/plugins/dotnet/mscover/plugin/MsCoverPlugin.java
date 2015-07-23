@@ -32,7 +32,6 @@ import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
 import org.sonar.api.config.PropertyDefinition;
 
-import com.stevpet.sonar.plugings.dotnet.resharper.DefaultInspectCodeIssuesSaver;
 import com.stevpet.sonar.plugings.dotnet.resharper.DefaultInspectCodeRunner;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperRuleRepositoryProvider;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperSensor;
@@ -41,6 +40,7 @@ import com.stevpet.sonar.plugings.dotnet.resharper.issuesparser.DefaultInspectCo
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.CSharpRegularReSharperProfileExporter;
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.CSharpRegularReSharperProfileImporter;
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.ReSharperSonarWayProfileCSharp;
+import com.stevpet.sonar.plugings.dotnet.resharper.saver.DefaultInspectCodeIssuesSaver;
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperBuilder;
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperConstants;
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperInitializer;

@@ -1,8 +1,10 @@
-package com.stevpet.sonar.plugings.dotnet.resharper;
+package com.stevpet.sonar.plugings.dotnet.resharper.saver;
 
 import java.util.List;
 
 import org.sonar.api.BatchExtension;
+
+import com.stevpet.sonar.plugings.dotnet.resharper.InspectCodeIssue;
 
 public interface InspectCodeIssuesSaver extends BatchExtension{
 

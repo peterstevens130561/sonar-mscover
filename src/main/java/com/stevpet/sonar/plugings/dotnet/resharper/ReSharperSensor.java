@@ -30,6 +30,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugings.dotnet.resharper.issuesparser.InspectCodeResultsParser;
+import com.stevpet.sonar.plugings.dotnet.resharper.saver.InspectCodeIssuesSaver;
 
 import java.io.File;
 import java.util.List;

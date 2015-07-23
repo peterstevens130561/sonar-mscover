@@ -30,6 +30,9 @@ public class InspectCodeIssue {
     public void setMessage(String message) {
         this.message = message;
     }
+    /**
+     * @return path relative to solution directory
+     */
     public String getRelativePath() {
         return relativePath;
     }
