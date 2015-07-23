@@ -9,6 +9,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
+
+import com.stevpet.sonar.plugings.dotnet.resharper.issuesparser.InspectCodeParserSubject;
+import com.stevpet.sonar.plugings.dotnet.resharper.issuesparser.IssueObserver;
 public class InspectCodeParserSubjectTest {
 
     private File report;

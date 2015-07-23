@@ -26,6 +26,8 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.SonarException;
 
+import com.stevpet.sonar.plugings.dotnet.resharper.issuesparser.InspectCodeResultsParser;
+
 
 public class ReSharperSensorTest {
 

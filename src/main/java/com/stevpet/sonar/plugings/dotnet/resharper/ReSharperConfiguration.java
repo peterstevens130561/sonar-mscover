@@ -23,14 +23,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.sonar.api.BatchExtension;
+import org.sonar.api.Property;
 import org.sonar.api.PropertyType;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.PropertyDefinition.Builder;
 import org.sonar.api.config.Settings;
+import org.sonar.api.resources.Qualifiers;
 
 
 /**
- * Constants of the ReSharper plugin.
+ * Constants & configuration of the ReSharper plugin. Class does no validation whatsooever of the properties
  */
 public class ReSharperConfiguration implements BatchExtension {
 
@@ -51,11 +53,11 @@ public class ReSharperConfiguration implements BatchExtension {
     public static final String REPORTS_PATH_KEY = "sonar.resharper.reports.path";
     public static final String REPORT_FILENAME = "resharper-report.xml";
 
-    public static final String INSTALL_DIR_KEY = "sonar.resharper.installDirectory";
+    static final String INSTALL_DIR_KEY = "sonar.resharper.installDirectory";
     public static final String INSTALL_DIR_DEFVALUE = "C:/jetbrains-commandline-tools";
 
-    public static final String TIMEOUT_MINUTES_KEY = "sonar.resharper.timeoutMinutes";
-    public static final int TIMEOUT_MINUTES_DEFVALUE = 20;
+    private static final String TIMEOUT_MINUTES_KEY = "sonar.resharper.timeoutMinutes";
+    private static final int TIMEOUT_MINUTES_DEFVALUE = 20;
 
     public static final String CUSTOM_RULES_PROP_KEY = "sonar.resharper.customRules.definition";
 
@@ -67,10 +69,10 @@ public class ReSharperConfiguration implements BatchExtension {
     public static final String FAIL_ON_ISSUES_KEY = "sonar.resharper.failOnIssues";
     public static final String CUSTOM_SEVERITIES_DEFINITON = "sonar.resharper.customSeverities.definition";
     public static final String CUSTOM_SEVERITIES_PATH = "sonar.resharper.customSeverities.path";
-    public static final String INSPECTCODE_PROPERTIES = "sonar.resharper.inspectcode.properties";
+    private static final String INSPECTCODE_PROPERTIES_KEY = "sonar.resharper.inspectcode.properties";
     public static final String PROFILE_DEFAULT = "Sonar way";
     public static final String CACHES_HOME = "sonar.resharper.inspectcode.cacheshome";
-    public static final String INSPECTCODE_PROFILE = "sonar.resharper.inspectcode.profile";
+    public static final String DOTSETTINGS_KEY = "sonar.resharper.inspectcode.profile";
     public static final String MODE_REUSE_REPORT = "resuseReport";
     public static final String DEFAULT_RULES = "/ReSharper/DefaultRules.ReSharper";
     public static final String MODE_SKIP = "skip";
@@ -88,31 +90,56 @@ public class ReSharperConfiguration implements BatchExtension {
     public boolean failOnException() {
         return settings.getBoolean(FAIL_ON_EXCEPTION_KEY);
     }
+    
+    /**
+     * 
+     * @return absolute path to installation directory of inspectcode 
+     */
+    public String getInspectCodeInstallDir() {
+        return settings.getString(ReSharperConfiguration.INSTALL_DIR_KEY);
+    }
+    
     public static Collection<PropertyDefinition> getProperties() {
         Collection<PropertyDefinition> properties = new ArrayList<>();
         properties.add(createProperty(ENABLED_KEY, PropertyType.BOOLEAN)
                 .name("enabled")
+                .onQualifiers(Qualifiers.PROJECT)
                 .description("set to true to enable resharper plugin")
                 .defaultValue("true")
                 .build());
         properties.add(createProperty(FAIL_ON_EXCEPTION_KEY, PropertyType.BOOLEAN)
                 .name("fail analysis on thrown exception")
                 .description("")
+                .onQualifiers(Qualifiers.PROJECT)
                 .defaultValue("true")
                 .build());
         properties.add(createProperty(REPORTS_PATH_KEY, PropertyType.STRING)
                 .name("report file(s)")
-                .description("Path of the ReSharper report file(s) used when reuse report mode is activated. "
+                .description("local path of the ReSharper report file(s) used when reuse report mode is activated. "
                         + "This can be an absolute path, or a path relative to each project base directory.")
                 .build());
         properties.add(createProperty(INSTALL_DIR_KEY, PropertyType.STRING)
                 .defaultValue(ReSharperConfiguration.INSTALL_DIR_DEFVALUE)
-                .name("inspectcode install directory").description("Absolute path of the ReSharper Command Line Tools installation folder.")
+                .name("local inspectcode install directory").description("Absolute path of the ReSharper Command Line Tools installation folder.")
                 .build());
         properties.add(createProperty(TIMEOUT_MINUTES_KEY, PropertyType.INTEGER)
                 .defaultValue(TIMEOUT_MINUTES_DEFVALUE + "")
+                .onQualifiers(Qualifiers.PROJECT)
                 .name("execution timeout")
                 .description("Maximum number of minutes before the ReSharper program will be stopped.").build());
+        properties.add(createProperty(DOTSETTINGS_KEY,PropertyType.STRING)
+                .name("profile")
+                .description("local path to .DotSettings file")
+                .onQualifiers(Qualifiers.PROJECT)
+                .build());
+        properties.add(createProperty(CACHES_HOME,PropertyType.STRING)
+                .name("caches home")
+                .onQualifiers(Qualifiers.PROJECT)
+                .description("local absolute path to inspectcode cache, change when .DotSettings file has changed").build());
+        properties.add(createProperty(INSPECTCODE_PROPERTIES_KEY,PropertyType.STRING)
+                .name("msbuild properties")
+                .description("additional properties to pass on to msbuild").build());
+     
         return properties;
 
     }
@@ -120,5 +147,26 @@ public class ReSharperConfiguration implements BatchExtension {
     private static Builder createProperty(String key, PropertyType propertyType) {
         return PropertyDefinition.builder(key).type(propertyType).subCategory("Re#");
 
+    }
+
+    public String getMSBuildProperties() {
+        return settings.getString(INSPECTCODE_PROPERTIES_KEY);
+    }
+
+    /**
+     * @return path to the dotsettings file
+     */
+    public String getProfile() {
+        return settings
+                .getString(DOTSETTINGS_KEY);
+    }
+    
+    public int getTimeOutMinutes() {
+        return settings.getInt(TIMEOUT_MINUTES_KEY);
+    }
+
+    public String getCachesHome() {
+        return settings
+        .getString(ReSharperConfiguration.CACHES_HOME);
     }
 }

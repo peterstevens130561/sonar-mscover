@@ -1,7 +1,8 @@
-package com.stevpet.sonar.plugings.dotnet.resharper;
+package com.stevpet.sonar.plugings.dotnet.resharper.issuesparser;
 
 import java.util.List;
 
+import com.stevpet.sonar.plugings.dotnet.resharper.InspectCodeIssue;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
 

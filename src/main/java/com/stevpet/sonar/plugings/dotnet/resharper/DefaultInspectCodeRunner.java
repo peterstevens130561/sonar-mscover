@@ -17,24 +17,25 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 
 public class DefaultInspectCodeRunner implements InspectCodeRunner {
     private Logger Log = LoggerFactory.getLogger(DefaultInspectCodeRunner.class);
-    private static long MINUTES_TO_MILLISECONDS = 60000;
     private static final String RESHARPER_EXECUTABLE = "inspectcode.exe";
     private Settings settings;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private FileSystem fileSystem;
     private ReSharperCommandBuilder resharperCommandBuilder;
     private CommandLineExecutor commandLineExecutor;
+    private ReSharperConfiguration reSharperConfiguration;
 
     public DefaultInspectCodeRunner(Settings settings,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             FileSystem fileSystem,
             ReSharperCommandBuilder reSharperCommandBuilder,
-            CommandLineExecutor commandLineExecutor) {
-        this.settings = settings;
+            CommandLineExecutor commandLineExecutor, ReSharperConfiguration reSharperConfiguration) {
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.fileSystem = fileSystem;
         this.resharperCommandBuilder=reSharperCommandBuilder;
         this.commandLineExecutor=commandLineExecutor;
+        this.reSharperConfiguration=reSharperConfiguration;
+        this.settings=settings;
 
     }
 
@@ -55,26 +56,19 @@ public class DefaultInspectCodeRunner implements InspectCodeRunner {
 
         File inspectCodeFile = getInspectCodeFile();
         resharperCommandBuilder.setExecutable(inspectCodeFile);
-        reportFile = new File(fileSystem.workDir(),
-                ReSharperConfiguration.REPORT_FILENAME);
+        reportFile = new File(fileSystem.workDir(),ReSharperConfiguration.REPORT_FILENAME);
         resharperCommandBuilder.setReportFile(reportFile);
 
-        String additionalArguments = settings
-                .getString(ReSharperConfiguration.INSPECTCODE_PROPERTIES);
+        String additionalArguments = reSharperConfiguration.getMSBuildProperties();
         resharperCommandBuilder.setProperties(additionalArguments);
-        String cachesHome = settings
-                .getString(ReSharperConfiguration.CACHES_HOME);
+        String cachesHome = reSharperConfiguration.getCachesHome();
         resharperCommandBuilder.setCachesHome(cachesHome);
 
-        String profile = settings
-                .getString(ReSharperConfiguration.INSPECTCODE_PROFILE);
+        String profile = reSharperConfiguration.getProfile();
         resharperCommandBuilder.setProfile(profile);
 
-        int timeout = settings
-                .getInt(ReSharperConfiguration.TIMEOUT_MINUTES_KEY);
-        if (timeout == 0) {
-            timeout = 60;
-        }
+        int timeout = reSharperConfiguration.getTimeOutMinutes();
+
         int exitCode=commandLineExecutor.execute(resharperCommandBuilder,timeout);
         if (exitCode != 0) { // && exitCode != 512) { -- Why 512? Magic numbers
                              // are evil
@@ -85,7 +79,7 @@ public class DefaultInspectCodeRunner implements InspectCodeRunner {
     }
 
     private File getInspectCodeFile() {
-        String dir = settings.getString(ReSharperConfiguration.INSTALL_DIR_KEY);
+        String dir = reSharperConfiguration.getInspectCodeInstallDir();
         if (StringUtils.isEmpty(dir)) {
             dir = ReSharperConfiguration.INSTALL_DIR_DEFVALUE;
         }

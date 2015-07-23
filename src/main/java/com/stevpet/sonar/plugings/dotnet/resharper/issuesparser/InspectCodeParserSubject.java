@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugings.dotnet.resharper;
+package com.stevpet.sonar.plugings.dotnet.resharper.issuesparser;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 

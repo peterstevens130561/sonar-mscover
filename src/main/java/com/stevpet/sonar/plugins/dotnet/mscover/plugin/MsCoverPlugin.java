@@ -33,11 +33,11 @@ import org.sonar.api.SonarPlugin;
 import org.sonar.api.config.PropertyDefinition;
 
 import com.stevpet.sonar.plugings.dotnet.resharper.DefaultInspectCodeIssuesSaver;
-import com.stevpet.sonar.plugings.dotnet.resharper.DefaultInspectCodeResultsParser;
 import com.stevpet.sonar.plugings.dotnet.resharper.DefaultInspectCodeRunner;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperRuleRepositoryProvider;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperSensor;
 import com.stevpet.sonar.plugings.dotnet.resharper.inspectcode.ReSharperCommandBuilder;
+import com.stevpet.sonar.plugings.dotnet.resharper.issuesparser.DefaultInspectCodeResultsParser;
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.CSharpRegularReSharperProfileExporter;
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.CSharpRegularReSharperProfileImporter;
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.ReSharperSonarWayProfileCSharp;
@@ -85,9 +85,7 @@ import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConfiguration;
         @Property(key = ReSharperConfiguration.CUSTOM_SEVERITIES_DEFINITON, defaultValue = "", name = "ReSharper custom severities", description = "Add &lt;String&gt; vales from ReSharper's custom definitions (including &lt:wpf:ResourceDictionary&gt;) A restart is required to take affect.", type = PropertyType.TEXT, global = true, project = false),
         @Property(key = ReSharperConfiguration.PROFILE_NAME, defaultValue = ReSharperConfiguration.PROFILE_DEFAULT, name = "Profile", description = "Profile to which rules will be saved on restart, if profile does not exist", type = PropertyType.STRING, global = true, project = false),
         @Property(key = ReSharperConfiguration.CUSTOM_SEVERITIES_PATH, name = "Path to custom severities settings", description = "Absolute path to file with exported ReSharper settings: RESHARPER, Manage Options...,Import/Export Settiings, Export to file,CodeInspection", type = PropertyType.STRING, global = true, project = false),
-        @Property(key = ReSharperConfiguration.INSPECTCODE_PROPERTIES, name = "properties argument for inspectcode", type = PropertyType.STRING, global = true, project = true),
-        @Property(key = ReSharperConfiguration.CACHES_HOME, name = "caches home", type = PropertyType.STRING, global = false, project = true),
-        @Property(key = ReSharperConfiguration.INSPECTCODE_PROFILE, name = "path to .DotSettings file on server", type = PropertyType.STRING, global = false, project = true),
+
         @Property(key=ReSharperConfiguration.BUILD_CONFIGURATION_KEY, name="Configuration",type=PropertyType.STRING,global=true,project=true,defaultValue=ReSharperConfiguration.BUILD_CONFIGURATIONS_DEFVALUE),
         @Property(key=ReSharperConfiguration.BUILD_PLATFORM_KEY, name="Platform",type=PropertyType.STRING,global=true,project=true,defaultValue=ReSharperConfiguration.BUILD_PLATFORM_DEFVALUE)
         })

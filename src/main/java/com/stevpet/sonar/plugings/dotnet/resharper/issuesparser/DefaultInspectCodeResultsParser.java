@@ -1,8 +1,10 @@
-package com.stevpet.sonar.plugings.dotnet.resharper;
+package com.stevpet.sonar.plugings.dotnet.resharper.issuesparser;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.stevpet.sonar.plugings.dotnet.resharper.InspectCodeIssue;
 
 public class DefaultInspectCodeResultsParser implements
         InspectCodeResultsParser {

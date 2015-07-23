@@ -31,11 +31,12 @@ public class DefaultInspectCodeRunnerTest {
     @Mock private ReSharperCommandBuilder reSharperCommandBuilder;
     @Mock private Project project;
     @Mock private CommandLineExecutor commandLineExecutor;
+    @Mock private ReSharperConfiguration reSharperConfiguration;
     
     @Before
     public void before() {
         org.mockito.MockitoAnnotations.initMocks(this);
-        inspectCodeRunner=new DefaultInspectCodeRunner(settings, microsoftWindowsEnvironment, fileSystem, reSharperCommandBuilder,commandLineExecutor);
+        inspectCodeRunner=new DefaultInspectCodeRunner(settings, microsoftWindowsEnvironment, fileSystem, reSharperCommandBuilder,commandLineExecutor, reSharperConfiguration);
         
     }
     
@@ -54,11 +55,12 @@ public class DefaultInspectCodeRunnerTest {
     public void basicArgumentsOnFoundFile() {
         File testPath=TestUtils.getResource("/InspectCode/inspectcode.exe");
         File testDir=testPath.getParentFile();
-        when(settings.getString(ReSharperConfiguration.INSTALL_DIR_KEY)).thenReturn(testDir.getAbsolutePath());
+        when(reSharperConfiguration.getInspectCodeInstallDir()).thenReturn(testDir.getAbsolutePath());
+        when(reSharperConfiguration.getTimeOutMinutes()).thenReturn(20);
         inspectCodeRunner.inspectCode();
         
         verify(reSharperCommandBuilder,times(1)).setExecutable(new File(testDir,"inspectcode.exe"));
-        verify(commandLineExecutor,times(1)).execute(reSharperCommandBuilder,60);
+        verify(commandLineExecutor,times(1)).execute(reSharperCommandBuilder,20);
     }
     
     @Test
@@ -66,8 +68,8 @@ public class DefaultInspectCodeRunnerTest {
         //Given
         File testPath=TestUtils.getResource("/InspectCode/inspectcode.exe");
         File testDir=testPath.getParentFile();
-        when(settings.getString(ReSharperConfiguration.INSTALL_DIR_KEY)).thenReturn(testDir.getAbsolutePath());
-        when(settings.getInt(ReSharperConfiguration.TIMEOUT_MINUTES_KEY)).thenReturn(45);
+        when(reSharperConfiguration.getInspectCodeInstallDir()).thenReturn(testDir.getAbsolutePath());
+        when(reSharperConfiguration.getTimeOutMinutes()).thenReturn(45);
         //When
         inspectCodeRunner.inspectCode();
         

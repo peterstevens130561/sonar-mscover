@@ -17,11 +17,8 @@ public class DefaultInspectCodeIssuesSaver implements InspectCodeIssuesSaver {
 
     private Logger Log = LoggerFactory.getLogger(DefaultInspectCodeIssuesSaver.class);
     private ResourcePerspectives perspectives;
-    private ResourceResolver resourceResolver;
-
     public DefaultInspectCodeIssuesSaver(ResourcePerspectives resourcePerspectives, ResourceResolver resourceResolver) {
         this.perspectives = resourcePerspectives;
-        this.resourceResolver = resourceResolver;
     }
 
     /*
@@ -41,6 +38,7 @@ public class DefaultInspectCodeIssuesSaver implements InspectCodeIssuesSaver {
     private void saveIssue(InspectCodeIssue inspectCodeIssue) {
         String relativePath = inspectCodeIssue.getRelativePath();
         File myResource = File.create(relativePath);
+        
         if (myResource == null) {
             Log.debug("could not resolve " + inspectCodeIssue.getRelativePath());
             return;

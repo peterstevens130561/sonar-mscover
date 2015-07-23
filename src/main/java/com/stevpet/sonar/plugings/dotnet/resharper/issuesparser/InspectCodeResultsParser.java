@@ -1,9 +1,11 @@
-package com.stevpet.sonar.plugings.dotnet.resharper;
+package com.stevpet.sonar.plugings.dotnet.resharper.issuesparser;
 
 import java.io.File;
 import java.util.List;
 
 import org.sonar.api.BatchExtension;
+
+import com.stevpet.sonar.plugings.dotnet.resharper.InspectCodeIssue;
 
 public interface InspectCodeResultsParser extends BatchExtension {
     /**
