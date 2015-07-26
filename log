@@ -1,0 +1,412 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Sonar Integration Test Plugin MSCover 0.5-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[WARNING] The POM for org.apache.maven.scm:maven-scm-provider-svnexe:jar:1.10-SNAPSHOT is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] The POM for org.apache.maven.scm:maven-scm-provider-gitexe:jar:1.10-SNAPSHOT is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] The POM for org.apache.maven.scm:maven-scm-provider-hg:jar:1.10-SNAPSHOT is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] The POM for org.apache.maven.scm:maven-scm-provider-bazaar:jar:1.10-SNAPSHOT is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] The POM for org.apache.maven.scm:maven-scm-provider-clearcase:jar:1.10-SNAPSHOT is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] The POM for org.apache.maven.scm:maven-scm-provider-perforce:jar:1.10-SNAPSHOT is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] The POM for org.apache.maven.scm:maven-scm-provider-tfs:jar:1.10-SNAPSHOT is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] The POM for org.apache.maven.scm:maven-scm-provider-jazz:jar:1.10-SNAPSHOT is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[INFO] 
+[INFO] --- sonar-packaging-maven-plugin:1.3:check-dependencies (default-check-dependencies) @ sonar-mscover-plugin ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ sonar-mscover-plugin ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 13 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.5.1:compile (default-compile) @ sonar-mscover-plugin ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- native2ascii-maven-plugin:1.0-beta-1:native2ascii (default) @ sonar-mscover-plugin ---
+[INFO] Includes: [**/*.properties]
+[INFO] Excludes: []
+[INFO] Processing C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\classes\org\sonar\l10n\reference.properties
+[INFO] Processing C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\classes\org\sonar\l10n\reference_fr.properties
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ sonar-mscover-plugin ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 112 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.5.1:testCompile (default-testCompile) @ sonar-mscover-plugin ---
+[INFO] Compiling 1 source file to C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.16:test (default-test) @ sonar-mscover-plugin ---
+[INFO] Surefire report directory: C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.baseblocksaver.ConvertPercentageTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.074 sec - in com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.baseblocksaver.ConvertPercentageTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationBlockSaverTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.377 sec - in com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.IntegrationBlockSaverTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.UnitBlockSaverTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec - in com.stevpet.sonar.plugins.dotnet.mscover.blocksaver.UnitBlockSaverTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.CoverageParserTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.22 sec - in com.stevpet.sonar.plugins.dotnet.mscover.CoverageParserTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.datefilter.CutoffDateFilterTest
+11:16:23.012 INFO  c.s.s.p.d.m.d.CutOffDateFilter - No commitdate found, passing through
+11:16:23.018 INFO  c.s.s.p.d.m.d.CutOffDateFilter - No commitdate found, passing through
+11:16:23.027 ERROR c.s.s.p.d.m.d.CutOffDateFilter - Invalid commitdate on line 1=burb 
+java.text.ParseException: Unparseable date: "burb"
+	at java.text.DateFormat.parse(DateFormat.java:357) ~[na:1.7.0_51]
+	at com.stevpet.sonar.plugins.dotnet.mscover.datefilter.CutOffDateFilter.parseCommitLine(CutOffDateFilter.java:92) [classes/:na]
+	at com.stevpet.sonar.plugins.dotnet.mscover.datefilter.CutOffDateFilter.setLineCommitDates(CutOffDateFilter.java:77) [classes/:na]
+	at com.stevpet.sonar.plugins.dotnet.mscover.datefilter.CutoffDateFilterTest.InvalidDate_ShouldSurvive(CutoffDateFilterTest.java:128) [test-classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.7.0_51]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:1.7.0_51]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.7.0_51]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:1.7.0_51]
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:47) [junit-4.11.jar:na]
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12) [junit-4.11.jar:na]
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:44) [junit-4.11.jar:na]
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17) [junit-4.11.jar:na]
+	at org.junit.internal.runners.statements.ExpectException.evaluate(ExpectException.java:19) [junit-4.11.jar:na]
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271) [junit-4.11.jar:na]
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70) [junit-4.11.jar:na]
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50) [junit-4.11.jar:na]
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238) [junit-4.11.jar:na]
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63) [junit-4.11.jar:na]
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236) [junit-4.11.jar:na]
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53) [junit-4.11.jar:na]
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229) [junit-4.11.jar:na]
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:309) [junit-4.11.jar:na]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:264) [surefire-junit4-2.16.jar:2.16]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:153) [surefire-junit4-2.16.jar:2.16]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:124) [surefire-junit4-2.16.jar:2.16]
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:200) [surefire-booter-2.16.jar:2.16]
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:153) [surefire-booter-2.16.jar:2.16]
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:103) [surefire-booter-2.16.jar:2.16]
+11:16:23.030 ERROR c.s.s.p.d.m.d.CutOffDateFilter - Invalid cutoffDate (rabarber ) 
+java.text.ParseException: Unparseable date: "rabarber"
+	at java.text.DateFormat.parse(DateFormat.java:357) ~[na:1.7.0_51]
+	at com.stevpet.sonar.plugins.dotnet.mscover.datefilter.CutOffDateFilter.setCutOffDate(CutOffDateFilter.java:48) ~[classes/:na]
+	at com.stevpet.sonar.plugins.dotnet.mscover.datefilter.CutoffDateFilterTest.isFileIncludedForCutOffDate(CutoffDateFilterTest.java:150) [test-classes/:na]
+	at com.stevpet.sonar.plugins.dotnet.mscover.datefilter.CutoffDateFilterTest.InvalidDate_ShouldBeIncluded(CutoffDateFilterTest.java:43) [test-classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.7.0_51]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:1.7.0_51]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.7.0_51]
+	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:1.7.0_51]
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:47) [junit-4.11.jar:na]
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12) [junit-4.11.jar:na]
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:44) [junit-4.11.jar:na]
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17) [junit-4.11.jar:na]
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271) [junit-4.11.jar:na]
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70) [junit-4.11.jar:na]
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50) [junit-4.11.jar:na]
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238) [junit-4.11.jar:na]
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63) [junit-4.11.jar:na]
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236) [junit-4.11.jar:na]
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53) [junit-4.11.jar:na]
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229) [junit-4.11.jar:na]
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:309) [junit-4.11.jar:na]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:264) [surefire-junit4-2.16.jar:2.16]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:153) [surefire-junit4-2.16.jar:2.16]
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:124) [surefire-junit4-2.16.jar:2.16]
+	at org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:200) [surefire-booter-2.16.jar:2.16]
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:153) [surefire-booter-2.16.jar:2.16]
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:103) [surefire-booter-2.16.jar:2.16]
+11:16:23.035 INFO  c.s.s.p.d.m.d.CutOffDateFilter - Commitdate = Sun Jan 05 00:00:00 CST 2014
+11:16:23.037 INFO  c.s.s.p.d.m.d.CutOffDateFilter - Commitdate = Sun Jan 05 00:00:00 CST 2014
+11:16:23.038 INFO  c.s.s.p.d.m.d.CutOffDateFilter - No commitdate found, passing through
+11:16:23.040 INFO  c.s.s.p.d.m.d.CutOffDateFilter - No commitdate found, passing through
+11:16:23.041 INFO  c.s.s.p.d.m.d.CutOffDateFilter - Commitdate = Sun Jan 05 00:00:00 CST 2014
+11:16:23.043 INFO  c.s.s.p.d.m.d.CutOffDateFilter - Commitdate = Sun Jan 05 00:00:00 CST 2014
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.52 sec - in com.stevpet.sonar.plugins.dotnet.mscover.datefilter.CutoffDateFilterTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactoryTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 sec - in com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactoryTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.decorator.BaseDecoratorTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.038 sec - in com.stevpet.sonar.plugins.dotnet.mscover.decorator.BaseDecoratorTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.decorator.DecoratorDecorateTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in com.stevpet.sonar.plugins.dotnet.mscover.decorator.DecoratorDecorateTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.decorator.DecoratorShouldExecuteTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in com.stevpet.sonar.plugins.dotnet.mscover.decorator.DecoratorShouldExecuteTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestBlockDecoratorTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestBlockDecoratorTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestLineDecoratorTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec - in com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestLineDecoratorTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestBlockDecoratorTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec - in com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestBlockDecoratorTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestLineDecoratorTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec - in com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestLineDecoratorTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.ExcludePatternTest
+Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec - in com.stevpet.sonar.plugins.dotnet.mscover.ExcludePatternTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.FileFilterTest
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in com.stevpet.sonar.plugins.dotnet.mscover.FileFilterTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.helpers.sonarresourcehelper.GetFromFileTest
+11:16:23.274 INFO  c.s.s.p.d.m.h.s.GetFromFileTest - Added SourceDir1
+11:16:23.277 INFO  c.s.s.p.d.m.h.SonarResourceHelper - SourceDir1
+11:16:23.281 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithOneSourceDir\SourceDir1 C:\Users\stevpet\Documents\GitHub\sonar-mscover\a\b\c\d.cs->false
+11:16:23.282 INFO  c.s.s.p.d.m.h.SonarResourceHelper - SourceDir1
+11:16:23.284 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithOneSourceDir\SourceDir1 C:\Users\stevpet\Documents\GitHub\sonar-mscover\a\b\c->false
+11:16:23.284 INFO  c.s.s.p.d.m.h.SonarResourceHelper - SourceDir1
+11:16:23.285 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithOneSourceDir\SourceDir1 C:\Users\stevpet\Documents\GitHub\sonar-mscover\a\b->false
+11:16:23.286 INFO  c.s.s.p.d.m.h.SonarResourceHelper - SourceDir1
+11:16:23.287 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithOneSourceDir\SourceDir1 C:\Users\stevpet\Documents\GitHub\sonar-mscover\a->false
+11:16:23.290 INFO  c.s.s.p.d.m.h.s.GetFromFileTest - Added SourceDir1
+11:16:23.291 INFO  c.s.s.p.d.m.h.s.GetFromFileTest - Added SourceDir2
+11:16:23.292 INFO  c.s.s.p.d.m.h.SonarResourceHelper - SourceDir1
+11:16:23.297 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir1 C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir2\mydir\somefile.cs->false
+11:16:23.298 INFO  c.s.s.p.d.m.h.SonarResourceHelper - SourceDir2
+11:16:23.300 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir2 C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir2\mydir\somefile.cs->false
+11:16:23.301 INFO  c.s.s.p.d.m.h.SonarResourceHelper - SourceDir1
+11:16:23.303 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir1 C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir2\mydir->false
+11:16:23.303 INFO  c.s.s.p.d.m.h.SonarResourceHelper - SourceDir2
+11:16:23.303 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir2 C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir2\mydir->false
+11:16:23.303 INFO  c.s.s.p.d.m.h.SonarResourceHelper - SourceDir1
+11:16:23.303 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir1 C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir2->false
+11:16:23.303 INFO  c.s.s.p.d.m.h.SonarResourceHelper - SourceDir2
+11:16:23.303 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir2 C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir2->true
+11:16:23.311 INFO  c.s.s.p.d.m.h.s.GetFromFileTest - Added SourceDir1
+11:16:23.311 INFO  c.s.s.p.d.m.h.SonarResourceHelper - SourceDir1
+11:16:23.314 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithOneSourceDir\SourceDir1 C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithOneSourceDir\SourceDir1\file20.cs->false
+11:16:23.314 INFO  c.s.s.p.d.m.h.SonarResourceHelper - SourceDir1
+11:16:23.314 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithOneSourceDir\SourceDir1 C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithOneSourceDir\SourceDir1->true
+11:16:23.316 INFO  c.s.s.p.d.m.h.s.GetFromFileTest - Added SourceDir1
+11:16:23.316 INFO  c.s.s.p.d.m.h.s.GetFromFileTest - Added SourceDir2
+11:16:23.317 INFO  c.s.s.p.d.m.h.SonarResourceHelper - SourceDir1
+11:16:23.320 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir1 C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir2\somefile.cs->false
+11:16:23.320 INFO  c.s.s.p.d.m.h.SonarResourceHelper - SourceDir2
+11:16:23.321 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir2 C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir2\somefile.cs->false
+11:16:23.321 INFO  c.s.s.p.d.m.h.SonarResourceHelper - SourceDir1
+11:16:23.321 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir1 C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir2->false
+11:16:23.321 INFO  c.s.s.p.d.m.h.SonarResourceHelper - SourceDir2
+11:16:23.321 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir2 C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\SonarResourceHelper\ProjectWithTwoSourceDirs\SourceDir2->true
+11:16:23.324 INFO  c.s.s.p.d.m.h.SonarResourceHelper - no sourcedirs
+11:16:23.324 INFO  c.s.s.p.d.m.h.SonarResourceHelper - .
+11:16:23.326 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover C:\Users\stevpet\Documents\GitHub\sonar-mscover\a\b\c\d.cs->false
+11:16:23.326 INFO  c.s.s.p.d.m.h.SonarResourceHelper - .
+11:16:23.326 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover C:\Users\stevpet\Documents\GitHub\sonar-mscover\a\b\c->false
+11:16:23.326 INFO  c.s.s.p.d.m.h.SonarResourceHelper - .
+11:16:23.326 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover C:\Users\stevpet\Documents\GitHub\sonar-mscover\a\b->false
+11:16:23.326 INFO  c.s.s.p.d.m.h.SonarResourceHelper - .
+11:16:23.326 INFO  c.s.s.p.d.m.h.SonarResourceHelper - comparing C:\Users\stevpet\Documents\GitHub\sonar-mscover C:\Users\stevpet\Documents\GitHub\sonar-mscover\a->false
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 sec - in com.stevpet.sonar.plugins.dotnet.mscover.helpers.sonarresourcehelper.GetFromFileTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.model.BlockTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in com.stevpet.sonar.plugins.dotnet.mscover.model.BlockTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIdModelTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec - in com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIdModelTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.model.MethodModelTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in com.stevpet.sonar.plugins.dotnet.mscover.model.MethodModelTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNamesModelTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNamesModelTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModelTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestFileResultModelTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModelTest
+Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec - in com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestResultModelTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.MSCoverResultParserTest
+11:16:24.845 INFO  c.s.s.p.d.m.sensor.CoverageHelper - MsCoverPlugin : name=tfsBlame
+11:16:24.853 INFO  c.s.s.p.d.m.sensor.CoverageHelper - projectdir :C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\TfsBlame\tfsblame\tfsblame
+11:16:24.854 INFO  c.s.s.p.d.m.sensor.CoverageHelper - MsCoverPlugin : directory=C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\TfsBlame\tfsblame\tfsblame
+11:16:24.857 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - Setting projectDirectory to C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\TfsBlame\tfsblame\tfsblame
+11:16:24.862 INFO  c.s.s.p.d.m.sensor.CoverageHelper - MsCover Current working directory :null
+11:16:24.862 INFO  c.s.s.p.d.m.sensor.CoverageHelper - MsCover coverage file             :C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\mscoverage.xml
+11:16:25.022 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\sonar-mscover\target\test-classes\tfsblame\tfsblame\tfsblame\commits.cs
+11:16:25.024 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\sonar-mscover\target\test-classes\tfsblame\tfsblame\tfsblame\commit.cs
+11:16:25.025 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\sonar-mscover\target\test-classes\tfsblame\tfsblame\tfsblame\blame.cs
+11:16:25.025 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\sonar-mscover\target\test-classes\tfsblame\tfsblame\tfsblame\program.cs
+11:16:25.026 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\sonar-mscover\target\test-classes\tfsblame\tfsblame\tfsblame\tfsblameexception.cs
+11:16:25.027 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\sonar-mscover\target\test-classes\tfsblame\tfsblame\tfsblame\serverurifinder.cs
+11:16:25.027 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\sonar-mscover\target\test-classes\tfsblame\tfsblame\tfsblame\properties\settings.designer.cs
+11:16:25.029 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\sonar-mscover\target\test-classes\tfsblame\tfsblame\tfsblame\argumentparser.cs
+11:16:25.042 INFO  c.s.s.p.d.m.sensor.CoverageHelper - MsCover Current working directory :null
+11:16:25.042 INFO  c.s.s.p.d.m.sensor.CoverageHelper - MsCover coverage file             :C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\mscoverage.xml
+11:16:25.208 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - Setting projectDirectory to C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\TfsBlame\tfsblame\tfsblame
+11:16:25.218 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\sonar-mscover\target\test-classes\tfsblame\tfsblame\tfsblame\commits.cs
+11:16:25.219 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\sonar-mscover\target\test-classes\tfsblame\tfsblame\tfsblame\commit.cs
+11:16:25.219 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\sonar-mscover\target\test-classes\tfsblame\tfsblame\tfsblame\blame.cs
+11:16:25.219 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\sonar-mscover\target\test-classes\tfsblame\tfsblame\tfsblame\program.cs
+11:16:25.219 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\sonar-mscover\target\test-classes\tfsblame\tfsblame\tfsblame\tfsblameexception.cs
+11:16:25.219 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\sonar-mscover\target\test-classes\tfsblame\tfsblame\tfsblame\serverurifinder.cs
+11:16:25.220 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\sonar-mscover\target\test-classes\tfsblame\tfsblame\tfsblame\properties\settings.designer.cs
+11:16:25.220 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\sonar-mscover\target\test-classes\tfsblame\tfsblame\tfsblame\argumentparser.cs
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.838 sec - in com.stevpet.sonar.plugins.dotnet.mscover.MSCoverResultParserTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.coverageparserfactory.CreateDefaultTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.05 sec - in com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.coverageparserfactory.CreateDefaultTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.ElementParserTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 sec - in com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.ElementParserTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.LinesOberverTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec - in com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.LinesOberverTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodBlocksObserverTest
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 sec - in com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodBlocksObserverTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodToSourceFileIdMapTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.336 sec - in com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.MethodToSourceFileIdMapTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.SourceFileNamesObserverTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec - in com.stevpet.sonar.plugins.dotnet.mscover.parser.coverage.SourceFileNamesObserverTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.parser.results.IntegrationTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.07 sec - in com.stevpet.sonar.plugins.dotnet.mscover.parser.results.IntegrationTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.parser.results.ResultsParserSubjectTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 sec - in com.stevpet.sonar.plugins.dotnet.mscover.parser.results.ResultsParserSubjectTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.parser.results.ResultsParserTest
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.743 sec - in com.stevpet.sonar.plugins.dotnet.mscover.parser.results.ResultsParserTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.propertieshelper.getlanguages.GetLanguagesTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.018 sec - in com.stevpet.sonar.plugins.dotnet.mscover.propertieshelper.getlanguages.GetLanguagesTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.propertieshelper.getrunmode.GetRunModeTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec - in com.stevpet.sonar.plugins.dotnet.mscover.propertieshelper.getrunmode.GetRunModeTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.propertieshelper.isCPlusPlus.IsCPlusPlusTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in com.stevpet.sonar.plugins.dotnet.mscover.propertieshelper.isCPlusPlus.IsCPlusPlusTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelperTest
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec - in com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelperTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.registry.SourcePathHelperTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec - in com.stevpet.sonar.plugins.dotnet.mscover.registry.SourcePathHelperTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.RegistryTest
+11:16:26.743 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - Setting projectDirectory to c:\Users\stevpet\Documents\GitHub\tfsblame\tfsblame
+11:16:26.753 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\argumentparsertests.cs
+11:16:26.754 WARN  c.s.s.p.d.m.r.FileCoverageRegistry - Ignoring that file 'c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\argumentparsertests.cs' does not exist. Original :c:\Users\stevpet\Documents\GitHub\tfsblame\UnitTests\ArgumentParserTests.cs
+		
+11:16:26.754 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\blametest.cs
+11:16:26.755 WARN  c.s.s.p.d.m.r.FileCoverageRegistry - Ignoring that file 'c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\blametest.cs' does not exist. Original :c:\Users\stevpet\Documents\GitHub\tfsblame\UnitTests\BlameTest.cs
+		
+11:16:26.756 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\committest.cs
+11:16:26.756 WARN  c.s.s.p.d.m.r.FileCoverageRegistry - Ignoring that file 'c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\committest.cs' does not exist. Original :c:\Users\stevpet\Documents\GitHub\tfsblame\UnitTests\CommitTest.cs
+		
+11:16:26.757 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\commitstest.cs
+11:16:26.757 WARN  c.s.s.p.d.m.r.FileCoverageRegistry - Ignoring that file 'c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\commitstest.cs' does not exist. Original :c:\Users\stevpet\Documents\GitHub\tfsblame\UnitTests\CommitsTest.cs
+		
+11:16:26.758 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\serverurifindertest.cs
+11:16:26.758 WARN  c.s.s.p.d.m.r.FileCoverageRegistry - Ignoring that file 'c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\serverurifindertest.cs' does not exist. Original :c:\Users\stevpet\Documents\GitHub\tfsblame\UnitTests\ServerUriFinderTest.cs
+		
+11:16:26.759 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\argumentparser.cs
+11:16:26.760 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\commit.cs
+11:16:26.760 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\commits.cs
+11:16:26.761 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\blame.cs
+11:16:26.761 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\program.cs
+11:16:26.762 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\properties\settings.designer.cs
+11:16:26.763 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\serverurifinder.cs
+11:16:26.763 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\tfsblameexception.cs
+11:16:26.765 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - Setting projectDirectory to c:\Users\stevpet\Documents\GitHub\tfsblame\tfsblame
+11:16:26.769 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\commits.cs
+11:16:26.769 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\commit.cs
+11:16:26.770 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\blame.cs
+11:16:26.770 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\program.cs
+11:16:26.770 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\tfsblameexception.cs
+11:16:26.770 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\serverurifinder.cs
+11:16:26.770 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\properties\settings.designer.cs
+11:16:26.770 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\argumentparser.cs
+11:16:26.771 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - Setting projectDirectory to c:\Users\stevpet\Documents\GitHub\tfsblame\tfsblame
+11:16:26.778 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\argumentparsertests.cs
+11:16:26.778 WARN  c.s.s.p.d.m.r.FileCoverageRegistry - Ignoring that file 'c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\argumentparsertests.cs' does not exist. Original :c:\Users\stevpet\Documents\GitHub\tfsblame\UnitTests\ArgumentParserTests.cs
+		
+11:16:26.778 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\blametest.cs
+11:16:26.778 WARN  c.s.s.p.d.m.r.FileCoverageRegistry - Ignoring that file 'c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\blametest.cs' does not exist. Original :c:\Users\stevpet\Documents\GitHub\tfsblame\UnitTests\BlameTest.cs
+		
+11:16:26.778 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\committest.cs
+11:16:26.778 WARN  c.s.s.p.d.m.r.FileCoverageRegistry - Ignoring that file 'c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\committest.cs' does not exist. Original :c:\Users\stevpet\Documents\GitHub\tfsblame\UnitTests\CommitTest.cs
+		
+11:16:26.778 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\commitstest.cs
+11:16:26.778 WARN  c.s.s.p.d.m.r.FileCoverageRegistry - Ignoring that file 'c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\commitstest.cs' does not exist. Original :c:\Users\stevpet\Documents\GitHub\tfsblame\UnitTests\CommitsTest.cs
+		
+11:16:26.778 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\serverurifindertest.cs
+11:16:26.778 WARN  c.s.s.p.d.m.r.FileCoverageRegistry - Ignoring that file 'c:\users\stevpet\documents\github\tfsblame\tfsblame\unittests\serverurifindertest.cs' does not exist. Original :c:\Users\stevpet\Documents\GitHub\tfsblame\UnitTests\ServerUriFinderTest.cs
+		
+11:16:26.778 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\argumentparser.cs
+11:16:26.778 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\commit.cs
+11:16:26.779 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\commits.cs
+11:16:26.779 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\blame.cs
+11:16:26.779 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\program.cs
+11:16:26.779 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\properties\settings.designer.cs
+11:16:26.779 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\serverurifinder.cs
+11:16:26.779 INFO  c.s.s.p.d.m.r.FileCoverageRegistry - MsCover path : c:\users\stevpet\documents\github\tfsblame\tfsblame\tfsblameexception.cs
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 sec - in com.stevpet.sonar.plugins.dotnet.mscover.RegistryTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.sensor.IntegrationTestCoverSensorTest
+11:16:26.782 ERROR c.s.s.p.d.m.sensor.CoverageHelper - MSCover : project is null, will not execute
+11:16:26.785 INFO  c.s.s.p.d.m.sensor.CoverageHelper - MSCover : Skipping project project.isRoot() =false, sonar.mscover.rootproject=true
+11:16:26.788 INFO  c.s.s.p.d.m.sensor.CoverageHelper - MSCover : Skipping project project.isRoot() =true, sonar.mscover.rootproject=false
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec - in com.stevpet.sonar.plugins.dotnet.mscover.sensor.IntegrationTestCoverSensorTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.sensor.IntegrationTestsCoverSensorTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 sec - in com.stevpet.sonar.plugins.dotnet.mscover.sensor.IntegrationTestsCoverSensorTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.sensor.results.resultssensor.ShouldExecuteTest
+11:16:26.822 INFO  c.s.s.p.d.m.s.results.ResultsSensor - ResultsSensor false
+11:16:26.824 INFO  c.s.s.p.d.m.s.results.ResultsSensor - ResultsSensor false
+11:16:26.831 INFO  c.s.s.p.d.m.s.results.ResultsSensor - ResultsSensor true
+11:16:26.832 INFO  c.s.s.p.d.m.s.results.ResultsSensor - ResultsSensor true
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec - in com.stevpet.sonar.plugins.dotnet.mscover.sensor.results.resultssensor.ShouldExecuteTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.sensor.results.UnitTestAnalyserTest
+11:16:26.847 INFO  c.s.s.p.d.m.s.r.UnitTestAnalyser - MSCover Reading C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\test-classes\Mileage\coverage.xml
+11:16:26.851 INFO  c.s.s.p.d.m.s.r.UnitTestAnalyser - ResultsSensor: 4
+11:16:26.908 INFO  c.s.s.p.d.m.s.r.UnitTestAnalyser - MsCover Saving results
+11:16:26.910 WARN  c.s.s.p.d.m.saver.test.TestSaver - Could not get unit test file for file c:\Users\stevpet\Documents\GitHub\Mileage\UnitTestProject\UnitTest1.cs
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.068 sec - in com.stevpet.sonar.plugins.dotnet.mscover.sensor.results.UnitTestAnalyserTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.sensor.UnitTestCoverSensorCompleteTest
+11:16:26.923 INFO  c.s.s.p.d.m.s.results.ResultsSensor - ResultsSensor true
+11:16:26.926 INFO  c.s.s.p.d.m.s.results.ResultsSensor - ResultsSensor false
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 sec - in com.stevpet.sonar.plugins.dotnet.mscover.sensor.UnitTestCoverSensorCompleteTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.sonarmeasuresaver.SaveMeasureTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in com.stevpet.sonar.plugins.dotnet.mscover.sonarseams.sonarmeasuresaver.SaveMeasureTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.AssembliesFinderTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 sec - in com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.AssembliesFinderTest
+Running com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.CodeCoverageCommandTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.CodeCoverageCommandTest
+
+Results :
+
+Tests run: 207, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] 
+[INFO] --- sonar-packaging-maven-plugin:1.3:sonar-plugin (default-sonar-plugin) @ sonar-mscover-plugin ---
+[INFO] -------------------------------------------------------
+[INFO] Plugin definition in update center
+[INFO]     Key: mscover
+[INFO]     Name: Sonar Integration Test Plugin MSCover
+[INFO]     Description: Plugin to report test / code coverage for ms environment
+[INFO]     Version: 0.5-SNAPSHOT
+[INFO]     Main class: com.stevpet.sonar.plugins.dotnet.mscover.plugin.MsCoverPlugin
+[INFO]     Homepage: 
+[INFO]     Sonar version: 3.7
+[INFO]     License: 
+[INFO]     Organization: 
+[INFO]     Organization URL: 
+[INFO]     Terms & Conditions URL: 
+[INFO]     Issue Tracker URL: 
+[INFO]     Build date: 2014-06-07T11:16:27-0500
+[INFO] -------------------------------------------------------
+[WARNING] Invalid POM for org.apache.maven.scm:maven-scm-provider-svnexe:jar:1.10-SNAPSHOT, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] Invalid POM for org.apache.maven.scm:maven-scm-provider-gitexe:jar:1.10-SNAPSHOT, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] Invalid POM for org.apache.maven.scm:maven-scm-provider-hg:jar:1.10-SNAPSHOT, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] Invalid POM for org.apache.maven.scm:maven-scm-provider-bazaar:jar:1.10-SNAPSHOT, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] Invalid POM for org.apache.maven.scm:maven-scm-provider-clearcase:jar:1.10-SNAPSHOT, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] Invalid POM for org.apache.maven.scm:maven-scm-provider-perforce:jar:1.10-SNAPSHOT, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] Invalid POM for org.apache.maven.scm:maven-scm-provider-tfs:jar:1.10-SNAPSHOT, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] Invalid POM for org.apache.maven.scm:maven-scm-provider-jazz:jar:1.10-SNAPSHOT, transitive dependencies (if any) will not be available, enable debug logging for more details
+[INFO] Following dependencies are packaged in the plugin:
+
+	org.codehaus.sonar-plugins.dotnet.tools:gallio-runner:jar
+	org.apache.maven.scm:maven-scm-provider-cvs-commons:jar
+	com.google.code.findbugs:jsr305:jar
+	org.apache.maven.scm:maven-scm-api:jar
+	org.apache.maven.scm:maven-scm-provider-cvsexe:jar
+	org.apache.maven.scm:maven-scm-provider-svnexe:jar
+	org.apache.maven.scm:maven-scm-provider-tfs:jar
+	org.apache.maven.scm:maven-scm-provider-accurev:jar
+	org.apache.maven.scm:maven-scm-provider-clearcase:jar
+	org.codehaus.sonar-plugins.scm-activity:sonar-scm-activity-plugin:jar
+	org.codehaus.plexus:plexus-utils:jar
+	org.apache.maven.scm:maven-scm-provider-hg:jar
+	org.apache.maven.scm:maven-scm-provider-jazz:jar
+	org.apache.maven.scm:maven-scm-provider-bazaar:jar
+	com.mks.api:mksapi-jar:jar
+	org.apache.maven.scm:maven-scm-provider-integrity:jar
+	org.apache.maven.scm:maven-scm-provider-gitexe:jar
+	org.apache.maven.scm:maven-scm-provider-perforce:jar
+
+[INFO] See following page for more details about plugin dependencies:
+
+	http://docs.codehaus.org/display/SONAR/Coding+a+plugin
+
+[INFO] Building jar: C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\sonar-mscover-plugin-0.5-SNAPSHOT.jar
+[INFO]  already added, skipping
+[INFO] 
+[INFO] --- maven-install-plugin:2.5.1:install (default-install) @ sonar-mscover-plugin ---
+[INFO] Installing C:\Users\stevpet\Documents\GitHub\sonar-mscover\target\sonar-mscover-plugin-0.5-SNAPSHOT.jar to C:\Users\stevpet\.m2\repository\org\codehaus\sonar\examples\sonar-mscover-plugin\0.5-SNAPSHOT\sonar-mscover-plugin-0.5-SNAPSHOT.jar
+[INFO] Installing C:\Users\stevpet\Documents\GitHub\sonar-mscover\pom.xml to C:\Users\stevpet\.m2\repository\org\codehaus\sonar\examples\sonar-mscover-plugin\0.5-SNAPSHOT\sonar-mscover-plugin-0.5-SNAPSHOT.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 18.963s
+[INFO] Finished at: Sat Jun 07 11:16:29 CDT 2014
+[INFO] Final Memory: 25M/443M
+[INFO] ------------------------------------------------------------------------

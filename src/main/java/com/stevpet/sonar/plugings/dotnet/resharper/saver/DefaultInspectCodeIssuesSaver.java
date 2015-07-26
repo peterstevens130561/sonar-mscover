@@ -18,20 +18,13 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
 public class DefaultInspectCodeIssuesSaver implements InspectCodeIssuesSaver {
 
     private Logger Log = LoggerFactory.getLogger(DefaultInspectCodeIssuesSaver.class);
-    private ResourcePerspectives perspectives;
+    private ResourcePerspectives resourcePerspectives;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     public DefaultInspectCodeIssuesSaver(ResourcePerspectives resourcePerspectives, MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
-        this.perspectives = resourcePerspectives;
+        this.resourcePerspectives = resourcePerspectives;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.stevpet.sonar.plugings.dotnet.resharper.InspectCodeIssuesSaver#saveIssues
-     * (java.util.List)
-     */
     @Override
     public void saveIssues(List<InspectCodeIssue> issues) {
         for (InspectCodeIssue issue : issues) {
@@ -41,22 +34,12 @@ public class DefaultInspectCodeIssuesSaver implements InspectCodeIssuesSaver {
 
     private void saveIssue(InspectCodeIssue inspectCodeIssue) {
         String relativePath = inspectCodeIssue.getRelativePath();
-        java.io.File sourceFile=new java.io.File(microsoftWindowsEnvironment.getCurrentSolution().getSolutionDir(),relativePath);
-        List<java.io.File> files = microsoftWindowsEnvironment.getUnitTestSourceFiles();
-        if(files.contains(sourceFile)) {
+        if(isIssueOfTestFile(inspectCodeIssue)) {
             Log.debug("ignoring test file {}",relativePath);
             return;
         }
-        File myResource = File.create(relativePath);
-        
-        if (myResource == null) {
-            Log.debug("could not resolve " + inspectCodeIssue.getRelativePath());
-            return;
-        }
-        
-        
-        Issuable issuable = perspectives.as(Issuable.class, myResource);
-        if (issuable == null) {
+        Issuable issuable = createIssuable(relativePath);
+        if(issuable==null) {
             return;
         }
         int line = Integer.parseInt(inspectCodeIssue.getLine());
@@ -71,5 +54,28 @@ public class DefaultInspectCodeIssuesSaver implements InspectCodeIssuesSaver {
         } catch (MessageException e) {
             Log.warn("exception thrown during saving issue: ",e.getMessage());
         }
+    }
+
+
+    private Issuable createIssuable( String relativePath) {
+        File myResource = File.create(relativePath);
+        if (myResource == null) {
+            Log.debug("could not resolve " + relativePath);
+            return null;
+        }
+        Issuable issuable = resourcePerspectives.as(Issuable.class, myResource);
+        if (issuable == null) {
+            Log.debug("could not create issuable for " + relativePath);
+            return null;
+        }
+        return issuable;
+    }
+    
+
+    private boolean isIssueOfTestFile(InspectCodeIssue inspectCodeIssue) {
+        String relativePath = inspectCodeIssue.getRelativePath();
+        java.io.File sourceFile=new java.io.File(microsoftWindowsEnvironment.getCurrentSolution().getSolutionDir(),relativePath);
+        List<java.io.File> files = microsoftWindowsEnvironment.getUnitTestSourceFiles();
+        return files.contains(sourceFile);    
     }
 }
