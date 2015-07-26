@@ -62,4 +62,15 @@ public class SonarBranchPoint implements CoverageLinePoint{
 	public void setCovered(int covered) {
 		branchesVisited=covered;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+	    if(o==null) {
+	        return false ;
+	    }
+	    SonarBranchPoint other = (SonarBranchPoint) o;
+	    return this.branchesToVisit == other.branchesToVisit  &&
+	            this.branchesVisited==other.branchesVisited &&
+	            this.line==other.line;
+	}
 }

@@ -23,12 +23,15 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SonarCoverage {
+public class SonarCoverage implements Serializable{
+
+    private static final long serialVersionUID = 1L;
     private Map<Integer,SonarFileCoverage> idMap = new HashMap<Integer,SonarFileCoverage>();
     // key = sourceFileName, value = id
     private Map<String,Integer> sourceFileNameMap = new HashMap<String,Integer>();
@@ -48,6 +51,17 @@ public class SonarCoverage {
         return idMap.get(fileId);
     }
     
+    @Override
+    public boolean equals(Object other) {
+        if( other == null ) {
+            return false;
+        }
+        SonarCoverage otherCoverage = (SonarCoverage) other ;
+        boolean same=idMap.equals(otherCoverage.idMap) && 
+                sourceFileNameMap.equals(otherCoverage.sourceFileNameMap) && 
+                maxFileId.equals(otherCoverage.maxFileId);
+        return same;
+    }
     /**
      * Create an entry to map a sourcefileName (key) to the fileId (value). 
      * If the entry already exists it is overwritten

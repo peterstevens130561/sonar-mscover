@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.when;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.sonar.api.batch.fs.FileSystem;
@@ -44,6 +45,7 @@ public class IntegrationTestSerializationTests {
     private Serializer serializer;
     private File workDir;
     private File testDir;
+    private SonarCoverage deserialized;
 
 
     @Before
@@ -63,11 +65,42 @@ public class IntegrationTestSerializationTests {
         thenDeserializedDataEquals(coverageData);
     }
 
+    @Test
+    public void otherData() throws IOException {
+        givenCoverageFilesInDirectoryRead();
+        whenSerializingTheData();
+        coverageData.linkFileNameToFileId("bogus", "4");
+        thenDeserializedDataDiffers(coverageData);
+    }
+    
+    @Test
+    public void otherBranchPoint() throws IOException {
+        givenCoverageFilesInDirectoryRead();
+        whenSerializingTheData();
+        coverageData.getCoveredFile("1").addBranchPoint(300, true);
+        thenDeserializedDataDiffers(coverageData);
+    }
+    
+    @Test
+    public void otherLinePoint() throws IOException {
+        givenCoverageFilesInDirectoryRead();
+        whenSerializingTheData();
+        coverageData.getCoveredFile("1").addLinePoint(300, true);
+        thenDeserializedDataDiffers(coverageData);
+    }
     private void thenDeserializedDataEquals(SonarCoverage coverageData) {
-        // TODO Auto-generated method stub
+        File serializationFile=new File(workDir,"serialization.ser");
+        deserialized = serializer.deserialize(serializationFile);
+        assertEquals("serialized and deserialized should have same state",coverageData,deserialized);
         
     }
 
+    private void thenDeserializedDataDiffers(SonarCoverage coverageData) {
+        File serializationFile=new File(workDir,"serialization.ser");
+        deserialized = serializer.deserialize(serializationFile);
+        assertNotEquals("serialized and deserialized should have different state",coverageData,deserialized);
+        
+    }
     private void whenSerializingTheData() throws IOException {
         File serializationFile=new File(workDir,"serialization.ser");
         if(serializationFile.exists()) {
@@ -78,8 +111,9 @@ public class IntegrationTestSerializationTests {
         
     }
 
-    private void whenSerializingTheDataInto(String string) {
-        // TODO Auto-generated method stub
+    private void whenSerializingTheDataInto() {
+        File serializationFile=new File(workDir,"serialization.ser");
+        deserialized = serializer.deserialize(serializationFile);
         
     }
 

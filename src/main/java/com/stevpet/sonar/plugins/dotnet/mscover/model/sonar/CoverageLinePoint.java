@@ -22,7 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
-public interface CoverageLinePoint extends CoveragePoint {
+public interface CoverageLinePoint extends CoveragePoint  {
     int getLine();
 
     /**

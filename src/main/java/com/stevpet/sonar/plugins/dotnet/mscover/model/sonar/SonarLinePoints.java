@@ -22,10 +22,11 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SonarLinePoints implements CoverageLinePoints {
+public class SonarLinePoints implements CoverageLinePoints,Serializable {
     private List<CoverageLinePoint> points = new ArrayList<CoverageLinePoint>();
 
     /* (non-Javadoc)
@@ -81,5 +82,13 @@ public class SonarLinePoints implements CoverageLinePoints {
         return points;
     }
     
+    @Override
+    public boolean equals(Object o) {
+        if(o==null) {
+            return false ;
+        }
+        SonarLinePoints other = (SonarLinePoints) o;
+        return this.points.equals(other.points);
+    }
     
 }

@@ -57,5 +57,13 @@ public class SonarLinePoint implements CoverageLinePoint{
 		this.covered = covered;
 	}
     
+	public boolean equals(Object o) {
+	    if(o==null) {
+	        return false;
+	    }
+	    SonarLinePoint other = (SonarLinePoint) o;
+	    return this.covered == other.covered && 
+	            this.line == other.line;
+	}
    
 }

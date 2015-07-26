@@ -22,7 +22,9 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
-public interface CoveragePoint {
+import java.io.Serializable;
+
+public interface CoveragePoint extends Serializable {
 
     int getToCover();
 

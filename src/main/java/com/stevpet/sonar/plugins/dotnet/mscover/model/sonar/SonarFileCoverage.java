@@ -22,34 +22,40 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
+import java.io.Serializable;
 
 /**
  * Coverage info per file
  */
-public class SonarFileCoverage {
-    private String absolutePath ;
+public class SonarFileCoverage implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -377731136905247501L;
+
+    private String absolutePath;
 
     private CoverageLinePoints linePoints = new SonarLinePoints();
     private CoverageLinePoints branchPoints = new SonarBranchPoints();
-    
-    public void setAbsolutePath(String absolutePath) {  
-        this.absolutePath=absolutePath;
+
+    public void setAbsolutePath(String absolutePath) {
+        this.absolutePath = absolutePath;
     }
 
     public String getAbsolutePath() {
         return absolutePath;
     }
-    
+
     public CoverageLinePoints getLinePoints() {
         return linePoints;
     }
-    
+
     public CoverageLinePoints getBranchPoints() {
         return branchPoints;
     }
 
     public CoveragePoint addLinePoint(int line, boolean covered) {
-        return getLinePoints().addPoint(line,covered);
+        return getLinePoints().addPoint(line, covered);
     }
 
     public CoveragePoint getLastLinePoint() {
@@ -60,4 +66,14 @@ public class SonarFileCoverage {
         getBranchPoints().addPoint(line, covered);
     }
 
+    @Override
+    public boolean equals(Object otherObject) {
+        if (otherObject == null) {
+            return false;
+        }
+        SonarFileCoverage other = (SonarFileCoverage) otherObject;
+        return this.absolutePath.equals(other.absolutePath) &&
+                this.branchPoints.equals(other.branchPoints) &&
+                this.linePoints.equals(other.linePoints);
+    }
 }
