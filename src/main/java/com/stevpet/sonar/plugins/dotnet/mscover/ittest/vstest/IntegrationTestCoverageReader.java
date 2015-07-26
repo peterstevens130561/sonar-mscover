@@ -69,7 +69,7 @@ public class IntegrationTestCoverageReader implements CoverageReader {
 
 	private List<File> convertVsTestCoverageFilesToXml(File integrationTestsDir) {
 		List<File> xmlFiles = new ArrayList<File>();
-		Collection<File> files=FileUtils.listFiles(integrationTestsDir,new String[] {"coverage"} ,true);
+		Collection<File> files=FileUtils.listFiles(integrationTestsDir,new String[] {"coverage","xml"} ,true);
 		for(File coverageFile:files) {
 			File xmlFile=getCoverageXmlFile(coverageFile);
 			xmlFiles.add(xmlFile);
