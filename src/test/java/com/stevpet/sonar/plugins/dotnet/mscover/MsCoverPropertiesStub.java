@@ -357,4 +357,10 @@ public class MsCoverPropertiesStub implements MsCoverProperties {
         return null;
     }
 
+    @Override
+    public String getVsTestInstallPath() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

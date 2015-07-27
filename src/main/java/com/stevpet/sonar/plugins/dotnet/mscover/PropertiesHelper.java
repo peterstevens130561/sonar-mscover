@@ -29,9 +29,14 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.jfree.util.Log;
 import org.sonar.api.BatchExtension;
+import org.sonar.api.PropertyType;
 import org.sonar.api.batch.InstantiationStrategy;
+import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.Settings;
+import org.sonar.api.config.PropertyDefinition.Builder;
+import org.sonar.api.resources.Qualifiers;
 
+import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverRequiredPropertyMissingException;
 @InstantiationStrategy(InstantiationStrategy.PER_BATCH)
@@ -62,6 +67,7 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
     public static final String MSCOVER_IGNOREMISSING_DLL = MSCOVER + "vstest.ignoremissingdlls";
     public static final String MSCOVER_IGNOREMISSING_PDB = MSCOVER + "opencover.ignoremissingpdbs";
     public static final String MSCOVER_OPENCOVER_SKIPAUTOPROPS = MSCOVER + "opencover.skipautoprops";
+    public static final String MSCOVER_VSTEST_INSTALLDIR=MSCOVER+"vstest.installDirectory";
     
     @SuppressWarnings("ucd")
     public PropertiesHelper(Settings settings) {
@@ -297,6 +303,11 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
     public String getOpenCoverInstallPath() {
         return settings.getString("sonar.opencover.installDirectory");
     }
+    
+    @Override
+    public String getVsTestInstallPath() {
+        return settings.getString(MSCOVER_VSTEST_INSTALLDIR);
+    }
 
     public String getUnitTestHintPath() {
         return settings.getString(MSCOVER_UNITTEST_HINTPATH);
@@ -309,6 +320,23 @@ public class PropertiesHelper implements BatchExtension, MsCoverProperties  {
     @Override
     public String getIntegrationTestsDir() {
         return settings.getString(MSCOVER_INTEGRATION_VSTESTDIR);
+    }
+    
+    public static Collection<PropertyDefinition> getProperties() {
+        Collection<PropertyDefinition> properties = new ArrayList<>();
+        properties.add(createVsTestProperty(MSCOVER_VSTEST_INSTALLDIR,PropertyType.STRING)
+                .name("vstest installdir")
+                .description("path to directory where vstest.console.exe is installed")
+                .defaultValue("C:/Program Files (x86)/Microsoft Visual Studio 12.0/Common7/IDE/CommonExtensions/Microsoft/TestWindow")
+                .index(0)
+                .build());
+        return properties;
+
+    }
+
+    private static Builder createVsTestProperty(String key, PropertyType propertyType) {
+        return PropertyDefinition.builder(key).type(propertyType).subCategory("vstest");
+
     }
     
 }

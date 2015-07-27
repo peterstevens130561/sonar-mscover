@@ -20,25 +20,14 @@
 package com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.Properties;
-import org.sonar.api.Property;
-import org.sonar.api.PropertyType;
 import org.sonar.api.batch.Initializer;
-import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.config.PropertyDefinition.Builder;
-import org.sonar.api.config.PropertyDefinitions;
 import org.sonar.api.config.Settings;
-import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.Project;
-import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;

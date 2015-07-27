@@ -72,7 +72,8 @@ public class SonarFileCoverage implements Serializable {
             return false;
         }
         SonarFileCoverage other = (SonarFileCoverage) otherObject;
-        return this.absolutePath.equals(other.absolutePath) &&
+        return  ((this.absolutePath == null && other.absolutePath == null) || 
+                (this.absolutePath !=null && this.absolutePath.equals(other.absolutePath))) &&
                 this.branchPoints.equals(other.branchPoints) &&
                 this.linePoints.equals(other.linePoints);
     }

@@ -1,10 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

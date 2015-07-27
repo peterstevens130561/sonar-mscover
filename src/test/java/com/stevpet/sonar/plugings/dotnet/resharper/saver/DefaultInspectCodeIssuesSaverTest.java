@@ -2,15 +2,11 @@ package com.stevpet.sonar.plugings.dotnet.resharper.saver;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
@@ -19,12 +15,10 @@ import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.eq;
 
-import org.sonar.api.component.Component;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issuable.IssueBuilder;
 import org.sonar.api.issue.Issue;
-import org.sonar.api.issue.IssueComment;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.utils.MessageException;

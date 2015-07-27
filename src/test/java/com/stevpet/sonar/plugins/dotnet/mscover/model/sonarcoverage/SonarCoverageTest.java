@@ -66,6 +66,53 @@ public class SonarCoverageTest {
     public void twoItemsAddedRequestItems_MustBeTwoDifferentItems() {
         SonarFileCoverage fileModel0=model.getCoveredFile("0");
         SonarFileCoverage fileModel1=model.getCoveredFile("1");
-        Assert.assertNotEquals(fileModel0, fileModel1);
+        Assert.assertEquals("items have same state",fileModel0, fileModel1);
+        Assert.assertNotSame("items are different instances",fileModel0,fileModel1);
+    }
+    
+    @Test
+    public void twoItemsAddedRequestItems_GiveDifferentSate_ShouldBeUnEqual() {
+        SonarFileCoverage fileModel0=model.getCoveredFile("0");
+        SonarFileCoverage fileModel1=model.getCoveredFile("1");
+        fileModel0.setAbsolutePath("a");
+        fileModel1.setAbsolutePath("b");
+        Assert.assertNotEquals("items have differentstate",fileModel0, fileModel1);
+
+    }
+    
+    @Test
+    public void twoItemsAddedRequestItems_GiveDifferentBranchPoint_ShouldBeUnEqual() {
+        SonarFileCoverage fileModel0=model.getCoveredFile("0");
+        SonarFileCoverage fileModel1=model.getCoveredFile("1");
+        fileModel0.setAbsolutePath("a");
+        fileModel1.setAbsolutePath("a");
+        fileModel0.addBranchPoint(10, false);
+        fileModel1.addBranchPoint(5,false);
+        Assert.assertNotEquals("items have differentstate",fileModel0, fileModel1);
+    }
+    
+    @Test
+    public void twoItemsAddedRequestItems_GiveDifferentLinePoint_ShouldBeUnEqual() {
+        SonarFileCoverage fileModel0=model.getCoveredFile("0");
+        SonarFileCoverage fileModel1=model.getCoveredFile("1");
+        fileModel0.setAbsolutePath("a");
+        fileModel1.setAbsolutePath("a");
+        fileModel0.addLinePoint(10, false);
+        fileModel1.addLinePoint(5,false);
+        Assert.assertNotEquals("items have differentstate",fileModel0, fileModel1);
+    }
+    
+    @Test
+    public void twoItemsAddedRequestItems_GiveSameData_ShouldBeEqual() {
+        SonarFileCoverage fileModel0=model.getCoveredFile("0");
+        SonarFileCoverage fileModel1=model.getCoveredFile("1");
+        fileModel0.setAbsolutePath("a");
+        fileModel1.setAbsolutePath("a");
+        fileModel0.addLinePoint(10, false);
+        fileModel1.addLinePoint(10,false);
+        fileModel0.addBranchPoint(10, true);
+        fileModel1.addBranchPoint(10,true);
+        Assert.assertEquals("items have same tate",fileModel0, fileModel1);
+        Assert.assertNotSame("items are different instances",fileModel0,fileModel1);
     }
 }

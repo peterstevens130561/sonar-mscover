@@ -63,6 +63,8 @@ public  class VsTestRunnerCommandBuilder {
     }
 
     private VSTestCommand buildVSTestCommand(boolean doCodeCoverage) {
+        String path=propertiesHelper.getVsTestInstallPath();
+        vsTestCommand.setExecutableDir(path);
         vsTestCommand.setTestSettingsFile(testSettingsFile);
         vsTestCommand.setUnitTestAssembliesPath(unitTestAssembliesPath);
         vsTestCommand.setCodeCoverage(doCodeCoverage);

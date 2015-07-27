@@ -98,5 +98,10 @@ public interface MsCoverProperties {
 
     String getIntegrationTestsDir();
 
+    /**
+     * @return path to installation dir of vstest.console.exe
+     */
+    String getVsTestInstallPath();
+
 
 }
