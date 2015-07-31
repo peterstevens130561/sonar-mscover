@@ -40,19 +40,19 @@ public class PropertiesHelperTest {
 
     private SettingsMock settingsMock = new SettingsMock();
     private Settings settings;
-    private MsCoverProperties helper;
+    private MsCoverConfiguration helper;
 
     @Before
     public void before() {
         settings = mock(Settings.class);
-        helper = PropertiesHelper.create(settings);
+        helper = DefaultMsCoverConfiguration.create(settings);
     }
 
     @Test
     public void IntegrationsTestsDirSet_ShouldBeEnabled() {
         String path = "somepath";
-        helper=PropertiesHelper.create(settingsMock.getMock());
-        settingsMock.givenString(PropertiesHelper.MSCOVER_INTEGRATION_VSTESTDIR, path);
+        helper=DefaultMsCoverConfiguration.create(settingsMock.getMock());
+        settingsMock.givenString(DefaultMsCoverConfiguration.MSCOVER_INTEGRATION_VSTESTDIR, path);
         boolean enabled= helper.isIntegrationTestsEnabled();
         assertTrue("integration tests dir set, so expect integration tests enabled",enabled);
                 
@@ -61,8 +61,8 @@ public class PropertiesHelperTest {
     @Test
     public void IntegrationTestsDirSet_ExpectValue() {
         String path = "somepath";
-        helper=PropertiesHelper.create(settingsMock.getMock());
-        settingsMock.givenString(PropertiesHelper.MSCOVER_INTEGRATION_VSTESTDIR, path);
+        helper=DefaultMsCoverConfiguration.create(settingsMock.getMock());
+        settingsMock.givenString(DefaultMsCoverConfiguration.MSCOVER_INTEGRATION_VSTESTDIR, path);
         String value=helper.getIntegrationTestsDir();
         assertEquals(path,value);    
     }
@@ -71,7 +71,7 @@ public class PropertiesHelperTest {
         // Arrange
         String path = null;
         when(
-                settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH))
+                settings.getString(DefaultMsCoverConfiguration.MSCOVER_INTEGRATION_COVERAGEXML_PATH))
                 .thenReturn(path);
         // Act
         boolean enabled = helper.isIntegrationTestsEnabled();
@@ -85,7 +85,7 @@ public class PropertiesHelperTest {
         // Arrange
         String path = "";
         when(
-                settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH))
+                settings.getString(DefaultMsCoverConfiguration.MSCOVER_INTEGRATION_COVERAGEXML_PATH))
                 .thenReturn(path);
         // Act
         boolean enabled = helper.isIntegrationTestsEnabled();
@@ -99,7 +99,7 @@ public class PropertiesHelperTest {
         // Arrange
         String path = "a/b/c";
         when(
-                settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH))
+                settings.getString(DefaultMsCoverConfiguration.MSCOVER_INTEGRATION_COVERAGEXML_PATH))
                 .thenReturn(path);
         // Act
         boolean enabled = helper.isIntegrationTestsEnabled();
@@ -112,7 +112,7 @@ public class PropertiesHelperTest {
     public void UnitTestsNotSet_ShouldBeDisabled() {
         // Arrange
         String path = null;
-        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH))
+        when(settings.getString(DefaultMsCoverConfiguration.MSCOVER_UNIT_COVERAGEXML_PATH))
                 .thenReturn(path);
         // Act
         boolean enabled = helper.isUnitTestsEnabled();
@@ -125,7 +125,7 @@ public class PropertiesHelperTest {
     public void UnitTestsBlank_ShouldBeDisabledd() {
         // Arrange
         String path = "";
-        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH))
+        when(settings.getString(DefaultMsCoverConfiguration.MSCOVER_UNIT_COVERAGEXML_PATH))
                 .thenReturn(path);
         // Act
         boolean enabled = helper.isUnitTestsEnabled();
@@ -138,7 +138,7 @@ public class PropertiesHelperTest {
     public void UnitTestsSet_ShouldBeEnabled() {
         // Arrange
         String path = "a/b/c";
-        when(settings.getString(PropertiesHelper.MSCOVER_UNIT_COVERAGEXML_PATH))
+        when(settings.getString(DefaultMsCoverConfiguration.MSCOVER_UNIT_COVERAGEXML_PATH))
                 .thenReturn(path);
         // Act
         boolean enabled = helper.isUnitTestsEnabled();
@@ -151,7 +151,7 @@ public class PropertiesHelperTest {
     public void ExecuteRoot_Empty_ShouldBeDisabled() {
         // Arrange
         String value = "";
-        when(settings.getString(PropertiesHelper.MSCOVER_EXECUTEROOT))
+        when(settings.getString(DefaultMsCoverConfiguration.MSCOVER_EXECUTEROOT))
                 .thenReturn(value);
         // Act
         boolean enabled = helper.excuteRoot();
@@ -163,7 +163,7 @@ public class PropertiesHelperTest {
     public void ExecuteRoot_Null_ShouldBeDisabled() {
         // Arrange
         String value = null;
-        when(settings.getString(PropertiesHelper.MSCOVER_EXECUTEROOT))
+        when(settings.getString(DefaultMsCoverConfiguration.MSCOVER_EXECUTEROOT))
                 .thenReturn(value);
         // Act
         boolean enabled = helper.excuteRoot();
@@ -175,7 +175,7 @@ public class PropertiesHelperTest {
     public void ExecuteRoot_Rubbish_ShouldBeDisabled() {
         // Arrange
         String value = "abc";
-        when(settings.getString(PropertiesHelper.MSCOVER_EXECUTEROOT))
+        when(settings.getString(DefaultMsCoverConfiguration.MSCOVER_EXECUTEROOT))
                 .thenReturn(value);
         // Act
         boolean enabled = helper.excuteRoot();
@@ -187,7 +187,7 @@ public class PropertiesHelperTest {
     public void ExecuteRoot_True_ShouldBeEnabled() {
         // Arrange
         String value = "true";
-        when(settings.getString(PropertiesHelper.MSCOVER_EXECUTEROOT))
+        when(settings.getString(DefaultMsCoverConfiguration.MSCOVER_EXECUTEROOT))
                 .thenReturn(value);
         // Act
         boolean enabled = helper.excuteRoot();
@@ -199,7 +199,7 @@ public class PropertiesHelperTest {
     public void ExecuteRoot_False_ShouldBeDisabled() {
         // Arrange
         String value = "false";
-        when(settings.getString(PropertiesHelper.MSCOVER_EXECUTEROOT))
+        when(settings.getString(DefaultMsCoverConfiguration.MSCOVER_EXECUTEROOT))
                 .thenReturn(value);
         // Act
         boolean enabled = helper.excuteRoot();
@@ -209,40 +209,40 @@ public class PropertiesHelperTest {
 
     @Test
     public void defaultRunVsTest_True() {
-        setSetting(PropertiesHelper.MSCOVER_MODE, "runvstest");
-        setSetting(PropertiesHelper.MSCOVER_COVERAGETOOL, "vstest");
+        setSetting(DefaultMsCoverConfiguration.MSCOVER_MODE, "runvstest");
+        setSetting(DefaultMsCoverConfiguration.MSCOVER_COVERAGETOOL, "vstest");
         boolean actual = helper.runVsTest();
         Assert.assertTrue(actual);
     }
 
     @Test
     public void otherRunVsTest_False() {
-        setSetting(PropertiesHelper.MSCOVER_MODE, "runvstest");
-        setSetting(PropertiesHelper.MSCOVER_COVERAGETOOL, "bogus");
+        setSetting(DefaultMsCoverConfiguration.MSCOVER_MODE, "runvstest");
+        setSetting(DefaultMsCoverConfiguration.MSCOVER_COVERAGETOOL, "bogus");
         boolean actual = helper.runVsTest();
         Assert.assertFalse(actual);
     }
 
     @Test
     public void defaultRunOpenCover_False() {
-        setSetting(PropertiesHelper.MSCOVER_MODE, "runvstest");
-        setSetting(PropertiesHelper.MSCOVER_COVERAGETOOL, "vstest");
+        setSetting(DefaultMsCoverConfiguration.MSCOVER_MODE, "runvstest");
+        setSetting(DefaultMsCoverConfiguration.MSCOVER_COVERAGETOOL, "vstest");
         boolean actual = helper.runOpenCover();
         Assert.assertFalse(actual);
     }
 
     @Test
     public void otherRunOpenCover_False() {
-        setSetting(PropertiesHelper.MSCOVER_MODE, "runvstest");
-        setSetting(PropertiesHelper.MSCOVER_COVERAGETOOL, "bogus");
+        setSetting(DefaultMsCoverConfiguration.MSCOVER_MODE, "runvstest");
+        setSetting(DefaultMsCoverConfiguration.MSCOVER_COVERAGETOOL, "bogus");
         boolean actual = helper.runOpenCover();
         Assert.assertFalse(actual);
     }
 
     @Test
     public void openCoverRunOpenCover_False() {
-        setSetting(PropertiesHelper.MSCOVER_MODE, "runvstest");
-        setSetting(PropertiesHelper.MSCOVER_COVERAGETOOL, "opencover");
+        setSetting(DefaultMsCoverConfiguration.MSCOVER_MODE, "runvstest");
+        setSetting(DefaultMsCoverConfiguration.MSCOVER_COVERAGETOOL, "opencover");
         boolean actual = helper.runOpenCover();
         Assert.assertTrue(actual);
     }
@@ -256,7 +256,7 @@ public class PropertiesHelperTest {
     @Test
     public void hintPathSet_Value() {
         String path = "C:/Development/Jewel.Release.Oahu/JewelEarth/bin";
-        setSetting(PropertiesHelper.MSCOVER_UNITTEST_HINTPATH, path);
+        setSetting(DefaultMsCoverConfiguration.MSCOVER_UNITTEST_HINTPATH, path);
         String actual = helper.getUnitTestHintPath();
         assertEquals(path, actual);
 
@@ -265,21 +265,21 @@ public class PropertiesHelperTest {
     @Test
     public void hintPathMulti_Ignored() {
         String path = "C:/Development/Jewel.Release.Oahu/JewelEarth/bin,SomeOtherPath";
-        setSetting(PropertiesHelper.MSCOVER_UNITTEST_HINTPATH, path);
+        setSetting(DefaultMsCoverConfiguration.MSCOVER_UNITTEST_HINTPATH, path);
         String actual = helper.getUnitTestHintPath();
         assertEquals(path, actual);
     }
 
     @Test
     public void givenOpenCoverSkipAutoProps_True() {
-        setBoolean(PropertiesHelper.MSCOVER_OPENCOVER_SKIPAUTOPROPS, true);
+        setBoolean(DefaultMsCoverConfiguration.MSCOVER_OPENCOVER_SKIPAUTOPROPS, true);
         boolean actual = helper.getOpenCoverSkipAutoProps();
         assertTrue(actual);
     }
 
     @Test
     public void givenOpenCoverSkipAutoProps_False() {
-        setBoolean(PropertiesHelper.MSCOVER_OPENCOVER_SKIPAUTOPROPS, false);
+        setBoolean(DefaultMsCoverConfiguration.MSCOVER_OPENCOVER_SKIPAUTOPROPS, false);
         boolean actual = helper.getOpenCoverSkipAutoProps();
         assertFalse(actual);
     }

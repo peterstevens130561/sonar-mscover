@@ -27,13 +27,13 @@ import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 
 public abstract class AssemblyResolverController implements AssemblyResolver {
     private static Logger LOG = LoggerFactory.getLogger(AssemblyResolverController.class);
     private AssemblyResolver assemblyResolver ;
-    private MsCoverProperties msCoverProperties;
+    private MsCoverConfiguration msCoverProperties;
 
     public File resolveChain(File assemblyFile,VisualStudioProject project, String buildConfiguration) {
         LOG.debug("trying");
@@ -56,12 +56,12 @@ public abstract class AssemblyResolverController implements AssemblyResolver {
     }
     
 
-    public void setMsCoverProperties(MsCoverProperties msCoverProperties) {
+    public void setMsCoverProperties(MsCoverConfiguration msCoverProperties) {
         this.msCoverProperties=msCoverProperties;
     }
     
 
-    public MsCoverProperties getMsCoverProperties() {
+    public MsCoverConfiguration getMsCoverProperties() {
         return msCoverProperties;
     }
 

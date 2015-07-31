@@ -2,7 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
 import java.io.File;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.AssemblyResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.BaseAssemblyResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.BinConfigAssemblyResolver;
@@ -15,7 +15,7 @@ public class DefaultAssembliesFinder extends AbstractAssembliesFinder implements
 		AssemblyResolver {
 	private AssemblyResolver assemblyResolver = new BaseAssemblyResolver();
 
-	public DefaultAssembliesFinder(MsCoverProperties propertiesHelper) {
+	public DefaultAssembliesFinder(MsCoverConfiguration propertiesHelper) {
 		super(propertiesHelper);
 		AssemblyResolver[] assembliesFinders = { new FailedAssemblyResolver(),
 				new IgnoreMissingAssemblyResolver(),
@@ -58,11 +58,11 @@ public class DefaultAssembliesFinder extends AbstractAssembliesFinder implements
 		this.assemblyResolver.setResolver(assemblyResolver);
 	}
 
-	public void setMsCoverProperties(MsCoverProperties msCoverProperties) {
+	public void setMsCoverProperties(MsCoverConfiguration msCoverProperties) {
 		assemblyResolver.setMsCoverProperties(msCoverProperties);
 	}
 
-	public MsCoverProperties getMsCoverProperties() {
+	public MsCoverConfiguration getMsCoverProperties() {
 		return assemblyResolver.getMsCoverProperties();
 	}
 }

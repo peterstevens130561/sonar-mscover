@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.SonarException;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.FilteringCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.CoverageToXmlConverter;
@@ -21,11 +21,11 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
 public class IntegrationTestCoverageReader implements CoverageReader {
 	private final static Logger LOG = LoggerFactory.getLogger(IntegrationTestCoverageReader.class);
 	private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-	private MsCoverProperties msCoverProperties;
+	private MsCoverConfiguration msCoverProperties;
 	private FilteringCoverageParser coverageParser;
 	private CoverageToXmlConverter coverageToXmlConverter;
 	public IntegrationTestCoverageReader(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-			MsCoverProperties msCoverProperties,
+			MsCoverConfiguration msCoverProperties,
 			FilteringCoverageParser coverageParser,
 			CoverageToXmlConverter coverageToXmlConverter) {
 		this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;

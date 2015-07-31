@@ -7,7 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.utils.SonarException;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestConfigFinder;
@@ -16,7 +16,7 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 
 public  class VsTestRunnerCommandBuilder {
 
-    private MsCoverProperties propertiesHelper;
+    private MsCoverConfiguration propertiesHelper;
     private List<String> unitTestAssembliesPath;
     private File testSettingsFile;
     private TestConfigFinder testConfigFinder;
@@ -26,7 +26,7 @@ public  class VsTestRunnerCommandBuilder {
     private AssembliesFinder assembliesFinder;
     protected boolean doCodeCoverage;
 
-    public VsTestRunnerCommandBuilder(MsCoverProperties propertiesHelper,
+    public VsTestRunnerCommandBuilder(MsCoverConfiguration propertiesHelper,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             FileSystem fileSystem, 
             TestConfigFinder testConfigFinder, VSTestCommand vsTestCommand,

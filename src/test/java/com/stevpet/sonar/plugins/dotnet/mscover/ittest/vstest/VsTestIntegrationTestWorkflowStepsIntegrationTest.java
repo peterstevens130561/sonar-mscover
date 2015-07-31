@@ -24,7 +24,7 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Resource;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultDirector;
@@ -35,7 +35,7 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
 
 public class VsTestIntegrationTestWorkflowStepsIntegrationTest {
 
-	@Mock private MsCoverProperties msCoverProperties;
+	@Mock private MsCoverConfiguration msCoverProperties;
 	@Mock private SensorContext sensorContext;
 	@Mock private ResourceResolver resourceResolver;
 	@Mock private FileSystem fileSystem;

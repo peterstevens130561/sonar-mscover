@@ -32,18 +32,18 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 
 
 public class UnitTestBlockDecorator extends BaseDecorator {
-    public UnitTestBlockDecorator(MsCoverProperties propertiesHelper, TimeMachine timeMachine) {
+    public UnitTestBlockDecorator(MsCoverConfiguration propertiesHelper, TimeMachine timeMachine) {
         super(propertiesHelper, timeMachine);
         this.executionMode="active";
         this.testMetric = CoreMetrics.BRANCH_COVERAGE;
     }
 
     @Override
-    public boolean shouldExecuteDecorator(Project project, MsCoverProperties propertiesHelper) {
+    public boolean shouldExecuteDecorator(Project project, MsCoverConfiguration propertiesHelper) {
         return propertiesHelper.isUnitTestsEnabled();
     }
 

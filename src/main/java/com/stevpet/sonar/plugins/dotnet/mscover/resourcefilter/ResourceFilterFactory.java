@@ -22,7 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.resourcefilter;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 
 public class ResourceFilterFactory {
 
@@ -36,7 +36,7 @@ public class ResourceFilterFactory {
      * @return populated filter
      */
     public static ResourceFilter createAntPatternResourceFilter(
-            MsCoverProperties propertiesHelper) {
+            MsCoverConfiguration propertiesHelper) {
         ResourceFilter filter= new AntPatternResourceFilter();
         String exclusions = propertiesHelper.getExclusions();
         filter.setExclusions(exclusions);
@@ -50,7 +50,7 @@ public class ResourceFilterFactory {
      * @param propertiesHelper
      * @return
      */
-    public static ResourceFilter createUnitTestAssembliesFilter(MsCoverProperties propertiesHelper) {
+    public static ResourceFilter createUnitTestAssembliesFilter(MsCoverConfiguration propertiesHelper) {
         ResourceFilter filter= new AntPatternResourceFilter();
         String inclusions=propertiesHelper.getUnitTestsAssemblies();
         filter.setInclusions(inclusions);

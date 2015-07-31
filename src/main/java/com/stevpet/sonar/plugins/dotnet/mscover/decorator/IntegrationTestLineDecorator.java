@@ -32,7 +32,7 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 
 /**
  * Decorates resources that do not have coverage metrics because they were not touched by any test, and thus not present in the coverage
@@ -41,7 +41,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
 public class IntegrationTestLineDecorator extends BaseDecorator {
 
   @SuppressWarnings("ucd")
-  public IntegrationTestLineDecorator(MsCoverProperties msCoverProperties,TimeMachine timeMachine) {
+  public IntegrationTestLineDecorator(MsCoverConfiguration msCoverProperties,TimeMachine timeMachine) {
 
     super(msCoverProperties,timeMachine);
 
@@ -66,7 +66,7 @@ public class IntegrationTestLineDecorator extends BaseDecorator {
 
 
 @Override
-public boolean shouldExecuteDecorator(Project project, MsCoverProperties propertiesHelper) {
+public boolean shouldExecuteDecorator(Project project, MsCoverConfiguration propertiesHelper) {
     return propertiesHelper.isIntegrationTestsEnabled();
 }
 

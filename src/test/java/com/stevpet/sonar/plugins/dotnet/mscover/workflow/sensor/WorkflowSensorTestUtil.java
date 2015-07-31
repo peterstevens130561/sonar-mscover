@@ -9,7 +9,7 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.PathResolver;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowSteps;
@@ -21,7 +21,7 @@ public class WorkflowSensorTestUtil {
     @Mock
     protected VsTestEnvironment vsTestEnvironment;
     @Mock
-    protected MsCoverProperties propertiesHelper;
+    protected MsCoverConfiguration propertiesHelper;
     @Mock
     protected FileSystem fileSystem;
     @Mock

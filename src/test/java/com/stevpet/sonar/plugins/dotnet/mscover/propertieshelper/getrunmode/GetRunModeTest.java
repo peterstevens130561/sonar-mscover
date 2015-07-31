@@ -27,9 +27,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.config.Settings;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
+import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration.RunMode;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 
 import static org.mockito.Mockito.mock ;
@@ -38,11 +38,11 @@ import static org.mockito.Mockito.when ;
 public class GetRunModeTest {
     
     private Settings settings;
-    private MsCoverProperties propertiesHelper ;
+    private MsCoverConfiguration propertiesHelper ;
     @Before
     public void before() {
         settings = mock(Settings.class);
-        propertiesHelper = PropertiesHelper.create(settings);
+        propertiesHelper = DefaultMsCoverConfiguration.create(settings);
     }
     
     @Test
@@ -77,7 +77,7 @@ public class GetRunModeTest {
     }
     
     private void test(RunMode expected,String propertyValue) {
-        when(settings.getString(PropertiesHelper.MSCOVER_MODE)).thenReturn(propertyValue);       
+        when(settings.getString(DefaultMsCoverConfiguration.MSCOVER_MODE)).thenReturn(propertyValue);       
         RunMode runMode=propertiesHelper.getRunMode();
         //Assert
         Assert.assertEquals(expected, runMode);

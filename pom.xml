@@ -70,6 +70,11 @@
        	<artifactId>plugins-dotnet-utils</artifactId>
        	<version>1.2-SNAPSHOT</version>
        </dependency>
+               <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>1.18.3</version>
+        </dependency>
   </dependencies>
 
   <build>

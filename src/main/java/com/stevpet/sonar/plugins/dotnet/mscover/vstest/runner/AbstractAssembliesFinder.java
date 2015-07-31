@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.WildcardPattern;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.NoAssemblyDefinedMsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.SolutionHasNoProjectsSonarException;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
@@ -44,9 +44,9 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
 
     private WildcardPattern[] inclusionMatchers;
     private List<String> assemblies;
-    protected MsCoverProperties propertiesHelper;
+    protected MsCoverConfiguration propertiesHelper;
 
-    public AbstractAssembliesFinder(MsCoverProperties propertiesHelper) {
+    public AbstractAssembliesFinder(MsCoverConfiguration propertiesHelper) {
         this.propertiesHelper=propertiesHelper;
     }
 

@@ -25,9 +25,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover;
 import java.util.Collection;
 import java.util.List;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
+import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration.RunMode;
 
-public class MsCoverPropertiesStub implements MsCoverProperties {
+public class MsCoverPropertiesStub implements MsCoverConfiguration {
 
     private boolean integrationTestsEnabled;
     private boolean unitTestsEnabled;

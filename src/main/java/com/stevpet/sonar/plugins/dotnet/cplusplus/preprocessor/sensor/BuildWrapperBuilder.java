@@ -47,6 +47,8 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
 
     @Override
     public Command toCommand() {
+        String envPath=System.getenv("PATH");
+        LOG.info("----> PATH is set to " + envPath);
         File executable = new File(installDir, EXECUTABLE);
         if (!executable.exists()) {
             String msg = "Executable does not exist: " + executable.getAbsolutePath();

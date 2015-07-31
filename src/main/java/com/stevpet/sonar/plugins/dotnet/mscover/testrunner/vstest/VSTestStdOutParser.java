@@ -79,7 +79,11 @@ public class VSTestStdOutParser implements TestRunnerStdOutParser {
 
     @Override
     public File getTestResultsFile() {
-        return new File(getTestResultsXmlPath());
+        String path=getTestResultsXmlPath();
+        if(path == null) {
+            return null;
+        }
+        return new File(path);
     }
 
     @Override

@@ -26,22 +26,22 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.config.Settings;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 public class IsCPlusPlusTest {
     Settings settings;
-    MsCoverProperties propertiesHelper;
+    MsCoverConfiguration propertiesHelper;
     private boolean isCPlusPlus;
     
     @Before
     public void before() {
         settings=mock(Settings.class);
         when(settings.getStringArrayBySeparator("sonar.language", ",")).thenCallRealMethod();
-        propertiesHelper=PropertiesHelper.create(settings);
+        propertiesHelper=DefaultMsCoverConfiguration.create(settings);
     }
 
     @Test

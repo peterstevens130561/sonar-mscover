@@ -32,7 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.SonarException;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
 
 
 public class VsTestConfigFinder implements TestConfigFinder {
@@ -54,7 +54,7 @@ public class VsTestConfigFinder implements TestConfigFinder {
         String msg;
         File testSettingsFile;
         if(StringUtils.isEmpty(testSettings)) {
-            msg=PropertiesHelper.MSCOVER_TESTSETTINGS + " not set, and no testsettings file found";
+            msg=DefaultMsCoverConfiguration.MSCOVER_TESTSETTINGS + " not set, and no testsettings file found";
             testSettingsFile= findDefaultFileUpwards(solutionDirectory);
             if(testSettingsFile==null) {
                 LOG.error(msg);
@@ -72,7 +72,7 @@ public class VsTestConfigFinder implements TestConfigFinder {
         testSettingsFile= findSameFileUpwards(solutionDirectory,testSettings);
 
         if(testSettingsFile == null || !testSettingsFile.exists()) {
-            msg=PropertiesHelper.MSCOVER_TESTSETTINGS + "=" + testSettings + " not found";
+            msg=DefaultMsCoverConfiguration.MSCOVER_TESTSETTINGS + "=" + testSettings + " not found";
             LOG.error(msg);
             throw new SonarException(msg);
         }

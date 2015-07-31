@@ -19,7 +19,7 @@ import org.sonar.test.TestUtils;
 
 import static org.mockito.MockitoAnnotations.initMocks;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.FilteringCoverageParser;
@@ -35,7 +35,7 @@ public class IntegrationTestSerializationTests {
 
     private SonarCoverage coverageData;
     @Mock private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-    @Mock private MsCoverProperties msCoverProperties;
+    @Mock private MsCoverConfiguration msCoverProperties;
     private FilteringCoverageParser coverageParser;
     private CoverageToXmlConverter coverageToXmlConverter;
     private IntegrationTestCoverageReader coverageReader;

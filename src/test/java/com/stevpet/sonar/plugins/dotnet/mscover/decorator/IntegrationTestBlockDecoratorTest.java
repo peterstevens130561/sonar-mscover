@@ -39,7 +39,7 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.measures.Metric;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesStub;
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
 
 public class IntegrationTestBlockDecoratorTest {
     TimeMachine timeMachine;
@@ -75,7 +75,7 @@ public class IntegrationTestBlockDecoratorTest {
     
     @Test
     public void ShouldExecute_NotSet_ExpectFalse() {
-        when(settings.getString(PropertiesHelper.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn(null);
+        when(settings.getString(DefaultMsCoverConfiguration.MSCOVER_INTEGRATION_COVERAGEXML_PATH)).thenReturn(null);
         createDecorator();
         boolean shouldExecute = decorator.shouldExecuteDecorator(null, propertiesHelper);
         Assert.assertFalse(shouldExecute);

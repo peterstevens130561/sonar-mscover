@@ -32,7 +32,7 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Scopes;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesStub;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.ResourceMock;
 
@@ -99,7 +99,7 @@ public class BaseDecoratorTest {
 
         private boolean called=false;
         
-        protected PrimitiveDecorator(MsCoverProperties msCoverProperties, TimeMachine timeMachine) {
+        protected PrimitiveDecorator(MsCoverConfiguration msCoverProperties, TimeMachine timeMachine) {
             super(msCoverProperties, timeMachine);
         }
 
@@ -119,7 +119,7 @@ public class BaseDecoratorTest {
 
         @Override
         public boolean shouldExecuteDecorator(Project project,
-                MsCoverProperties propertiesHelper) {
+                MsCoverConfiguration propertiesHelper) {
             return false;
         }
         

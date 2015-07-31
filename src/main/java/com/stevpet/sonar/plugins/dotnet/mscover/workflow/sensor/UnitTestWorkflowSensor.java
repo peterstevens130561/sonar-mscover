@@ -30,8 +30,8 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.PathResolver;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
+import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.NullWorkflowSteps;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.OpenCoverWorkflowSteps;
@@ -48,7 +48,7 @@ public class UnitTestWorkflowSensor extends WorkflowSensor {
     private static final Logger LOG = LoggerFactory
             .getLogger(UnitTestWorkflowSensor.class);
     private static final String LOGPREFIX = "UnitTestWorkflowSensor : ";
-    private MsCoverProperties propertiesHelper;
+    private MsCoverConfiguration propertiesHelper;
     private VsTestEnvironment vsTestEnvironment;
     private WorkflowDirector workFlowDirector;
     private FileSystem fileSystem;
@@ -57,7 +57,7 @@ public class UnitTestWorkflowSensor extends WorkflowSensor {
     @SuppressWarnings("ucd")
 
     public UnitTestWorkflowSensor(VsTestEnvironment vsTestEnvironment,
-            MsCoverProperties propertiesHelper, FileSystem fileSystem,
+            MsCoverConfiguration propertiesHelper, FileSystem fileSystem,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             PathResolver pathResolver, WorkflowDirector workflowDirector) {
         super(vsTestEnvironment, propertiesHelper, fileSystem, microsoftWindowsEnvironment, pathResolver, workflowDirector);

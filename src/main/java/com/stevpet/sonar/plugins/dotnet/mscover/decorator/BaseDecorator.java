@@ -36,7 +36,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.resources.ResourceUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.AlwaysPassThroughDateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilter;
 import com.stevpet.sonar.plugins.dotnet.mscover.datefilter.DateFilterFactory;
@@ -59,13 +59,13 @@ public abstract class BaseDecorator implements Decorator {
     protected Metric testMetric;
 
 
-    private MsCoverProperties propertiesHelper;
+    private MsCoverConfiguration propertiesHelper;
 
     private ResourceFilter fileFilter;
 
     private DateFilter dateFilter = new AlwaysPassThroughDateFilter();
 
-    protected BaseDecorator(MsCoverProperties propertiesHelper,TimeMachine timeMachine) {
+    protected BaseDecorator(MsCoverConfiguration propertiesHelper,TimeMachine timeMachine) {
         this.propertiesHelper=propertiesHelper;
         dateFilter = DateFilterFactory.createCutOffDateFilter(timeMachine, propertiesHelper);
         fileFilter = ResourceFilterFactory.createAntPatternResourceFilter(propertiesHelper);
@@ -86,7 +86,7 @@ public abstract class BaseDecorator implements Decorator {
      * Will only be invoked if the plugin is enabled.
      */
     public abstract boolean shouldExecuteDecorator(Project project,
-            MsCoverProperties propertiesHelper);
+            MsCoverConfiguration propertiesHelper);
 
     /**
      * {@inheritDoc}

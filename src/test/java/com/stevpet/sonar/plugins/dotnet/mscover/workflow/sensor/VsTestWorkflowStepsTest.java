@@ -12,7 +12,7 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.PathResolver;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
@@ -30,7 +30,7 @@ public class VsTestWorkflowStepsTest {
     private DefaultPicoContainer picoContainer = new DefaultPicoContainer();
    
     @Mock FileSystem fileSystem;
-    @Mock MsCoverProperties msCoverProperties;
+    @Mock MsCoverConfiguration msCoverProperties;
     @Mock SensorContext sensorContext;
     @Mock Project project;
     @Mock PathResolver pathResolver;

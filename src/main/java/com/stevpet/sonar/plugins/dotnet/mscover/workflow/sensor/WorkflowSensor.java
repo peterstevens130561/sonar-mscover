@@ -8,8 +8,8 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.PathResolver;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
+import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
@@ -17,10 +17,10 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
 
 public abstract class WorkflowSensor implements Sensor { // NO_UCD (use default)
     private DefaultPicoContainer container;
-    private MsCoverProperties msCoverProperties;
+    private MsCoverConfiguration msCoverProperties;
     
     public WorkflowSensor(VsTestEnvironment vsTestEnvironment, // NO_UCD (use default)
-            MsCoverProperties msCoverProperties, FileSystem fileSystem,
+            MsCoverConfiguration msCoverProperties, FileSystem fileSystem,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             PathResolver pathResolver, WorkflowDirector workflowDirector) {
         container = new DefaultPicoContainer(new ConstructorInjection());

@@ -31,13 +31,13 @@ import java.util.List;
 
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 
 public class AssembliesFinderTestUtils {
 
-    protected MsCoverProperties propertiesHelper;
+    protected MsCoverConfiguration propertiesHelper;
     protected AssembliesFinder finder;
     protected List<VisualStudioProject> projects;
     protected VisualStudioProject project;

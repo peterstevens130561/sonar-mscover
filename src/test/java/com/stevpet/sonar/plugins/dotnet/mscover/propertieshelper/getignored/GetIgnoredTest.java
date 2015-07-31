@@ -33,8 +33,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.config.Settings;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
+import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
 
 
 public class GetIgnoredTest {
@@ -43,7 +43,7 @@ public class GetIgnoredTest {
     String[] listWithTwo = { "one","two" };
     
     Settings settings = mock(Settings.class);
-    MsCoverProperties propertiesHelper = PropertiesHelper.create(settings);
+    MsCoverConfiguration propertiesHelper = DefaultMsCoverConfiguration.create(settings);
     @Before
     public void before() {
         
@@ -65,7 +65,7 @@ public class GetIgnoredTest {
     
     
     private void mockSettingsThenExpect(String []list,int size) {
-        when(settings.getStringArrayBySeparator(PropertiesHelper.MSCOVER_IGNOREMISSING_DLL,",")).thenReturn(list);
+        when(settings.getStringArrayBySeparator(DefaultMsCoverConfiguration.MSCOVER_IGNOREMISSING_DLL,",")).thenReturn(list);
 
         Collection<String> ignoreMissing = propertiesHelper.getUnitTestAssembliesThatCanBeIgnoredIfMissing();
         assertNotNull(ignoreMissing);

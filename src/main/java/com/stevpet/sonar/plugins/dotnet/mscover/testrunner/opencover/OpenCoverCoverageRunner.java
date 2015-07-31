@@ -7,7 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.NoAssembliesDefinedException;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
@@ -23,7 +23,7 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 public class OpenCoverCoverageRunner implements TestRunner {
 	private final static Logger LOG = LoggerFactory.getLogger(OpenCoverCoverageRunner.class);
     private OpenCoverCommand openCoverCommand;
-    private MsCoverProperties msCoverProperties;
+    private MsCoverConfiguration msCoverProperties;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private VsTestEnvironment testEnvironment;
     private CommandLineExecutor commandLineExecutor;
@@ -31,7 +31,7 @@ public class OpenCoverCoverageRunner implements TestRunner {
     private VsTestRunnerCommandBuilder vsTestRunnerCommandBuilder;
     private VSTestStdOutParser vsTestStdOutParser;
     public OpenCoverCoverageRunner(OpenCoverCommand openCoverCommand,
-            MsCoverProperties msCoverProperties, 
+            MsCoverConfiguration msCoverProperties, 
             VsTestEnvironment testEnvironment,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             CommandLineExecutor commandLineExecutor,

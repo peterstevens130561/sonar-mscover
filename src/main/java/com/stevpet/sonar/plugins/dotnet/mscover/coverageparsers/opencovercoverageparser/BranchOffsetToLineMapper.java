@@ -52,7 +52,6 @@ public class BranchOffsetToLineMapper {
      */
     public int mapOffsetToLine(int offset) {
         if(sequencePoints == null || sequencePoints.isEmpty()) {
-            LOG.debug("Can't map branch offset to line, as there are no sequence points. Programmer error or corrupted coverage file?");
             return -1;
         }
         for(int pointIndex=0;pointIndex<sequencePoints.size();pointIndex++) {

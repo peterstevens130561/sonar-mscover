@@ -24,15 +24,15 @@ package com.stevpet.sonar.plugins.dotnet.mscover;
 
 import java.util.Collection;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 
 import static org.mockito.Mockito.mock ;
 import static org.mockito.Mockito.when;
 
 public class MsCoverPropertiesMock {
-    private MsCoverProperties properties = mock(MsCoverProperties.class);
+    private MsCoverConfiguration properties = mock(MsCoverConfiguration.class);
     
-    public MsCoverProperties getMock() {
+    public MsCoverConfiguration getMock() {
         return properties;
     }
 

@@ -22,7 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesStub;
 
 public class UnitTestRunnerTestUtils {
@@ -30,7 +30,7 @@ public class UnitTestRunnerTestUtils {
     private UnitTestRunnerTestUtils() {
         
     }
-    public static MsCoverProperties mockUnitTestRunnerSettingsToRun() {
+    public static MsCoverConfiguration mockUnitTestRunnerSettingsToRun() {
         MsCoverPropertiesStub propertiesHelper = new MsCoverPropertiesStub();
         propertiesHelper.setMode("runvstest");
         propertiesHelper.setRunVsTest(true);

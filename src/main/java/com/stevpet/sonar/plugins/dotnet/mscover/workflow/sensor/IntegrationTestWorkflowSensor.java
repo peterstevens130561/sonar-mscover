@@ -8,7 +8,7 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.PathResolver;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.ittest.vstest.VsTestIntegrationTestWorkflowSteps;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
@@ -24,9 +24,9 @@ public class IntegrationTestWorkflowSensor extends WorkflowSensor {
 
     private FileSystem fileSystem;
 
-    private MsCoverProperties msCoverProperties;
+    private MsCoverConfiguration msCoverProperties;
     public IntegrationTestWorkflowSensor(VsTestEnvironment vsTestEnvironment,
-            MsCoverProperties msCoverProperties, FileSystem fileSystem,
+            MsCoverConfiguration msCoverProperties, FileSystem fileSystem,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             PathResolver pathResolver, WorkflowDirector workflowDirector) {
         super(vsTestEnvironment, msCoverProperties, fileSystem,

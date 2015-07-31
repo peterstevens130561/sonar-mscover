@@ -42,7 +42,7 @@ public class SetNameSpaceAndClassNameTest {
         String name="<Module>";
         spy.setNamespaceAndClassName(name);
         String actualNameSpaceName=spy.getNameSpaceName();
-        assertEquals(null,actualNameSpaceName);
+        assertEquals("",actualNameSpaceName);
         assertFalse(spy.isSkipping());
     }
     @Test

@@ -33,8 +33,8 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.utils.SonarException;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
 
@@ -45,14 +45,14 @@ import static org.mockito.Matchers.anyString;
 
 public class AssembliesFinderPatternTest {
     private Settings settings;
-    private MsCoverProperties propertiesHelper ;
+    private MsCoverConfiguration propertiesHelper ;
     private AssembliesFinder finder;
     
     @Before()
     public void before() {
         settings=mock(Settings.class);
         when(settings.getStringArrayBySeparator(anyString(), anyString())).thenCallRealMethod();
-        propertiesHelper = PropertiesHelper.create(settings);
+        propertiesHelper = DefaultMsCoverConfiguration.create(settings);
         finder = new DefaultAssembliesFinder(propertiesHelper);
     }
     @Test
@@ -92,7 +92,7 @@ public class AssembliesFinderPatternTest {
     }
     
     private void setPattern(String pattern) {
-        when(settings.getString(eq(PropertiesHelper.MSCOVER_UNITTEST_ASSEMBLIES))).thenReturn(pattern);   
+        when(settings.getString(eq(DefaultMsCoverConfiguration.MSCOVER_UNITTEST_ASSEMBLIES))).thenReturn(pattern);   
     }
     
     private List<String> fromMSCoverProperty(File root) {

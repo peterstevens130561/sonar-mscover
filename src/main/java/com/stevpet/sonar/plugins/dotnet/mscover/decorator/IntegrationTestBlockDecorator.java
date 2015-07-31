@@ -32,11 +32,11 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverProperties;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 
 public class IntegrationTestBlockDecorator extends BaseDecorator {
     @SuppressWarnings("ucd")
-    public IntegrationTestBlockDecorator(MsCoverProperties propertiesHelper,
+    public IntegrationTestBlockDecorator(MsCoverConfiguration propertiesHelper,
             TimeMachine timeMachine) {
         super(propertiesHelper, timeMachine);
         this.executionMode="active";
@@ -44,7 +44,7 @@ public class IntegrationTestBlockDecorator extends BaseDecorator {
     }
 
     @Override
-    public boolean shouldExecuteDecorator(Project project, MsCoverProperties propertiesHelper) {
+    public boolean shouldExecuteDecorator(Project project, MsCoverConfiguration propertiesHelper) {
         return propertiesHelper.isIntegrationTestsEnabled();
     }
 

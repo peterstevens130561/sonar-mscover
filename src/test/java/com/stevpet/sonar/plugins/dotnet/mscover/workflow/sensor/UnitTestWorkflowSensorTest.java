@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
-import com.stevpet.sonar.plugins.dotnet.mscover.PropertiesHelper.RunMode;
+import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.NullWorkflowSteps;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.OpenCoverWorkflowSteps;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.VsTestWorkflowSteps;
