@@ -19,7 +19,7 @@ public class BuildWrapperPropertiesTest {
        Collection<PropertyDefinition> properties=BuildWrapperConstants.getProperties();
        myList.addAll(classes);
        myList.addAll(properties);
-       assertEquals("expect  properties",5,myList.size());
+       assertEquals("expect  properties",6,myList.size()); // will have to be adjusted if we add properties.
 
     }
     

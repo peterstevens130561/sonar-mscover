@@ -39,7 +39,7 @@ public class BuildWrapperInitializerTest {
     
     @Test
     public void allSignsGreen_shouldExecute() {
-        when(settings.getBoolean(BuildWrapperConstants.BUILDWRAPPER_ENABLED_KEY)).thenReturn(true);
+        when(settings.getBoolean(BuildWrapperConstants.ENABLED_KEY)).thenReturn(true);
         when(project.isRoot()).thenReturn(true);
         
         boolean execute=buildWrapperInitializer.shouldExecuteOnProject(project);
@@ -48,7 +48,7 @@ public class BuildWrapperInitializerTest {
     
     @Test
     public void disabled_shouldNotExecute() {
-        when(settings.getBoolean(BuildWrapperConstants.BUILDWRAPPER_ENABLED_KEY)).thenReturn(false);
+        when(settings.getBoolean(BuildWrapperConstants.ENABLED_KEY)).thenReturn(false);
         when(project.isRoot()).thenReturn(true);
         
         boolean execute=buildWrapperInitializer.shouldExecuteOnProject(project);
@@ -57,7 +57,7 @@ public class BuildWrapperInitializerTest {
     
     @Test
     public void notRoot_shouldNotExecute() {
-        when(settings.getBoolean(BuildWrapperConstants.BUILDWRAPPER_ENABLED_KEY)).thenReturn(true);
+        when(settings.getBoolean(BuildWrapperConstants.ENABLED_KEY)).thenReturn(true);
         when(project.isRoot()).thenReturn(false);
         
         boolean execute=buildWrapperInitializer.shouldExecuteOnProject(project);
@@ -66,7 +66,7 @@ public class BuildWrapperInitializerTest {
     
     @Test
     public void hasNoCppFiles_shouldNotExecute() {
-        when(settings.getBoolean(BuildWrapperConstants.BUILDWRAPPER_ENABLED_KEY)).thenReturn(true);
+        when(settings.getBoolean(BuildWrapperConstants.ENABLED_KEY)).thenReturn(true);
         when(project.isRoot()).thenReturn(false);
         buildWrapperInitializer.setHasCppFiles(true);
         
@@ -76,9 +76,9 @@ public class BuildWrapperInitializerTest {
 
     @Test
     public void execute_verifySettingsPassed() {
-        when(settings.getString(BuildWrapperConstants.BUILDWRAPPER_OUTDIR_KEY)).thenReturn("outdir");
-        when(settings.getString(BuildWrapperConstants.BUILDWRAPPER_INSTALLDIR_KEY)).thenReturn("installdir");
-        when(settings.getString(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_OPTIONS_KEY)).thenReturn("option");
+        when(settings.getString(BuildWrapperConstants.OUTDIR_KEY)).thenReturn("outdir");
+        when(settings.getString(BuildWrapperConstants.INSTALLDIR_KEY)).thenReturn("installdir");
+        when(settings.getString(BuildWrapperConstants.MSBUILD_OPTIONS_KEY)).thenReturn("option");
         
         //When
         buildWrapperInitializer.execute(project);
@@ -89,14 +89,14 @@ public class BuildWrapperInitializerTest {
         verify(buildWrapperBuilder,times(1)).setInstallDir("installdir");
         verify(buildWrapperBuilder,times(1)).setMsBuildOptions("option");
         verify(commandLineExecutor,times(1)).execute(buildWrapperBuilder);
-        verify(settings,times(1)).appendProperty(BuildWrapperConstants.BUILD_WRAPPER_CFAMILY_OUTPUT_KEY, outputPath);
+        verify(settings,times(1)).appendProperty(BuildWrapperConstants.CFAMILY_OUTPUT_KEY, outputPath);
 
     }
     
     @Test public void missingProperty_ExpectException() {
-        when(settings.getString(BuildWrapperConstants.BUILDWRAPPER_OUTDIR_KEY)).thenReturn(null);
-        when(settings.getString(BuildWrapperConstants.BUILDWRAPPER_INSTALLDIR_KEY)).thenReturn("installdir");
-        when(settings.getString(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_OPTIONS_KEY)).thenReturn("option");
+        when(settings.getString(BuildWrapperConstants.OUTDIR_KEY)).thenReturn(null);
+        when(settings.getString(BuildWrapperConstants.INSTALLDIR_KEY)).thenReturn("installdir");
+        when(settings.getString(BuildWrapperConstants.MSBUILD_OPTIONS_KEY)).thenReturn("option");
         
         try {
             buildWrapperInitializer.execute(project);           

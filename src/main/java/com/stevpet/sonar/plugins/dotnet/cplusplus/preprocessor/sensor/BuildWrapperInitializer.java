@@ -61,7 +61,7 @@ public class BuildWrapperInitializer extends Initializer {
     public boolean shouldExecuteOnProject(Project project) {
         boolean hasCpp = hasCppFiles();
         boolean isRoot = project.isRoot();
-        boolean isEnabled = settings.getBoolean(BuildWrapperConstants.BUILDWRAPPER_ENABLED_KEY);
+        boolean isEnabled = settings.getBoolean(BuildWrapperConstants.ENABLED_KEY);
         return isEnabled && hasCpp && isRoot;
     }
 
@@ -77,15 +77,15 @@ public class BuildWrapperInitializer extends Initializer {
     @Override
     public void execute(Project project) {
         LOG.debug("----- C++ Initializer is running -----");
-        String relativePath = getRequiredProperty(BuildWrapperConstants.BUILDWRAPPER_OUTDIR_KEY);
-        String buildWrapperInstallDir = getRequiredProperty(BuildWrapperConstants.BUILDWRAPPER_INSTALLDIR_KEY);
+        String relativePath = getRequiredProperty(BuildWrapperConstants.OUTDIR_KEY);
+        String buildWrapperInstallDir = getRequiredProperty(BuildWrapperConstants.INSTALLDIR_KEY);
 
         File outputDir = new File("." + relativePath);
         String absolutePathInUnixFormat = outputDir.getAbsolutePath().replaceAll("\\\\", "/");
-        LOG.debug("set " + BuildWrapperConstants.BUILD_WRAPPER_CFAMILY_OUTPUT_KEY + "=" + absolutePathInUnixFormat);
-        settings.appendProperty(BuildWrapperConstants.BUILD_WRAPPER_CFAMILY_OUTPUT_KEY, absolutePathInUnixFormat);
+        LOG.debug("set " + BuildWrapperConstants.CFAMILY_OUTPUT_KEY + "=" + absolutePathInUnixFormat);
+        settings.appendProperty(BuildWrapperConstants.CFAMILY_OUTPUT_KEY, absolutePathInUnixFormat);
 
-        String msbuildOptions = settings.getString(BuildWrapperConstants.BUILDWRAPPER_MSBUILD_OPTIONS_KEY);
+        String msbuildOptions = settings.getString(BuildWrapperConstants.MSBUILD_OPTIONS_KEY);
 
         buildWrapperBuilder
                 .setInstallDir(buildWrapperInstallDir)
