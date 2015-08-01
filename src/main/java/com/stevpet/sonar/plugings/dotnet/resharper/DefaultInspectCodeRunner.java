@@ -61,7 +61,14 @@ public class DefaultInspectCodeRunner implements InspectCodeRunner {
 
         String additionalArguments = reSharperConfiguration.getMSBuildProperties();
         resharperCommandBuilder.setProperties(additionalArguments);
-        String cachesHome = reSharperConfiguration.getCachesHome();
+        String cachesHome;
+        if(reSharperConfiguration.useCache()) {
+            cachesHome = reSharperConfiguration.getCachesHome();
+        } else {
+            File cachesDir=new File(fileSystem.workDir(),ReSharperConfiguration.DEFAULT_CACHEDIR);
+            cachesHome=cachesDir.getAbsolutePath();
+            
+        }
         resharperCommandBuilder.setCachesHome(cachesHome);
 
         String profile = reSharperConfiguration.getProfile();

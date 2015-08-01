@@ -42,7 +42,7 @@ public class ReSharperConfiguration implements BatchExtension {
     public ReSharperConfiguration(Settings settings) {
         this.settings = settings;
     }
-
+    public static final String DEFAULT_CACHEDIR = "inspectcode_cache";
     public static final String REPOSITORY_KEY = "resharper";
     public static final String REPOSITORY_NAME = "ReSharper";
     public static final String[] SUPPORTED_LANGUAGES = new String[] { "cs", "vbnet" };
@@ -82,6 +82,7 @@ public class ReSharperConfiguration implements BatchExtension {
     public static final String BUILD_PLATFORM_KEY = "sonar.dotnet.buildPlatform";
     public static final String BUILD_PLATFORM_DEFVALUE = "x64";
     public static final String FAIL_ON_EXCEPTION_KEY = "sonar.resharper.failonexception";
+    public static final String USE_CACHE_KEY="sonar.resharper.usecache";
 
     /**
      * global setting indicates that the analysis should fail when an exception is thrown in the sensor
@@ -103,18 +104,21 @@ public class ReSharperConfiguration implements BatchExtension {
         Collection<PropertyDefinition> properties = new ArrayList<>();
         properties.add(createProperty(ENABLED_KEY, PropertyType.BOOLEAN)
                 .name("enabled")
+                .index(0)
                 .onQualifiers(Qualifiers.PROJECT)
                 .description("set to true to enable resharper plugin")
                 .defaultValue("true")
                 .build());
         properties.add(createProperty(FAIL_ON_EXCEPTION_KEY, PropertyType.BOOLEAN)
                 .name("fail analysis on thrown exception")
+                .index(1)
                 .description("")
                 .onQualifiers(Qualifiers.PROJECT)
                 .defaultValue("true")
                 .build());
         properties.add(createProperty(REPORTS_PATH_KEY, PropertyType.STRING)
                 .name("report file(s)")
+                .index(2)
                 .description("local path of the ReSharper report file(s) used when reuse report mode is activated. "
                         + "This can be an absolute path, or a path relative to each project base directory.")
                 .build());
@@ -132,8 +136,15 @@ public class ReSharperConfiguration implements BatchExtension {
                 .description("local path to .DotSettings file")
                 .onQualifiers(Qualifiers.PROJECT)
                 .build());
+        properties.add(createProperty(USE_CACHE_KEY,PropertyType.BOOLEAN)
+                .name("use cache")
+                .index(5)
+                .onQualifiers(Qualifiers.PROJECT)
+                .defaultValue("false")
+                .description("when set a cache is used, which speeds up analysis, but may give funny results. Recommeded to leave false").build());
         properties.add(createProperty(CACHES_HOME,PropertyType.STRING)
                 .name("caches home")
+                .index(6)
                 .onQualifiers(Qualifiers.PROJECT)
                 .description("local absolute path to inspectcode cache, change when .DotSettings file has changed").build());
         properties.add(createProperty(INSPECTCODE_PROPERTIES_KEY,PropertyType.STRING)
@@ -168,5 +179,9 @@ public class ReSharperConfiguration implements BatchExtension {
     public String getCachesHome() {
         return settings
         .getString(ReSharperConfiguration.CACHES_HOME);
+    }
+
+    public boolean useCache() {
+        return settings.getBoolean(USE_CACHE_KEY);
     }
 }

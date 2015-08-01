@@ -64,6 +64,49 @@ public class DefaultInspectCodeRunnerTest {
     }
     
     @Test
+    public void cacheSetShouldNotBeInCommandLine() {
+        File testPath=TestUtils.getResource("/InspectCode/inspectcode.exe");
+        File testDir=testPath.getParentFile();
+        when(reSharperConfiguration.getInspectCodeInstallDir()).thenReturn(testDir.getAbsolutePath());
+        when(reSharperConfiguration.getTimeOutMinutes()).thenReturn(20);
+        when(reSharperConfiguration.useCache()).thenReturn(true);
+        when(reSharperConfiguration.getCachesHome()).thenReturn("bla");
+        
+        inspectCodeRunner.inspectCode();
+        
+        verify(reSharperCommandBuilder,times(1)).setCachesHome("bla");  
+    }
+    
+    @Test
+    public void noCacheSetShouldNotBeInCommandLine() {
+        File testPath=TestUtils.getResource("/InspectCode/inspectcode.exe");
+        File testDir=testPath.getParentFile();
+        when(reSharperConfiguration.getInspectCodeInstallDir()).thenReturn(testDir.getAbsolutePath());
+        when(reSharperConfiguration.getTimeOutMinutes()).thenReturn(20);
+        when(reSharperConfiguration.useCache()).thenReturn(true);
+        when(reSharperConfiguration.getCachesHome()).thenReturn(null);
+        
+        inspectCodeRunner.inspectCode();
+        
+        verify(reSharperCommandBuilder,times(1)).setCachesHome(null);  
+    }
+    
+    @Test
+    public void doNotUseCacheShouldReferToSonarCommandLine() {
+        File testPath=TestUtils.getResource("/InspectCode/inspectcode.exe");
+        File testDir=testPath.getParentFile();
+        when(reSharperConfiguration.getInspectCodeInstallDir()).thenReturn(testDir.getAbsolutePath());
+        when(reSharperConfiguration.getTimeOutMinutes()).thenReturn(20);
+        when(reSharperConfiguration.getCachesHome()).thenReturn(null);
+        when(reSharperConfiguration.useCache()).thenReturn(false);
+        File workDir=new File(".sonar");
+        when(fileSystem.workDir()).thenReturn(workDir);
+        
+        inspectCodeRunner.inspectCode();
+        
+        verify(reSharperCommandBuilder,times(1)).setCachesHome(workDir.getAbsolutePath() + "\\inspectcode_cache");  
+    }
+    @Test
     public void basicArgumentsOAndTimeOutnFoundFile() {
         //Given
         File testPath=TestUtils.getResource("/InspectCode/inspectcode.exe");
