@@ -95,31 +95,33 @@ public final class MsCoverPlugin extends SonarPlugin {
     @SuppressWarnings({ "rawtypes" })
     public List getExtensions() {
 
-        List clazzes=Arrays.asList(SimpleMicrosoftWindowsEnvironment.class,
-                VsTestEnvironment.class,
-                DefaultMsCoverConfiguration.class,
-                ReSharperConfiguration.class,
-                VisualStudioProjectBuilder.class,
-                IntegrationTestLineDecorator.class,
-                UnitTestLineDecorator.class,
-                IntegrationTestBlockDecorator.class,
-                DefaultDirector.class, UnitTestBlockDecorator.class,
-                UnitTestWorkflowSensor.class,
-                IntegrationTestWorkflowSensor.class,
+        List clazzes=Arrays.asList(
+                SimpleMicrosoftWindowsEnvironment.class,
+//                VsTestEnvironment.class,
+//                DefaultMsCoverConfiguration.class,
+//                ReSharperConfiguration.class,
+                VisualStudioProjectBuilder.class
+//                IntegrationTestLineDecorator.class,
+//                UnitTestLineDecorator.class,
+//                IntegrationTestBlockDecorator.class,
+//                DefaultDirector.class, UnitTestBlockDecorator.class,
+//                UnitTestWorkflowSensor.class,
+//                IntegrationTestWorkflowSensor.class,
  //               SupportedLanguage.class,
 //                CSharpRegularReSharperProfileExporter.class,
 //                CSharpRegularReSharperProfileImporter.class,
 //                ReSharperSonarWayProfileCSharp.class,
 //                ReSharperRuleRepositoryProvider.class, 
 //                ReSharperSensor.class, 
-                DefaultInspectCodeResultsParser.class,
-                DefaultResourceResolver.class, 
-                DefaultInspectCodeIssuesSaver.class,
-                DefaultInspectCodeRunner.class,
-                ReSharperCommandBuilder.class,
-                WindowsCommandLineExecutor.class,
+//                DefaultInspectCodeResultsParser.class,
+//                DefaultResourceResolver.class, 
+//                DefaultInspectCodeIssuesSaver.class,
+//                DefaultInspectCodeRunner.class,
+//                ReSharperCommandBuilder.class,
+//                WindowsCommandLineExecutor.class,
 //                BuildWrapperInitializer.class,
-                BuildWrapperBuilder.class)
+//                BuildWrapperBuilder.class
+                )
                 ;
         List extensions = new ArrayList();
         extensions.addAll(clazzes);
