@@ -19,7 +19,6 @@
  */
 package com.stevpet.sonar.plugings.dotnet.resharper;
 
-import org.jfree.util.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;

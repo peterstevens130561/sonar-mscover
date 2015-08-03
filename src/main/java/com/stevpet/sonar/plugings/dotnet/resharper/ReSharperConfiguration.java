@@ -124,36 +124,41 @@ public class ReSharperConfiguration implements BatchExtension {
                 .build());
         properties.add(createProperty(INSTALL_DIR_KEY, PropertyType.STRING)
                 .defaultValue(ReSharperConfiguration.INSTALL_DIR_DEFVALUE)
+                .index(3)
                 .name("local inspectcode install directory").description("Absolute path of the ReSharper Command Line Tools installation folder.")
                 .build());
         properties.add(createProperty(TIMEOUT_MINUTES_KEY, PropertyType.INTEGER)
                 .defaultValue(TIMEOUT_MINUTES_DEFVALUE + "")
+                .index(4)
                 .onQualifiers(Qualifiers.PROJECT)
                 .name("execution timeout")
                 .description("Maximum number of minutes before the ReSharper program will be stopped.").build());
         properties.add(createProperty(DOTSETTINGS_KEY,PropertyType.STRING)
                 .name("profile")
+                .index(5)
                 .description("local path to .DotSettings file")
                 .onQualifiers(Qualifiers.PROJECT)
                 .build());
         properties.add(createProperty(USE_CACHE_KEY,PropertyType.BOOLEAN)
                 .name("use cache")
-                .index(5)
+                .index(6)
                 .onQualifiers(Qualifiers.PROJECT)
                 .defaultValue("false")
                 .description("when set a cache is used, which speeds up analysis, but may give funny results. Recommeded to leave false").build());
         properties.add(createProperty(CACHES_HOME,PropertyType.STRING)
                 .name("caches home")
-                .index(6)
+                .index(7)
                 .onQualifiers(Qualifiers.PROJECT)
                 .description("local absolute path to inspectcode cache, change when .DotSettings file has changed").build());
         properties.add(createProperty(INSPECTCODE_PROPERTIES_KEY,PropertyType.STRING)
                 .name("msbuild properties")
+                .index(8)
                 .description("additional properties to pass on to msbuild").build());
      
         return properties;
 
     }
+
 
     private static Builder createProperty(String key, PropertyType propertyType) {
         return PropertyDefinition.builder(key).type(propertyType).subCategory("Re#");
