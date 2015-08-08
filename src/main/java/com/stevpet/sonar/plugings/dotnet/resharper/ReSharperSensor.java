@@ -26,25 +26,20 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
-import org.sonar.api.utils.SonarException;
-
-import com.stevpet.sonar.plugings.dotnet.resharper.issuesparser.InspectCodeResultsParser;
-import com.stevpet.sonar.plugings.dotnet.resharper.saver.InspectCodeIssuesSaver;
-
-import java.io.File;
-import java.util.List;
 
 /**
  * Collects the ReSharper reporting into sonar.
  */
-public class ReSharperSensor extends AbstractReSharperSensor {
+public class ReSharperSensor implements Sensor {
     private Logger LOG = LoggerFactory.getLogger(ReSharperSensor.class);
     private FileSystem fileSystem;
 
     private Settings settings;
 
-    private ReSharperConfiguration configuration;
     private ResharperWorkflow resharperWorkflow;
+
+    private ReSharperConfiguration configuration;
+
 
     /**
      * Constructs a {@link org.sonar.plugins.csharp.resharper.ReSharperSensor}.
@@ -53,11 +48,10 @@ public class ReSharperSensor extends AbstractReSharperSensor {
             Settings settings,
             ResharperWorkflow resharperWorkflow,
             ReSharperConfiguration configuration) {
-        super(resharperWorkflow,configuration);
+        this.resharperWorkflow = resharperWorkflow;
+        this.configuration = configuration;
         this.fileSystem = fileSystem;
         this.settings = settings;
-        this.configuration = configuration;
-        this.resharperWorkflow = resharperWorkflow;
     }
 
 
@@ -67,7 +61,21 @@ public class ReSharperSensor extends AbstractReSharperSensor {
         boolean hasCs = fileSystem.languages().contains("cs");
         boolean skip = ReSharperConfiguration.MODE_SKIP.equalsIgnoreCase(settings.getString(ReSharperConfiguration.MODE));
         boolean isRoot = project.isRoot();
-        return hasCs && !skip && isRoot;
+        return hasCs && !skip && !isRoot;
+    }
+
+
+
+    @Override
+    public void analyse(Project module, SensorContext context) {
+        try {
+            resharperWorkflow.execute();
+        } catch ( Exception e ) {
+            if(configuration.failOnException()) {
+                LOG.error(e.getMessage());
+                throw e;
+            }
+        }
     }
 
 }
