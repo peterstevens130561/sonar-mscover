@@ -37,51 +37,30 @@ import java.util.List;
 /**
  * Collects the ReSharper reporting into sonar.
  */
-public class ReSharperSensor implements Sensor {
+public class ReSharperSensor extends AbstractReSharperSensor {
     private Logger LOG = LoggerFactory.getLogger(ReSharperSensor.class);
     private FileSystem fileSystem;
 
     private Settings settings;
 
-    private InspectCodeResultsParser inspectCodeResultsParser;
-    private InspectCodeIssuesSaver inspectCodeIssuesSaver;
-
-    private InspectCodeRunner inspectCodeRunner;
     private ReSharperConfiguration configuration;
+    private ResharperWorkflow resharperWorkflow;
 
     /**
      * Constructs a {@link org.sonar.plugins.csharp.resharper.ReSharperSensor}.
      */
     public ReSharperSensor(FileSystem fileSystem,
             Settings settings,
-            InspectCodeResultsParser inspectCodeResultsParser,
-            InspectCodeIssuesSaver inspectCodeIssuesSaver,
-            InspectCodeRunner inspectCodeRunner,
+            ResharperWorkflow resharperWorkflow,
             ReSharperConfiguration configuration) {
+        super(resharperWorkflow,configuration);
         this.fileSystem = fileSystem;
         this.settings = settings;
-        this.inspectCodeResultsParser = inspectCodeResultsParser;
-        this.inspectCodeIssuesSaver= inspectCodeIssuesSaver;
-        this.inspectCodeRunner = inspectCodeRunner;
-        this.configuration=configuration;
-
+        this.configuration = configuration;
+        this.resharperWorkflow = resharperWorkflow;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public void analyse(Project project, SensorContext context) {
-        try {
-        File reportFile = inspectCodeRunner.inspectCode();
-        List<InspectCodeIssue>issues=inspectCodeResultsParser.parse(reportFile);
-        inspectCodeIssuesSaver.saveIssues(issues);
-        } catch ( Exception e ) {
-            if(configuration.failOnException()) {
-                LOG.error(e.getMessage());
-                throw e;
-            }
-        }
-    }
+
 
     @Override
     public boolean shouldExecuteOnProject(Project project) {

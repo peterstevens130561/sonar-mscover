@@ -42,10 +42,12 @@ public class ReSharperSensorTest {
     @Mock private SensorContext context;
     @Mock private ReSharperConfiguration resharperConfiguration;
     private SortedSet<String> languages;
+    private ResharperWorkflow reSharperWorkflow;
     @Before
     public void before() {
         org.mockito.MockitoAnnotations.initMocks(this);
-        sensor = new ReSharperSensor(fileSystem, settings, inspectCodeResultsParser, inspectCodeIssuesSaver, inspectCodeRunner,resharperConfiguration);
+        reSharperWorkflow = new DefaultReSharperWorkflow(inspectCodeResultsParser, inspectCodeIssuesSaver, inspectCodeRunner);
+        sensor = new ReSharperSensor(fileSystem, settings, reSharperWorkflow ,resharperConfiguration);
         languages = new TreeSet<String>();
         when(fileSystem.languages()).thenReturn(languages);
         when(project.isRoot()).thenReturn(true);

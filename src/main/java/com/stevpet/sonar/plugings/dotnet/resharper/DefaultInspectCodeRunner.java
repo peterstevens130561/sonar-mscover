@@ -36,7 +36,6 @@ public class DefaultInspectCodeRunner implements InspectCodeRunner {
         this.commandLineExecutor=commandLineExecutor;
         this.reSharperConfiguration=reSharperConfiguration;
         this.settings=settings;
-
     }
 
     /**

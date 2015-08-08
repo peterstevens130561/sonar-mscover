@@ -33,6 +33,7 @@ import org.sonar.api.SonarPlugin;
 import org.sonar.api.config.PropertyDefinition;
 
 import com.stevpet.sonar.plugings.dotnet.resharper.DefaultInspectCodeRunner;
+import com.stevpet.sonar.plugings.dotnet.resharper.DefaultReSharperWorkflow;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperRuleRepositoryProvider;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperSensor;
 import com.stevpet.sonar.plugings.dotnet.resharper.inspectcode.ReSharperCommandBuilder;
@@ -97,30 +98,31 @@ public final class MsCoverPlugin extends SonarPlugin {
 
         List clazzes=Arrays.asList(
                 SimpleMicrosoftWindowsEnvironment.class,
-//                VsTestEnvironment.class,
-//                DefaultMsCoverConfiguration.class,
-//                ReSharperConfiguration.class,
-                VisualStudioProjectBuilder.class
-//                IntegrationTestLineDecorator.class,
-//                UnitTestLineDecorator.class,
-//                IntegrationTestBlockDecorator.class,
-//                DefaultDirector.class, UnitTestBlockDecorator.class,
-//                UnitTestWorkflowSensor.class,
-//                IntegrationTestWorkflowSensor.class,
- //               SupportedLanguage.class,
-//                CSharpRegularReSharperProfileExporter.class,
-//                CSharpRegularReSharperProfileImporter.class,
-//                ReSharperSonarWayProfileCSharp.class,
-//                ReSharperRuleRepositoryProvider.class, 
-//                ReSharperSensor.class, 
-//                DefaultInspectCodeResultsParser.class,
-//                DefaultResourceResolver.class, 
-//                DefaultInspectCodeIssuesSaver.class,
-//                DefaultInspectCodeRunner.class,
-//                ReSharperCommandBuilder.class,
-//                WindowsCommandLineExecutor.class,
-//                BuildWrapperInitializer.class,
-//                BuildWrapperBuilder.class
+                VsTestEnvironment.class,
+                DefaultMsCoverConfiguration.class,
+                ReSharperConfiguration.class,
+                VisualStudioProjectBuilder.class,
+                IntegrationTestLineDecorator.class,
+                UnitTestLineDecorator.class,
+                IntegrationTestBlockDecorator.class,
+                DefaultDirector.class, UnitTestBlockDecorator.class,
+                UnitTestWorkflowSensor.class,
+                IntegrationTestWorkflowSensor.class,
+                SupportedLanguage.class,
+                CSharpRegularReSharperProfileExporter.class,
+                CSharpRegularReSharperProfileImporter.class,
+                ReSharperSonarWayProfileCSharp.class,
+                ReSharperRuleRepositoryProvider.class, 
+                ReSharperSensor.class, 
+                DefaultInspectCodeResultsParser.class,
+                DefaultResourceResolver.class, 
+                DefaultInspectCodeIssuesSaver.class,
+                DefaultInspectCodeRunner.class,
+                DefaultReSharperWorkflow.class,
+                ReSharperCommandBuilder.class,
+                WindowsCommandLineExecutor.class,
+                BuildWrapperInitializer.class,
+                BuildWrapperBuilder.class
                 )
                 ;
         List extensions = new ArrayList();
