@@ -32,7 +32,7 @@ public abstract class WorkflowSensor implements Sensor { // NO_UCD (use default)
         this.msCoverProperties=msCoverProperties;
     }
     public boolean shouldExecuteOnProject(Project project) { // NO_UCD (test only)
-            return project.isRoot() && msCoverProperties.getRunMode() != RunMode.SKIP && shouldExecuteWorkflow();
+            return !project.isRoot() && msCoverProperties.getRunMode() != RunMode.SKIP && shouldExecuteWorkflow();
     }        
 
     /**
