@@ -29,6 +29,7 @@ public class DefaultDirector implements WorkflowDirector, BatchExtension {
     public DefaultDirector(UnitTestBatchData unitTestBatchData) {
         this.unitTestBatchData = unitTestBatchData;
     }
+
     @Override
     public void wire(DefaultPicoContainer container) {
         this.picoContainer = container;
@@ -46,12 +47,19 @@ public class DefaultDirector implements WorkflowDirector, BatchExtension {
         if (StringUtils.isEmpty(testEnvironment.getXmlCoveragePath())) {
             testEnvironment.setCoverageXmlPath("coverage.xml");
         }
-        TestRunner runner = picoContainer.getComponent(TestRunner.class);
-        runner.execute();
+        File coverageFile;
+        File testResultsFile;
+        if (!unitTestBatchData.hasRun()) {
+            TestRunner runner = picoContainer.getComponent(TestRunner.class);
+            runner.execute();
 
-        File testResultsFile = runner.getTestResultsFile();
+            testResultsFile = runner.getTestResultsFile();
+            coverageFile = new File(testEnvironment.getXmlCoveragePath());
+            unitTestBatchData.setHasRun(coverageFile, testResultsFile);
+        }
+        coverageFile = unitTestBatchData.getTestCoverage();
+        testResultsFile = unitTestBatchData.getTestResults();
 
-        File coverageFile = new File(testEnvironment.getXmlCoveragePath());
         SonarCoverage sonarCoverage = new SonarCoverage();
         CoverageReader reader = picoContainer.getComponent(CoverageReader.class);
         reader.read(sonarCoverage, coverageFile);

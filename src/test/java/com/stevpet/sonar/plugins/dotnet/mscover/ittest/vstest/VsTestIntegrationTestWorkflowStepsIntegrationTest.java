@@ -28,6 +28,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultDirector;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestBatchData;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowSteps;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
@@ -67,7 +68,8 @@ public class VsTestIntegrationTestWorkflowStepsIntegrationTest {
 		.addComponent(microsoftWindowsEnvironment)
 		.addComponent(workflow);
 		
-		director = new DefaultDirector();					
+	    UnitTestBatchData data = new UnitTestBatchData();
+	    director = new DefaultDirector(data);				
 	}
 	
 	@Test

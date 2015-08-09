@@ -17,13 +17,15 @@ import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResource
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.utils.AbstractSensorTest;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultDirector;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestBatchData;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
 
 public class VsTestIntegrationTestWorkflowStepsTest extends AbstractSensorTest {
 
     DefaultPicoContainer container;
     private VsTestIntegrationTestWorkflowSteps steps = new VsTestIntegrationTestWorkflowSteps();
-    private WorkflowDirector director = new DefaultDirector();
+    private UnitTestBatchData data = new UnitTestBatchData();
+    private WorkflowDirector director = new DefaultDirector(data);
 	@Mock private ResourceResolver resourceResolver;
     
     @Before()

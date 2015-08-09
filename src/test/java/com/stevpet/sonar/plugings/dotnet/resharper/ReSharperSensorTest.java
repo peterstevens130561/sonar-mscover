@@ -50,7 +50,7 @@ public class ReSharperSensorTest {
         sensor = new ReSharperSensor(fileSystem, settings, reSharperWorkflow ,resharperConfiguration);
         languages = new TreeSet<String>();
         when(fileSystem.languages()).thenReturn(languages);
-        when(project.isRoot()).thenReturn(true);
+        when(project.isRoot()).thenReturn(false);
         when(resharperConfiguration.failOnException()).thenReturn(true);
     }
     
@@ -102,10 +102,10 @@ public class ReSharperSensorTest {
     }
 
     @Test
-    public void notRoot_ShouldNotRun() {
+    public void notChild_ShouldNotRun() {
             //Given language is cs
             languages.add("cs");
-            when(project.isRoot()).thenReturn(false);
+            when(project.isRoot()).thenReturn(true);
             //When
             boolean execute=sensor.shouldExecuteOnProject(project);
             //Then
@@ -125,7 +125,7 @@ public class ReSharperSensorTest {
         
         verify(inspectCodeRunner,times(1)).inspectCode();
         verify(inspectCodeResultsParser,times(1)).parse(report);
-        verify(inspectCodeIssuesSaver,times(1)).saveIssues(issues);
+        verify(inspectCodeIssuesSaver,times(1)).saveModuleIssues(issues,project);
     }
     
     @Test

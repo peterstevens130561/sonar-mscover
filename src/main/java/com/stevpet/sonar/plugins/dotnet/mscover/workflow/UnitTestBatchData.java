@@ -9,18 +9,23 @@ import org.sonar.api.batch.InstantiationStrategy;
 public class UnitTestBatchData implements BatchExtension {
     private File testResults ;
     private File testCoverage ;
+    private boolean hasRun;
     
     public File getTestResults() {
         return testResults;
     }
-    public void setTestResults(File testResults) {
-        this.testResults = testResults;
-    }
+
     public File getTestCoverage() {
         return testCoverage;
     }
-    public void setTestCoverage(File testCoverage) {
-        this.testCoverage = testCoverage;
+
+    public boolean hasRun() {
+        return hasRun;
+    }
+    public void setHasRun(File coverageFile, File testResultsFile) {
+        this.testCoverage=coverageFile;
+        this.testResults=testResultsFile;
+        hasRun=true;
     }
     
 }

@@ -32,11 +32,13 @@ public class DefaultInspectCodeRunnerTest {
     @Mock private Project project;
     @Mock private CommandLineExecutor commandLineExecutor;
     @Mock private ReSharperConfiguration reSharperConfiguration;
+    private InspectCodeBatchData inspectCodeBatchData;
     
     @Before
     public void before() {
         org.mockito.MockitoAnnotations.initMocks(this);
-        inspectCodeRunner=new DefaultInspectCodeRunner(settings, microsoftWindowsEnvironment, fileSystem, reSharperCommandBuilder,commandLineExecutor, reSharperConfiguration);
+        inspectCodeBatchData = new InspectCodeBatchData();
+        inspectCodeRunner=new DefaultInspectCodeRunner(settings, microsoftWindowsEnvironment, fileSystem, reSharperCommandBuilder,commandLineExecutor, reSharperConfiguration,inspectCodeBatchData);
         
     }
     
