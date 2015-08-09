@@ -7,14 +7,15 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.utils.SonarException;
+
 import com.stevpet.sonar.plugings.dotnet.resharper.inspectcode.ReSharperCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
-
 public class DefaultInspectCodeRunner implements InspectCodeRunner {
     private Logger Log = LoggerFactory.getLogger(DefaultInspectCodeRunner.class);
     private static final String RESHARPER_EXECUTABLE = "inspectcode.exe";
@@ -24,17 +25,20 @@ public class DefaultInspectCodeRunner implements InspectCodeRunner {
     private ReSharperCommandBuilder resharperCommandBuilder;
     private CommandLineExecutor commandLineExecutor;
     private ReSharperConfiguration reSharperConfiguration;
+    private InspectCodeBatchData inspectCodeBatchData;
 
     public DefaultInspectCodeRunner(Settings settings,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             FileSystem fileSystem,
             ReSharperCommandBuilder reSharperCommandBuilder,
-            CommandLineExecutor commandLineExecutor, ReSharperConfiguration reSharperConfiguration) {
+            CommandLineExecutor commandLineExecutor, ReSharperConfiguration reSharperConfiguration,
+            InspectCodeBatchData inspectCodeBatchData) {
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.fileSystem = fileSystem;
         this.resharperCommandBuilder=reSharperCommandBuilder;
         this.commandLineExecutor=commandLineExecutor;
         this.reSharperConfiguration=reSharperConfiguration;
+        this.inspectCodeBatchData=inspectCodeBatchData;
         this.settings=settings;
     }
 
@@ -45,7 +49,9 @@ public class DefaultInspectCodeRunner implements InspectCodeRunner {
      */
     public File inspectCode() {
         File reportFile;
-
+        if(hasRun()){
+            return getReportFile();
+        }
         VisualStudioSolution vsSolution = microsoftWindowsEnvironment
                 .getCurrentSolution();
         List<String> properties = getProperties();
@@ -55,7 +61,8 @@ public class DefaultInspectCodeRunner implements InspectCodeRunner {
 
         File inspectCodeFile = getInspectCodeFile();
         resharperCommandBuilder.setExecutable(inspectCodeFile);
-        reportFile = new File(fileSystem.workDir(),ReSharperConfiguration.REPORT_FILENAME);
+        defineReportFile();
+        reportFile = getReportFile();
         resharperCommandBuilder.setReportFile(reportFile);
 
         String additionalArguments = reSharperConfiguration.getMSBuildProperties();
@@ -82,6 +89,23 @@ public class DefaultInspectCodeRunner implements InspectCodeRunner {
                     + "'. Check ReSharper documentation for more information.");
         }
         return reportFile;
+    }
+
+    @Override
+    public boolean hasRun() {
+        File reportFile = getReportFile();
+        boolean exists = reportFile!=null && reportFile.exists();
+        return exists;
+    }
+    
+    public File getReportFile() {
+        File report = inspectCodeBatchData.getReport();
+        return report;
+    }
+
+    public void defineReportFile() {
+        File report = new File(fileSystem.workDir(),ReSharperConfiguration.REPORT_FILENAME);
+        inspectCodeBatchData.setReport(report);
     }
 
     private File getInspectCodeFile() {

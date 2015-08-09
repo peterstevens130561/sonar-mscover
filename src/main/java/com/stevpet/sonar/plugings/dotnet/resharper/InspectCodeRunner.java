@@ -10,4 +10,10 @@ public interface InspectCodeRunner extends BatchExtension {
      * @return resharper report
      */
     File inspectCode();
+
+    /**
+     * use to verify whether inspectcode has run
+     * @return true= reportfile exists, so it has run
+     */
+    boolean hasRun();
 }
