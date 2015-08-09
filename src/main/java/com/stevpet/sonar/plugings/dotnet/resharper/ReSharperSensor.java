@@ -69,7 +69,7 @@ public class ReSharperSensor implements Sensor {
     @Override
     public void analyse(Project module, SensorContext context) {
         try {
-            resharperWorkflow.execute();
+            resharperWorkflow.executeModule(module);
         } catch ( Exception e ) {
             if(configuration.failOnException()) {
                 LOG.error(e.getMessage());

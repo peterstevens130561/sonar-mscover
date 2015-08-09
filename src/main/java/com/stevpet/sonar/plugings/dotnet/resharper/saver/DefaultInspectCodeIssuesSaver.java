@@ -8,6 +8,7 @@ import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
 import org.sonar.api.resources.File;
+import org.sonar.api.resources.Project;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.utils.MessageException;
 
@@ -32,8 +33,30 @@ public class DefaultInspectCodeIssuesSaver implements InspectCodeIssuesSaver {
         }
     }
 
+    @Override
+    public void saveModuleIssues(List<InspectCodeIssue> issues, Project module) {
+        for (InspectCodeIssue issue : issues) {
+            saveModuleIssue(issue,module);
+        } 
+    }
+    
+    private void saveModuleIssue(InspectCodeIssue inspectCodeIssue, Project module) {
+        String relativePath = inspectCodeIssue.getRelativePath();
+        String beginPath = module.getName() + "\\";
+        if (!relativePath.startsWith(beginPath)) {
+            return;
+        }
+        int offset = beginPath.length();
+        String childPath = relativePath.substring(offset);
+        saveIssuable(inspectCodeIssue, childPath);
+    }
+
     private void saveIssue(InspectCodeIssue inspectCodeIssue) {
         String relativePath = inspectCodeIssue.getRelativePath();
+        saveIssuable(inspectCodeIssue, relativePath);
+    }
+
+    private void saveIssuable(InspectCodeIssue inspectCodeIssue, String relativePath) {
         if(isIssueOfTestFile(inspectCodeIssue)) {
             Log.debug("ignoring test file {}",relativePath);
             return;
@@ -58,6 +81,7 @@ public class DefaultInspectCodeIssuesSaver implements InspectCodeIssuesSaver {
 
 
     private Issuable createIssuable( String relativePath) {
+        
         File myResource = File.create(relativePath);
         if (myResource == null) {
             Log.debug("could not resolve " + relativePath);
@@ -78,4 +102,6 @@ public class DefaultInspectCodeIssuesSaver implements InspectCodeIssuesSaver {
         List<java.io.File> files = microsoftWindowsEnvironment.getUnitTestSourceFiles();
         return files.contains(sourceFile);    
     }
+
+
 }

@@ -119,6 +119,7 @@ public final class MsCoverPlugin extends SonarPlugin {
                 DefaultInspectCodeIssuesSaver.class,
                 DefaultInspectCodeRunner.class,
                 DefaultReSharperWorkflow.class,
+                
                 ReSharperCommandBuilder.class,
                 WindowsCommandLineExecutor.class,
                 BuildWrapperInitializer.class,
