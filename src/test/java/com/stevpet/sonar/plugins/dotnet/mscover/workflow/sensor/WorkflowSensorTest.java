@@ -26,8 +26,8 @@ public class WorkflowSensorTest extends WorkflowSensorTestUtil {
     }
     
     @Test
-    public void NotRoot_NotExecute() {
-        when(project.isRoot()).thenReturn(false);
+    public void Root_NotExecute() {
+        when(project.isRoot()).thenReturn(true);
         boolean result=sensor.shouldExecuteOnProject(project);
         
         assertFalse("should not execute on project that is not root",result);
@@ -42,16 +42,16 @@ public class WorkflowSensorTest extends WorkflowSensorTestUtil {
     }
     
     @Test
-    public void RootProject_RunmodeReUse_Execute() {
-        when(project.isRoot()).thenReturn(true);
+    public void ChildProject_RunmodeReUse_Execute() {
+        when(project.isRoot()).thenReturn(false);
         when(propertiesHelper.getRunMode()).thenReturn(RunMode.REUSE);
         boolean result=sensor.shouldExecuteOnProject(project);        
         assertTrue("should execute on project that is  root, and runmode reuse",result);
     }
     
     @Test
-    public void RootProject_RunmodeVsTest_Execute() {
-        when(project.isRoot()).thenReturn(true);
+    public void ChildProject_RunmodeVsTest_Execute() {
+        when(project.isRoot()).thenReturn(false);
         when(propertiesHelper.getRunMode()).thenReturn(RunMode.RUNVSTEST);
         boolean result=sensor.shouldExecuteOnProject(project);        
         assertTrue("should execute on project that is  root, and runmode runvstest",result);
