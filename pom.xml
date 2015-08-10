@@ -5,7 +5,7 @@
   <groupId>com.stevpet.sonar</groupId>
   <artifactId>sonar-mscover-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
-  <version>2.2.2-SNAPSHOT</version>
+  <version>3.0-RC1508100758</version>
 
   <name>Sonar Integration Test Plugin MSCover</name>
 
@@ -68,7 +68,7 @@
        <dependency>
        	<groupId>com.stevpet.sonar</groupId>
        	<artifactId>plugins-dotnet-utils</artifactId>
-       	<version>1.2-SNAPSHOT</version>
+       	<version>2.0</version>
        </dependency>
                <dependency>
             <groupId>com.sun.jersey</groupId>
