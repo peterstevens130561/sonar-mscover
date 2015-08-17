@@ -35,6 +35,8 @@ public class BuildWrapperInitializerTest {
         when(buildWrapperBuilder.setInstallDir(anyString())).thenReturn(buildWrapperBuilder);
         when(buildWrapperBuilder.setMsBuildOptions(anyString())).thenReturn(buildWrapperBuilder);
         when(buildWrapperBuilder.setOutputPath(anyString())).thenReturn(buildWrapperBuilder);
+        when(buildWrapperBuilder.setOutputPath(anyString())).thenReturn(buildWrapperBuilder);
+        when(buildWrapperBuilder.setBuildWrapperPath(anyString())).thenReturn(buildWrapperBuilder);
     }
     
     @Test
@@ -89,7 +91,7 @@ public class BuildWrapperInitializerTest {
         verify(buildWrapperBuilder,times(1)).setInstallDir("installdir");
         verify(buildWrapperBuilder,times(1)).setMsBuildOptions("option");
         verify(commandLineExecutor,times(1)).execute(buildWrapperBuilder);
-        verify(settings,times(1)).appendProperty(BuildWrapperConstants.CFAMILY_OUTPUT_KEY, outputPath);
+        verify(settings,times(1)).setProperty(BuildWrapperConstants.CFAMILY_OUTPUT_KEY, outputPath);
 
     }
     

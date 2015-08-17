@@ -1,10 +1,12 @@
 package com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor;
 
 import java.io.File;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
+import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.command.Command;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandHelper;
@@ -17,9 +19,28 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
     private String outputPath;
     private String msBuildOptions;
     private Command command;
+    private String installPath;
 
+    /**
+     * 
+     * @param installDir
+     * @return
+     * @deprecated replaced by {@link setBuildWrapperPath}
+     * 
+     */
+    @Deprecated
     public BuildWrapperBuilder setInstallDir(String installDir) {
         this.installDir = installDir;
+        return this;
+    }
+    
+    /**
+     * set path to exe (or .bat)
+     * @param path
+     * @return
+     */
+    public BuildWrapperBuilder setBuildWrapperPath(String path) {
+        this.installPath = path;
         return this;
     }
 
@@ -49,22 +70,7 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
     public Command toCommand() {
         String envPath=System.getenv("PATH");
         LOG.info("----> PATH is set to " + envPath);
-        File executable = new File(installDir, EXECUTABLE);
-        if (!executable.exists()) {
-            String msg = "Executable does not exist: " + executable.getAbsolutePath();
-            LOG.error(msg);
-
-            while (executable != null && !executable.exists()) {
-                LOG.error("-- trying " + executable.getAbsolutePath());
-                executable = executable.getParentFile();
-            }
-            if (executable != null) {
-                LOG.error("-- path found at " + executable.getAbsolutePath());
-            }
-
-            throw new BuildWrapperException(msg);
-        }
-        String path = executable.getAbsolutePath();
+        String path = getCommandPart();
         command = Command.create(path);
         command.addArgument("--out-dir");
         command.addArgument(CommandHelper.parenthesizeArgument(outputPath));
@@ -75,6 +81,21 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
             command.addArgument(msBuildOptions);
         } 
         return command;
+    }
+
+    public String getCommandPart() {
+        File executable;
+        if(installPath !=null) {
+            executable=new File(installDir);
+        } else{
+           executable = new File(installDir, EXECUTABLE);
+        }
+        if (!executable.exists()) {
+            String msg="buildwrapper does not exist:" + executable.getAbsolutePath();
+            throw new BuildWrapperException(msg);
+        }
+        String path = executable.getAbsolutePath();
+        return path;
     }
 
 

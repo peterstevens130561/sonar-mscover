@@ -16,4 +16,9 @@ public interface InspectCodeRunner extends BatchExtension {
      * @return true= reportfile exists, so it has run
      */
     boolean hasRun();
+
+    /**
+     * runner should forget anything it knows
+     */
+    void dropCache();
 }

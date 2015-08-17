@@ -47,7 +47,7 @@ public class BuildWrapperBuilderTest {
         try {
             buildWrapperBuilder.toCommandLine();
         } catch (BuildWrapperException e) {
-            assertTrue("Expect that wrapper is not found",e.getMessage().contains("Executable does not exist"));
+            assertTrue("Expect that wrapper is not found",e.getMessage().contains("does not exist"));
             return;
         }
         fail("Wrapper should not be found, expected exception");

@@ -9,6 +9,7 @@ import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
+import org.sonar.api.resources.Resource;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.utils.MessageException;
 
@@ -42,7 +43,7 @@ public class DefaultInspectCodeIssuesSaver implements InspectCodeIssuesSaver {
     
     private void saveModuleIssue(InspectCodeIssue inspectCodeIssue, Project module) {
         String relativePath = inspectCodeIssue.getRelativePath();
-        String beginPath = module.getName() + "\\";
+        String beginPath = module.getPath() + "\\";
         if (!relativePath.startsWith(beginPath)) {
             return;
         }

@@ -15,4 +15,8 @@ public class InspectCodeBatchData implements BatchExtension {
     public void setReport(File report) {
         this.report = report;
     }
+
+    public void init() {
+        this.report=null;
+    }
 }

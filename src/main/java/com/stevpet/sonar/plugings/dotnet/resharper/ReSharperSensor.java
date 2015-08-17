@@ -26,6 +26,7 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 /**
  * Collects the ReSharper reporting into sonar.
@@ -44,7 +45,8 @@ public class ReSharperSensor implements Sensor {
     /**
      * Constructs a {@link org.sonar.plugins.csharp.resharper.ReSharperSensor}.
      */
-    public ReSharperSensor(FileSystem fileSystem,
+    public ReSharperSensor(
+            FileSystem fileSystem,
             Settings settings,
             ResharperWorkflow resharperWorkflow,
             ReSharperConfiguration configuration) {

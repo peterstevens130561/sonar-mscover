@@ -139,4 +139,9 @@ public class DefaultInspectCodeRunner implements InspectCodeRunner {
             properties.add(msBuildPropertyName + "=" + value);
         }
     }
+
+    @Override
+    public void dropCache() {
+        inspectCodeBatchData.init();
+    }
 }

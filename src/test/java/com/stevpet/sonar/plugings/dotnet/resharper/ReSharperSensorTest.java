@@ -27,6 +27,8 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugings.dotnet.resharper.issuesparser.InspectCodeResultsParser;
+import com.stevpet.sonar.plugings.dotnet.resharper.issuesparser.IssueValidationException;
+import com.stevpet.sonar.plugings.dotnet.resharper.issuesparser.IssueValidator;
 import com.stevpet.sonar.plugings.dotnet.resharper.saver.InspectCodeIssuesSaver;
 
 
@@ -41,12 +43,13 @@ public class ReSharperSensorTest {
     @Mock private Project project;
     @Mock private SensorContext context;
     @Mock private ReSharperConfiguration resharperConfiguration;
+    @Mock private IssueValidator issueValidator;
     private SortedSet<String> languages;
     private ResharperWorkflow reSharperWorkflow;
     @Before
     public void before() {
         org.mockito.MockitoAnnotations.initMocks(this);
-        reSharperWorkflow = new DefaultReSharperWorkflow(inspectCodeResultsParser, inspectCodeIssuesSaver, inspectCodeRunner);
+        reSharperWorkflow = new DefaultReSharperWorkflow(inspectCodeResultsParser, inspectCodeIssuesSaver, inspectCodeRunner,issueValidator);
         sensor = new ReSharperSensor(fileSystem, settings, reSharperWorkflow ,resharperConfiguration);
         languages = new TreeSet<String>();
         when(fileSystem.languages()).thenReturn(languages);
@@ -126,6 +129,7 @@ public class ReSharperSensorTest {
         verify(inspectCodeRunner,times(1)).inspectCode();
         verify(inspectCodeResultsParser,times(1)).parse(report);
         verify(inspectCodeIssuesSaver,times(1)).saveModuleIssues(issues,project);
+        verify(issueValidator,times(1)).validate(issues);
     }
     
     @Test
@@ -140,6 +144,7 @@ public class ReSharperSensorTest {
         fail("should have thrown exception, as set to fail");
     }
     
+
     @Test
     public void catchException() {
         when(resharperConfiguration.failOnException()).thenReturn(false);

@@ -17,6 +17,7 @@ public class BuildWrapperConstants implements BatchExtension {
     public static final String CFAMILY_OUTPUT_KEY = "sonar.cfamily.build-wrapper-output";
     public static final String ENABLED_KEY = "sonar.buildwrapper.enabled";
     public static final String PARALLEL_KEY = "sonar.buildwrapper.parallel";
+    public static final String INSTALLPATH_KEY = "sonar.buildwrapper.buildwrapper.installpath";
     private Settings settings;
 
     public BuildWrapperConstants ( Settings settings) {
@@ -36,24 +37,31 @@ public class BuildWrapperConstants implements BatchExtension {
         properties.add(createProperty(BuildWrapperConstants.INSTALLDIR_KEY)
                 .name("build-wrapper install dir")
                 .index(1)
+                .deprecatedKey(INSTALLPATH_KEY)
                 .description("directory where build-wrapper is installed")
+                .type(PropertyType.STRING)
+                .build());
+        properties.add(createProperty(BuildWrapperConstants.INSTALLPATH_KEY)
+                .name("build-wrapper install path")
+                .index(2)
+                .description("full path to exe (or bat)")
                 .type(PropertyType.STRING)
                 .build());
         properties.add(createProperty(BuildWrapperConstants.OUTDIR_KEY)
                 .name("output dir")
-                .index(2)
+                .index(3)
                 .description("directory where build-wrapper results are stored, relative to solution")
                 .type(PropertyType.STRING)
                 .build());
         properties.add(createProperty(BuildWrapperConstants.MSBUILD_OPTIONS_KEY)
                 .name("msbuild options")
-                .index(3)
+                .index(4)
                 .description("list of options to pass on to msbuild")
                 .type(PropertyType.STRING)
                 .build());
         properties.add(createProperty(BuildWrapperConstants.PARALLEL_KEY)
                 .name("parallel")
-                .index(3)
+                .index(5)
                 .description("when set then buildwrapper can run in parallel")
                 .type(PropertyType.BOOLEAN)
                 .build());
