@@ -45,6 +45,7 @@ import com.stevpet.sonar.plugings.dotnet.resharper.profiles.CSharpRegularReSharp
 import com.stevpet.sonar.plugings.dotnet.resharper.profiles.ReSharperSonarWayProfileCSharp;
 import com.stevpet.sonar.plugings.dotnet.resharper.saver.DefaultInspectCodeIssuesSaver;
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperBuilder;
+import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperCache;
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperConstants;
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperInitializer;
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
@@ -129,7 +130,8 @@ public final class MsCoverPlugin extends SonarPlugin {
                 ReSharperCommandBuilder.class,
                 WindowsCommandLineExecutor.class,
                 BuildWrapperInitializer.class,
-                BuildWrapperBuilder.class
+                BuildWrapperBuilder.class,
+                BuildWrapperCache.class
                 )
                 ;
         List extensions = new ArrayList();

@@ -37,7 +37,6 @@ public class BuildWrapperConstants implements BatchExtension {
         properties.add(createProperty(BuildWrapperConstants.INSTALLDIR_KEY)
                 .name("build-wrapper install dir")
                 .index(1)
-                .deprecatedKey(INSTALLPATH_KEY)
                 .description("directory where build-wrapper is installed")
                 .type(PropertyType.STRING)
                 .build());

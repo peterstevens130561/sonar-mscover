@@ -1,5 +1,7 @@
 package com.stevpet.sonar.plugings.dotnet.resharper.issuesparser;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -35,37 +37,32 @@ public class DefaultIssueValidatorTest {
     @Test
     public void goodNamingIssue_shouldPass() {
         createIssue("InconsistentNaming","Name 'm_isTSR' does not match rule 'Instance fields (private)'. Suggested name is 'm_isTsr'.");
-
-        try {
-            issueValidator.validate(issues);
-        } catch (Exception e) {
-            fail("should not get any exception for a normal issue");
-        }
-        
+        issueValidator.validate(issues);
+        assertFalse("validation should pass",issueValidator.validationFailed());
     }
     
     @Test
     public void wrongNamingIssue_shouldFail() {
         createIssue("InconsistentNaming","Name 'm_isTSR' does not match rule 'Instance fields (private)'. Suggested name is '_misTsr'.");
-
-        try {
-            issueValidator.validate(issues);
-        } catch (IssueValidationException e) {
-            return;
-        }
-        fail("should have gotten issueValidationException");       
+        issueValidator.validate(issues);
+        assertTrue("validation should have gotten failed",issueValidator.validationFailed());       
+    }
+    
+    @Test
+    public void multipleIssues_shouldFail() {
+        createIssue("InconsistentNaming","Name 'm_isTSR' does not match rule 'Instance fields (private)'. Suggested name is '_misTsr'.");
+        createIssue("InconsistentNaming","Name 'm_isTSR' does not match rule 'Instance fields (private)'. Suggested name is 'm_isTsr'.");
+        createIssue("Somethinggood","Completely bogus");
+        
+        issueValidator.validate(issues);
+        assertTrue("validation should fail, first issue is wrong",issueValidator.validationFailed());       
     }
     
     @Test
     public void wrongCSharpErrore_shouldFail() {
         createIssue("CSharpErrors","Completely bogus");
-
-        try {
-            issueValidator.validate(issues);
-        } catch (IssueValidationException e) {
-            return;
-        }
-        fail("should have gotten issueValidationException");       
+        issueValidator.validate(issues);
+        assertTrue("validation should have failed",issueValidator.validationFailed());       
     }
     private void createIssue(String typeId, String message) {
         InspectCodeIssue normalIssue = new InspectCodeIssue();

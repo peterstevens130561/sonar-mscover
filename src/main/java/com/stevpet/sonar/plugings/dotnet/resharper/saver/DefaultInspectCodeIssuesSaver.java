@@ -36,19 +36,23 @@ public class DefaultInspectCodeIssuesSaver implements InspectCodeIssuesSaver {
 
     @Override
     public void saveModuleIssues(List<InspectCodeIssue> issues, Project module) {
+        if(microsoftWindowsEnvironment.isUnitTestProject(module)) {
+            return;
+        }
+        
         for (InspectCodeIssue issue : issues) {
             saveModuleIssue(issue,module);
         } 
     }
     
     private void saveModuleIssue(InspectCodeIssue inspectCodeIssue, Project module) {
-        String relativePath = inspectCodeIssue.getRelativePath();
-        String beginPath = module.getPath() + "\\";
-        if (!relativePath.startsWith(beginPath)) {
+        String relativeIssuePath = inspectCodeIssue.getRelativeUnixPath();
+        String beginPath = module.getPath() + "/";
+        if (!relativeIssuePath.startsWith(beginPath)) {
             return;
         }
         int offset = beginPath.length();
-        String childPath = relativePath.substring(offset);
+        String childPath = relativeIssuePath.substring(offset);
         saveIssuable(inspectCodeIssue, childPath);
     }
 

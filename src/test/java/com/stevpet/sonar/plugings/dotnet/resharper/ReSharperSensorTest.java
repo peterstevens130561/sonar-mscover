@@ -133,6 +133,46 @@ public class ReSharperSensorTest {
     }
     
     @Test
+    public void analyse_PassesOnThirdTry() {
+        File report = new File("report");
+        when(inspectCodeRunner.inspectCode()).thenReturn(report);
+        InspectCodeIssue issue = new InspectCodeIssue();
+        List<InspectCodeIssue> issues = new ArrayList<InspectCodeIssue>();
+        when(inspectCodeResultsParser.parse(report)).thenReturn(issues);
+        when(issueValidator.validationFailed()).thenReturn(true,true,false);
+        when(issueValidator.getException()).thenReturn(new IssueValidationException(issue));
+        
+        sensor.analyse(project, context);
+        
+        verify(inspectCodeRunner,times(3)).inspectCode();
+        verify(inspectCodeResultsParser,times(3)).parse(report);
+        verify(inspectCodeIssuesSaver,times(1)).saveModuleIssues(issues,project);
+        verify(issueValidator,times(3)).validate(issues);
+    }
+    
+    @Test
+    public void analyse_Failing() {
+        File report = new File("report");
+        when(inspectCodeRunner.inspectCode()).thenReturn(report);
+        InspectCodeIssue issue = new InspectCodeIssue();
+        List<InspectCodeIssue> issues = new ArrayList<InspectCodeIssue>();
+        when(inspectCodeResultsParser.parse(report)).thenReturn(issues);
+        when(issueValidator.validationFailed()).thenReturn(true,true,true);
+        when(issueValidator.getException()).thenReturn(new IssueValidationException(issue));
+        
+        boolean thrown=false;
+        try {
+        sensor.analyse(project, context);
+        } catch ( IssueValidationException e) {
+            thrown=true;
+        }
+        assertTrue("IssueValidationException must have been thrown",thrown);
+        verify(inspectCodeRunner,times(3)).inspectCode();
+        verify(inspectCodeResultsParser,times(3)).parse(report);
+        verify(inspectCodeIssuesSaver,times(0)).saveModuleIssues(issues,project);
+        verify(issueValidator,times(3)).validate(issues);
+    }
+    @Test
     public void throwException() {
         when(resharperConfiguration.failOnException()).thenReturn(true);
         when(inspectCodeRunner.inspectCode()).thenThrow(new SonarException("rethrow me"));

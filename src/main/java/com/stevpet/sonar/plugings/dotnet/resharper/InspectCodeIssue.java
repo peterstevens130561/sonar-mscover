@@ -13,7 +13,7 @@ public class InspectCodeIssue {
         this.typeId = typeId;
     }
     /**
-     * @param relativePath - relative to solution dir
+     * @param relativePath - relative to solution dir, windows style
      */
     public void setRelativePath(String relativePath) {
         this.relativePath = relativePath;
@@ -31,10 +31,14 @@ public class InspectCodeIssue {
         this.message = message;
     }
     /**
-     * @return path relative to solution directory
+     * @return path relative to solution directory, unixstyle
      */
+    @Deprecated
     public String getRelativePath() {
         return relativePath;
+    }
+    public String getRelativeUnixPath() {
+        return relativePath.replaceAll("\\\\", "/");
     }
 
 }

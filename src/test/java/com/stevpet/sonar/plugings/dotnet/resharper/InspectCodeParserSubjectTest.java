@@ -36,7 +36,7 @@ public class InspectCodeParserSubjectTest {
     public void CheckFirstIssue() {
         InspectCodeIssue firstIssue=issues.get(0);
         assertEquals("SuggestUseVarKeywordEvident",firstIssue.getTypeId());
-        assertEquals("BasicControls\\Tools\\GraphicTools.cs",firstIssue.getRelativePath());
+        assertEquals("BasicControls/Tools/GraphicTools.cs",firstIssue.getRelativeUnixPath());
         assertEquals("41",firstIssue.getLine());
         assertEquals("Use implicitly typed local variable declaration",firstIssue.getMessage());
     }
@@ -45,7 +45,7 @@ public class InspectCodeParserSubjectTest {
     public void CheckLastIssue() {
         InspectCodeIssue firstIssue=issues.get(8);
         assertEquals("ResxNotResolved",firstIssue.getTypeId());
-        assertEquals("BasicControls.TestApp\\Form1.resx",firstIssue.getRelativePath());
+        assertEquals("BasicControls.TestApp/Form1.resx",firstIssue.getRelativeUnixPath());
         assertEquals("532",firstIssue.getLine());
         assertEquals("Cannot resolve symbol 'splitContainer1.Panel2'",firstIssue.getMessage());
     }

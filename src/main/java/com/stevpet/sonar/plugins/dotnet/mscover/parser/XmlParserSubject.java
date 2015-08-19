@@ -36,6 +36,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.stax2.XMLStreamReader2;
 import org.codehaus.staxmate.SMInputFactory;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
@@ -122,7 +123,7 @@ public abstract class XmlParserSubject implements ParserSubject {
     }
 
     public void parseFile(File file) {
-        SMInputCursor cursor;
+        SMInputCursor cursor=null;
         try {
             cursor = getCursor(file);
             parse(cursor);
@@ -134,9 +135,26 @@ public abstract class XmlParserSubject implements ParserSubject {
                     + " column/line " + column + "/" + line;
             LOG.error(msg, e);
             throw new SonarException(msg, e);
+        } finally {
+            closeStream(cursor);
         }
         checkOnErrors(file);
 
+    }
+
+    public void closeStream(SMInputCursor cursor) {
+        try {
+                if(cursor==null) {
+                    return;
+                }
+                XMLStreamReader2 reader = cursor.getStreamReader();
+                if(reader==null) {
+                    return;
+                }
+                reader.closeCompletely();
+        } catch (XMLStreamException e) {
+            throw new SonarException("exception during closing stream",e);
+        }
     }
 
     private void checkOnErrors(File file) {

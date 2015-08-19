@@ -34,8 +34,14 @@ public class DefaultReSharperWorkflow implements ResharperWorkflow {
      * @see
      * com.stevpet.sonar.plugings.dotnet.resharper.ResharperWorkflow#execute()
      */
+    @Deprecated
     @Override
     public void execute() {
+        inspectSolution();
+        inspectCodeIssuesSaver.saveIssues(issues);
+    }
+
+    public void inspectSolution() {
         for (int retryCnt = 0; retryCnt < 3; retryCnt++) {
             File reportFile = inspectCodeRunner.inspectCode();
             issues = inspectCodeResultsParser.parse(reportFile);
@@ -44,20 +50,17 @@ public class DefaultReSharperWorkflow implements ResharperWorkflow {
                 break;
             }
             IssueValidationException exception = issueValidator.getException();
-            LOG.warn("IssueValidation failed {}", exception.getMessage());
+            LOG.warn("IssueValidation failed {} on try {}", exception.getMessage(),retryCnt+1);
             inspectCodeRunner.dropCache();
         }
         if(issueValidator.validationFailed()) {
             throw issueValidator.getException();
         }
-        inspectCodeIssuesSaver.saveIssues(issues);
     }
 
     @Override
     public void executeModule(Project module) {
-        File reportFile = inspectCodeRunner.inspectCode();
-        issues = inspectCodeResultsParser.parse(reportFile);
-        issueValidator.validate(issues);
+        inspectSolution();
         inspectCodeIssuesSaver.saveModuleIssues(issues, module);
     }
 

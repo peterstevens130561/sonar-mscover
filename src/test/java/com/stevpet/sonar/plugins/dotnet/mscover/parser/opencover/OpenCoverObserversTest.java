@@ -25,6 +25,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
@@ -58,6 +59,15 @@ public class OpenCoverObserversTest {
         assertNotNull(registry.getCoveredFile("86").getAbsolutePath()); // is included
     }
 
+    @Test
+    public void readTwice() {
+        XmlParserSubject parser = initializeParser();
+        File file = TestUtils.getResource("coverage-report.xml");
+        //Act
+        parser.parseFile(file);  
+        file = TestUtils.getResource("coverage-report.xml");
+        assertTrue("should be able to write this file",file.canWrite());
+    }
 
     @Test
     public void ReadPoints_ExpectMany() {

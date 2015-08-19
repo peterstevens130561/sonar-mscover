@@ -31,7 +31,8 @@ public class BuildWrapperInitializerTest {
     @Before
     public void before() {
         initMocks(this);
-        buildWrapperInitializer = new BuildWrapperInitializerSpy(settings, commandLineExecutor, buildWrapperBuilder);
+        BuildWrapperCache buildWrapperCache = new BuildWrapperCache();
+        buildWrapperInitializer = new BuildWrapperInitializerSpy(settings, commandLineExecutor, buildWrapperBuilder,buildWrapperCache);
         when(buildWrapperBuilder.setInstallDir(anyString())).thenReturn(buildWrapperBuilder);
         when(buildWrapperBuilder.setMsBuildOptions(anyString())).thenReturn(buildWrapperBuilder);
         when(buildWrapperBuilder.setOutputPath(anyString())).thenReturn(buildWrapperBuilder);
@@ -42,7 +43,7 @@ public class BuildWrapperInitializerTest {
     @Test
     public void allSignsGreen_shouldExecute() {
         when(settings.getBoolean(BuildWrapperConstants.ENABLED_KEY)).thenReturn(true);
-        when(project.isRoot()).thenReturn(true);
+        when(project.isRoot()).thenReturn(false);
         
         boolean execute=buildWrapperInitializer.shouldExecuteOnProject(project);
         assertTrue("should execute on project, as all signs are green...",execute);
@@ -58,22 +59,22 @@ public class BuildWrapperInitializerTest {
     }
     
     @Test
-    public void notRoot_shouldNotExecute() {
+    public void notRoot_shouldExecute() {
         when(settings.getBoolean(BuildWrapperConstants.ENABLED_KEY)).thenReturn(true);
         when(project.isRoot()).thenReturn(false);
         
         boolean execute=buildWrapperInitializer.shouldExecuteOnProject(project);
-        assertFalse("should not execute on project, as it is not root...",execute);
+        assertTrue("should not execute on project, as it is not root...",execute);
     } 
     
     @Test
-    public void hasNoCppFiles_shouldNotExecute() {
+    public void hasNoCppFiles_shouldExecute() {
         when(settings.getBoolean(BuildWrapperConstants.ENABLED_KEY)).thenReturn(true);
         when(project.isRoot()).thenReturn(false);
         buildWrapperInitializer.setHasCppFiles(true);
         
         boolean execute=buildWrapperInitializer.shouldExecuteOnProject(project);
-        assertFalse("should not execute on project, as it is not root...",execute);
+        assertTrue("should execute on project, as it is not root...",execute);
     }    
 
     @Test
@@ -114,8 +115,8 @@ public class BuildWrapperInitializerTest {
         
         private boolean hasCppFiles=true;
         public BuildWrapperInitializerSpy(Settings settings, CommandLineExecutor commandLineExecutor,
-                BuildWrapperBuilder buildWrapperBuilder) {
-            super(settings, commandLineExecutor, buildWrapperBuilder);
+                BuildWrapperBuilder buildWrapperBuilder,BuildWrapperCache buildWrapperCache) {
+            super(settings, commandLineExecutor, buildWrapperBuilder,buildWrapperCache);
         }
 
         public void setHasCppFiles(boolean value) {

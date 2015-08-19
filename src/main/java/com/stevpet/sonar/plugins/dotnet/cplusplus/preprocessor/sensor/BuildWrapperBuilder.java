@@ -68,8 +68,7 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
 
     @Override
     public Command toCommand() {
-        String envPath=System.getenv("PATH");
-        LOG.info("----> PATH is set to " + envPath);
+
         String path = getCommandPart();
         command = Command.create(path);
         command.addArgument("--out-dir");

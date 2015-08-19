@@ -44,23 +44,27 @@ public class BuildWrapperInitializer extends Initializer {
     private CommandLineExecutor commandLineExecutor;
     private BuildWrapperBuilder buildWrapperBuilder;
 
+    private BuildWrapperCache buildWrapperCache;
+
     /**
      * Constructs a {@link org.sonar.plugins.csharp.resharper.ReSharperSensor}.
      */
     public BuildWrapperInitializer(
             Settings settings,
             CommandLineExecutor commandLineExecutor,
-            BuildWrapperBuilder buildWrapperBuilder) {
+            BuildWrapperBuilder buildWrapperBuilder,
+            BuildWrapperCache buildWrapperCache) {
         this.settings = settings;
         this.commandLineExecutor = commandLineExecutor;
         this.buildWrapperBuilder = buildWrapperBuilder;
+        this.buildWrapperCache = buildWrapperCache;
 
     }
 
     @Override
     public boolean shouldExecuteOnProject(Project project) {
         boolean hasCpp = hasCppFiles();
-        boolean isModule= project.isRoot();
+        boolean isModule = !project.isRoot();
         boolean isEnabled = settings.getBoolean(BuildWrapperConstants.ENABLED_KEY);
         return isEnabled && hasCpp && isModule;
     }
@@ -76,29 +80,32 @@ public class BuildWrapperInitializer extends Initializer {
 
     @Override
     public void execute(Project project) {
+        File outputDir;
         LOG.debug("----- C++ Initializer is running -----");
-        String relativePath = getRequiredProperty(BuildWrapperConstants.OUTDIR_KEY);
-        String buildWrapperInstallDir = getRequiredProperty(BuildWrapperConstants.INSTALLDIR_KEY);
-        String buildWrapperPath=settings.getString(BuildWrapperConstants.INSTALLPATH_KEY);
+        if (buildWrapperCache.hasRun()) {
+            outputDir = buildWrapperCache.getOutputDir();
+        } else {
+            String relativePath = getRequiredProperty(BuildWrapperConstants.OUTDIR_KEY);
+            String buildWrapperInstallDir = getRequiredProperty(BuildWrapperConstants.INSTALLDIR_KEY);
+            String buildWrapperPath = settings.getString(BuildWrapperConstants.INSTALLPATH_KEY);
 
-        File outputDir = new File("." + relativePath);
+            outputDir = new File("." + relativePath);
+            buildWrapperCache.setOutputDir(outputDir);
+            String absolutePathInUnixFormat = outputDir.getAbsolutePath().replaceAll("\\\\", "/");
+            String msbuildOptions = settings.getString(BuildWrapperConstants.MSBUILD_OPTIONS_KEY);
+
+            buildWrapperBuilder
+                    .setInstallDir(buildWrapperInstallDir)
+                    .setBuildWrapperPath(buildWrapperPath)
+                    .setMsBuildOptions(msbuildOptions)
+                    .setOutputPath(absolutePathInUnixFormat);
+            commandLineExecutor.execute(buildWrapperBuilder);
+            buildWrapperCache.setHasRun();
+            
+        }
         String absolutePathInUnixFormat = outputDir.getAbsolutePath().replaceAll("\\\\", "/");
         LOG.debug("set " + BuildWrapperConstants.CFAMILY_OUTPUT_KEY + "=" + absolutePathInUnixFormat);
         settings.setProperty(BuildWrapperConstants.CFAMILY_OUTPUT_KEY, absolutePathInUnixFormat);
-
-        String msbuildOptions = settings.getString(BuildWrapperConstants.MSBUILD_OPTIONS_KEY);
-
-        buildWrapperBuilder
-                .setInstallDir(buildWrapperInstallDir)
-                .setBuildWrapperPath(buildWrapperPath)
-                .setMsBuildOptions(msbuildOptions)
-                .setOutputPath(absolutePathInUnixFormat);
-        try {
-            commandLineExecutor.execute(buildWrapperBuilder);
-        } catch (SonarException e) {
-            String msg = "build-wrapper failed with message " + e.getMessage();
-            LOG.error(msg);
-        }
     }
 
     private String getRequiredProperty(String key) {

@@ -56,8 +56,6 @@ public class ReSharperSensor implements Sensor {
         this.settings = settings;
     }
 
-
-
     @Override
     public boolean shouldExecuteOnProject(Project project) {
         boolean hasCs = fileSystem.languages().contains("cs");
@@ -65,8 +63,6 @@ public class ReSharperSensor implements Sensor {
         boolean isRoot = project.isRoot();
         return hasCs && !skip && !isRoot;
     }
-
-
 
     @Override
     public void analyse(Project module, SensorContext context) {
