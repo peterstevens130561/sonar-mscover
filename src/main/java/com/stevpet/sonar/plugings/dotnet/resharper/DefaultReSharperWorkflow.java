@@ -42,7 +42,7 @@ public class DefaultReSharperWorkflow implements ResharperWorkflow {
     }
 
     public void inspectSolution() {
-        for (int retryCnt = 0; retryCnt < 3; retryCnt++) {
+        for (int retryCnt = 0; retryCnt < 2; retryCnt++) {
             File reportFile = inspectCodeRunner.inspectCode();
             issues = inspectCodeResultsParser.parse(reportFile);
             issueValidator.validate(issues);

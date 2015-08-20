@@ -60,9 +60,16 @@ public class DefaultIssueValidatorTest {
     
     @Test
     public void wrongCSharpErrore_shouldFail() {
-        createIssue("CSharpErrors","Completely bogus");
+        createIssue("CSharpErrors","Cannot resolve symbol 'joaSTARSInterface'");
         issueValidator.validate(issues);
         assertTrue("validation should have failed",issueValidator.validationFailed());       
+    }
+    
+    @Test
+    public void obsoleteCSharpErrore_shouldPass() {
+        createIssue("CSharpErrors","Event 'joaJewelUtilitiesUI.Controls.ListView.joaObjectListView.AfterCheck' is obsolete: ");
+        issueValidator.validate(issues);
+        assertFalse("validation should have passed, obsolete is ok",issueValidator.validationFailed());       
     }
     private void createIssue(String typeId, String message) {
         InspectCodeIssue normalIssue = new InspectCodeIssue();
