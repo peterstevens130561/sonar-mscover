@@ -1,9 +1,11 @@
 package com.stevpet.sonar.plugings.dotnet.resharper;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,7 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.utils.SonarException;
 
+import com.stevpet.sonar.plugings.dotnet.resharper.exceptions.InspectCodeRunnerException;
 import com.stevpet.sonar.plugings.dotnet.resharper.inspectcode.ReSharperCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
@@ -77,7 +80,7 @@ public class DefaultInspectCodeRunner implements InspectCodeRunner {
         }
         resharperCommandBuilder.setCachesHome(cachesHome);
 
-        String profile = reSharperConfiguration.getProfile();
+        String profile = createLocalProjectProfile();
         resharperCommandBuilder.setProfile(profile);
 
         int timeout = reSharperConfiguration.getTimeOutMinutes();
@@ -89,6 +92,23 @@ public class DefaultInspectCodeRunner implements InspectCodeRunner {
                     + "'. Check ReSharper documentation for more information.");
         }
         return reportFile;
+    }
+
+    public String createLocalProjectProfile() {
+        String profile=reSharperConfiguration.getProfile();
+        if(profile==null) {
+            return null;
+        }
+        File srcFile=new File(profile);
+        File destFile = new File(fileSystem.workDir(),"Global.DotSettings");
+        try {
+            FileUtils.copyFile(srcFile, destFile);
+        } catch (IOException e) {
+            String msg = "could not copy from " + srcFile.getAbsolutePath() + " to " + destFile.getAbsolutePath();
+            Log.error(msg);
+            throw new InspectCodeRunnerException(msg,e);
+        }
+        return destFile.getAbsolutePath();
     }
 
     @Override

@@ -62,7 +62,7 @@ public class DefaultIssueValidatorTest {
     public void wrongCSharpErrore_shouldFail() {
         createIssue("CSharpErrors","Cannot resolve symbol 'joaSTARSInterface'");
         issueValidator.validate(issues);
-        assertTrue("validation should have failed",issueValidator.validationFailed());       
+        assertFalse("validation should pass",issueValidator.validationFailed());       
     }
     
     @Test

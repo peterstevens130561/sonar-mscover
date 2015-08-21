@@ -41,9 +41,6 @@ public class DefaultIssueValidator implements IssueValidator {
                 && message.contains("does not match rule 'Instance fields (private)'. Suggested name is '_m")) {
             exception=new IssueValidationException(issue);
         }
-        if (typeId.equalsIgnoreCase("CSharpErrors") && message.startsWith("Cannot resolve symbol")) {
-            exception=new IssueValidationException(issue);
-        }
     }
 
     @Override
