@@ -40,8 +40,9 @@ public class VsTestCoverageToXmlConverter implements CoverageToXmlConverter {
         File destination = new File(destinationPath);
         if (transformationNeeded(destination, source)) {
             convert(destination, source);
+            return destination;
         }
-        return destination;
+        return null;
 
     }
 

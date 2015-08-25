@@ -72,7 +72,9 @@ public class IntegrationTestCoverageReader  {
 		Collection<File> files=FileUtils.listFiles(integrationTestsDir,new String[] {"coverage","xml"} ,true);
 		for(File coverageFile:files) {
 			File xmlFile=getCoverageXmlFile(coverageFile);
-			xmlFiles.add(xmlFile);
+			if(xmlFile != null) {
+			    xmlFiles.add(xmlFile);
+			}
 		}
 		return xmlFiles;
 	}
@@ -82,6 +84,7 @@ public class IntegrationTestCoverageReader  {
 		String coveragePath=coverageFile.getName();
 		if (coveragePath.endsWith(".coverage")) {
 			xmlFile = coverageToXmlConverter.convertIfNeeded(coverageFile);
+			coverageFile.delete();
 
 		} else if (coveragePath.endsWith(".xml")) {
 			xmlFile = coverageFile;
