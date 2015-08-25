@@ -20,6 +20,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestResultsFormatter;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
@@ -35,7 +36,7 @@ public class DefaultTestResultsSaverTest {
     @Mock
     private TestResultsFormatter testResultsFormatter;
     @Mock
-    private ResourceResolver resourceResolver;
+    private DefaultResourceResolver resourceResolver;
     private ProjectUnitTestResults projectUnitTestResults;
 
     @Before()

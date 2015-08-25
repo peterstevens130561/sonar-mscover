@@ -56,6 +56,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestBlockDecorator
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestLineDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.language.SupportedLanguage;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.IntegrationTestResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestBatchData;
@@ -121,6 +122,7 @@ public final class MsCoverPlugin extends SonarPlugin {
                 ReSharperSensor.class, 
                 DefaultInspectCodeResultsParser.class,
                 DefaultResourceResolver.class, 
+                IntegrationTestResourceResolver.class,
                 DefaultInspectCodeIssuesSaver.class,
                 InspectCodeBatchData.class,
                 DefaultInspectCodeRunner.class,

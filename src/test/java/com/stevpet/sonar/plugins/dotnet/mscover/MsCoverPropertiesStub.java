@@ -22,6 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.List;
 
@@ -359,6 +360,12 @@ public class MsCoverPropertiesStub implements MsCoverConfiguration {
 
     @Override
     public String getVsTestInstallPath() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public File getWorkSpaceRoot() {
         // TODO Auto-generated method stub
         return null;
     }

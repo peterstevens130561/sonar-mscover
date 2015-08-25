@@ -5,14 +5,8 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-
-import org.jfree.util.Log;
 import org.junit.Test;
 import org.sonar.api.utils.SonarException;
-
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
 
 public class ResolveOtherFsTest {
 
@@ -100,34 +94,26 @@ public class ResolveOtherFsTest {
         return pathToSolution;
     }
 
-    private File resolve(File toResolve, File baseDir, File root) {
+    private File resolve(File resolveFile, File baseDir, File rootDir) {
+       String solutionPath = getPathFromRootToSolution(baseDir,rootDir);
+       String resolvePath = getCanonicalPath(resolveFile);
+       int firstIndex=resolvePath.indexOf(solutionPath);
+       if(firstIndex==-1) {
+           return null; // not in solution
+       }
+       int endOfSolutionPath=firstIndex+solutionPath.length();
 
-        String baseName = baseDir.getName();
-        File curDir = new File(toResolve.getAbsolutePath());
-        List<String> stack = Lists.newArrayList();
-        do {
-            while (curDir != null && !curDir.getName().equalsIgnoreCase(baseName)) {
-                stack.add(0, curDir.getName());
-                curDir = curDir.getParentFile();
-
-            }
-            if (curDir == null) {
-                return null;
-            }
-            File parentFile = curDir.getParentFile();
-            if (parentFile == null) {
-                return null;
-            }
-            String curParent = parentFile.getName();
-            String baseParent = baseDir.getParentFile().getName();
-            if (curParent.equalsIgnoreCase(baseParent)) {
-                break;
-            }
-            stack.add(0, curDir.getName());
-            curDir = curDir.getParentFile();
-        } while (curDir != null);
-
-        String relativePath = Joiner.on("/").join(stack);
-        return new File(baseDir, relativePath);
+       String relativePath=resolvePath.substring(endOfSolutionPath);
+       return new File(baseDir,relativePath);
+    }
+    
+    
+    private String getCanonicalPath(File file)  {
+        try {
+            return file.getCanonicalPath();
+        } catch (IOException e) {
+            String msg ="Could not get CanonicalPath for " + file.getAbsolutePath();
+            throw new SonarException(msg);
+        }
     }
 }

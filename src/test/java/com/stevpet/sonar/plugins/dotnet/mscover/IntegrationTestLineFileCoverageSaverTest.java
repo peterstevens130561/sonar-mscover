@@ -23,13 +23,14 @@ import com.stevpet.sonar.plugins.dotnet.mscover.ittest.vstest.IntegrationTestLin
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.IntegrationTestResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 
 public class IntegrationTestLineFileCoverageSaverTest {
 	private static final String FIRST_FILE = "a/b";
 	private SonarCoverage coverage = new SonarCoverage();
 	
-	@Mock ResourceResolver resourceResolver ;
+	@Mock IntegrationTestResourceResolver resourceResolver ;
 	@Mock SensorContext sensorContext;
 	private LineFileCoverageSaver coverageSaver ;
 	File coveredResource;

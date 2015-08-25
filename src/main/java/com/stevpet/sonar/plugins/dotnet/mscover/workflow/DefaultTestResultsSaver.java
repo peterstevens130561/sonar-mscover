@@ -9,6 +9,7 @@ import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.resources.File;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestResultsFormatter;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
@@ -24,7 +25,7 @@ public class DefaultTestResultsSaver implements TestResultsSaver {
 
     @SuppressWarnings("ucd")
     public DefaultTestResultsSaver(SensorContext sensorContext,
-            ResourceResolver resourceResolver,
+            DefaultResourceResolver resourceResolver,
             TestResultsFormatter testResultsFormatter) {
         this.sensorContext = sensorContext;
         this.testResultsFormatter = testResultsFormatter;

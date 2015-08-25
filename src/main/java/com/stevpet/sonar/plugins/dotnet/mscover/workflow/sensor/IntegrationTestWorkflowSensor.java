@@ -20,8 +20,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.WindowsCo
 import com.stevpet.sonar.plugins.dotnet.mscover.ittest.vstest.IntegrationTestCoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.ittest.vstest.IntegrationTestLineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.IntegrationTestResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
+
 
 public class IntegrationTestWorkflowSensor implements Sensor {
     private static final Logger LOG = LoggerFactory
@@ -34,7 +36,7 @@ public class IntegrationTestWorkflowSensor implements Sensor {
     public IntegrationTestWorkflowSensor(MsCoverConfiguration msCoverProperties,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
             FileSystem fileSystem,
-            ResourceResolver resourceResolver,
+            IntegrationTestResourceResolver resourceResolver,
             PathResolver pathResolver) {
         
         container = new DefaultPicoContainer();

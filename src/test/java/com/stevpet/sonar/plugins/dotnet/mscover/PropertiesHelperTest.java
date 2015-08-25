@@ -22,17 +22,22 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
+import java.io.File;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.config.Settings;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.SettingsMock;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -283,7 +288,37 @@ public class PropertiesHelperTest {
         boolean actual = helper.getOpenCoverSkipAutoProps();
         assertFalse(actual);
     }
-
+    
+    @Test
+    public void noWorkSpaceDefinedExectpion() {
+        when(settings.getString("sonar.mscover.workspace")).thenReturn(null);
+        try {
+            helper.getWorkSpaceRoot();
+        } catch (MsCoverException e) {
+            return;
+        }
+        fail("property not defined expect exception");
+    }
+    
+    @Test
+    public void workSpaceDoesNotExistDefinedExectpion() {
+        when(settings.getString("sonar.mscover.workspace")).thenReturn("Z:/@#$DFGREWSDWS");
+        try {
+            helper.getWorkSpaceRoot();
+        } catch (MsCoverException e) {
+            return;
+        }
+        fail("property not defined expect exception");
+    }
+    
+    @Test
+    public void workSpaceDefined() {
+        when(settings.getString("sonar.mscover.workspace")).thenReturn("C:/Program Files");
+        File workspace= helper.getWorkSpaceRoot();
+        assertNotNull("expect valid file",workspace);
+        assertEquals("C:\\Program Files",workspace.getAbsolutePath());
+    }
+    
     private void setSetting(String property, String value) {
         when(settings.getString(property)).thenReturn(value);
     }

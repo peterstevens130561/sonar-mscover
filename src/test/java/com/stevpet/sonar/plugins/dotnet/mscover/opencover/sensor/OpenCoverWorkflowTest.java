@@ -118,7 +118,7 @@ public class OpenCoverWorkflowTest extends AbstractSensorTest {
         container.addComponent(vsTestCommandMock.getMock());
         
         container.removeComponent(DefaultResourceResolver.class);
-        container.addComponent(mock(ResourceResolver.class));
+        container.addComponent(mock(DefaultResourceResolver.class));
         //SensorContextMock sensorContextMock = new SensorContextMock();
 		//container.addComponent(sensorContextMock.getMock());
         director.execute();

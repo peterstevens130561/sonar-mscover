@@ -22,6 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.List;
 
@@ -102,6 +103,8 @@ public interface MsCoverConfiguration {
      * @return path to installation dir of vstest.console.exe
      */
     String getVsTestInstallPath();
+
+    File getWorkSpaceRoot();
 
 
 }

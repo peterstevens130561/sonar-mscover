@@ -14,6 +14,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoveragePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarLinePoint;
+import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.IntegrationTestResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 
 public class IntegrationTestLineFileCoverageSaver implements
@@ -21,7 +22,7 @@ public class IntegrationTestLineFileCoverageSaver implements
 	private ResourceResolver resourceResolver;
 	private SensorContext sensorContext;
 
-    public  IntegrationTestLineFileCoverageSaver(ResourceResolver resourceResolver,SensorContext sensorContext) {
+    public  IntegrationTestLineFileCoverageSaver(IntegrationTestResourceResolver resourceResolver,SensorContext sensorContext) {
         this.resourceResolver = resourceResolver;
         this.sensorContext = sensorContext;
     }

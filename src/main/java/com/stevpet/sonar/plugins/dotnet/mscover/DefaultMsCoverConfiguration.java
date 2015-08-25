@@ -22,6 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -69,6 +70,7 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
     public static final String MSCOVER_IGNOREMISSING_PDB = MSCOVER + "opencover.ignoremissingpdbs";
     public static final String MSCOVER_OPENCOVER_SKIPAUTOPROPS = MSCOVER + "opencover.skipautoprops";
     public static final String MSCOVER_VSTEST_INSTALLDIR=MSCOVER+"vstest.installDirectory";
+    public static final String MSCOVER_WORKSPACE_ROOT= MSCOVER + "workspace";
     
     @SuppressWarnings("ucd")
     public DefaultMsCoverConfiguration(Settings settings) {
@@ -339,6 +341,19 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
     private static Builder createVsTestProperty(String key, PropertyType propertyType) {
         return PropertyDefinition.builder(key).type(propertyType).subCategory("vstest");
 
+    }
+
+    @Override
+    public File getWorkSpaceRoot() {
+        String root=settings.getString(MSCOVER_WORKSPACE_ROOT);
+        if(StringUtils.isEmpty(root)) {
+            throw new MsCoverException("undefined property :" + MSCOVER_WORKSPACE_ROOT);
+        }
+        File rootDir=new File(root);
+        if(!rootDir.exists()) {
+            throw new MsCoverException("property :" + MSCOVER_WORKSPACE_ROOT + "=" + root + " does not exist");
+        }
+        return rootDir;
     }
     
 }
