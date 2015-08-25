@@ -22,7 +22,7 @@ public class WorkflowSensorTest extends WorkflowSensorTestUtil {
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
-        sensor = new DummyWorkflowSensor(vsTestEnvironment, propertiesHelper, fileSystem, microsoftWindowsEnvironment, pathResolver,workflowDirector);
+        sensor = new UnitTestWorkflowSensor(vsTestEnvironment, propertiesHelper, fileSystem, microsoftWindowsEnvironment, pathResolver,workflowDirector);
     }
     
     @Test
@@ -45,38 +45,20 @@ public class WorkflowSensorTest extends WorkflowSensorTestUtil {
     public void ChildProject_RunmodeReUse_Execute() {
         when(project.isRoot()).thenReturn(false);
         when(propertiesHelper.getRunMode()).thenReturn(RunMode.REUSE);
+        when(microsoftWindowsEnvironment.hasUnitTestSourceFiles()).thenReturn(true);
         boolean result=sensor.shouldExecuteOnProject(project);        
-        assertTrue("should execute on project that is  root, and runmode reuse",result);
+        assertTrue("should execute on project that is  child, and runmode reuse",result);
     }
     
     @Test
     public void ChildProject_RunmodeVsTest_Execute() {
         when(project.isRoot()).thenReturn(false);
         when(propertiesHelper.getRunMode()).thenReturn(RunMode.RUNVSTEST);
-        boolean result=sensor.shouldExecuteOnProject(project);        
-        assertTrue("should execute on project that is  root, and runmode runvstest",result);
+        when(microsoftWindowsEnvironment.hasUnitTestSourceFiles()).thenReturn(true);
+        
+        boolean result=sensor.shouldExecuteOnProject(project);     
+
+        assertTrue("should execute on project that is  child, and runmode runvstest",result);
     }
     
-    private class DummyWorkflowSensor extends WorkflowSensor {
-
-        public DummyWorkflowSensor(VsTestEnvironment vsTestEnvironment,
-                MsCoverConfiguration msCoverProperties, FileSystem fileSystem,
-                MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-                PathResolver pathResolver, WorkflowDirector workflowDirector) {
-            super(vsTestEnvironment, msCoverProperties, fileSystem,
-                    microsoftWindowsEnvironment, pathResolver, workflowDirector);
-            // TODO Auto-generated constructor stub
-        }
-
-        @Override
-        public void analyse(Project project, SensorContext context) {
-
-        }
-
-        @Override
-        public boolean shouldExecuteWorkflow() {
-            return true;
-        }
-        
-    }
 }

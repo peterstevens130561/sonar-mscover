@@ -33,7 +33,9 @@ public class IntegrationTestLineFileCoverageSaver implements
 	public void saveMeasures(
             CoverageLinePoints coveragePoints, java.io.File file) {
     	File resource = resourceResolver.getFile(file);
-
+    	if(resource==null) {
+    	    return;
+    	}
 
         SonarCoverageSummary summary=coveragePoints.getSummary();
         double coverage = summary.getCoverage();

@@ -17,7 +17,7 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
 
 public class WorkflowSensorTestUtil {
 
-    protected WorkflowSensor sensor;
+    protected UnitTestWorkflowSensor sensor;
     @Mock
     protected VsTestEnvironment vsTestEnvironment;
     @Mock

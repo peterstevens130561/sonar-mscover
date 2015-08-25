@@ -138,7 +138,7 @@ public class IntegrationTestSerializationTests {
         coverageData=new SonarCoverage();
         coverageReader=new IntegrationTestCoverageReader(microsoftWindowsEnvironment, msCoverProperties, coverageParser, coverageToXmlConverter);
         when(msCoverProperties.getIntegrationTestsDir()).thenReturn(testDir.getAbsolutePath());
-        coverageReader.read(coverageData, testDir);
+        coverageReader.read(coverageData);
         assertEquals("expect some files to be read",2,coverageData.getValues().size());
     }
 }

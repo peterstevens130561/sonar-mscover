@@ -32,4 +32,6 @@ public class DefaultResourceResolver implements ResourceResolver {
 	    }
 	    return sonarFile;
 	}
+	
+	
 }

@@ -18,7 +18,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.CoverageT
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
-public class IntegrationTestCoverageReader implements CoverageReader {
+public class IntegrationTestCoverageReader  {
 	private final static Logger LOG = LoggerFactory.getLogger(IntegrationTestCoverageReader.class);
 	private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 	private MsCoverConfiguration msCoverProperties;
@@ -36,8 +36,8 @@ public class IntegrationTestCoverageReader implements CoverageReader {
 	/**
 	 * @param file may be either a single file to parse, or a directory which holds files
 	 */
-	@Override
-	public void read(SonarCoverage registry, File file) {
+
+	public void read(SonarCoverage registry) {
 
 		String integrationTestsPath=msCoverProperties.getIntegrationTestsDir();
 		String coveragePath = msCoverProperties.getIntegrationTestsPath();
@@ -84,7 +84,7 @@ public class IntegrationTestCoverageReader implements CoverageReader {
 			xmlFile = coverageToXmlConverter.convertIfNeeded(coverageFile);
 
 		} else if (coveragePath.endsWith(".xml")) {
-			xmlFile = new File(coveragePath);
+			xmlFile = coverageFile;
 		} else {
 			throw new SonarException("Invalid coverage format " + coveragePath);
 		}
