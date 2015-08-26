@@ -18,12 +18,12 @@ public class IntegrationTestCache implements BatchExtension {
         this.coverage = coverage;
     }
 
-    public boolean didRun() {
+    public boolean getHasRun() {
         return hasRun;
     }
 
-    public void hasRun() {
-        hasRun=true;
+    public void setHasRun(boolean value) {
+        hasRun=value;
     }
     
 }

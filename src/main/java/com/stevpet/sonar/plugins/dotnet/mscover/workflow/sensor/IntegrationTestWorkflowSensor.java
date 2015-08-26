@@ -60,12 +60,12 @@ public class IntegrationTestWorkflowSensor implements Sensor {
         CoverageSaver saver = container.getComponent(CoverageSaver.class);
         
         SonarCoverage sonarCoverage;
-        if(cache.didRun()) {
+        if(cache.getHasRun()) {
             sonarCoverage=cache.getCoverage();
         } else {
             sonarCoverage = new SonarCoverage();
             reader.read(sonarCoverage);
-            cache.didRun();
+            cache.setHasRun(true);
             cache.setCoverage(sonarCoverage);
         } 
 
