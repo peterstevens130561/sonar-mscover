@@ -60,6 +60,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.IntegrationTest
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestBatchData;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.IntegrationTestCache;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.IntegrationTestWorkflowSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.UnitTestWorkflowSensor;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.SimpleMicrosoftWindowsEnvironment;
@@ -113,6 +114,7 @@ public final class MsCoverPlugin extends SonarPlugin {
                 UnitTestBatchData.class,
                 DefaultDirector.class, UnitTestBlockDecorator.class,
                 UnitTestWorkflowSensor.class,
+                IntegrationTestCache.class,
                 IntegrationTestWorkflowSensor.class,
                 SupportedLanguage.class,
                 CSharpRegularReSharperProfileExporter.class,

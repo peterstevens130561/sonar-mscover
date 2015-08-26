@@ -37,14 +37,16 @@ public class IntegrationTestWorkflowSensor implements Sensor {
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
             FileSystem fileSystem,
             IntegrationTestResourceResolver resourceResolver,
-            PathResolver pathResolver) {
+            PathResolver pathResolver,
+            IntegrationTestCache integrationTestCache) {
         
         container = new DefaultPicoContainer();
         container.addComponent(msCoverProperties)
             .addComponent(microsoftWindowsEnvironment)
             .addComponent(fileSystem)
             .addComponent(resourceResolver)
-            .addComponent(pathResolver);
+            .addComponent(pathResolver)
+            .addComponent(integrationTestCache);
         this.msCoverProperties=msCoverProperties;
     }
 
@@ -53,10 +55,20 @@ public class IntegrationTestWorkflowSensor implements Sensor {
         LogInfo("Starting");
         LogChanger.setPattern();
         getComponents(context);
+        IntegrationTestCache cache= container.getComponent(IntegrationTestCache.class);
         IntegrationTestCoverageReader reader = container.getComponent(IntegrationTestCoverageReader.class);
-        SonarCoverage sonarCoverage = new SonarCoverage();
-        reader.read(sonarCoverage);
         CoverageSaver saver = container.getComponent(CoverageSaver.class);
+        
+        SonarCoverage sonarCoverage;
+        if(cache.didRun()) {
+            sonarCoverage=cache.getCoverage();
+        } else {
+            sonarCoverage = new SonarCoverage();
+            reader.read(sonarCoverage);
+            cache.didRun();
+            cache.setCoverage(sonarCoverage);
+        } 
+
         saver.save(sonarCoverage);
         LogInfo("Done");
     }
