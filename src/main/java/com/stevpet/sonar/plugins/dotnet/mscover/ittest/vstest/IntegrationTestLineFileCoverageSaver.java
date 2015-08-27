@@ -1,6 +1,9 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.ittest.vstest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
@@ -16,15 +19,20 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.IntegrationTestResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 public class IntegrationTestLineFileCoverageSaver implements
 		LineFileCoverageSaver {
+    private Logger LOG = LoggerFactory.getLogger(IntegrationTestLineFileCoverageSaver.class);
 	private ResourceResolver resourceResolver;
 	private SensorContext sensorContext;
+
 
     public  IntegrationTestLineFileCoverageSaver(IntegrationTestResourceResolver resourceResolver,SensorContext sensorContext) {
         this.resourceResolver = resourceResolver;
         this.sensorContext = sensorContext;
+
+
     }
    
     /* (non-Javadoc)

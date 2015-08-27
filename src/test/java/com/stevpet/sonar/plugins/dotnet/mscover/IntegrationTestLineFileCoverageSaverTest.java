@@ -14,6 +14,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.File;
@@ -32,6 +33,7 @@ public class IntegrationTestLineFileCoverageSaverTest {
 	
 	@Mock IntegrationTestResourceResolver resourceResolver ;
 	@Mock SensorContext sensorContext;
+	@Mock FileSystem fileSystem;
 	private LineFileCoverageSaver coverageSaver ;
 	File coveredResource;
 	java.io.File coveredFile;

@@ -33,6 +33,8 @@ public class IntegrationTestWorkflowSensor implements Sensor {
     private DefaultPicoContainer container ;
 
     private MsCoverConfiguration msCoverProperties;
+
+    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     public IntegrationTestWorkflowSensor(MsCoverConfiguration msCoverProperties,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
             FileSystem fileSystem,
@@ -40,6 +42,7 @@ public class IntegrationTestWorkflowSensor implements Sensor {
             PathResolver pathResolver,
             IntegrationTestCache integrationTestCache) {
         
+        this.microsoftWindowsEnvironment =microsoftWindowsEnvironment;
         container = new DefaultPicoContainer();
         container.addComponent(msCoverProperties)
             .addComponent(microsoftWindowsEnvironment)
@@ -53,6 +56,10 @@ public class IntegrationTestWorkflowSensor implements Sensor {
     @Override
     public void analyse(Project project, SensorContext context) {
         LogInfo("Starting");
+        if(microsoftWindowsEnvironment.isUnitTestProject(project)) {
+            LogInfo("Skipping as it is a test project");
+            return;
+        }
         LogChanger.setPattern();
         getComponents(context);
         IntegrationTestCache cache= container.getComponent(IntegrationTestCache.class);
@@ -82,7 +89,7 @@ public class IntegrationTestWorkflowSensor implements Sensor {
 
     @Override
     public boolean shouldExecuteOnProject(Project project) {
-        return msCoverProperties.isIntegrationTestsEnabled();
+        return msCoverProperties.isIntegrationTestsEnabled() && !project.isRoot();
     }
     
 
