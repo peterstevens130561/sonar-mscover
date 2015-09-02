@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.sonar.api.BatchExtension;
-import org.sonar.api.Property;
 import org.sonar.api.PropertyType;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.PropertyDefinition.Builder;

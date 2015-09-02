@@ -63,7 +63,7 @@ public class ReSharperFileParser {
             else {
 
                 int count = nodes.getLength();
-                LOG.info("Found " + count + " IssueType nodes (rules)" );
+                LOG.debug("Found " + count + " IssueType nodes (rules)" );
 
                 // For each rule we extract the elements
                 for (int idxRule = 0; idxRule < count; idxRule++) {

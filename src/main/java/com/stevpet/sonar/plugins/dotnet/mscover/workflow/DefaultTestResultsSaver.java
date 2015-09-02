@@ -42,7 +42,7 @@ public class DefaultTestResultsSaver implements TestResultsSaver {
             }
             File sonarFile = resourceResolver.getFile(file);
             if (sonarFile == null) {
-                LOG.warn("Could not find resource for "
+                LOG.debug("Could not find resource for "
                         + file.getAbsolutePath());
                 continue;
             }
@@ -54,7 +54,7 @@ public class DefaultTestResultsSaver implements TestResultsSaver {
     public void saveFileSummaryResults(ClassUnitTestResult fileResults,
             File sonarFile) {
         sensorContext.saveMeasure(sonarFile, CoreMetrics.SKIPPED_TESTS,
-                (double) 0);
+                fileResults.getIgnored());
         sensorContext.saveMeasure(sonarFile, CoreMetrics.TEST_ERRORS,
                 (double) 0);
         sensorContext.saveMeasure(sonarFile, CoreMetrics.TEST_SUCCESS_DENSITY,

@@ -70,7 +70,7 @@ public class ModuleNameObserver extends VsTestCoverageObserver {
         }
         boolean shouldSkip = !modulesToParse.contains(value);
         if (!shouldSkip) {
-            LOG.info("Module {} will be parsed", value);
+            LOG.debug("Module {} will be parsed", value);
         }
         if (shouldSkip) {
             setSkipTillNextElement("Module");

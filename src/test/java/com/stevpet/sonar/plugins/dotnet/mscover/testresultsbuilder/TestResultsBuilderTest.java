@@ -57,6 +57,7 @@ public class TestResultsBuilderTest {
 			.setNamespaceNameFromClassName(FULLCLASSNAME)
 			.setModuleFromCodeBase(MODULE)
 			.setTestId("id1")
+			.setOutcome("Failed")
 			.setTestName("method1").addToParent();
 	
 		ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.parse(null, null);

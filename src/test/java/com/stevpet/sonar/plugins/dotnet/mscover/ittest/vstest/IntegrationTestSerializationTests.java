@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 
@@ -14,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.test.TestUtils;
 
@@ -59,6 +61,7 @@ public class IntegrationTestSerializationTests {
     }
     
     @Test
+    @Ignore
     public void basicTest() throws IOException {
         givenCoverageFilesInDirectoryRead();
         whenSerializingTheData();
@@ -66,6 +69,7 @@ public class IntegrationTestSerializationTests {
     }
 
     @Test
+    @Ignore
     public void otherData() throws IOException {
         givenCoverageFilesInDirectoryRead();
         whenSerializingTheData();
@@ -74,6 +78,7 @@ public class IntegrationTestSerializationTests {
     }
     
     @Test
+    @Ignore
     public void otherBranchPoint() throws IOException {
         givenCoverageFilesInDirectoryRead();
         whenSerializingTheData();
@@ -82,6 +87,7 @@ public class IntegrationTestSerializationTests {
     }
     
     @Test
+    @Ignore
     public void otherLinePoint() throws IOException {
         givenCoverageFilesInDirectoryRead();
         whenSerializingTheData();

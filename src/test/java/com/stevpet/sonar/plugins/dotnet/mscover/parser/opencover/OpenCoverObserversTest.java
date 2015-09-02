@@ -59,6 +59,7 @@ public class OpenCoverObserversTest {
         assertNotNull(registry.getCoveredFile("86").getAbsolutePath()); // is included
     }
 
+
     @Test
     public void readTwice() {
         XmlParserSubject parser = initializeParser();

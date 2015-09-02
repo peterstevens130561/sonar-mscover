@@ -26,9 +26,16 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassUnitTestResult {
-    private int error;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult.TestResult;
+
+public class ClassUnitTestResult {
+    private Logger LOG = LoggerFactory.getLogger(ClassUnitTestResult.class);
+    private int error;
+    private int ignored;
+    private int passed;
     private List<UnitTestMethodResult> tests = new ArrayList<UnitTestMethodResult>();
     private File file;
 
@@ -38,10 +45,21 @@ public class ClassUnitTestResult {
 
     public void add(UnitTestMethodResult unitTest) {
         tests.add(unitTest);
-        String outcome = unitTest.getOutcome();
-        if (!"Passed".equals(outcome)) {
-            error++;
+        TestResult  testResult= unitTest.getTestResult();
+        switch(testResult) {
+            case Passed : 
+                ++passed; 
+                break;
+            case Ignored : 
+                ++ignored ; 
+                break;
+            case Failed : 
+                ++error;
+                break;
+            default:
+                throw new InvalidTestResultException(testResult.toString());
         }
+                   
     }
 
     public File getFile() {
@@ -49,13 +67,16 @@ public class ClassUnitTestResult {
     }
 
     public double getPassed() {
-        return (double) tests.size() - error;
+        return (double) passed;
     }
 
     public double getFail() {
         return (double) error;
     }
 
+    public double getIgnored() {
+        return (double) ignored;
+    }
     public double getTests() {
         return (double) tests.size();
     }
@@ -64,7 +85,12 @@ public class ClassUnitTestResult {
         if (tests.isEmpty()) {
             return 1.0;
         }
-        return getPassed() / getTests();
+        double executedTests =  getTests() - getIgnored() ;
+        if(executedTests == 0) {
+            return 1.0;
+        }
+        
+        return getPassed() / executedTests;
     }
 
     public List<UnitTestMethodResult> getUnitTests() {

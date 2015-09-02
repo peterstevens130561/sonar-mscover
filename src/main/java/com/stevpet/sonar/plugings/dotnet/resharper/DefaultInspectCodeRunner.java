@@ -9,10 +9,10 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.command.CommandException;
 
 import com.stevpet.sonar.plugings.dotnet.resharper.exceptions.InspectCodeRunnerException;
 import com.stevpet.sonar.plugings.dotnet.resharper.inspectcode.ReSharperCommandBuilder;
@@ -20,6 +20,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecu
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 public class DefaultInspectCodeRunner implements InspectCodeRunner {
+    
     private Logger Log = LoggerFactory.getLogger(DefaultInspectCodeRunner.class);
     private static final String RESHARPER_EXECUTABLE = "inspectcode.exe";
     private Settings settings;
@@ -84,8 +85,17 @@ public class DefaultInspectCodeRunner implements InspectCodeRunner {
         resharperCommandBuilder.setProfile(profile);
 
         int timeout = reSharperConfiguration.getTimeOutMinutes();
-
-        int exitCode=commandLineExecutor.execute(resharperCommandBuilder,timeout);
+        int exitCode=0;
+        try {
+            exitCode=commandLineExecutor.execute(resharperCommandBuilder,timeout);
+        } catch (CommandException e ) {
+            if(e.getMessage().contains("Timeout exceeded") && reportFile.exists()) {
+                Log.warn("InspectCode terminated by timeout, but reportFile exists, so ignoring");
+                return reportFile;
+            }
+            throw e;
+        }
+        
         if (exitCode != 0) { // && exitCode != 512) { -- Why 512? Magic numbers
                              // are evil
             throw new ReSharperException("ReSharper execution failed with return code '" + exitCode

@@ -57,7 +57,7 @@ public class ReSharperRuleRepository extends RuleRepository {
 
     @Override
     public List<Rule> createRules() {
-        LOG.info("--- Creating rules");
+        LOG.debug("--- Creating rules");
         List<Rule> rules = new ArrayList<Rule>();
 
         // ReSharper rules
@@ -66,7 +66,7 @@ public class ReSharperRuleRepository extends RuleRepository {
         ReSharperFileParser parser = new ReSharperFileParser();
         List<ReSharperRule> reSharperRules = parser.parseRules(reader);
         for(ReSharperRule rRule: reSharperRules) {
-            LOG.info("--- adding rule");
+            LOG.debug("--- adding rule");
             rules.add(rRule.toSonarRule());
         }
 

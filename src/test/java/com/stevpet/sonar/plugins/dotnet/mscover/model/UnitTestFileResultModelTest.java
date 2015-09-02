@@ -59,6 +59,33 @@ public class UnitTestFileResultModelTest {
     }
 
     @Test
+    public void addIgnoredOne_shouldBeOne() {
+        addIgnoredTest();
+        Assert.assertEquals("no test to pass", 0,(int)fileResult.getPassed());
+        Assert.assertEquals("one ignored test",1, (int)fileResult.getIgnored());
+        Assert.assertEquals("as there is no test to pass, density is 100%",1,(int)fileResult.getDensity());        
+    }
+    
+    @Test
+    public void addOneIgnoredOnePassed_shouldBe100() {
+        addIgnoredTest();
+        addPassedTest();
+        Assert.assertEquals("one passed", 1,(int)fileResult.getPassed());
+        Assert.assertEquals("one ignored test",1, (int)fileResult.getIgnored());
+        Assert.assertEquals("as there is one test to pass, which passed, density is 100%",1,(int)fileResult.getDensity());        
+    }
+    
+    @Test
+    public void addOneIgnoredOnePassedOneFaiiled_shouldBe50() {
+        addIgnoredTest();
+        addPassedTest();
+        addFailedTest();
+        Assert.assertEquals("one passed", 1,(int)fileResult.getPassed());
+        Assert.assertEquals("one ignored test",1, (int)fileResult.getIgnored());
+        
+        Assert.assertEquals("as there is one test to pass, and one failed, density is 50%",0.5,fileResult.getDensity(),0.0001);        
+    }
+    @Test
     public void addFailedAndPass_DensityShouldBe50() {
 
         addFailedTest();
@@ -70,13 +97,19 @@ public class UnitTestFileResultModelTest {
     
     private void addFailedTest() {
         UnitTestMethodResult failedTest = new UnitTestMethodResult();
-        failedTest.setOutcome("Fail");
+        failedTest.setOutcome("Failed");
         fileResult.add(failedTest);
     }
     private void addPassedTest() {
         UnitTestMethodResult passedTest = new UnitTestMethodResult();
         passedTest.setOutcome("Passed");
         fileResult.add(passedTest);
+    }
+    
+    private void addIgnoredTest() {
+        UnitTestMethodResult ignoredTest = new UnitTestMethodResult();
+        ignoredTest.setOutcome("NotExecuted");
+        fileResult.add(ignoredTest);
     }
     
 }

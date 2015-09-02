@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.InvalidTestResultException;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult.TestResult;
 
 public class DefaultTestResultsFormatter implements TestResultsFormatter {
 
@@ -19,12 +21,12 @@ public class DefaultTestResultsFormatter implements TestResultsFormatter {
 	    List<UnitTestMethodResult> details = fileResults.getUnitTests();
 	    for (UnitTestMethodResult detail : details) {
 	        testCaseDetails.append("<testcase status=\""
-	                + getSonarStatus(detail.getOutcome()) + "\"");
+	                + getSonarStatus(detail.getTestResult()) + "\"");
 	        testCaseDetails.append(" time=\"0\"");
 	        testCaseDetails.append(" name=\"");
 	        testCaseDetails.append(detail.getTestName());
 	        testCaseDetails.append("\">");
-	        if (isNotPassed(detail)) {
+	        if (isFailed(detail)) {
 	            testCaseDetails.append("<error ");
 	            testCaseDetails.append(getMessageAttribute(detail));
 	            testCaseDetails.append(">");
@@ -40,16 +42,26 @@ public class DefaultTestResultsFormatter implements TestResultsFormatter {
 	    String data = testCaseDetails.toString();
 		return data;
 	}
-	boolean isNotPassed(UnitTestMethodResult detail) {
-	    return !"Passed".equals(detail.getOutcome());
+	boolean isFailed(UnitTestMethodResult detail) {
+	    return detail.getTestResult() == TestResult.Failed;
 	}
 
-	String getSonarStatus(String outcome) {
-	    if ("Passed".equals(outcome)) {
-	        return "ok";
-	    } else {
-	        return "error";
+	String getSonarStatus(TestResult outcome) {
+	    String status ;
+	    switch(outcome) {
+	    case Passed : 
+	        status="ok";
+	        break;
+	    case Failed : 
+	        status="error" ;
+	        break ;
+	    case Ignored : 
+	        status = "ignored" ;
+	        break;
+	     default:
+	            throw new InvalidTestResultException(outcome);
 	    }
+	    return status;
 	}
 
 	String getMessageAttribute(UnitTestMethodResult result) {

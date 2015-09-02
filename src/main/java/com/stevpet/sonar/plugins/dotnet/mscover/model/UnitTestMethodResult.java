@@ -26,6 +26,12 @@ import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.SonarException;
 
 public class UnitTestMethodResult {
+    
+    public enum TestResult {
+        Passed,
+        Failed,
+        Ignored
+    }
     private MethodId methodId = new MethodId();
     private String testId;
     private String duration;
@@ -100,6 +106,14 @@ public class UnitTestMethodResult {
         return outcome;
     }
 
+    public TestResult getTestResult() {
+        switch(outcome) {
+        case "Passed" : return TestResult.Passed;
+        case "Failed" : return TestResult.Failed;
+        case "NotExecuted" : return TestResult.Ignored;
+        default: throw new InvalidTestResultException(outcome);
+        }
+    }
     public UnitTestMethodResult setOutcome(String outcome) {
         this.outcome = outcome;
         return this;
@@ -192,6 +206,11 @@ public class UnitTestMethodResult {
 
     public String getStackTrace() {
         return stackTrace;
+    }
+
+    public boolean isFailed() {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }

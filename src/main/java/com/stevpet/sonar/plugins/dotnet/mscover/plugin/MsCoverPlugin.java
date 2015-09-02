@@ -64,6 +64,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.IntegrationTestC
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.IntegrationTestWorkflowSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.UnitTestWorkflowSensor;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.SimpleMicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioConfiguration;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioProjectBuilder;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConfiguration;
 
@@ -135,7 +136,9 @@ public final class MsCoverPlugin extends SonarPlugin {
                 WindowsCommandLineExecutor.class,
                 BuildWrapperInitializer.class,
                 BuildWrapperBuilder.class,
-                BuildWrapperCache.class
+                BuildWrapperCache.class,
+                
+                VisualStudioConfiguration.class
                 )
                 ;
         List extensions = new ArrayList();
@@ -143,6 +146,7 @@ public final class MsCoverPlugin extends SonarPlugin {
         extensions.addAll(BuildWrapperConstants.getProperties());
         extensions.addAll(ReSharperConfiguration.getProperties());
         extensions.addAll(DefaultMsCoverConfiguration.getProperties());
+        extensions.addAll(VisualStudioConfiguration.getProperties());
         return extensions;
     }
 }
