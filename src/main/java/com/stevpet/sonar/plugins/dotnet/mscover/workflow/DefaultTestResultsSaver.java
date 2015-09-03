@@ -7,6 +7,7 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.resources.File;
+import org.sonar.api.resources.Qualifiers;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
@@ -42,8 +43,6 @@ public class DefaultTestResultsSaver implements TestResultsSaver {
             }
             File sonarFile = resourceResolver.getFile(file);
             if (sonarFile == null) {
-                LOG.debug("Could not find resource for "
-                        + file.getAbsolutePath());
                 continue;
             }
             saveFileSummaryResults(classUnitTestResult, sonarFile);

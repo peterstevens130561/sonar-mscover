@@ -29,6 +29,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.jfree.util.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
 import org.sonar.api.PropertyType;
 import org.sonar.api.batch.InstantiationStrategy;
@@ -44,6 +46,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverRequiredPropert
 @InstantiationStrategy(InstantiationStrategy.PER_BATCH)
 public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfiguration  {
 
+    private Logger LOG = LoggerFactory.getLogger(DefaultMsCoverConfiguration.class);
+    
     public enum RunMode {
         SKIP,
         REUSE,
@@ -81,7 +85,10 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
      * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#isIntegrationTestsEnabled()
      */
     public boolean isIntegrationTestsEnabled() {
-        return StringUtils.isNotEmpty(getIntegrationTestsPath()) || StringUtils.isNotEmpty(getIntegrationTestsDir());
+        boolean enabled;
+        enabled=StringUtils.isNotEmpty(getIntegrationTestsPath()) || StringUtils.isNotEmpty(getIntegrationTestsDir());
+        LOG.info("isIntegrationTestsEnabled {}",enabled);
+        return enabled;
     }
     
     /* (non-Javadoc)
@@ -322,7 +329,9 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
 
     @Override
     public String getIntegrationTestsDir() {
-        return settings.getString(MSCOVER_INTEGRATION_VSTESTDIR);
+        String coverageDir=settings.getString(MSCOVER_INTEGRATION_VSTESTDIR);
+        LOG.info("property {} is {}",MSCOVER_INTEGRATION_VSTESTDIR,coverageDir);
+        return coverageDir;
     }
     
     public static Collection<PropertyDefinition> getProperties() {

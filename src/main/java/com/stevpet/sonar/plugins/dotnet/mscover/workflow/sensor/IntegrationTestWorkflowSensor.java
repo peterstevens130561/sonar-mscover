@@ -89,7 +89,10 @@ public class IntegrationTestWorkflowSensor implements Sensor {
 
     @Override
     public boolean shouldExecuteOnProject(Project project) {
-        return msCoverProperties.isIntegrationTestsEnabled() && !project.isRoot();
+        Boolean enabled ;
+        enabled= msCoverProperties.isIntegrationTestsEnabled() && !project.isRoot();
+        LogInfo("plugin is {}",enabled);
+        return enabled;
     }
     
 
