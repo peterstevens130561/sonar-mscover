@@ -342,16 +342,26 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
                 .defaultValue("C:/Program Files (x86)/Microsoft Visual Studio 12.0/Common7/IDE/CommonExtensions/Microsoft/TestWindow")
                 .index(0)
                 .build());
-        properties.add(createVsTestProperty(MSCOVER_INTEGRATION_VSTESTDIR,PropertyType.STRING)
-                .name("vstes coverage dir")
+        properties.add(createIntegrationTestProperty(MSCOVER_INTEGRATION_VSTESTDIR,PropertyType.STRING)
+                .name("vstest coverage dir")
                 .description("path to directory vstest generated integration test coverage files")
-                .index(1)
+                .index(0)
                 .onQualifiers(Qualifiers.PROJECT)
                 .build());
+        properties.add(createIntegrationTestProperty(MSCOVER_WORKSPACE_ROOT,PropertyType.STRING)
+                .name("workspace root dir")
+                .description("root directory of your build")
+                .index(1)
+                .build());
+        
         return properties;
 
     }
 
+    private static Builder createIntegrationTestProperty(String key, PropertyType propertyType) {
+        return PropertyDefinition.builder(key).type(propertyType).subCategory("integration test");
+
+    }
     private static Builder createVsTestProperty(String key, PropertyType propertyType) {
         return PropertyDefinition.builder(key).type(propertyType).subCategory("vstest");
 
