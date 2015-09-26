@@ -18,7 +18,8 @@ public class LockedWindowsCommandLineExecutor extends
 
     @Override
     public int execute(ShellCommand command) {
-        processLock.lock();
+        String lockName=command.getExecutable();
+        processLock.lock(lockName);
         try {
             return super.execute(command);
         } finally {

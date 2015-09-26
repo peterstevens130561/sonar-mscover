@@ -2,8 +2,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.workflow;
 
 import org.picocontainer.DefaultPicoContainer;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.DefaultProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverFileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
@@ -66,7 +66,7 @@ public class OpenCoverWorkflowSteps implements WorkflowSteps {
     }
 
     private void getTestRunnerComponents(DefaultPicoContainer container) {
-        container.addComponent(new ProcessLock("opencover"))
+        container
                 .addComponent(OpenCoverCommand.class)
                 .addComponent(LockedWindowsCommandLineExecutor.class)
                 .addComponent(VsTestConfigFinder.class)

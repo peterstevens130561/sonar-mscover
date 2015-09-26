@@ -49,6 +49,7 @@ import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapp
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperConstants;
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperInitializer;
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.DefaultProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestBlockDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestLineDecorator;
@@ -118,6 +119,7 @@ public final class MsCoverPlugin extends SonarPlugin {
                 IntegrationTestCache.class,
                 IntegrationTestWorkflowSensor.class,
                 SupportedLanguage.class,
+                DefaultProcessLock.class,
                 CSharpRegularReSharperProfileExporter.class,
                 CSharpRegularReSharperProfileImporter.class,
                 ReSharperSonarWayProfileCSharp.class,

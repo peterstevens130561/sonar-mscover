@@ -28,6 +28,10 @@ public interface ShellCommand {
     String toCommandLine();
     Command toCommand();
     
+    /**
+     * Name of executable.
+     * @return
+     */
     String getExecutable();
     
  

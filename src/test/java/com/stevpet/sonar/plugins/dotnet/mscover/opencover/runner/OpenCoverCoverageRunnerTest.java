@@ -13,8 +13,8 @@ import org.picocontainer.injectors.ConstructorInjection;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.VsTestRunnerCommandBuilderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExexutorStub;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.DefaultProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.VsTestCoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.NoAssembliesDefinedException;
@@ -125,7 +125,7 @@ public class OpenCoverCoverageRunnerTest {
     @Test
     public void instantiateOpenCoverCoverageRunnerThroughIOC() {
         DefaultPicoContainer openCoverContainer = new DefaultPicoContainer(new ConstructorInjection());
-        openCoverContainer.addComponent(new ProcessLock("opencover"))
+        openCoverContainer.addComponent(DefaultProcessLock.class)
         .addComponent(LockedWindowsCommandLineExecutor.class)
         .addComponent(msCoverPropertiesMock.getMock())
         .addComponent(testEnvironment)
