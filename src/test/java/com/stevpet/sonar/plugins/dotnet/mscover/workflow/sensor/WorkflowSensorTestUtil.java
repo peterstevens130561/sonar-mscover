@@ -10,6 +10,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.PathResolver;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowSteps;
@@ -33,6 +34,8 @@ public class WorkflowSensorTestUtil {
     protected Project project;
     @Mock
     protected SensorContext context;
+    @Mock
+    protected ProcessLock processLock;
 
     public WorkflowSensorTestUtil() {
         super();

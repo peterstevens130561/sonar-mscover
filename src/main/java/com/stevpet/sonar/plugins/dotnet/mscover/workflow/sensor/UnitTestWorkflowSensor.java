@@ -32,6 +32,7 @@ import org.sonar.api.scan.filesystem.PathResolver;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration.RunMode;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.NullWorkflowSteps;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.OpenCoverWorkflowSteps;
@@ -59,8 +60,8 @@ public class UnitTestWorkflowSensor extends WorkflowSensor {
     public UnitTestWorkflowSensor(VsTestEnvironment vsTestEnvironment,
             MsCoverConfiguration propertiesHelper, FileSystem fileSystem,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-            PathResolver pathResolver, WorkflowDirector workflowDirector) {
-        super(vsTestEnvironment, propertiesHelper, fileSystem, microsoftWindowsEnvironment, pathResolver, workflowDirector);
+            PathResolver pathResolver, WorkflowDirector workflowDirector,ProcessLock processLock) {
+        super(vsTestEnvironment, propertiesHelper, fileSystem, microsoftWindowsEnvironment, pathResolver, workflowDirector,processLock);
         this.propertiesHelper = propertiesHelper;
         this.vsTestEnvironment = vsTestEnvironment;
         this.workFlowDirector = workflowDirector;

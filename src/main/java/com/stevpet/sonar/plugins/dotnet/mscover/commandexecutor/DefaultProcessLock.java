@@ -33,6 +33,7 @@ import java.util.Stack;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.BatchExtension;
 import org.sonar.api.Extension;
 import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.api.utils.SonarException;
@@ -43,7 +44,7 @@ import org.sonar.api.utils.SonarException;
  * @author stevpet
  * 
  */
-public class DefaultProcessLock implements Extension, ProcessLock {
+public class DefaultProcessLock implements BatchExtension, ProcessLock {
     private static Logger LOG = LoggerFactory.getLogger(DefaultProcessLock.class);
     private File lockFile;
     private FileChannel channel;
@@ -59,7 +60,7 @@ public class DefaultProcessLock implements Extension, ProcessLock {
     @Override
     public void lock(String name) {
         String lockPath = System.getenv("TMP");
-        File lockFile = new File(lockPath, name + ".lock");
+        lockFile = new File(lockPath, name + ".lock");
         try {
 
             channel = new RandomAccessFile(lockFile, "rw").getChannel();

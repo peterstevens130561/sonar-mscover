@@ -10,6 +10,7 @@ import org.sonar.api.scan.filesystem.PathResolver;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration.RunMode;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
@@ -22,13 +23,14 @@ public abstract class WorkflowSensor implements Sensor { // NO_UCD (use default)
     public WorkflowSensor(VsTestEnvironment vsTestEnvironment, // NO_UCD (use default)
             MsCoverConfiguration msCoverProperties, FileSystem fileSystem,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-            PathResolver pathResolver, WorkflowDirector workflowDirector) {
+            PathResolver pathResolver, WorkflowDirector workflowDirector,ProcessLock processLock) {
         container = new DefaultPicoContainer(new ConstructorInjection());
         container.addComponent(vsTestEnvironment).addComponent(fileSystem)
                 .addComponent(microsoftWindowsEnvironment)
                 .addComponent(msCoverProperties)
                 .addComponent(pathResolver)
-                .addComponent(workflowDirector);
+                .addComponent(workflowDirector)
+                .addComponent(processLock);
         this.msCoverProperties=msCoverProperties;
     }
     public boolean shouldExecuteOnProject(Project project) { // NO_UCD (test only)

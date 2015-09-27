@@ -14,7 +14,7 @@ public class UnitTestWorkflowSensorTest extends WorkflowSensorTestUtil {
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
-        sensor = new UnitTestWorkflowSensor(vsTestEnvironment, propertiesHelper, fileSystem, microsoftWindowsEnvironment, pathResolver,workflowDirector);
+        sensor = new UnitTestWorkflowSensor(vsTestEnvironment, propertiesHelper, fileSystem, microsoftWindowsEnvironment, pathResolver,workflowDirector,processLock);
     }
     
     @Test
