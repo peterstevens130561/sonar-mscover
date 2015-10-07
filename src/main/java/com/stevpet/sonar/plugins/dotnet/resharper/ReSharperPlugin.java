@@ -15,9 +15,6 @@ import com.stevpet.sonar.plugins.dotnet.resharper.saver.DefaultInspectCodeIssues
 
 public class ReSharperPlugin extends SonarPlugin {
 
-    public List getExported() {
-        
-    }
     @Override
     public List getExtensions() {
         List imported=Arrays.asList();
