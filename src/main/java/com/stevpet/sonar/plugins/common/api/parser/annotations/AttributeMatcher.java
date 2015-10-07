@@ -20,7 +20,7 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations;
+package com.stevpet.sonar.plugins.common.api.parser.annotations;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

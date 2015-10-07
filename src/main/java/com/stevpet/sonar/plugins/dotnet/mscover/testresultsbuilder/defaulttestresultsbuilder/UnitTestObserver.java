@@ -26,9 +26,9 @@ import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
+import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
 
 /**
  *   <TestDefinitions>

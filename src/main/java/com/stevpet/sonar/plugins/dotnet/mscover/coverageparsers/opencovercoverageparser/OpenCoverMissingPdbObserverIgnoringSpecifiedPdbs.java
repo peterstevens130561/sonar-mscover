@@ -28,9 +28,9 @@ import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
+import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 
 public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs extends OpenCoverObserver{
     private static final Logger LOG = LoggerFactory.getLogger(OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs.class);

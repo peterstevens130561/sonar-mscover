@@ -22,8 +22,8 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser;
 
+import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 
 public class FileNamesObserver extends VsTestCoverageObserver {
     SonarCoverage registry;
