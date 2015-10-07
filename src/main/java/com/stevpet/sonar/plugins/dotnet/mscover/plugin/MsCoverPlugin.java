@@ -56,6 +56,7 @@ import com.stevpet.sonar.plugins.dotnet.resharper.DefaultInspectCodeRunner;
 import com.stevpet.sonar.plugins.dotnet.resharper.DefaultReSharperWorkflow;
 import com.stevpet.sonar.plugins.dotnet.resharper.InspectCodeBatchData;
 import com.stevpet.sonar.plugins.dotnet.resharper.ReSharperConfiguration;
+import com.stevpet.sonar.plugins.dotnet.resharper.ReSharperPlugin;
 import com.stevpet.sonar.plugins.dotnet.resharper.ReSharperRuleRepositoryProvider;
 import com.stevpet.sonar.plugins.dotnet.resharper.ReSharperSensor;
 import com.stevpet.sonar.plugins.dotnet.resharper.inspectcode.ReSharperCommandBuilder;
@@ -108,7 +109,6 @@ public final class MsCoverPlugin extends SonarPlugin {
                 SimpleMicrosoftWindowsEnvironment.class,
                 VsTestEnvironment.class,
                 DefaultMsCoverConfiguration.class,
-                ReSharperConfiguration.class,
                 VisualStudioProjectBuilder.class,
                 //IntegrationTestLineDecorator.class,
                 //UnitTestLineDecorator.class,
@@ -120,21 +120,11 @@ public final class MsCoverPlugin extends SonarPlugin {
                 IntegrationTestWorkflowSensor.class,
                 SupportedLanguage.class,
                 DefaultProcessLock.class,
-                CSharpRegularReSharperProfileExporter.class,
-                CSharpRegularReSharperProfileImporter.class,
-                ReSharperSonarWayProfileCSharp.class,
-                ReSharperRuleRepositoryProvider.class, 
-                ReSharperSensor.class, 
+
                 DefaultInspectCodeResultsParser.class,
                 DefaultResourceResolver.class, 
                 IntegrationTestResourceResolver.class,
-                DefaultInspectCodeIssuesSaver.class,
-                InspectCodeBatchData.class,
-                DefaultInspectCodeRunner.class,
-                DefaultIssueValidator.class,
-                DefaultReSharperWorkflow.class,
                 
-                ReSharperCommandBuilder.class,
                 WindowsCommandLineExecutor.class,
                 BuildWrapperInitializer.class,
                 BuildWrapperBuilder.class,
@@ -145,8 +135,9 @@ public final class MsCoverPlugin extends SonarPlugin {
                 ;
         List extensions = new ArrayList();
         extensions.addAll(clazzes);
+        
         extensions.addAll(BuildWrapperConstants.getProperties());
-        extensions.addAll(ReSharperConfiguration.getProperties());
+        extensions.addAll( new ReSharperPlugin().getExtensions());
         extensions.addAll(DefaultMsCoverConfiguration.getProperties());
         extensions.addAll(VisualStudioConfiguration.getProperties());
         return extensions;
