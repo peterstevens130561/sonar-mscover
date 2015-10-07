@@ -32,18 +32,6 @@ import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
 import org.sonar.api.config.PropertyDefinition;
 
-import com.stevpet.sonar.plugings.dotnet.resharper.DefaultInspectCodeRunner;
-import com.stevpet.sonar.plugings.dotnet.resharper.DefaultReSharperWorkflow;
-import com.stevpet.sonar.plugings.dotnet.resharper.InspectCodeBatchData;
-import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperRuleRepositoryProvider;
-import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperSensor;
-import com.stevpet.sonar.plugings.dotnet.resharper.inspectcode.ReSharperCommandBuilder;
-import com.stevpet.sonar.plugings.dotnet.resharper.issuesparser.DefaultInspectCodeResultsParser;
-import com.stevpet.sonar.plugings.dotnet.resharper.issuesparser.DefaultIssueValidator;
-import com.stevpet.sonar.plugings.dotnet.resharper.profiles.CSharpRegularReSharperProfileExporter;
-import com.stevpet.sonar.plugings.dotnet.resharper.profiles.CSharpRegularReSharperProfileImporter;
-import com.stevpet.sonar.plugings.dotnet.resharper.profiles.ReSharperSonarWayProfileCSharp;
-import com.stevpet.sonar.plugings.dotnet.resharper.saver.DefaultInspectCodeIssuesSaver;
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperBuilder;
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperCache;
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperConstants;
@@ -64,10 +52,22 @@ import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestBatchData;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.IntegrationTestCache;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.IntegrationTestWorkflowSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.UnitTestWorkflowSensor;
+import com.stevpet.sonar.plugins.dotnet.resharper.DefaultInspectCodeRunner;
+import com.stevpet.sonar.plugins.dotnet.resharper.DefaultReSharperWorkflow;
+import com.stevpet.sonar.plugins.dotnet.resharper.InspectCodeBatchData;
+import com.stevpet.sonar.plugins.dotnet.resharper.ReSharperConfiguration;
+import com.stevpet.sonar.plugins.dotnet.resharper.ReSharperRuleRepositoryProvider;
+import com.stevpet.sonar.plugins.dotnet.resharper.ReSharperSensor;
+import com.stevpet.sonar.plugins.dotnet.resharper.inspectcode.ReSharperCommandBuilder;
+import com.stevpet.sonar.plugins.dotnet.resharper.issuesparser.DefaultInspectCodeResultsParser;
+import com.stevpet.sonar.plugins.dotnet.resharper.issuesparser.DefaultIssueValidator;
+import com.stevpet.sonar.plugins.dotnet.resharper.profiles.CSharpRegularReSharperProfileExporter;
+import com.stevpet.sonar.plugins.dotnet.resharper.profiles.CSharpRegularReSharperProfileImporter;
+import com.stevpet.sonar.plugins.dotnet.resharper.profiles.ReSharperSonarWayProfileCSharp;
+import com.stevpet.sonar.plugins.dotnet.resharper.saver.DefaultInspectCodeIssuesSaver;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.SimpleMicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioConfiguration;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioProjectBuilder;
-import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConfiguration;
 
 /**
  * This class is the entry point for all extensions
