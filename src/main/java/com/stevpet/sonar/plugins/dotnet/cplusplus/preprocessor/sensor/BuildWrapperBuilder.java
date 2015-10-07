@@ -9,8 +9,8 @@ import org.sonar.api.BatchExtension;
 import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.command.Command;
 
+import com.stevpet.sonar.plugins.common.api.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 
 public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
     private static final String EXECUTABLE = "build-wrapper.exe";

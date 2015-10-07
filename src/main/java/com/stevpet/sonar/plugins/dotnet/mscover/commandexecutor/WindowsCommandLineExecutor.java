@@ -29,6 +29,7 @@ import org.sonar.api.utils.command.CommandExecutor;
 import org.sonar.api.utils.command.StreamConsumer;
 
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
+import com.stevpet.sonar.plugins.common.api.ShellCommand;
 
 /**
  * A simple commandline executer.

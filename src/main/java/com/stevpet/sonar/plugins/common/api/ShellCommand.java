@@ -20,7 +20,7 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor;
+package com.stevpet.sonar.plugins.common.api;
 
 import org.sonar.api.utils.command.Command;
 

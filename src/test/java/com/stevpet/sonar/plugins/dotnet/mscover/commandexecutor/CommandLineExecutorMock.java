@@ -29,6 +29,7 @@ import org.mockito.ArgumentCaptor;
 import org.sonar.api.utils.command.Command;
 
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
+import com.stevpet.sonar.plugins.common.api.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 
 public class CommandLineExecutorMock extends GenericClassMock<CommandLineExecutor> {

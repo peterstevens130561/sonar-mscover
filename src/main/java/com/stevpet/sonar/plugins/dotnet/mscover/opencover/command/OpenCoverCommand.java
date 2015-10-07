@@ -29,8 +29,8 @@ import org.sonar.api.utils.command.Command;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.stevpet.sonar.plugins.common.api.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 
 public class OpenCoverCommand implements ShellCommand {
 

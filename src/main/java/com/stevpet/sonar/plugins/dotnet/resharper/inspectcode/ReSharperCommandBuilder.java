@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
 import org.sonar.api.utils.command.Command;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
+import com.stevpet.sonar.plugins.common.api.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.resharper.ReSharperException;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 

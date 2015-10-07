@@ -22,7 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
+import com.stevpet.sonar.plugins.common.api.ShellCommand;
 
 public abstract class CodeCoverageCommand implements ShellCommand{
 

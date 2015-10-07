@@ -28,8 +28,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.command.Command;
 
+import com.stevpet.sonar.plugins.common.api.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverTarget;
 
 public class VSTestCommand implements ShellCommand,OpenCoverTarget {
