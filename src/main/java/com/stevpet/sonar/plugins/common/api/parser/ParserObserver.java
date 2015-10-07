@@ -20,11 +20,31 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.parser;
+package com.stevpet.sonar.plugins.common.api.parser;
 
 
 
-
-public interface ParserSubject {
-    void registerObserver(ParserObserver observer);
+public interface ParserObserver {
+    /**
+     * Determine whether the current element with text is to be observed
+     * @param path to current element
+     * @return true if the path matches the element to observe
+     */
+    boolean isMatch(String path);
+    /**
+     * Invoked when element is found of which the localName matches the pattern
+     * @param name of this element
+     * @param text of this element
+     */
+    void observeElement(String name,String text);
+    void observeAttribute(String elementName, String path,
+            String attributeValue, String attributeName);
+    
+    
+    /**
+     * true if one or more errors have been found during parsing. The observer
+     * is responsible for logging;
+     */
+    boolean hasError();
+    void setParserData(ParserData parserData);
 }

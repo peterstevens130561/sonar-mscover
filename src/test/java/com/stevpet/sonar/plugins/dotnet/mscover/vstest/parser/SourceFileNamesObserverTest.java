@@ -8,10 +8,10 @@ import javax.xml.transform.TransformerException;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.stevpet.sonar.plugins.common.api.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.FileNamesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestCoverageObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
 
 public class SourceFileNamesObserverTest extends ObserverTest {

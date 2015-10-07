@@ -32,7 +32,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.common.api.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.ResultsParserSubject;
 
 public class ResultsParserSubjectTest {

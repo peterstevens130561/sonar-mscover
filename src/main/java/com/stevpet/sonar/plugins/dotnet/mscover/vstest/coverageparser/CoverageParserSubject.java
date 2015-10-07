@@ -22,7 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.common.api.parser.XmlParserSubject;
 
 
 public class CoverageParserSubject extends XmlParserSubject {

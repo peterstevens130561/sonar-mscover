@@ -24,6 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.parser;
 
 import java.io.File;
 
+import com.stevpet.sonar.plugins.common.api.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 
 import static org.mockito.Mockito.verify;

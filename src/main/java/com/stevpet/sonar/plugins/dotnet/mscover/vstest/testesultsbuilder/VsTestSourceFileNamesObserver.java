@@ -1,8 +1,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.testesultsbuilder;
 
+import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.BaseParserObserver;
 
 public class VsTestSourceFileNamesObserver extends BaseParserObserver {
     private SourceFileNameTable sourceFileNameTable;
