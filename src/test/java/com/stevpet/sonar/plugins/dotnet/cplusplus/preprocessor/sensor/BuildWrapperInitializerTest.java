@@ -19,7 +19,7 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.SonarException;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
+import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
 
 public class BuildWrapperInitializerTest {
     @Mock private Settings settings;

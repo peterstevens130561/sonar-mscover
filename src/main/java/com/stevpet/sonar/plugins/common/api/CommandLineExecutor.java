@@ -20,9 +20,11 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor;
+package com.stevpet.sonar.plugins.common.api;
 
 import org.sonar.api.BatchExtension;
+
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ShellCommand;
 
 
 public interface CommandLineExecutor extends BatchExtension {

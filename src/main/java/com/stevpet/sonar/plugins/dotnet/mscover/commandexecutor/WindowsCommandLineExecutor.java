@@ -28,6 +28,8 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.command.CommandExecutor;
 import org.sonar.api.utils.command.StreamConsumer;
 
+import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
+
 /**
  * A simple commandline executer.
  *

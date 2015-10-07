@@ -19,7 +19,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.utils.SonarException;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor;
+import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.resharper.DefaultInspectCodeRunner;
 import com.stevpet.sonar.plugins.dotnet.resharper.InspectCodeBatchData;
 import com.stevpet.sonar.plugins.dotnet.resharper.InspectCodeRunner;
