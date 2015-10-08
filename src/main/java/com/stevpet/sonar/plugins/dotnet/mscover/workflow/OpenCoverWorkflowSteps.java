@@ -18,6 +18,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.DefaultTestResultsFor
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.DefaultTestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.DefaultTestResultsParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.SpecFlowScenarioMethodResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.SpecFlowTestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.TestResultsSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
@@ -69,6 +70,7 @@ public class OpenCoverWorkflowSteps implements WorkflowSteps {
     private void getTestRunnerComponents(DefaultPicoContainer container) {
         container
                 .addComponent(OpenCoverCommand.class)
+                .addComponent(SpecFlowScenarioMethodResolver.class)
                 .addComponent(LockedWindowsCommandLineExecutor.class)
                 .addComponent(VsTestConfigFinder.class)
                 .addComponent(WindowsCodeCoverageCommand.class)

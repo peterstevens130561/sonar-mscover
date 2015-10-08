@@ -115,7 +115,6 @@ public final class MsCoverPlugin extends SonarPlugin {
                 //UnitTestLineDecorator.class,
                 //IntegrationTestBlockDecorator.class,
                 UnitTestBatchData.class,
-                SpecFlowScenarioMethodResolver.class,
                 DefaultDirector.class, UnitTestBlockDecorator.class,
                 UnitTestWorkflowSensor.class,
                 IntegrationTestCache.class,
