@@ -28,7 +28,7 @@ public class SpecFlowTestResultsBuilder extends DefaultTestResultsBuilder {
         if(file==null) {
             LOG.warn("Could not find file for {}",methodName);
         }
-        return file.getAbsolutePath();
+        return file==null?null:file.getAbsolutePath();
         
     }
 }

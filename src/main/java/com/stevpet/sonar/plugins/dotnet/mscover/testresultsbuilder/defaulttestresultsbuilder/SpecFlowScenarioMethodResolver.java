@@ -40,7 +40,7 @@ public class SpecFlowScenarioMethodResolver implements BatchExtension {
             methodToFileMap=loadMap();
         }
         if(StringUtils.isEmpty(methodName)) {
-            throw new IllegalArgumentException("methodName is null, or empty");
+            return null;
         }
         return methodToFileMap.get(methodName);
         
