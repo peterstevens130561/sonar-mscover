@@ -55,11 +55,15 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
 		for(UnitTestMethodResult unitTest:unitTests) {
 			MethodId methodId=unitTest.getMethodId();
 			String fileId = map.getLongestContainedMethod(methodId);
+			
 			if(fileId==null) {
 				LOG.warn("Could not find fileId for " + methodId + " most likely lines were hidden (#hidden)");
 				continue;
 			}
 			String filePath = sourceFileNamesTable.getSourceFileName(fileId);
+			if (filePath==null) {
+			    filePath=onNotFound(methodId);
+			}
 			if(filePath==null) {
 				LOG.warn("Could not find filename for method " + methodId + "");
 				continue;
@@ -76,5 +80,15 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
 		projectUnitTestResults.addAll(unitTestFilesResultRegistry.values());
 		return projectUnitTestResults;
 	}
+
+
+	/**
+	 * extension point to override normal behavior
+	 * @param methodId
+	 * @return
+	 */
+    protected String onNotFound(MethodId methodId) {
+        return null;
+    }
     
 }
