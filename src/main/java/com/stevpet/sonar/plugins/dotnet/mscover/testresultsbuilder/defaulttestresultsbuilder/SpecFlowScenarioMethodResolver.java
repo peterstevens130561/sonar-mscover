@@ -57,7 +57,7 @@ public class SpecFlowScenarioMethodResolver implements BatchExtension {
 
 
     private void loadFile(Map<String, File> map, File file) {
-        Pattern functionPattern = Pattern.compile("^\\s+public virtual void ([A-Za-z][A-Za-z0-9_]+)\\(\\)$");
+        Pattern functionPattern = Pattern.compile("^\\s+public virtual void ([_A-Za-z][A-Za-z0-9_]+)\\(\\)$");
         try {
             List<String> lines=FileUtils.readLines(file);
             for(String line:lines) {

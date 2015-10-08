@@ -54,7 +54,7 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
 		Collection<UnitTestMethodResult>unitTests=unitTestingResults.values();
 		for(UnitTestMethodResult unitTest:unitTests) {
 			MethodId methodId=unitTest.getMethodId();
-			String fileId = map.getLongestContainedMethod(methodId);
+			String fileId = map.get(methodId);
 			String filePath=null;
 			if(fileId!=null) {
 		         filePath = sourceFileNamesTable.getSourceFileName(fileId);
