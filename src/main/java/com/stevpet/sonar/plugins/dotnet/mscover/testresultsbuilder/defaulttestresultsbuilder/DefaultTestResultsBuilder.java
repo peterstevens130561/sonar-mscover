@@ -84,7 +84,7 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
 	/**
 	 * extension point to override normal behavior
 	 * @param methodId
-	 * @return
+	 * @return absolute path to the file
 	 */
     protected String onNotFound(MethodId methodId) {
         return null;

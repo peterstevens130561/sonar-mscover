@@ -18,12 +18,12 @@ public class SpecFlowTestResultsBuilder extends DefaultTestResultsBuilder {
     public SpecFlowTestResultsBuilder(FileNamesParser fileNamesParser, TestResultsParser testResultsParser,SpecFlowScenarioMethodResolver specFlowScenarioMethodResolver) {
         super(fileNamesParser, testResultsParser);
         this.specFlowScenarioMethodResolver = specFlowScenarioMethodResolver;
-        // TODO Auto-generated constructor stub
     }
 
     @Override
     protected String onNotFound(MethodId methodId) {
         String methodName=methodId.getMethodName();
+        String methodClass=methodId.getClassName();
         File  file=specFlowScenarioMethodResolver.getFile(methodName);
         if(file==null) {
             LOG.warn("Could not find file for {}",methodName);

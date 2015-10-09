@@ -2,7 +2,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestr
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +10,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
-import org.jfree.util.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
@@ -31,7 +29,7 @@ public class SpecFlowScenarioMethodResolver implements BatchExtension {
     }
     
     /**
-     * Find the sourcefile that declares the given test method as private virtual void <methodName>()
+     * Find the sourcefile that declares the given test method as private virtual void [methodName]()
      * @param methodName
      * @return file in which the method is declared, or null.
      */
@@ -70,7 +68,7 @@ public class SpecFlowScenarioMethodResolver implements BatchExtension {
             }
         } catch (IOException e) {
             String msg = "IOException during accessing file " + file.getAbsolutePath();
-            Log.error(msg);
+            LOG.error(msg);
             throw new MsCoverException(msg,e);
         }
     }
