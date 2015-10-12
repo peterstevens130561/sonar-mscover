@@ -5,37 +5,62 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * This is the base parser, it's main purpose is to provide a testable parser
+ * @author stevpet
+ *
+ */
 public class StringSpecFlowParser {
     final Logger LOG = LoggerFactory.getLogger(StringSpecFlowParser.class);
     protected SpecFlowScenarioMap map;
-    private Pattern methodNamePattern = Pattern.compile("^\\s+public virtual void ([_A-Za-z][A-Za-z0-9_]+)\\(\\)$");
-    private Pattern attributePattern = Pattern.compile("\\[Microsoft");
+    private Pattern methodNamePattern = Pattern.compile("^\\s?public virtual void ([_A-Za-z][A-Za-z0-9_]+)\\(\\)$");
+    private Pattern descriptionPattern = Pattern.compile(".*\\[Microsoft\\.VisualStudio\\.TestTools\\.UnitTesting\\.DescriptionAttribute\\(\"(.*)\".*");
+    //\\(\"(.*)\",\"(.*)\"\\)
+    private Pattern attributePattern = Pattern.compile(".*\\[Microsoft\\.VisualStudio\\.TestTools\\.UnitTesting\\.TestPropertyAttribute\\(\"(.*)\",\\s?\"(.*)\".*");
 
 
-    public SpecFlowScenarioMap parse(File file, InputStream inputStream) throws IOException {
+    public SpecFlowScenarioMap parse(File file, Reader reader) throws IOException {
         map = new SpecFlowScenarioMap();
-        InputStreamReader input = new InputStreamReader(inputStream);
-        BufferedReader reader = new BufferedReader(input);
+        BufferedReader bufferedReader = new BufferedReader(reader);
         String line;
-        while((line=reader.readLine())!=null) {
+        String testName=null ;
+        while((line=bufferedReader.readLine())!=null) {
+            Matcher descriptionMatcher = descriptionPattern.matcher(line);
+            if(descriptionMatcher.matches()) {
+                testName = descriptionMatcher.group(1);
+            }
             Matcher attributeMatcher = attributePattern.matcher(line);
             if(attributeMatcher.matches()) {
-                LOG.debug(" {} {}",attributeMatcher.group(1),attributeMatcher.group(2));
+                String attributeKey=attributeMatcher.group(1);
+                String attributeValue=attributeMatcher.group(2);
+                if("VariantName".equals(attributeKey)) {
+                    testName = testName + " " + attributeValue;
+                }
+                if(attributeKey.startsWith("Parameter:")) {
+                    testName = testName + " " + attributeValue;
+                }
             }
             Matcher matcher = methodNamePattern.matcher(line);
             if(matcher.matches()) {
                 String key=matcher.group(1);
                 LOG.debug("found method {} in {}",key,file.getName());
-                SpecFlowScenario scenario = new SpecFlowScenario(file,key,key);
+                if(StringUtils.isEmpty(testName)) {
+                    testName=key;
+                }
+                SpecFlowScenario scenario = new SpecFlowScenario(file,key,testName);
                 map.put(scenario);
+                testName=null;
             }
         }
+        bufferedReader.close();
         return map;
     }
 

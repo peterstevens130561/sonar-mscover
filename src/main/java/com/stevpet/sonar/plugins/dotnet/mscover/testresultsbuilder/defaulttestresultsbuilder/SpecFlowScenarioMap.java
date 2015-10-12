@@ -28,5 +28,9 @@ public class SpecFlowScenarioMap {
         }
         return scenario;
     }
+    
+    public int size() {
+        return map.size();
+    }
 
 }
