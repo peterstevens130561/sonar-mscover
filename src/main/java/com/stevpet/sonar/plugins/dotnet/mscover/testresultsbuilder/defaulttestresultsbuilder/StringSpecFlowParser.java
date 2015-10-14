@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 public class StringSpecFlowParser {
     final Logger LOG = LoggerFactory.getLogger(StringSpecFlowParser.class);
     protected SpecFlowScenarioMap map;
+    private Pattern namespacePattern = Pattern.compile("^namespace\\s+([A-Za-z0-9\\.]+)\\s?$");
     private Pattern methodNamePattern = Pattern.compile("^\\s?public virtual void ([_A-Za-z][A-Za-z0-9_]+)\\(\\)$");
     private Pattern descriptionPattern = Pattern.compile(".*\\[Microsoft\\.VisualStudio\\.TestTools\\.UnitTesting\\.DescriptionAttribute\\(\"(.*)\".*");
     //\\(\"(.*)\",\"(.*)\"\\)
@@ -32,7 +33,12 @@ public class StringSpecFlowParser {
         BufferedReader bufferedReader = new BufferedReader(reader);
         String line;
         String testName=null ;
+        String namespace=null;
         while((line=bufferedReader.readLine())!=null) {
+            Matcher namespaceMatcher = namespacePattern.matcher(line);
+            if(namespaceMatcher.matches()) {
+                namespace=namespaceMatcher.group(1);
+            }
             Matcher descriptionMatcher = descriptionPattern.matcher(line);
             if(descriptionMatcher.matches()) {
                 testName = descriptionMatcher.group(1);
@@ -55,7 +61,7 @@ public class StringSpecFlowParser {
                 if(StringUtils.isEmpty(testName)) {
                     testName=key;
                 }
-                SpecFlowScenario scenario = new SpecFlowScenario(file,key,testName);
+                SpecFlowScenario scenario = new SpecFlowScenario(file,namespace,key,testName);
                 map.put(scenario);
                 testName=null;
             }

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 public class SpecFlowScenarioMethodResolver implements BatchExtension {
@@ -28,14 +29,14 @@ public class SpecFlowScenarioMethodResolver implements BatchExtension {
      * @param methodName
      * @return file in which the method is declared, or null.
      */
-    public File getFile(String methodName) {
+    public File getFile(MethodId testMethod) {
         if(scenarioMap==null) {
             scenarioMap=loadMap();
         }
-        if(StringUtils.isEmpty(methodName)) {
+        if(testMethod==null) {
             return null;
         }
-        SpecFlowScenario scenario= scenarioMap.get(methodName);
+        SpecFlowScenario scenario= scenarioMap.get(testMethod);
         return scenario.getFeatureSourceFile();
         
     }

@@ -23,8 +23,9 @@ public class SpecFlowTestResultsBuilder extends DefaultTestResultsBuilder {
     @Override
     protected String onNotFound(MethodId methodId) {
         String methodName=methodId.getMethodName();
+        String namespace=methodId.getNamespaceName();
         String methodClass=methodId.getClassName();
-        File  file=specFlowScenarioMethodResolver.getFile(methodName);
+        File  file=specFlowScenarioMethodResolver.getFile(namespace,methodName);
         if(file==null) {
             LOG.warn("Could not find file for {}",methodName);
         }

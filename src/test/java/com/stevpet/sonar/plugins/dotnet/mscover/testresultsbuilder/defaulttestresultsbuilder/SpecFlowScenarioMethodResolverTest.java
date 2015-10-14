@@ -15,11 +15,13 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 public class SpecFlowScenarioMethodResolverTest {
 
     private SpecFlowScenarioMethodResolver resolver ;
+    private String namespace = "Joa.JewelEarth.Math.Geometry.SpecflowTest.Features";
     @Mock private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     
     @Before
@@ -31,7 +33,7 @@ public class SpecFlowScenarioMethodResolverTest {
     @Test
     public void NoUnitTestSourceFiles() {
         when(microsoftWindowsEnvironment.getUnitTestSourceFiles()).thenReturn(new ArrayList<File>());
-        File file=resolver.getFile("bogusmethod");
+        File file=resolve("bogusmethod");
         assertNull("no sourcefiles, so should not find it",file);  
     }
     
@@ -39,7 +41,7 @@ public class SpecFlowScenarioMethodResolverTest {
     public void IllegalFeatureFile() {
         givenIllegalFeatureFile();
         try {
-            File file=resolver.getFile("bogusmethod"); 
+            File file=resolve("bogusmethod"); 
             } catch(MsCoverException e) {
                 return;
             }
@@ -48,7 +50,7 @@ public class SpecFlowScenarioMethodResolverTest {
     @Test
     public void OneUnitTestSourceFiles() {
         givenFeatureFile();
-        File file=resolver.getFile("bogusmethod");
+        File file=resolve("bogusmethod");
         assertNull("no sourcefiles, so should not find it",file);  
     }
 
@@ -56,7 +58,7 @@ public class SpecFlowScenarioMethodResolverTest {
     public void Find_ConvertFromDegreesToRadians_180() {
         givenFeatureFile();
         String name="ConvertFromDegreesToRadians_180";
-        File file=resolver.getFile(name);
+        File file = resolve(name);
         assertNotNull("should find method "+ name,file);  
     }
     
@@ -64,14 +66,14 @@ public class SpecFlowScenarioMethodResolverTest {
     public void Find_ConvertFromDegreesToRadians_270() {
         givenFeatureFile();
         String name="ConvertFromDegreesToRadians_270";
-        File file=resolver.getFile(name);
+        File file = resolve(name);
         assertNotNull("should find method "+ name,file);  
     }
     @Test
     public void IncompleteBegin_ShouldNotFind() {
         givenFeatureFile();
         String name="onvertFromDegreesToRadians_180";
-        File file=resolver.getFile(name);
+        File file = resolve(name);
         assertNull("should notfind method, as it is incomplete "+ name,file);  
     }
     
@@ -79,8 +81,16 @@ public class SpecFlowScenarioMethodResolverTest {
     public void IncompleteEnd_ShouldNotFind() {
         givenFeatureFile();
         String name="ConvertFromDegreesToRadians_18";
-        File file=resolver.getFile(name);
+        File file = resolve(name);
         assertNull("should notfind method, as it is incomplete "+ name,file);  
+    }
+
+    public File resolve(String name) {
+        MethodId testMethod = new MethodId();
+        testMethod.setNamespaceName(namespace);
+        testMethod.setMethodName(name);
+        File file=resolver.getFile(testMethod);
+        return file;
     }
     
     public void givenIllegalFeatureFile() {

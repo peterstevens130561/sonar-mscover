@@ -6,16 +6,22 @@ public class SpecFlowScenario {
     
     private String methodName;
     private String testName ;
+    private String namespace;
     private File featureSourceFile;
+    
+    public SpecFlowScenario() {
+        
+    }
     /**
      * 
      * @param file unit test feature file i.e somefeature.feature.cs
      * @param methodName name of method in the file
      * @param testName name as we would like to present it in SonarQube
      */
-    public SpecFlowScenario(File file, String methodName, String testName) {
+    public SpecFlowScenario(File file, String namespace,String methodName, String testName) {
         featureSourceFile=file;
         this.methodName=methodName;
+        this.setNamespace(namespace);
         this.testName=testName;
     }
 
@@ -64,6 +70,14 @@ public class SpecFlowScenario {
      */
     public void setFeatureSourceFile(File featureSourceFile) {
         this.featureSourceFile = featureSourceFile;
+    }
+
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
     }
 
 }
