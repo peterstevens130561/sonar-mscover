@@ -22,7 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder;
 
-import com.stevpet.sonar.plugins.common.api.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
 
 public class ResultsParserSubject extends  XmlParserSubject {
 

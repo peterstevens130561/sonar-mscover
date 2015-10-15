@@ -8,7 +8,7 @@ import javax.xml.transform.TransformerException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.stevpet.sonar.plugins.common.api.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.LinesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestCoverageObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;

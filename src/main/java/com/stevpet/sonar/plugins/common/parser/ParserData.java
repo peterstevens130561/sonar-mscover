@@ -20,7 +20,7 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.common.api.parser;
+package com.stevpet.sonar.plugins.common.parser;
 
 public class ParserData {
     private int skipLevel = 0;

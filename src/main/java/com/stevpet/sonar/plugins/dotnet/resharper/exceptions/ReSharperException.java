@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.resharper;
+package com.stevpet.sonar.plugins.dotnet.resharper.exceptions;
 
 import org.sonar.api.utils.SonarException;
 

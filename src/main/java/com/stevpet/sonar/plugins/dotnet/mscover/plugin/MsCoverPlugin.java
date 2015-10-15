@@ -137,7 +137,7 @@ public final class MsCoverPlugin extends SonarPlugin {
         extensions.addAll(clazzes);
         
         extensions.addAll(BuildWrapperConstants.getProperties());
-        extensions.addAll( new ReSharperPlugin().getExtensions());
+        //extensions.addAll( new ReSharperPlugin().getExtensions());
         extensions.addAll(DefaultMsCoverConfiguration.getProperties());
         extensions.addAll(VisualStudioConfiguration.getProperties());
         return extensions;

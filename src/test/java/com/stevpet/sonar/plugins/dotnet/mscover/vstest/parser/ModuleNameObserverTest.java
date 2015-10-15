@@ -12,7 +12,7 @@ import static org.mockito.Mockito.times;
 
 import org.mockito.MockitoAnnotations;
 
-import com.stevpet.sonar.plugins.common.api.parser.ParserData;
+import com.stevpet.sonar.plugins.common.parser.ParserData;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.ModuleNameObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
 

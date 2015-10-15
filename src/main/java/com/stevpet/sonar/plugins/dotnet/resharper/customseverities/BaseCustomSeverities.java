@@ -38,9 +38,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-import com.stevpet.sonar.plugins.dotnet.resharper.ReSharperException;
 import com.stevpet.sonar.plugins.dotnet.resharper.ReSharperSeverity;
 import com.stevpet.sonar.plugins.dotnet.resharper.ReSharperUtils;
+import com.stevpet.sonar.plugins.dotnet.resharper.exceptions.ReSharperException;
 
 public abstract class BaseCustomSeverities implements CustomSeverities {
 

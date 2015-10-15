@@ -3,7 +3,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoveragep
 import java.io.File;
 import java.util.List;
 
-import com.stevpet.sonar.plugins.common.api.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
 

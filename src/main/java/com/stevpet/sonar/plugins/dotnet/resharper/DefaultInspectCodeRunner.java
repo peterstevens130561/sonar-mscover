@@ -16,6 +16,7 @@ import org.sonar.api.utils.command.CommandException;
 
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.resharper.exceptions.InspectCodeRunnerException;
+import com.stevpet.sonar.plugins.dotnet.resharper.exceptions.ReSharperException;
 import com.stevpet.sonar.plugins.dotnet.resharper.inspectcode.ReSharperCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
