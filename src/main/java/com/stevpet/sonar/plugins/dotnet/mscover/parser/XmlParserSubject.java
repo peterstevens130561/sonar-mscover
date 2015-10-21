@@ -45,6 +45,8 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementEntry;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementExit;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.PathMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.exceptions.MsCoverParserException;
@@ -195,16 +197,70 @@ public abstract class XmlParserSubject implements ParserSubject {
         return parsedChild;
     }
 
+    /**
+     * executed on exit of an element, can override to change behavior.
+     * Default behavior is to execute the exit methods
+     * @param path
+     */
+    protected void onExit(String path) {
+        invokeElementExitObservers(path);
+    }
+    
+    private void invokeElementExitObservers(String path) {
+        for (ParserObserver observer : observers) {
+            if (observer.isMatch(path)) {
+                for(Method method: observer.getClass().getMethods()) {
+                    ElementExit annos = method.getAnnotation(ElementExit.class);
+
+                    if (annos == null) {
+                        continue;
+                    }
+                    if (path.equals(annos.path())) {
+                        invokeMethod(observer, method);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * executed on entry of an element, can override to change behavior.
+     * Default behavior is to execute the entry methods
+     * @param path
+     */
+    protected void onEntry(String path) {
+        invokeElementEntryObservers( path);
+    }
+    
+    private void invokeElementEntryObservers(String path) {
+        for (ParserObserver observer : observers) {
+            if (observer.isMatch(path)) {
+                for(Method method: observer.getClass().getMethods()) {
+                    ElementEntry annos = method.getAnnotation(ElementEntry.class);
+
+                    if (annos == null) {
+                        continue;
+                    }
+                    if (path.equals(annos.path())) {
+                        invokeMethod(observer, method);
+                    }
+                }
+            }
+        }
+    }
+
+
     private void processStartElement(String path, SMInputCursor childCursor)
             throws XMLStreamException {
         String name = childCursor.getLocalName();
         if ("schema".equals(name)) {
             return;
         }
-
         String elementPath = createElementPath(path, name);
+        onEntry(elementPath);
         processAttributes(elementPath, name, childCursor);
         processElement(elementPath, name, childCursor);
+        onExit(elementPath);
     }
 
     private void processElement(String elementPath, String name,
@@ -282,7 +338,7 @@ public abstract class XmlParserSubject implements ParserSubject {
             return;
         }
         if (path.equals(annos.path())) {
-            invokeMethod(elementValue, observer, method);
+            invokeMethod(observer, method, elementValue);
         }
 
     }
@@ -295,12 +351,50 @@ public abstract class XmlParserSubject implements ParserSubject {
             return;
         }
         if (elementName.equals(annos.elementName())) {
-            invokeMethod(elementValue, observer, method);
+            invokeMethod(observer, method, elementValue);
         }
     }
+    
 
-    private void invokeMethod(String elementValue, ParserObserver observer,
-            Method method) {
+
+    private void invokeMethod(ParserObserver observer, Method method ) {
+        try {
+            method.invoke(observer);
+        } catch (InvocationTargetException e) {
+            if (e.getTargetException() != null) {
+                String msg = "Exception thrown when invoking method"
+                        + observer.getClass().getName() + ":"
+                        + method.getName() + lineMsg();
+                LOG.error(msg, e.getTargetException());
+                throw new SonarException(msg, e);
+            }
+            String msg = "Invocation Target Exception thrown when invoking method "
+                    + observer.getClass().getName()
+                    + ":"
+                    + method.getName()
+                    + lineMsg();
+            LOG.error(msg, e);
+            throw new SonarException(msg, e);
+        } catch (IllegalAccessException e) {
+            String msg = "Illegal Access Exception thrown when invoking method "
+                    + observer.getClass().getName()
+                    + ":"
+                    + method.getName()
+                    + lineMsg();
+            LOG.error(msg, e);
+            throw new SonarException(msg, e);
+        } catch (IllegalArgumentException e) {
+            String msg = "Illegal Argument Exception thrown when invoking method "
+                    + observer.getClass().getName()
+                    + ":"
+                    + method.getName()
+                    + lineMsg();
+            LOG.error(msg, e);
+            throw new SonarException(msg, e);
+        }
+    }
+    private void invokeMethod(ParserObserver observer, Method method,
+            String elementValue ) {
         try {
             method.invoke(observer, elementValue);
         } catch (InvocationTargetException e) {
@@ -360,7 +454,7 @@ public abstract class XmlParserSubject implements ParserSubject {
         }
         if (elementName.equals(annos.elementName())
                 && attributeName.equals(annos.attributeName())) {
-            invokeMethod(attributeValue, observer, method);
+            invokeMethod(observer, method, attributeValue);
         }
     }
 

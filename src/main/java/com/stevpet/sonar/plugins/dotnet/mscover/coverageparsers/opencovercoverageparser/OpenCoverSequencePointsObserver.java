@@ -27,7 +27,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.OpenCoverSequencePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.SequencePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.AttributeMatcher;
-
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementEntry;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementExit;
+import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementMatcher;
 public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
 
         private SonarCoverage registry ;
@@ -37,8 +39,11 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         private boolean lineVisited;
         private BranchOffsetToLineMapper offsetToLineMapper = new BranchOffsetToLineMapper();
         private boolean branchVisited;
+        private int line;
+        private String fileId;
         public OpenCoverSequencePointsObserver() {
-            setPattern("Modules/Module/Classes/Class/Methods/Method/FileRef" +
+            setPattern("(Modules/Module/Classes/Class/FullName)" +
+                    "|Modules/Module/Classes/Class/Methods/Method/FileRef" +
                      "|Modules/Module/Classes/Class/Methods/Method/SequencePoints/SequencePoint" +
                      "|Modules/Module/Classes/Class/Methods/Method/BranchPoints/BranchPoint" +
                      ""
@@ -48,16 +53,24 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         public void setRegistry(SonarCoverage registry) {
             this.registry = registry;
         }
-        
+        @ElementMatcher(elementName="FullName")
+        public void classMatcher(String text) {
+            offsetToLineMapper.init();
+            coveredFile = new SonarFileCoverage(); // make sure we have somewhere to register the data, maybe there is no FileRef
+        }
+        /**
+         * FilerRef has uid attribute, which referes to the file in the Files element which has that uid
+         * The 
+         * @param attributeValue
+         */
         @AttributeMatcher(attributeName="uid",elementName="FileRef")
         public void fileRefMatcher(String attributeValue) {
            coveredFile=registry.getCoveredFile(attributeValue);
-           offsetToLineMapper.start();
+           offsetToLineMapper.init();
         }
         
         @AttributeMatcher(attributeName = "vc", elementName = "SequencePoint")
         public void visitedCountMatcher(String attributeValue) {
-            sequencePoint=new OpenCoverSequencePoint();
            lineVisited = !"0".equals(attributeValue);
 
         }
@@ -65,22 +78,28 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         @AttributeMatcher(attributeName="offset",elementName="SequencePoint")
         public void offsetMatcher(String attributeValue) {
             sequencePoint.setOffset(attributeValue);
-            offsetToLineMapper.addSequencePoint(sequencePoint);
         }
         
         @AttributeMatcher(attributeName="sl",elementName="SequencePoint")
         public void startLineMatcher(String attributeValue) {
 
             sequencePoint.setStartLine(attributeValue);
-            offsetToLineMapper.addSequencePoint(sequencePoint);
-  
-            int line=Integer.parseInt(attributeValue);
-            coveredFile.addLinePoint(line, lineVisited);
+            line=Integer.parseInt(attributeValue);
+        }
+        
+        @AttributeMatcher(attributeName="fileid",elementName="SequencePoint")
+        public void fileIdMatcher(String attributeValue) {
+               fileId=attributeValue;
+
+        }
+
+        private boolean isPragmaFile(String attributeValue) {
+            return "0".equals(attributeValue);
         }
         
         @AttributeMatcher(attributeName ="vc", elementName = "BranchPoint")
         public void visitedBranchCountMatcher(String attributeValue) {
-            branchVisited = !"0".equals(attributeValue);
+            branchVisited = !isPragmaFile(attributeValue);
 
         }
         
@@ -94,6 +113,19 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
 
         }
         
-
+        @ElementEntry(path="Modules/Module/Classes/Class/Methods/Method/SequencePoints/SequencePoint")
+        public void sequencePointEntry() {
+            sequencePoint=new OpenCoverSequencePoint();
+        }
+        
+        @ElementExit(path="Modules/Module/Classes/Class/Methods/Method/SequencePoints/SequencePoint")
+        public void sequencePointExit() {
+            if(isPragmaFile(fileId)) {
+                return;
+            }
+            offsetToLineMapper.addSequencePoint(sequencePoint);
+            coveredFile.addLinePoint(line,lineVisited);
+        }
+        
 }
         

@@ -24,12 +24,13 @@ public class OpenCoverCoverageParserTest {
     }
     
 
-    @Test
     @Ignore
+    @Test
     public void ReadFile() {
         //Arrange
         OpenCoverCoverageParser parser = new OpenCoverCoverageParser(configuration);
-        File file = new File("E:\\Users\\stevpet\\My Documents\\BAM\\coverage-report.xml");
+        //File file = new File("E:\\Users\\stevpet\\My Documents\\BAM\\coverage-report.xml");
+        File file = new File("E:\\Users\\stevpet\\My Documents\\GitHub\\sonar-mscover\\coverage-subsurface.xml");
         SonarCoverage registry = new SonarCoverage();
         //Act
         parser.parse(registry, file);
