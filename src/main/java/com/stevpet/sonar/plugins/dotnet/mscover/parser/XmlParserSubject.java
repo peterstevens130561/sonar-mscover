@@ -326,9 +326,10 @@ public abstract class XmlParserSubject implements ParserSubject {
 
 
     private void invokeMethod(ParserObserver observer, Method method,
-            String elementValue ) {
+            String... elementValue ) {
         try {
-            method.invoke(observer, elementValue);
+            Object[] varargs = elementValue;
+            method.invoke(observer, varargs);
         } catch (InvocationTargetException e) {
             if (e.getTargetException() != null) {
                 String msg = "Exception thrown when invoking method"
