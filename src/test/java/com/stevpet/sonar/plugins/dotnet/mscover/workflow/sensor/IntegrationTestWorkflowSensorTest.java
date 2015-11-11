@@ -65,7 +65,7 @@ public class IntegrationTestWorkflowSensorTest {
                 fileSystem, 
                 resourceResolver, 
                 pathResolver, 
-                integrationTestCache);
+                integrationTestCache, processLock);
     }
     
     private boolean superImplementExtension(Class extensionClass) {

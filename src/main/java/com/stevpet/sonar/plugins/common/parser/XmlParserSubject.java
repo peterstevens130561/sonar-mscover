@@ -46,8 +46,12 @@ import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.common.api.parser.ParserObserver;
 import com.stevpet.sonar.plugins.common.api.parser.ParserSubject;
+import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
+import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementMatcher;
+import com.stevpet.sonar.plugins.common.api.parser.annotations.PathMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.exceptions.MsCoverParserException;
 import com.stevpet.sonar.plugins.dotnet.mscover.parser.exceptions.ParserSubjectErrorException;
+import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementObserver.Event;
 
 /**
  * Each parser should implement this class

@@ -22,7 +22,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.ittest.vstest.IntegrationTestCov
 import com.stevpet.sonar.plugins.dotnet.mscover.ittest.vstest.IntegrationTestLineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.IntegrationTestResourceResolver;
-import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 

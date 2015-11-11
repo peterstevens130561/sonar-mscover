@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.parser;
+package com.stevpet.sonar.plugins.common.parser;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -8,7 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.SonarException;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.parser.annotations.ElementObserver;
+import com.stevpet.sonar.plugins.common.api.parser.ParserObserver;
+import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementObserver;
 
 class ElementObserverInvoker {
     private Logger LOG = LoggerFactory.getLogger(ElementObserverInvoker.class);
