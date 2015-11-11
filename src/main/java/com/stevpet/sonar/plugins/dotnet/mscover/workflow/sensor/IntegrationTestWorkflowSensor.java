@@ -9,8 +9,9 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.PathResolver;
 
-import com.stevpet.sonar.plugins.common.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ProcessLock;
+import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestFilteringCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultCoverageSaver;
@@ -40,7 +41,8 @@ public class IntegrationTestWorkflowSensor implements Sensor {
             FileSystem fileSystem,
             IntegrationTestResourceResolver resourceResolver,
             PathResolver pathResolver,
-            IntegrationTestCache integrationTestCache) {
+            IntegrationTestCache integrationTestCache,
+            ProcessLock processLock) {
         
         this.microsoftWindowsEnvironment =microsoftWindowsEnvironment;
         container = new DefaultPicoContainer();
@@ -49,7 +51,8 @@ public class IntegrationTestWorkflowSensor implements Sensor {
             .addComponent(fileSystem)
             .addComponent(resourceResolver)
             .addComponent(pathResolver)
-            .addComponent(integrationTestCache);
+            .addComponent(integrationTestCache)
+            .addComponent(processLock);
         this.msCoverProperties=msCoverProperties;
     }
 

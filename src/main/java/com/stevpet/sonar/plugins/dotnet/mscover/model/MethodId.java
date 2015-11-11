@@ -25,6 +25,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.SonarException;
 
 public final class MethodId  {
@@ -104,6 +105,9 @@ public final class MethodId  {
 
     public MethodId setMethodName(String methodName) {
         this.methodName = removeArgumentList(methodName);
+        if(StringUtils.isEmpty(this.methodName)) {
+            throw new IllegalArgumentException("methodName");
+        }
         return this;
     }
     

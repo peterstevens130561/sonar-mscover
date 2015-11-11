@@ -88,7 +88,7 @@ public class BranchOffsetToLineMapperTest {
     public void startAfterSeveralPointsFollowedByClear_ExpectEmptyList() {
         addPoint("0","64");
         addPoint("10","66");
-        mapper.start();
+        mapper.init();
         
        int line=mapper.mapOffsetToLine(10);
        assertEquals(-1,line);

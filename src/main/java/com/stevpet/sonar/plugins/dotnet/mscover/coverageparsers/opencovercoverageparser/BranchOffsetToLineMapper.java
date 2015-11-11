@@ -39,7 +39,7 @@ public class BranchOffsetToLineMapper {
     private static final Logger LOG = LoggerFactory.getLogger(BranchOffsetToLineMapper.class);
     private List<SequencePoint> sequencePoints;
     public void addSequencePoint(SequencePoint sequencePoint) {
-        if(sequencePoint.getOffset()==0) {
+        if(sequencePoints == null) {
             sequencePoints = new ArrayList<SequencePoint>();
         }
         sequencePoints.add(sequencePoint);
@@ -84,7 +84,7 @@ public class BranchOffsetToLineMapper {
     /**
      * wipes out the current list
      */
-    public void start() {
-        sequencePoints = new ArrayList<SequencePoint>();
+    public void init() {
+        sequencePoints = null;
     }
 }
