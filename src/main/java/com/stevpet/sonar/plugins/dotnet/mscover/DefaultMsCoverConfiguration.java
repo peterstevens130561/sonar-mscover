@@ -35,14 +35,12 @@ import org.sonar.api.BatchExtension;
 import org.sonar.api.PropertyType;
 import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.config.PropertyFieldDefinition;
 import org.sonar.api.config.Settings;
 import org.sonar.api.config.PropertyDefinition.Builder;
 import org.sonar.api.resources.Qualifiers;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverRequiredPropertyMissingException;
-import com.stevpet.sonar.plugins.dotnet.resharper.ReSharperConfiguration;
 @InstantiationStrategy(InstantiationStrategy.PER_BATCH)
 public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfiguration  {
 

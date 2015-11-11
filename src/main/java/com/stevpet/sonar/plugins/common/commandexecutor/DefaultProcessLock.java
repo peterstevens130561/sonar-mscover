@@ -20,7 +20,7 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor;
+package com.stevpet.sonar.plugins.common.commandexecutor;
 
 import java.io.File;
 import java.io.FileNotFoundException;

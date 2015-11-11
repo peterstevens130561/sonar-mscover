@@ -20,7 +20,7 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor;
+package com.stevpet.sonar.plugins.common.commandexecutor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,7 +103,7 @@ public class WindowsCommandLineExecutor implements CommandLineExecutor {
         
     }
     
-    void setCommandExecutor(CommandExecutor commandExecutor) {
+    public void setCommandExecutor(CommandExecutor commandExecutor) {
         this.commandExecutor = commandExecutor;
     }
 }

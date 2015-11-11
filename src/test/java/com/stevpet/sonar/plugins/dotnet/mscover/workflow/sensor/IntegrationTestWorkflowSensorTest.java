@@ -14,9 +14,9 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.scan.filesystem.PathResolver;
 
+import com.stevpet.sonar.plugins.common.commandexecutor.DefaultProcessLock;
+import com.stevpet.sonar.plugins.common.commandexecutor.ProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.DefaultProcessLock;
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.ProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.MsCoverPlugin;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.IntegrationTestResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
@@ -37,11 +37,10 @@ public class IntegrationTestWorkflowSensorTest {
     public void before() {
         org.mockito.MockitoAnnotations.initMocks(this);
     }
-    @Test
+
     public void injectionCreate() {
         DefaultPicoContainer container = new DefaultPicoContainer();
         extensions= new MsCoverPlugin().getExtensions();
-        extensions = new ArrayList();
         extensions.add(DefaultProcessLock.class);
         
 
@@ -56,7 +55,6 @@ public class IntegrationTestWorkflowSensorTest {
         // the sonar provided stuff
         container.addComponent(fileSystem).addComponent(pathResolver);
         
-        container.addComponent(IntegrationTestWorkflowSensor.class);
         sensor=container.getComponent(IntegrationTestWorkflowSensor.class);
     }
     

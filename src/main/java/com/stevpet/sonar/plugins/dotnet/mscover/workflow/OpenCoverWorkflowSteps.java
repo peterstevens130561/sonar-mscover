@@ -2,8 +2,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.workflow;
 
 import org.picocontainer.DefaultPicoContainer;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.DefaultProcessLock;
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
+import com.stevpet.sonar.plugins.common.commandexecutor.DefaultProcessLock;
+import com.stevpet.sonar.plugins.common.commandexecutor.LockedWindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverFileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;

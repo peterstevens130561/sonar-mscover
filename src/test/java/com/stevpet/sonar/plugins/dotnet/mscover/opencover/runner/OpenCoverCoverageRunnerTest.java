@@ -10,11 +10,11 @@ import org.junit.Test;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.injectors.ConstructorInjection;
 
+import com.stevpet.sonar.plugins.common.commandexecutor.DefaultProcessLock;
+import com.stevpet.sonar.plugins.common.commandexecutor.LockedWindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.VsTestRunnerCommandBuilderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExexutorStub;
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.DefaultProcessLock;
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.LockedWindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.VsTestCoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.NoAssembliesDefinedException;

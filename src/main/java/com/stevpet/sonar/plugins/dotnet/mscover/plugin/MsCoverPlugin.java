@@ -32,13 +32,13 @@ import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
 import org.sonar.api.config.PropertyDefinition;
 
+import com.stevpet.sonar.plugins.common.commandexecutor.DefaultProcessLock;
+import com.stevpet.sonar.plugins.common.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperBuilder;
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperCache;
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperConstants;
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperInitializer;
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.DefaultProcessLock;
-import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestBlockDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestLineDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestBlockDecorator;
@@ -52,20 +52,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestBatchData;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.IntegrationTestCache;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.IntegrationTestWorkflowSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.UnitTestWorkflowSensor;
-import com.stevpet.sonar.plugins.dotnet.resharper.DefaultInspectCodeRunner;
-import com.stevpet.sonar.plugins.dotnet.resharper.DefaultReSharperWorkflow;
-import com.stevpet.sonar.plugins.dotnet.resharper.InspectCodeBatchData;
-import com.stevpet.sonar.plugins.dotnet.resharper.ReSharperConfiguration;
-import com.stevpet.sonar.plugins.dotnet.resharper.ReSharperPlugin;
-import com.stevpet.sonar.plugins.dotnet.resharper.ReSharperRuleRepositoryProvider;
-import com.stevpet.sonar.plugins.dotnet.resharper.ReSharperSensor;
-import com.stevpet.sonar.plugins.dotnet.resharper.inspectcode.ReSharperCommandBuilder;
-import com.stevpet.sonar.plugins.dotnet.resharper.issuesparser.DefaultInspectCodeResultsParser;
-import com.stevpet.sonar.plugins.dotnet.resharper.issuesparser.DefaultIssueValidator;
-import com.stevpet.sonar.plugins.dotnet.resharper.profiles.CSharpRegularReSharperProfileExporter;
-import com.stevpet.sonar.plugins.dotnet.resharper.profiles.CSharpRegularReSharperProfileImporter;
-import com.stevpet.sonar.plugins.dotnet.resharper.profiles.ReSharperSonarWayProfileCSharp;
-import com.stevpet.sonar.plugins.dotnet.resharper.saver.DefaultInspectCodeIssuesSaver;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.SimpleMicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioConfiguration;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioProjectBuilder;
@@ -87,17 +73,7 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualS
         @Property(key = DefaultMsCoverConfiguration.MSCOVER_EXCLUSIONS, name = "regular expression to match files that should be excluded", defaultValue = "", global = false, project = true, type = PropertyType.STRING),
         @Property(key = DefaultMsCoverConfiguration.MSCOVER_IGNOREMISSING_DLL, name = "list of dlls that may be ignored if missing", defaultValue = "", global = false, project = true, type = PropertyType.STRING),
         @Property(key = DefaultMsCoverConfiguration.MSCOVER_UNITTEST_HINTPATH, name = "hintpath for unit testing dlls", defaultValue = "", global = false, project = true, type = PropertyType.STRING),
-        @Property(key = DefaultMsCoverConfiguration.MSCOVER_OPENCOVER_SKIPAUTOPROPS, name = "skip autoproperties", defaultValue = "true", global = true, project = true, type = PropertyType.BOOLEAN),
-        @Property(key = ReSharperConfiguration.MODE, defaultValue = "", name = "ReSharper activation mode", description = "Possible values : empty (means active), 'skip' and 'reuseReport'.", global = false, project = false, type = PropertyType.SINGLE_SELECT_LIST, options = {
-                "skip", "reuseReport" }),
-
-        @Property(key = ReSharperConfiguration.INCLUDE_ALL_FILES, defaultValue = "true", name = "ReSharper file inclusion mode", description = "Determines if violations are reported on any file (ignores filters and unsupported file types) or only those supported by the dotNet core plugin.", global = false, project = false, type = PropertyType.BOOLEAN),
-        @Property(key = ReSharperConfiguration.CUSTOM_SEVERITIES_DEFINITON, defaultValue = "", name = "ReSharper custom severities", description = "Add &lt;String&gt; vales from ReSharper's custom definitions (including &lt:wpf:ResourceDictionary&gt;) A restart is required to take affect.", type = PropertyType.TEXT, global = true, project = false),
-        @Property(key = ReSharperConfiguration.PROFILE_NAME, defaultValue = ReSharperConfiguration.PROFILE_DEFAULT, name = "Profile", description = "Profile to which rules will be saved on restart, if profile does not exist", type = PropertyType.STRING, global = true, project = false),
-        @Property(key = ReSharperConfiguration.CUSTOM_SEVERITIES_PATH, name = "Path to custom severities settings", description = "Absolute path to file with exported ReSharper settings: RESHARPER, Manage Options...,Import/Export Settiings, Export to file,CodeInspection", type = PropertyType.STRING, global = true, project = false),
-
-        @Property(key=ReSharperConfiguration.BUILD_CONFIGURATION_KEY, name="Configuration",type=PropertyType.STRING,global=true,project=true,defaultValue=ReSharperConfiguration.BUILD_CONFIGURATIONS_DEFVALUE),
-        @Property(key=ReSharperConfiguration.BUILD_PLATFORM_KEY, name="Platform",type=PropertyType.STRING,global=true,project=true,defaultValue=ReSharperConfiguration.BUILD_PLATFORM_DEFVALUE)
+        @Property(key = DefaultMsCoverConfiguration.MSCOVER_OPENCOVER_SKIPAUTOPROPS, name = "skip autoproperties", defaultValue = "true", global = true, project = true, type = PropertyType.BOOLEAN)
         })
 public final class MsCoverPlugin extends SonarPlugin {
 
@@ -110,9 +86,6 @@ public final class MsCoverPlugin extends SonarPlugin {
                 VsTestEnvironment.class,
                 DefaultMsCoverConfiguration.class,
                 VisualStudioProjectBuilder.class,
-                //IntegrationTestLineDecorator.class,
-                //UnitTestLineDecorator.class,
-                //IntegrationTestBlockDecorator.class,
                 UnitTestBatchData.class,
                 DefaultDirector.class, UnitTestBlockDecorator.class,
                 UnitTestWorkflowSensor.class,
@@ -121,7 +94,6 @@ public final class MsCoverPlugin extends SonarPlugin {
                 SupportedLanguage.class,
                 DefaultProcessLock.class,
 
-                DefaultInspectCodeResultsParser.class,
                 DefaultResourceResolver.class, 
                 IntegrationTestResourceResolver.class,
                 
@@ -137,7 +109,6 @@ public final class MsCoverPlugin extends SonarPlugin {
         extensions.addAll(clazzes);
         
         extensions.addAll(BuildWrapperConstants.getProperties());
-        //extensions.addAll( new ReSharperPlugin().getExtensions());
         extensions.addAll(DefaultMsCoverConfiguration.getProperties());
         extensions.addAll(VisualStudioConfiguration.getProperties());
         return extensions;

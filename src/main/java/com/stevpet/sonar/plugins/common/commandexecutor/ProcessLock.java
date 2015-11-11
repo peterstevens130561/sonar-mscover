@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor;
+package com.stevpet.sonar.plugins.common.commandexecutor;
 
 public interface ProcessLock {
 

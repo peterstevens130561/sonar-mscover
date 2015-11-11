@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor;
+package com.stevpet.sonar.plugins.common.commandexecutor;
 
 import com.stevpet.sonar.plugins.common.api.ShellCommand;
 
