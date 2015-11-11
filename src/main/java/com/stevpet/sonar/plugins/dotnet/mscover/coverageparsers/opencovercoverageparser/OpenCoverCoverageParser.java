@@ -4,7 +4,9 @@ import java.io.File;
 import java.util.Collection;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
+import org.slf4j.LoggerFactory;
+import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.CoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
