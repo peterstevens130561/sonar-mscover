@@ -56,6 +56,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.UnitTestWorkflow
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.SimpleMicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioConfiguration;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioProjectBuilder;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioAssemblyLocator;
 
 /**
  * This class is the entry point for all extensions
@@ -83,10 +84,11 @@ public final class MsCoverPlugin extends SonarPlugin {
     public List getExtensions() {
 
         List clazzes=Arrays.asList(
+        		//VisualStudioAssemblyLocator.class,
                 SimpleMicrosoftWindowsEnvironment.class,
                 VsTestEnvironment.class,
                 DefaultMsCoverConfiguration.class,
-                VisualStudioProjectBuilder.class,
+                //VisualStudioProjectBuilder.class,
                 UnitTestBatchData.class,
                 DefaultDirector.class, UnitTestBlockDecorator.class,
                 UnitTestWorkflowSensor.class,

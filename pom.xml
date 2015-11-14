@@ -68,7 +68,7 @@
        <dependency>
        	<groupId>com.stevpet.sonar</groupId>
        	<artifactId>plugins-dotnet-utils</artifactId>
-       	<version>2.2-SNAPSHOT</version>
+       	<version>3.1-SNAPSHOT</version>
        </dependency>
                <dependency>
             <groupId>com.sun.jersey</groupId>
