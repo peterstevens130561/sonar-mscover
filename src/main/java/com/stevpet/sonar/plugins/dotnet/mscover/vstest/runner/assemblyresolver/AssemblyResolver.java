@@ -24,11 +24,13 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver;
 
 import java.io.File;
 
+import org.sonar.api.BatchExtension;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 
 
-public interface AssemblyResolver  {
+public interface AssemblyResolver extends BatchExtension {
 
     File resolveChain(File assemblyFile, VisualStudioProject project,
             String buildConfiguration);
