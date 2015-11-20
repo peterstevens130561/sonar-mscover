@@ -22,9 +22,10 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.common.api;
 
+import org.sonar.api.BatchExtension;
 import org.sonar.api.utils.command.Command;
 
-public interface ShellCommand {
+public interface ShellCommand extends BatchExtension {
     String toCommandLine();
     Command toCommand();
     

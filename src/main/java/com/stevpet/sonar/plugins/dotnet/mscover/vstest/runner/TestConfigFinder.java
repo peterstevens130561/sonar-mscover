@@ -24,7 +24,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
 import java.io.File;
 
-public interface TestConfigFinder {
+import org.sonar.api.BatchExtension;
+
+public interface TestConfigFinder extends BatchExtension {
 
     File getTestSettingsFileOrDie(File solutionDirectory,String testSettings);
 

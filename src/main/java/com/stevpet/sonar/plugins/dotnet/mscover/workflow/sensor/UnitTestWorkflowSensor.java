@@ -93,13 +93,7 @@ public class UnitTestWorkflowSensor extends WorkflowSensor {
     private Class<? extends WorkflowSteps> getWorkflow() {
         Class<? extends WorkflowSteps> workflow = NullWorkflowSteps.class;
         RunMode runMode=propertiesHelper.getRunMode();
-        if (runMode== RunMode.RUNVSTEST) {
-            if (propertiesHelper.runOpenCover()) {
-                workflow = OpenCoverWorkflowSteps.class;
-            } else {
-                workflow = VsTestWorkflowSteps.class;
-            }
-        }
+        workflow = VsTestWorkflowSteps.class;
         return workflow;
     }
 
@@ -109,7 +103,8 @@ public class UnitTestWorkflowSensor extends WorkflowSensor {
 
     @Override
     public boolean shouldExecuteWorkflow() {
-        return microsoftWindowsenvironment.hasUnitTestSourceFiles();
+        RunMode runMode=propertiesHelper.getRunMode();
+        return microsoftWindowsenvironment.hasUnitTestSourceFiles() && !propertiesHelper.runOpenCover() && runMode== RunMode.RUNVSTEST;
     }
 
 }

@@ -25,10 +25,12 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 import java.io.File;
 import java.util.List;
 
+import org.sonar.api.BatchExtension;
+
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 
-public interface AssembliesFinder {
+public interface AssembliesFinder extends BatchExtension {
 
     List<String> findUnitTestAssembliesFromConfig(File solutionDirectory,
             List<VisualStudioProject> projects);
