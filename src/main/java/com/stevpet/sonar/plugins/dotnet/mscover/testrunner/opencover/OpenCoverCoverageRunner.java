@@ -20,7 +20,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 
-public class OpenCoverCoverageRunner implements TestRunner {
+public class OpenCoverCoverageRunner implements TestRunner{
 	private final static Logger LOG = LoggerFactory.getLogger(OpenCoverCoverageRunner.class);
     private OpenCoverCommand openCoverCommand;
     private MsCoverConfiguration msCoverProperties;
@@ -30,6 +30,8 @@ public class OpenCoverCoverageRunner implements TestRunner {
     private AssembliesFinder assembliesFinder;
     private VsTestRunnerCommandBuilder vsTestRunnerCommandBuilder;
     private VSTestStdOutParser vsTestStdOutParser;
+	private Object c;
+	private File coverageFile;
     public OpenCoverCoverageRunner(OpenCoverCommand openCoverCommand,
             MsCoverConfiguration msCoverProperties, 
             VsTestEnvironment testEnvironment,
@@ -68,7 +70,11 @@ public class OpenCoverCoverageRunner implements TestRunner {
         openCoverCommand.setFilter(filter); 
         openCoverCommand.setRegister("user");
         openCoverCommand.setMergeByHash();
-        openCoverCommand.setOutputPath(testEnvironment.getXmlCoveragePath());  
+        if(coverageFile==null) {
+        	openCoverCommand.setOutputPath(testEnvironment.getXmlCoveragePath());  
+        } else {
+        	openCoverCommand.setOutputPath(coverageFile.getAbsolutePath());
+        }
         if(msCoverProperties.getOpenCoverSkipAutoProps()) {
             openCoverCommand.setSkipAutoProps();
         }
@@ -95,5 +101,9 @@ public class OpenCoverCoverageRunner implements TestRunner {
     	vsTestStdOutParser.setStdOut(commandLineExecutor.getStdOut());
     	return vsTestStdOutParser.getTestResultsFile();
     }
+	@Override
+	public void setCoverageFile(File coverageFile) {
+		this.coverageFile=coverageFile;
+	}
 
 }

@@ -66,6 +66,10 @@ public interface MsCoverConfiguration {
 
     RunMode getRunMode();
 
+    /**
+     * 
+     * @return true when should run opencover
+     */
     boolean runOpenCover();
 
     boolean runVsTest();

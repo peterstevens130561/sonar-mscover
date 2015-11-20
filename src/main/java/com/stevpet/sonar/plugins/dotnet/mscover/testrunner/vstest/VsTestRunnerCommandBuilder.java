@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.utils.SonarException;
 
@@ -14,7 +15,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestConfigFinder;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 
-public  class VsTestRunnerCommandBuilder {
+public  class VsTestRunnerCommandBuilder implements BatchExtension {
 
     private MsCoverConfiguration propertiesHelper;
     private List<String> unitTestAssembliesPath;

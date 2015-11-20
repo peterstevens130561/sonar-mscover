@@ -22,4 +22,9 @@ public class NullTestRunner implements TestRunner {
 		return null;
 	}
 
+
+	@Override
+	public void setCoverageFile(File coverageFile) {
+	}
+
 }

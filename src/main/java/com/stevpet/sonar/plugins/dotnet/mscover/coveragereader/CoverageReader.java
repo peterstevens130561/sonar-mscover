@@ -2,13 +2,15 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coveragereader;
 
 import java.io.File;
 
+import org.sonar.api.BatchExtension;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 /**
  * Load a coverage file into memory.
  *
  */
-public interface CoverageReader {
+public interface CoverageReader extends BatchExtension {
 
 	/**
 	 * The coverage read may  be invoked multiple times during a run

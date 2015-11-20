@@ -24,6 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest;
 
 import java.io.File;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,5 +79,11 @@ public class WindowsVsTestRunner implements TestRunner {
     public File getTestResultsFile() {
         return new File(resultsPath);
     }
+
+	@Override
+	public void setCoverageFile(File coverageFile) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException("setCoverageFile");
+	}
 
 }

@@ -2,7 +2,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.testrunner;
 
 import java.io.File;
 
-public interface TestRunnerStdOutParser {
+import org.sonar.api.BatchExtension;
+
+public interface TestRunnerStdOutParser extends BatchExtension {
     /**
      * set the stdout of the test runner step, to be used to retrieve test
      * results file & coverage file

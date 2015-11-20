@@ -24,9 +24,11 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver;
 
 import java.io.File;
 
+import org.sonar.api.BatchExtension;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 
-interface FileCoverageSaver {
+interface FileCoverageSaver extends BatchExtension {
 
     void saveMeasures(CoverageLinePoints coveragePoints,
             File file);

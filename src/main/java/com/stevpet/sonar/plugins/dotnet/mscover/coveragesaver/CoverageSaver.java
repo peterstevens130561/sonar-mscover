@@ -1,9 +1,11 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver;
 
 
+import org.sonar.api.BatchExtension;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
-public interface CoverageSaver {
+public interface CoverageSaver extends BatchExtension {
 	/**
 	 * Save the coverage data
 	 * @param project
