@@ -15,7 +15,6 @@ public class OpenCoverCoverageRunnerTests {
 
 	
 	@Mock private MsCoverConfiguration msCoverConfiguration;
-	@Mock private VsTestEnvironment testEnvironment;
 	@Mock private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 	@Mock private FileSystem fileSystem;
 
@@ -28,7 +27,6 @@ public class OpenCoverCoverageRunnerTests {
 		try {
 			new OpenCoverCoverageRunner(
 				msCoverConfiguration,
-				testEnvironment,
 				microsoftWindowsEnvironment,
 				fileSystem);
 		} catch (Exception e) {

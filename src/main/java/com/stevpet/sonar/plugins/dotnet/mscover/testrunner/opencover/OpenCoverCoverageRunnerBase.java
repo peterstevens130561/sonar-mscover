@@ -32,6 +32,7 @@ public class OpenCoverCoverageRunnerBase implements TestRunner{
     private VSTestStdOutParser vsTestStdOutParser;
 	private Object c;
 	private File coverageFile;
+	@Deprecated
     public OpenCoverCoverageRunnerBase(OpenCoverCommand openCoverCommand,
             MsCoverConfiguration msCoverProperties, 
             VsTestEnvironment testEnvironment,
@@ -43,6 +44,22 @@ public class OpenCoverCoverageRunnerBase implements TestRunner{
         this.openCoverCommand = openCoverCommand;
         this.msCoverProperties = msCoverProperties;
         this.testEnvironment=testEnvironment;
+        this.microsoftWindowsEnvironment=microsoftWindowsEnvironment;
+        this.commandLineExecutor= commandLineExecutor;
+        this.assembliesFinder=assembliesFinder;
+        this.vsTestRunnerCommandBuilder = vsTestRunnerCommandBuilder;
+        this.vsTestStdOutParser=vsTestStdOutParser;
+    }
+	
+    public OpenCoverCoverageRunnerBase(OpenCoverCommand openCoverCommand,
+            MsCoverConfiguration msCoverProperties, 
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
+            CommandLineExecutor commandLineExecutor,
+            AssembliesFinder assembliesFinder, 
+            VsTestRunnerCommandBuilder vsTestRunnerCommandBuilder, 
+            VSTestStdOutParser vsTestStdOutParser) {
+        this.openCoverCommand = openCoverCommand;
+        this.msCoverProperties = msCoverProperties;
         this.microsoftWindowsEnvironment=microsoftWindowsEnvironment;
         this.commandLineExecutor= commandLineExecutor;
         this.assembliesFinder=assembliesFinder;

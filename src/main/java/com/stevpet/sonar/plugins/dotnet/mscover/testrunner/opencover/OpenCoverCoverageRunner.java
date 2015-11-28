@@ -24,13 +24,11 @@ public class OpenCoverCoverageRunner extends OpenCoverCoverageRunnerBase
 
 	public OpenCoverCoverageRunner(
 			MsCoverConfiguration msCoverProperties,
-			VsTestEnvironment testEnvironment,
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
 			FileSystem fileSystem) {
 		super(
 				new OpenCoverCommand(msCoverProperties), 
 				msCoverProperties, 
-				testEnvironment,
 				microsoftWindowsEnvironment, 
 				new LockedWindowsCommandLineExecutor(
 						new DefaultProcessLock()
