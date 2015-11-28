@@ -22,7 +22,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestre
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.SpecFlowTestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.TestResultsSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
-import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverCoverageRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverCoverageRunnerBase;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
@@ -33,7 +33,7 @@ public class OpenCoverWorkflowSteps implements WorkflowSteps {
 
     @Override
     public Class<? extends TestRunner> getTestRunner() {
-        return OpenCoverCoverageRunner.class;
+        return OpenCoverCoverageRunnerBase.class;
     }
 
     @Override

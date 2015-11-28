@@ -20,7 +20,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageReaderM
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
-import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverCoverageRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverCoverageRunnerBase;
 import com.stevpet.sonar.plugins.dotnet.mscover.utils.AbstractSensorTest;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommandMock;
@@ -57,7 +57,7 @@ public class OpenCoverWorkflowTest extends AbstractSensorTest {
     
     @Test
     public void OpenCoverDirector_OpenCoverRunnerCreation() {
-        TestRunner runner = container.getComponent(OpenCoverCoverageRunner.class);
+        TestRunner runner = container.getComponent(OpenCoverCoverageRunnerBase.class);
         assertNotNull("create opencover runner",runner);
     }
     
