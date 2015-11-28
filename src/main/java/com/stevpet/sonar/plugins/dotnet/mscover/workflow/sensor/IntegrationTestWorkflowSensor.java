@@ -14,7 +14,7 @@ import com.stevpet.sonar.plugins.common.commandexecutor.WindowsCommandLineExecut
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestFilteringCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.CoverageSaverBase;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.nullsaver.NullBranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.VsTestCoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.WindowsCodeCoverageCommand;
@@ -104,7 +104,7 @@ public class IntegrationTestWorkflowSensor implements Sensor {
             .addComponent(IntegrationTestLineFileCoverageSaver.class)
             .addComponent(NullBranchFileCoverageSaver.class)
             .addComponent(IntegrationTestCoverageReader.class)
-            .addComponent(DefaultCoverageSaver.class)
+            .addComponent(CoverageSaverBase.class)
             .addComponent(WindowsCommandLineExecutor.class)
             .addComponent(VsTestFilteringCoverageParser.class)
             .addComponent(WindowsCodeCoverageCommand.class)

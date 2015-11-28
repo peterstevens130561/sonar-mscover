@@ -31,6 +31,7 @@ import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.File;
 import org.sonar.api.utils.ParsingUtils;
 
+import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.LineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoveragePoint;
@@ -43,12 +44,20 @@ public class DefaultLineFileCoverageSaver implements  LineFileCoverageSaver {
 	private ResourceResolver resourceResolver;
 	private SensorContext sensorContext;
 
+	@Deprecated
     public  DefaultLineFileCoverageSaver(ResourceResolver resourceResolver,SensorContext sensorContext) {
         this.resourceResolver = resourceResolver;
         this.sensorContext = sensorContext;
     }
+ 
+    public  DefaultLineFileCoverageSaver(ResourceResolver resourceResolver) {
+        this.resourceResolver = resourceResolver;
+    }
     
-
+    @Override
+    public void setSensorContext(SensorContext sensorContext) {
+    	this.sensorContext = sensorContext;
+    }
     private final PropertiesBuilder<String, Integer> lineHitsBuilder = new PropertiesBuilder<String, Integer>(
             CoreMetrics.COVERAGE_LINE_HITS_DATA);
     
@@ -61,6 +70,7 @@ public class DefaultLineFileCoverageSaver implements  LineFileCoverageSaver {
     @Override
 	public void saveMeasures(
             CoverageLinePoints coveragePoints, java.io.File file) {
+		Preconditions.checkState(sensorContext!=null,"must call setSensorContext(sensorContext) first");
     	File resource = resourceResolver.getFile(file);
     	if(resource==null) {
     	    return;

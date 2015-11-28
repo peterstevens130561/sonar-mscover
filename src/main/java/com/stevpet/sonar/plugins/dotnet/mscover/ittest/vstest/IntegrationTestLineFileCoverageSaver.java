@@ -12,6 +12,7 @@ import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.File;
 import org.sonar.api.utils.ParsingUtils;
 
+import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.LineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoveragePoint;
@@ -28,19 +29,26 @@ public class IntegrationTestLineFileCoverageSaver implements
 	private SensorContext sensorContext;
 
 
+	@Deprecated
     public  IntegrationTestLineFileCoverageSaver(IntegrationTestResourceResolver resourceResolver,SensorContext sensorContext) {
         this.resourceResolver = resourceResolver;
         this.sensorContext = sensorContext;
-
-
     }
-   
+    public  IntegrationTestLineFileCoverageSaver(ResourceResolver resourceResolver) {
+        this.resourceResolver = resourceResolver;
+    }
+    
+    @Override
+    public void setSensorContext(SensorContext sensorContext) {
+    	this.sensorContext = sensorContext;
+    }
     /* (non-Javadoc)
 	 * @see com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.LineFileCoverageSaver#saveMeasures(com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints, java.io.File)
 	 */
     @Override
 	public void saveMeasures(
             CoverageLinePoints coveragePoints, java.io.File file) {
+		Preconditions.checkState(sensorContext!=null,"must call setSensorContext(sensorContext) first");
     	File resource = resourceResolver.getFile(file);
     	if(resource==null) {
     	    return;

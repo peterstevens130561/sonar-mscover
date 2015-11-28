@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.SensorContext;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.BranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
@@ -13,14 +14,14 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
-public class DefaultCoverageSaver implements CoverageSaver {
+public class CoverageSaverBase implements CoverageSaver {
 
-    private final static Logger LOG = LoggerFactory.getLogger(DefaultCoverageSaver.class);
+    private final static Logger LOG = LoggerFactory.getLogger(CoverageSaverBase.class);
     private BranchFileCoverageSaver branchCoverageSaver;
     private LineFileCoverageSaver lineCoverageSaver;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 
-    public DefaultCoverageSaver(
+    public CoverageSaverBase(
             BranchFileCoverageSaver branchCoverageSaver, LineFileCoverageSaver lineCoverageSaver,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         this.branchCoverageSaver = branchCoverageSaver;
@@ -28,6 +29,9 @@ public class DefaultCoverageSaver implements CoverageSaver {
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
     }
 
+    /**
+     * @deprecated use save(sensorContext,sonarCoverage) instead
+     */
     @Override
     public void save(SonarCoverage sonarCoverage) {
         List<File> testFiles = microsoftWindowsEnvironment.getUnitTestSourceFiles();
@@ -49,5 +53,12 @@ public class DefaultCoverageSaver implements CoverageSaver {
             branchCoverageSaver.saveMeasures(fileCoverage.getBranchPoints(), file);
         }
     }
+
+	@Override
+	public void save(SensorContext sensorContext, SonarCoverage sonarCoverage) {
+		branchCoverageSaver.setSensorContext(sensorContext);
+		lineCoverageSaver.setSensorContext(sensorContext);
+		save(sonarCoverage);
+	}
 
 }

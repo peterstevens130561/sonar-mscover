@@ -8,6 +8,7 @@ import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.File;
 import org.sonar.api.utils.ParsingUtils;
 
+import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.BranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
@@ -18,14 +19,23 @@ public class DefaultBranchFileCoverageSaver implements BranchFileCoverageSaver {
 	private ResourceResolver resourceResolver;
 	private SensorContext sensorContext;
   
+	@Deprecated
     @SuppressWarnings("ucd")
     public  DefaultBranchFileCoverageSaver(ResourceResolver resourceResolver,SensorContext sensorContext) {
         this.resourceResolver = resourceResolver;
         this.sensorContext = sensorContext;
     }
     
+    public  DefaultBranchFileCoverageSaver(ResourceResolver resourceResolver) {
+        this.resourceResolver = resourceResolver;
+    }
+    @Override
+    public void setSensorContext(SensorContext sensorContext) {
+    	this.sensorContext = sensorContext;
+    }
 	@Override
 	public void saveMeasures(CoverageLinePoints coveragePoints, java.io.File file) {
+		Preconditions.checkState(sensorContext!=null,"must call setSensorContext(sensorContext) first");
     	File resource = resourceResolver.getFile(file);
     	if(resource==null) {
     	    return;
