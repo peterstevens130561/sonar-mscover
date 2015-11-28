@@ -10,12 +10,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsParser;
 
-public class SpecFlowTestResultsBuilder extends DefaultTestResultsBuilder {
+public class SpecFlowTestResultsBuilderBase extends DefaultTestResultsBuilder {
 
-    private final Logger LOG = LoggerFactory.getLogger(SpecFlowTestResultsBuilder.class);
+    private final Logger LOG = LoggerFactory.getLogger(SpecFlowTestResultsBuilderBase.class);
     private SpecFlowScenarioMethodResolver specFlowScenarioMethodResolver;
 
-    public SpecFlowTestResultsBuilder(FileNamesParser fileNamesParser, TestResultsParser testResultsParser,SpecFlowScenarioMethodResolver specFlowScenarioMethodResolver) {
+    public SpecFlowTestResultsBuilderBase(FileNamesParser fileNamesParser, TestResultsParser testResultsParser,SpecFlowScenarioMethodResolver specFlowScenarioMethodResolver) {
         super(fileNamesParser, testResultsParser);
         this.specFlowScenarioMethodResolver = specFlowScenarioMethodResolver;
     }
