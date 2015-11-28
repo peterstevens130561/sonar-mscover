@@ -15,7 +15,7 @@ import org.sonar.test.TestUtils;
 import com.stevpet.sonar.plugins.common.commandexecutor.LockedWindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutorMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.DefaultCoverageReader;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReaderBase;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageReaderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
@@ -65,7 +65,7 @@ public class OpenCoverWorkflowTest extends AbstractSensorTest {
     public void OpenCoverDirector_CoverageParserCreation() {
         CoverageReader parser = container.getComponent(CoverageReader.class);
         assertNotNull("create opencover coverage parser",parser);
-        assertTrue("should be right class",parser instanceof DefaultCoverageReader);
+        assertTrue("should be right class",parser instanceof CoverageReaderBase);
     }
     
     /*
@@ -109,7 +109,7 @@ public class OpenCoverWorkflowTest extends AbstractSensorTest {
         assembliesFinderMock.onFindUnitTestAssembliesDir("mytestdir");
         CoverageReaderMock coverageParserMock = new CoverageReaderMock();
         coverageParserMock.replace(container);
-        container.removeComponent(DefaultCoverageReader.class);
+        container.removeComponent(CoverageReaderBase.class);
 
         VSTestCommandMock vsTestCommandMock = new VSTestCommandMock();
         vsTestCommandMock.giveExeDir("vstest.console.exe");

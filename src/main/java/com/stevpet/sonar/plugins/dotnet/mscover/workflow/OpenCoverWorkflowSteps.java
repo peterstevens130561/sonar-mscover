@@ -7,7 +7,7 @@ import com.stevpet.sonar.plugins.common.commandexecutor.LockedWindowsCommandLine
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverFileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.DefaultCoverageReader;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReaderBase;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultBranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultCoverageSaver;
@@ -38,7 +38,7 @@ public class OpenCoverWorkflowSteps implements WorkflowSteps {
 
     @Override
     public Class<? extends CoverageReader> getCoverageReader() {
-        return DefaultCoverageReader.class;
+        return CoverageReaderBase.class;
     }
 
     @Override

@@ -9,12 +9,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 /**
  * reader for coverage file created by vstest
  */
-public class DefaultCoverageReader implements CoverageReader {
+public class CoverageReaderBase implements CoverageReader {
 	
 	private CoverageParser coverageParser;
 	
 	@SuppressWarnings("ucd")
-	public DefaultCoverageReader(CoverageParser parser) {
+	public CoverageReaderBase(CoverageParser parser) {
 		this.coverageParser = parser;
 	}
 	@Override
