@@ -18,12 +18,6 @@ public class UnitTestWorkflowSensorTest extends WorkflowSensorTestUtil {
     }
     
     @Test
-    public void NoPropertiesSpecified_NullWorkflow() {
-        whenAnalysed();
-        assertEquals("Properties not specified, so expect null workflow",NullWorkflowSteps.class,workflowDirector.getWorkflow().getClass());
-    }
-    
-    @Test
     public void VsTestSpecified_VsTest() {
         when(propertiesHelper.getRunMode()).thenReturn(RunMode.RUNVSTEST);
         when(propertiesHelper.runOpenCover()).thenReturn(false);
@@ -31,13 +25,6 @@ public class UnitTestWorkflowSensorTest extends WorkflowSensorTestUtil {
         assertEquals("runvstest specified, coveragetool not specified, so expect VsTest workflow",VsTestWorkflowSteps.class,workflowDirector.getWorkflow().getClass());
     }
     
-    @Test
-    public void OpenCoverSpecified_VsTest() {
-        when(propertiesHelper.getRunMode()).thenReturn(RunMode.RUNVSTEST);
-        when(propertiesHelper.runOpenCover()).thenReturn(true);
-        whenAnalysed();
-        assertEquals("runvstest specified, coveragetool specified, so expect OpenCover workflow",OpenCoverWorkflowSteps.class,workflowDirector.getWorkflow().getClass());
-    }
     
     @Test
     public void NothingSpecified_ExecutedOnce() {

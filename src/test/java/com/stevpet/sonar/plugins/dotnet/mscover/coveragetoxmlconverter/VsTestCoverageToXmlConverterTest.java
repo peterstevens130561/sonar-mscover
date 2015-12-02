@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.sonar.api.batch.fs.FileSystem;
 
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
+import com.stevpet.sonar.plugins.common.commandexecutor.ProcessLock;
 
 public class VsTestCoverageToXmlConverterTest {
 
@@ -21,16 +22,17 @@ public class VsTestCoverageToXmlConverterTest {
 	@Mock private FileSystem fileSystem ;
 	@Mock private CodeCoverageCommand codecoverageCommand;
 	private File workDirFile=new File("C:\\etc\\workdir");
-	private File destination=new File("destination.xml");
+	private File destination;
 	private File source = new File("source.coverage");
 	
-	private CoverageToXmlConverter converter ;
+	private BinaryCoverageToXmlConverter converter ;
+	@Mock private ProcessLock processLock;
 	@Before
 	public void before() {
 		MockitoAnnotations.initMocks(this);
-		converter = new VsTestCoverageToXmlConverter(fileSystem, codecoverageCommand,commandLineExecutor);
+		converter = new VsTestCoverageToXmlConverter(fileSystem, codecoverageCommand,commandLineExecutor, processLock);
 		when(fileSystem.workDir()).thenReturn(workDirFile);
-		converter.convert(destination, source);
+		destination=converter.convertFiles(source);
 	}
 	
 	@Test

@@ -43,7 +43,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VsTestRunnerCo
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.WindowsVsTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommandShim;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.CoverageToXmlConverter;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.BinaryCoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
@@ -69,7 +69,7 @@ public class WindowsVsTestRunnerTest {
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     private AssembliesFinderMock assembliesFinderMock = new AssembliesFinderMock();
     private VsTestEnvironment testEnvironment;
-    @Mock CoverageToXmlConverter coverageToXmlConverter;
+    @Mock BinaryCoverageToXmlConverter coverageToXmlConverter;
     
     @Before
     public void before() {

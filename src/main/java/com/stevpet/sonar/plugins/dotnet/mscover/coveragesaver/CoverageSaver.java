@@ -6,7 +6,7 @@ import org.sonar.api.batch.SensorContext;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
-public interface CoverageSaver extends BatchExtension {
+public interface CoverageSaver  {
 	/**
 	 * Save the coverage data
 	 * @param project

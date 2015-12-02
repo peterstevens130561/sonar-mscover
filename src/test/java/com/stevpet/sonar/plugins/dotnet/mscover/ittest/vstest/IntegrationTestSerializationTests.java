@@ -27,8 +27,9 @@ import com.stevpet.sonar.plugins.common.commandexecutor.WindowsCommandLineExecut
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.FilteringCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestFilteringCoverageParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.CodeCoverageCommand;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.CoverageToXmlConverter;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.BinaryCoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.VsTestCoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
@@ -40,8 +41,8 @@ public class IntegrationTestSerializationTests {
     @Mock private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     @Mock private MsCoverConfiguration msCoverProperties;
     private FilteringCoverageParser coverageParser;
-    private CoverageToXmlConverter coverageToXmlConverter;
-    private IntegrationTestCoverageReader coverageReader;
+    private BinaryCoverageToXmlConverter coverageToXmlConverter;
+    private CoverageReader coverageReader;
     @Mock private FileSystem fileSystem;
     private CodeCoverageCommand codeCoverageCommand;
     private CommandLineExecutor commandLineExecutor;
@@ -58,7 +59,7 @@ public class IntegrationTestSerializationTests {
         coverageParser= new VsTestFilteringCoverageParser();
         commandLineExecutor = new WindowsCommandLineExecutor();
         codeCoverageCommand = new WindowsCodeCoverageCommand();
-        coverageToXmlConverter = new VsTestCoverageToXmlConverter(fileSystem, codeCoverageCommand, commandLineExecutor);
+        coverageToXmlConverter = new VsTestCoverageToXmlConverter(fileSystem, codeCoverageCommand, commandLineExecutor,processLock);
         serializer = new Serializer();
     }
     
@@ -144,9 +145,8 @@ public class IntegrationTestSerializationTests {
         testDir = testFile.getParentFile();
         assertNotNull("could not get parent",testDir);
         coverageData=new SonarCoverage();
-        coverageReader=new IntegrationTestCoverageReader(microsoftWindowsEnvironment, msCoverProperties, coverageParser, coverageToXmlConverter,processLock);
-        when(msCoverProperties.getIntegrationTestsDir()).thenReturn(testDir.getAbsolutePath());
-        coverageReader.read(coverageData);
+        coverageReader=new IntegrationTestCoverageReaderBase(microsoftWindowsEnvironment, coverageParser,processLock);
+        coverageReader.read(coverageData,testDir);
         assertEquals("expect some files to be read",2,coverageData.getValues().size());
     }
 }

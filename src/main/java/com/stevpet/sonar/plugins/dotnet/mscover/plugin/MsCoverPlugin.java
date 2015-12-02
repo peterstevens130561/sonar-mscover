@@ -30,8 +30,6 @@ import org.sonar.api.Properties;
 import org.sonar.api.Property;
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
-import org.sonar.api.config.PropertyDefinition;
-
 import com.stevpet.sonar.plugins.common.commandexecutor.DefaultProcessLock;
 import com.stevpet.sonar.plugins.common.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperBuilder;
@@ -39,24 +37,17 @@ import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapp
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperConstants;
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperInitializer;
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
-import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestBlockDecorator;
-import com.stevpet.sonar.plugins.dotnet.mscover.decorator.IntegrationTestLineDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestBlockDecorator;
-import com.stevpet.sonar.plugins.dotnet.mscover.decorator.UnitTestLineDecorator;
 import com.stevpet.sonar.plugins.dotnet.mscover.language.SupportedLanguage;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.IntegrationTestResourceResolver;
-import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.SpecFlowScenarioMethodResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestBatchData;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.IntegrationTestCache;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.IntegrationTestWorkflowSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.UnitTestWorkflowSensor;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.SimpleMicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioConfiguration;
-import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioProjectBuilder;
-import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioAssemblyLocator;
 
 /**
  * This class is the entry point for all extensions
@@ -93,7 +84,6 @@ public final class MsCoverPlugin extends SonarPlugin {
                 DefaultDirector.class, UnitTestBlockDecorator.class,
                 UnitTestWorkflowSensor.class,
                 IntegrationTestCache.class,
-                IntegrationTestWorkflowSensor.class,
                 SupportedLanguage.class,
                 DefaultProcessLock.class,
 

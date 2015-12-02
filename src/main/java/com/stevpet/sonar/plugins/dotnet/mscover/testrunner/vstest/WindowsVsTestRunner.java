@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
 import com.stevpet.sonar.plugins.common.api.ShellCommand;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.CoverageToXmlConverter;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.BinaryCoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
@@ -48,10 +48,10 @@ public class WindowsVsTestRunner implements TestRunner {
     private String resultsPath;
     private VsTestRunnerCommandBuilder commandBuilder;
     private VsTestEnvironment testEnvironment;
-    private CoverageToXmlConverter coverageToXmlConverter;
+    private BinaryCoverageToXmlConverter coverageToXmlConverter;
 
 
-    public WindowsVsTestRunner(CoverageToXmlConverter coverageToXmlConverter,
+    public WindowsVsTestRunner(BinaryCoverageToXmlConverter coverageToXmlConverter,
             VSTestStdOutParser vsTestStdOutParser,
             VsTestRunnerCommandBuilder commandBuilder,
             CommandLineExecutor commandLineExecutor,

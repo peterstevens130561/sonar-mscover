@@ -47,7 +47,7 @@ public class WorkflowSensorTest extends WorkflowSensorTestUtil {
         when(propertiesHelper.getRunMode()).thenReturn(RunMode.REUSE);
         when(microsoftWindowsEnvironment.hasUnitTestSourceFiles()).thenReturn(true);
         boolean result=sensor.shouldExecuteOnProject(project);        
-        assertTrue("should execute on project that is  child, and runmode reuse",result);
+        assertFalse("should not execute on project that is  child, and runmode reuse",result);
     }
     
     @Test
