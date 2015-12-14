@@ -30,7 +30,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoveragepa
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.CodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.BinaryCoverageToXmlConverter;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.VsTestCoverageToXmlConverter;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.VsTestCoverageToXmlConverterBase;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.WindowsCodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
@@ -59,7 +59,7 @@ public class IntegrationTestSerializationTests {
         coverageParser= new VsTestFilteringCoverageParser();
         commandLineExecutor = new WindowsCommandLineExecutor();
         codeCoverageCommand = new WindowsCodeCoverageCommand();
-        coverageToXmlConverter = new VsTestCoverageToXmlConverter(fileSystem, codeCoverageCommand, commandLineExecutor,processLock);
+        coverageToXmlConverter = new VsTestCoverageToXmlConverterBase(fileSystem, codeCoverageCommand, commandLineExecutor,processLock);
         serializer = new Serializer();
     }
     

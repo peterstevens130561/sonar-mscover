@@ -24,9 +24,9 @@ public class DefaultDirector implements WorkflowDirector, BatchExtension {
 
     private WorkflowSteps workflowSteps;
     private DefaultPicoContainer picoContainer;
-    private UnitTestBatchData unitTestBatchData;
+    private UnitTestCache unitTestBatchData;
 
-    public DefaultDirector(UnitTestBatchData unitTestBatchData) {
+    public DefaultDirector(UnitTestCache unitTestBatchData) {
         this.unitTestBatchData = unitTestBatchData;
     }
 

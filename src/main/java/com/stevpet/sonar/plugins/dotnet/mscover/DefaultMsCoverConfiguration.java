@@ -54,14 +54,17 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
     }
     private final Settings settings;
     public static final String MSCOVER = "sonar.mscover.";
-    public static final String MSCOVER_INTEGRATION_COVERAGEXML_PATH = MSCOVER + "integrationtests.coveragexml";
+
     public static final String MSCOVER_UNIT_COVERAGEXML_PATH=MSCOVER + "unittests.coveragexml";
     public static final String MSCOVER_EXECUTEROOT = MSCOVER + "rootproject";
     public static final String MSCOVER_EXCLUSIONS=MSCOVER + "exclusions";
     public static final String MSCOVER_INCLUSIONS=MSCOVER + "inclusions";
     public static final String MSCOVER_CUTOFFDATE=MSCOVER + "cutoffdate" ;
+    public static final String MSCOVER_INTEGRATION_COVERAGEXML_PATH = MSCOVER + "integrationtests.coveragexml";
     public static final String MSCOVER_INTEGRATION_RESULTS= MSCOVER + "integrationtests.results";
     public static final String MSCOVER_INTEGRATION_VSTESTDIR= MSCOVER + "integrationtests.vstestcoveragedir";
+    
+    public static final String MSCOVER_INTEGRATION_TOOL="integrationtests.coveragetool";
     public static final String MSCOVER_UNIT_RESULTS= MSCOVER + "unittests.results";
     public static final String MSCOVER_MODE = MSCOVER + "mode";
     public static final String MSCOVER_UNITTEST_ASSEMBLIES = MSCOVER + "unittests.assemblies";
@@ -332,6 +335,11 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
         return coverageDir;
     }
     
+    @Override
+    public String getIntegrationTestsTool() {
+    	String tool=settings.getString(MSCOVER_INTEGRATION_TOOL);
+    	return tool;
+    }
     public static Collection<PropertyDefinition> getProperties() {
         Collection<PropertyDefinition> properties = new ArrayList<>();
         properties.add(createVsTestProperty(MSCOVER_VSTEST_INSTALLDIR,PropertyType.STRING)
@@ -351,6 +359,13 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
                 .description("root directory of your build")
                 .index(1)
                 .build());
+        properties.add(createIntegrationTestProperty(MSCOVER_INTEGRATION_TOOL,PropertyType.SINGLE_SELECT_LIST)
+        		.name("coverage tool")
+        		.description("tool that will provide coverage information (opencover or vstest)")
+        		.index(2)
+        		.defaultValue("vstest")
+        		.options("vstest", "opencover")
+        		.build());
         
         return properties;
 

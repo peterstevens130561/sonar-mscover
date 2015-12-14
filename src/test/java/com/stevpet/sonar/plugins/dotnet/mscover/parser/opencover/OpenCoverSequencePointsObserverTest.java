@@ -1,9 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
 import java.io.File;
 import java.util.List;
 

@@ -4,9 +4,6 @@ import java.io.File;
 
 import org.sonar.api.BatchExtension;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
-
 public interface TestResultsBuilder extends BatchExtension {
     /**
      * given the coverage file and the test results file, build a repository of

@@ -49,12 +49,12 @@ public class VisualStudioProjectMock extends GenericClassMock<VisualStudioProjec
 
     public void givenArtifact(String buildConfiguration, String buildPlatform,
             String artifact) {
-        when(instance.getArtifact(buildConfiguration, buildPlatform)).thenReturn(new File(artifact));
+        when(instance.getArtifactFile()).thenReturn(new File(artifact));
     }
     
     public void givenArtifact(String buildConfiguration, String buildPlatform,
             File artifactFile) {
-        when(instance.getArtifact(buildConfiguration, buildPlatform)).thenReturn(artifactFile);
+        when(instance.getArtifactFile()).thenReturn(artifactFile);
     }
     /**
      * wraps getArtifactName

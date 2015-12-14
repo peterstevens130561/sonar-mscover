@@ -18,7 +18,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReaderBase;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.parser.CoverageReaderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
-import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverCoverageRunnerBase;
 import com.stevpet.sonar.plugins.dotnet.mscover.utils.AbstractSensorTest;
@@ -30,7 +29,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleaner
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.OpenCoverWorkflowSteps;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestBatchData;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultUnitTestCache;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestCache;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
 
 import static org.mockito.Mockito.mock;
@@ -38,7 +38,7 @@ public class OpenCoverWorkflowTest extends AbstractSensorTest {
 
     DefaultPicoContainer container;
     private OpenCoverWorkflowSteps steps = new OpenCoverWorkflowSteps();
-    UnitTestBatchData data = new UnitTestBatchData();
+    UnitTestCache data = new DefaultUnitTestCache();
     private WorkflowDirector director = new DefaultDirector(data);
     
     

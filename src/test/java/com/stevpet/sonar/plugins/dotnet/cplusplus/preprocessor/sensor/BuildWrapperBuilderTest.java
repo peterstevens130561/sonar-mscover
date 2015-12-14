@@ -5,11 +5,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.utils.command.Command;
 import org.sonar.test.TestUtils;
 
 public class BuildWrapperBuilderTest {

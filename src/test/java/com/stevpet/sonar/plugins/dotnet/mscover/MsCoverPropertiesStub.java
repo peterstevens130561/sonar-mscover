@@ -370,4 +370,10 @@ public class MsCoverPropertiesStub implements MsCoverConfiguration {
         return null;
     }
 
+	@Override
+	public String getIntegrationTestsTool() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -30,7 +30,7 @@ public class VsTestCoverageToXmlConverterTest {
 	@Before
 	public void before() {
 		MockitoAnnotations.initMocks(this);
-		converter = new VsTestCoverageToXmlConverter(fileSystem, codecoverageCommand,commandLineExecutor, processLock);
+		converter = new VsTestCoverageToXmlConverterBase(fileSystem, codecoverageCommand,commandLineExecutor, processLock);
 		when(fileSystem.workDir()).thenReturn(workDirFile);
 		destination=converter.convertFiles(source);
 	}

@@ -1,7 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter;
 
 import java.io.File;
-import java.util.List;
 
 public interface BinaryCoverageToXmlConverter {
 

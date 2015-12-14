@@ -29,6 +29,11 @@ import java.util.List;
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration.RunMode;
 
 public interface MsCoverConfiguration {
+	
+	enum TOOLS {
+		VSTEST,
+		OPENCOVER
+	}
 
     boolean isIntegrationTestsEnabled();
 
@@ -109,6 +114,8 @@ public interface MsCoverConfiguration {
     String getVsTestInstallPath();
 
     File getWorkSpaceRoot();
+
+	String getIntegrationTestsTool();
 
 
 }

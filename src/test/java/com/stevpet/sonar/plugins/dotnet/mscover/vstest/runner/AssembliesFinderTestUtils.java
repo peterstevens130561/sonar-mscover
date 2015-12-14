@@ -60,11 +60,11 @@ public class AssembliesFinderTestUtils {
     }
 
     protected void givenProjectDoesNotExistForConfigurationAndPlatform() {
-        when(project.getArtifact(eq(buildConfiguration), eq(buildPlatform))).thenReturn(null);
+        when(project.getArtifactFile()).thenReturn(null);
     }
 
     protected void givenProjectExistsForConfigurationAndPlatform(String unitTestPath) {
-        when(project.getArtifact(eq(buildConfiguration), eq(buildPlatform))).thenReturn(new File(unitTestPath));
+        when(project.getArtifactFile()).thenReturn(new File(unitTestPath));
     }
 
     protected String getPathToANonExistingDll(String name) {

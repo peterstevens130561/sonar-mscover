@@ -2,8 +2,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coveragereader;
 
 import java.io.File;
 
-import org.sonar.api.BatchExtension;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 /**
