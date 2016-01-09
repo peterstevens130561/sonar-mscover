@@ -38,9 +38,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment
  * @author stevpet
  * 
  */
-public class WindowsVsTestRunner implements TestRunner {
+public class WindowsVsTestRunnerBase implements TestRunner {
     static final Logger LOG = LoggerFactory
-            .getLogger(WindowsVsTestRunner.class);
+            .getLogger(WindowsVsTestRunnerBase.class);
     protected VSTestStdOutParser vsTestStdOutParser;
     private String coveragePath;
     private String stdOutString;
@@ -51,7 +51,7 @@ public class WindowsVsTestRunner implements TestRunner {
     private BinaryCoverageToXmlConverter coverageToXmlConverter;
 
 
-    public WindowsVsTestRunner(BinaryCoverageToXmlConverter coverageToXmlConverter,
+    public WindowsVsTestRunnerBase(BinaryCoverageToXmlConverter coverageToXmlConverter,
             VSTestStdOutParser vsTestStdOutParser,
             VsTestRunnerCommandBuilder commandBuilder,
             CommandLineExecutor commandLineExecutor,

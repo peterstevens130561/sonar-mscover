@@ -26,7 +26,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverCoverageRunnerBase;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VsTestRunnerCommandBuilder;
-import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.WindowsVsTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.WindowsVsTestRunnerBase;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommandMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParserMock;
@@ -133,7 +133,7 @@ public class OpenCoverCoverageRunnerTest {
         .addComponent(microsoftWindowsEnvironmentMock.getMock())
         .addComponent(fileSystemMock.getMock())
         .addComponent(WindowsCodeCoverageCommand.class)
-        .addComponent(WindowsVsTestRunner.class)
+        .addComponent(WindowsVsTestRunnerBase.class)
         .addComponent(VsTestConfigFinder.class)
         .addComponent(OpenCoverCoverageRunnerBase.class)
         .addComponent(VSTestCommand.class)
@@ -144,7 +144,7 @@ public class OpenCoverCoverageRunnerTest {
         OpenCoverCoverageRunnerBase runner = openCoverContainer.getComponent(OpenCoverCoverageRunnerBase.class);
         assertNotNull("creating OpenCoverCoverageRunner through IOC",runner);
         
-        TestRunner vsTestRunner = openCoverContainer.getComponent(WindowsVsTestRunner.class);
+        TestRunner vsTestRunner = openCoverContainer.getComponent(WindowsVsTestRunnerBase.class);
         assertNotNull(vsTestRunner);
     }
 }

@@ -40,7 +40,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VsTestRunnerCommandBuilder;
-import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.WindowsVsTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.WindowsVsTestRunnerBase;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.codecoverage.command.WindowsCodeCoverageCommandShim;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.BinaryCoverageToXmlConverter;
@@ -171,7 +171,7 @@ public class WindowsVsTestRunnerTest {
 
     private void expectRunnerIsValid() {
         assertNotNull(runner);
-        assertTrue(runner instanceof WindowsVsTestRunner);
+        assertTrue(runner instanceof WindowsVsTestRunnerBase);
     }
 
     private void createRunner() {
@@ -187,8 +187,8 @@ public class WindowsVsTestRunnerTest {
         .addComponent(coverageToXmlConverter)
         .addComponent(WindowsCodeCoverageCommandShim.class)
         .addComponent(VsTestRunnerCommandBuilder.class)
-        .addComponent(WindowsVsTestRunner.class)
+        .addComponent(WindowsVsTestRunnerBase.class)
         .addComponent(testEnvironment);
-        runner = container.getComponent(WindowsVsTestRunner.class);
+        runner = container.getComponent(WindowsVsTestRunnerBase.class);
     }
 }
