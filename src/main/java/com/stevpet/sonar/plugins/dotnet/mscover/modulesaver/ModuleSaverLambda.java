@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.modulesplitter;
+package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 
 import java.io.File;
 import java.io.FileWriter;

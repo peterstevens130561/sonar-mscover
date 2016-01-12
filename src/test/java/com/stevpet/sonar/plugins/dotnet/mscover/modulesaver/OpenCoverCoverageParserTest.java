@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser;
+package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 public class OpenCoverCoverageParserTest {

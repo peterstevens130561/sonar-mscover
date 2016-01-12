@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.modulesplitter;
+package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,17 +18,27 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stax.StAXSource;
 import javax.xml.transform.stream.StreamResult;
 
-public class OpenCoverModuleSplitter {
+/**
+ * Parse the OpenCover file, and give each module to the moduleLambda
+ *
+ */
+public class OpenCoverModuleSplitterBase implements ModuleSplitter {
 
 
 	private ModuleLambda moduleHelper;
-	public OpenCoverModuleSplitter(ModuleLambda moduleHelper) {
+	public OpenCoverModuleSplitterBase(ModuleLambda moduleHelper) {
 		this.moduleHelper = moduleHelper;
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.stevpet.sonar.plugins.dotnet.mscover.modulesplitter.ModuleSplitter#splitFile(java.io.File)
+	 */
+	@Override
 	public int splitFile(File file) throws FileNotFoundException, XMLStreamException, TransformerException {
 		 InputStream inputStream = new FileInputStream(file);
 		 return split(inputStream);
 	}
+	
 	public int split(InputStream inputStream) throws XMLStreamException, TransformerException {
 
 		
@@ -40,6 +50,7 @@ public class OpenCoverModuleSplitter {
 
 		Transformer t = tf.newTransformer();
 		t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+
 		XMLStreamReader streamReader = factory.createXMLStreamReader(in);
 		int modules=0;
 		while (streamReader.hasNext()) {

@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.modulesplitter;
+package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 
 
 import org.slf4j.Logger;

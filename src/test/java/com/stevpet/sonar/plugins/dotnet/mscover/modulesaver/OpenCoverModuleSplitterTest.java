@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser;
+package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,11 +13,11 @@ import org.junit.Test;
 import org.sonar.test.TestUtils;
 
 import com.google.common.io.Files;
-import com.stevpet.sonar.plugins.dotnet.mscover.modulesplitter.ModuleSaverLambda;
-import com.stevpet.sonar.plugins.dotnet.mscover.modulesplitter.ModuleLambda;
-import com.stevpet.sonar.plugins.dotnet.mscover.modulesplitter.ModuleParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.modulesplitter.OpenCoverModuleParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.modulesplitter.OpenCoverModuleSplitter;
+import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.ModuleLambda;
+import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.ModuleParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.ModuleSaverLambda;
+import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSplitterBase;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -30,7 +30,7 @@ public class OpenCoverModuleSplitterTest {
 	public void simpleTest() throws FileNotFoundException, XMLStreamException, TransformerException {
 		File xmlFile = TestUtils.getResource("OpenCoverCoverageParser/coverage-report.xml");
 		ModuleLambda moduleHelper = mock(ModuleLambda.class);
-		int modules=new OpenCoverModuleSplitter(moduleHelper).splitFile(xmlFile);
+		int modules=new OpenCoverModuleSplitterBase(moduleHelper).splitFile(xmlFile);
 		verify(moduleHelper,times(34)).execute(anyString());
 	}
 	
@@ -43,7 +43,7 @@ public class OpenCoverModuleSplitterTest {
 		ModuleSaverLambda moduleLambda = new ModuleSaverLambda(moduleParser);
 		moduleLambda.setDirectory(tempDir);
 		moduleLambda.setProject("BaseProject");
-		int modules=new OpenCoverModuleSplitter(moduleLambda).splitFile(xmlFile);	
+		int modules=new OpenCoverModuleSplitterBase(moduleLambda).splitFile(xmlFile);	
 	}
 
 }
