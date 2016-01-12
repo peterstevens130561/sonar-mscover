@@ -17,10 +17,22 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 public class OpenCoverCoverageParser implements CoverageParser {
     private final Logger LOG = LoggerFactory.getLogger(OpenCoverCoverageParser.class);
     private MsCoverConfiguration msCoverProperties;
+	protected XmlParserSubject parser;
+	private OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs missingPdbObserver;
+	private OpenCoverObserver [] observers;
 
     @SuppressWarnings("ucd")
     public OpenCoverCoverageParser(MsCoverConfiguration msCoverProperties) {
         this.msCoverProperties = msCoverProperties;
+        parser = new OpenCoverParserSubject();
+        missingPdbObserver = new OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs();
+        observers = new OpenCoverObserver[] { 
+                new OpenCoverSourceFileNamesObserver(),
+                new OpenCoverSequencePointsObserver(),
+                missingPdbObserver};
+        for(OpenCoverObserver observer: observers) {
+            parser.registerObserver(observer);
+        }
     }
 
     @Override
@@ -31,17 +43,11 @@ public class OpenCoverCoverageParser implements CoverageParser {
         if(registry==null) {
             throw new IllegalArgumentException("registry");
         }
-        XmlParserSubject parser = new OpenCoverParserSubject();
-        Collection<String> pdbsThatCanBeIgnoredWhenMissing = msCoverProperties.getPdbsThatMayBeIgnoredWhenMissing();
-        OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs  missingPdbObserver = new OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs() ;
+
+        Collection<String> pdbsThatCanBeIgnoredWhenMissing = msCoverProperties.getPdbsThatMayBeIgnoredWhenMissing(); 
         missingPdbObserver.setPdbsThatCanBeIgnoredIfMissing(pdbsThatCanBeIgnoredWhenMissing);
-        OpenCoverObserver [] observers = { 
-                new OpenCoverSourceFileNamesObserver(),
-                new OpenCoverSequencePointsObserver(),
-                missingPdbObserver};
         for(OpenCoverObserver observer: observers) {
             observer.setRegistry(registry);
-            parser.registerObserver(observer);
         }
         try { 
         parser.parseFile(file);

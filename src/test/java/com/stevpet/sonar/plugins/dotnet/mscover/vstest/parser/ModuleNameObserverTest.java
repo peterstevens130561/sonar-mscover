@@ -13,18 +13,18 @@ import static org.mockito.Mockito.times;
 import org.mockito.MockitoAnnotations;
 
 import com.stevpet.sonar.plugins.common.parser.ParserData;
-import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.ModuleNameObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestModuleNameObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestCoverageParserSubject;
 
 public class ModuleNameObserverTest {
-	private ModuleNameObserver observer;
+	private VsTestModuleNameObserver observer;
 	@Mock ParserData parserData;
 	@Before
 	
 	public void before() {
 		MockitoAnnotations.initMocks(this);
-		observer = new ModuleNameObserver();
-		new CoverageParserSubject();
+		observer = new VsTestModuleNameObserver();
+		new VsTestCoverageParserSubject();
 		observer.setParserData(parserData);
 		//parser.registerObserver(observer);
 	}
@@ -39,7 +39,7 @@ public class ModuleNameObserverTest {
 	@Test
 	public void nullModuleSpecified_ShouldParseAllModules() {
 		List<String> modules = null;
-		observer.addModulesToParse(modules);
+		observer.setModulesToParse(modules);
 		observer.moduleNameMatcher("parseme");
 		verify(parserData,times(0)).setSkipThisLevel();	
 	}
@@ -48,7 +48,7 @@ public class ModuleNameObserverTest {
 	public void oneModuleSpecified_ShouldParseThatModule() {
 		List<String> modules = new ArrayList<String>();
 		modules.add("parseme");
-		observer.addModulesToParse(modules);
+		observer.setModulesToParse(modules);
 		observer.moduleNameMatcher("parseme");
 		verify(parserData,times(0)).setSkipThisLevel();		
 	}
@@ -57,7 +57,7 @@ public class ModuleNameObserverTest {
 	public void oneModuleSpecified_ShouldNotParseOtherModule() {
 		List<String> modules = new ArrayList<String>();
 		modules.add("parseme");
-		observer.addModulesToParse(modules);
+		observer.setModulesToParse(modules);
 		observer.moduleNameMatcher("donotparseme");
 		verify(parserData,times(1)).setSkipThisLevel();		
 	}
@@ -67,7 +67,7 @@ public class ModuleNameObserverTest {
 		List<String> modules = new ArrayList<String>();
 		modules.add("parseme");
 		modules.add("parsemeto");
-		observer.addModulesToParse(modules);
+		observer.setModulesToParse(modules);
 		observer.moduleNameMatcher("parseme");
 		observer.moduleNameMatcher("parsemeto");
 		verify(parserData,times(0)).setSkipThisLevel();			

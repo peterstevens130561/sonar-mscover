@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestCoverageParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.ObserverTest;
 
 public class VsTestSourceFileNamesObserverTest extends ObserverTest {
@@ -17,7 +17,7 @@ public class VsTestSourceFileNamesObserverTest extends ObserverTest {
 	@Before
 	public void before() {
 		VsTestSourceFileNamesObserver observer = new VsTestSourceFileNamesObserver();
-		parser = new CoverageParserSubject();
+		parser = new VsTestCoverageParserSubject();
 		parser.registerObserver(observer);
 		sourceFileNameTable = new SourceFileNameTable();
 		observer.setRegistry(sourceFileNameTable);

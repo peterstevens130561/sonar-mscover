@@ -63,7 +63,6 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
     public static final String MSCOVER_INTEGRATION_COVERAGEXML_PATH = MSCOVER + "integrationtests.coveragexml";
     public static final String MSCOVER_INTEGRATION_RESULTS= MSCOVER + "integrationtests.results";
     public static final String MSCOVER_INTEGRATION_VSTESTDIR= MSCOVER + "integrationtests.vstestcoveragedir";
-    
     public static final String MSCOVER_INTEGRATION_TOOL="integrationtests.coveragetool";
     public static final String MSCOVER_UNIT_RESULTS= MSCOVER + "unittests.results";
     public static final String MSCOVER_MODE = MSCOVER + "mode";
@@ -340,6 +339,26 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
     	String tool=settings.getString(MSCOVER_INTEGRATION_TOOL);
     	return tool;
     }
+    
+    /**
+     * true id sonar.mscover.integrationtests.coveragetool = opencover
+     * @return
+     */
+    @Override
+    public boolean integrationTestsToolIsOpenCover() {
+    	String integrationTestsTool=getIntegrationTestsTool();
+    	return "opencover".equals(integrationTestsTool);
+    }
+    
+    /**
+     * true is sonar.mscover.integrationtests.coveragel is anything else but opencover
+     * @return
+     */
+    @Override
+    public boolean integrationTestsToolIsVsTest() {
+    	return !integrationTestsToolIsOpenCover();
+    }
+    
     public static Collection<PropertyDefinition> getProperties() {
         Collection<PropertyDefinition> properties = new ArrayList<>();
         properties.add(createVsTestProperty(MSCOVER_VSTEST_INSTALLDIR,PropertyType.STRING)

@@ -12,7 +12,7 @@ import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.FileNamesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestCoverageObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestCoverageParserSubject;
 
 public class SourceFileNamesObserverTest extends ObserverTest {
 	private VsTestCoverageObserver observer;
@@ -24,7 +24,7 @@ public class SourceFileNamesObserverTest extends ObserverTest {
 		observer = new FileNamesObserver();
 		registry = new SonarCoverage();
 		observer.setVsTestRegistry(registry);
-		parser = new CoverageParserSubject();
+		parser = new VsTestCoverageParserSubject();
 		parser.registerObserver(observer);
 	}
 	

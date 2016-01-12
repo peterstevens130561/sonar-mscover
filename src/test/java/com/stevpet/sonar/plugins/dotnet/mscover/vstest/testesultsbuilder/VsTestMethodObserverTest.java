@@ -8,7 +8,7 @@ import org.junit.Test;
 import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestCoverageParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.ObserverTest;
 
 
@@ -25,7 +25,7 @@ public class VsTestMethodObserverTest extends ObserverTest {
 		observer = new VsTestMethodObserver();
 		methodToSourceFileIdMap = new MethodToSourceFileIdMap();
 		observer.setRegistry(methodToSourceFileIdMap);
-		parser = new CoverageParserSubject();
+		parser = new VsTestCoverageParserSubject();
 		parser.registerObserver(observer);		
 	}
 	

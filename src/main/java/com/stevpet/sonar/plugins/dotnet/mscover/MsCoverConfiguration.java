@@ -117,5 +117,9 @@ public interface MsCoverConfiguration {
 
 	String getIntegrationTestsTool();
 
+	boolean integrationTestsToolIsOpenCover();
+
+	boolean integrationTestsToolIsVsTest();
+
 
 }

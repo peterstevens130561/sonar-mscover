@@ -25,7 +25,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser;
 import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
 
 
-public class CoverageParserSubject extends XmlParserSubject {
+public class VsTestCoverageParserSubject extends XmlParserSubject {
    
     @Override
     public String[] getHierarchy() {

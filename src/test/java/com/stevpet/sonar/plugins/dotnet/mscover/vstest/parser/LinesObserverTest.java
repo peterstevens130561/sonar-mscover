@@ -14,7 +14,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoveragepa
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.CoverageParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestCoverageParserSubject;
 
 public class LinesObserverTest extends ObserverTest {
 	private VsTestCoverageObserver observer;
@@ -25,7 +25,7 @@ public class LinesObserverTest extends ObserverTest {
 		observer = new LinesObserver();
 		registry = new SonarCoverage();
 		observer.setVsTestRegistry(registry);
-		parser = new CoverageParserSubject();
+		parser = new VsTestCoverageParserSubject();
 		parser.registerObserver(observer);
 	}
 	
