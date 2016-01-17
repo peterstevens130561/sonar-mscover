@@ -7,7 +7,6 @@ import java.io.Writer;
 
 import javax.annotation.Nonnull;
 
-import org.codehaus.plexus.util.FileUtils;
 import org.sonar.api.utils.SonarException;
 
 import com.google.common.base.Preconditions;
@@ -40,16 +39,21 @@ public class ModuleSaverLambda implements ModuleLambda {
 	public void execute(String xmlDoc)  {
 		Preconditions.checkNotNull(projectName,"project not set");
 		Preconditions.checkNotNull(root,"root not set");
-		
-		File moduleDir = createModuleDir(xmlDoc);
-		
-		saveModule(xmlDoc, moduleDir);
+		String moduleName = getArtifactNameFromXmlDoc(xmlDoc);		
+		File artifactFile=getArtifactCoverageFile(moduleName);
+		createModuleDir(artifactFile);	
+		saveModule(artifactFile,xmlDoc);
 	}
 
-	private void saveModule(String xmlDoc, File moduleDir) {
-		File moduleFile = new File(moduleDir,projectName + ".xml");
+	private String getArtifactNameFromXmlDoc(String xmlDoc) {
+		moduleParser.parse(xmlDoc);
+		String moduleName=moduleParser.getModuleName();
+		return moduleName;
+	}
+
+	private void saveModule(File artifactFile,String xmlDoc) {
 		try {
-			Writer writer = new FileWriter(moduleFile);
+			Writer writer = new FileWriter(artifactFile);
 			writer.write(xmlDoc);
 			writer.close();
 		} catch (IOException e) {
@@ -59,18 +63,15 @@ public class ModuleSaverLambda implements ModuleLambda {
 
 	private String removeSuffix(String moduleName) {
 		int dotPos=moduleName.lastIndexOf(".");
-		String module=moduleName.substring(0, dotPos);
+		String module=dotPos== -1?moduleName:moduleName.substring(0, dotPos);
 		return module;
 	}
 
-	private File createModuleDir(String xmlDoc) {
-		moduleParser.parse(xmlDoc);
-		
-		String moduleName=moduleParser.getModuleName();		
-		String module = removeSuffix(moduleName);
-		File moduleDir=new File(root,module);
+	private File createModuleDir(File artifactFile) {
+
+		File moduleDir=artifactFile.getParentFile();
 		if(!moduleDir.exists()) {
-			if(!moduleDir.mkdir()) {
+			if(!moduleDir.mkdirs()) {
 				throw new SonarException("Could not create dir " + moduleDir.getAbsolutePath());
 			}
 		}
@@ -78,6 +79,17 @@ public class ModuleSaverLambda implements ModuleLambda {
 			throw new SonarException("Is not a directory " + moduleDir.getAbsolutePath());
 		}
 		return moduleDir;
+	}
+	
+	/**
+	 * A project wants to have its coverage file. It has an artifact associated to it. The coverage files are stored
+	 * as  <root>/<artifact>/<projectName>.xml
+	 * @param artifactName
+	 * @return
+	 */
+	public File getArtifactCoverageFile(String artifactName) {
+		String relativePath=removeSuffix(artifactName)+ "/" + projectName + ".xml";
+		return new File(root,relativePath);
 	}
 
 }

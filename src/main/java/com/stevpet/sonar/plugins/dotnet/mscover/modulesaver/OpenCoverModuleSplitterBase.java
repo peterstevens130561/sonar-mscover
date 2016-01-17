@@ -18,30 +18,45 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stax.StAXSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.sonar.api.utils.SonarException;
+
 /**
  * Parse the OpenCover file, and give each module to the moduleLambda
- *
+ * 
  */
 public class OpenCoverModuleSplitterBase implements ModuleSplitter {
 
-
 	private ModuleLambda moduleHelper;
+
 	public OpenCoverModuleSplitterBase(ModuleLambda moduleHelper) {
 		this.moduleHelper = moduleHelper;
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.stevpet.sonar.plugins.dotnet.mscover.modulesplitter.ModuleSplitter#splitFile(java.io.File)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.stevpet.sonar.plugins.dotnet.mscover.modulesplitter.ModuleSplitter
+	 * #splitFile(java.io.File)
 	 */
 	@Override
-	public int splitFile(File file) throws FileNotFoundException, XMLStreamException, TransformerException {
-		 InputStream inputStream = new FileInputStream(file);
-		 return split(inputStream);
+	public int splitFile(File file) {
+		InputStream inputStream;
+		try {
+			inputStream = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			throw new SonarException("Could not find" + file.getAbsolutePath());
+		}
+		try {
+			return split(inputStream);
+		} catch (XMLStreamException | TransformerException e) {
+			throw new SonarException("XML exception", e);
+		}
 	}
-	
-	public int split(InputStream inputStream) throws XMLStreamException, TransformerException {
 
-		
+	public int split(InputStream inputStream) throws XMLStreamException,
+			TransformerException {
+
 		BufferedReader in = new BufferedReader(new InputStreamReader(
 				inputStream));
 
@@ -52,7 +67,7 @@ public class OpenCoverModuleSplitterBase implements ModuleSplitter {
 		t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 
 		XMLStreamReader streamReader = factory.createXMLStreamReader(in);
-		int modules=0;
+		int modules = 0;
 		while (streamReader.hasNext()) {
 			streamReader.next();
 
@@ -70,7 +85,7 @@ public class OpenCoverModuleSplitterBase implements ModuleSplitter {
 		return modules;
 
 	}
-	
+
 	private StringBuilder writeXml(StringWriter writer) {
 		StringBuilder sb = new StringBuilder(10240);
 		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
@@ -81,5 +96,5 @@ public class OpenCoverModuleSplitterBase implements ModuleSplitter {
 		sb.append("</CoverageSession>");
 		return sb;
 	}
-	
+
 }

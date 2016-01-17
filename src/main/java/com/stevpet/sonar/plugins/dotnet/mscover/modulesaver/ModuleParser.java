@@ -1,7 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 
-import java.io.StringWriter;
-
 public interface ModuleParser {
 
 	/**

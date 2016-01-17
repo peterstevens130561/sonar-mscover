@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 public abstract class ModuleNameObserver extends BaseParserObserver {
     protected List<String> modulesToParse = new ArrayList<String>();

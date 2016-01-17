@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
+package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

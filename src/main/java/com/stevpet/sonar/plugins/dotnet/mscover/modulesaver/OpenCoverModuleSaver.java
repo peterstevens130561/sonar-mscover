@@ -14,9 +14,21 @@ public class OpenCoverModuleSaver extends OpenCoverModuleSplitterBase {
 		super(moduleSaverLambda );
 	}
 
-	public void setRoot(File root) {
+	public OpenCoverModuleSaver setRoot(File root) {
 		moduleSaverLambda.setDirectory(root);
+		return this;
 	}
-	
+	public OpenCoverModuleSaver setProject(String projectName) {
+		moduleSaverLambda.setProject(projectName);
+		return this;
+	}
+
+	/**
+	 * gets the coverage file of the current artifact
+	 * @return
+	 */
+	public File getCoverageFile(String artifact) {
+		return moduleSaverLambda.getArtifactCoverageFile(artifact);
+	}
 	
 }

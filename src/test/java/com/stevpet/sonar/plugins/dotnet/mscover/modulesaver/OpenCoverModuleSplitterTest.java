@@ -1,14 +1,11 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.TransformerException;
 
-import org.codehaus.plexus.util.FileUtils;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
