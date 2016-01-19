@@ -9,7 +9,7 @@ import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 @InstantiationStrategy(InstantiationStrategy.PER_BATCH)
-public class DefaultUnitTestCache implements BatchExtension, UnitTestCache {
+public class DefaultUnitTestCache implements BatchExtension, TestCache {
     private File testResults ;
     private File testCoverage ;
     private boolean hasRun;
@@ -52,7 +52,7 @@ public class DefaultUnitTestCache implements BatchExtension, UnitTestCache {
 	 * @see com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestCache#setSonarCoverage(com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage)
 	 */
     @Override
-	public  UnitTestCache setSonarCoverage(SonarCoverage sonarCoverage) {
+	public  TestCache setSonarCoverage(SonarCoverage sonarCoverage) {
     	this.sonarCoverage=sonarCoverage ;
     	return this;
     }

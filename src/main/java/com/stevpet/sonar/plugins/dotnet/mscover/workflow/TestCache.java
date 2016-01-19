@@ -4,7 +4,7 @@ import java.io.File;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
-public interface UnitTestCache {
+public interface TestCache {
 
 	File getTestResults();
 
@@ -14,7 +14,7 @@ public interface UnitTestCache {
 
 	void setHasRun(File coverageFile, File testResultsFile);
 
-	UnitTestCache setSonarCoverage(SonarCoverage sonarCoverage);
+	TestCache setSonarCoverage(SonarCoverage sonarCoverage);
 
 	SonarCoverage getSonarCoverage();
 
