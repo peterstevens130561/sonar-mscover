@@ -1,12 +1,16 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover;
 
-import java.io.File;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 
 public interface OpenCoverTestRunner extends TestRunner {
 
-	void setFilter(String filter);
+
+	
+	/**
+	 * only the assemblies of this solution will be reported in the coverage file
+	 * @return 
+	 */
+	OpenCoverTestRunner onlyReportAssembliesOfTheSolution();
 
 
 }

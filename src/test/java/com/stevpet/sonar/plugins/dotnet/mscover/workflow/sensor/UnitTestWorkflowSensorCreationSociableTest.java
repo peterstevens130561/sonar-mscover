@@ -20,8 +20,6 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.PathResolver;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.plugin.MsCoverPlugin;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.OpenCoverWorkflowSteps;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowSteps;
 
 public class UnitTestWorkflowSensorCreationSociableTest {
 
@@ -41,16 +39,6 @@ public class UnitTestWorkflowSensorCreationSociableTest {
         } catch (Exception e) {
             fail("not able to instantiate the sensor\n" + e.toString());
         }
-    }
-
-	@Ignore
-    @Test
-    public void ExecuteUnitTestWorkflowSensor() {
-        DefaultPicoContainer container = composeDependencies();
-        container.addComponent(OpenCoverWorkflowSteps.class);
-        WorkflowSteps steps = container.getComponent(OpenCoverWorkflowSteps.class);
-        assertNotNull("expect to be resolved", steps);
-
     }
 
     private DefaultPicoContainer composeDependencies() {

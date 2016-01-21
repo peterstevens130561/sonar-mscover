@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.sonar.api.batch.fs.FileSystem;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 public class OpenCoverCoverageRunnerTests {
@@ -16,6 +17,7 @@ public class OpenCoverCoverageRunnerTests {
 	@Mock private MsCoverConfiguration msCoverConfiguration;
 	@Mock private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 	@Mock private FileSystem fileSystem;
+	@Mock private VsTestEnvironment vsTestEnvironment;
 
 	@Before
 	public void before() {
@@ -24,10 +26,11 @@ public class OpenCoverCoverageRunnerTests {
 	@Test
 	public void instantation() {
 		try {
-			new OpenCoverUnitTestCoverageRunner(
+			
+			DefaultOpenCoverTestRunner.create(
 				msCoverConfiguration,
 				microsoftWindowsEnvironment,
-				fileSystem);
+				fileSystem,vsTestEnvironment);
 		} catch (Exception e) {
 			fail("could not instantiate, probably because one of the underlying constructors uses a dependency");
 		}
