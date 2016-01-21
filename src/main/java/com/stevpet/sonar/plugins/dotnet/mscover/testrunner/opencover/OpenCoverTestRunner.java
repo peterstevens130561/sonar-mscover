@@ -6,5 +6,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 
 public interface OpenCoverTestRunner extends TestRunner {
 
+	void setFilter(String filter);
+
 
 }

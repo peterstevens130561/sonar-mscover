@@ -24,7 +24,7 @@ public class OpenCoverCoverageRunnerTests {
 	@Test
 	public void instantation() {
 		try {
-			new OpenCoverCoverageRunner(
+			new OpenCoverUnitTestCoverageRunner(
 				msCoverConfiguration,
 				microsoftWindowsEnvironment,
 				fileSystem);

@@ -23,7 +23,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.AssembliesFinde
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindowsEnvironmentMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
-import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.CommonOpenCoverTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.CommonOpenCoverTestRunnerBase;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverUnitTestCoverageRunnerBase;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VsTestRunnerCommandBuilder;
@@ -142,7 +142,7 @@ public class OpenCoverCoverageRunnerTest {
         .addComponent(VSTestStdOutParser.class)
         .addComponent(VsTestCoverageToXmlConverterBase.class)
         .addComponent(VsTestRunnerCommandBuilder.class);
-        CommonOpenCoverTestRunner runner = openCoverContainer.getComponent(OpenCoverUnitTestCoverageRunnerBase.class);
+        CommonOpenCoverTestRunnerBase runner = openCoverContainer.getComponent(OpenCoverUnitTestCoverageRunnerBase.class);
         assertNotNull("creating OpenCoverCoverageRunner through IOC",runner);
         
         TestRunner vsTestRunner = openCoverContainer.getComponent(WindowsVsTestRunnerBase.class);

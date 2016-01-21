@@ -13,36 +13,19 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
+
 /**
  * Runs vstest embedded in OpenCover intended to be used directly in Sensor
-
  */
-public class OpenCoverCoverageRunner extends OpenCoverUnitTestCoverageRunnerBase
-		implements BatchExtension {
+public class OpenCoverUnitTestCoverageRunner extends
+		OpenCoverUnitTestCoverageRunnerBase implements BatchExtension {
 
-
-	public OpenCoverCoverageRunner(
-			MsCoverConfiguration msCoverProperties,
+	public OpenCoverUnitTestCoverageRunner(MsCoverConfiguration msCoverProperties,
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
 			FileSystem fileSystem) {
-		super(
-				new OpenCoverCommand(msCoverProperties), 
-				msCoverProperties, 
-				microsoftWindowsEnvironment, 
-				new LockedWindowsCommandLineExecutor(
-						new DefaultProcessLock()
-						), 
-				new DefaultAssembliesFinder(msCoverProperties),
-				new VsTestRunnerCommandBuilder(
-						msCoverProperties, 
-						microsoftWindowsEnvironment, 
-						fileSystem, 
-						new VsTestConfigFinder(), 
-						new VSTestCommand(), 
-						new DefaultAssembliesFinder(msCoverProperties)
-						), 
-						new VSTestStdOutParser()
-				);
+		super(microsoftWindowsEnvironment, new CommonOpenCoverTestRunner(msCoverProperties, microsoftWindowsEnvironment, fileSystem));
+
+
 	}
 
 }
