@@ -24,4 +24,6 @@ public interface ModuleLambda {
 	 */
 	ModuleLambda setDirectory(File root);
 
+	File getArtifactCoverageFile(String artifactName);
+
 }

@@ -49,7 +49,7 @@ public class DefaultDirector implements WorkflowDirector, BatchExtension {
         }
         File coverageFile;
         File testResultsFile;
-        if (!unitTestBatchData.hasRun()) {
+        if (!unitTestBatchData.gatHasRun()) {
             TestRunner runner = picoContainer.getComponent(TestRunner.class);
             runner.execute();
 

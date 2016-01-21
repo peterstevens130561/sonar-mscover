@@ -30,6 +30,7 @@ import org.sonar.api.Properties;
 import org.sonar.api.Property;
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
+
 import com.stevpet.sonar.plugins.common.commandexecutor.DefaultProcessLock;
 import com.stevpet.sonar.plugins.common.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperBuilder;
@@ -43,8 +44,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResource
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.IntegrationTestResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultDirector;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultUnitTestCache;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.IntegrationTestCache;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.IntegrationTestCache;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestCache;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.UnitTestWorkflowSensor;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.DefaultMicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioConfiguration;
@@ -80,7 +81,7 @@ public final class MsCoverPlugin extends SonarPlugin {
                 VsTestEnvironment.class,
                 DefaultMsCoverConfiguration.class,
                 //VisualStudioProjectBuilder.class,
-                DefaultUnitTestCache.class,
+                UnitTestCache.class,
                 DefaultDirector.class, UnitTestBlockDecorator.class,
                 UnitTestWorkflowSensor.class,
                 IntegrationTestCache.class,

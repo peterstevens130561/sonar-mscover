@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 
@@ -60,12 +62,8 @@ public class ModuleSaverLambda implements ModuleLambda {
 			throw new SonarException(e);
 		}
 	}
+	
 
-	private String removeSuffix(String moduleName) {
-		int dotPos=moduleName.lastIndexOf(".");
-		String module=dotPos== -1?moduleName:moduleName.substring(0, dotPos);
-		return module;
-	}
 
 	private File createModuleDir(File artifactFile) {
 
@@ -87,9 +85,18 @@ public class ModuleSaverLambda implements ModuleLambda {
 	 * @param artifactName
 	 * @return
 	 */
+	@Override
 	public File getArtifactCoverageFile(String artifactName) {
 		String relativePath=removeSuffix(artifactName)+ "/" + projectName + ".xml";
 		return new File(root,relativePath);
+	}
+	
+	private final  Pattern pattern = Pattern.compile("(.*)\\.(dll|exe)$");
+	
+	private String removeSuffix(String moduleName) {
+		Matcher matcher = pattern.matcher(moduleName);
+		String module=matcher.find()?matcher.group(1):moduleName;
+		return module;
 	}
 
 }

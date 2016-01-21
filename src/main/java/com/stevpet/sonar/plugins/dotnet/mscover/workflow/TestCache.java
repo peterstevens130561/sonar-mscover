@@ -10,12 +10,14 @@ public interface TestCache {
 
 	File getTestCoverage();
 
-	boolean hasRun();
+	boolean gatHasRun();
 
 	void setHasRun(File coverageFile, File testResultsFile);
 
 	TestCache setSonarCoverage(SonarCoverage sonarCoverage);
 
 	SonarCoverage getSonarCoverage();
+
+	void setHasRun(boolean b);
 
 }

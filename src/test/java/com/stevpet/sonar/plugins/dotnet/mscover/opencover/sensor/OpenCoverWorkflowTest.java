@@ -29,8 +29,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleaner
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.OpenCoverWorkflowSteps;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultUnitTestCache;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestCache;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestCache;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowDirector;
 
 import static org.mockito.Mockito.mock;
@@ -38,7 +38,7 @@ public class OpenCoverWorkflowTest extends AbstractSensorTest {
 
     DefaultPicoContainer container;
     private OpenCoverWorkflowSteps steps = new OpenCoverWorkflowSteps();
-    UnitTestCache data = new DefaultUnitTestCache();
+    TestCache data = new UnitTestCache();
     private WorkflowDirector director = new DefaultDirector(data);
     
     
