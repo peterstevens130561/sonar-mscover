@@ -17,7 +17,7 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
  * Runs vstest embedded in OpenCover intended to be used directly in Sensor
 
  */
-public class OpenCoverCoverageRunner extends OpenCoverCoverageRunnerBase
+public class OpenCoverCoverageRunner extends OpenCoverUnitTestCoverageRunnerBase
 		implements BatchExtension {
 
 

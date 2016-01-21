@@ -23,7 +23,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.AssembliesFinde
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindowsEnvironmentMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
-import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverCoverageRunnerBase;
+import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverUnitTestCoverageRunnerBase;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.WindowsVsTestRunnerBase;
@@ -37,7 +37,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder
 
 public class OpenCoverCoverageRunnerTest {
 
-    private OpenCoverCoverageRunnerBase openCoverCoverageRunner;
+    private OpenCoverUnitTestCoverageRunnerBase openCoverCoverageRunner;
     private OpenCoverCommand  openCoverCommand ;
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     private VsTestEnvironment testEnvironment;
@@ -66,7 +66,7 @@ public class OpenCoverCoverageRunnerTest {
         
         microsoftWindowsEnvironmentMock.givenHasAssemblies(assemblies);
 
-		openCoverCoverageRunner = new OpenCoverCoverageRunnerBase(openCoverCommand, 
+		openCoverCoverageRunner = new OpenCoverUnitTestCoverageRunnerBase(openCoverCommand, 
                 msCoverPropertiesMock.getMock(), 
                 testEnvironment, 
                 microsoftWindowsEnvironmentMock.getMock(), 
@@ -135,13 +135,13 @@ public class OpenCoverCoverageRunnerTest {
         .addComponent(WindowsCodeCoverageCommand.class)
         .addComponent(WindowsVsTestRunnerBase.class)
         .addComponent(VsTestConfigFinder.class)
-        .addComponent(OpenCoverCoverageRunnerBase.class)
+        .addComponent(OpenCoverUnitTestCoverageRunnerBase.class)
         .addComponent(VSTestCommand.class)
         .addComponent(DefaultAssembliesFinder.class)
         .addComponent(VSTestStdOutParser.class)
         .addComponent(VsTestCoverageToXmlConverterBase.class)
         .addComponent(VsTestRunnerCommandBuilder.class);
-        OpenCoverCoverageRunnerBase runner = openCoverContainer.getComponent(OpenCoverCoverageRunnerBase.class);
+        OpenCoverUnitTestCoverageRunnerBase runner = openCoverContainer.getComponent(OpenCoverUnitTestCoverageRunnerBase.class);
         assertNotNull("creating OpenCoverCoverageRunner through IOC",runner);
         
         TestRunner vsTestRunner = openCoverContainer.getComponent(WindowsVsTestRunnerBase.class);

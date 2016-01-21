@@ -20,8 +20,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 
-public class OpenCoverCoverageRunnerBase implements TestRunner{
-	private final static Logger LOG = LoggerFactory.getLogger(OpenCoverCoverageRunnerBase.class);
+public class OpenCoverUnitTestCoverageRunnerBase implements TestRunner{
+	private final static Logger LOG = LoggerFactory.getLogger(OpenCoverUnitTestCoverageRunnerBase.class);
     private OpenCoverCommand openCoverCommand;
     private MsCoverConfiguration msCoverProperties;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
@@ -33,7 +33,7 @@ public class OpenCoverCoverageRunnerBase implements TestRunner{
 	private Object c;
 	private File coverageFile;
 	@Deprecated
-    public OpenCoverCoverageRunnerBase(OpenCoverCommand openCoverCommand,
+    public OpenCoverUnitTestCoverageRunnerBase(OpenCoverCommand openCoverCommand,
             MsCoverConfiguration msCoverProperties, 
             VsTestEnvironment testEnvironment,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
@@ -51,7 +51,7 @@ public class OpenCoverCoverageRunnerBase implements TestRunner{
         this.vsTestStdOutParser=vsTestStdOutParser;
     }
 	
-    public OpenCoverCoverageRunnerBase(OpenCoverCommand openCoverCommand,
+    public OpenCoverUnitTestCoverageRunnerBase(OpenCoverCommand openCoverCommand,
             MsCoverConfiguration msCoverProperties, 
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             CommandLineExecutor commandLineExecutor,
