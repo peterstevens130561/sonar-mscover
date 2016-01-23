@@ -22,6 +22,8 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +31,7 @@ import org.sonar.api.utils.SonarException;
 
 public class MethodIdModelTest {
 
-    MethodId methodIdModel ;
+	MethodId methodIdModel ;
     @Before
     public void before() {
         methodIdModel = MethodId.create();
@@ -37,7 +39,15 @@ public class MethodIdModelTest {
     
     @Test(expected=SonarException.class)
     public void setModuleName_Invalid_Exception() {
-        methodIdModel.setModuleName("!@( 12345:780");
+        methodIdModel.setModuleName("!@( 12345:780.exe");
+    }
+    
+    @Test
+    public void setModuleName_Space_Accepted() {
+    	String NAME_WITH_SPACE = "JewelSuite Viewer.exe";
+        methodIdModel.setModuleName(NAME_WITH_SPACE);
+        String name=methodIdModel.getModuleName();
+        assertEquals("name with space should be allowed",NAME_WITH_SPACE,name);
     }
     
     @Test

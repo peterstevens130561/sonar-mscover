@@ -30,7 +30,7 @@ import org.sonar.api.utils.SonarException;
 
 public final class MethodId  {
     private String moduleName,namespaceName,className,methodName;
-    private Pattern pattern = Pattern.compile("[^a-zA-Z0-9\\._-]");
+    private Pattern pattern = Pattern.compile("[^a-zA-Z0-9 \\._-]");
     private  Pattern moduleSuffixPattern = Pattern.compile("\\.(exe|dll)");
 
     public MethodId() { 
