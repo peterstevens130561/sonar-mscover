@@ -57,8 +57,8 @@ public class DefaultDirector implements WorkflowDirector, BatchExtension {
             coverageFile = new File(testEnvironment.getXmlCoveragePath());
             unitTestBatchData.setHasRun(coverageFile, testResultsFile);
         }
-        coverageFile = unitTestBatchData.getTestCoverage();
-        testResultsFile = unitTestBatchData.getTestResults();
+        coverageFile = unitTestBatchData.getTestCoverageFile();
+        testResultsFile = unitTestBatchData.getTestResultsFile();
 
         SonarCoverage sonarCoverage = new SonarCoverage();
         CoverageReader reader = picoContainer.getComponent(CoverageReader.class);

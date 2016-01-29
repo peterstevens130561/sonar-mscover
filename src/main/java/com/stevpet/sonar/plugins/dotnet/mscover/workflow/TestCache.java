@@ -6,9 +6,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 public interface TestCache {
 
-	File getTestResults();
+	File getTestResultsFile();
 
-	File getTestCoverage();
+	File getTestCoverageFile();
 
 	boolean gatHasRun();
 

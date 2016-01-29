@@ -19,12 +19,12 @@ public abstract class TestCacheBase implements TestCache {
 	}
 
 	@Override
-	public File getTestResults() {
+	public File getTestResultsFile() {
 	    return testResults;
 	}
 
 	@Override
-	public File getTestCoverage() {
+	public File getTestCoverageFile() {
 	    return testCoverage;
 	}
 

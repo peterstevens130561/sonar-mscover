@@ -6,24 +6,30 @@ import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.InstantiationStrategy;
 
 import com.google.common.base.Preconditions;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 
 /**
- * Should be used by all integration test sensors
+ * Should be used by all integration test sensors. persists during a batch
  * @author stevpet
  *
  */
 @InstantiationStrategy(InstantiationStrategy.PER_BATCH)
 public class IntegrationTestCache extends TestCacheBase implements BatchExtension{
 
-	private String firstModule;
+	private ProjectUnitTestResults testResults;
 
-	public void setFirstModule(@Nonnull String firstModule) {
-		this.firstModule=firstModule;
+	
+	/**
+	 * get the first analysed module
+	 * @return
+	 */
+
+	public void setTestResults(ProjectUnitTestResults testResults) {
+		this.testResults=testResults;
 	}
 	
-	public String getFirstModule() {
-		Preconditions.checkNotNull(firstModule);
-		return firstModule;
+	public ProjectUnitTestResults getTestResults() {
+		return this.testResults ;
 	}
     
 }
