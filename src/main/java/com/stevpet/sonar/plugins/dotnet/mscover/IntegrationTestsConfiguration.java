@@ -5,7 +5,7 @@ import java.io.File;
 public interface IntegrationTestsConfiguration {
 
     public enum Mode {
-    	DISABLED,RUN,READ
+    	DISABLED,RUN,READ,AUTO
     }
     
     public enum Tool {

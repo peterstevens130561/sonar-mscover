@@ -5,9 +5,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.File;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.Mode;
@@ -19,14 +22,15 @@ public class DefaultIntegrationTestsConfigurationTests {
 	private static final String SONAR_MSCOVER_INTEGRATIONTESTS_TOOL = "sonar.mscover.integrationtests.tool";
 
 	@Mock private Settings settings;
-
+	@Mock private FileSystem fileSystem;
 
 	private IntegrationTestsConfiguration configuration;
+
 	@Before
 	public void before()
 	{
 		org.mockito.MockitoAnnotations.initMocks(this);
-		configuration=new DefaultIntegrationTestsConfiguration(settings);
+		configuration=new DefaultIntegrationTestsConfiguration(settings,fileSystem);
 	}
 	
 	@Test
@@ -113,5 +117,36 @@ public class DefaultIntegrationTestsConfigurationTests {
 		when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_MODE)).thenReturn("disabled");
 		when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_TOOL)).thenReturn("opencover");
 		assertFalse(configuration.matches(Tool.OPENCOVER,Mode.RUN));
+	}
+	
+	@Test
+	public void autoModeDirNotSpecified() {
+		try {
+		when(fileSystem.baseDir()).thenReturn(new File("C:\\Development\\Solution\\Project"));
+		when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_MODE)).thenReturn("auto");
+		configuration.matches(Tool.OPENCOVER,Mode.RUN);
+		} catch (NullPointerException e) {
+			assertTrue("expect NullPointerException on property not set",e.getMessage().contains("property not set"));
+			return;
+		}
+		fail("expected NullPointerException");
+	}
+	
+	@Test 
+	public void autoModeIsTest() {
+		when(fileSystem.baseDir()).thenReturn(new File("C:\\Development\\Tests\\Solution\\Project"));
+		when(settings.getString(DefaultIntegrationTestsConfiguration.MSCOVER_SPECFLOWTESTS_ROOT)).thenReturn("C:/Development/Tests");
+		when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_MODE)).thenReturn("auto");
+		assertTrue("As module is below root, expect RUN mode",configuration.matches(Tool.OPENCOVER, Mode.RUN));
+		
+	}
+	
+	@Test 
+	public void autoModeIsProject() {
+		when(fileSystem.baseDir()).thenReturn(new File("C:\\Development\\JewelSuite\\Solution\\Project"));
+		when(settings.getString(DefaultIntegrationTestsConfiguration.MSCOVER_SPECFLOWTESTS_ROOT)).thenReturn("C:/Development/Tests");
+		when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_MODE)).thenReturn("auto");
+		assertTrue("As module is not root, expect READ mode",configuration.matches(Tool.OPENCOVER, Mode.READ));
+		
 	}
 }

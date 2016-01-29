@@ -5,7 +5,11 @@ import java.io.File;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
+
+import com.google.common.base.Preconditions;
+import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.Mode;
 
 public class DefaultIntegrationTestsConfiguration implements IntegrationTestsConfiguration {
 	private static final Logger LOG = LoggerFactory.getLogger(DefaultIntegrationTestsConfiguration.class);
@@ -13,13 +17,16 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     public static final String MSCOVER_INTEGRATION_RESULTS= MSCOVER + "dir";
     public static final String MSCOVER_INTEGRATION_TOOL=MSCOVER+ "tool";
     public static final String MSCOVER_INTEGRATION_MODE=MSCOVER + "mode";
-    
+	public static final String MSCOVER_SPECFLOWTESTS_ROOT = DefaultIntegrationTestsConfiguration.MSCOVER + "root";
 
 	private Settings settings;
-    
-    public DefaultIntegrationTestsConfiguration(Settings settings) {
-    	this.settings = settings;
-    }
+	private FileSystem fileSystem;
+	
+    public DefaultIntegrationTestsConfiguration(Settings settings,FileSystem fileSystem) {
+		this.settings = settings;
+		this.fileSystem=fileSystem;
+		
+	}
     
     /* (non-Javadoc)
 	 * @see com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration#getMode()
@@ -37,9 +44,19 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     		LOG.error("invalid property setting '{}={}'. Leave empty or set to one of: disabled run read",MSCOVER_INTEGRATION_MODE,modeValue);
     		throw e;
     	}
+		if(mode==Mode.AUTO) {
+			mode = isModulePathChildOfRootPath()?Mode.RUN:Mode.READ;	
+		}
     	return mode;
     }
     
+	private boolean isModulePathChildOfRootPath() {
+		String modulePath=fileSystem.baseDir().getAbsolutePath();
+		String rootPath=settings.getString(MSCOVER_SPECFLOWTESTS_ROOT);
+		Preconditions.checkNotNull(rootPath,"property not set: " + MSCOVER_SPECFLOWTESTS_ROOT);
+		String windowsPath = rootPath.replaceAll("/","\\\\");
+		return  modulePath.contains(windowsPath);
+	}
     /* (non-Javadoc)
 	 * @see com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration#getCoverageDir()
 	 */
