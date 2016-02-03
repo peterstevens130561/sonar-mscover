@@ -27,20 +27,29 @@ import java.io.File;
 import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.fs.FileSystem;
 
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
 import com.stevpet.sonar.plugins.common.api.ShellCommand;
+import com.stevpet.sonar.plugins.common.commandexecutor.DefaultProcessLock;
+import com.stevpet.sonar.plugins.common.commandexecutor.LockedWindowsCommandLineExecutor;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.BinaryCoverageToXmlConverter;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.VsTestCoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 /**
  * @author stevpet
  * 
  */
-public class WindowsVsTestRunnerBase implements TestRunner {
+public class VsTestUnitTestRunner implements TestRunner {
     static final Logger LOG = LoggerFactory
-            .getLogger(WindowsVsTestRunnerBase.class);
+            .getLogger(VsTestUnitTestRunner.class);
     protected VSTestStdOutParser vsTestStdOutParser;
     private String coveragePath;
     private String stdOutString;
@@ -51,7 +60,7 @@ public class WindowsVsTestRunnerBase implements TestRunner {
     private BinaryCoverageToXmlConverter coverageToXmlConverter;
 
 
-    public WindowsVsTestRunnerBase(BinaryCoverageToXmlConverter coverageToXmlConverter,
+    public VsTestUnitTestRunner(BinaryCoverageToXmlConverter coverageToXmlConverter,
             VSTestStdOutParser vsTestStdOutParser,
             VsTestRunnerCommandBuilder commandBuilder,
             CommandLineExecutor commandLineExecutor,
@@ -62,7 +71,27 @@ public class WindowsVsTestRunnerBase implements TestRunner {
         this.executor = commandLineExecutor;
         this.testEnvironment = testEnvironment;
     }
-
+    
+    public static  VsTestUnitTestRunner create(
+			VsTestEnvironment testEnvironment,
+			FileSystem fileSystem,
+			MsCoverConfiguration msCoverConfiguration, MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+		return new VsTestUnitTestRunner(
+				new VsTestCoverageToXmlConverter(fileSystem), 
+				new VSTestStdOutParser(), 
+				new VsTestRunnerCommandBuilder(
+						msCoverConfiguration,
+						microsoftWindowsEnvironment,
+						fileSystem,
+						new VsTestConfigFinder(),
+						new VSTestCommand(),
+						new DefaultAssembliesFinder(msCoverConfiguration)), 
+						new LockedWindowsCommandLineExecutor(
+								new DefaultProcessLock()
+								), 
+						testEnvironment);
+	}
+    
     public void execute() {
         ShellCommand vsTestCommand = commandBuilder.build(true);
         executor.execute(vsTestCommand);

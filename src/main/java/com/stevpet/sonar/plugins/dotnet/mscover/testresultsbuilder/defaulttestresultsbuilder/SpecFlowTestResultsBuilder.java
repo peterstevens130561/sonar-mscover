@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverFileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsParser;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
@@ -21,10 +22,10 @@ public class SpecFlowTestResultsBuilder extends DefaultTestResultsBuilder {
         this.specFlowScenarioMethodResolver = specFlowScenarioMethodResolver;
     }
 
-    public SpecFlowTestResultsBuilder(
+    public static TestResultsBuilder create (
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment
 			) {
-		this(
+		return new SpecFlowTestResultsBuilder (
 				new OpenCoverFileNamesParser(), 
 				new DefaultTestResultsParser(), 
 				new SpecFlowScenarioMethodResolver(microsoftWindowsEnvironment)

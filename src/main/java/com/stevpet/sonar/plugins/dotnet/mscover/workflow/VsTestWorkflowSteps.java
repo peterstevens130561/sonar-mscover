@@ -8,7 +8,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReaderBase;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultBranchFileCoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.CoverageSaverBase;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.CoverageSaverFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultLineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.VsTestCoverageToXmlConverterBase;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.WindowsCodeCoverageCommand;
@@ -21,7 +21,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.TestResultsSave
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VsTestRunnerCommandBuilder;
-import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.WindowsVsTestRunnerBase;
+import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VsTestUnitTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
@@ -31,7 +31,7 @@ public class VsTestWorkflowSteps implements WorkflowSteps {
 
     @Override
     public Class<? extends TestRunner> getTestRunner() {
-        return WindowsVsTestRunnerBase.class;
+        return VsTestUnitTestRunner.class;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class VsTestWorkflowSteps implements WorkflowSteps {
 
     @Override
     public Class<? extends CoverageSaver> getCoverageSaver() {
-        return CoverageSaverBase.class;
+        return CoverageSaverFactory.class;
     }
 
     @Override

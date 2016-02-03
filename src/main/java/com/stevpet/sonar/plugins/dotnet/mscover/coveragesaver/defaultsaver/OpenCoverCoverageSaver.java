@@ -7,7 +7,7 @@ import org.sonar.api.scan.filesystem.PathResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
-public class OpenCoverCoverageSaver extends CoverageSaverBase implements
+public class OpenCoverCoverageSaver extends CoverageSaverFactory implements
 		BatchExtension {
 
 	public OpenCoverCoverageSaver(
