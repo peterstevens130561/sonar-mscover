@@ -26,7 +26,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResource
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestResultsFormatter;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.VsTestTestResultsSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.VsTestTestResultsSaverBase;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.VsTestTestResultsSaver;
 
 public class VsTestTestResultsSaverTest {
 
@@ -34,7 +34,7 @@ public class VsTestTestResultsSaverTest {
 	@Mock private FileSystem fileSystem;
 	@Mock private DefaultResourceResolver resourceResolver;
 	@Mock private TestResultsFormatter testResultsFormatter;
-	private VsTestTestResultsSaverBase saver;
+	private VsTestTestResultsSaver saver;
 	@Mock private SensorContext sensorContext;
 	@Mock private ProjectUnitTestResults projectUnitTestResults;
 
@@ -46,7 +46,7 @@ public class VsTestTestResultsSaverTest {
 	@Test
 	public void instantion() {
 		try {
-			new VsTestTestResultsSaver(pathResolver,fileSystem);
+			VsTestTestResultsSaver.create(pathResolver,fileSystem);
 		} catch (Exception e) {
 			fail("could not instantiate");
 		}
@@ -54,7 +54,7 @@ public class VsTestTestResultsSaverTest {
 	
 	@Test 
 	public void noResults() {
-		saver= new VsTestTestResultsSaverBase(resourceResolver,testResultsFormatter);
+		saver= new VsTestTestResultsSaver(resourceResolver,testResultsFormatter);
 		when(projectUnitTestResults.values()).thenReturn(new ArrayList<ClassUnitTestResult>());
 		saver.save(sensorContext, projectUnitTestResults);
 
@@ -72,7 +72,7 @@ public class VsTestTestResultsSaverTest {
 		
 		when(resourceResolver.getFile(sourceFile)).thenReturn(resourceFile);
 		
-		saver= new VsTestTestResultsSaverBase(resourceResolver,testResultsFormatter);
+		saver= new VsTestTestResultsSaver(resourceResolver,testResultsFormatter);
 
 		saver.save(sensorContext, projectUnitTestResults);
 
