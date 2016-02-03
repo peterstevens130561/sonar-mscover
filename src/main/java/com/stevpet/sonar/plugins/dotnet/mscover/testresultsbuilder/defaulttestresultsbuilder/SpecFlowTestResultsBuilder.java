@@ -6,19 +6,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverFileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsParser;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
-public class SpecFlowTestResultsBuilderBase extends DefaultTestResultsBuilder {
+public class SpecFlowTestResultsBuilder extends DefaultTestResultsBuilder {
 
-    private final Logger LOG = LoggerFactory.getLogger(SpecFlowTestResultsBuilderBase.class);
+    private final Logger LOG = LoggerFactory.getLogger(SpecFlowTestResultsBuilder.class);
     private SpecFlowScenarioMethodResolver specFlowScenarioMethodResolver;
 
-    public SpecFlowTestResultsBuilderBase(FileNamesParser fileNamesParser, TestResultsParser testResultsParser,SpecFlowScenarioMethodResolver specFlowScenarioMethodResolver) {
+    public SpecFlowTestResultsBuilder(FileNamesParser fileNamesParser, TestResultsParser testResultsParser,SpecFlowScenarioMethodResolver specFlowScenarioMethodResolver) {
         super(fileNamesParser, testResultsParser);
         this.specFlowScenarioMethodResolver = specFlowScenarioMethodResolver;
     }
 
+    public SpecFlowTestResultsBuilder(
+			MicrosoftWindowsEnvironment microsoftWindowsEnvironment
+			) {
+		this(
+				new OpenCoverFileNamesParser(), 
+				new DefaultTestResultsParser(), 
+				new SpecFlowScenarioMethodResolver(microsoftWindowsEnvironment)
+				);
+	}
+   
     @Override
     protected String onNotFound(MethodId methodId) {
         String methodName=methodId.getMethodName();

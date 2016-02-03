@@ -6,14 +6,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.resources.File;
+import org.sonar.api.scan.filesystem.PathResolver;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
+import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.DefaultTestResultsFormatter;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestResultsFormatter;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 
@@ -26,13 +29,21 @@ public class VsTestTestResultsSaverBase implements BatchExtension{
     private ResourceResolver resourceResolver;
 
     @SuppressWarnings("ucd")
-    public VsTestTestResultsSaverBase(
+    VsTestTestResultsSaverBase(
             DefaultResourceResolver resourceResolver,
             TestResultsFormatter testResultsFormatter) {
 
         this.testResultsFormatter = testResultsFormatter;
         this.resourceResolver = resourceResolver;
     }
+    
+	public VsTestTestResultsSaverBase(
+			PathResolver pathResolver, FileSystem filesystem) {
+		this(
+			new DefaultResourceResolver(pathResolver,filesystem), 
+			new DefaultTestResultsFormatter()
+		);
+	}
 
     public void save(@Nonnull SensorContext sensorContext,@Nonnull ProjectUnitTestResults projectUnitTestResults) {
         this.sensorContext=sensorContext;
