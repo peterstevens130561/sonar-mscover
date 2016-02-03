@@ -32,6 +32,11 @@ import com.stevpet.sonar.plugins.common.api.ShellCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverTarget;
 
+/**
+ * Implementation of VsTest
+ * 
+ * See {@link commandline msdn.microsoft.com/en-us/library/jj155796.aspx}
+ */
 public class VSTestCommand implements ShellCommand,OpenCoverTarget {
 
     private static String defaultPath = "C:/Program Files (x86)/Microsoft Visual Studio 11.0/" +
@@ -42,6 +47,7 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
     private boolean doCodeCoverage;
     private String platform;
     private String assembliesDir;
+	private String testCaseFilter;
     
     public VSTestCommand() {
         commandPath=defaultPath;
@@ -53,6 +59,10 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
     
     public void setExecutableDir(String path) {
     	commandPath=path + "\\vstest.console.exe";
+    }
+    
+    public void setTestCaseFilter(String testCaseFilter) {
+    		this.testCaseFilter = testCaseFilter;
     }
     /**
      * @return Creates the commandline with all options
@@ -72,6 +82,9 @@ public class VSTestCommand implements ShellCommand,OpenCoverTarget {
         }
         command.addArgument("/Logger:trx");
         addPlatformIfSpecified(command);
+        if(!StringUtils.isEmpty(testCaseFilter)) {
+        	command.addArgument("/TestCaseFilter:\"" + testCaseFilter + "\"");
+        }
         return command;
     }
     

@@ -12,5 +12,7 @@ public interface OpenCoverTestRunner extends TestRunner {
 	 */
 	OpenCoverTestRunner onlyReportAssembliesOfTheSolution();
 
+	void setTestCaseFilter(String testCaseFilter);
+
 
 }

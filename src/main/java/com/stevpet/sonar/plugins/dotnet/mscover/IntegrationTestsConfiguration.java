@@ -5,7 +5,10 @@ import java.io.File;
 public interface IntegrationTestsConfiguration {
 
     public enum Mode {
-    	DISABLED,RUN,READ,AUTO
+    	DISABLED, // Do not run
+    	RUN, // Run the tests
+    	READ, // Read results, and save
+    	AUTO, // sets mode for the project depending on whether the project is below the root (RUN) or not (READ)
     }
     
     public enum Tool {
@@ -33,5 +36,11 @@ public interface IntegrationTestsConfiguration {
 	Tool getTool();
 
 	boolean matches(Tool tool, Mode mode);
+
+	/**
+	 * specification of testcasefilter, according to the test runner used.
+	 * @return
+	 */
+	String getTestCaseFilter();
 
 }

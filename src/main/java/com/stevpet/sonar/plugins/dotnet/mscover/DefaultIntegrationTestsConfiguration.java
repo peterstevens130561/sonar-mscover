@@ -18,6 +18,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     public static final String MSCOVER_INTEGRATION_TOOL=MSCOVER+ "tool";
     public static final String MSCOVER_INTEGRATION_MODE=MSCOVER + "mode";
 	public static final String MSCOVER_SPECFLOWTESTS_ROOT = DefaultIntegrationTestsConfiguration.MSCOVER + "root";
+	public static final String MSCOVER_INTEGRATION_TESTCASEFILTER= DefaultIntegrationTestsConfiguration.MSCOVER + "testcasefilter";
 
 	private Settings settings;
 	private FileSystem fileSystem;
@@ -106,4 +107,10 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     	return getTool() == tool;
     	
     }
+
+	@Override
+	public String getTestCaseFilter() {
+
+		return settings.getString(MSCOVER_INTEGRATION_TESTCASEFILTER);
+	}
 }

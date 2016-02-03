@@ -136,4 +136,10 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 		this.coverageFile = coverageFile;
 	}
 
+	@Override
+	public void setTestCaseFilter(String testCaseFilter) {
+		this.vsTestRunnerCommandBuilder.setTestCaseFilter(testCaseFilter);
+		
+	}
+
 }

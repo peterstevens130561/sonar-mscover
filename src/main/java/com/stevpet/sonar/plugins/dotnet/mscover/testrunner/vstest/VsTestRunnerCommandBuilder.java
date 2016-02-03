@@ -26,6 +26,7 @@ public  class VsTestRunnerCommandBuilder implements BatchExtension {
     private FileSystem fileSystem;
     private AssembliesFinder assembliesFinder;
     protected boolean doCodeCoverage;
+	private String testCaseFilter;
 
     public VsTestRunnerCommandBuilder(MsCoverConfiguration propertiesHelper,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
@@ -69,6 +70,7 @@ public  class VsTestRunnerCommandBuilder implements BatchExtension {
         vsTestCommand.setTestSettingsFile(testSettingsFile);
         vsTestCommand.setUnitTestAssembliesPath(unitTestAssembliesPath);
         vsTestCommand.setCodeCoverage(doCodeCoverage);
+        vsTestCommand.setTestCaseFilter(testCaseFilter);
         String platform = propertiesHelper.getRequiredBuildPlatform();
         vsTestCommand.setPlatform(platform);
         return vsTestCommand;
@@ -89,5 +91,10 @@ public  class VsTestRunnerCommandBuilder implements BatchExtension {
         }
         return solution.getSolutionDir();
     }
+
+
+	public void setTestCaseFilter(String testCaseFilter) {
+		this.testCaseFilter=testCaseFilter;
+	}
     
 }

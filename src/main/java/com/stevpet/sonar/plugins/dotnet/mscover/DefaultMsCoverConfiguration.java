@@ -235,7 +235,7 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
             runMode= Enum.valueOf(RunMode.class, name.toUpperCase());
         } catch (IllegalArgumentException e) {
             String msg = "Invalid property value " + MSCOVER_MODE +"=" + name;
-            Log.error(msg);
+            LOG.error(msg);
             throw new MsCoverException(msg,e);
         }
         return runMode;
