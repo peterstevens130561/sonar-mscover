@@ -22,15 +22,7 @@ public class MethodToSourceFileIdMapTest {
         findMethodInCoverageForTest(scenarioNameInCoverage, testName);
     }
 
-    @Test
-    public void getLongestContainedMethod_SpecFlowExamples_ShouldFind() {
-        //Given coverage file has 
-        String scenarioName = "2Method";
-        String scenarioNameInCoverage=scenarioName;
-        String testName=scenarioName + "variant3";
-        
-        findMethodInCoverageForTest(scenarioNameInCoverage, testName);
-    }
+   
     
     private void findMethodInCoverageForTest(String scenarioNameInCoverage,
             String testName) {
@@ -39,11 +31,9 @@ public class MethodToSourceFileIdMapTest {
         
         //When test is defined as
 
-        specFlowMethodId.setMethodName(testName);
+        specFlowMethodId=new MethodId("unittests.dll","bhi.fun","bhi.fun",testName);
         
         thenNormalGetFails(specFlowMethodId);
-        thenLongestMatchIsFound(scenarioNameInCoverage, specFlowFileId,
-                specFlowMethodId);
     }
 
     private void thenNormalGetFails(MethodId specFlowMethodId) {
@@ -51,21 +41,11 @@ public class MethodToSourceFileIdMapTest {
         assertNull("normal get should fail",gottenFile);
     }
     
-    private void thenLongestMatchIsFound(String scenarioNameInCoverage,
-            String specFlowFileId, MethodId specFlowMethodId) {
-        String gottenFile;
-        gottenFile=map.getLongestContainedMethod(specFlowMethodId);
-        assertEquals("FileId should be found",specFlowFileId,gottenFile);
-        assertEquals("methodName resulting",scenarioNameInCoverage,specFlowMethodId.getMethodName());
-    }
+
     
     private MethodId givenCoverageFileHasMethodWithFile(
             String specFlowTestName, String specFlowFileId) {
-        MethodId specFlowMethodId = new MethodId();
-        specFlowMethodId.setClassName("features");
-        specFlowMethodId.setModuleName("unittests.dll");
-        specFlowMethodId.setNamespaceName("bhi.fun");
-        specFlowMethodId.setMethodName(specFlowTestName);
+        MethodId specFlowMethodId = new MethodId("unittests.dll","bhi.fun","bhi.fun",specFlowTestName);
         map.add(specFlowMethodId, specFlowFileId);
         return specFlowMethodId;
     }

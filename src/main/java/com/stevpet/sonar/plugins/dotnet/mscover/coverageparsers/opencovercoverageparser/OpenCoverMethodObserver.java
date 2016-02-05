@@ -143,11 +143,7 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
             scanMode=ScanMode.SCAN;
             return;
         }
-        MethodId method = new MethodId();
-        method.setClassName(className);
-        method.setMethodName(methodName);
-        method.setModuleName(moduleName);
-        method.setNamespaceName(nameSpaceName);
+        MethodId method = new MethodId(moduleName,nameSpaceName,className,methodName);
        
         registry.add(method, sourceFileId);
     }

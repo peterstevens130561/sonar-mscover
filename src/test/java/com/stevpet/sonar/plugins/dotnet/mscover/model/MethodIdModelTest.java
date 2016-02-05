@@ -30,24 +30,17 @@ import org.junit.Test;
 import org.sonar.api.utils.SonarException;
 
 public class MethodIdModelTest {
-
-	MethodId methodIdModel ;
-    @Before
-    public void before() {
-        methodIdModel = MethodId.create();
-    }
-    
+  
     @Test(expected=SonarException.class)
     public void setModuleName_Invalid_Exception() {
-        methodIdModel.setModuleName("!@( 12345:780.exe");
+    	new MethodId("!@( 12345:780.exe","validnamespace","MyClass","MyMethod");
     }
     
     @Test
     public void setModuleName_Space_Accepted() {
     	String NAME_WITH_SPACE = "JewelSuite Viewer.exe";
-        methodIdModel.setModuleName(NAME_WITH_SPACE);
-        String name=methodIdModel.getModuleName();
-        assertEquals("name with space should be allowed",NAME_WITH_SPACE,name);
+    	MethodId methodId=new MethodId(NAME_WITH_SPACE,"validnamespace","MyClass","MyMethod");
+        assertEquals("name with space should be allowed",NAME_WITH_SPACE,methodId.getModuleName());
     }
     
     @Test
@@ -77,7 +70,7 @@ public class MethodIdModelTest {
         valid("-_ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890abcdefghijklmnopqrstuvwxyz.dll");
     }
     private void valid(String name) {
-        methodIdModel.setModuleName(name);
-        Assert.assertEquals(name, methodIdModel.getModuleName());
+    	MethodId methodId=new MethodId(name,"validnamespace","MyClass","MyMethod");
+        Assert.assertEquals(name, methodId.getModuleName());
     }
 }

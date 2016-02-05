@@ -36,6 +36,13 @@ public final class MethodId  {
     public MethodId() { 
     }
     
+    /**
+     * Create a new unmutable methodid
+     * @param moduleName
+     * @param namespaceName
+     * @param className
+     * @param methodName
+     */
     public MethodId(String moduleName, String namespaceName, String className, String methodName) {
         setModuleName(moduleName);
         setNamespaceName(namespaceName);
@@ -54,7 +61,7 @@ public final class MethodId  {
         return moduleName;
     }
 
-    public MethodId setModuleName(String moduleName) {
+    private MethodId setModuleName(String moduleName) {
         this.moduleName=validate(moduleName);
         return this;
 
@@ -85,7 +92,7 @@ public final class MethodId  {
         return namespaceName;
     }
 
-    public MethodId setNamespaceName(String namespaceName) {
+    private MethodId setNamespaceName(String namespaceName) {
         this.namespaceName = namespaceName;
         return this;
     }
@@ -94,7 +101,7 @@ public final class MethodId  {
         return className;
     }
 
-    public MethodId setClassName(String className) {
+    private MethodId setClassName(String className) {
         this.className = className;
         return this;
     }
@@ -103,7 +110,7 @@ public final class MethodId  {
         return methodName;
     }
 
-    public MethodId setMethodName(String methodName) {
+    private MethodId setMethodName(String methodName) {
         this.methodName = removeArgumentList(methodName);
         if(StringUtils.isEmpty(this.methodName)) {
             throw new IllegalArgumentException("methodName");
@@ -126,9 +133,6 @@ public final class MethodId  {
         return id.toLowerCase();
     }
 
-    public static MethodId create() {
-        return new MethodId();
-    }
 
     @Override
     public int hashCode() {

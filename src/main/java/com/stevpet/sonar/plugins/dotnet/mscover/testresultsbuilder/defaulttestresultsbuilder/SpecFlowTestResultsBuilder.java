@@ -38,7 +38,7 @@ public class SpecFlowTestResultsBuilder extends DefaultTestResultsBuilder {
         String methodClass=methodId.getClassName();
         File  file=specFlowScenarioMethodResolver.getFile(methodName);
         if(file==null) {
-            LOG.warn("Could not find file for {}",methodName);
+            LOG.warn("Tried to resolve a potential specflow method, but failed {}",methodName);
         }
         return file==null?null:file.getAbsolutePath();
         

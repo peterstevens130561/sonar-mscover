@@ -75,27 +75,7 @@ public final class MsCoverPlugin extends SonarPlugin {
     @SuppressWarnings({ "rawtypes" })
     public List getExtensions() {
 
-        List clazzes=Arrays.asList(
-        		//VisualStudioAssemblyLocator.class,
-                DefaultMicrosoftWindowsEnvironment.class,
-                VsTestEnvironment.class,
-                DefaultMsCoverConfiguration.class,
-                //VisualStudioProjectBuilder.class,
-                UnitTestCache.class,
-                DefaultDirector.class, UnitTestBlockDecorator.class,
-                UnitTestWorkflowSensor.class,
-                IntegrationTestCache.class,
-                SupportedLanguage.class,
-                DefaultProcessLock.class,
-
-                DefaultResourceResolver.class, 
-                IntegrationTestResourceResolver.class,
-                
-                WindowsCommandLineExecutor.class,
-                BuildWrapperInitializer.class,
-                BuildWrapperBuilder.class,
-                BuildWrapperCache.class,
-                
+        List clazzes=Arrays.asList(               
                 VisualStudioConfiguration.class
                 )
                 ;

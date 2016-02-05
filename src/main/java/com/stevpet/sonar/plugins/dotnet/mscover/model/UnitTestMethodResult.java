@@ -32,7 +32,7 @@ public class UnitTestMethodResult {
         Failed,
         Ignored
     }
-    private MethodId methodId = new MethodId();
+
     private String testId;
     private String duration;
     private String outcome;
@@ -41,6 +41,10 @@ public class UnitTestMethodResult {
     private String message = StringUtils.EMPTY;
     private String stackTrace;
     private UnitTestingResults parent;
+	private String moduleName;
+	private String namespaceName;
+	private String className;
+	private String methodName;
 
     UnitTestMethodResult(UnitTestingResults unitTestingResults) {
         this.parent = unitTestingResults;
@@ -60,11 +64,11 @@ public class UnitTestMethodResult {
     }
 
     public String getModuleName() {
-        return methodId.getModuleName();
+        return moduleName;
     }
 
     public String getNamespaceName() {
-        return methodId.getNamespaceName();
+        return namespaceName;
     }
 
     public String getTestId() {
@@ -77,11 +81,11 @@ public class UnitTestMethodResult {
     }
 
     public String getTestName() {
-        return methodId.getMethodName();
+        return methodName;
     }
 
     public UnitTestMethodResult setTestName(String testName) {
-        methodId.setMethodName(testName);
+        methodName=testName;
         return this;
     }
 
@@ -94,7 +98,7 @@ public class UnitTestMethodResult {
     }
 
     public String getClassName() {
-        return methodId.getClassName();
+        return className;
     }
 
     public UnitTestMethodResult setDuration(String duration) {
@@ -147,7 +151,8 @@ public class UnitTestMethodResult {
         }
         codeBase = codeBase.replace("\\", "/");
         String[] parts = codeBase.split("/");
-        methodId.setModuleName(parts[parts.length - 1]);
+        this.moduleName=parts[parts.length - 1];
+       
         return this;
     }
 
@@ -161,13 +166,11 @@ public class UnitTestMethodResult {
             throw new SonarException("namespacename can't be null");
         }
         int lastDot = value.lastIndexOf(".");
-        String namespaceName;
         if (lastDot == -1) {
             namespaceName = StringUtils.EMPTY;
         } else {
             namespaceName = value.substring(0, lastDot);
         }
-        methodId.setNamespaceName(namespaceName);
         return this;
     }
 
@@ -176,18 +179,16 @@ public class UnitTestMethodResult {
             throw new SonarException("className can't be null");
         }
         int lastDot = value.lastIndexOf(".");
-        String className;
         if (lastDot == -1) {
             className = value;
         } else {
             className = value.substring(lastDot + 1);
         }
-        methodId.setClassName(className);
         return this;
     }
 
     public MethodId getMethodId() {
-        return methodId;
+        return new MethodId(moduleName,namespaceName,className,methodName);
     }
 
     public UnitTestMethodResult setMessage(String value) {

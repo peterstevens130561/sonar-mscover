@@ -40,23 +40,21 @@ public class MethodIdModelEqualityTest {
     @Test
     public void differentMethodState_UnEqual() {
         MethodId method1 = createMethodeOne();
-        MethodId method2 = createMethodTwo();
+        MethodId method2 = new MethodId("module.dll","namespace","class2","method2");
         assertFalse(method1.equals(method2));
     }
     
     @Test
     public void differentClassState_UnEqual() {
         MethodId method1 = createMethodeOne();
-        MethodId method2 = createMethodTwo();
-        method2.setClassName("class2");
+        MethodId method2 = new MethodId("module.dll","namespace","class2","method");
         assertFalse(method1.equals(method2));
     }
     
     @Test
     public void differentAssemblyState_UnEqual() {
         MethodId method1 = createMethodeOne();
-        MethodId method2 = createMethodTwo();
-        method2.setModuleName("module2.dll");
+        MethodId method2 = new MethodId("module2.dll","namespace","class2","method");
         assertFalse(method1.equals(method2));
         
     }
@@ -64,8 +62,7 @@ public class MethodIdModelEqualityTest {
     @Test
     public void differentNameSpace2State_UnEqual() {
         MethodId method1 = createMethodeOne();
-        MethodId method2 = createMethodTwo();
-        method2.setNamespaceName("namespace2");
+        MethodId method2 = new MethodId("module.dll","namespace2","class","method");
         assertFalse(method1.equals(method2));
         
     }
@@ -95,8 +92,5 @@ public class MethodIdModelEqualityTest {
         return new MethodId("module.dll","namespace","class","method");
     }
     
-    private MethodId createMethodTwo() {
-        return new MethodId("module.dll","namespace","class","method2");
-    }
 
 }

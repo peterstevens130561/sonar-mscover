@@ -26,6 +26,13 @@ public class ProjectUnitTestResults {
         return classUnitTestResult;
     }
 
+    public int getTests() {
+    	int tests=0;
+    	for(ClassUnitTestResult classUnitTestResult:collection) {
+    		tests += classUnitTestResult.getTests();
+    	}
+    	return tests;
+    }
     public void addFiles(String... names) {
         for (String name : names) {
             addFile(new File(name));

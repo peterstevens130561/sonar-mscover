@@ -59,6 +59,7 @@ public class VsTestTestResultsSaver implements BatchExtension{
 
     public void save(@Nonnull SensorContext sensorContext,@Nonnull ProjectUnitTestResults projectUnitTestResults) {
         this.sensorContext=sensorContext;
+        int saved = 0;
     	for (ClassUnitTestResult classUnitTestResult : projectUnitTestResults
                 .values()) {
             java.io.File file = classUnitTestResult.getFile();
@@ -71,7 +72,9 @@ public class VsTestTestResultsSaver implements BatchExtension{
             }
             saveFileSummaryResults(classUnitTestResult, sonarFile);
             saveFileTestResults(classUnitTestResult, sonarFile);
+            ++saved;
         }
+    	LOG.debug("saved {} testresults",saved);
     }
 
     public void saveFileSummaryResults(ClassUnitTestResult fileResults,
