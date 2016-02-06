@@ -32,10 +32,7 @@ public final class MethodId  {
     private String moduleName,namespaceName,className,methodName;
     private Pattern pattern = Pattern.compile("[^a-zA-Z0-9 \\._-]");
     private  Pattern moduleSuffixPattern = Pattern.compile("\\.(exe|dll)");
-
-    public MethodId() { 
-    }
-    
+ 
     /**
      * Create a new unmutable methodid
      * @param moduleName
@@ -45,17 +42,12 @@ public final class MethodId  {
      */
     public MethodId(String moduleName, String namespaceName, String className, String methodName) {
         setModuleName(moduleName);
-        setNamespaceName(namespaceName);
-        setClassName(className);
+        this.namespaceName=namespaceName;
+        this.className=className;
         setMethodName(methodName);
     }
     
-    private MethodId(MethodId methodId) {
-        setModuleName(new String(methodId.getModuleName()));
-        setNamespaceName(new String(methodId.getNamespaceName()));
-        setClassName(new String(methodId.getClassName()));
-        setMethodName(new String(methodId.getMethodName()));
-    }
+
 
     public String getModuleName() {
         return moduleName;
@@ -92,19 +84,11 @@ public final class MethodId  {
         return namespaceName;
     }
 
-    private MethodId setNamespaceName(String namespaceName) {
-        this.namespaceName = namespaceName;
-        return this;
-    }
 
     public String getClassName() {
         return className;
     }
 
-    private MethodId setClassName(String className) {
-        this.className = className;
-        return this;
-    }
 
     public String getMethodName() {
         return methodName;
@@ -128,6 +112,10 @@ public final class MethodId  {
         }
         return result;
     }
+    /**
+     * Unique String representation of the method
+     * @return
+     */
     public String getId() {
         String id=moduleName + ":" + namespaceName + "." + className + "!" + methodName;  
         return id.toLowerCase();
@@ -171,7 +159,12 @@ public final class MethodId  {
         return sb.toString();
     }
     
-    public MethodId deepClone(){
-       return new MethodId(this);
-    }
+
+    /**
+     * gets a copy of the method, with a fake classname
+     * @return
+     */
+	public MethodId getFallBack() {
+		return new MethodId(moduleName,namespaceName,"#FALLBACKCLASSNAME#",methodName);
+	}
 }

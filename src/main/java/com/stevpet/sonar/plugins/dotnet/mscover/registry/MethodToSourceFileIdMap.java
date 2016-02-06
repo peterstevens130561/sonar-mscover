@@ -26,27 +26,42 @@ import java.util.HashMap;
 import java.util.Map;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 
+/**
 
+ * @author stevpet
+ *
+ */
 public class MethodToSourceFileIdMap {
     
-    private Map<MethodId,String> methodRegistry = new HashMap<MethodId,String>();
+    private Map<MethodId,String> map = new HashMap<MethodId,String>();
    
     public void add(MethodId methodId,String sourceFileId) {
-        MethodId methodClone = methodId.deepClone();
-        methodRegistry.put(methodClone, sourceFileId);
-        methodClone=methodId.deepClone();
+        map.put(methodId, sourceFileId);
+        MethodId fallBackMethodId=methodId.getFallBack();
+        map.put(fallBackMethodId, sourceFileId);
     }
     
+    /**
+     * First it will try to find an exact match, if that fails, it will try to find the same method in the same namespace and module, ignoring the class
+     * This is sometimes needed to find test methods that are inherited
+     * 
+     * @param methodId
+     * @return
+     */
     public String get(MethodId methodId) {
         if(methodId==null) {
             return null;
         }
-        String fileId=methodRegistry.get(methodId);
+        String fileId=map.get(methodId);
+        if(fileId==null) {
+        	MethodId fallBackMethodId=methodId.getFallBack();
+        	fileId=map.get(fallBackMethodId);
+        }
         return fileId;
     }
  
     public int size() {
-        return methodRegistry.size();
+        return map.size();
     }
 
 }

@@ -83,6 +83,13 @@ public class MethodIdModelEqualityTest {
     }
     
     @Test
+    public void fallBackShouldNotBeEqual() {
+    	MethodId method1 = createMethodeOne() ;
+    	MethodId fallBack = method1.getFallBack();
+    	assertNotEquals("fallBack should be different",method1,fallBack);
+    }
+    
+    @Test
     public void differentType_ShouldBeUnequal() {
         String myString = " bogus";
         MethodId method1 = createMethodeOne();
