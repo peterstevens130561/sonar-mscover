@@ -59,8 +59,12 @@ public class MethodToSourceFileIdMap {
         return fileId;
     }
  
+    /**
+     * the number of methods added
+     * @return
+     */
     public int size() {
-        return map.size();
+        return map.size()/2;
     }
 
 }
