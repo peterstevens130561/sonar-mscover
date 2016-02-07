@@ -72,7 +72,7 @@ public class VsTestTestResultsSaver implements BatchExtension{
             }
             saveFileSummaryResults(classUnitTestResult, sonarFile);
             saveFileTestResults(classUnitTestResult, sonarFile);
-            ++saved;
+            saved += classUnitTestResult.getTests();
         }
     	LOG.debug("saved {} testresults",saved);
     }
