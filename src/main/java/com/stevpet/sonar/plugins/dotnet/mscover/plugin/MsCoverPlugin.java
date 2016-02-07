@@ -47,6 +47,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.workflow.DefaultDirector;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.IntegrationTestCache;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestCache;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.UnitTestWorkflowSensor;
+import com.stevpet.sonar.plugins.dotnet.unittests.OpenCoverUnitTestSensor;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.DefaultMicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioConfiguration;
 
@@ -76,7 +77,11 @@ public final class MsCoverPlugin extends SonarPlugin {
     public List getExtensions() {
 
         List clazzes=Arrays.asList(               
-                VisualStudioConfiguration.class
+        		VsTestEnvironment.class,
+        		DefaultMicrosoftWindowsEnvironment.class,
+        		DefaultMsCoverConfiguration.class,       		
+                UnitTestCache.class,     		
+                OpenCoverUnitTestSensor.class
                 )
                 ;
         List extensions = new ArrayList();

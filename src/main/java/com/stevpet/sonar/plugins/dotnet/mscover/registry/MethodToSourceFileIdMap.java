@@ -27,7 +27,6 @@ import java.util.Map;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 
 /**
-
  * @author stevpet
  *
  */
