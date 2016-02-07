@@ -22,9 +22,16 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover.opencovermethodobserver;
 
+
 import static org.junit.Assert.*;
 
 import java.io.File;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -32,6 +39,7 @@ import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverMethodObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 
 public class OpenCoverMethodObserverTest {
@@ -62,6 +70,19 @@ public class OpenCoverMethodObserverTest {
         parser.registerObserver(observer);
         File file=TestUtils.getResource("coverage-report.xml");
         parser.parseFile(file);
-        assertEquals(141,registry.size());
+        assertEquals(127,registry.size());
+        assertEquals(29,registry.getDuplicates());
+    }
+    
+    @Test
+    public void ParseFileCheckCount() {
+    	MethodToSourceFileIdMap mockRegistry = mock(MethodToSourceFileIdMap.class);
+    	
+        observer.setRegistry(mockRegistry);
+        OpenCoverParserSubject parser = new OpenCoverParserSubject();
+        parser.registerObserver(observer);
+        File file=TestUtils.getResource("coverage-report.xml");
+        parser.parseFile(file);
+        verify(mockRegistry,times(170)).add(any(MethodId.class), anyString());
     }
 }

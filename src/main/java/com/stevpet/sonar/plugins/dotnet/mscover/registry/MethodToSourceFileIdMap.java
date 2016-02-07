@@ -32,9 +32,13 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
  */
 public class MethodToSourceFileIdMap {
     
+	int doubles=0;
     private Map<MethodId,String> map = new HashMap<MethodId,String>();
    
     public void add(MethodId methodId,String sourceFileId) {
+    	if(map.containsKey(methodId)) {
+    		++doubles;
+    	}
         map.put(methodId, sourceFileId);
         MethodId fallBackMethodId=methodId.getFallBack();
         map.put(fallBackMethodId, sourceFileId);
@@ -65,6 +69,14 @@ public class MethodToSourceFileIdMap {
      */
     public int size() {
         return map.size()/2;
+    }
+    
+    /**
+     * the number of duplicate keys
+     * @return
+     */
+    public int getDuplicates() {
+    	return doubles;
     }
 
 }
