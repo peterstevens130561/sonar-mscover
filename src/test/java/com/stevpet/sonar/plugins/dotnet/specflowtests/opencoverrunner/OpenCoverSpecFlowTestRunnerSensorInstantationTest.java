@@ -13,7 +13,7 @@ import org.sonar.api.scan.filesystem.PathResolver;
 
 
 
-public class SensorInstantationTest {
+public class OpenCoverSpecFlowTestRunnerSensorInstantationTest {
 
 	@Mock Settings settings ;
 	@Mock Project project;

@@ -8,6 +8,9 @@ import org.mockito.Mock;
 
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.eq;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
@@ -26,7 +29,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestCache;
 import com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner.OpenCoverSpecFlowTestRunnerSensor;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
-public class SensorAnalyzeTest {
+public class OpenCoverSpecFlowTestRunnerSensorAnalyzeTest {
 
 	@Mock private Settings settings;
 	@Mock private FileSystem fileSystem ;
@@ -35,7 +38,7 @@ public class SensorAnalyzeTest {
 	@Mock private CachedSpecflowIntegrationTestRunner runner;
 	private OpenCoverSpecFlowTestRunnerSensor sensor;
 	@Mock private Project module;
-	@Mock private SensorContext context;
+	@Mock private SensorContext sensorContext;
 	@Mock private TestResultsBuilder testResultsBuilder;
 	@Mock private VsTestTestResultsSaver testResultsSaver;
 	@Mock private CoverageReader coverageReader;
@@ -47,7 +50,6 @@ public class SensorAnalyzeTest {
 	@Before
 	public void before() {
 		org.mockito.MockitoAnnotations.initMocks(this);	
-
 		sensor = new OpenCoverSpecFlowTestRunnerSensor(runner,testResultsSaver,integrationTestsConfiguration,fileSystem);
 	}
 	
@@ -56,11 +58,16 @@ public class SensorAnalyzeTest {
 		String projectName="projectName";
 		File root = new File("root");
 		when(fileSystem.workDir()).thenReturn(new File("workdir"));
-		when(runner.getTestResults()).thenReturn(new ProjectUnitTestResults());
+		ProjectUnitTestResults projectUnitTestResults = new ProjectUnitTestResults();
+		when(runner.getTestResults()).thenReturn(projectUnitTestResults);
 		when(integrationTestsConfiguration.getDirectory()).thenReturn(root);
 		when(module.getName()).thenReturn(projectName);
 		when(runner.setCoverageFile(any(File.class))).thenReturn(runner);
 		when(runner.setCoverageRoot(any(File.class))).thenReturn(runner);
-		sensor.analyse(module, context);
+		sensor.analyse(module, sensorContext);
+		
+		
+		verify(runner,times(1)).execute();
+		verify(testResultsSaver,times(1)).save(eq(sensorContext), eq(projectUnitTestResults));
 	}
 }
