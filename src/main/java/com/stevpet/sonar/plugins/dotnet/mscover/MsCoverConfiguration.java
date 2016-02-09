@@ -30,15 +30,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration.RunM
 
 public interface MsCoverConfiguration {
 	
-	enum TOOLS {
-		VSTEST,
-		OPENCOVER
-	}
-
-    boolean isUnitTestsEnabled();
-
-    String getIntegrationTestsPath();
-
 
     String getUnitTestCoveragePath();
 

@@ -28,7 +28,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.jfree.util.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
@@ -61,9 +60,8 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
     public static final String MSCOVER_INCLUSIONS=MSCOVER + "inclusions";
     public static final String MSCOVER_CUTOFFDATE=MSCOVER + "cutoffdate" ;
     public static final String MSCOVER_INTEGRATION_COVERAGEXML_PATH = MSCOVER + "integrationtests.coveragexml";
-    public static final String MSCOVER_INTEGRATION_RESULTS= MSCOVER + "integrationtests.results";
-    public static final String MSCOVER_INTEGRATION_VSTESTDIR= MSCOVER + "integrationtests.vstestcoveragedir";
-    public static final String MSCOVER_INTEGRATION_TOOL="integrationtests.coveragetool";
+    static final String MSCOVER_INTEGRATION_VSTESTDIR= MSCOVER + "integrationtests.vstestcoveragedir";
+    private static final String MSCOVER_INTEGRATION_TOOL="integrationtests.coveragetool";
     public static final String MSCOVER_UNIT_RESULTS= MSCOVER + "unittests.results";
     public static final String MSCOVER_MODE = MSCOVER + "mode";
     public static final String MSCOVER_UNITTEST_ASSEMBLIES = MSCOVER + "unittests.assemblies";
@@ -73,31 +71,22 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
     public static final String MSCOVER_IGNOREMISSING_DLL = MSCOVER + "vstest.ignoremissingdlls";
     public static final String MSCOVER_IGNOREMISSING_PDB = MSCOVER + "opencover.ignoremissingpdbs";
     public static final String MSCOVER_OPENCOVER_SKIPAUTOPROPS = MSCOVER + "opencover.skipautoprops";
-    public static final String MSCOVER_VSTEST_INSTALLDIR=MSCOVER+"vstest.installDirectory";
-    public static final String MSCOVER_WORKSPACE_ROOT= MSCOVER + "workspace";
+    private static final String MSCOVER_VSTEST_INSTALLDIR=MSCOVER+"vstest.installDirectory";
+    private static final String MSCOVER_WORKSPACE_ROOT= MSCOVER + "workspace";
     
     @SuppressWarnings("ucd")
     public DefaultMsCoverConfiguration(Settings settings) {
         this.settings = settings;
     }
     
-
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#isUnitTestsEnabled()
+    /**
+     * Preferred constructor
      */
-    @Override
-    public boolean isUnitTestsEnabled() {
-        return StringUtils.isNotEmpty(getUnitTestCoveragePath());
+    public static MsCoverConfiguration create(Settings settings) {
+        return new DefaultMsCoverConfiguration(settings);
     }
-    
 
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getIntegrationTestsPath()
-     */
-    public String getIntegrationTestsPath() {
-        return settings.getString(MSCOVER_INTEGRATION_COVERAGEXML_PATH);
-    }
-    
+
     
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getUnitTestCoveragePath()
@@ -132,12 +121,7 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
         return settings.getString(MSCOVER_TESTSETTINGS);
     }
 
-    /**
-     * Preferred constructor
-     */
-    public static MsCoverConfiguration create(Settings settings) {
-        return new DefaultMsCoverConfiguration(settings);
-    }
+
 
    
     /* (non-Javadoc)

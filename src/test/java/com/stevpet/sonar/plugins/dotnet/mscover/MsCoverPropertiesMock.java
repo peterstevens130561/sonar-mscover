@@ -57,16 +57,6 @@ public class MsCoverPropertiesMock {
         when(properties.getOpenCoverSkipAutoProps()).thenReturn(value);
     }
 
-
-
-
-    /**
-     * @param enabled - to return when isUnitTestsTestsEnabled is used
-     */
-    public void givenUnitTestsEnabled(boolean enabled) {
-        when(properties.isUnitTestsEnabled()).thenReturn(enabled);      
-    }
-
     /**
      * 
      * @param mode - to return when getMode is used
