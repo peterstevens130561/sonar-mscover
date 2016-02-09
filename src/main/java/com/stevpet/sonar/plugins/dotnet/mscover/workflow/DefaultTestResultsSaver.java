@@ -14,11 +14,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestResultsFormatter;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.TestResultsSaver;
 
-public class DefaultTestResultsSaver implements TestResultsSaver {
+class DefaultTestResultsSaver implements TestResultsSaver {
     private static final Logger LOG = LoggerFactory
             .getLogger(DefaultTestResultsSaver.class);
-    TestResultsSaver testResultsSaver;
-    SensorContext sensorContext;
+    private TestResultsSaver testResultsSaver;
+    private SensorContext sensorContext;
     private TestResultsFormatter testResultsFormatter;
     private ResourceResolver resourceResolver;
 

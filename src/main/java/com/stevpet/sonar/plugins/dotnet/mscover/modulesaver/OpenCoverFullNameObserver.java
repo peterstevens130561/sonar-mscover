@@ -3,9 +3,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.PathMatcher;
 
 
-public class OpenCoverFullNameObserver  extends ModuleFullNameObserver {
+class OpenCoverFullNameObserver  extends ModuleFullNameObserver {
 
-	String moduleName ;
+	private String moduleName ;
 	
 	/* (non-Javadoc)
 	 * @see com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.ModuleFullNameObserver#getModuleName()

@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverParserSubject;
 
-public class OpenCoverModuleParser implements ModuleParser{
+class OpenCoverModuleParser implements ModuleParser{
     private final Logger LOG = LoggerFactory.getLogger(OpenCoverModuleParser.class);
 	protected XmlParserSubject parser;
 	private ModuleFullNameObserver openCoverFullNameObserver;

@@ -14,14 +14,14 @@ import org.sonar.api.utils.SonarException;
 import com.google.common.base.Preconditions;
 
 
-public class ModuleSaverLambda implements ModuleLambda {
+class ModuleSaverLambda implements ModuleLambda {
 
 	
 	private ModuleParser moduleParser;
 	private File root;
 	private String projectName;
 
-	public ModuleSaverLambda(@Nonnull ModuleParser moduleParser) {
+	ModuleSaverLambda(@Nonnull ModuleParser moduleParser) {
 		this.moduleParser = moduleParser;
 	}
 	

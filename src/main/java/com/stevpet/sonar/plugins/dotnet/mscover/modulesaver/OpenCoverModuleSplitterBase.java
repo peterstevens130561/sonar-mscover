@@ -24,11 +24,11 @@ import org.sonar.api.utils.SonarException;
  * Parse the OpenCover file, and give each module to the moduleLambda
  * 
  */
-public class OpenCoverModuleSplitterBase implements ModuleSplitter {
+class OpenCoverModuleSplitterBase implements ModuleSplitter {
 
 	private ModuleLambda moduleHelper;
 
-	public OpenCoverModuleSplitterBase(ModuleLambda moduleHelper) {
+	OpenCoverModuleSplitterBase(ModuleLambda moduleHelper) {
 		this.moduleHelper = moduleHelper;
 	}
 

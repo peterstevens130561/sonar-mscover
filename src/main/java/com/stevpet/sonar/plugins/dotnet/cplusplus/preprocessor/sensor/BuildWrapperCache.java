@@ -5,18 +5,14 @@ import java.io.File;
 import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.InstantiationStrategy;
 
-@InstantiationStrategy(InstantiationStrategy.PER_BATCH)
-public class BuildWrapperCache implements BatchExtension {
+@InstantiationStrategy(InstantiationStrategy.PER_BATCH) class BuildWrapperCache implements BatchExtension {
     private boolean hasRun;
     private File outputDir;
-    public void reset() {
-        hasRun=false;
-        setOutputDir(null);
-    }
-    public boolean hasRun() {
+    
+    boolean hasRun() {
         return hasRun;
     }
-    public void setHasRun() {
+    void setHasRun() {
         this.hasRun = true;
     }
     public File getOutputDir() {

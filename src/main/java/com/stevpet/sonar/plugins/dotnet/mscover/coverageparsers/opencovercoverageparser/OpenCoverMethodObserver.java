@@ -44,7 +44,7 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
     private MethodToSourceFileIdMap registry;
     protected String moduleName;
     protected String className;
-    protected String fileId ;
+    
     protected String methodName;
     protected String nameSpaceName;
     public OpenCoverMethodObserver() {

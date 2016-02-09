@@ -27,7 +27,7 @@ import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 
-public class OpenCoverFileNamesAndIdObserver extends BaseParserObserver {
+class OpenCoverFileNamesAndIdObserver extends BaseParserObserver {
 
     
     private SourceFileNameTable registry ;
