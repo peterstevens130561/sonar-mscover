@@ -26,7 +26,7 @@ import org.sonar.api.batch.TimeMachine;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.Resource;
 
-public interface DateFilter {
+interface DateFilter {
 
     void setCutOffDate(String date);
 

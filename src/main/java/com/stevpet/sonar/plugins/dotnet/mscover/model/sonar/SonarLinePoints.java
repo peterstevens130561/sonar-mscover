@@ -26,7 +26,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SonarLinePoints implements CoverageLinePoints,Serializable {
+class SonarLinePoints implements CoverageLinePoints,Serializable {
     private List<CoverageLinePoint> points = new ArrayList<CoverageLinePoint>();
 
     /* (non-Javadoc)

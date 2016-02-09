@@ -46,7 +46,7 @@ import com.google.common.collect.ImmutableList;
 
 
 
-public class CutOffDateFilter implements DateFilter {
+class CutOffDateFilter implements DateFilter {
 
     private static final Logger LOG = LoggerFactory
             .getLogger(CutOffDateFilter.class);

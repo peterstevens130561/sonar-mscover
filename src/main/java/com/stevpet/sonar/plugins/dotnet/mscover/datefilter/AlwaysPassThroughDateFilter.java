@@ -27,7 +27,7 @@ import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.Resource;
 
 
-public class AlwaysPassThroughDateFilter implements DateFilter {
+class AlwaysPassThroughDateFilter implements DateFilter {
 
     public void setCutOffDate(String date) { 
      // Intentionally left blank

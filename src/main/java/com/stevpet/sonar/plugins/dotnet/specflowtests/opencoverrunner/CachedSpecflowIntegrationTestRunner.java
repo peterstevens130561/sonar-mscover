@@ -1,8 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-
 import javax.annotation.Nonnull;
 
 import org.jfree.util.Log;
@@ -20,7 +18,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSaver
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.SpecFlowTestResultsBuilder;
-import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.DefaultOpenCoverTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
