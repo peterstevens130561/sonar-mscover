@@ -32,8 +32,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.OpenCoverSequenc
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.SequencePoint;
 public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
 
-
-
         private static final String FULL_NAME = "FullName";
         private SonarCoverage registry ;
         private SequencePoint sequencePoint;
@@ -135,7 +133,7 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         }
         
         @ElementObserver(path=SEQUENCEPOINT_PATH, event=Event.EXIT)
-        public void sequencePointExit() {
+        public void sequencePointExit() { 
             if(isPragmaFile(fileId)) {
                 return;
             }

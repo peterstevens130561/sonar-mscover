@@ -26,7 +26,7 @@ public class DefaultBranchFileCoverageSaver implements BranchFileCoverageSaver {
         this.sensorContext = sensorContext;
     }
     
-    public  DefaultBranchFileCoverageSaver(ResourceResolver resourceResolver) {
+    DefaultBranchFileCoverageSaver(ResourceResolver resourceResolver) {
         this.resourceResolver = resourceResolver;
     }
     @Override
