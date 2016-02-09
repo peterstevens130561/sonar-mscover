@@ -370,22 +370,6 @@ public class MsCoverPropertiesStub implements MsCoverConfiguration {
         return null;
     }
 
-	@Override
-	public String getIntegrationTestsTool() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public boolean integrationTestsToolIsOpenCover() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean integrationTestsToolIsVsTest() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 }

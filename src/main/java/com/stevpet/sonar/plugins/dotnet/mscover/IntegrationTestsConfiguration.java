@@ -8,7 +8,8 @@ public interface IntegrationTestsConfiguration {
     	DISABLED, // Do not run
     	RUN, // Run the tests
     	READ, // Read results, and save
-    	AUTO, // sets mode for the project depending on whether the project is below the root (RUN) or not (READ)
+    	ACTIVE, // Read or Run
+    	AUTO,// sets mode for the project depending on whether the project is below the root (RUN) or not (READ)
     }
     
     public enum Tool {

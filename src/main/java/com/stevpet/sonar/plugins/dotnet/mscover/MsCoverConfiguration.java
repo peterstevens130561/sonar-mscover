@@ -35,27 +35,14 @@ public interface MsCoverConfiguration {
 		OPENCOVER
 	}
 
-    boolean isIntegrationTestsEnabled();
-
     boolean isUnitTestsEnabled();
 
     String getIntegrationTestsPath();
 
-    boolean excuteRoot();
 
     String getUnitTestCoveragePath();
 
-    String getExclusions();
 
-    boolean isPluginEnabled();
-
-    String getInclusions();
-
-    String getCutOffDate();
-
-    String getIntegrationTestResultsPath();
-
-    String getUnitTestResultsPath();
 
     String getMode();
 
@@ -63,9 +50,6 @@ public interface MsCoverConfiguration {
 
     String getTestSettings();
 
-    boolean shouldMsCoverRun();
-
-    boolean isCPlusPlus();
 
     List<String> getLanguages();
 
@@ -114,12 +98,6 @@ public interface MsCoverConfiguration {
     String getVsTestInstallPath();
 
     File getWorkSpaceRoot();
-
-	String getIntegrationTestsTool();
-
-	boolean integrationTestsToolIsOpenCover();
-
-	boolean integrationTestsToolIsVsTest();
 
 
 }

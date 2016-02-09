@@ -36,9 +36,6 @@ public class MsCoverPropertiesMock {
         return properties;
     }
 
-    public void givenRunOpenCover(boolean b) {
-        when(properties.runOpenCover()).thenReturn(b);
-    }
 
     public void givenUnitTestHintPath(String hintPath) {
         when(properties.getUnitTestHintPath()).thenReturn(hintPath);
@@ -60,27 +57,8 @@ public class MsCoverPropertiesMock {
         when(properties.getOpenCoverSkipAutoProps()).thenReturn(value);
     }
 
-    /**
-     * 
-     * @param cutOffDate - the string to return when getCutOffDate is used.
-     */
-    public void givenCutOffDate(String cutOffDate) {
-        when(properties.getCutOffDate()).thenReturn(cutOffDate); 
-    }
 
-    /**
-     * @param path - the path to return when getIntegrationTestsPath is used.
-     */
-    public void givenIntegrationTestsPath(String path) {
-        when(properties.getIntegrationTestsPath()).thenReturn(path);
-    }
 
-    /**
-     * @param enabled - to return when isIntegrationTestsEnabled is used
-     */
-    public void givenIntegrationTestsEnabled(boolean enabled) {
-        when(properties.isIntegrationTestsEnabled()).thenReturn(enabled);
-    }
 
     /**
      * @param enabled - to return when isUnitTestsTestsEnabled is used

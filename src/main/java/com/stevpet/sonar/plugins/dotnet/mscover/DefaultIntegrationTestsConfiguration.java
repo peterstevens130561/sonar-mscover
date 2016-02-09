@@ -13,12 +13,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.Mo
 
 public class DefaultIntegrationTestsConfiguration implements IntegrationTestsConfiguration {
 	private static final Logger LOG = LoggerFactory.getLogger(DefaultIntegrationTestsConfiguration.class);
-    public static final String MSCOVER = "sonar.mscover.integrationtests.";
-    public static final String MSCOVER_INTEGRATION_RESULTS= MSCOVER + "dir";
-    public static final String MSCOVER_INTEGRATION_TOOL=MSCOVER+ "tool";
-    public static final String MSCOVER_INTEGRATION_MODE=MSCOVER + "mode";
-	public static final String MSCOVER_SPECFLOWTESTS_ROOT = DefaultIntegrationTestsConfiguration.MSCOVER + "root";
-	public static final String MSCOVER_INTEGRATION_TESTCASEFILTER= DefaultIntegrationTestsConfiguration.MSCOVER + "testcasefilter";
+    private static final String MSCOVER = "sonar.mscover.integrationtests.";
+    private static final String MSCOVER_INTEGRATION_RESULTS= MSCOVER + "dir";
+    private static final String MSCOVER_INTEGRATION_TOOL=MSCOVER+ "tool";
+    private static final String MSCOVER_INTEGRATION_MODE=MSCOVER + "mode";
+	static final String MSCOVER_SPECFLOWTESTS_ROOT = DefaultIntegrationTestsConfiguration.MSCOVER + "root";
+	private static final String MSCOVER_INTEGRATION_TESTCASEFILTER= DefaultIntegrationTestsConfiguration.MSCOVER + "testcasefilter";
 
 	private Settings settings;
 	private FileSystem fileSystem;
