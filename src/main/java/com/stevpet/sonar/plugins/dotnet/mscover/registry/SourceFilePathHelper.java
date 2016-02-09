@@ -76,7 +76,7 @@ public class SourceFilePathHelper {
        * @return filename on the filesystem
        * @throws IOException
        */
-      public String getCanonicalPath(String fullPath) {
+      private String getCanonicalPath(String fullPath) {
           if(StringUtils.isEmpty(fullPath)) {
               return StringUtils.EMPTY;
           }

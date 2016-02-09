@@ -48,7 +48,7 @@ class DefaultTestResultsSaver implements TestResultsSaver {
         }
     }
 
-    public void saveFileSummaryResults(ClassUnitTestResult fileResults,
+    private void saveFileSummaryResults(ClassUnitTestResult fileResults,
             File sonarFile) {
         sensorContext.saveMeasure(sonarFile, CoreMetrics.SKIPPED_TESTS,
                 fileResults.getIgnored());

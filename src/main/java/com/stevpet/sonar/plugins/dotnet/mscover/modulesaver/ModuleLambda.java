@@ -2,7 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 
 import java.io.File;
 
-public interface ModuleLambda {
+interface ModuleLambda {
 
 	/**
 	 * 

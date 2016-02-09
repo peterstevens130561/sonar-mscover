@@ -32,7 +32,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
  */
 public class MethodToSourceFileIdMap {
     
-	int doubles=0;
+	private int doubles=0;
     private Map<MethodId,String> map = new HashMap<MethodId,String>();
    
     public void add(MethodId methodId,String sourceFileId) {

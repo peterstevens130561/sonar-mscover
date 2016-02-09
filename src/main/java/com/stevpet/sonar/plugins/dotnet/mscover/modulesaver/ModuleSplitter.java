@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.TransformerException;
 
-public interface ModuleSplitter {
+interface ModuleSplitter {
 
 	/**
 	 * Parse the OpenCover coverage file, and give each Module to the moduleLambda to process

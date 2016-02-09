@@ -48,12 +48,12 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
     
     public enum RunMode {
         SKIP,
-        REUSE,
+        REUSE, // NO_UCD (test only)
         RUNVSTEST,
-        NULL
+        NULL // NO_UCD (unused code)
     }
     private final Settings settings;
-    public static final String MSCOVER = "sonar.mscover.";
+    private static final String MSCOVER = "sonar.mscover.";
 
     public static final String MSCOVER_UNIT_COVERAGEXML_PATH=MSCOVER + "unittests.coveragexml";
     public static final String MSCOVER_EXECUTEROOT = MSCOVER + "rootproject";

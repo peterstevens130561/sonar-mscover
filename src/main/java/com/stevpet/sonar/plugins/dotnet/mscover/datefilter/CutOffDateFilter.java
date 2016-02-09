@@ -120,7 +120,7 @@ public class CutOffDateFilter implements DateFilter {
         lineCommitsData.put(lineNr,commitDate);
     }
 
-    String[] getData(Measure measure)  {
+    private String[] getData(Measure measure)  {
         if(measure == null) {
             return new String[0];
         }

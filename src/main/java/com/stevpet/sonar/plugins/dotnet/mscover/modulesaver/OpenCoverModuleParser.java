@@ -9,7 +9,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverag
 
 class OpenCoverModuleParser implements ModuleParser{
     private final Logger LOG = LoggerFactory.getLogger(OpenCoverModuleParser.class);
-	protected XmlParserSubject parser;
+	private XmlParserSubject parser;
 	private ModuleFullNameObserver openCoverFullNameObserver;
 
     public OpenCoverModuleParser() {

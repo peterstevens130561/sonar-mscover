@@ -52,10 +52,10 @@ public class SonarBranchPoint implements CoverageLinePoint{
         return branchesToVisit;
     }
 
-    public void incrementBranchesToVisit() {
+    void incrementBranchesToVisit() {
         this.branchesToVisit +=1;
     }
-    public void incrementVisitedBranches() {
+    void incrementVisitedBranches() {
         this.branchesVisited +=1;
     }
 	@Override

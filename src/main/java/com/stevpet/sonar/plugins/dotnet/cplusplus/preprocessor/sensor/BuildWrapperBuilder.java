@@ -27,8 +27,7 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
      * @deprecated replaced by {@link setBuildWrapperPath}
      * 
      */
-    @Deprecated
-    public BuildWrapperBuilder setInstallDir(String installDir) {
+    @Deprecated BuildWrapperBuilder setInstallDir(String installDir) {
         this.installDir = installDir;
         return this;
     }
@@ -38,7 +37,7 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
      * @param path
      * @return
      */
-    public BuildWrapperBuilder setBuildWrapperPath(String path) {
+    BuildWrapperBuilder setBuildWrapperPath(String path) {
         this.installPath = path;
         return this;
     }
@@ -49,7 +48,7 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
      * @param outputPath
      * @return this
      */
-    public BuildWrapperBuilder setOutputPath(String outputPath) {
+    BuildWrapperBuilder setOutputPath(String outputPath) {
         this.outputPath = outputPath;
         return this;
     }
@@ -60,7 +59,7 @@ public class BuildWrapperBuilder implements ShellCommand, BatchExtension {
         return toCommand().toString();
     }
 
-    public BuildWrapperBuilder setMsBuildOptions(String options) {
+    BuildWrapperBuilder setMsBuildOptions(String options) {
         this.msBuildOptions = options;
         return this;
     }

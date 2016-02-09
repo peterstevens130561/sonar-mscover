@@ -44,7 +44,7 @@ public class VsTestCoverageToXmlConverterBase implements BinaryCoverageToXmlConv
 		return result;
 	}
 
-	public File convertFile(File source) {
+	private File convertFile(File source) {
 		String destinationPath = source.getAbsolutePath().replace(".coverage",
 				".xml");
 		File destination = new File(destinationPath);

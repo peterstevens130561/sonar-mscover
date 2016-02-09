@@ -54,7 +54,7 @@ class OpenCoverModuleSplitterBase implements ModuleSplitter {
 		}
 	}
 
-	public int split(InputStream inputStream) throws XMLStreamException,
+	private int split(InputStream inputStream) throws XMLStreamException,
 			TransformerException {
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(
