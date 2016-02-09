@@ -31,7 +31,6 @@ import org.sonar.api.Property;
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
 
-import com.stevpet.sonar.plugins.dotnet.cplusplus.preprocessor.sensor.BuildWrapperConstants;
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.IntegrationTestCache;
@@ -85,7 +84,6 @@ public final class MsCoverPlugin extends SonarPlugin {
         List extensions = new ArrayList();
         extensions.addAll(clazzes);
         
-        extensions.addAll(BuildWrapperConstants.getProperties());
         extensions.addAll(DefaultMsCoverConfiguration.getProperties());
         extensions.addAll(VisualStudioConfiguration.getProperties());
         return extensions;
