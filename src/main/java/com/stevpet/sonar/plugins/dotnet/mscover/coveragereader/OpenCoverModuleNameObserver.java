@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.ModuleNameObserver;
 
-class OpenCoverModuleNameObserver extends ModuleNameObserver {
+public class OpenCoverModuleNameObserver extends ModuleNameObserver {
 
 	private final static Logger LOG = LoggerFactory
 			.getLogger(OpenCoverModuleNameObserver.class);

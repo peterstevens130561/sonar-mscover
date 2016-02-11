@@ -87,6 +87,7 @@ class ModuleSaverLambda implements ModuleLambda {
 	 */
 	@Override
 	public File getArtifactCoverageFile(String artifactName) {
+		Preconditions.checkNotNull(projectName);
 		String relativePath=removeSuffix(artifactName)+ "/" + projectName + ".xml";
 		return new File(root,relativePath);
 	}

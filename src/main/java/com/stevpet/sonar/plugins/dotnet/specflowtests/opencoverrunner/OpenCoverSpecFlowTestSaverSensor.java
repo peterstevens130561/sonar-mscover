@@ -83,7 +83,7 @@ public class OpenCoverSpecFlowTestSaverSensor implements
 	public void analyse(Project module, SensorContext context) {
 
 	    File coverageDir=integrationTestsConfiguration.getDirectory();	
-        File artifactFile=openCoverModuleSaver.setRoot(coverageDir).getCoverageFile(module.getName());
+        File artifactFile=openCoverModuleSaver.setProject(module.getName()).setRoot(coverageDir).getCoverageFile(module.getName());
         File artifactDir=artifactFile.getParentFile();
         if(!artifactDir.exists()) {
         	Log.warn("No coverage file available for project {} in dir {}",module.getName(),artifactDir.getAbsolutePath());

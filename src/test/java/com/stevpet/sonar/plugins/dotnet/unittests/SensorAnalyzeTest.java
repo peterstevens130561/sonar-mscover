@@ -26,13 +26,14 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.VsTestTestResul
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestCache;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestCache;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 public class SensorAnalyzeTest {
 
 	@Mock private FileSystem fileSystem ;
 	@Mock private MsCoverConfiguration configuration;
-	@Mock private TestCache cache;
+	@Mock private UnitTestCache cache;
 	@Mock private OpenCoverTestRunner runner;
 	private OpenCoverUnitTestSensor sensor;
 	@Mock private Project module;

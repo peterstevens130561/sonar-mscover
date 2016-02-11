@@ -2,6 +2,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 
 import java.io.File;
 
+import javax.annotation.Nonnull;
+
 /**
  * 
  * @author stevpet
@@ -18,7 +20,7 @@ public class OpenCoverModuleSaver extends OpenCoverModuleSplitterBase {
 		moduleSaverLambda.setDirectory(root);
 		return this;
 	}
-	public OpenCoverModuleSaver setProject(String projectName) {
+	public OpenCoverModuleSaver setProject(@Nonnull String projectName) {
 		moduleSaverLambda.setProject(projectName);
 		return this;
 	}

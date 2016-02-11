@@ -86,7 +86,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
 	 */
 	public OpenCoverUnitTestSensor(FileSystem fileSystem,
 			MsCoverConfiguration configuration,
-			TestCache unitTestBatchData, OpenCoverTestRunner testRunner,
+			UnitTestCache unitTestBatchData, OpenCoverTestRunner testRunner,
 			TestResultsBuilder testResultsBuilder,
 			VsTestTestResultsSaver testResultsSaver,
 			CoverageReader coverageReader, CoverageSaver coverageSaver,
