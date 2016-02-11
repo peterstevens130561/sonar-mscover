@@ -260,7 +260,6 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
     @Override
     public String getIntegrationTestsDir() {
         String coverageDir=settings.getString(MSCOVER_INTEGRATION_VSTESTDIR);
-        LOG.info("property {} is {}",MSCOVER_INTEGRATION_VSTESTDIR,coverageDir);
         return coverageDir;
     }
     

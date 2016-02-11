@@ -33,6 +33,7 @@ public interface MsCoverConfiguration {
 
     String getUnitTestCoveragePath();
 
+   
 
 
     String getMode();

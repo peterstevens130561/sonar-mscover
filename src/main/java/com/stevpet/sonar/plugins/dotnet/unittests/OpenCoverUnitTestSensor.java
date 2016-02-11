@@ -46,6 +46,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.DefaultOpen
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestCache;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestCache;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 /**
@@ -103,7 +104,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
 	}
 
 	/**
-	 * For export in plugin, uses the standard defauls
+	 * For export in plugin, uses the standard defaults
 	 * @param fileSystem
 	 * @param msCoverConfiguration
 	 * @param unitTestBatchData
@@ -114,7 +115,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
 	 */
 	public OpenCoverUnitTestSensor(FileSystem fileSystem,
 			MsCoverConfiguration msCoverConfiguration,
-			TestCache unitTestBatchData, 
+			UnitTestCache unitTestBatchData, 
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
 			PathResolver pathResolver, 
 			VsTestEnvironment vsTestEnvironment) {
