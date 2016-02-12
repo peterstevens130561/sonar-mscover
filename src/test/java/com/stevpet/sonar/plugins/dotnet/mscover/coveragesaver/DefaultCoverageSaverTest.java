@@ -15,7 +15,7 @@ import org.picocontainer.DefaultPicoContainer;
 import org.sonar.api.batch.SensorContext;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultBranchFileCoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.CoverageSaverFactory;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.CoverageSaverBase;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultLineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.nullsaver.NullBranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
@@ -42,7 +42,7 @@ public class DefaultCoverageSaverTest {
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
-        container.addComponent(CoverageSaverFactory.class)
+        container.addComponent(CoverageSaverBase.class)
                 .addComponent(sensorContext).addComponent(resourceResolver).addComponent(microsoftWindowsEnvironment);
         testFiles = new ArrayList<File>();
         when(microsoftWindowsEnvironment.getUnitTestSourceFiles()).thenReturn(testFiles);
@@ -53,7 +53,7 @@ public class DefaultCoverageSaverTest {
         container
                 .addComponent(DefaultLineFileCoverageSaver.class)
                 .addComponent(DefaultBranchFileCoverageSaver.class);
-        CoverageSaver saver = container.getComponent(CoverageSaverFactory.class);
+        CoverageSaver saver = container.getComponent(CoverageSaverBase.class);
         assertNotNull("could not create coveragesaver with both savers", saver);
     }
 
@@ -62,7 +62,7 @@ public class DefaultCoverageSaverTest {
         container
                 .addComponent(DefaultLineFileCoverageSaver.class)
                 .addComponent(NullBranchFileCoverageSaver.class);
-        CoverageSaver saver = container.getComponent(CoverageSaverFactory.class);
+        CoverageSaver saver = container.getComponent(CoverageSaverBase.class);
         assertNotNull("could not create coveragesaver with null branch saver saver", saver);
     }
 
@@ -137,7 +137,7 @@ public class DefaultCoverageSaverTest {
     private void injectSaverMocks() {
         container.addComponent(branchFileCoverageSaverMock.getMock());
         container.addComponent(lineFileCoverageSaverMock.getMock());
-        saver = container.getComponent(CoverageSaverFactory.class);
+        saver = container.getComponent(CoverageSaverBase.class);
     }
 
 }

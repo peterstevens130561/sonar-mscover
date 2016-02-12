@@ -20,6 +20,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.To
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.OpenCoverIntegrationTestCoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultCoverageSaverFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.integrationtests.IntegrationTestsCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSaver;
@@ -51,8 +52,9 @@ public class OpenCoverSpecFlowTestSaverSensor implements
 			Settings settings) {
 		this(
 				new OpenCoverIntegrationTestCoverageReader(microsoftWindowsEnvironment, msCoverConfiguration, fileSystem),
-				new IntegrationTestsCoverageSaver(microsoftWindowsEnvironment, pathResolver, fileSystem), 
-				new OpenCoverModuleSaver(), new DefaultIntegrationTestsConfiguration(settings, fileSystem));
+				new DefaultCoverageSaverFactory(microsoftWindowsEnvironment, pathResolver, fileSystem).createOpenCoverIntegrationTestCoverageSaver(), 
+				new OpenCoverModuleSaver(), 
+				new DefaultIntegrationTestsConfiguration(settings, fileSystem));
 	}
 
 	

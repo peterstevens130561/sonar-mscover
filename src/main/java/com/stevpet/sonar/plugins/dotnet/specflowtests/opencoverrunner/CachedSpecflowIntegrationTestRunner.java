@@ -127,9 +127,8 @@ public class CachedSpecflowIntegrationTestRunner implements
 
 	@Override
 	public void execute() {
-		Preconditions.checkNotNull(module);
-		Preconditions.checkNotNull(rootDir);
-		Preconditions.checkNotNull(coverageFile);
+		Preconditions.checkNotNull(module,"module not set");
+		Preconditions.checkNotNull(coverageFile,"coverage file not set");
 		if (integrationTestCache.gatHasRun()) {
 			return;
 		}
