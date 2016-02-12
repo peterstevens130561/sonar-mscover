@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver;
 
 
+import org.jfree.util.Log;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
@@ -37,14 +38,17 @@ public class IntegrationTestBranchFileCoverageSaver implements
     	    return;
     	}
         SonarCoverageSummary summary=coveragePoints.getSummary();
+        if(summary.getToCover()>0) {
+            Log.info("something to cover") ;
+        }
 		sensorContext.saveMeasure(resource,CoreMetrics.IT_UNCOVERED_CONDITIONS,(double) summary.getToCover()-summary.getCovered());
 		sensorContext.saveMeasure(resource,CoreMetrics.IT_CONDITIONS_TO_COVER,(double)summary.getToCover());
 		sensorContext.saveMeasure(resource,CoreMetrics.IT_BRANCH_COVERAGE,convertPercentage(summary.getCoverage()));
 
 	    PropertiesBuilder<String, Integer> lineConditionsBuilder = new PropertiesBuilder<String, Integer>(
-	            CoreMetrics.CONDITIONS_BY_LINE);
+	            CoreMetrics.IT_CONDITIONS_BY_LINE);
 	    PropertiesBuilder<String, Integer> lineCoveredConditionsBuilder = new PropertiesBuilder<String, Integer>(
-	            CoreMetrics.COVERED_CONDITIONS_BY_LINE);
+	            CoreMetrics.IT_COVERED_CONDITIONS_BY_LINE);
         lineConditionsBuilder.clear();
         lineCoveredConditionsBuilder.clear();
         for (CoverageLinePoint linePoint : coveragePoints.getPoints()) {

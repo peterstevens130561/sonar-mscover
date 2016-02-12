@@ -160,7 +160,6 @@ public class SonarCoverage implements Serializable{
 			int covered = linePoint.getCovered();
 			destinationFileCoverage.addLinePoint(line, covered>0);
 		}
-		return;
 	}
 
 	
