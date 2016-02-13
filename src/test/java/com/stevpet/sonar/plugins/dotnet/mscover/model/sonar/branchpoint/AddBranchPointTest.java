@@ -46,33 +46,33 @@ public class AddBranchPointTest {
     
     @Test
     public void addFirstPoint_isBranchPoint() {
-        branchPoints.addPoint(10,false);
+        branchPoints.addPoint(10,0);
         assertLast(1,10,0,1);
     }
     
     @Test
     public void addSecondPointSameLine_CheckAggregation() {
-        branchPoints.addPoint(10,false);
-        branchPoints.addPoint(10, true);
+        branchPoints.addPoint(10,0);
+        branchPoints.addPoint(10, 1);
         
         assertLast(1,10,1,2);
     }
     
     @Test
     public void addThirdPointOtherLine_CheckAggregation() {
-        branchPoints.addPoint(10,false);
-        branchPoints.addPoint(10, true);
-        branchPoints.addPoint(11,true);
+        branchPoints.addPoint(10,0);
+        branchPoints.addPoint(10, 1);
+        branchPoints.addPoint(11,1);
         assertLast(2,11,1,1);
     }
     
   
     @Test
     public void addFourthPointOtherLine_CheckAggregation() {
-        branchPoints.addPoint(10,false);
-        branchPoints.addPoint(10, true);
-        branchPoints.addPoint(11,true);
-        branchPoints.addPoint(11, true);
+        branchPoints.addPoint(10,0);
+        branchPoints.addPoint(10, 1);
+        branchPoints.addPoint(11,1);
+        branchPoints.addPoint(11, 1);
         assertLast(2,11,2,2);
     }
     /**

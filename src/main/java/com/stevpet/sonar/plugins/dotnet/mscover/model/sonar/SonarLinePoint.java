@@ -27,18 +27,18 @@ public class SonarLinePoint implements CoverageLinePoint{
     private int covered;
     
     
+    public SonarLinePoint(int line, int covered) {
+        this.line=line;
+        this.covered=covered;      
+    }
     public int getLine() {
         return line;
     }
-    public void setLine(int line) {
-        this.line = line;
-    }
+
     public boolean isVisited() {
         return covered>0;
     }
-    public void setCovered(boolean visited) {
-        covered= visited?1:0;
-    }
+
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoveragePoint#getToCover()
      */
@@ -52,10 +52,6 @@ public class SonarLinePoint implements CoverageLinePoint{
     public int getCovered() {
         return covered;
     }
-	@Override
-	public void setCovered(int covered) {
-		this.covered = covered;
-	}
     
 	public boolean equals(Object o) {
 	    if(o==null) {

@@ -146,7 +146,7 @@ public class SonarCoverage implements Serializable{
 			CoverageLinePoint linePoint=sourceLinePoints.get(index);
 			int covered = linePoint.getCovered();
 			if(covered>0) {
-				destinationLinePoints.get(index).setCovered(covered);
+			    destinationLinePoints.set(index, linePoint);
 			}
 		}
 	}

@@ -26,6 +26,11 @@ public class SonarBranchPoint implements CoverageLinePoint{
     private int line;
     private int branchesVisited ;
     private int branchesToVisit ;
+    public SonarBranchPoint(int line, int visited, int toVisit) {
+        this.line=line;
+        this.branchesVisited=visited;
+        this.branchesToVisit=toVisit;
+    }
     /**
      * @return the line
      */
@@ -58,10 +63,7 @@ public class SonarBranchPoint implements CoverageLinePoint{
     void incrementVisitedBranches() {
         this.branchesVisited +=1;
     }
-	@Override
-	public void setCovered(int covered) {
-		branchesVisited=covered;
-	}
+
 	
 	@Override
 	public boolean equals(Object o) {

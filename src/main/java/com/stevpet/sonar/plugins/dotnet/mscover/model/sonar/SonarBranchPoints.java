@@ -22,60 +22,47 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-public class SonarBranchPoints implements Serializable,CoverageLinePoints {
-    private List<CoverageLinePoint> points = new ArrayList<CoverageLinePoint>();
-
-    public int size() {
-        return points.size();
-    }
+public class SonarBranchPoints extends CoverageLinePointsBase {
 
     /**
      * @return last point in the list, if none an exception is thrown.
      */
+    @Override
     public SonarBranchPoint getLast() {
-        int last=size()-1;
-        return (SonarBranchPoint)points.get(last);
+        int last = size() - 1;
+        return (SonarBranchPoint) points.get(last);
     }
 
-    /**
-     * aggregate a branchpoint.
-     * @param line of branchpoint
-     * @param visited true if this branchpoint is visited
-     */
-    public SonarBranchPoint addPoint(int line, boolean visited) {
+    public SonarBranchPoint addPoint(int line, int visited) {
+        int toVisit = 1;
         SonarBranchPoint branchPoint;
-        if(size() == 0) {
-            branchPoint = addNewPoint(line);
-        } else {
-            branchPoint=getLast();
+        if (size() == 0) {
+            SonarBranchPoint newPoint = new SonarBranchPoint(line, visited,
+                    toVisit);
+            points.add(newPoint);
+            return newPoint;
         }
-        
-        if(branchPoint.getLine() != line) {
-            branchPoint = addNewPoint(line);
-        }
-        branchPoint.incrementBranchesToVisit();
-        if(visited) {
-            branchPoint.incrementVisitedBranches();
-        }
-        return branchPoint; 
-    }
 
-    private SonarBranchPoint addNewPoint(int line) {
-        SonarBranchPoint branchPoint;
-        branchPoint = new SonarBranchPoint();
-        points.add(branchPoint);
-        branchPoint.setLine(line);
-        return branchPoint;
+        branchPoint = getLast();
+        if (line != branchPoint.getLine()) {
+            SonarBranchPoint newPoint = new SonarBranchPoint(line, visited,
+                    toVisit);
+            points.add(newPoint);
+            return newPoint;
+        }
+        visited += branchPoint.getCovered();
+        toVisit += branchPoint.getToCover();
+        SonarBranchPoint newPoint = new SonarBranchPoint(line, visited, toVisit);
+        points.set(points.size() - 1, newPoint);
+        return newPoint;
     }
-
 
     public SonarCoverageSummary getSummary() {
         SonarCoverageSummary summary = new SonarCoverageSummary();
-        for(CoveragePoint point: points) {
+        for (CoveragePoint point : points) {
+            // TODO: wtf
             summary.incrementPoint(point);
         }
         return summary;
@@ -84,14 +71,14 @@ public class SonarBranchPoints implements Serializable,CoverageLinePoints {
     public List<CoverageLinePoint> getPoints() {
         return points;
     }
-    
+
     @Override
     public boolean equals(Object o) {
-        if(o==null) {
-            return false ;
+        if (o == null) {
+            return false;
         }
-        SonarBranchPoints other = (SonarBranchPoints)o;
+        SonarBranchPoints other = (SonarBranchPoints) o;
         return points.equals(other.points);
     }
-    
+
 }

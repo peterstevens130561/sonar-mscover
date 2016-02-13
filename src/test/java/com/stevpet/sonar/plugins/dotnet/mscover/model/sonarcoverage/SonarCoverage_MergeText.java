@@ -143,6 +143,7 @@ public class SonarCoverage_MergeText {
     	SonarFileCoverage fileCoverage=populatedRepository.getCoveredFile(id); 
     	for(int i=0;i<coverage.length;i++) {
     		fileCoverage.addLinePoint(i, coverage[i]>0);
+    		fileCoverage.addBranchPoint(i, coverage[i]>0);
     	}
     	populatedRepository.linkFileNameToFileId(name, id);
     }
@@ -156,5 +157,11 @@ public class SonarCoverage_MergeText {
     		int covered=linePoint.getCovered();
     		assertEquals("line " + line,coverage[line]>0,covered>0);
     	}
+    	assertEquals("should have same number of branch points",coverage.length,fileCoverage.getBranchPoints().getPoints().size());
+        for(CoverageLinePoint linePoint: fileCoverage.getBranchPoints().getPoints()) {
+            int line=linePoint.getLine();
+            int covered=linePoint.getCovered();
+            assertEquals("line " + line,coverage[line]>0,covered>0);
+        }
 	}
 }

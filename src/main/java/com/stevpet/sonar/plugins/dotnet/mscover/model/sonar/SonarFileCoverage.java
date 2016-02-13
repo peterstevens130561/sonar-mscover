@@ -27,7 +27,7 @@ import java.io.Serializable;
 /**
  * Coverage info per file
  */
-public class SonarFileCoverage implements Serializable {
+public class SonarFileCoverage {
     /**
      * 
      */
@@ -55,7 +55,7 @@ public class SonarFileCoverage implements Serializable {
     }
 
     public CoveragePoint addLinePoint(int line, boolean covered) {
-        return getLinePoints().addPoint(line, covered);
+        return getLinePoints().addPoint(line, covered?1:0);
     }
 
     public CoveragePoint getLastLinePoint() {
@@ -63,7 +63,7 @@ public class SonarFileCoverage implements Serializable {
     }
 
     public void addBranchPoint(int line, boolean covered) {
-        getBranchPoints().addPoint(line, covered);
+        getBranchPoints().addPoint(line, covered?1:0);
     }
 
     @Override

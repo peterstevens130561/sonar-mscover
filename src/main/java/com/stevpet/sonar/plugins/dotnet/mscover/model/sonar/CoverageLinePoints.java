@@ -32,8 +32,9 @@ public interface CoverageLinePoints {
 
     SonarCoverageSummary getSummary();
     
-    CoveragePoint addPoint(int line, boolean visited);
+    CoveragePoint addPoint(int line, int visited);
 
     List<CoverageLinePoint> getPoints();
     
+    public void merge(CoverageLinePoints coverageLinePoints);
 }
