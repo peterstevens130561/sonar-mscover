@@ -83,7 +83,8 @@ public class AddBranchPointTest {
      * @param branchesToVisit
      */
     public void assertLast(int size,int line,int branchesVisited,int branchesToVisit) {
-        SonarBranchPoint branchPoint=branchPoints.getLast();
+        //TODO remove cast
+        SonarBranchPoint branchPoint=(SonarBranchPoint) branchPoints.getLast();
         assertEquals("size",size,branchPoints.size());
         assertEquals("line",line,branchPoint.getLine());
         assertEquals("branches visited",branchesVisited,branchPoint.getCovered());

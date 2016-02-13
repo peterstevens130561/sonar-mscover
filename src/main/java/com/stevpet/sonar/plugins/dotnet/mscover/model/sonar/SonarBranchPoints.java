@@ -22,24 +22,10 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-public class SonarBranchPoints implements Serializable,CoverageLinePoints {
-    private List<CoverageLinePoint> points = new ArrayList<CoverageLinePoint>();
+public class SonarBranchPoints extends CoverageLinePointsBase {
 
-    public int size() {
-        return points.size();
-    }
-
-    /**
-     * @return last point in the list, if none an exception is thrown.
-     */
-    public SonarBranchPoint getLast() {
-        int last=size()-1;
-        return (SonarBranchPoint)points.get(last);
-    }
 
     /**
      * aggregate a branchpoint.
@@ -51,7 +37,7 @@ public class SonarBranchPoints implements Serializable,CoverageLinePoints {
         if(size() == 0) {
             branchPoint = addNewPoint(line);
         } else {
-            branchPoint=getLast();
+            branchPoint=(SonarBranchPoint) getLast();
         }
         
         if(branchPoint.getLine() != line) {
@@ -73,17 +59,8 @@ public class SonarBranchPoints implements Serializable,CoverageLinePoints {
     }
 
 
-    public SonarCoverageSummary getSummary() {
-        SonarCoverageSummary summary = new SonarCoverageSummary();
-        for(CoveragePoint point: points) {
-            summary.incrementPoint(point);
-        }
-        return summary;
-    }
 
-    public List<CoverageLinePoint> getPoints() {
-        return points;
-    }
+
     
     @Override
     public boolean equals(Object o) {

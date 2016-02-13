@@ -26,23 +26,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-class SonarLinePoints implements CoverageLinePoints,Serializable {
-    private List<CoverageLinePoint> points = new ArrayList<CoverageLinePoint>();
-
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoveragePoints#getLast()
-     */
-    public SonarLinePoint getLast() {
-        int last=size()-1;
-        return (SonarLinePoint)points.get(last);
-    }
-
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoveragePoints#size()
-     */
-    public int size() {
-        return points.size();
-    }
+class SonarLinePoints extends CoverageLinePointsBase {
 
     /**
      * add a point. If the line is the same as the previous one added, and this one is not covered, then the line is considered not covered
@@ -55,7 +39,7 @@ class SonarLinePoints implements CoverageLinePoints,Serializable {
             point.setCovered(b);
             points.add(point);
         } 
-        point = getLast();
+        point = (SonarLinePoint) getLast();
         if(!b) {
             point.setCovered(false);
         }
@@ -66,21 +50,6 @@ class SonarLinePoints implements CoverageLinePoints,Serializable {
         return getLast().getLine();
     }
 
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoveragePoints#getSummary()
-     */
-    public SonarCoverageSummary getSummary() {
-        SonarCoverageSummary summary = new SonarCoverageSummary();
-        for(CoveragePoint point: points) {
-            summary.incrementPoint(point);
-
-        }
-        return summary;
-    }
-
-    public List<CoverageLinePoint> getPoints() {
-        return points;
-    }
     
     @Override
     public boolean equals(Object o) {
