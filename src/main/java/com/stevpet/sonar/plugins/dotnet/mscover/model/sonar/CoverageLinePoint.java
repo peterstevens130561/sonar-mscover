@@ -38,4 +38,9 @@ public interface CoverageLinePoint extends CoveragePoint  {
      * @param covered
      */
     void setCovered(int covered);
+    
+
+    int getCovered();
+    
+    abstract void merge(CoveragePoint other);
 }

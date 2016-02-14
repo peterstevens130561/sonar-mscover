@@ -18,7 +18,7 @@ public abstract class CoverageLinePointsBase implements CoverageLinePoints {
     @Override
     public  CoverageLinePoint getLast() {
         int last=size()-1;
-        return points.get(last);
+        return (CoverageLinePoint)points.get(last);
     }
     
     @Override

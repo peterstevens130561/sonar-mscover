@@ -22,10 +22,8 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
-import java.util.List;
 
 public class SonarBranchPoints extends CoverageLinePointsBase {
-
 
     /**
      * aggregate a branchpoint.
@@ -42,23 +40,18 @@ public class SonarBranchPoints extends CoverageLinePointsBase {
         
         if(branchPoint.getLine() != line) {
             branchPoint = addNewPoint(line);
-        }
-        branchPoint.incrementBranchesToVisit();
-        if(visited) {
-            branchPoint.incrementVisitedBranches();
-        }
+        } 
+        branchPoint.addPath(visited);
+
         return branchPoint; 
     }
 
     private SonarBranchPoint addNewPoint(int line) {
         SonarBranchPoint branchPoint;
-        branchPoint = new SonarBranchPoint();
+        branchPoint = new SonarBranchPoint(line);
         points.add(branchPoint);
-        branchPoint.setLine(line);
         return branchPoint;
     }
-
-
 
 
     

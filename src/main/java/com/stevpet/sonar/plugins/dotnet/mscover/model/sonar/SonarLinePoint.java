@@ -22,48 +22,20 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
-public class SonarLinePoint implements CoverageLinePoint{
-    private int line ;
-    private int covered;
-    
-    
-    public int getLine() {
-        return line;
-    }
-    public void setLine(int line) {
-        this.line = line;
-    }
-    public boolean isVisited() {
-        return covered>0;
-    }
-    public void setCovered(boolean visited) {
-        covered= visited?1:0;
-    }
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoveragePoint#getToCover()
-     */
-    public int getToCover() {
-        return 1;
+import com.google.common.base.Preconditions;
+
+public class SonarLinePoint extends BaseCoverageLinePoint{
+
+    public SonarLinePoint() {
+        toCover=1;
     }
     
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoveragePoint#getCovered()
-     */
-    public int getCovered() {
-        return covered;
+
+    @Override
+    public void merge(CoveragePoint source) {
+        SonarLinePoint other = (SonarLinePoint)source;
+        Preconditions.checkArgument(other.line == this.line,"line differ: other.line=" + other.line + " this.line" + this.line);
+        this.covered += other.covered;
+        
     }
-	@Override
-	public void setCovered(int covered) {
-		this.covered = covered;
-	}
-    
-	public boolean equals(Object o) {
-	    if(o==null) {
-	        return false;
-	    }
-	    SonarLinePoint other = (SonarLinePoint) o;
-	    return this.covered == other.covered && 
-	            this.line == other.line;
-	}
-   
 }

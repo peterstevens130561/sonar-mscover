@@ -54,11 +54,11 @@ public class SonarFileCoverage implements Serializable {
         return branchPoints;
     }
 
-    public CoveragePoint addLinePoint(int line, boolean covered) {
+    public CoverageLinePoint addLinePoint(int line, boolean covered) {
         return getLinePoints().addPoint(line, covered);
     }
 
-    public CoveragePoint getLastLinePoint() {
+    public CoverageLinePoint getLastLinePoint() {
         return getLinePoints().getLast();
     }
 

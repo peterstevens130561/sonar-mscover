@@ -24,15 +24,15 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
 import java.util.List;
 
-public interface CoverageLinePoints {
+public interface CoverageLinePoints  {
 
-    CoveragePoint getLast();
+    CoverageLinePoint getLast();
 
     int size();
 
     SonarCoverageSummary getSummary();
     
-    CoveragePoint addPoint(int line, boolean visited);
+    CoverageLinePoint addPoint(int line, boolean visited);
 
     List<CoverageLinePoint> getPoints();
     

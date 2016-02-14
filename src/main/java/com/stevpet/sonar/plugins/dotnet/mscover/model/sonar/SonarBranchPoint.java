@@ -22,55 +22,48 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
-public class SonarBranchPoint implements CoverageLinePoint{
-    private int line;
-    private int branchesVisited ;
-    private int branchesToVisit ;
-    /**
-     * @return the line
-     */
-    public int getLine() {
-        return line;
-    }
-    /**
-     * @param line the line to set
-     */
-    public void setLine(int line) {
-        this.line = line;
-    }
-    /**
-     * @return the branchesVisited
-     */
-    public int getCovered() {
-        return branchesVisited;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.common.base.Preconditions;
+
+public class SonarBranchPoint extends BaseCoverageLinePoint {
+    private List<Boolean> paths = new ArrayList<>();
+
+    public SonarBranchPoint(int line) {
+        super();
+        this.line=line;
     }
 
     /**
-     * @return the branchesToVisit
+     * use to add next BracnPoint on same line
+     * 
+     * @param visited
      */
-    public int getToCover() {
-        return branchesToVisit;
+    public void addPath(boolean visited) {
+        paths.add(paths.size(), visited);
+        toCover += 1;
+        if (visited) {
+            ++covered;
+        }
     }
 
-    void incrementBranchesToVisit() {
-        this.branchesToVisit +=1;
+    @Override
+    public void merge(CoveragePoint source) {
+        SonarBranchPoint other = (SonarBranchPoint) source;
+        Preconditions.checkArgument(other.paths.size() == paths.size(), "different number of paths: other" + this.paths.size() + " this" + other.paths.size());
+        Preconditions.checkArgument(other.line == this.line,"diffent line: other" + other.line + " this" + this.line );
+        int items=paths.size();
+        for(int index=0;index<items;++index) {
+            if(!this.paths.get(index) && other.paths.get(index)) {
+                covered++;
+                this.paths.set(index, true);
+            }
+        }
     }
-    void incrementVisitedBranches() {
-        this.branchesVisited +=1;
-    }
-	@Override
-	public void setCovered(int covered) {
-		branchesVisited=covered;
-	}
-	
-	@Override
-	public boolean equals(Object o) {
-	    if(o==null) {
-	        return false ;
-	    }
-	    SonarBranchPoint other = (SonarBranchPoint) o;
-	    return this.branchesToVisit == other.branchesToVisit  &&
-	            this.branchesVisited==other.branchesVisited &&
-	            this.line==other.line;
-	}
+
+
+
+
+
 }

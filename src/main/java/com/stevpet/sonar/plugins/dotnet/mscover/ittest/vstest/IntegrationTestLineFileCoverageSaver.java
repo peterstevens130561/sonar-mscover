@@ -13,6 +13,7 @@ import org.sonar.api.utils.ParsingUtils;
 
 import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.LineFileCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoveragePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary;
@@ -70,7 +71,7 @@ public class IntegrationTestLineFileCoverageSaver implements
         PropertiesBuilder<String, Integer> hitsBuilder =  new PropertiesBuilder<String, Integer>(metric);
 
         hitsBuilder.clear();
-        for (CoveragePoint point : coveragePoints.getPoints()) {
+        for (CoverageLinePoint point : coveragePoints.getPoints()) {
             int lineNumber = ((SonarLinePoint) point).getLine();
             int countVisits = point.getCovered();
             hitsBuilder.add(Integer.toString(lineNumber), countVisits);

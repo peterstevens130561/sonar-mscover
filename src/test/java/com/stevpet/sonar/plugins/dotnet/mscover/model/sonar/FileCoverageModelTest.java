@@ -50,7 +50,7 @@ public class FileCoverageModelTest {
     @Test
     public void visitOtherColumn_ShouldGetLowestCoverage() {      
         coveredFile.addLinePoint(line,false);
-        CoveragePoint point=coveredFile.getLastLinePoint();
+        CoverageLinePoint point=coveredFile.getLastLinePoint();
         assertEquals(point.getCovered()>0, false);
     }
 

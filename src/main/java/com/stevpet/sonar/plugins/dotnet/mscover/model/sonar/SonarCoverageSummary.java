@@ -49,7 +49,7 @@ public class SonarCoverageSummary implements CoveragePoint {
         return covered;
     }
 
-    void incrementPoint(CoveragePoint point) {
+    void incrementPoint(CoverageLinePoint point) {
         toCover += point.getToCover();
         covered += point.getCovered();
     }
