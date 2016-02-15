@@ -22,42 +22,24 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 class SonarLinePoints extends CoverageLinePointsBase {
 
     /**
      * add a point. If the line is the same as the previous one added, and this one is not covered, then the line is considered not covered
      */
     public SonarLinePoint addPoint(int line, boolean b) {
-        SonarLinePoint point;
-        if(size()==0 || getLastLine() != line) {
-            point = new SonarLinePoint();
-            point.setLine(line);
-            point.setCovered(b);
+        SonarLinePoint lastPoint = (SonarLinePoint) getLast();
+        if(lastPoint==null || lastPoint.getLine() != line) {
+            SonarLinePoint point = new SonarLinePoint(line,b);
             points.add(point);
+            return point;
         } 
-        point = (SonarLinePoint) getLast();
+
         if(!b) {
-            point.setCovered(false);
+            lastPoint.setCovered(false);
         }
-        return point;
+        return lastPoint;
     }
 
-    private int getLastLine() {
-        return getLast().getLine();
-    }
 
-    
-    @Override
-    public boolean equals(Object o) {
-        if(o==null) {
-            return false ;
-        }
-        SonarLinePoints other = (SonarLinePoints) o;
-        return this.points.equals(other.points);
-    }
-    
 }

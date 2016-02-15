@@ -53,15 +53,5 @@ public class SonarBranchPoints extends CoverageLinePointsBase {
         return branchPoint;
     }
 
-
-    
-    @Override
-    public boolean equals(Object o) {
-        if(o==null) {
-            return false ;
-        }
-        SonarBranchPoints other = (SonarBranchPoints)o;
-        return points.equals(other.points);
-    }
     
 }

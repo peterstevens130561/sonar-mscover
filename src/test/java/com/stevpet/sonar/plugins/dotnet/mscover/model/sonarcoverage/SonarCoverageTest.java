@@ -112,7 +112,7 @@ public class SonarCoverageTest {
         fileModel1.addLinePoint(10,false);
         fileModel0.addBranchPoint(10, true);
         fileModel1.addBranchPoint(10,true);
-        Assert.assertEquals("items have same tate",fileModel0, fileModel1);
+        Assert.assertEquals("items have same state",fileModel0, fileModel1);
         Assert.assertNotSame("items are different instances",fileModel0,fileModel1);
     }
 }

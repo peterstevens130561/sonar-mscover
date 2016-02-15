@@ -23,15 +23,12 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class SonarCoverage implements Serializable{
+public class SonarCoverage {
 
-    private static final long serialVersionUID = 1L;
     private Map<Integer,SonarFileCoverage> idMap = new HashMap<Integer,SonarFileCoverage>();
     // key = sourceFileName, value = id
     private Map<String,Integer> sourceFileNameMap = new HashMap<String,Integer>();
@@ -62,17 +59,6 @@ public class SonarCoverage implements Serializable{
                 maxFileId.equals(otherCoverage.maxFileId);
         return same;
     }
-    /**
-     * Create an entry to map a sourcefileName (key) to the fileId (value). 
-     * If the entry already exists it is overwritten
-     * @param sourceFileName
-     * @param fileId
-     */
-    public void  linkFileNameToFileId(String sourceFileName,String fileId) {
-    	sourceFileNameMap.put(sourceFileName, Integer.parseInt(fileId));
-    	SonarFileCoverage fileCoverage=getCoveredFile(fileId);
-    	fileCoverage.setAbsolutePath(sourceFileName);
-    }
 
     public boolean fileIdExists(String fileID) {
     	Integer ID = Integer.parseInt(fileID);
@@ -97,35 +83,22 @@ public class SonarCoverage implements Serializable{
      */
 	public void merge(SonarCoverage populatedRepository) {
 		for(SonarFileCoverage fileCoverage : populatedRepository.getValues())   {
-			mergeFile(fileCoverage);
+		     SonarFileCoverage destinationFileCoverage = getFileCoverageToMergeInto(fileCoverage);
+		     destinationFileCoverage.merge(fileCoverage);
 		}
 	}
 
-	private void mergeFile(SonarFileCoverage fileCoverage) {
-		String sourceFileName = fileCoverage.getAbsolutePath();
-		CoverageLinePoints sourceCoverageLinePoints = fileCoverage.getLinePoints();
-		List<CoverageLinePoint> sourceLinePoints = sourceCoverageLinePoints.getPoints();
-		
+
+    private SonarFileCoverage getFileCoverageToMergeInto(
+            SonarFileCoverage fileCoverage) {
+        String sourceFileName = fileCoverage.getAbsolutePath();
 		Integer destinationFileId = getFileIdInThisRepository(sourceFileName);
-		// at this point we know that there is an entry in this repository for the sourceFile
 		SonarFileCoverage destinationFileCoverage = idMap.get(destinationFileId);
-		CoverageLinePoints destinationCoverageLinePoints = destinationFileCoverage.getLinePoints();
-		List<CoverageLinePoint> destinationLinePoints = destinationCoverageLinePoints.getPoints();
-		if(destinationLinePoints.size()==0) {
-			mergeIntoEmptyDestination(sourceLinePoints, destinationFileCoverage);
-			return;
-		}
-		if(destinationLinePoints.size() != sourceLinePoints.size()) {
-			throw new SonarCoverageException("Merging failed due to difference in number of linepoints ");
-		}
-		mergeIntoDestinationWithSamesSize(sourceLinePoints,
-				destinationLinePoints);
-		
-		
-	}
+        return destinationFileCoverage;
+    }
 
 	/**
-	 * get the fileId in this repo
+	 * get the fileId in this repo for the given source
 	 * @param sourceFileName
 	 * @return id
 	 */
@@ -139,28 +112,17 @@ public class SonarCoverage implements Serializable{
 		return destinationFileId;
 	}
 
-	private void mergeIntoDestinationWithSamesSize(
-			List<CoverageLinePoint> sourceLinePoints,
-			List<CoverageLinePoint> destinationLinePoints) {
-		for(int index=0;index< sourceLinePoints.size();index++) {
-			CoverageLinePoint linePoint=sourceLinePoints.get(index);
-			int covered = linePoint.getCovered();
-			if(covered>0) {
-				destinationLinePoints.get(index).setCovered(covered);
-			}
-		}
-	}
-
-	private void mergeIntoEmptyDestination(
-			List<CoverageLinePoint> sourceLinePoints,
-			SonarFileCoverage destinationFileCoverage) {
-		for(int index=0;index<sourceLinePoints.size();index++) {
-			CoverageLinePoint linePoint=sourceLinePoints.get(index);
-			int line=linePoint.getLine();
-			int covered = linePoint.getCovered();
-			destinationFileCoverage.addLinePoint(line, covered>0);
-		}
-	}
+    /**
+     * Create an entry to map a sourcefileName (key) to the fileId (value). 
+     * If the entry already exists it is overwritten
+     * @param sourceFileName
+     * @param fileId
+     */
+    public void  linkFileNameToFileId(String sourceFileName,String fileId) {
+        sourceFileNameMap.put(sourceFileName, Integer.parseInt(fileId));
+        SonarFileCoverage fileCoverage=getCoveredFile(fileId);
+        fileCoverage.setAbsolutePath(sourceFileName);
+    }
 
 	
 }

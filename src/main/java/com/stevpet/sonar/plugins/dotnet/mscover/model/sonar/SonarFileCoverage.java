@@ -27,7 +27,7 @@ import java.io.Serializable;
 /**
  * Coverage info per file
  */
-public class SonarFileCoverage implements Serializable {
+public class SonarFileCoverage  {
     /**
      * 
      */
@@ -35,8 +35,8 @@ public class SonarFileCoverage implements Serializable {
 
     private String absolutePath;
 
-    private CoverageLinePoints linePoints = new SonarLinePoints();
-    private CoverageLinePoints branchPoints = new SonarBranchPoints();
+    private SonarLinePoints linePoints = new SonarLinePoints();
+    private SonarBranchPoints branchPoints = new SonarBranchPoints();
 
     public void setAbsolutePath(String absolutePath) {
         this.absolutePath = absolutePath;
@@ -64,6 +64,14 @@ public class SonarFileCoverage implements Serializable {
 
     public void addBranchPoint(int line, boolean covered) {
         getBranchPoints().addPoint(line, covered);
+    }
+    
+    void merge(SonarFileCoverage sourceFileCoverage) {
+        CoverageLinePoints sourceCoverageLinePoints = sourceFileCoverage.getLinePoints(); 
+        getLinePoints().merge(sourceCoverageLinePoints);
+
+        sourceCoverageLinePoints = sourceFileCoverage.getBranchPoints(); 
+        getBranchPoints().merge(sourceCoverageLinePoints);
     }
 
     @Override

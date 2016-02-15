@@ -3,6 +3,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.ImmutableCollection;
+
 public abstract class CoverageLinePointsBase implements CoverageLinePoints {
     protected List<CoverageLinePoint> points = new ArrayList<CoverageLinePoint>();
     
@@ -18,6 +20,9 @@ public abstract class CoverageLinePointsBase implements CoverageLinePoints {
     @Override
     public  CoverageLinePoint getLast() {
         int last=size()-1;
+        if(last < 0) {
+            return null;
+        }
         return (CoverageLinePoint)points.get(last);
     }
     
@@ -34,9 +39,10 @@ public abstract class CoverageLinePointsBase implements CoverageLinePoints {
         }
         return summary;
     }
- /**   
+
     @Override
-    public void merge(CoverageLinePoints sourceLinePoints) {
+    public
+    void merge(CoverageLinePoints sourceLinePoints) {
         if(size()==0) {
             mergeIntoEmptyDestination(sourceLinePoints.getPoints());
             return;
@@ -47,25 +53,36 @@ public abstract class CoverageLinePointsBase implements CoverageLinePoints {
         mergeIntoDestinationWithSamesSize(sourceLinePoints.getPoints());
     }
     
-    **/
+
     private void mergeIntoDestinationWithSamesSize(
             List<CoverageLinePoint> sourceLinePoints) {
         for(int index=0;index< sourceLinePoints.size();index++) {
-            CoverageLinePoint linePoint=sourceLinePoints.get(index);
-            int covered = linePoint.getCovered();
-            if(covered>0) {
-                points.set(index,linePoint);
-            }
+            CoverageLinePoint sourceLinePoint=sourceLinePoints.get(index);
+            CoverageLinePoint destinationLinePoint = points.get(index);
+            destinationLinePoint.merge(sourceLinePoint);
         }
     }
 
     private void mergeIntoEmptyDestination(
             List<CoverageLinePoint> sourceLinePoints) {
+        points.addAll(sourceLinePoints);
+        /*
         for(int index=0;index<sourceLinePoints.size();index++) {
             CoverageLinePoint linePoint=sourceLinePoints.get(index);
             int line=linePoint.getLine();
             int covered = linePoint.getCovered();
             addPoint(line, covered>0);
         }
+        */
     }
+    
+    @Override
+    public boolean equals(Object o) {
+        if(o==null) {
+            return false ;
+        }
+        CoverageLinePointsBase other = (CoverageLinePointsBase)o;
+        return points.equals(other.points);
+    }
+
 }

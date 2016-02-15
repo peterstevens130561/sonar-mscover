@@ -29,6 +29,11 @@ public class SonarLinePoint extends BaseCoverageLinePoint{
     public SonarLinePoint() {
         toCover=1;
     }
+    public SonarLinePoint(int line, boolean covered) {
+        this();
+        this.line=line;
+        setCovered(covered); 
+    }
     
 
     @Override
