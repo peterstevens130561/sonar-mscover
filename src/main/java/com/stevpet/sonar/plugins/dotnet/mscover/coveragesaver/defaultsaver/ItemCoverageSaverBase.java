@@ -19,7 +19,7 @@ public abstract class ItemCoverageSaverBase implements FileCoverageSaver {
     private ResourceResolver resourceResolver;
     private SensorContext sensorContext;
 
-    ItemCoverageSaverBase(ResourceResolver resourceResolver) {
+    public ItemCoverageSaverBase(ResourceResolver resourceResolver) {
         this.resourceResolver = resourceResolver;
     }
     @Override
