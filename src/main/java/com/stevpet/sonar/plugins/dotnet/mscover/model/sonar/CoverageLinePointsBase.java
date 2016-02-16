@@ -40,9 +40,8 @@ public abstract class CoverageLinePointsBase implements CoverageLinePoints {
         return summary;
     }
 
-    @Override
-    public
-    void merge(CoverageLinePoints sourceLinePoints) {
+
+    public void merge(CoverageLinePoints sourceLinePoints) {
         if(size()==0) {
             mergeIntoEmptyDestination(sourceLinePoints.getPoints());
             return;
@@ -58,7 +57,7 @@ public abstract class CoverageLinePointsBase implements CoverageLinePoints {
             List<CoverageLinePoint> sourceLinePoints) {
         for(int index=0;index< sourceLinePoints.size();index++) {
             CoverageLinePoint sourceLinePoint=sourceLinePoints.get(index);
-            CoverageLinePoint destinationLinePoint = points.get(index);
+            PointMerger destinationLinePoint = (PointMerger) points.get(index);
             destinationLinePoint.merge(sourceLinePoint);
         }
     }

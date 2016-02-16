@@ -24,7 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
 import com.google.common.base.Preconditions;
 
-public class SonarLinePoint extends BaseCoverageLinePoint{
+public class SonarLinePoint extends BaseCoverageLinePoint  implements PointMerger<SonarLinePoint>{
 
     public SonarLinePoint() {
         toCover=1;
@@ -37,8 +37,7 @@ public class SonarLinePoint extends BaseCoverageLinePoint{
     
 
     @Override
-    public void merge(CoveragePoint source) {
-        SonarLinePoint other = (SonarLinePoint)source;
+    public void merge(SonarLinePoint other) {
         Preconditions.checkArgument(other.line == this.line,"line differ: other.line=" + other.line + " this.line" + this.line);
         this.covered += other.covered;
         

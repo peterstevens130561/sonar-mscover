@@ -42,5 +42,5 @@ public interface CoverageLinePoint extends CoveragePoint  {
 
     int getCovered();
     
-    abstract void merge(CoveragePoint other);
+
 }

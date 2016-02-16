@@ -27,7 +27,7 @@ import java.util.List;
 
 import com.google.common.base.Preconditions;
 
-public class SonarBranchPoint extends BaseCoverageLinePoint {
+public class SonarBranchPoint extends BaseCoverageLinePoint  implements PointMerger<SonarBranchPoint> {
     private List<Boolean> paths = new ArrayList<>();
 
     public SonarBranchPoint(int line) {
@@ -49,8 +49,7 @@ public class SonarBranchPoint extends BaseCoverageLinePoint {
     }
 
     @Override
-    public void merge(CoveragePoint source) {
-        SonarBranchPoint other = (SonarBranchPoint) source;
+    public void merge(SonarBranchPoint other) {
         Preconditions.checkArgument(other.paths.size() == paths.size(), "different number of paths: other" + this.paths.size() + " this" + other.paths.size());
         Preconditions.checkArgument(other.line == this.line,"diffent line: other" + other.line + " this" + this.line );
         int items=paths.size();

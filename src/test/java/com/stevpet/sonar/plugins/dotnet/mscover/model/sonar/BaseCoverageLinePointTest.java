@@ -42,11 +42,5 @@ public class BaseCoverageLinePointTest {
     
     private BaseCoverageLinePoint newPoint() {
         return new BaseCoverageLinePoint() {
-
-            @Override
-            public void merge(CoveragePoint other) {
-                // TODO Auto-generated method stub
-                
-            } };
-    }
-}
+    };
+}}

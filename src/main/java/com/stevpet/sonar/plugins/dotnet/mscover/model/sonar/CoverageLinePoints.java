@@ -35,7 +35,5 @@ public interface CoverageLinePoints  {
     CoverageLinePoint addPoint(int line, boolean visited);
 
     List<CoverageLinePoint> getPoints();
-    
-    void merge(CoverageLinePoints sourceLinePoints);
-    
+        
 }

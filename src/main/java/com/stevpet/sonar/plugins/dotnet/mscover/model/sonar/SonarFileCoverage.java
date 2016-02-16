@@ -46,11 +46,11 @@ public class SonarFileCoverage  {
         return absolutePath;
     }
 
-    public CoverageLinePoints getLinePoints() {
+    public SonarLinePoints getLinePoints() {
         return linePoints;
     }
 
-    public CoverageLinePoints getBranchPoints() {
+    public SonarBranchPoints getBranchPoints() {
         return branchPoints;
     }
 
