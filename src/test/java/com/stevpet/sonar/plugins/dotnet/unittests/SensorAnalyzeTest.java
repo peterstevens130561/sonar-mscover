@@ -61,6 +61,17 @@ public class SensorAnalyzeTest {
 		}
 	
 	@Test
+	public void runUnitTestsNoPattern() {
+	    when(configuration.getUnitTestPattern()).thenReturn(null);
+	       givenIsFirstProject();
+	        givenIsUnitTestProject();   
+	        sensor.analyse(module, sensorContext);
+	        
+	        shouldRunTests();
+	        shouldSaveCoverage();
+	        shouldSaveTestResults();
+	}
+	@Test
 	public void initialRunOnUnitTestProject() {
 
 		givenIsFirstProject();

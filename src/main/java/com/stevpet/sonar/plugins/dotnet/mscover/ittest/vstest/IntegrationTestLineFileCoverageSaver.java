@@ -15,7 +15,6 @@ import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.LineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoveragePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.IntegrationTestResourceResolver;

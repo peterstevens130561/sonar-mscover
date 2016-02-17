@@ -34,9 +34,7 @@ public abstract class CoverageLinePointsBase implements CoverageLinePoints {
     @Override
     public SonarCoverageSummary getSummary() {
         SonarCoverageSummary summary = new SonarCoverageSummary();
-        for(CoverageLinePoint point: points) {
-            summary.incrementPoint(point);
-        }
+        summary.addAll(points);
         return summary;
     }
 

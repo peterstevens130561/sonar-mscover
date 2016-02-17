@@ -23,17 +23,20 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
 
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SonarCoverageSummary implements CoveragePoint {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private Logger LOG = LoggerFactory.getLogger(SonarCoverageSummary.class);
+    
+    private static final long serialVersionUID = 1L;
+    private Logger LOG = LoggerFactory.getLogger(SonarCoverageSummary.class);
     private int toCover;
     private int covered;
+
 
     /**
      * @return the toCover
@@ -47,11 +50,6 @@ public class SonarCoverageSummary implements CoveragePoint {
      */
     public int getCovered() {
         return covered;
-    }
-
-    void incrementPoint(CoverageLinePoint point) {
-        toCover += point.getToCover();
-        covered += point.getCovered();
     }
 
     /**
@@ -70,6 +68,18 @@ public class SonarCoverageSummary implements CoveragePoint {
             coverage = 0;
         }
         return coverage;
+    }
+
+
+    /**
+     * Create the summary
+     * @param points
+     */
+    public void addAll(@Nonnull List<CoverageLinePoint> points) {
+        for(CoveragePoint point: points) {
+            toCover += point.getToCover();
+            covered += point.getCovered();
+        }
     }
 }
 

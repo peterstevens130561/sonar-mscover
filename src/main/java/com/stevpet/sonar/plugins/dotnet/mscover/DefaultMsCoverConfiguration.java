@@ -74,6 +74,8 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
     private static final String MSCOVER_VSTEST_INSTALLDIR=MSCOVER+"vstest.installDirectory";
     private static final String MSCOVER_WORKSPACE_ROOT= MSCOVER + "workspace";
     
+    private static final String MSCOVER_UNITTEST_PATTERN = MSCOVER + ".unittests.pattern";
+    
     @SuppressWarnings("ucd")
     public DefaultMsCoverConfiguration(Settings settings) {
         this.settings = settings;
@@ -316,6 +318,11 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
             throw new MsCoverException("property :" + MSCOVER_WORKSPACE_ROOT + "=" + root + " does not exist");
         }
         return rootDir;
+    }
+
+    @Override
+    public String getUnitTestPattern() {
+        return settings.getString(MSCOVER_UNITTEST_PATTERN);
     }
     
 }

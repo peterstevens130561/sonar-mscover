@@ -43,7 +43,7 @@ public class MicrosoftWindowsEnvironmentMock extends GenericClassMock<MicrosoftW
     public void givenHasNoTestProjects() {
         when(instance.getCurrentSolution()).thenReturn(solution);
         List<VisualStudioProject> value = new ArrayList<VisualStudioProject>();
-        when(solution.getUnitTestProjects()).thenReturn(value);
+        when(solution.getTestProjects()).thenReturn(value);
     }
     
 
@@ -53,7 +53,7 @@ public class MicrosoftWindowsEnvironmentMock extends GenericClassMock<MicrosoftW
         VisualStudioProjectMock visualStudioProjectMock = new VisualStudioProjectMock();
         VisualStudioProject vsProject = visualStudioProjectMock.getMock();
         unitTestProjects.add(vsProject);
-        when(solution.getUnitTestProjects()).thenReturn(unitTestProjects);       
+        when(solution.getTestProjects()).thenReturn(unitTestProjects);       
     }
     
     public void givenHasSolution(VisualStudioSolution solution) {
@@ -68,7 +68,7 @@ public class MicrosoftWindowsEnvironmentMock extends GenericClassMock<MicrosoftW
             when(vsProject.getAssemblyName()).thenReturn("project" + projectIndex + ".dll");
             projects.add(vsProject);
         }
-        when(solution.getUnitTestProjects()).thenReturn(projects);
+        when(solution.getTestProjects()).thenReturn(projects);
         when(solution.getProjects()).thenReturn(projects);               // TODO Auto-generated method stub
         
     }

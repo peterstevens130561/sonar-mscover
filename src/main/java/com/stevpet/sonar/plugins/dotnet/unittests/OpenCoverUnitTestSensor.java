@@ -128,7 +128,6 @@ public class OpenCoverUnitTestSensor implements Sensor {
 				microsoftWindowsEnvironment);
 	}
 
-
 	@Override
 	public boolean shouldExecuteOnProject(Project project) {
 		return project.isModule() && configuration.runOpenCover()

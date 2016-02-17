@@ -92,4 +92,9 @@ public interface MsCoverConfiguration {
     File getWorkSpaceRoot();
 
 
+
+
+    String getUnitTestPattern();
+
+
 }
