@@ -27,7 +27,7 @@ import java.util.List;
 
 import com.google.common.base.Preconditions;
 
-public class SonarBranchPoint extends BaseCoverageLinePoint  implements PointMerger<SonarBranchPoint> {
+public class SonarBranchPoint extends BaseCoverageLinePoint<SonarBranchPoint> {
     private List<Boolean> paths = new ArrayList<>();
 
     public SonarBranchPoint(int line) {

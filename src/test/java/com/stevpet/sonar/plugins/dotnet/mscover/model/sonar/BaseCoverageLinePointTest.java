@@ -9,38 +9,46 @@ public class BaseCoverageLinePointTest {
 
     @Test
     public void NotEqualAsOtherIsFalse() {
-        BaseCoverageLinePoint thisOne = newPoint();
+        MyCoverageLinePoint thisOne = newPoint();
         BaseCoverageLinePoint otherOne = null ;
         assertFalse(thisOne==otherOne);
     }
 
     @Test
     public void EqualAsIsSame() {
-        BaseCoverageLinePoint thisOne = newPoint();
-        BaseCoverageLinePoint otherOne = thisOne;
+        MyCoverageLinePoint thisOne = newPoint();
+        MyCoverageLinePoint otherOne = thisOne;
         assertTrue("same instance",thisOne==otherOne);  
     }
     
     @Test
     public void EqualAsAllItemsAreSame() {
-        BaseCoverageLinePoint thisOne = newPoint();
+        MyCoverageLinePoint thisOne = newPoint();
         thisOne.setLine(2);
 
-        BaseCoverageLinePoint otherOne = newPoint();
+        MyCoverageLinePoint otherOne = newPoint();
         otherOne.setLine(2);
         assertFalse("line is same",thisOne==otherOne);
     }
     @Test
     public void NotEqualAsLineIsDifferent() {
-        BaseCoverageLinePoint thisOne = newPoint();
+        MyCoverageLinePoint thisOne = newPoint();
         thisOne.setLine(2);
 
-        BaseCoverageLinePoint otherOne = newPoint();
+        MyCoverageLinePoint otherOne = newPoint();
         otherOne.setLine(4);
         assertFalse("line is different",thisOne==otherOne);
     }
     
-    private BaseCoverageLinePoint newPoint() {
-        return new BaseCoverageLinePoint() {
-    };
+    private class MyCoverageLinePoint extends BaseCoverageLinePoint<MyCoverageLinePoint> {
+
+        @Override
+        public void merge(MyCoverageLinePoint other) {
+            // TODO Auto-generated method stub
+            
+        }
+        
+    }
+    private MyCoverageLinePoint newPoint() {
+        return new MyCoverageLinePoint() ;
 }}

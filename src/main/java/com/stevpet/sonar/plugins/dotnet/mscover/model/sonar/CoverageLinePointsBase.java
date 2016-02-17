@@ -57,7 +57,7 @@ public abstract class CoverageLinePointsBase implements CoverageLinePoints {
             List<CoverageLinePoint> sourceLinePoints) {
         for(int index=0;index< sourceLinePoints.size();index++) {
             CoverageLinePoint sourceLinePoint=sourceLinePoints.get(index);
-            PointMerger destinationLinePoint = (PointMerger) points.get(index);
+            CoverageLinePoint destinationLinePoint = points.get(index);
             destinationLinePoint.merge(sourceLinePoint);
         }
     }

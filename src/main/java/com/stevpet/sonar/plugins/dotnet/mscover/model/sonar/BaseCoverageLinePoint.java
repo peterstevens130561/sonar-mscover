@@ -1,6 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
-public abstract class BaseCoverageLinePoint  implements CoverageLinePoint {
+public abstract class BaseCoverageLinePoint<T extends BaseCoverageLinePoint<?>>  implements CoverageLinePoint<T> {
    protected int line;
    protected int covered;
    protected int toCover;
@@ -41,11 +41,12 @@ public abstract class BaseCoverageLinePoint  implements CoverageLinePoint {
         if(o==null) {
             return false;
         }
-        BaseCoverageLinePoint other = (BaseCoverageLinePoint) o;
+        T other = (T) o;
         return this.covered == other.covered && 
                 this.line == other.line &&
                 this.toCover == other.toCover;
     }
+    
     
     /**
      * merge the coverage information of the other one with this one, updating this.

@@ -24,7 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
 import com.google.common.base.Preconditions;
 
-public class SonarLinePoint extends BaseCoverageLinePoint  implements PointMerger<SonarLinePoint>{
+public class SonarLinePoint extends BaseCoverageLinePoint<SonarLinePoint>  {
 
     public SonarLinePoint() {
         toCover=1;
