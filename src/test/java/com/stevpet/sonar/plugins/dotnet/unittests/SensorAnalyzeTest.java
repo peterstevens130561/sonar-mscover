@@ -31,133 +31,161 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
 
 public class SensorAnalyzeTest {
 
-	@Mock private FileSystem fileSystem ;
-	@Mock private MsCoverConfiguration configuration;
-	@Mock private UnitTestCache cache;
-	@Mock private OpenCoverTestRunner runner;
-	private OpenCoverUnitTestSensor sensor;
-	@Mock private Project module;
-	@Mock private SensorContext sensorContext;
-	@Mock private TestResultsBuilder testResultsBuilder;
-	@Mock private VsTestTestResultsSaver testResultsSaver;
-	@Mock private CoverageReader coverageReader;
-	@Mock private CoverageSaver coverageSaver;
-	@Mock private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-	
-	private File testResultsFile= new File("testResults");
-	private File coverageFile = new File("workdir/coverage.xml");
-	private ProjectUnitTestResults projectUnitTestResults = new ProjectUnitTestResults();
-	@Before
-	public void before() {
-		org.mockito.MockitoAnnotations.initMocks(this);	
+    @Mock
+    private FileSystem fileSystem;
+    @Mock
+    private MsCoverConfiguration configuration;
+    @Mock
+    private UnitTestCache cache;
+    @Mock
+    private OpenCoverTestRunner runner;
+    private OpenCoverUnitTestSensor sensor;
+    @Mock
+    private Project module;
+    @Mock
+    private SensorContext sensorContext;
+    @Mock
+    private TestResultsBuilder testResultsBuilder;
+    @Mock
+    private VsTestTestResultsSaver testResultsSaver;
+    @Mock
+    private CoverageReader coverageReader;
+    @Mock
+    private CoverageSaver coverageSaver;
+    @Mock
+    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 
-		sensor = new OpenCoverUnitTestSensor(fileSystem,configuration,cache,runner, 
-				testResultsBuilder, testResultsSaver,coverageReader,coverageSaver,microsoftWindowsEnvironment);
-			when(fileSystem.workDir()).thenReturn(new File("workdir"));
-			when(runner.getTestResultsFile()).thenReturn(testResultsFile);
-			when(cache.getTestCoverageFile()).thenReturn(coverageFile);
-			when(cache.getTestResultsFile()).thenReturn(new File("testResults"));
-			when(testResultsBuilder.parse(testResultsFile, coverageFile)).thenReturn(projectUnitTestResults);
-		}
-	
-	@Test
-	public void runUnitTestsNoPattern() {
-	    when(configuration.getUnitTestPattern()).thenReturn(null);
-	       givenIsFirstProject();
-	        givenIsUnitTestProject();   
-	        sensor.analyse(module, sensorContext);
-	        
-	        shouldRunTests();
-	        shouldSaveCoverage();
-	        shouldSaveTestResults();
-	}
-	@Test
-	public void initialRunOnUnitTestProject() {
+    private File testResultsFile = new File("testResults");
+    private File coverageFile = new File("workdir/coverage.xml");
+    private ProjectUnitTestResults projectUnitTestResults = new ProjectUnitTestResults();
 
-		givenIsFirstProject();
-		givenIsUnitTestProject();	
-		sensor.analyse(module, sensorContext);
-		
-		shouldRunTests();
-		shouldSaveCoverage();
-		shouldSaveTestResults();
-	}
+    @Before
+    public void before() {
+        org.mockito.MockitoAnnotations.initMocks(this);
 
+        sensor = new OpenCoverUnitTestSensor(fileSystem, configuration, cache,
+                runner, testResultsBuilder, testResultsSaver, coverageReader,
+                coverageSaver, microsoftWindowsEnvironment);
+        when(fileSystem.workDir()).thenReturn(new File("workdir"));
+        when(runner.getTestResultsFile()).thenReturn(testResultsFile);
+        when(cache.getTestCoverageFile()).thenReturn(coverageFile);
+        when(cache.getTestResultsFile()).thenReturn(new File("testResults"));
+        when(testResultsBuilder.parse(testResultsFile, coverageFile))
+                .thenReturn(projectUnitTestResults);
+    }
 
-	
-	@Test
-	public void initialRunOnProject() {
-		givenIsNormalProject();
-		givenIsFirstProject();
-		
-		//when
-		sensor.analyse(module, sensorContext);
-		
-		shouldRunTests();
-		shouldSaveCoverage();
-		shouldNotSaveTestResults();
-	}
+    @Test
+    /**
+     * see what happens if no unit test pattern is defined
+     */
+    public void runUnitTestsNoPattern() {
+        when(configuration.getUnitTestPattern()).thenReturn(null);
+        givenIsFirstProject();
+        givenIsUnitTestProject();
+        sensor.analyse(module, sensorContext);
 
-	private void givenIsFirstProject() {
-		when(cache.gatHasRun()).thenReturn(false);
-	}
+        verify(runner, times(1)).setTestProjectPattern(".*");
+    }
 
-	private void shouldRunTests() {
-		verify(runner,times(1)).execute();
-	}
-	
-	@Test
-	public void laterRunOnProject() {
-		givenIsNormalProject();
-		givenIsLaterProject();
-		
-		sensor.analyse(module, sensorContext);
-		
-		shouldNotRunTests();
-		shouldSaveCoverage();
-		shouldNotSaveTestResults();
-	}
+    public void runUnitTestsWithPattern() {
+        when(configuration.getUnitTestPattern()).thenReturn("SpecFlow");
+        givenIsFirstProject();
+        givenIsUnitTestProject();
+        sensor.analyse(module, sensorContext);
 
-	private void givenIsLaterProject() {
-		when(cache.gatHasRun()).thenReturn(true);
-	}
+        verify(runner, times(1)).setTestProjectPattern("SpecFlow");
+    }
 
-	private void givenIsNormalProject() {
-		when(microsoftWindowsEnvironment.isUnitTestProject(module)).thenReturn(false);
-	}
-	
-	@Test
-	public void laterRunOnUnitTestProject() {
-		
-		// given
-		givenIsUnitTestProject();
-		givenIsLaterProject();
-		
-		sensor.analyse(module, sensorContext);
-		
-		shouldNotRunTests();		
-		shouldSaveCoverage();
-		shouldSaveTestResults();
-	}
+    @Test
+    public void initialRunOnUnitTestProject() {
 
-	private void givenIsUnitTestProject() {
-		when(microsoftWindowsEnvironment.isUnitTestProject(module)).thenReturn(true);
-	}
+        givenIsFirstProject();
+        givenIsUnitTestProject();
+        sensor.analyse(module, sensorContext);
 
-	private void shouldNotRunTests() {
-		verify(runner,times(0)).execute();
-	}
+        shouldRunTests();
+        shouldSaveCoverage();
+        shouldSaveTestResults();
+    }
 
-	private void shouldSaveTestResults() {
-		verify(testResultsSaver,times(1)).save(sensorContext, projectUnitTestResults);
-	}
-	
-	private void shouldNotSaveTestResults() {
-		verify(testResultsSaver,times(0)).save(sensorContext, projectUnitTestResults);
-	}
-	private void shouldSaveCoverage() {
-		verify(coverageSaver,times(1)).save(eq(sensorContext), any(SonarCoverage.class));
-	}
-	
+    @Test
+    public void initialRunOnProject() {
+        givenIsNormalProject();
+        givenIsFirstProject();
+
+        // when
+        sensor.analyse(module, sensorContext);
+
+        shouldRunTests();
+        shouldSaveCoverage();
+        shouldNotSaveTestResults();
+    }
+
+    private void givenIsFirstProject() {
+        when(cache.gatHasRun()).thenReturn(false);
+    }
+
+    private void shouldRunTests() {
+        verify(runner, times(1)).execute();
+    }
+
+    @Test
+    public void laterRunOnProject() {
+        givenIsNormalProject();
+        givenIsLaterProject();
+
+        sensor.analyse(module, sensorContext);
+
+        shouldNotRunTests();
+        shouldSaveCoverage();
+        shouldNotSaveTestResults();
+    }
+
+    private void givenIsLaterProject() {
+        when(cache.gatHasRun()).thenReturn(true);
+    }
+
+    private void givenIsNormalProject() {
+        when(microsoftWindowsEnvironment.isUnitTestProject(module)).thenReturn(
+                false);
+    }
+
+    @Test
+    public void laterRunOnUnitTestProject() {
+
+        // given
+        givenIsUnitTestProject();
+        givenIsLaterProject();
+
+        sensor.analyse(module, sensorContext);
+
+        shouldNotRunTests();
+        shouldSaveCoverage();
+        shouldSaveTestResults();
+    }
+
+    private void givenIsUnitTestProject() {
+        when(microsoftWindowsEnvironment.isUnitTestProject(module)).thenReturn(
+                true);
+    }
+
+    private void shouldNotRunTests() {
+        verify(runner, times(0)).execute();
+    }
+
+    private void shouldSaveTestResults() {
+        verify(testResultsSaver, times(1)).save(sensorContext,
+                projectUnitTestResults);
+    }
+
+    private void shouldNotSaveTestResults() {
+        verify(testResultsSaver, times(0)).save(sensorContext,
+                projectUnitTestResults);
+    }
+
+    private void shouldSaveCoverage() {
+        verify(coverageSaver, times(1)).save(eq(sensorContext),
+                any(SonarCoverage.class));
+    }
 
 }

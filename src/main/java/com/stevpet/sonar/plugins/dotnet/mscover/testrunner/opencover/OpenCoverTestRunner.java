@@ -1,5 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover;
 
+import javax.annotation.Nonnull;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 
 public interface OpenCoverTestRunner extends TestRunner {
@@ -13,6 +15,12 @@ public interface OpenCoverTestRunner extends TestRunner {
 	OpenCoverTestRunner onlyReportAssembliesOfTheSolution();
 
 	void setTestCaseFilter(String testCaseFilter);
+
+	/**
+	 * only test projects that match this pattern should be included in the test run.
+	 * @param string
+	 */
+    void setTestProjectPattern(@Nonnull String string);
 
 
 }

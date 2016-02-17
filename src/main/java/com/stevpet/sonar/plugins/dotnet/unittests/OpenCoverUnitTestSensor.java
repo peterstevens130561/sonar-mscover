@@ -24,6 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.unittests;
 
 import java.io.File;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
@@ -60,110 +61,124 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
  */
 public class OpenCoverUnitTestSensor implements Sensor {
 
-	private Logger Log = LoggerFactory.getLogger(OpenCoverUnitTestSensor.class);
-	private MsCoverConfiguration configuration;
-	private TestCache cache;
-	private OpenCoverTestRunner testRunner;
-	private FileSystem fileSystem;
-	private CoverageReader reader;
-	private CoverageSaver coverageSaver;
-	private TestResultsBuilder testResultsBuilder;
-	private VsTestTestResultsSaver testResultsSaver;
-	private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
+    private Logger Log = LoggerFactory.getLogger(OpenCoverUnitTestSensor.class);
+    private MsCoverConfiguration configuration;
+    private TestCache cache;
+    private OpenCoverTestRunner testRunner;
+    private FileSystem fileSystem;
+    private CoverageReader reader;
+    private CoverageSaver coverageSaver;
+    private TestResultsBuilder testResultsBuilder;
+    private VsTestTestResultsSaver testResultsSaver;
+    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 
-	/**
-	 * Includes all dependencies
-	 * 
-	 * @param fileSystem
-	 * @param configuration
-	 * @param unitTestBatchData
-	 * @param testRunner
-	 * @param testResultsBuilder
-	 * @param testResultsSaver
-	 * @param coverageReader
-	 * @param coverageSaver
-	 * @param microsoftWindowsEnvironment
-	 */
-	public OpenCoverUnitTestSensor(FileSystem fileSystem,
-			MsCoverConfiguration configuration,
-			UnitTestCache unitTestBatchData, OpenCoverTestRunner testRunner,
-			TestResultsBuilder testResultsBuilder,
-			VsTestTestResultsSaver testResultsSaver,
-			CoverageReader coverageReader, CoverageSaver coverageSaver,
-			MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
-		this.fileSystem = fileSystem;
-		this.configuration = configuration;
-		this.cache = unitTestBatchData;
-		this.testRunner = testRunner;
-		this.testResultsBuilder = testResultsBuilder;
-		this.testResultsSaver = testResultsSaver;
-		this.reader = coverageReader;
-		this.coverageSaver = coverageSaver;
-		this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
-		;
-	}
+    /**
+     * Includes all dependencies
+     * 
+     * @param fileSystem
+     * @param configuration
+     * @param unitTestBatchData
+     * @param testRunner
+     * @param testResultsBuilder
+     * @param testResultsSaver
+     * @param coverageReader
+     * @param coverageSaver
+     * @param microsoftWindowsEnvironment
+     */
+    public OpenCoverUnitTestSensor(FileSystem fileSystem,
+            MsCoverConfiguration configuration,
+            UnitTestCache unitTestBatchData, OpenCoverTestRunner testRunner,
+            TestResultsBuilder testResultsBuilder,
+            VsTestTestResultsSaver testResultsSaver,
+            CoverageReader coverageReader, CoverageSaver coverageSaver,
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+        this.fileSystem = fileSystem;
+        this.configuration = configuration;
+        this.cache = unitTestBatchData;
+        this.testRunner = testRunner;
+        this.testResultsBuilder = testResultsBuilder;
+        this.testResultsSaver = testResultsSaver;
+        this.reader = coverageReader;
+        this.coverageSaver = coverageSaver;
+        this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
+        ;
+    }
 
-	/**
-	 * For export in plugin, uses the standard defaults
-	 * @param fileSystem
-	 * @param msCoverConfiguration
-	 * @param unitTestBatchData
-	 * @param coverageSaver
-	 * @param microsoftWindowsEnvironment
-	 * @param pathResolver
-	 * @param vsTestEnvironment 
-	 */
-	public OpenCoverUnitTestSensor(FileSystem fileSystem,
-			MsCoverConfiguration msCoverConfiguration,
-			UnitTestCache unitTestBatchData, 
-			MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
-			PathResolver pathResolver, 
-			VsTestEnvironment vsTestEnvironment) {
-		this(fileSystem, msCoverConfiguration, unitTestBatchData, 
-				DefaultOpenCoverTestRunner.create(msCoverConfiguration, microsoftWindowsEnvironment, fileSystem,vsTestEnvironment),
-				SpecFlowTestResultsBuilder.create(microsoftWindowsEnvironment), 
-				VsTestTestResultsSaver.create(pathResolver,fileSystem), 
-				new OpenCoverCoverageReader(msCoverConfiguration), 
-				new OpenCoverUnitTestCoverageSaver(microsoftWindowsEnvironment,pathResolver,fileSystem),
-				microsoftWindowsEnvironment);
-	}
+    /**
+     * For export in plugin, uses the standard defaults
+     * 
+     * @param fileSystem
+     * @param msCoverConfiguration
+     * @param unitTestBatchData
+     * @param coverageSaver
+     * @param microsoftWindowsEnvironment
+     * @param pathResolver
+     * @param vsTestEnvironment
+     */
+    public OpenCoverUnitTestSensor(FileSystem fileSystem,
+            MsCoverConfiguration msCoverConfiguration,
+            UnitTestCache unitTestBatchData,
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
+            PathResolver pathResolver, VsTestEnvironment vsTestEnvironment) {
+        this(fileSystem, msCoverConfiguration, unitTestBatchData,
+                DefaultOpenCoverTestRunner.create(msCoverConfiguration,
+                        microsoftWindowsEnvironment, fileSystem,
+                        vsTestEnvironment), SpecFlowTestResultsBuilder
+                        .create(microsoftWindowsEnvironment),
+                VsTestTestResultsSaver.create(pathResolver, fileSystem),
+                new OpenCoverCoverageReader(msCoverConfiguration),
+                new OpenCoverUnitTestCoverageSaver(microsoftWindowsEnvironment,
+                        pathResolver, fileSystem), microsoftWindowsEnvironment);
+    }
 
-	@Override
-	public boolean shouldExecuteOnProject(Project project) {
-		return project.isModule() && configuration.runOpenCover()
-				&& microsoftWindowsEnvironment.hasUnitTestSourceFiles() ;
-	}
+    @Override
+    public boolean shouldExecuteOnProject(Project project) {
+        return project.isModule() && configuration.runOpenCover()
+                && microsoftWindowsEnvironment.hasUnitTestSourceFiles();
+    }
 
-	@Override
-	public void analyse(Project project, SensorContext context) {
-		File testResultsFile;
-		File coverageFile;
-		SonarCoverage sonarCoverage;
-		Log.debug("project {}",project.getName());
-		if (!cache.gatHasRun()) {
-			coverageFile = new File(fileSystem.workDir(), "coverage.xml");
-			testRunner.setCoverageFile(coverageFile);
-			testRunner.onlyReportAssembliesOfTheSolution();
-			testRunner.execute();
-			testResultsFile = testRunner.getTestResultsFile();
+    @Override
+    public void analyse(Project project, SensorContext context) {
+        File testResultsFile;
+        File coverageFile;
+        SonarCoverage sonarCoverage;
+        Log.debug("project {}", project.getName());
+        if (!cache.gatHasRun()) {
+            coverageFile = new File(fileSystem.workDir(), "coverage.xml");
+            testRunner.setCoverageFile(coverageFile);
+            testRunner.onlyReportAssembliesOfTheSolution();
+            String pattern = getTestProjectPattern();
+            testRunner.setTestProjectPattern(pattern);
+            testRunner.execute();
 
-			sonarCoverage = new SonarCoverage();
-			reader.read(sonarCoverage, coverageFile);
-			cache.setSonarCoverage(sonarCoverage);
-			cache.setHasRun(coverageFile, testResultsFile);
-		} else {
-			sonarCoverage = cache.getSonarCoverage();
-			testResultsFile = cache.getTestResultsFile();
-			coverageFile = cache.getTestCoverageFile();
-		}
+            testResultsFile = testRunner.getTestResultsFile();
 
-		coverageSaver.save(context, sonarCoverage);
+            sonarCoverage = new SonarCoverage();
+            reader.read(sonarCoverage, coverageFile);
+            cache.setSonarCoverage(sonarCoverage);
+            cache.setHasRun(coverageFile, testResultsFile);
+        } else {
+            sonarCoverage = cache.getSonarCoverage();
+            testResultsFile = cache.getTestResultsFile();
+            coverageFile = cache.getTestCoverageFile();
+        }
 
-		if (testResultsFile != null && microsoftWindowsEnvironment.isUnitTestProject(project)) {
-			ProjectUnitTestResults testResults = testResultsBuilder.parse(
-					testResultsFile, coverageFile);
-			Log.debug("test results read {}",testResults.getTests());
-			testResultsSaver.save(context, testResults);
-		}
-	}
+        coverageSaver.save(context, sonarCoverage);
+
+        if (testResultsFile != null
+                && microsoftWindowsEnvironment.isUnitTestProject(project)) {
+            ProjectUnitTestResults testResults = testResultsBuilder.parse(
+                    testResultsFile, coverageFile);
+            Log.debug("test results read {}", testResults.getTests());
+            testResultsSaver.save(context, testResults);
+        }
+    }
+
+    private String getTestProjectPattern() {
+        String pattern = configuration.getUnitTestPattern();
+        if (StringUtils.isEmpty(pattern)) {
+            pattern = ".*";
+        }
+        return pattern;
+    }
 }

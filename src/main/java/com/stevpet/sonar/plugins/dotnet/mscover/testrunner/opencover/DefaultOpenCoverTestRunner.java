@@ -34,6 +34,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 	private File coverageFile;
 	private VSTestStdOutParser vsTestStdOutParser;
 	private CommandLineExecutor commandLineExecutor;
+    private String testProjectPattern;
 
 	public DefaultOpenCoverTestRunner(MsCoverConfiguration msCoverProperties,
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
@@ -141,5 +142,10 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 		this.vsTestRunnerCommandBuilder.setTestCaseFilter(testCaseFilter);
 		
 	}
+
+    @Override
+    public void setTestProjectPattern(String pattern) {
+        this.testProjectPattern=pattern;
+    }
 
 }
