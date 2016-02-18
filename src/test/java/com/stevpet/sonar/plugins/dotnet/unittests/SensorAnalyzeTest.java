@@ -31,6 +31,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestCache;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestCache;
+import com.stevpet.sonar.plugins.dotnet.utils.MsCoverTestUtils;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 public class SensorAnalyzeTest {
@@ -90,29 +91,11 @@ public class SensorAnalyzeTest {
         givenIsUnitTestProject();
         sensor.analyse(module, sensorContext);
 
-        verify(runner, times(1)).setTestProjectPattern(isPattern(".*"));
+        verify(runner, times(1)).setTestProjectPattern(new MsCoverTestUtils().isPattern(".*"));
     }
     
     
-    private Pattern isPattern(String regex) {
-        return argThat(new IsPattern(regex));
-    }
-    
-    private class IsPattern extends ArgumentMatcher<Pattern> {
-        private String regex;
-        public IsPattern(String regex) {
-           this.regex=regex;
-        }
 
-        public boolean matches(Object value) {
-            Pattern pattern=(Pattern)value;
-            return regex.equals(pattern.toString());
-        }
-        @Override
-        public void describeTo(Description description) {
-            description.appendText(regex);
-        }
-    }
     public void runUnitTestsWithPattern() {
         Pattern pattern = Pattern.compile("SpecFlow");
         when(configuration.getUnitTestPattern()).thenReturn(pattern);
