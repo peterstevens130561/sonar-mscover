@@ -39,6 +39,9 @@ public interface AssembliesFinder extends BatchExtension {
     File searchNonExistingFile(File assemblyFile, VisualStudioProject project, String buildConfiguration);
 
     String findUnitTestAssembliesDir(VisualStudioSolution solution);
+
+
+    AssembliesFinder setTestProjectPattern(String testProjectPattern);
     
 
 }

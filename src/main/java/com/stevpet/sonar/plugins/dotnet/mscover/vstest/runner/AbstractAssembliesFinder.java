@@ -26,6 +26,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +47,8 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
     private WildcardPattern[] inclusionMatchers;
     private List<String> assemblies;
     protected MsCoverConfiguration propertiesHelper;
+
+    private String testProjectPattern;
 
     public AbstractAssembliesFinder(MsCoverConfiguration propertiesHelper) {
         this.propertiesHelper=propertiesHelper;
@@ -173,6 +177,11 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
             patterns[i] = patterns[i] + ".dll";
         }
         this.inclusionMatchers=WildcardPattern.create(patterns);         
+    }
+    
+     public AssembliesFinder setTestProjectPattern(@Nonnull String pattern) {
+         this.testProjectPattern = pattern;
+        return this;
     }
 
 }

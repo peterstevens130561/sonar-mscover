@@ -70,4 +70,5 @@ public class OpenCoverSpecFlowTestRunnerSensorAnalyzeTest {
 		verify(runner,times(1)).execute();
 		verify(testResultsSaver,times(1)).save(eq(sensorContext), eq(projectUnitTestResults));
 	}
+	
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.sonar.api.batch.fs.FileSystem;
 
+import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
 import com.stevpet.sonar.plugins.common.commandexecutor.DefaultProcessLock;
 import com.stevpet.sonar.plugins.common.commandexecutor.LockedWindowsCommandLineExecutor;
@@ -72,6 +73,8 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 	}
 
 	protected void buildCommonArguments() {
+	    Preconditions.checkNotNull(testProjectPattern, "TestProjectPattern not set");
+	    vsTestRunnerCommandBuilder.setTestProjectPattern(testProjectPattern);
 		OpenCoverTarget openCoverTarget = vsTestRunnerCommandBuilder
 				.build(false);
 		openCoverCommand.setTargetCommand(openCoverTarget);

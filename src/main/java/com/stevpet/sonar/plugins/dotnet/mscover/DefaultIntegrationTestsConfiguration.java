@@ -19,6 +19,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     private static final String MSCOVER_INTEGRATION_MODE=MSCOVER + "mode";
 	static final String MSCOVER_SPECFLOWTESTS_ROOT = DefaultIntegrationTestsConfiguration.MSCOVER + "root";
 	private static final String MSCOVER_INTEGRATION_TESTCASEFILTER= DefaultIntegrationTestsConfiguration.MSCOVER + "testcasefilter";
+	private static final String MSCOVER_INTEGRATION_PROJECTPATTERN= DefaultIntegrationTestsConfiguration.MSCOVER + "projectpattern";
 
 	private Settings settings;
 	private FileSystem fileSystem;
@@ -97,6 +98,9 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
      */
     @Override
 	public boolean matches(Tool tool,Mode mode) {
+        if(settings.getString(MSCOVER_INTEGRATION_PROJECTPATTERN)== null) {
+            return false;
+        }
     	if(!(getMode() == mode)) {
     		return false;
     	}

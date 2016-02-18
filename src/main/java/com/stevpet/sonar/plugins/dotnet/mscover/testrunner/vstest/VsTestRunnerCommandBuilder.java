@@ -3,11 +3,14 @@ package com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest;
 import java.io.File;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.utils.SonarException;
 
+import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
@@ -27,6 +30,7 @@ public  class VsTestRunnerCommandBuilder implements BatchExtension {
     private AssembliesFinder assembliesFinder;
     protected boolean doCodeCoverage;
 	private String testCaseFilter;
+    private String testProjectPattern;
 
     public VsTestRunnerCommandBuilder(MsCoverConfiguration propertiesHelper,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
@@ -77,8 +81,9 @@ public  class VsTestRunnerCommandBuilder implements BatchExtension {
     }
 
     private void findAssemblies() {
-        unitTestAssembliesPath = assembliesFinder
-                .findUnitTestAssembliesFromConfig(getSolutionDirectory(),
+        Preconditions.checkNotNull(testProjectPattern,"TestProjectPattern not set");
+        unitTestAssembliesPath = assembliesFinder.setTestProjectPattern(testProjectPattern).
+                findUnitTestAssembliesFromConfig(getSolutionDirectory(),
                         microsoftWindowsEnvironment.getCurrentSolution()
                                 .getProjects());
     }
@@ -96,5 +101,10 @@ public  class VsTestRunnerCommandBuilder implements BatchExtension {
 	public void setTestCaseFilter(String testCaseFilter) {
 		this.testCaseFilter=testCaseFilter;
 	}
+
+    public void setTestProjectPattern(@Nonnull String pattern) {
+        this.testProjectPattern = pattern;
+        
+    }
     
 }

@@ -20,6 +20,7 @@ import static org.mockito.Mockito.when;
 public class DefaultIntegrationTestsConfigurationTests {
 	private static final String SONAR_MSCOVER_INTEGRATIONTESTS_MODE = "sonar.mscover.integrationtests.mode";
 	private static final String SONAR_MSCOVER_INTEGRATIONTESTS_TOOL = "sonar.mscover.integrationtests.tool";
+    private static final String SONAR_MSCOVER_INTEGRATIONTESTS_PATTERN = "sonar.mscover.integrationtests.projectpattern";
 
 	@Mock private Settings settings;
 	@Mock private FileSystem fileSystem;
@@ -31,6 +32,7 @@ public class DefaultIntegrationTestsConfigurationTests {
 	{
 		org.mockito.MockitoAnnotations.initMocks(this);
 		configuration=new DefaultIntegrationTestsConfiguration(settings,fileSystem);
+		when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_PATTERN)).thenReturn("somepattern");
 	}
 	
 	@Test
@@ -86,6 +88,14 @@ public class DefaultIntegrationTestsConfigurationTests {
 		fail("exepcted IllegalArgumentException");
 	}
 	
+	@Test
+	public void patternNotSpecified_DoNotMatch() {
+	    when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_PATTERN)).thenReturn(null);
+	    when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_MODE)).thenReturn("run");
+	    when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_TOOL)).thenReturn("opencover");
+	    assertFalse(configuration.matches(Tool.OPENCOVER,Mode.RUN));
+	    
+	}
 	@Test
 	public void toolDefaultIsOpenCover() {
 		when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_TOOL)).thenReturn("");

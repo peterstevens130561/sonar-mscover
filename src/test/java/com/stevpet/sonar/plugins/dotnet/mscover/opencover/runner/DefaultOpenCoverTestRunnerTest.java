@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.VsTestRunnerCommandBuilderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExexutorStub;
@@ -16,10 +17,13 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.AssembliesFinde
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindowsEnvironmentMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.DefaultOpenCoverTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommandMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParserMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
-
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class DefaultOpenCoverTestRunnerTest {
 
@@ -29,7 +33,6 @@ public class DefaultOpenCoverTestRunnerTest {
     private VsTestEnvironment testEnvironment;
     private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
     private CommandLineExexutorStub commandLineExecutorStub = new CommandLineExexutorStub();
-    private FileSystemMock fileSystemMock = new FileSystemMock();
     private AssembliesFinderMock assembliesFinderMock = new AssembliesFinderMock();
     private List<String> assemblies;
 	private VsTestRunnerCommandBuilderMock vsTestRunnerCommandBuilderMock = new VsTestRunnerCommandBuilderMock();
@@ -58,6 +61,7 @@ public class DefaultOpenCoverTestRunnerTest {
         vsTestRunnerCommandBuilderMock.givenBuild(vsTestCommandMock.getMock());
         vsTestCommandMock.giveExeDir("exedir");
         vsTestCommandMock.givenArguments("arguments");
+        openCoverCoverageRunner.setTestProjectPattern("something to meet the need");
     }
     
     /**
@@ -116,4 +120,13 @@ public class DefaultOpenCoverTestRunnerTest {
         assertEquals("building a basic OpenCover commandline with two assemblies",expected,commandLine);
     }
     
+    
+    @Test
+    public void checkPattern() {
+        assemblies.add("one");
+        openCoverCoverageRunner.setTestProjectPattern("bogus");
+        openCoverCoverageRunner.execute();
+        VsTestRunnerCommandBuilder vsTestRunner=vsTestRunnerCommandBuilderMock.getMock();
+        verify(vsTestRunner,times(1)).setTestProjectPattern("bogus"); 
+    }
 }

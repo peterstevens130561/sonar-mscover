@@ -74,7 +74,7 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
     private static final String MSCOVER_VSTEST_INSTALLDIR=MSCOVER+"vstest.installDirectory";
     private static final String MSCOVER_WORKSPACE_ROOT= MSCOVER + "workspace";
     
-    private static final String MSCOVER_UNITTEST_PATTERN = MSCOVER + ".unittests.pattern";
+    private static final String MSCOVER_UNITTEST_PATTERN = MSCOVER + ".unittests.projectpattern";
     
     @SuppressWarnings("ucd")
     public DefaultMsCoverConfiguration(Settings settings) {
