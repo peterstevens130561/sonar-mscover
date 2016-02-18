@@ -3,6 +3,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
+
+import javax.annotation.Nonnull;
 
 import org.sonar.api.batch.fs.FileSystem;
 
@@ -35,7 +38,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 	private File coverageFile;
 	private VSTestStdOutParser vsTestStdOutParser;
 	private CommandLineExecutor commandLineExecutor;
-    private String testProjectPattern;
+    private Pattern testProjectPattern;
 
 	public DefaultOpenCoverTestRunner(MsCoverConfiguration msCoverProperties,
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
@@ -147,7 +150,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 	}
 
     @Override
-    public void setTestProjectPattern(String pattern) {
+    public void setTestProjectPattern(@Nonnull Pattern pattern) {
         this.testProjectPattern=pattern;
     }
 

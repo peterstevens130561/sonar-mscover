@@ -26,6 +26,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -37,6 +39,7 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.Settings;
 import org.sonar.api.config.PropertyDefinition.Builder;
 import org.sonar.api.resources.Qualifiers;
+import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverRequiredPropertyMissingException;
@@ -321,8 +324,21 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
     }
 
     @Override
-    public String getUnitTestPattern() {
-        return settings.getString(MSCOVER_UNITTEST_PATTERN);
+    public Pattern getUnitTestPattern() {
+        String value =settings.getString(MSCOVER_UNITTEST_PATTERN);
+        if(StringUtils.isEmpty(value)) {
+            return null ;
+        }
+        Pattern pattern = null ;
+        try {
+            pattern=Pattern.compile(value);
+        } catch (PatternSyntaxException e) {
+            String msg = "Property value is not a valid regular expression:" + MSCOVER_UNITTEST_PATTERN + "=" + value;
+            LOG.error(msg);
+            throw new SonarException(msg,e);
+        }
+        return pattern;
+        
     }
     
 }

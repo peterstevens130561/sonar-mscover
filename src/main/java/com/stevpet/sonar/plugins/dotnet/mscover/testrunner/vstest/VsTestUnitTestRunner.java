@@ -23,6 +23,9 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest;
 
 import java.io.File;
+import java.util.regex.Pattern;
+
+import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
@@ -58,6 +61,7 @@ public class VsTestUnitTestRunner implements TestRunner {
     private VsTestRunnerCommandBuilder commandBuilder;
     private VsTestEnvironment testEnvironment;
     private BinaryCoverageToXmlConverter coverageToXmlConverter;
+    private Pattern testProjectPattern;
 
 
     public VsTestUnitTestRunner(BinaryCoverageToXmlConverter coverageToXmlConverter,
@@ -93,6 +97,7 @@ public class VsTestUnitTestRunner implements TestRunner {
 	}
     
     public void execute() {
+        commandBuilder.setTestProjectPattern(testProjectPattern);
         ShellCommand vsTestCommand = commandBuilder.build(true);
         executor.execute(vsTestCommand);
         stdOutString = executor.getStdOut();
@@ -114,5 +119,10 @@ public class VsTestUnitTestRunner implements TestRunner {
 		// TODO Auto-generated method stub
 		throw new NotImplementedException("setCoverageFile");
 	}
+
+    @Override
+    public void setTestProjectPattern(@Nonnull Pattern pattern) {
+        this.testProjectPattern=pattern;
+    }
 
 }

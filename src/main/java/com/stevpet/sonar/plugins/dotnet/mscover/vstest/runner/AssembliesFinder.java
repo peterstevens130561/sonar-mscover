@@ -24,6 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 
 import java.io.File;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.sonar.api.BatchExtension;
 
@@ -41,7 +42,7 @@ public interface AssembliesFinder extends BatchExtension {
     String findUnitTestAssembliesDir(VisualStudioSolution solution);
 
 
-    AssembliesFinder setTestProjectPattern(String testProjectPattern);
+    AssembliesFinder setTestProjectPattern(Pattern testProjectPattern);
     
 
 }

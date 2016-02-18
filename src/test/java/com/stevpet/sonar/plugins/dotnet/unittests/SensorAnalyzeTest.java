@@ -1,9 +1,12 @@
 package com.stevpet.sonar.plugins.dotnet.unittests;
 
 import java.io.File;
+import java.util.regex.Pattern;
 
+import org.hamcrest.Description;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatcher;
 import org.mockito.Mock;
 
 import static org.mockito.Mockito.when;
@@ -11,6 +14,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.argThat;
 
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
@@ -74,6 +78,8 @@ public class SensorAnalyzeTest {
                 .thenReturn(projectUnitTestResults);
     }
 
+
+   
     @Test
     /**
      * see what happens if no unit test pattern is defined
@@ -84,16 +90,37 @@ public class SensorAnalyzeTest {
         givenIsUnitTestProject();
         sensor.analyse(module, sensorContext);
 
-        verify(runner, times(1)).setTestProjectPattern(".*");
+        verify(runner, times(1)).setTestProjectPattern(isPattern(".*"));
     }
+    
+    
+    private Pattern isPattern(String regex) {
+        return argThat(new IsPattern(regex));
+    }
+    
+    private class IsPattern extends ArgumentMatcher<Pattern> {
+        private String regex;
+        public IsPattern(String regex) {
+           this.regex=regex;
+        }
 
+        public boolean matches(Object value) {
+            Pattern pattern=(Pattern)value;
+            return regex.equals(pattern.toString());
+        }
+        @Override
+        public void describeTo(Description description) {
+            description.appendText(regex);
+        }
+    }
     public void runUnitTestsWithPattern() {
-        when(configuration.getUnitTestPattern()).thenReturn("SpecFlow");
+        Pattern pattern = Pattern.compile("SpecFlow");
+        when(configuration.getUnitTestPattern()).thenReturn(pattern);
         givenIsFirstProject();
         givenIsUnitTestProject();
         sensor.analyse(module, sensorContext);
 
-        verify(runner, times(1)).setTestProjectPattern("SpecFlow");
+        verify(runner, times(1)).setTestProjectPattern(pattern);
     }
 
     @Test

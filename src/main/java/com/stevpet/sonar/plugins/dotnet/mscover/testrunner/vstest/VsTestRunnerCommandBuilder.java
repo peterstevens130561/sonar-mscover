@@ -2,6 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest;
 
 import java.io.File;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 
@@ -30,7 +31,7 @@ public  class VsTestRunnerCommandBuilder implements BatchExtension {
     private AssembliesFinder assembliesFinder;
     protected boolean doCodeCoverage;
 	private String testCaseFilter;
-    private String testProjectPattern;
+    private Pattern testProjectPattern;
 
     public VsTestRunnerCommandBuilder(MsCoverConfiguration propertiesHelper,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
@@ -102,7 +103,7 @@ public  class VsTestRunnerCommandBuilder implements BatchExtension {
 		this.testCaseFilter=testCaseFilter;
 	}
 
-    public void setTestProjectPattern(@Nonnull String pattern) {
+    public void setTestProjectPattern(@Nonnull Pattern pattern) {
         this.testProjectPattern = pattern;
         
     }

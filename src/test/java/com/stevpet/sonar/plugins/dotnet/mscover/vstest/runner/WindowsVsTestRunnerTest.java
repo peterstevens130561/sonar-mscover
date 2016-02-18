@@ -25,6 +25,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -107,6 +108,8 @@ public class WindowsVsTestRunnerTest {
         //runner.setCoverageXmlPath(coverageXmlPath);
         when(vsTestResultsParser.getCoveragePath()).thenReturn(sonarWorkingDirectory + "/coverage.xml");
         fileSystemMock.givenWorkDir(sonarWorkingDirectory);
+        Pattern pattern=Pattern.compile("somepattern");
+        runner.setTestProjectPattern(pattern);
         runner.execute();
 
         assertThatVsTestCommandIsBuilt(testSettingsFile, unitTestAssemblies,

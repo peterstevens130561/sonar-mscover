@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.testrunner.nullrestrunner;
 
 import java.io.File;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,5 +27,10 @@ public class NullTestRunner implements TestRunner {
 	@Override
 	public void setCoverageFile(File coverageFile) {
 	}
+
+
+    @Override
+    public void setTestProjectPattern(Pattern pattern) {
+    }
 
 }

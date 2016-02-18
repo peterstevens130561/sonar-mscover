@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +23,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommandMock
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParserMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestRunner;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -61,7 +63,8 @@ public class DefaultOpenCoverTestRunnerTest {
         vsTestRunnerCommandBuilderMock.givenBuild(vsTestCommandMock.getMock());
         vsTestCommandMock.giveExeDir("exedir");
         vsTestCommandMock.givenArguments("arguments");
-        openCoverCoverageRunner.setTestProjectPattern("something to meet the need");
+        Pattern pattern = Pattern.compile("something to meet the need");
+        openCoverCoverageRunner.setTestProjectPattern(pattern);
     }
     
     /**
@@ -123,10 +126,11 @@ public class DefaultOpenCoverTestRunnerTest {
     
     @Test
     public void checkPattern() {
+        Pattern bogusPattern = Pattern.compile("bogus");
         assemblies.add("one");
-        openCoverCoverageRunner.setTestProjectPattern("bogus");
+        openCoverCoverageRunner.setTestProjectPattern(bogusPattern);
         openCoverCoverageRunner.execute();
         VsTestRunnerCommandBuilder vsTestRunner=vsTestRunnerCommandBuilderMock.getMock();
-        verify(vsTestRunner,times(1)).setTestProjectPattern("bogus"); 
+        verify(vsTestRunner,times(1)).setTestProjectPattern(bogusPattern); 
     }
 }

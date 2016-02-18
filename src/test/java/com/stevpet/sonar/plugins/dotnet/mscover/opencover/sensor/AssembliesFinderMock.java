@@ -28,6 +28,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
@@ -37,6 +38,7 @@ public class AssembliesFinderMock extends GenericClassMock<AssembliesFinder> {
 
     public AssembliesFinderMock() {
         super(AssembliesFinder.class);
+        when(instance.setTestProjectPattern(any(Pattern.class))).thenReturn(instance);
     }
 
     public void onFindUnitTestAssembliesDir(String assembliesPath) {

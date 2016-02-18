@@ -25,6 +25,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 
@@ -48,7 +49,7 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
     private List<String> assemblies;
     protected MsCoverConfiguration propertiesHelper;
 
-    private String testProjectPattern;
+    private Pattern testProjectPattern;
 
     public AbstractAssembliesFinder(MsCoverConfiguration propertiesHelper) {
         this.propertiesHelper=propertiesHelper;
@@ -179,8 +180,8 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
         this.inclusionMatchers=WildcardPattern.create(patterns);         
     }
     
-     public AssembliesFinder setTestProjectPattern(@Nonnull String pattern) {
-         this.testProjectPattern = pattern;
+     public AssembliesFinder setTestProjectPattern(@Nonnull Pattern pattern) {
+        this.testProjectPattern=pattern;
         return this;
     }
 

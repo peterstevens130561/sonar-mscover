@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.testrunner;
 
 import java.io.File;
+import java.util.regex.Pattern;
 
 import org.sonar.api.BatchExtension;
 
@@ -17,4 +18,9 @@ public interface TestRunner extends BatchExtension {
      * sets the file which holds the coverage data
      */
 	void setCoverageFile(File coverageFile);
+	/**
+	 * unit test pattern
+	 * @param pattern
+	 */
+    void setTestProjectPattern(Pattern pattern);
 }

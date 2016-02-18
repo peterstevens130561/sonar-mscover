@@ -23,6 +23,7 @@
 package com.stevpet.sonar.plugins.dotnet.unittests;
 
 import java.io.File;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -147,7 +148,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
             coverageFile = new File(fileSystem.workDir(), "coverage.xml");
             testRunner.setCoverageFile(coverageFile);
             testRunner.onlyReportAssembliesOfTheSolution();
-            String pattern = getTestProjectPattern();
+            Pattern pattern = getTestProjectPattern();
             testRunner.setTestProjectPattern(pattern);
             testRunner.execute();
 
@@ -174,10 +175,10 @@ public class OpenCoverUnitTestSensor implements Sensor {
         }
     }
 
-    private String getTestProjectPattern() {
-        String pattern = configuration.getUnitTestPattern();
-        if (StringUtils.isEmpty(pattern)) {
-            pattern = ".*";
+    private Pattern getTestProjectPattern() {
+        Pattern pattern = configuration.getUnitTestPattern();
+        if (pattern==null) {
+            pattern = Pattern.compile(".*");
         }
         return pattern;
     }

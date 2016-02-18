@@ -25,6 +25,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover;
 import java.io.File;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration.RunMode;
 
@@ -94,7 +95,7 @@ public interface MsCoverConfiguration {
 
 
 
-    String getUnitTestPattern();
+    Pattern getUnitTestPattern();
 
 
 }
