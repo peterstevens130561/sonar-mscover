@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
 import java.io.File;
+import java.util.regex.Pattern;
 
 public interface IntegrationTestsConfiguration {
 
@@ -43,5 +44,12 @@ public interface IntegrationTestsConfiguration {
 	 * @return
 	 */
 	String getTestCaseFilter();
+
+	/**
+	 * the regularexpression pattern for integration test projects
+	 * @return
+	 */
+
+    Pattern getProjectPattern();
 
 }

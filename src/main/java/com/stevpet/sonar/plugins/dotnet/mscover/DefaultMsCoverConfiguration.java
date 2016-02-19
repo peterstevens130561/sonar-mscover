@@ -55,6 +55,7 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
         NULL // NO_UCD (unused code)
     }
     private final Settings settings;
+    private SettingsHelper settingsHelper;
     private static final String MSCOVER = "sonar.mscover.";
 
     public static final String MSCOVER_UNIT_COVERAGEXML_PATH=MSCOVER + "unittests.coveragexml";
@@ -79,9 +80,24 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
     
     private static final String MSCOVER_UNITTEST_PATTERN = MSCOVER + ".unittests.projectpattern";
     
+    /**
+     * constructor for IOC
+     * @param settings
+     */
     @SuppressWarnings("ucd")
     public DefaultMsCoverConfiguration(Settings settings) {
         this.settings = settings;
+        this.settingsHelper=new SettingsHelper(settings);
+    }
+    
+    /**
+     * Testing purposes
+     * @param settings
+     * @param settingsHelper
+     */
+    public DefaultMsCoverConfiguration(Settings settings, SettingsHelper settingsHelper) {
+        this.settings=settings;
+        this.settingsHelper = settingsHelper;
     }
     
     /**
@@ -324,19 +340,8 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
     }
 
     @Override
-    public Pattern getUnitTestPattern() {
-        String value =settings.getString(MSCOVER_UNITTEST_PATTERN);
-        if(StringUtils.isEmpty(value)) {
-            return null ;
-        }
-        Pattern pattern = null ;
-        try {
-            pattern=Pattern.compile(value);
-        } catch (PatternSyntaxException e) {
-            String msg = "Property value is not a valid regular expression:" + MSCOVER_UNITTEST_PATTERN + "=" + value;
-            LOG.error(msg);
-            throw new SonarException(msg,e);
-        }
+    public Pattern getTestProjectPattern() {
+        Pattern pattern = settingsHelper.getPattern(MSCOVER_UNITTEST_PATTERN);
         return pattern;
         
     }

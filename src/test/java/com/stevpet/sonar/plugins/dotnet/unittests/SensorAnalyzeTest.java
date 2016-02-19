@@ -86,7 +86,7 @@ public class SensorAnalyzeTest {
      * see what happens if no unit test pattern is defined
      */
     public void runUnitTestsNoPattern() {
-        when(configuration.getUnitTestPattern()).thenReturn(null);
+        when(configuration.getTestProjectPattern()).thenReturn(null);
         givenIsFirstProject();
         givenIsUnitTestProject();
         sensor.analyse(module, sensorContext);
@@ -98,7 +98,7 @@ public class SensorAnalyzeTest {
 
     public void runUnitTestsWithPattern() {
         Pattern pattern = Pattern.compile("SpecFlow");
-        when(configuration.getUnitTestPattern()).thenReturn(pattern);
+        when(configuration.getTestProjectPattern()).thenReturn(pattern);
         givenIsFirstProject();
         givenIsUnitTestProject();
         sensor.analyse(module, sensorContext);

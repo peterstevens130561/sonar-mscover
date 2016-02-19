@@ -2,16 +2,20 @@ package com.stevpet.sonar.plugins.dotnet.mscover;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.util.regex.Pattern;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
+import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.Mode;
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.Tool;
@@ -159,4 +163,30 @@ public class DefaultIntegrationTestsConfigurationTests {
 		assertTrue("As module is not root, expect READ mode",configuration.matches(Tool.OPENCOVER, Mode.READ));
 		
 	}
+	
+	@Test
+	public void illegalPattern() {
+	    when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_PATTERN)).thenReturn("[illegal");
+	    try {
+	        configuration.getProjectPattern();
+	    } catch(SonarException e) {
+
+	        return;
+	    }
+	    fail("expected SonarException");
+	}
+	
+	   @Test
+	    public void noPattern() {
+	        when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_PATTERN)).thenReturn(null);
+	        Pattern p=    configuration.getProjectPattern();
+	        assertNull("expect null as no pattern is specified",p);
+	    }
+	   
+       @Test
+       public void validPattern() {
+           when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_PATTERN)).thenReturn(".*SpecFlowTests.*");
+           Pattern p=    configuration.getProjectPattern();
+           assertEquals("expect valid pattern is specified",".*SpecFlowTests.*",p.toString());
+       }
 }

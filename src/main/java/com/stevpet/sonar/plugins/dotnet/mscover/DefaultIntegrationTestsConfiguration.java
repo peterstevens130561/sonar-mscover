@@ -1,12 +1,15 @@
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
 import java.io.File;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
+import org.sonar.api.utils.SonarException;
 
 import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.Mode;
@@ -117,4 +120,21 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
 
 		return settings.getString(MSCOVER_INTEGRATION_TESTCASEFILTER);
 	}
+
+    @Override
+    public Pattern getProjectPattern() {
+        String value =settings.getString(MSCOVER_INTEGRATION_PROJECTPATTERN);
+        if(StringUtils.isEmpty(value)) {
+            return null ;
+        }
+        Pattern pattern = null ;
+        try {
+            pattern=Pattern.compile(value);
+        } catch (PatternSyntaxException e) {
+            String msg = "Property value is not a valid regular expression:" + MSCOVER_INTEGRATION_PROJECTPATTERN + "=" + value;
+            LOG.error(msg);
+            throw new SonarException(msg,e);
+        }
+        return pattern;
+    }
 }

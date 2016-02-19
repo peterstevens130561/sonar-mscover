@@ -95,7 +95,7 @@ public interface MsCoverConfiguration {
 
 
 
-    Pattern getUnitTestPattern();
+    Pattern getTestProjectPattern();
 
 
 }

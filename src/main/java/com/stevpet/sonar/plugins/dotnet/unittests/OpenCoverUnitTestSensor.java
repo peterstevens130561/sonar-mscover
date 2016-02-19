@@ -176,7 +176,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
     }
 
     private Pattern getTestProjectPattern() {
-        Pattern pattern = configuration.getUnitTestPattern();
+        Pattern pattern = configuration.getTestProjectPattern();
         if (pattern==null) {
             pattern = Pattern.compile(".*");
         }
