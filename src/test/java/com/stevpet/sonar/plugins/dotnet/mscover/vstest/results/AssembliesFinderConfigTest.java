@@ -30,6 +30,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -86,6 +87,7 @@ public class AssembliesFinderConfigTest {
     @Test
     public void NoSpecificSettingsAssemblyOnDefaultPlaceIsUnitTest_AssemblyFound() {
         List<VisualStudioProject> projects = givenUnitTestProject();
+        visualStudioProjectMock.givenAssemblyName("somename");
         String path="solutiondir\\unittest.dll";
         File fut = givenArtifact(buildConfiguration, buildPlatform, path);
         List<String> assemblies=assembliesFinder.findUnitTestAssembliesFromConfig(null, projects);
@@ -106,8 +108,51 @@ public class AssembliesFinderConfigTest {
     }
     
     @Test
+    public void notFoundinArtifactButInConfigPlatform_DoesNotMatchPatter() {
+        List<VisualStudioProject> projects = givenUnitTestProject();
+
+        visualStudioProjectMock.givenDirectory(testResourceDir);
+        visualStudioProjectMock.givenAssemblyName("somename");
+        String bogusPath="solutiondir\\bindebug.dll";
+        String expectedPath="\\bin\\Debug\\bindebug.dll";
+        givenArtifact(buildConfiguration, buildPlatform, bogusPath);
+        assembliesFinder.setTestProjectPattern(Pattern.compile("doesnotmatch"));
+        List<String> assemblies=assembliesFinder.findUnitTestAssembliesFromConfig(null, projects);
+        assertEquals("should not have any assemblies, as the pattern does not match the assembly",0,assemblies.size()) ;   
+    }
+    
+    @Test
+    public void notFoundinArtifactButInConfigPlatform_DoesNotMatchFullyPatter() {
+        List<VisualStudioProject> projects = givenUnitTestProject();
+
+        visualStudioProjectMock.givenDirectory(testResourceDir);
+        visualStudioProjectMock.givenAssemblyName("somename");
+        String bogusPath="solutiondir\\bindebug.dll";
+        String expectedPath="\\bin\\Debug\\bindebug.dll";
+        givenArtifact(buildConfiguration, buildPlatform, bogusPath);
+        assembliesFinder.setTestProjectPattern(Pattern.compile("name"));
+        List<String> assemblies=assembliesFinder.findUnitTestAssembliesFromConfig(null, projects);
+        assertEquals("should not have any assemblies, as the pattern does not match the assembly completely",0,assemblies.size()) ;   
+    }
+    
+    @Test
+    public void notFoundinArtifactButInConfigPlatform_MatchFullyPattern() {
+        List<VisualStudioProject> projects = givenUnitTestProject();
+
+        visualStudioProjectMock.givenDirectory(testResourceDir);
+        visualStudioProjectMock.givenAssemblyName("somename");
+        String bogusPath="solutiondir\\bindebug.dll";
+        String expectedPath="\\bin\\Debug\\bindebug.dll";
+        givenArtifact(buildConfiguration, buildPlatform, bogusPath);
+        assembliesFinder.setTestProjectPattern(Pattern.compile(".*name.*"));
+        List<String> assemblies=assembliesFinder.findUnitTestAssembliesFromConfig(null, projects);
+        assertEquals("should have one assembly, as the pattern does matches the assembly completely",1,assemblies.size()) ;   
+    }
+    
+    @Test
     public void notFindInArtifactButInHintPath_AssemblyFound() {
         List<VisualStudioProject> projects = givenUnitTestProject();
+        visualStudioProjectMock.givenAssemblyName("somename");
         String hintPath=new File(testResourceDir,"hintpath").getAbsolutePath().replaceAll("\\\\","/");
         msCoverPropertiesMock.givenUnitTestHintPath(hintPath);
         String bogusPath="solutiondir\\hintpath.dll";
