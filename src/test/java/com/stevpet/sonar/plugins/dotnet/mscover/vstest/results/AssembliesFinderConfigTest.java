@@ -97,6 +97,7 @@ public class AssembliesFinderConfigTest {
         List<VisualStudioProject> projects = givenUnitTestProject();
 
         visualStudioProjectMock.givenDirectory(testResourceDir);
+        visualStudioProjectMock.givenAssemblyName("somename");
         String bogusPath="solutiondir\\bindebug.dll";
         String expectedPath="\\bin\\Debug\\bindebug.dll";
         givenArtifact(buildConfiguration, buildPlatform, bogusPath);
@@ -125,7 +126,7 @@ public class AssembliesFinderConfigTest {
         List<VisualStudioProject> projects = new ArrayList<VisualStudioProject>();
         projects.add(visualStudioProjectMock.getMock());
         visualStudioProjectMock.givenIsUnitTest(true);
-
+        visualStudioProjectMock.givenArtifactName("somename");
         msCoverPropertiesMock.givenRequiredBuildPlatform(buildPlatform);
         msCoverPropertiesMock.givenRequiredBuildConfiguration(buildConfiguration);
         return projects;

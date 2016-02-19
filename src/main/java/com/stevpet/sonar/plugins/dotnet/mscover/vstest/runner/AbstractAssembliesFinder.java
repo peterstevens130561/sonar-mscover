@@ -25,6 +25,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
@@ -35,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.WildcardPattern;
 
+import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.NoAssemblyDefinedMsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.SolutionHasNoProjectsSonarException;
@@ -49,7 +51,7 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
     private List<String> assemblies;
     protected MsCoverConfiguration propertiesHelper;
 
-    private Pattern testProjectPattern;
+    private Pattern testProjectPattern = Pattern.compile(".*");
 
     public AbstractAssembliesFinder(MsCoverConfiguration propertiesHelper) {
         this.propertiesHelper=propertiesHelper;
@@ -98,11 +100,18 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
         }
         assemblies=new ArrayList<String>();
         for(VisualStudioProject project: projects) {
-            if(project.isUnitTest()) {
+            if(project.isUnitTest() && matchesPattern(project)) {
                 addUnitTestAssembly(project);
             }
         }
         return assemblies;       
+    }
+
+    private boolean matchesPattern(VisualStudioProject project) {
+        Preconditions.checkState(testProjectPattern!=null,"testProjectPattern");
+        String name=project.getAssemblyName();
+        Matcher matcher=testProjectPattern.matcher(name);
+        return matcher.matches();
     }
 
     private List<String> fromMSCoverProperty(File solutionDirectory) {
