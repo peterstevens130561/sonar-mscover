@@ -27,9 +27,11 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
 	private Settings settings;
 	private FileSystem fileSystem;
 	
+    private SettingsHelper settingsHelper;
     public DefaultIntegrationTestsConfiguration(Settings settings,FileSystem fileSystem) {
 		this.settings = settings;
 		this.fileSystem=fileSystem;
+		this.settingsHelper=new SettingsHelper(settings);
 		
 	}
     
@@ -123,18 +125,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
 
     @Override
     public Pattern getProjectPattern() {
-        String value =settings.getString(MSCOVER_INTEGRATION_PROJECTPATTERN);
-        if(StringUtils.isEmpty(value)) {
-            return null ;
-        }
-        Pattern pattern = null ;
-        try {
-            pattern=Pattern.compile(value);
-        } catch (PatternSyntaxException e) {
-            String msg = "Property value is not a valid regular expression:" + MSCOVER_INTEGRATION_PROJECTPATTERN + "=" + value;
-            LOG.error(msg);
-            throw new SonarException(msg,e);
-        }
+        Pattern pattern = settingsHelper.getPattern(MSCOVER_INTEGRATION_PROJECTPATTERN);
         return pattern;
     }
 }
