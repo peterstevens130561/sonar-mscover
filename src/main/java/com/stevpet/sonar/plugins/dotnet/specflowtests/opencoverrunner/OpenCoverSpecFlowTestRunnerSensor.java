@@ -60,6 +60,7 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 	private final VsTestTestResultsSaver testResultsSaver;
 	private final IntegrationTestsConfiguration integrationTestsConfiguration;
 	private final FileSystem fileSystem;
+    private final IntegrationTestSensorHelper integrationTestSensorHelper;
 
 	/**
 	 * Create with all dependencies
@@ -73,15 +74,18 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 	 * @param openCoverModuleSaver
 	 * @param integrationTestsConfiguration
 	 */
+
 	public OpenCoverSpecFlowTestRunnerSensor(
 			CachedIntegrationTestRunner testRunner,
 			VsTestTestResultsSaver testResultsSaver,
 			IntegrationTestsConfiguration integrationTestsConfiguration,
-			FileSystem fileSystem) {
+			FileSystem fileSystem,
+			IntegrationTestSensorHelper integrationTestSensorHelper) {
 		this.testRunner = testRunner;
 		this.testResultsSaver = testResultsSaver;
 		this.integrationTestsConfiguration = integrationTestsConfiguration;
 		this.fileSystem=fileSystem;
+		this.integrationTestSensorHelper = integrationTestSensorHelper;
 	}
 	
 	/**
@@ -111,6 +115,7 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 		this.testResultsSaver = VsTestTestResultsSaver.create(pathResolver, fileSystem);
 		this.integrationTestsConfiguration = new DefaultIntegrationTestsConfiguration(settings, fileSystem);
 		this.fileSystem=fileSystem;
+		this.integrationTestSensorHelper=new IntegrationTestSensorHelper(microsoftWindowsEnvironment, integrationTestsConfiguration);
 	}
 
 
@@ -119,9 +124,9 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 
 	@Override
 	public boolean shouldExecuteOnProject(Project project) {
-		return project.isModule()
-				&& integrationTestsConfiguration.matches(Tool.OPENCOVER,
-						Mode.RUN);
+		return integrationTestSensorHelper.shouldExecuteOnProject(project) &&
+			 integrationTestsConfiguration.matches(Tool.OPENCOVER,
+						Mode.RUN) ;
 	}
 
 	@Override

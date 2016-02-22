@@ -27,8 +27,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSaver
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 
-public class OpenCoverSpecFlowTestSaverSensor implements
-		Sensor {
+public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 
 	private static Logger Log = LoggerFactory.getLogger(OpenCoverSpecFlowTestSaverSensor.class);
 	private CoverageReader reader;

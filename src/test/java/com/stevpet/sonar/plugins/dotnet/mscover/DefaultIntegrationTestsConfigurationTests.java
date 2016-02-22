@@ -168,7 +168,7 @@ public class DefaultIntegrationTestsConfigurationTests {
 	public void illegalPattern() {
 	    when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_PATTERN)).thenReturn("[illegal");
 	    try {
-	        configuration.getProjectPattern();
+	        configuration.getTestProjectPattern();
 	    } catch(SonarException e) {
 
 	        return;
@@ -179,14 +179,14 @@ public class DefaultIntegrationTestsConfigurationTests {
 	   @Test
 	    public void noPattern() {
 	        when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_PATTERN)).thenReturn(null);
-	        Pattern p=    configuration.getProjectPattern();
+	        Pattern p=    configuration.getTestProjectPattern();
 	        assertNull("expect null as no pattern is specified",p);
 	    }
 	   
        @Test
        public void validPattern() {
            when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_PATTERN)).thenReturn(".*SpecFlowTests.*");
-           Pattern p=    configuration.getProjectPattern();
+           Pattern p=    configuration.getTestProjectPattern();
            assertEquals("expect valid pattern is specified",".*SpecFlowTests.*",p.toString());
        }
 }

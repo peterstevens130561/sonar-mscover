@@ -50,6 +50,6 @@ public interface IntegrationTestsConfiguration {
 	 * @return
 	 */
 
-    Pattern getProjectPattern();
+    Pattern getTestProjectPattern();
 
 }

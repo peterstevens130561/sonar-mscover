@@ -124,7 +124,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
 	}
 
     @Override
-    public Pattern getProjectPattern() {
+    public Pattern getTestProjectPattern() {
         Pattern pattern = settingsHelper.getPattern(MSCOVER_INTEGRATION_PROJECTPATTERN);
         return pattern;
     }

@@ -47,10 +47,11 @@ public class OpenCoverSpecFlowTestRunnerSensorAnalyzeTest {
 	@Mock private IntegrationTestsConfiguration integrationTestsConfiguration;
 	@Mock private OpenCoverModuleSaver openCoverModuleSaver;
 	@Mock private IntegrationTestCache integrationTestCache;
+    @Mock private IntegrationTestSensorHelper i;
 	@Before
 	public void before() {
 		org.mockito.MockitoAnnotations.initMocks(this);	
-		sensor = new OpenCoverSpecFlowTestRunnerSensor(runner,testResultsSaver,integrationTestsConfiguration,fileSystem);
+		sensor = new OpenCoverSpecFlowTestRunnerSensor(runner,testResultsSaver,integrationTestsConfiguration,fileSystem,i);
 	}
 	
 	@Test

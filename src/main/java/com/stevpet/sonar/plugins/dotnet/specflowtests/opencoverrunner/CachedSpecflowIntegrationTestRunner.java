@@ -1,6 +1,8 @@
 package com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner;
 
 import java.io.File;
+import java.util.regex.Pattern;
+
 import javax.annotation.Nonnull;
 
 import org.jfree.util.Log;
@@ -134,10 +136,14 @@ public class CachedSpecflowIntegrationTestRunner implements
 		}
 		File rootDir = integrationTestConfiguration.getDirectory();
 		openCoverModuleSaver.setProject(module).setRoot(rootDir);
-
+		Pattern pattern = integrationTestConfiguration.getTestProjectPattern();
+		testRunner.setTestProjectPattern(pattern);
+		
 		testRunner.setCoverageFile(coverageFile);
+		
 		testRunner.setTestCaseFilter(integrationTestConfiguration.getTestCaseFilter());
 		testRunner.execute();
+		
 		File testResultsFile = testRunner.getTestResultsFile();
 		integrationTestCache.setHasRun(coverageFile, testResultsFile);
 		openCoverModuleSaver.splitFile(coverageFile);

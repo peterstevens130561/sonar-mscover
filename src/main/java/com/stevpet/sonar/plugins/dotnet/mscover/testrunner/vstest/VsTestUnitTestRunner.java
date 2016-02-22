@@ -116,7 +116,6 @@ public class VsTestUnitTestRunner implements TestRunner {
 
 	@Override
 	public void setCoverageFile(File coverageFile) {
-		// TODO Auto-generated method stub
 		throw new NotImplementedException("setCoverageFile");
 	}
 
