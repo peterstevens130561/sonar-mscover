@@ -50,11 +50,12 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
 			PathResolver pathResolver,
 			FileSystem fileSystem,
-			Settings settings) {
+			Settings settings,
+			IntegrationTestsConfiguration integrationTestsConfiguration) {
 		this(
 				new OpenCoverIntegrationTestCoverageReader(microsoftWindowsEnvironment, msCoverConfiguration, fileSystem),
 				new DefaultCoverageSaverFactory(microsoftWindowsEnvironment, pathResolver, fileSystem).createOpenCoverIntegrationTestCoverageSaver(), 
-				new OpenCoverModuleSaver(),new DefaultIntegrationTestsConfiguration(settings, fileSystem),
+				new OpenCoverModuleSaver(),integrationTestsConfiguration,
 				new IntegrationTestSensorHelper(microsoftWindowsEnvironment));
 	}
 

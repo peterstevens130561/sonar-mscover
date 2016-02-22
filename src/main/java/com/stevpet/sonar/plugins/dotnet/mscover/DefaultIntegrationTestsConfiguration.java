@@ -7,6 +7,7 @@ import java.util.regex.PatternSyntaxException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.utils.SonarException;
@@ -14,7 +15,7 @@ import org.sonar.api.utils.SonarException;
 import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.Mode;
 
-public class DefaultIntegrationTestsConfiguration implements IntegrationTestsConfiguration {
+public class DefaultIntegrationTestsConfiguration implements IntegrationTestsConfiguration, BatchExtension {
 	private static final Logger LOG = LoggerFactory.getLogger(DefaultIntegrationTestsConfiguration.class);
     private static final String MSCOVER = "sonar.mscover.integrationtests.";
     private static final String MSCOVER_INTEGRATION_RESULTS= MSCOVER + "dir";

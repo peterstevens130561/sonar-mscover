@@ -31,6 +31,7 @@ import org.sonar.api.Property;
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.DefaultIntegrationTestsConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.IntegrationTestCache;
@@ -70,6 +71,7 @@ public final class MsCoverPlugin extends SonarPlugin {
         		VsTestEnvironment.class,
         		DefaultMicrosoftWindowsEnvironment.class,
         		DefaultMsCoverConfiguration.class,
+        		DefaultIntegrationTestsConfiguration.class,
         		// for the unit tests
         		
                 UnitTestCache.class,     		
