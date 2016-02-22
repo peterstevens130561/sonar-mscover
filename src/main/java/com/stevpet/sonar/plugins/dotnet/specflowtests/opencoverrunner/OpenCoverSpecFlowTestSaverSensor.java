@@ -2,6 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner;
 
 
 import java.io.File;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,10 +31,11 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
 public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 
 	private static Logger Log = LoggerFactory.getLogger(OpenCoverSpecFlowTestSaverSensor.class);
-	private CoverageReader reader;
-	private CoverageSaver saver;
-	private OpenCoverModuleSaver openCoverModuleSaver;
-	private IntegrationTestsConfiguration integrationTestsConfiguration;
+	private final CoverageReader reader;
+	private final CoverageSaver saver;
+	private final OpenCoverModuleSaver openCoverModuleSaver;
+	private final IntegrationTestsConfiguration integrationTestsConfiguration;
+	private final IntegrationTestSensorHelper integrationTestSensorHelper;
 	
 	/**
 	 * Instantiate with default dependencies, from Plugin
@@ -52,8 +54,8 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 		this(
 				new OpenCoverIntegrationTestCoverageReader(microsoftWindowsEnvironment, msCoverConfiguration, fileSystem),
 				new DefaultCoverageSaverFactory(microsoftWindowsEnvironment, pathResolver, fileSystem).createOpenCoverIntegrationTestCoverageSaver(), 
-				new OpenCoverModuleSaver(), 
-				new DefaultIntegrationTestsConfiguration(settings, fileSystem));
+				new OpenCoverModuleSaver(),new DefaultIntegrationTestsConfiguration(settings, fileSystem),
+				new IntegrationTestSensorHelper(microsoftWindowsEnvironment));
 	}
 
 	
@@ -68,16 +70,19 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 			CoverageReader coverageReader,
 			CoverageSaver coverageSaver,
 			OpenCoverModuleSaver openCoverModuleSaver, 
-			IntegrationTestsConfiguration integrationTestsConfiguration) {
+			IntegrationTestsConfiguration integrationTestsConfiguration,
+			IntegrationTestSensorHelper integrationTestSensorHelper) {
 		this.reader=coverageReader;
 		this.saver=coverageSaver;
 		this.openCoverModuleSaver=openCoverModuleSaver;
 		this.integrationTestsConfiguration=integrationTestsConfiguration;
+		this.integrationTestSensorHelper=integrationTestSensorHelper;
 	}
 	
 	@Override
 	public boolean shouldExecuteOnProject(Project project) {
-		return integrationTestsConfiguration.matches(Tool.OPENCOVER,Mode.READ);
+	      Pattern pattern=integrationTestsConfiguration.getTestProjectPattern();
+	        return integrationTestSensorHelper.isSolutionWithIntegrationTestProjects(project,pattern) && integrationTestsConfiguration.matches(Tool.OPENCOVER,Mode.READ);
 	}
 
 	@Override

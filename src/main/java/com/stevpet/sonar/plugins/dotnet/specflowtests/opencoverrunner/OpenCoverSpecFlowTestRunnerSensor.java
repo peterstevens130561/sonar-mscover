@@ -23,6 +23,7 @@
 package com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner;
 
 import java.io.File;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -115,7 +116,7 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 		this.testResultsSaver = VsTestTestResultsSaver.create(pathResolver, fileSystem);
 		this.integrationTestsConfiguration = new DefaultIntegrationTestsConfiguration(settings, fileSystem);
 		this.fileSystem=fileSystem;
-		this.integrationTestSensorHelper=new IntegrationTestSensorHelper(microsoftWindowsEnvironment, integrationTestsConfiguration);
+		this.integrationTestSensorHelper=new IntegrationTestSensorHelper(microsoftWindowsEnvironment);
 	}
 
 
@@ -124,7 +125,8 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 
 	@Override
 	public boolean shouldExecuteOnProject(Project project) {
-		return integrationTestSensorHelper.shouldExecuteOnProject(project) &&
+		Pattern pattern=integrationTestsConfiguration.getTestProjectPattern();
+        return integrationTestSensorHelper.isSolutionWithIntegrationTestProjects(project,pattern) &&
 			 integrationTestsConfiguration.matches(Tool.OPENCOVER,
 						Mode.RUN) ;
 	}
