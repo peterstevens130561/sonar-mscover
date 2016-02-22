@@ -99,6 +99,7 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 	 * @param vsTestEnvironment
 	 * @param settings
 	 * @param pathResolver
+	 * @param integrationTestsConfiguration
 	 */
 	public OpenCoverSpecFlowTestRunnerSensor(
 			IntegrationTestCache integrationTestCache, 
