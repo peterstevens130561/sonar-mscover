@@ -44,16 +44,11 @@ public class SensorAnalyzeTest {
     private OpenCoverUnitTestSensor sensor;
     @Mock private Project module;
     @Mock private SensorContext sensorContext;
-    @Mock
-    private TestResultsBuilder testResultsBuilder;
-    @Mock
-    private VsTestTestResultsSaver testResultsSaver;
-    @Mock
-    private CoverageReader coverageReader;
-    @Mock
-    private CoverageSaver coverageSaver;
-    @Mock
-    private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
+    @Mock private TestResultsBuilder testResultsBuilder;
+    @Mock private VsTestTestResultsSaver testResultsSaver;
+    @Mock private CoverageReader coverageReader;
+    @Mock private CoverageSaver coverageSaver;
+    @Mock private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 
     private File testResultsFile = new File("testResults");
     private File coverageFile = new File("workdir/coverage.xml");
