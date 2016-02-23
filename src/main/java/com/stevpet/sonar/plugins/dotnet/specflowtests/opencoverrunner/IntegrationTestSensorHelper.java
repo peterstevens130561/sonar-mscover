@@ -11,9 +11,7 @@ public class IntegrationTestSensorHelper {
 
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private IntegrationTestsConfiguration integrationTestsConfiguration;
-    public IntegrationTestSensorHelper(MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
-        this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
-    }
+
 
     public IntegrationTestSensorHelper(
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,

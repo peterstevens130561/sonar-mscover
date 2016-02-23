@@ -118,7 +118,7 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 		this.testResultsSaver = VsTestTestResultsSaver.create(pathResolver, fileSystem);
 		this.integrationTestsConfiguration = integrationTestsConfiguration;
 		this.fileSystem=fileSystem;
-		this.integrationTestSensorHelper=new IntegrationTestSensorHelper(microsoftWindowsEnvironment);
+		this.integrationTestSensorHelper=new IntegrationTestSensorHelper(microsoftWindowsEnvironment,integrationTestsConfiguration);
 	}
 
 

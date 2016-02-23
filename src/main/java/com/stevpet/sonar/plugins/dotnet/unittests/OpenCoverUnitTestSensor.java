@@ -143,12 +143,13 @@ public class OpenCoverUnitTestSensor implements Sensor {
         File testResultsFile;
         File coverageFile;
         SonarCoverage sonarCoverage;
+        Pattern pattern = getTestProjectPattern();
         Log.debug("project {}", project.getName());
         if (!cache.gatHasRun()) {
             coverageFile = new File(fileSystem.workDir(), "coverage.xml");
             testRunner.setCoverageFile(coverageFile);
             testRunner.onlyReportAssembliesOfTheSolution();
-            Pattern pattern = getTestProjectPattern();
+
             testRunner.setTestProjectPattern(pattern);
             testRunner.execute();
 
@@ -167,7 +168,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
         coverageSaver.save(context, sonarCoverage);
 
         if (testResultsFile != null
-                && microsoftWindowsEnvironment.isUnitTestProject(project)) {
+                && microsoftWindowsEnvironment.isUnitTestProject(project,pattern)) {
             ProjectUnitTestResults testResults = testResultsBuilder.parse(
                     testResultsFile, coverageFile);
             Log.debug("test results read {}", testResults.getTests());
