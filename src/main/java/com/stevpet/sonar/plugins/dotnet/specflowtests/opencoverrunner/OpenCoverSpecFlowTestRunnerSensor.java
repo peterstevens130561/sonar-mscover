@@ -127,8 +127,8 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 
 	@Override
 	public boolean shouldExecuteOnProject(Project project) {
-		Pattern pattern=integrationTestsConfiguration.getTestProjectPattern();
-        return integrationTestSensorHelper.isSolutionWithIntegrationTestProjects(project,pattern) &&
+
+        return integrationTestSensorHelper.isSolutionWithIntegrationTestProjects(project) &&
 			 integrationTestsConfiguration.matches(Tool.OPENCOVER,
 						Mode.RUN) ;
 	}

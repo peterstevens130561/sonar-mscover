@@ -25,33 +25,36 @@ public class IntegrationTestSensorHelperTest {
     private Pattern pattern = Pattern.compile(".*IntegrationTest.*");
     @Before public void before() {
         org.mockito.MockitoAnnotations.initMocks(this);
-        integrationTestSensorHelper = new IntegrationTestSensorHelper(microsoftWindowsEnvironment);
+        integrationTestSensorHelper = new IntegrationTestSensorHelper(microsoftWindowsEnvironment,integrationTestsConfiguration);
     }
     
     @Test
     public void noPattern_False() {
         when(integrationTestsConfiguration.getTestProjectPattern()).thenReturn(null);
-        assertFalse("no pattern, should not execute",integrationTestSensorHelper.isSolutionWithIntegrationTestProjects(project,null));     
+        assertFalse("no pattern, should not execute",integrationTestSensorHelper.isSolutionWithIntegrationTestProjects(project));     
     }
     
     @Test
     public void pattern_root_False() {  
         when(project.isModule()).thenReturn(false);
-        assertFalse("pattern defined but root should not execute",integrationTestSensorHelper.isSolutionWithIntegrationTestProjects(project,pattern));
+        when(integrationTestsConfiguration.getTestProjectPattern()).thenReturn(pattern);
+        assertFalse("pattern defined but root should not execute",integrationTestSensorHelper.isSolutionWithIntegrationTestProjects(project));
     }
     
     @Test
     public void pattern_child_trigger() { 
         when(project.isModule()).thenReturn(true);
+        when(integrationTestsConfiguration.getTestProjectPattern()).thenReturn(pattern);
         when(microsoftWindowsEnvironment.hasTestProjects(any(Pattern.class))).thenReturn(true);
-        assertTrue("pattern and module, testprojects",integrationTestSensorHelper.isSolutionWithIntegrationTestProjects(project,pattern));
+        assertTrue("pattern and module, testprojects",integrationTestSensorHelper.isSolutionWithIntegrationTestProjects(project));
     }
     
     @Test
     public void pattern_child_noTestProjects() {
         when(project.isModule()).thenReturn(true);
         when(microsoftWindowsEnvironment.hasTestProjects(any(Pattern.class))).thenReturn(false);
-        assertFalse("pattern and module, no testprojects",integrationTestSensorHelper.isSolutionWithIntegrationTestProjects(project,pattern));
+        when(integrationTestsConfiguration.getTestProjectPattern()).thenReturn(pattern);
+        assertFalse("pattern and module, no testprojects",integrationTestSensorHelper.isSolutionWithIntegrationTestProjects(project));
     }
     
     

@@ -10,11 +10,20 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
 public class IntegrationTestSensorHelper {
 
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
+    private IntegrationTestsConfiguration integrationTestsConfiguration;
     public IntegrationTestSensorHelper(MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
     }
 
-    public boolean isSolutionWithIntegrationTestProjects(Project project,Pattern pattern) {
+    public IntegrationTestSensorHelper(
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
+            IntegrationTestsConfiguration integrationTestsConfiguration) {
+        this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
+        this.integrationTestsConfiguration=integrationTestsConfiguration;
+    }
+
+    public boolean isSolutionWithIntegrationTestProjects(Project project) {
+        Pattern pattern=integrationTestsConfiguration.getTestProjectPattern();
         return project.isModule() && hasTestProjects(pattern) ;
     }
 

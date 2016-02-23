@@ -56,7 +56,7 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 				new OpenCoverIntegrationTestCoverageReader(microsoftWindowsEnvironment, msCoverConfiguration, fileSystem),
 				new DefaultCoverageSaverFactory(microsoftWindowsEnvironment, pathResolver, fileSystem).createOpenCoverIntegrationTestCoverageSaver(), 
 				new OpenCoverModuleSaver(),integrationTestsConfiguration,
-				new IntegrationTestSensorHelper(microsoftWindowsEnvironment));
+				new IntegrationTestSensorHelper(microsoftWindowsEnvironment,integrationTestsConfiguration));
 	}
 
 	
@@ -82,8 +82,7 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 	
 	@Override
 	public boolean shouldExecuteOnProject(Project project) {
-	      Pattern pattern=integrationTestsConfiguration.getTestProjectPattern();
-	        return integrationTestSensorHelper.isSolutionWithIntegrationTestProjects(project,pattern) && integrationTestsConfiguration.matches(Tool.OPENCOVER,Mode.READ);
+	        return integrationTestSensorHelper.isSolutionWithIntegrationTestProjects(project) && integrationTestsConfiguration.matches(Tool.OPENCOVER,Mode.READ);
 	}
 
 	@Override
