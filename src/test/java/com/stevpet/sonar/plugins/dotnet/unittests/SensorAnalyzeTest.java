@@ -38,17 +38,12 @@ public class SensorAnalyzeTest {
 
     @Mock
     private FileSystem fileSystem;
-    @Mock
-    private MsCoverConfiguration configuration;
-    @Mock
-    private UnitTestCache cache;
-    @Mock
-    private OpenCoverTestRunner runner;
+    @Mock private MsCoverConfiguration configuration;
+    @Mock private UnitTestCache cache;
+    @Mock private OpenCoverTestRunner runner;
     private OpenCoverUnitTestSensor sensor;
-    @Mock
-    private Project module;
-    @Mock
-    private SensorContext sensorContext;
+    @Mock private Project module;
+    @Mock private SensorContext sensorContext;
     @Mock
     private TestResultsBuilder testResultsBuilder;
     @Mock
@@ -108,7 +103,8 @@ public class SensorAnalyzeTest {
 
     @Test
     public void initialRunOnUnitTestProject() {
-
+        Pattern pattern = Pattern.compile("SpecFlow");
+        when(configuration.getTestProjectPattern()).thenReturn(pattern);
         givenIsFirstProject();
         givenIsUnitTestProject();
         sensor.analyse(module, sensorContext);
@@ -175,7 +171,7 @@ public class SensorAnalyzeTest {
     }
 
     private void givenIsUnitTestProject() {
-        when(microsoftWindowsEnvironment.isUnitTestProject(module)).thenReturn(
+        when(microsoftWindowsEnvironment.isUnitTestProject(eq(module),any(Pattern.class))).thenReturn(
                 true);
     }
 
