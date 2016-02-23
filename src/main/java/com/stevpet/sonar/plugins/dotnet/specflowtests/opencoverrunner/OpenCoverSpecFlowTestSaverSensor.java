@@ -82,7 +82,7 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 	
 	@Override
 	public boolean shouldExecuteOnProject(Project project) {
-	        return integrationTestSensorHelper.isSolutionWithIntegrationTestProjects(project) && integrationTestsConfiguration.matches(Tool.OPENCOVER,Mode.READ);
+	        return project.isModule() && integrationTestsConfiguration.matches(Tool.OPENCOVER,Mode.READ);
 	}
 
 	@Override
