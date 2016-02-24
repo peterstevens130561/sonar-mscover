@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
+import org.sonar.api.resources.Project;
 import org.sonar.api.utils.SonarException;
 
 import com.google.common.base.Preconditions;
@@ -45,6 +46,8 @@ public class CachedSpecflowIntegrationTestRunner implements
 	private File coverageFile;
 	private ProjectUnitTestResults testResults;
 	private IntegrationTestsConfiguration integrationTestConfiguration;
+    private String projectName;
+    private Pattern pattern;
 
 	/**
 	 * All of the dependencies of the runner
@@ -136,7 +139,7 @@ public class CachedSpecflowIntegrationTestRunner implements
 		}
 		File rootDir = integrationTestConfiguration.getDirectory();
 		openCoverModuleSaver.setProject(module).setRoot(rootDir);
-		Pattern pattern = integrationTestConfiguration.getTestProjectPattern();
+        Pattern pattern=Pattern.compile(".*" + projectName + ".*");
 		testRunner.setTestProjectPattern(pattern);
 		
 		testRunner.setCoverageFile(coverageFile);
@@ -158,9 +161,16 @@ public class CachedSpecflowIntegrationTestRunner implements
 		integrationTestCache.setTestResults(testResults);
 	}
 
+
 	@Override
 	public ProjectUnitTestResults getTestResults() {
 		return integrationTestCache.getTestResults();
 	}
+
+    @Override
+    public CachedIntegrationTestRunner setProjectName(String name) {
+        this.projectName=name;
+        return this;
+    }
 
 }

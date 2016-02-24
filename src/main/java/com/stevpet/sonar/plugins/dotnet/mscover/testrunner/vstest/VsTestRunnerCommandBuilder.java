@@ -19,7 +19,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestConfigFinder;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 
-public  class VsTestRunnerCommandBuilder implements BatchExtension {
+public  class VsTestRunnerCommandBuilder {
 
     private MsCoverConfiguration propertiesHelper;
     private List<String> unitTestAssembliesPath;

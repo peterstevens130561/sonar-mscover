@@ -2,6 +2,8 @@ package com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner;
 
 import java.io.File;
 
+import org.sonar.api.resources.Project;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 
 public interface CachedIntegrationTestRunner {
@@ -19,4 +21,6 @@ public interface CachedIntegrationTestRunner {
 	ProjectUnitTestResults getTestResults();
 
 	void execute();
+
+	CachedIntegrationTestRunner setProjectName(String name);
 }

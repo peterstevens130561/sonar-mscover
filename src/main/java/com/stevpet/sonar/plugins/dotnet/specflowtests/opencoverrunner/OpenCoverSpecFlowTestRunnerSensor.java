@@ -127,8 +127,8 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 
 	@Override
 	public boolean shouldExecuteOnProject(Project project) {
-
-        return integrationTestSensorHelper.isSolutionWithIntegrationTestProjects(project) &&
+        Pattern pattern=integrationTestsConfiguration.getTestProjectPattern();
+        return project.isModule() && pattern!=null && pattern.matcher(project.getName()).matches() &&
 			 integrationTestsConfiguration.matches(Tool.OPENCOVER,
 						Mode.RUN) ;
 	}
@@ -136,8 +136,8 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 	@Override
 	public void analyse(Project module, SensorContext context) {
 		File coverageFile = new File(fileSystem.workDir(),"coverage.xml");
-		testRunner.setCoverageFile(coverageFile)
-		.setModule(module.getName());
+		String projectName = module.getName();
+		testRunner.setCoverageFile(coverageFile).setProjectName(projectName).setModule(module.getName());
 		
 		testRunner.execute();
 

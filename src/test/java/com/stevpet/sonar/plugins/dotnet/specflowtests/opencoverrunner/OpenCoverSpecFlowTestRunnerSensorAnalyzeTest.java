@@ -65,6 +65,7 @@ public class OpenCoverSpecFlowTestRunnerSensorAnalyzeTest {
 		when(module.getName()).thenReturn(projectName);
 		when(runner.setCoverageFile(any(File.class))).thenReturn(runner);
 		when(runner.setCoverageRoot(any(File.class))).thenReturn(runner);
+		when(runner.setProjectName(projectName)).thenReturn(runner);
 		sensor.analyse(module, sensorContext);
 		
 		
