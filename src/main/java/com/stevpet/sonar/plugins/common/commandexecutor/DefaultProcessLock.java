@@ -85,4 +85,10 @@ public class DefaultProcessLock implements BatchExtension, ProcessLock {
         }
         LOG.debug("Released processlock on " + lockFile.getAbsolutePath());
     }
+    
+    protected void finalize() throws IOException {
+        if(lock !=null) {
+            lock.release();
+        }
+    }
 }

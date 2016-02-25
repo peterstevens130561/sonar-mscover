@@ -82,7 +82,7 @@ public  class VsTestRunnerCommandBuilder {
     }
 
     private void findAssemblies() {
-        Preconditions.checkNotNull(testProjectPattern,"TestProjectPattern not set");
+      Preconditions.checkNotNull(testProjectPattern,"TestProjectPattern not set");
         unitTestAssembliesPath = assembliesFinder.setTestProjectPattern(testProjectPattern).
                 findUnitTestAssembliesFromConfig(getSolutionDirectory(),
                         microsoftWindowsEnvironment.getCurrentSolution()

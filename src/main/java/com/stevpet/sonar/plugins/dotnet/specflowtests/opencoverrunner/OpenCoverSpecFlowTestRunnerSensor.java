@@ -143,5 +143,8 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 
 		ProjectUnitTestResults testResults = testRunner.getTestResults();
 		testResultsSaver.save(context, testResults);
+		if( coverageFile.exists()) {
+		    coverageFile.delete();
+		}
 	}
 }

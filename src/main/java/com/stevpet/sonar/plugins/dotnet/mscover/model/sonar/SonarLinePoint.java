@@ -36,11 +36,18 @@ public class SonarLinePoint extends BaseCoverageLinePoint{
     }
     
 
+    @Override 
+    public int getCovered() {
+        return covered>0?1:0;
+    }
+    
     @Override
     public void merge(CoveragePoint source) {
         SonarLinePoint other = (SonarLinePoint)source;
         Preconditions.checkArgument(other.line == this.line,"line differ: other.line=" + other.line + " this.line" + this.line);
-        this.covered += other.covered;
+        if(other.covered > 0 ) {
+            this.covered=1;
+        }
         
     }
 }

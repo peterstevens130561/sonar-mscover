@@ -31,11 +31,12 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
 public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 
 	private static Logger Log = LoggerFactory.getLogger(OpenCoverSpecFlowTestSaverSensor.class);
-	private final CoverageReader reader;
+	private final OpenCoverIntegrationTestCoverageReader reader;
 	private final CoverageSaver saver;
 	private final OpenCoverModuleSaver openCoverModuleSaver;
 	private final IntegrationTestsConfiguration integrationTestsConfiguration;
 	private final IntegrationTestSensorHelper integrationTestSensorHelper;
+    private MsCoverConfiguration msCoverConfiguration;
 	
 	/**
 	 * Instantiate with default dependencies, from Plugin
@@ -56,7 +57,8 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 				new OpenCoverIntegrationTestCoverageReader(microsoftWindowsEnvironment, msCoverConfiguration, fileSystem),
 				new DefaultCoverageSaverFactory(microsoftWindowsEnvironment, pathResolver, fileSystem).createOpenCoverIntegrationTestCoverageSaver(), 
 				new OpenCoverModuleSaver(),integrationTestsConfiguration,
-				new IntegrationTestSensorHelper(microsoftWindowsEnvironment,integrationTestsConfiguration));
+				new IntegrationTestSensorHelper(microsoftWindowsEnvironment,integrationTestsConfiguration),msCoverConfiguration);
+		        
 	}
 
 	
@@ -66,18 +68,20 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 	 * @param coverageSaver
 	 * @param openCoverModuleSaver
 	 * @param integrationTestsConfiguration
+	 * @param msCoverConfiguration 
 	 */
 	public OpenCoverSpecFlowTestSaverSensor(
-			CoverageReader coverageReader,
+			OpenCoverIntegrationTestCoverageReader coverageReader,
 			CoverageSaver coverageSaver,
 			OpenCoverModuleSaver openCoverModuleSaver, 
 			IntegrationTestsConfiguration integrationTestsConfiguration,
-			IntegrationTestSensorHelper integrationTestSensorHelper) {
+			IntegrationTestSensorHelper integrationTestSensorHelper, MsCoverConfiguration msCoverConfiguration) {
 		this.reader=coverageReader;
 		this.saver=coverageSaver;
 		this.openCoverModuleSaver=openCoverModuleSaver;
 		this.integrationTestsConfiguration=integrationTestsConfiguration;
 		this.integrationTestSensorHelper=integrationTestSensorHelper;
+		this.msCoverConfiguration=msCoverConfiguration;
 	}
 	
 	@Override
@@ -96,6 +100,7 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
         	return;
         }
         SonarCoverage sonarCoverage = new SonarCoverage();
+        reader.setMsCoverConfiguration(msCoverConfiguration);
         reader.read(sonarCoverage,artifactDir);
         saver.save(context,sonarCoverage);
     } 

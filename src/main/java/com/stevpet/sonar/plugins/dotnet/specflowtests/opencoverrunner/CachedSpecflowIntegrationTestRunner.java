@@ -135,11 +135,11 @@ public class CachedSpecflowIntegrationTestRunner implements
 		Preconditions.checkNotNull(module,"module not set");
 		Preconditions.checkNotNull(coverageFile,"coverage file not set");
 		if (integrationTestCache.gatHasRun()) {
-			return;
+			//return;
 		}
 		File rootDir = integrationTestConfiguration.getDirectory();
 		openCoverModuleSaver.setProject(module).setRoot(rootDir);
-        Pattern pattern=Pattern.compile(".*" + projectName + ".*");
+        Pattern pattern=Pattern.compile(projectName);
 		testRunner.setTestProjectPattern(pattern);
 		
 		testRunner.setCoverageFile(coverageFile);
