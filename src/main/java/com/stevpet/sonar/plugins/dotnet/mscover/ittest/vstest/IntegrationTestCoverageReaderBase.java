@@ -26,7 +26,7 @@ public class IntegrationTestCoverageReaderBase implements
 	private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 	private FilteringCoverageParser coverageParser;
 	private ProcessLock processLock;
-	private List<ParserThread> threads = new ArrayList<>();
+	private List<Thread> threads = new ArrayList<>();
     private MsCoverConfiguration msCoverConfiguration;
 
 	public IntegrationTestCoverageReaderBase(
@@ -70,14 +70,14 @@ public class IntegrationTestCoverageReaderBase implements
 		for (File coverageFile : coverageFiles)  {
 			parseFile(registry,coverageFile);
 		}
-		for(ParserThread t : threads) {
+		for(Thread t : threads) {
 		    try {
                 t.join();
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-		    LOG.info("Joined",t.getName());
+		    LOG.info("Joined {}",t.getName());
 		}
 
 	}
@@ -96,7 +96,7 @@ public class IntegrationTestCoverageReaderBase implements
         coverageFileParser.setMergeDestination(registry);
         String threadName="CoverageFileParser" + coverageFile.getName();
         LOG.info("Started " + threadName);
-        ParserThread t = new ParserThread(coverageFileParser,threadName);
+        Thread t = new Thread(coverageFileParser,threadName);
         threads.add(t);
         t.start();
     }
