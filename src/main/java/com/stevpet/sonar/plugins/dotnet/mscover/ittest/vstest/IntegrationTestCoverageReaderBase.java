@@ -26,8 +26,7 @@ public class IntegrationTestCoverageReaderBase implements
 	private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 	private FilteringCoverageParser coverageParser;
 	private ProcessLock processLock;
-	private List<Thread> threads = new ArrayList<>();
-	private List<CoverageFileParser> parsers = new ArrayList<CoverageFileParser>();
+	private List<ParserThread> threads = new ArrayList<>();
     private MsCoverConfiguration msCoverConfiguration;
 
 	public IntegrationTestCoverageReaderBase(
@@ -69,20 +68,18 @@ public class IntegrationTestCoverageReaderBase implements
 		coverageParser.setModulesToParse(artifactNames);
 		Collection<File> coverageFiles=FileUtils.listFiles(integrationTestsDir,  new String[]{"xml"}, true);
 		for (File coverageFile : coverageFiles)  {
-			parseFile(coverageFile);
+			parseFile(registry,coverageFile);
 		}
-		for(Thread t : threads) {
+		for(ParserThread t : threads) {
 		    try {
                 t.join();
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 		    LOG.info("Joined",t.getName());
 		}
-		for(CoverageFileParser parser:parsers) {
-		    SonarCoverage coverage=parser.getCoverage();
-		    registry.merge(coverage);
-		}
+
 	}
 	
 
@@ -91,17 +88,17 @@ public class IntegrationTestCoverageReaderBase implements
 	}
 
 	
-    public void parseFile(File coverageFile) {
+    public void parseFile(SonarCoverage registry,File coverageFile) {
         SonarCoverage sonarCoverage = new SonarCoverage();
         CoverageFileParser coverageFileParser = new CoverageFileParser(msCoverConfiguration);
-        parsers.add(coverageFileParser);
         coverageFileParser.setCoverage(sonarCoverage);
         coverageFileParser.setCoverageFile(coverageFile);
+        coverageFileParser.setMergeDestination(registry);
         String threadName="CoverageFileParser" + coverageFile.getName();
         LOG.info("Started " + threadName);
-        Thread t = new Thread(coverageFileParser,threadName);
+        ParserThread t = new ParserThread(coverageFileParser,threadName);
         threads.add(t);
-            t.start();
+        t.start();
     }
 
 }
