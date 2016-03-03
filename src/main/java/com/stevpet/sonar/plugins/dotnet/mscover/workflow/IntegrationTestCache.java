@@ -1,11 +1,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.workflow;
 
-import javax.annotation.Nonnull;
-
 import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.InstantiationStrategy;
 
-import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 
 /**

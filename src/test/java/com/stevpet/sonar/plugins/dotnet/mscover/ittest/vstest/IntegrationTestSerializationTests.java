@@ -24,6 +24,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
 import com.stevpet.sonar.plugins.common.commandexecutor.ProcessLock;
 import com.stevpet.sonar.plugins.common.commandexecutor.WindowsCommandLineExecutor;
+import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.FilteringCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestFilteringCoverageParser;
@@ -51,6 +52,7 @@ public class IntegrationTestSerializationTests {
     private File testDir;
     private SonarCoverage deserialized;
     @Mock private ProcessLock processLock;
+    @Mock private IntegrationTestsConfiguration integrationTestConfiguration;
 
 
     @Before
@@ -145,7 +147,7 @@ public class IntegrationTestSerializationTests {
         testDir = testFile.getParentFile();
         assertNotNull("could not get parent",testDir);
         coverageData=new SonarCoverage();
-        coverageReader=new IntegrationTestCoverageReaderBase(microsoftWindowsEnvironment, coverageParser,processLock);
+        coverageReader=new IntegrationTestCoverageReaderBase(microsoftWindowsEnvironment, coverageParser, integrationTestConfiguration);
         coverageReader.read(coverageData,testDir);
         assertEquals("expect some files to be read",2,coverageData.getValues().size());
     }

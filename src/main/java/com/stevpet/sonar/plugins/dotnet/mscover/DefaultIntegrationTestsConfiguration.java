@@ -2,20 +2,15 @@ package com.stevpet.sonar.plugins.dotnet.mscover;
 
 import java.io.File;
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
-import org.sonar.api.utils.SonarException;
-
 import com.google.common.base.Preconditions;
-import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.Mode;
 
-public class DefaultIntegrationTestsConfiguration implements IntegrationTestsConfiguration, BatchExtension {
+public  class DefaultIntegrationTestsConfiguration implements IntegrationTestsConfiguration, BatchExtension {
 	private static final Logger LOG = LoggerFactory.getLogger(DefaultIntegrationTestsConfiguration.class);
     private static final String MSCOVER = "sonar.mscover.integrationtests.";
     private static final String MSCOVER_INTEGRATION_RESULTS= MSCOVER + "dir";
@@ -24,7 +19,8 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
 	static final String MSCOVER_SPECFLOWTESTS_ROOT = DefaultIntegrationTestsConfiguration.MSCOVER + "root";
 	private static final String MSCOVER_INTEGRATION_TESTCASEFILTER= DefaultIntegrationTestsConfiguration.MSCOVER + "testcasefilter";
 	private static final String MSCOVER_INTEGRATION_PROJECTPATTERN= DefaultIntegrationTestsConfiguration.MSCOVER + "projectpattern";
-
+    private static final String MSCOVER_INTEGRATION_COVERAGEREADER_TIMEOUT= DefaultIntegrationTestsConfiguration.MSCOVER + "coveragereader.timeout";
+    private static final String MSCOVER_INTEGRATION_COVERAGEREADER_THREADS =DefaultIntegrationTestsConfiguration.MSCOVER + "coveragereader.threads";
 	private Settings settings;
 	private FileSystem fileSystem;
 	
@@ -128,5 +124,23 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     public Pattern getTestProjectPattern() {
         Pattern pattern = settingsHelper.getPattern(MSCOVER_INTEGRATION_PROJECTPATTERN);
         return pattern;
+    }
+    
+    @Override
+    public int getCoverageReaderTimeout() {
+        int timeout = settings.getInt(MSCOVER_INTEGRATION_COVERAGEREADER_TIMEOUT);
+        if(timeout==0) { 
+            timeout=5;
+        }
+        return timeout;
+    }
+    
+    @Override
+    public int getCoverageReaderThreads() {
+        int threads = settings.getInt(MSCOVER_INTEGRATION_COVERAGEREADER_THREADS);
+        if(threads <=0) {
+            threads=1;
+        }
+        return threads;
     }
 }

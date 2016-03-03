@@ -52,4 +52,8 @@ public interface IntegrationTestsConfiguration {
 
     Pattern getTestProjectPattern();
 
+    int getCoverageReaderTimeout();
+
+    int getCoverageReaderThreads();
+
 }

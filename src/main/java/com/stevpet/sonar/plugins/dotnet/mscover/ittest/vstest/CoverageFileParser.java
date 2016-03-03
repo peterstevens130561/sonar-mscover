@@ -2,7 +2,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.ittest.vstest;
 
 import java.io.File;
 
-import org.jfree.util.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +19,6 @@ public class CoverageFileParser implements Runnable {
     private SonarCoverage coverageDestination;
 
     public CoverageFileParser(MsCoverConfiguration msCoverConfiguration) {
-
         coverageParser = new OpenCoverFilteringCoverageParser(msCoverConfiguration);
     }
 
@@ -28,18 +26,6 @@ public class CoverageFileParser implements Runnable {
         this.coverageFile = coverageFile;
     }
 
-    public SonarCoverage getCoverage() {
-        return sonarCoverage;
-    }
-
-    /**
-     * Clean coverage to parse the file into
-     * @param sonarCoverage
-     */
-    public void setCoverage(SonarCoverage sonarCoverage) {
-        this.sonarCoverage=sonarCoverage;
-    }
-    
     /**
      * The parsed file will be merged into this one
      * @param sonarCoverage
@@ -50,10 +36,10 @@ public class CoverageFileParser implements Runnable {
     
     @Override
     public void run() {
-        Preconditions.checkState(sonarCoverage!=null, "sonarCoverage not set");
+        sonarCoverage=new SonarCoverage();
         Preconditions.checkState(coverageFile!=null,"coverageFile not set");
         Preconditions.checkState(coverageDestination!=null,"coverageDestination");
-        LOG.debug("Stared parsing {}",coverageFile.getName());
+        LOG.debug("Started parsing {}",coverageFile.getName());
         coverageParser.parse(sonarCoverage, coverageFile);
         LOG.debug("Completed parsing {}",coverageFile.getName());
         synchronized(coverageDestination) {

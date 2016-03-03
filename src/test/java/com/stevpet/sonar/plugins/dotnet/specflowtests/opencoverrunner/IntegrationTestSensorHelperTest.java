@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.mockito.Mock;
-import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration;

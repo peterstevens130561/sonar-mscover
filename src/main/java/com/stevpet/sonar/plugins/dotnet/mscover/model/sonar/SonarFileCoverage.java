@@ -22,8 +22,6 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
-import java.io.Serializable;
-
 /**
  * Coverage info per file
  */

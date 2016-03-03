@@ -25,7 +25,6 @@ package com.stevpet.sonar.plugins.dotnet.unittests;
 import java.io.File;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
