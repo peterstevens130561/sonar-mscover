@@ -135,7 +135,7 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 	public void analyse(Project module, SensorContext context) {
 		File coverageFile = new File(fileSystem.workDir(),"coverage.xml");
 		String projectName = module.getName();
-		testRunner.setCoverageFile(coverageFile).setProjectName(projectName).setModule(module.getName());
+		testRunner.setCoverageFile(coverageFile).setProjectName(projectName).setModule(projectName);
 		
 		testRunner.execute();
 

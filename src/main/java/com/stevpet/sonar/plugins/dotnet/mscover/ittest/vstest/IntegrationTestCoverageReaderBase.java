@@ -88,7 +88,6 @@ public class IntegrationTestCoverageReaderBase implements
     }
 
     public void parseFile(SonarCoverage registry, File coverageFile) {
-        SonarCoverage sonarCoverage = new SonarCoverage();
         CoverageFileParser coverageFileParser = new CoverageFileParser(msCoverConfiguration);
         coverageFileParser.setCoverageFile(coverageFile);
         coverageFileParser.setMergeDestination(registry);
