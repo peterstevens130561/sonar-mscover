@@ -9,6 +9,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.utils.SonarException;
 
@@ -23,14 +25,14 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
  *
  */
 public class MultiThreadedSpecflowIntegrationTestRunner implements CachedIntegrationTestRunner {
-
+    private static Logger LOG = LoggerFactory.getLogger(MultiThreadedSpecflowIntegrationTestRunner.class);
     private final MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private final IntegrationTestsConfiguration integrationTestsConfiguration;
     private final CachedIntegrationTestRunner testRunner;
     private ExecutorService executorService;
     private boolean didExecute;
     // lookup testresults by module
-    private Map<String,ProjectUnitTestResults> testResultsMap = new HashMap<>();
+    private  Map<String,ProjectUnitTestResults> testResultsMap = new HashMap<>();
     private String module;
     private File rootDir;
     private final FileSystem fileSystem;
@@ -57,13 +59,13 @@ public class MultiThreadedSpecflowIntegrationTestRunner implements CachedIntegra
 
     @Override
     public CachedIntegrationTestRunner setCoverageFile(File coverageFile) {
-        // TODO Auto-generated method stub
-        return null;
+        return this;
     }
 
     @Override
     public ProjectUnitTestResults getTestResults() {
         synchronized(testResultsMap) {
+            LOG.info("+++ Getting results for {}",module);
             return testResultsMap.get(module);
         }
     }
@@ -71,11 +73,14 @@ public class MultiThreadedSpecflowIntegrationTestRunner implements CachedIntegra
     @Override
     public void execute() {
         if(didExecute) {
+            LOG.info("+++ Using previous data");
             return;
         }
-        Pattern pattern=integrationTestsConfiguration.getTestProjectPattern();
+
         int threads = integrationTestsConfiguration.getCoverageReaderThreads();
         executorService = Executors.newFixedThreadPool(threads);
+        LOG.info("Using {} threads",threads);
+        Pattern pattern=integrationTestsConfiguration.getTestProjectPattern();
         List<VisualStudioProject> testProjects = microsoftWindowsEnvironment.getCurrentSolution().getTestProjects(pattern);
         for(VisualStudioProject project:testProjects){
             runTests(project);
@@ -94,7 +99,8 @@ public class MultiThreadedSpecflowIntegrationTestRunner implements CachedIntegra
 
     private void runTests(VisualStudioProject project) {
         String projectName = project.getAssemblyName();
-        File coverageFile = new File(fileSystem.workDir(),"coverage_" + projectName);
+        File coverageFile = new File(fileSystem.workDir(),"coverage_" + projectName + ".xml");
+        LOG.info("+++ running tests on project {}",projectName);
         testRunner.setCoverageFile(coverageFile).setProjectName(projectName).setModule(projectName);
         testRunner.execute();
         ProjectUnitTestResults testResults = testRunner.getTestResults();
@@ -109,7 +115,7 @@ public class MultiThreadedSpecflowIntegrationTestRunner implements CachedIntegra
     @Override
     public CachedIntegrationTestRunner setProjectName(String name) {
         // TODO Auto-generated method stub
-        return null;
+        return this;
     }
 
 }
