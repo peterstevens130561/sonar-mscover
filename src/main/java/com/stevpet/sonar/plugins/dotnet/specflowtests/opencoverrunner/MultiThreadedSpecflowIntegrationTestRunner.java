@@ -1,11 +1,16 @@
 package com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -82,14 +87,16 @@ public class MultiThreadedSpecflowIntegrationTestRunner implements CachedIntegra
         LOG.info("Using {} threads",threads);
         Pattern pattern=integrationTestsConfiguration.getTestProjectPattern();
         List<VisualStudioProject> testProjects = microsoftWindowsEnvironment.getTestProjects(pattern);
+        List<Future<Boolean>> results = new ArrayList<>();
         for(VisualStudioProject project:testProjects){
             String projectName=project.getAssemblyName();
             CachedIntegrationTestRunner testRunner = testRunnerFactory.create();
             File coverageFile = new File(fileSystem.workDir(),"coverage_" + projectName + ".xml");
             testRunner.setCoverageFile(coverageFile).setProjectName(projectName).setModule(projectName);
-            Runnable runnable= new RunnableTestRunner(testRunner, projectName, testResultsMap);
+            Callable<Boolean> callable= new CallableTestRunner(testRunner, projectName, testResultsMap);
             LOG.info("+++ Queued {}",projectName);
-            executorService.execute(runnable);
+            results.add(executorService.submit(callable));
+ 
         }
         try {
             executorService.shutdown();
@@ -97,8 +104,14 @@ public class MultiThreadedSpecflowIntegrationTestRunner implements CachedIntegra
             if (!executorService.awaitTermination(timeout, TimeUnit.MINUTES)) {
                 throw new SonarException("Timeout occurred during parsing of coveragefiles");
             }
+            for(Future<Boolean> result:results) {
+                result.get();
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } catch (ExecutionException e) {
+            LOG.error("Execution of tests failed {}",e.getCause().toString());
+            throw new SonarException("Execution of tests failed, see inner exception",e.getCause());
         }
         didExecute=true;
     }
