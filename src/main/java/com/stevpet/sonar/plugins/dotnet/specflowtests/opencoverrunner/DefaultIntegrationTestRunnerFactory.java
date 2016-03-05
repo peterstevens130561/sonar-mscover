@@ -19,7 +19,6 @@ public class DefaultIntegrationTestRunnerFactory implements IntegrationTestRunne
     private MsCoverConfiguration msCoverConfiguration;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private FileSystem fileSystem;
-    private VsTestEnvironment vsTestEnvironment;
     private Settings settings;
 
     public DefaultIntegrationTestRunnerFactory(
@@ -29,7 +28,6 @@ public class DefaultIntegrationTestRunnerFactory implements IntegrationTestRunne
         this.msCoverConfiguration = msCoverConfiguration;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.fileSystem = fileSystem;
-        this.vsTestEnvironment = vsTestEnvironment;
         this.settings = settings;
     }
         /* (non-Javadoc)
@@ -40,7 +38,7 @@ public class DefaultIntegrationTestRunnerFactory implements IntegrationTestRunne
             return new SpecflowIntegrationTestRunner(
                     new OpenCoverModuleSaver(), DefaultOpenCoverTestRunner.create(
                             msCoverConfiguration, microsoftWindowsEnvironment,
-                            fileSystem, vsTestEnvironment),
+                            fileSystem),
                     SpecFlowTestResultsBuilder.create(microsoftWindowsEnvironment));
         }
     }

@@ -77,11 +77,11 @@ public class SpecflowIntegrationTestRunner implements
 	public static SpecflowIntegrationTestRunner create(
 			MsCoverConfiguration msCoverConfiguration,
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-			FileSystem fileSystem, VsTestEnvironment vsTestEnvironment,Settings settings) {
+			FileSystem fileSystem,Settings settings) {
 		return new SpecflowIntegrationTestRunner(
 				new OpenCoverModuleSaver(), DefaultOpenCoverTestRunner.create(
 						msCoverConfiguration, microsoftWindowsEnvironment,
-						fileSystem, vsTestEnvironment),
+						fileSystem),
 				SpecFlowTestResultsBuilder.create(microsoftWindowsEnvironment));
 	}
 

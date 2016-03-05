@@ -17,7 +17,6 @@ public class OpenCoverCoverageRunnerTests {
 	@Mock private MsCoverConfiguration msCoverConfiguration;
 	@Mock private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 	@Mock private FileSystem fileSystem;
-	@Mock private VsTestEnvironment vsTestEnvironment;
 
 	@Before
 	public void before() {
@@ -30,7 +29,7 @@ public class OpenCoverCoverageRunnerTests {
 			DefaultOpenCoverTestRunner.create(
 				msCoverConfiguration,
 				microsoftWindowsEnvironment,
-				fileSystem,vsTestEnvironment);
+				fileSystem);
 		} catch (Exception e) {
 			fail("could not instantiate, probably because one of the underlying constructors uses a dependency");
 		}

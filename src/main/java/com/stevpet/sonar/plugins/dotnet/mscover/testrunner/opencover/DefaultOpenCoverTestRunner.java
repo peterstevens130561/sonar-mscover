@@ -59,8 +59,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 	public static DefaultOpenCoverTestRunner create(
 			MsCoverConfiguration msCoverProperties,
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-			FileSystem fileSystem,
-			VsTestEnvironment vsTestEnvironment) {
+			FileSystem fileSystem) {
 		return new DefaultOpenCoverTestRunner(msCoverProperties,
 				microsoftWindowsEnvironment, new OpenCoverCommand(
 						msCoverProperties), new DefaultAssembliesFinder(

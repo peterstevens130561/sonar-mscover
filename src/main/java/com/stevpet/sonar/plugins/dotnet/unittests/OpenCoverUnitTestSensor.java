@@ -119,11 +119,10 @@ public class OpenCoverUnitTestSensor implements Sensor {
             MsCoverConfiguration msCoverConfiguration,
             UnitTestCache unitTestBatchData,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-            PathResolver pathResolver, VsTestEnvironment vsTestEnvironment) {
+            PathResolver pathResolver) {
         this(fileSystem, msCoverConfiguration, unitTestBatchData,
                 DefaultOpenCoverTestRunner.create(msCoverConfiguration,
-                        microsoftWindowsEnvironment, fileSystem,
-                        vsTestEnvironment), SpecFlowTestResultsBuilder
+                        microsoftWindowsEnvironment, fileSystem), SpecFlowTestResultsBuilder
                         .create(microsoftWindowsEnvironment),
                 VsTestTestResultsSaver.create(pathResolver, fileSystem),
                 new OpenCoverCoverageReader(msCoverConfiguration),
