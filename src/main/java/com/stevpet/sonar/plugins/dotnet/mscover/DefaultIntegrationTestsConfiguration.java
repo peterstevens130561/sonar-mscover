@@ -2,12 +2,14 @@ package com.stevpet.sonar.plugins.dotnet.mscover;
 
 import java.io.File;
 import java.util.regex.Pattern;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
+
 import com.google.common.base.Preconditions;
 
 public  class DefaultIntegrationTestsConfiguration implements IntegrationTestsConfiguration, BatchExtension {
@@ -21,6 +23,8 @@ public  class DefaultIntegrationTestsConfiguration implements IntegrationTestsCo
 	private static final String MSCOVER_INTEGRATION_PROJECTPATTERN= DefaultIntegrationTestsConfiguration.MSCOVER + "projectpattern";
     private static final String MSCOVER_INTEGRATION_COVERAGEREADER_TIMEOUT= DefaultIntegrationTestsConfiguration.MSCOVER + "coveragereader.timeout";
     private static final String MSCOVER_INTEGRATION_COVERAGEREADER_THREADS =DefaultIntegrationTestsConfiguration.MSCOVER + "coveragereader.threads";
+    private static final String MSCOVER_INTEGRATION_TESTRUNNER_THREADS = DefaultIntegrationTestsConfiguration.MSCOVER + "testrunner.threads";
+    private static final String MSCOVER_INTEGRATION_TESTRUNNER_TIMEOUT = null;
 	private Settings settings;
 	private FileSystem fileSystem;
 	
@@ -142,5 +146,23 @@ public  class DefaultIntegrationTestsConfiguration implements IntegrationTestsCo
             threads=1;
         }
         return threads;
+    }
+    
+    @Override
+    public int getTestRunnerThreads() {
+        int threads=settings.getInt(MSCOVER_INTEGRATION_TESTRUNNER_THREADS);
+        if(threads<=0) {
+            threads=TESTRUNNER_THREADS_DEFAULT;
+        }
+        return threads;
+    }
+
+    @Override
+    public int getTestRunnerTimeout() {
+        int timeout=settings.getInt(MSCOVER_INTEGRATION_TESTRUNNER_TIMEOUT);
+        if(timeout<=0) {
+            timeout=TESTRUNNER_TIMEOUT_DEFAULT;
+        }
+        return timeout;
     }
 }

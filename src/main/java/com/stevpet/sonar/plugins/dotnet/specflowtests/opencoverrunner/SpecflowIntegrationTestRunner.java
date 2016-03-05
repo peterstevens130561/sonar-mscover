@@ -33,10 +33,10 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
  * @author stevpet
  * 
  */
-public class CachedSpecflowIntegrationTestRunner implements
-		CachedIntegrationTestRunner {
+public class SpecflowIntegrationTestRunner implements
+		IntegrationTestRunner {
 
-	private Logger LOG = LoggerFactory.getLogger(CachedSpecflowIntegrationTestRunner.class);
+	private Logger LOG = LoggerFactory.getLogger(SpecflowIntegrationTestRunner.class);
 	private final IntegrationTestCache integrationTestCache;
 	private final OpenCoverModuleSaver openCoverModuleSaver;
 	private final OpenCoverTestRunner testRunner;
@@ -45,9 +45,8 @@ public class CachedSpecflowIntegrationTestRunner implements
 	private File rootDir;
 	private File coverageFile;
 	private ProjectUnitTestResults testResults;
-	private IntegrationTestsConfiguration integrationTestConfiguration;
     private String projectName;
-    private Pattern pattern;
+    private String testCaseFilter;
 
 	/**
 	 * All of the dependencies of the runner
@@ -56,15 +55,14 @@ public class CachedSpecflowIntegrationTestRunner implements
 	 * @param openCoverModuleSaver
 	 * @param testRunner
 	 */
-	public CachedSpecflowIntegrationTestRunner(
+	public SpecflowIntegrationTestRunner(
 			IntegrationTestCache integrationTestCache,
 			OpenCoverModuleSaver openCoverModuleSaver, OpenCoverTestRunner testRunner,
-			TestResultsBuilder testResultsBuilder, IntegrationTestsConfiguration integrationTestsConfiguration) {
+			TestResultsBuilder testResultsBuilder) {
 		this.integrationTestCache = integrationTestCache;
 		this.openCoverModuleSaver = openCoverModuleSaver;
 		this.testRunner = testRunner;
 		this.testResultsBuilder = testResultsBuilder;
-		this.integrationTestConfiguration=integrationTestsConfiguration;
 
 	}
 
@@ -79,17 +77,16 @@ public class CachedSpecflowIntegrationTestRunner implements
 	 * @param vsTestEnvironment
 	 * @return
 	 */
-	public static CachedSpecflowIntegrationTestRunner create(
+	public static SpecflowIntegrationTestRunner create(
 			IntegrationTestCache integrationTestCache,
 			MsCoverConfiguration msCoverConfiguration,
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
 			FileSystem fileSystem, VsTestEnvironment vsTestEnvironment,Settings settings) {
-		return new CachedSpecflowIntegrationTestRunner(integrationTestCache,
+		return new SpecflowIntegrationTestRunner(integrationTestCache,
 				new OpenCoverModuleSaver(), DefaultOpenCoverTestRunner.create(
 						msCoverConfiguration, microsoftWindowsEnvironment,
 						fileSystem, vsTestEnvironment),
-				SpecFlowTestResultsBuilder.create(microsoftWindowsEnvironment),
-				new DefaultIntegrationTestsConfiguration(settings, fileSystem));
+				SpecFlowTestResultsBuilder.create(microsoftWindowsEnvironment));
 	}
 
 
@@ -97,10 +94,10 @@ public class CachedSpecflowIntegrationTestRunner implements
 	 * (non-Javadoc)
 	 * 
 	 * @see com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner.
-	 * CachedIntegrationTestRunner#setModule(java.lang.String)
+	 * IntegrationTestRunner#setModule(java.lang.String)
 	 */
 	@Override
-	public CachedIntegrationTestRunner setModule(@Nonnull String module) {
+	public IntegrationTestRunner setModule(@Nonnull String module) {
 		this.module = module;
 		return this;
 	}
@@ -109,10 +106,10 @@ public class CachedSpecflowIntegrationTestRunner implements
 	 * (non-Javadoc)
 	 * 
 	 * @see com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner.
-	 * CachedIntegrationTestRunner#setCoverageRoot(java.io.File)
+	 * IntegrationTestRunner#setCoverageRoot(java.io.File)
 	 */
 	@Override
-	public CachedIntegrationTestRunner setCoverageRoot(File rootDir) {
+	public IntegrationTestRunner setCoverageRoot(File rootDir) {
 		this.rootDir = rootDir;
 		return this;
 	}
@@ -122,10 +119,10 @@ public class CachedSpecflowIntegrationTestRunner implements
 	 * (non-Javadoc)
 	 * 
 	 * @see com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner.
-	 * CachedIntegrationTestRunner#setCoverageFile(java.io.File)
+	 * IntegrationTestRunner#setCoverageFile(java.io.File)
 	 */
 	@Override
-	public CachedIntegrationTestRunner setCoverageFile(
+	public IntegrationTestRunner setCoverageFile(
 			@Nonnull File coverageFile) {
 		this.coverageFile = coverageFile;
 		return this;
@@ -135,17 +132,15 @@ public class CachedSpecflowIntegrationTestRunner implements
 	public void execute() {
 		Preconditions.checkNotNull(module,"module not set");
 		Preconditions.checkNotNull(coverageFile,"coverage file not set");
-		if (integrationTestCache.gatHasRun()) {
-			//return;
-		}
-		File rootDir = integrationTestConfiguration.getDirectory();
+		Preconditions.checkNotNull(rootDir,"rootDir not set");
+
 		openCoverModuleSaver.setProject(module).setRoot(rootDir);
         Pattern pattern=Pattern.compile(projectName);
 		testRunner.setTestProjectPattern(pattern);
 		
 		testRunner.setCoverageFile(coverageFile);
 		
-		testRunner.setTestCaseFilter(integrationTestConfiguration.getTestCaseFilter());
+		testRunner.setTestCaseFilter(testCaseFilter);
 		testRunner.execute();
 		
 		File testResultsFile = testRunner.getTestResultsFile();
@@ -169,9 +164,14 @@ public class CachedSpecflowIntegrationTestRunner implements
 	}
 
     @Override
-    public CachedIntegrationTestRunner setProjectName(String name) {
+    public IntegrationTestRunner setProjectName(String name) {
         this.projectName=name;
         return this;
     }
 
+    @Override
+    public IntegrationTestRunner setTestCaseFilter(String testCaseFilter) {
+        this.testCaseFilter=testCaseFilter;
+        return this;
+    }
 }

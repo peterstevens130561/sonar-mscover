@@ -16,6 +16,9 @@ public interface IntegrationTestsConfiguration {
     public enum Tool {
     	VSTEST,OPENCOVER
     }
+
+    public static final int TESTRUNNER_THREADS_DEFAULT = 1;
+    public static final int TESTRUNNER_TIMEOUT_DEFAULT = 10;
     
 	/**
 	 * get the mode, plugins should use this to select where they should run or not
@@ -55,5 +58,16 @@ public interface IntegrationTestsConfiguration {
     int getCoverageReaderTimeout();
 
     int getCoverageReaderThreads();
+
+    /**
+     * Max number of threads that the testrunner may use, default is 1
+     * @return
+     */
+    int getTestRunnerThreads();
+
+    /**
+     * timeout of the testrunner in minutes, default is 10
+     */
+    int getTestRunnerTimeout();
 
 }

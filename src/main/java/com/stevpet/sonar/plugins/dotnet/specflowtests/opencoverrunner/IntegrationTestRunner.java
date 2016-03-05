@@ -4,13 +4,13 @@ import java.io.File;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 
-public interface CachedIntegrationTestRunner {
+public interface IntegrationTestRunner {
 
-	CachedIntegrationTestRunner setModule(String module);
+	IntegrationTestRunner setModule(String module);
 
-	CachedIntegrationTestRunner setCoverageRoot(File rootDir);
+	IntegrationTestRunner setCoverageRoot(File rootDir);
 
-	CachedIntegrationTestRunner setCoverageFile(File coverageFile);
+	IntegrationTestRunner setCoverageFile(File coverageFile);
 
 	/**
 	 * get the test results of the integration tests in this solution
@@ -20,5 +20,7 @@ public interface CachedIntegrationTestRunner {
 
 	void execute();
 
-	CachedIntegrationTestRunner setProjectName(String name);
+	IntegrationTestRunner setProjectName(String name);
+
+    IntegrationTestRunner setTestCaseFilter(String testCaseFilter);
 }

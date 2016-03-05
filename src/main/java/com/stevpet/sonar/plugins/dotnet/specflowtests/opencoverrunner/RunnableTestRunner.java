@@ -10,11 +10,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTe
 
 class RunnableTestRunner implements Runnable {
     private Logger LOG = LoggerFactory.getLogger(RunnableTestRunner.class);
-    private CachedIntegrationTestRunner testRunner ;
+    private IntegrationTestRunner testRunner ;
     private String projectName;
     private Map<String, ProjectUnitTestResults> testResultsMap;
     
-    RunnableTestRunner(CachedIntegrationTestRunner testRunner, String projectName, Map<String, ProjectUnitTestResults> testResultsMap) {
+    RunnableTestRunner(IntegrationTestRunner testRunner, String projectName, Map<String, ProjectUnitTestResults> testResultsMap) {
         this.testRunner = testRunner;
         this.projectName=projectName;
         this.testResultsMap=testResultsMap;

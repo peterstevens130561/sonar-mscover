@@ -55,17 +55,14 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
  */
 public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 
-	private final CachedIntegrationTestRunner testRunner;
+	private final IntegrationTestRunnerApplication integrationTestRunnerApplication;
 	private final VsTestTestResultsSaver testResultsSaver;
 	private final IntegrationTestsConfiguration integrationTestsConfiguration;
-	private final FileSystem fileSystem;
-    private final IntegrationTestSensorHelper integrationTestSensorHelper;
-
 	/**
 	 * Create with all dependencies
 	 * 
 	 * @param fileSystem
-	 * @param testRunner
+	 * @param integrationTestRunnerApplication
 	 * @param testResultsBuilder
 	 * @param testResultsSaver
 	 * @param coverageReader
@@ -75,16 +72,13 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 	 */
 
 	public OpenCoverSpecFlowTestRunnerSensor(
-			CachedIntegrationTestRunner testRunner,
+			IntegrationTestRunnerApplication integrationTestRunnerApplication,
 			VsTestTestResultsSaver testResultsSaver,
 			IntegrationTestsConfiguration integrationTestsConfiguration,
-			FileSystem fileSystem,
-			IntegrationTestSensorHelper integrationTestSensorHelper) {
-		this.testRunner = testRunner;
+			FileSystem fileSystem) {
+		this.integrationTestRunnerApplication = integrationTestRunnerApplication;
 		this.testResultsSaver = testResultsSaver;
 		this.integrationTestsConfiguration = integrationTestsConfiguration;
-		this.fileSystem=fileSystem;
-		this.integrationTestSensorHelper = integrationTestSensorHelper;
 	}
 	
 	/**
@@ -109,13 +103,11 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 			PathResolver pathResolver,
 			IntegrationTestsConfiguration integrationTestsConfiguration
 			) {
-		this.testRunner = new MultiThreadedSpecflowIntegrationTestRunner(microsoftWindowsEnvironment,
+		this.integrationTestRunnerApplication = new MultiThreadedSpecflowIntegrationTestRunner(microsoftWindowsEnvironment,
 		        integrationTestsConfiguration,new DefaultIntegrationTestRunnerFactory(integrationTestCache, msCoverConfiguration, microsoftWindowsEnvironment, fileSystem, vsTestEnvironment, settings)
 				,fileSystem);
 		this.testResultsSaver = VsTestTestResultsSaver.create(pathResolver, fileSystem);
 		this.integrationTestsConfiguration = integrationTestsConfiguration;
-		this.fileSystem=fileSystem;
-		this.integrationTestSensorHelper=new IntegrationTestSensorHelper(microsoftWindowsEnvironment,integrationTestsConfiguration);
 	}
 
 
@@ -132,15 +124,11 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 
 	@Override
 	public void analyse(Project module, SensorContext context) {
-		File coverageFile = new File(fileSystem.workDir(),"coverage.xml");
-		String projectName = module.getName();
-		testRunner.setCoverageFile(coverageFile).setProjectName(projectName).setModule(projectName);
-		testRunner.execute();
 
-		ProjectUnitTestResults testResults = testRunner.getTestResults();
+		String projectName = module.getName();
+		integrationTestRunnerApplication.execute();
+
+		ProjectUnitTestResults testResults = integrationTestRunnerApplication.getTestResults(projectName);
 		testResultsSaver.save(context, testResults);
-		if( coverageFile.exists()) {
-		    coverageFile.delete();
-		}
 	}
 }

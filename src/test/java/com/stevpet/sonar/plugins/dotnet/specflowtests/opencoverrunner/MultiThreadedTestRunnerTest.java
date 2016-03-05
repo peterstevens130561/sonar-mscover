@@ -30,7 +30,7 @@ public class MultiThreadedTestRunnerTest {
     @Mock private IntegrationTestsConfiguration integrationTestsConfiguration;
     @Mock private IntegrationTestRunnerFactory testRunnerFactory;
     @Mock private FileSystem fileSystem;
-    @Mock private CachedIntegrationTestRunner testRunner ;
+    @Mock private IntegrationTestRunner testRunner ;
     private List<VisualStudioProject> projects = new ArrayList<VisualStudioProject>();
     
     @Before
@@ -41,11 +41,13 @@ public class MultiThreadedTestRunnerTest {
         when(testRunner.setCoverageFile(any(File.class))).thenReturn(testRunner);
         when(testRunner.setProjectName(any(String.class))).thenReturn(testRunner);
         when(testRunner.setModule(any(String.class))).thenReturn(testRunner);
+        when(testRunner.setCoverageRoot(any(File.class))).thenReturn(testRunner);
+        when(integrationTestsConfiguration.getTestRunnerThreads()).thenReturn(5);
+        when(integrationTestsConfiguration.getTestRunnerTimeout()).thenReturn(5);
     }
     
     @Test
     public void noProjects() {
-        when(integrationTestsConfiguration.getCoverageReaderThreads()).thenReturn(5);
         when(microsoftWindowsEnvironment.getTestProjects(any(Pattern.class))).thenReturn(projects);
         multiThreadedSpecflowIntegrationTestRunner.execute();
         verify(testRunnerFactory,times(0)).create();
@@ -53,11 +55,9 @@ public class MultiThreadedTestRunnerTest {
     
     @Test
     public void oneProject() {
-        when(integrationTestsConfiguration.getCoverageReaderThreads()).thenReturn(5);
         VisualStudioProject project = mock(VisualStudioProject.class);
         when(project.getAssemblyName()).thenReturn("myproject");
         when(testRunnerFactory.create()).thenReturn(testRunner);
-        when(integrationTestsConfiguration.getCoverageReaderTimeout()).thenReturn(5);
         projects.add(project);
         when(microsoftWindowsEnvironment.getTestProjects(any(Pattern.class))).thenReturn(projects);
         multiThreadedSpecflowIntegrationTestRunner.execute();
@@ -78,7 +78,6 @@ public class MultiThreadedTestRunnerTest {
         when(projectB.getAssemblyName()).thenReturn("myproject2");
         when(testRunnerFactory.create()).thenReturn(testRunner);
         projects.add(projectB);
-        when(integrationTestsConfiguration.getCoverageReaderTimeout()).thenReturn(5);
 
         when(microsoftWindowsEnvironment.getTestProjects(any(Pattern.class))).thenReturn(projects);
         multiThreadedSpecflowIntegrationTestRunner.execute();
@@ -92,11 +91,9 @@ public class MultiThreadedTestRunnerTest {
      * Tests that runner throws an exception if one of the treads fail
      */
     public void crashitProjects() {
-        when(integrationTestsConfiguration.getCoverageReaderThreads()).thenReturn(5);
         VisualStudioProject project = mock(VisualStudioProject.class);
         when(project.getAssemblyName()).thenReturn("myproject");
         when(testRunnerFactory.create()).thenReturn(testRunner);
-        when(integrationTestsConfiguration.getCoverageReaderTimeout()).thenReturn(5);
         projects.add(project);
         when(microsoftWindowsEnvironment.getTestProjects(any(Pattern.class))).thenReturn(projects);
         doThrow(new SonarException()).when(testRunner).execute();

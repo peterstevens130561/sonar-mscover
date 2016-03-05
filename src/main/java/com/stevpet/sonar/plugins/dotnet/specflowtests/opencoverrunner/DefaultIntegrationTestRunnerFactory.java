@@ -39,13 +39,12 @@ public class DefaultIntegrationTestRunnerFactory implements IntegrationTestRunne
          * @see com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner.IntegrationTestRunnerFactory#create()
          */
         @Override
-        public CachedIntegrationTestRunner create() {
-            return new CachedSpecflowIntegrationTestRunner(integrationTestCache,
+        public IntegrationTestRunner create() {
+            return new SpecflowIntegrationTestRunner(integrationTestCache,
                     new OpenCoverModuleSaver(), DefaultOpenCoverTestRunner.create(
                             msCoverConfiguration, microsoftWindowsEnvironment,
                             fileSystem, vsTestEnvironment),
-                    SpecFlowTestResultsBuilder.create(microsoftWindowsEnvironment),
-                    new DefaultIntegrationTestsConfiguration(settings, fileSystem));
+                    SpecFlowTestResultsBuilder.create(microsoftWindowsEnvironment));
         }
     }
     

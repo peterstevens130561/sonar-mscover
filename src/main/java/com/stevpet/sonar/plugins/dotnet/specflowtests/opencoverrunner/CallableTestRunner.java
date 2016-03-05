@@ -12,11 +12,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTe
 public class CallableTestRunner implements Callable<Boolean>{
 
     private Logger LOG = LoggerFactory.getLogger(CallableTestRunner.class);
-    private CachedIntegrationTestRunner testRunner ;
+    private IntegrationTestRunner testRunner ;
     private String projectName;
     private Map<String, ProjectUnitTestResults> testResultsMap;
     
-    CallableTestRunner(CachedIntegrationTestRunner testRunner, String projectName, Map<String, ProjectUnitTestResults> testResultsMap) {
+    CallableTestRunner(IntegrationTestRunner testRunner, String projectName, Map<String, ProjectUnitTestResults> testResultsMap) {
         this.testRunner = testRunner;
         this.projectName=projectName;
         this.testResultsMap=testResultsMap;

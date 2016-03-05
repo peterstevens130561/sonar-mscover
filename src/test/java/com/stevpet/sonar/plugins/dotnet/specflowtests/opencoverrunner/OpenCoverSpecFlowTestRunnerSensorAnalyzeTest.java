@@ -7,51 +7,35 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.eq;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
-import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.VsTestTestResultsSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.IntegrationTestCache;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestCache;
 import com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner.OpenCoverSpecFlowTestRunnerSensor;
-import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 public class OpenCoverSpecFlowTestRunnerSensorAnalyzeTest {
 
-	@Mock private Settings settings;
 	@Mock private FileSystem fileSystem ;
 	@Mock private MsCoverConfiguration configuration;
 	@Mock private TestCache cache;
-	@Mock private CachedSpecflowIntegrationTestRunner runner;
+	@Mock private IntegrationTestRunnerApplication runner;
 	private OpenCoverSpecFlowTestRunnerSensor sensor;
 	@Mock private Project module;
 	@Mock private SensorContext sensorContext;
-	@Mock private TestResultsBuilder testResultsBuilder;
 	@Mock private VsTestTestResultsSaver testResultsSaver;
-	@Mock private CoverageReader coverageReader;
-	@Mock private CoverageSaver coverageSaver;
-	@Mock private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 	@Mock private IntegrationTestsConfiguration integrationTestsConfiguration;
-	@Mock private OpenCoverModuleSaver openCoverModuleSaver;
-	@Mock private IntegrationTestCache integrationTestCache;
-    @Mock private IntegrationTestSensorHelper i;
 	@Before
 	public void before() {
 		org.mockito.MockitoAnnotations.initMocks(this);	
-		sensor = new OpenCoverSpecFlowTestRunnerSensor(runner,testResultsSaver,integrationTestsConfiguration,fileSystem,i);
+        sensor = new OpenCoverSpecFlowTestRunnerSensor(runner,testResultsSaver,integrationTestsConfiguration,fileSystem);
 	}
 	
 	@Test
@@ -60,17 +44,13 @@ public class OpenCoverSpecFlowTestRunnerSensorAnalyzeTest {
 		File root = new File("root");
 		when(fileSystem.workDir()).thenReturn(new File("workdir"));
 		ProjectUnitTestResults projectUnitTestResults = new ProjectUnitTestResults();
-		when(runner.getTestResults()).thenReturn(projectUnitTestResults);
 		when(integrationTestsConfiguration.getDirectory()).thenReturn(root);
 		when(module.getName()).thenReturn(projectName);
-		when(runner.setCoverageFile(any(File.class))).thenReturn(runner);
-		when(runner.setCoverageRoot(any(File.class))).thenReturn(runner);
-		when(runner.setProjectName(projectName)).thenReturn(runner);
 		sensor.analyse(module, sensorContext);
 		
 		
 		verify(runner,times(1)).execute();
-		verify(testResultsSaver,times(1)).save(eq(sensorContext), eq(projectUnitTestResults));
+		verify(testResultsSaver,times(1));
 	}
 	
 }
