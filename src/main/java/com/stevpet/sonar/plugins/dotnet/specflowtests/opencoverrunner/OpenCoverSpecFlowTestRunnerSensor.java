@@ -103,7 +103,8 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 			IntegrationTestsConfiguration integrationTestsConfiguration
 			) {
 		this.integrationTestRunnerApplication = new MultiThreadedSpecflowIntegrationTestApplication(microsoftWindowsEnvironment,
-		        integrationTestsConfiguration,new DefaultIntegrationTestRunnerFactory(msCoverConfiguration, microsoftWindowsEnvironment, fileSystem, vsTestEnvironment, settings)
+		        integrationTestsConfiguration,
+		        new DefaultIntegrationTestRunnerFactory(msCoverConfiguration, microsoftWindowsEnvironment, fileSystem, vsTestEnvironment, settings)
 				,fileSystem);
 		this.testResultsSaver = VsTestTestResultsSaver.create(pathResolver, fileSystem);
 		this.integrationTestsConfiguration = integrationTestsConfiguration;

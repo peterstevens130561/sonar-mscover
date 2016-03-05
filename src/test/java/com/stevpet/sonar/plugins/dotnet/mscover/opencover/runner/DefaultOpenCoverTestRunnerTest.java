@@ -2,6 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.runner;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -21,6 +22,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VsTestRunnerCo
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommandMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParserMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -29,7 +31,6 @@ public class DefaultOpenCoverTestRunnerTest {
     private DefaultOpenCoverTestRunner openCoverCoverageRunner;
     private OpenCoverCommand  openCoverCommand ;
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
-    private VsTestEnvironment testEnvironment;
     private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
     private CommandLineExexutorStub commandLineExecutorStub = new CommandLineExexutorStub();
     private AssembliesFinderMock assembliesFinderMock = new AssembliesFinderMock();
@@ -39,7 +40,8 @@ public class DefaultOpenCoverTestRunnerTest {
 	private VSTestCommandMock vsTestCommandMock = new VSTestCommandMock();
 	private String baseCommandLine="opencover/OpenCover.Console.Exe " +
 			"-register:user -excludebyfile:*\\*.Designer.cs -excludebyattribute:*ExcludeFromCodeCoverage* " +
-			"\"-target:exedir\" \"-targetdir:somedir\" -mergebyhash: \"-targetargs:arguments\" \"-output:coverage.xml\"";
+			"\"-target:exedir\" \"-targetdir:somedir\" -mergebyhash: \"-targetargs:arguments\" \"-output:";
+    private String coveragePath;
     
     /**
      * Setting up the mocks/stubs to work with. Note that it is assumed the builder does its work.
@@ -48,20 +50,22 @@ public class DefaultOpenCoverTestRunnerTest {
     public void before() {
         msCoverPropertiesMock.givenOpenCoverInstallPath("opencover");
         openCoverCommand = new OpenCoverCommand(msCoverPropertiesMock.getMock());
-        testEnvironment = new VsTestEnvironment();
-        testEnvironment.setCoverageXmlPath("coverage.xml");
+        
         assemblies= new ArrayList<String>();
         
         microsoftWindowsEnvironmentMock.givenHasAssemblies(assemblies);
 
 		openCoverCoverageRunner = new DefaultOpenCoverTestRunner(msCoverPropertiesMock.getMock(),microsoftWindowsEnvironmentMock.getMock(),openCoverCommand,assembliesFinderMock.getMock(),
-				vsTestRunnerCommandBuilderMock.getMock(),vsStdOutParserMock.getMock(),commandLineExecutorStub,testEnvironment);
+				vsTestRunnerCommandBuilderMock.getMock(),vsStdOutParserMock.getMock(),commandLineExecutorStub);
         assembliesFinderMock.onFindUnitTestAssembliesDir("somedir");
         vsTestRunnerCommandBuilderMock.givenBuild(vsTestCommandMock.getMock());
         vsTestCommandMock.giveExeDir("exedir");
         vsTestCommandMock.givenArguments("arguments");
         Pattern pattern = Pattern.compile("something to meet the need");
         openCoverCoverageRunner.setTestProjectPattern(pattern);
+        File coverageFile=new File("coverage.xml");
+        coveragePath=coverageFile.getAbsolutePath().replaceAll("\\\\", "/") + "\"";
+        openCoverCoverageRunner.setCoverageFile(coverageFile);
     }
     
     /**
@@ -92,7 +96,7 @@ public class DefaultOpenCoverTestRunnerTest {
         openCoverCoverageRunner.onlyReportAssembliesOfTheSolution().execute();
         //then I expect the proper commandline, with the one assembly
         String commandLine=commandLineExecutorStub.getCommandLine();
-        String expected =  baseCommandLine + " \"-filter:+[one]* \"";
+        String expected =  baseCommandLine + coveragePath + " \"-filter:+[one]* \"";
         assertEquals("building a basic OpenCover commandline for one assembly",expected,commandLine);
     }
     
@@ -104,7 +108,7 @@ public class DefaultOpenCoverTestRunnerTest {
         openCoverCoverageRunner.execute();
         //then I expect the proper commandline, with the one assembly
         String commandLine=commandLineExecutorStub.getCommandLine();
-        String expected =  baseCommandLine;
+        String expected =  baseCommandLine + coveragePath;
         assertEquals("building a basic OpenCover commandline for one assembly",expected,commandLine);
     }
     @Test
@@ -116,7 +120,7 @@ public class DefaultOpenCoverTestRunnerTest {
         openCoverCoverageRunner.onlyReportAssembliesOfTheSolution().execute();
         //then I exepct the proper commandline with the two assemblies
         String commandLine=commandLineExecutorStub.getCommandLine();
-        String expected = baseCommandLine +  " \"-filter:+[one]* +[two]* \"";
+        String expected = baseCommandLine +  coveragePath + " \"-filter:+[one]* +[two]* \"";
         assertEquals("building a basic OpenCover commandline with two assemblies",expected,commandLine);
     }
     

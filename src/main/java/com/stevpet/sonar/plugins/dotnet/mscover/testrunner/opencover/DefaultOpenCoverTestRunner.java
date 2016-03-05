@@ -32,7 +32,6 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 	private OpenCoverCommand openCoverCommand;
 	private MsCoverConfiguration msCoverProperties;
 	private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-	private VsTestEnvironment testEnvironment;
 	private AssembliesFinder assembliesFinder;
 	private VsTestRunnerCommandBuilder vsTestRunnerCommandBuilder;
 
@@ -47,8 +46,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 			AssembliesFinder assembliesFinder,
 			VsTestRunnerCommandBuilder vsTestRunnerCommandBuilder,
 			VSTestStdOutParser vsTestStdOutParser,
-			CommandLineExecutor commandLineExecutor,
-			VsTestEnvironment testEnvironment) {
+			CommandLineExecutor commandLineExecutor) {
 		this.openCoverCommand = openCoverCommand;
 		this.msCoverProperties = msCoverProperties;
 		this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
@@ -56,7 +54,6 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 		this.vsTestRunnerCommandBuilder = vsTestRunnerCommandBuilder;
 		this.vsTestStdOutParser = vsTestStdOutParser;
 		this.commandLineExecutor = commandLineExecutor;
-		this.testEnvironment=testEnvironment;
 	}
 
 	public static DefaultOpenCoverTestRunner create(
@@ -72,12 +69,12 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 						fileSystem, new VsTestConfigFinder(),
 						new VSTestCommand(), new DefaultAssembliesFinder(
 								msCoverProperties)), new VSTestStdOutParser(),
-				new LockedWindowsCommandLineExecutor(new NullProcessLock()),
-				vsTestEnvironment);
+				new LockedWindowsCommandLineExecutor(new NullProcessLock()));
 	}
 
 	protected void buildCommonArguments() {
 	    Preconditions.checkNotNull(testProjectPattern, "TestProjectPattern not set");
+	    Preconditions.checkNotNull(coverageFile,"CoverageFile not set");
 	    vsTestRunnerCommandBuilder.setTestProjectPattern(testProjectPattern);
 		OpenCoverTarget openCoverTarget = vsTestRunnerCommandBuilder
 				.build(false);
@@ -95,13 +92,8 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 		openCoverCommand.setExcludeFromCodeCoverageAttributeFilter();
 		openCoverCommand.setRegister("user");
 		openCoverCommand.setMergeByHash();
-
-		if (coverageFile == null) {
-			openCoverCommand
-					.setOutputPath(testEnvironment.getXmlCoveragePath());
-		} else {
-			openCoverCommand.setOutputPath(coverageFile.getAbsolutePath());
-		}
+		openCoverCommand.setOutputPath(coverageFile.getAbsolutePath());
+		
 		if (msCoverProperties.getOpenCoverSkipAutoProps()) {
 			openCoverCommand.setSkipAutoProps();
 		}
