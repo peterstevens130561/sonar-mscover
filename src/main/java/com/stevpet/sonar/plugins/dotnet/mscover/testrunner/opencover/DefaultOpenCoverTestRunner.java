@@ -13,6 +13,7 @@ import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
 import com.stevpet.sonar.plugins.common.commandexecutor.DefaultProcessLock;
 import com.stevpet.sonar.plugins.common.commandexecutor.LockedWindowsCommandLineExecutor;
+import com.stevpet.sonar.plugins.common.commandexecutor.NullProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.NoAssembliesDefinedException;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
@@ -71,7 +72,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 						fileSystem, new VsTestConfigFinder(),
 						new VSTestCommand(), new DefaultAssembliesFinder(
 								msCoverProperties)), new VSTestStdOutParser(),
-				new LockedWindowsCommandLineExecutor(new DefaultProcessLock()),
+				new LockedWindowsCommandLineExecutor(new NullProcessLock()),
 				vsTestEnvironment);
 	}
 

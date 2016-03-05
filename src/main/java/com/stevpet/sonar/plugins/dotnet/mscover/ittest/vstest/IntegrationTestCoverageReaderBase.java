@@ -74,7 +74,7 @@ public class IntegrationTestCoverageReaderBase implements
         try {
             executorService.shutdown();
             int timeout = integrationTestConfiguration.getCoverageReaderTimeout();
-            if (!executorService.awaitTermination(timeout, TimeUnit.MINUTES)) {
+            if (!executorService.awaitTermination(100, TimeUnit.MINUTES)) {
                 throw new SonarException("Timeout occurred during parsing of coveragefiles");
             }
         } catch (InterruptedException e) {

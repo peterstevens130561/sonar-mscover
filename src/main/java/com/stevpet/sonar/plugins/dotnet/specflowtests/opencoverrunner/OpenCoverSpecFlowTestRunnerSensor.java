@@ -110,10 +110,8 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 			IntegrationTestsConfiguration integrationTestsConfiguration
 			) {
 		this.testRunner = new MultiThreadedSpecflowIntegrationTestRunner(microsoftWindowsEnvironment,
-		        integrationTestsConfiguration,CachedSpecflowIntegrationTestRunner
-				.create(integrationTestCache, msCoverConfiguration,
-						microsoftWindowsEnvironment, fileSystem,
-						vsTestEnvironment, settings),fileSystem);
+		        integrationTestsConfiguration,new DefaultIntegrationTestRunnerFactory(integrationTestCache, msCoverConfiguration, microsoftWindowsEnvironment, fileSystem, vsTestEnvironment, settings)
+				,fileSystem);
 		this.testResultsSaver = VsTestTestResultsSaver.create(pathResolver, fileSystem);
 		this.integrationTestsConfiguration = integrationTestsConfiguration;
 		this.fileSystem=fileSystem;
@@ -137,7 +135,6 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 		File coverageFile = new File(fileSystem.workDir(),"coverage.xml");
 		String projectName = module.getName();
 		testRunner.setCoverageFile(coverageFile).setProjectName(projectName).setModule(projectName);
-		
 		testRunner.execute();
 
 		ProjectUnitTestResults testResults = testRunner.getTestResults();

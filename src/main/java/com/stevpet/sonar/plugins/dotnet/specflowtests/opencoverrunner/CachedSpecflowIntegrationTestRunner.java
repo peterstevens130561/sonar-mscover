@@ -92,6 +92,7 @@ public class CachedSpecflowIntegrationTestRunner implements
 				new DefaultIntegrationTestsConfiguration(settings, fileSystem));
 	}
 
+
 	/*
 	 * (non-Javadoc)
 	 * 
