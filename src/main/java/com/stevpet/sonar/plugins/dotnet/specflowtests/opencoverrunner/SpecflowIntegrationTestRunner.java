@@ -37,7 +37,6 @@ public class SpecflowIntegrationTestRunner implements
 		IntegrationTestRunner {
 
 	private Logger LOG = LoggerFactory.getLogger(SpecflowIntegrationTestRunner.class);
-	private final IntegrationTestCache integrationTestCache;
 	private final OpenCoverModuleSaver openCoverModuleSaver;
 	private final OpenCoverTestRunner testRunner;
 	private final TestResultsBuilder testResultsBuilder;
@@ -56,10 +55,8 @@ public class SpecflowIntegrationTestRunner implements
 	 * @param testRunner
 	 */
 	public SpecflowIntegrationTestRunner(
-			IntegrationTestCache integrationTestCache,
 			OpenCoverModuleSaver openCoverModuleSaver, OpenCoverTestRunner testRunner,
 			TestResultsBuilder testResultsBuilder) {
-		this.integrationTestCache = integrationTestCache;
 		this.openCoverModuleSaver = openCoverModuleSaver;
 		this.testRunner = testRunner;
 		this.testResultsBuilder = testResultsBuilder;
@@ -78,11 +75,10 @@ public class SpecflowIntegrationTestRunner implements
 	 * @return
 	 */
 	public static SpecflowIntegrationTestRunner create(
-			IntegrationTestCache integrationTestCache,
 			MsCoverConfiguration msCoverConfiguration,
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
 			FileSystem fileSystem, VsTestEnvironment vsTestEnvironment,Settings settings) {
-		return new SpecflowIntegrationTestRunner(integrationTestCache,
+		return new SpecflowIntegrationTestRunner(
 				new OpenCoverModuleSaver(), DefaultOpenCoverTestRunner.create(
 						msCoverConfiguration, microsoftWindowsEnvironment,
 						fileSystem, vsTestEnvironment),
@@ -144,7 +140,6 @@ public class SpecflowIntegrationTestRunner implements
 		testRunner.execute();
 		
 		File testResultsFile = testRunner.getTestResultsFile();
-		integrationTestCache.setHasRun(coverageFile, testResultsFile);
 		openCoverModuleSaver.splitFile(coverageFile);
 		File moduleCoverageFile = openCoverModuleSaver.getCoverageFile(module);
 		if(!moduleCoverageFile.exists()) {
@@ -154,13 +149,12 @@ public class SpecflowIntegrationTestRunner implements
 		}
 		testResults = testResultsFile == null ? new ProjectUnitTestResults()
 				: testResultsBuilder.parse(testResultsFile, moduleCoverageFile);
-		integrationTestCache.setTestResults(testResults);
 	}
 
 
 	@Override
 	public ProjectUnitTestResults getTestResults() {
-		return integrationTestCache.getTestResults();
+		return testResults;
 	}
 
     @Override

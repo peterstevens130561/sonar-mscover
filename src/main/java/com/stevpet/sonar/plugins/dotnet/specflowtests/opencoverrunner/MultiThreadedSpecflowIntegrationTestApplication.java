@@ -28,8 +28,8 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
  * @author stevpet
  *
  */
-public class MultiThreadedSpecflowIntegrationTestRunner implements IntegrationTestRunnerApplication {
-    private static Logger LOG = LoggerFactory.getLogger(MultiThreadedSpecflowIntegrationTestRunner.class);
+public class MultiThreadedSpecflowIntegrationTestApplication implements IntegrationTestRunnerApplication {
+    private static Logger LOG = LoggerFactory.getLogger(MultiThreadedSpecflowIntegrationTestApplication.class);
     private final MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private final IntegrationTestsConfiguration integrationTestsConfiguration;
     private ExecutorService executorService;
@@ -38,7 +38,7 @@ public class MultiThreadedSpecflowIntegrationTestRunner implements IntegrationTe
     private  Map<String,ProjectUnitTestResults> testResultsMap = new HashMap<>();
     private final FileSystem fileSystem;
     private IntegrationTestRunnerFactory testRunnerFactory;
-    public MultiThreadedSpecflowIntegrationTestRunner(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
+    public MultiThreadedSpecflowIntegrationTestApplication(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             IntegrationTestsConfiguration integrationTestsConfiguration,
             IntegrationTestRunnerFactory testRunnerFactory,
             FileSystem fileSystem) {

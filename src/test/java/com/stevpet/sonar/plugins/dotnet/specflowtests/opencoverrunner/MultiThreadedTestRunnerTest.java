@@ -25,7 +25,7 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 
 public class MultiThreadedTestRunnerTest {
-    @Mock private MultiThreadedSpecflowIntegrationTestRunner multiThreadedSpecflowIntegrationTestRunner ;
+    @Mock private MultiThreadedSpecflowIntegrationTestApplication multiThreadedSpecflowIntegrationTestRunner ;
     @Mock private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     @Mock private IntegrationTestsConfiguration integrationTestsConfiguration;
     @Mock private IntegrationTestRunnerFactory testRunnerFactory;
@@ -36,7 +36,7 @@ public class MultiThreadedTestRunnerTest {
     @Before
     public void before() {
         org.mockito.MockitoAnnotations.initMocks(this);
-        multiThreadedSpecflowIntegrationTestRunner=new MultiThreadedSpecflowIntegrationTestRunner(microsoftWindowsEnvironment, integrationTestsConfiguration, testRunnerFactory, fileSystem);  
+        multiThreadedSpecflowIntegrationTestRunner=new MultiThreadedSpecflowIntegrationTestApplication(microsoftWindowsEnvironment, integrationTestsConfiguration, testRunnerFactory, fileSystem);  
         //Fluent stuff
         when(testRunner.setCoverageFile(any(File.class))).thenReturn(testRunner);
         when(testRunner.setProjectName(any(String.class))).thenReturn(testRunner);

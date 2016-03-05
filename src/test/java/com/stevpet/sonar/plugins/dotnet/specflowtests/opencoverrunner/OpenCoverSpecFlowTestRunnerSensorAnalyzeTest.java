@@ -46,11 +46,12 @@ public class OpenCoverSpecFlowTestRunnerSensorAnalyzeTest {
 		ProjectUnitTestResults projectUnitTestResults = new ProjectUnitTestResults();
 		when(integrationTestsConfiguration.getDirectory()).thenReturn(root);
 		when(module.getName()).thenReturn(projectName);
+		when(runner.getTestResults(projectName)).thenReturn(projectUnitTestResults);
 		sensor.analyse(module, sensorContext);
 		
 		
 		verify(runner,times(1)).execute();
-		verify(testResultsSaver,times(1));
+		verify(testResultsSaver,times(1)).save(eq(sensorContext), eq(projectUnitTestResults));
 	}
 	
 }
