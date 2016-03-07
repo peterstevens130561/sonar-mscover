@@ -74,8 +74,7 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 	public OpenCoverSpecFlowTestRunnerSensor(
 			IntegrationTestRunnerApplication integrationTestRunnerApplication,
 			VsTestTestResultsSaver testResultsSaver,
-			IntegrationTestsConfiguration integrationTestsConfiguration,
-			FileSystem fileSystem) {
+			IntegrationTestsConfiguration integrationTestsConfiguration) {
 		this.integrationTestRunnerApplication = integrationTestRunnerApplication;
 		this.testResultsSaver = testResultsSaver;
 		this.integrationTestsConfiguration = integrationTestsConfiguration;

@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.TransformerException;
 
-interface ModuleSplitter {
+public interface ModuleSplitter {
 
 	/**
 	 * Parse the OpenCover coverage file, and give each Module to the moduleLambda to process
@@ -19,5 +19,11 @@ interface ModuleSplitter {
 	 */
 	int splitFile(File file) throws FileNotFoundException, XMLStreamException,
 			TransformerException;
+
+    ModuleSplitter setRoot(File coverageDir);
+
+    ModuleSplitter setProject(String string);
+
+    File getCoverageFile(String name);
 
 }

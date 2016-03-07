@@ -24,7 +24,7 @@ public  class DefaultIntegrationTestsConfiguration implements IntegrationTestsCo
     private static final String MSCOVER_INTEGRATION_COVERAGEREADER_TIMEOUT= DefaultIntegrationTestsConfiguration.MSCOVER + "coveragereader.timeout";
     private static final String MSCOVER_INTEGRATION_COVERAGEREADER_THREADS =DefaultIntegrationTestsConfiguration.MSCOVER + "coveragereader.threads";
     private static final String MSCOVER_INTEGRATION_TESTRUNNER_THREADS = DefaultIntegrationTestsConfiguration.MSCOVER + "testrunner.threads";
-    private static final String MSCOVER_INTEGRATION_TESTRUNNER_TIMEOUT = null;
+    private static final String MSCOVER_INTEGRATION_TESTRUNNER_TIMEOUT = DefaultIntegrationTestsConfiguration.MSCOVER + "testrunner.timeout";
 	private Settings settings;
 	private FileSystem fileSystem;
 	

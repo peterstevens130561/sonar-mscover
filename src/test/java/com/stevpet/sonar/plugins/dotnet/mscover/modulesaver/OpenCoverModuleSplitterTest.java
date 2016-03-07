@@ -14,7 +14,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.ModuleLambda;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.ModuleParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.ModuleSaverLambda;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSplitterBase;
+import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSaver;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -27,7 +27,7 @@ public class OpenCoverModuleSplitterTest {
 	public void simpleTest() throws FileNotFoundException, XMLStreamException, TransformerException {
 		File xmlFile = TestUtils.getResource("OpenCoverCoverageParser/coverage-report.xml");
 		ModuleLambda moduleHelper = mock(ModuleLambda.class);
-		int modules=new OpenCoverModuleSplitterBase(moduleHelper).splitFile(xmlFile);
+		int modules=new OpenCoverModuleSaver(moduleHelper).splitFile(xmlFile);
 		verify(moduleHelper,times(34)).execute(anyString());
 	}
 	
@@ -40,7 +40,7 @@ public class OpenCoverModuleSplitterTest {
 		ModuleSaverLambda moduleLambda = new ModuleSaverLambda(moduleParser);
 		moduleLambda.setDirectory(tempDir);
 		moduleLambda.setProject("BaseProject");
-		int modules=new OpenCoverModuleSplitterBase(moduleLambda).splitFile(xmlFile);	
+		int modules=new OpenCoverModuleSaver(moduleLambda).splitFile(xmlFile);	
 	}
 
 }

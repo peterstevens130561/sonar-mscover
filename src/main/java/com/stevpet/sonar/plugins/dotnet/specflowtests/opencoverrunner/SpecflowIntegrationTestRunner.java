@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 
-import org.jfree.util.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
@@ -143,8 +142,8 @@ public class SpecflowIntegrationTestRunner implements
 		openCoverModuleSaver.splitFile(coverageFile);
 		File moduleCoverageFile = openCoverModuleSaver.getCoverageFile(module);
 		if(!moduleCoverageFile.exists()) {
-			String msg="Can't find coverage file for project '" + module + "'\n most likely cause is that the sonar.visualstudio.testProjectPattern property is incorrect";
-			Log.error(msg);
+			String msg="Can't find coverage file '" + moduleCoverageFile.getAbsolutePath() + "'  for project '" + module + "'\n most likely cause is that the sonar.visualstudio.testProjectPattern property is incorrect";
+			LOG.error(msg);
 			throw new SonarException(msg);
 		}
 		testResults = testResultsFile == null ? new ProjectUnitTestResults()

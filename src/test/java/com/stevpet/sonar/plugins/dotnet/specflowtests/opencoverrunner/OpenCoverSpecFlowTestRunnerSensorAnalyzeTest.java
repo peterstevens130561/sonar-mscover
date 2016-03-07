@@ -23,7 +23,6 @@ import com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner.OpenCoverS
 
 public class OpenCoverSpecFlowTestRunnerSensorAnalyzeTest {
 
-	@Mock private FileSystem fileSystem ;
 	@Mock private MsCoverConfiguration configuration;
 	@Mock private TestCache cache;
 	@Mock private IntegrationTestRunnerApplication runner;
@@ -35,14 +34,13 @@ public class OpenCoverSpecFlowTestRunnerSensorAnalyzeTest {
 	@Before
 	public void before() {
 		org.mockito.MockitoAnnotations.initMocks(this);	
-        sensor = new OpenCoverSpecFlowTestRunnerSensor(runner,testResultsSaver,integrationTestsConfiguration,fileSystem);
+        sensor = new OpenCoverSpecFlowTestRunnerSensor(runner,testResultsSaver,integrationTestsConfiguration);
 	}
 	
 	@Test
 	public void test() {
 		String projectName="projectName";
 		File root = new File("root");
-		when(fileSystem.workDir()).thenReturn(new File("workdir"));
 		ProjectUnitTestResults projectUnitTestResults = new ProjectUnitTestResults();
 		when(integrationTestsConfiguration.getDirectory()).thenReturn(root);
 		when(module.getName()).thenReturn(projectName);

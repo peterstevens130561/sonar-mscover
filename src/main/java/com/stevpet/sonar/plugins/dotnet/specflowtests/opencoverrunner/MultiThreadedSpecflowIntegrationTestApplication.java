@@ -84,7 +84,9 @@ public class MultiThreadedSpecflowIntegrationTestApplication implements Integrat
         try {
             executorService.shutdown();
             if (!executorService.awaitTermination(timeout, TimeUnit.MINUTES)) {
-                throw new SonarException("Timeout occurred during parsing of coveragefiles");
+                String msg="Timeout occurred during execution of tests after " + timeout + " minutes";
+                LOG.error(msg);
+                throw new SonarException(msg);
             }
             for(Future<Boolean> result:results) {
                 result.get();

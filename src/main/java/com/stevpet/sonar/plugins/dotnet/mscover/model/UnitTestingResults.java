@@ -26,12 +26,15 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jfree.util.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * holds the parsed unit testing results
  */
 public class UnitTestingResults {
+    private static Logger Log = LoggerFactory.getLogger(UnitTestingResults.class);
     // Key: MethodId
     private Map<String, UnitTestMethodResult> unitTestResultsById = new HashMap<String, UnitTestMethodResult>();
 
