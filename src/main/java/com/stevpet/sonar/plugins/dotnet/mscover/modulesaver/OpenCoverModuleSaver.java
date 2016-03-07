@@ -30,7 +30,7 @@ public class OpenCoverModuleSaver implements ModuleSplitter {
     private ModuleLambda moduleHelper;
 
     public OpenCoverModuleSaver() {
-        this.moduleHelper = new ModuleSaverLambda(new OpenCoverModuleParser());
+        this(new ModuleSaverLambda(new OpenCoverModuleParser()));
     }
 
     public OpenCoverModuleSaver(ModuleLambda moduleHelper) {

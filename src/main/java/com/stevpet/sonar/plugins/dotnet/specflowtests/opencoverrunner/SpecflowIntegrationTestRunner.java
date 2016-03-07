@@ -9,12 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
-import org.sonar.api.resources.Project;
 import org.sonar.api.utils.SonarException;
 
 import com.google.common.base.Preconditions;
-import com.stevpet.sonar.plugins.dotnet.mscover.DefaultIntegrationTestsConfiguration;
-import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
@@ -22,8 +19,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBu
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.SpecFlowTestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.DefaultOpenCoverTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverTestRunner;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.IntegrationTestCache;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 /**
@@ -140,6 +135,7 @@ public class SpecflowIntegrationTestRunner implements
 		
 		File testResultsFile = testRunner.getTestResultsFile();
 		openCoverModuleSaver.splitFile(coverageFile);
+		coverageFile.delete();
 		File moduleCoverageFile = openCoverModuleSaver.getCoverageFile(module);
 		if(!moduleCoverageFile.exists()) {
 			String msg="Can't find coverage file '" + moduleCoverageFile.getAbsolutePath() + "'  for project '" + module + "'\n most likely cause is that the sonar.visualstudio.testProjectPattern property is incorrect";

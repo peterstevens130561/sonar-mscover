@@ -62,7 +62,6 @@ public class SpecFlowScenarioMethodResolver implements BatchExtension {
                 Matcher matcher = functionPattern.matcher(line);
                 if(matcher.matches()) {
                     String key=matcher.group(1);
-                    LOG.info("found method {} in {}",key,file.getName());
                     map.put(key, file);
                 }
             }
