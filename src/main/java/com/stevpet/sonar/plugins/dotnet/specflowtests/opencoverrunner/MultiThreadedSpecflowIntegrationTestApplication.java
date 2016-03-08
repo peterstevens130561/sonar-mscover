@@ -2,7 +2,6 @@ package com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -15,6 +14,7 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.BatchComponent;
 import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.api.batch.fs.FileSystem;
@@ -32,32 +32,39 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
  * @author stevpet
  *
  */
-@InstantiationStrategy(value = "PER_BATCH")
-public class MultiThreadedSpecflowIntegrationTestApplication implements IntegrationTestRunnerApplication,BatchExtension {
+public class MultiThreadedSpecflowIntegrationTestApplication  implements IntegrationTestRunnerApplication {
     private static Logger LOG = LoggerFactory.getLogger(MultiThreadedSpecflowIntegrationTestApplication.class);
     private final MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private final IntegrationTestsConfiguration integrationTestsConfiguration;
     private ExecutorService executorService;
-    private boolean didExecute;
-
-    private  Map<String,ProjectUnitTestResults> testResultsMap = new HashMap<>();
     private final FileSystem fileSystem;
     private IntegrationTestRunnerFactory testRunnerFactory;
+    private MultiThreadedSpecflowIntegrationTestCache multiThreadedSpecFlowIntegrationTestCache;
     public MultiThreadedSpecflowIntegrationTestApplication(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             IntegrationTestsConfiguration integrationTestsConfiguration,
             IntegrationTestRunnerFactory testRunnerFactory,
-            FileSystem fileSystem) {
+            FileSystem fileSystem, MultiThreadedSpecflowIntegrationTestCache multiThreadedSpecflowIntegrationTestCache) {
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.integrationTestsConfiguration=integrationTestsConfiguration;
         this.testRunnerFactory=testRunnerFactory;
         this.fileSystem=fileSystem;
+        this.multiThreadedSpecFlowIntegrationTestCache = multiThreadedSpecflowIntegrationTestCache;
     }
 
+    /**
+     * DI Constructor
+     * @param microsoftWindowsEnvironment
+     * @param integrationTestsConfiguration
+     * @param msCoverConfiguration
+     * @param fileSystem
+     * @param settings
+     */
     public MultiThreadedSpecflowIntegrationTestApplication(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             IntegrationTestsConfiguration integrationTestsConfiguration,
             MsCoverConfiguration msCoverConfiguration,
             FileSystem fileSystem,
-            Settings settings) {
+            Settings settings,
+            MultiThreadedSpecflowIntegrationTestCache multiThreadedSpecflowIntegrationTestCache) {
         this(microsoftWindowsEnvironment,
                 integrationTestsConfiguration,
                 new DefaultIntegrationTestRunnerFactory(
@@ -65,7 +72,8 @@ public class MultiThreadedSpecflowIntegrationTestApplication implements Integrat
                         microsoftWindowsEnvironment,
                         fileSystem
                 ),
-                fileSystem);
+                fileSystem, 
+                multiThreadedSpecflowIntegrationTestCache);
     }
 
     /* (non-Javadoc)
@@ -73,10 +81,9 @@ public class MultiThreadedSpecflowIntegrationTestApplication implements Integrat
      */
     @Override
     public ProjectUnitTestResults getTestResults(String module) {
-        synchronized(testResultsMap) {
             LOG.debug("Getting results for {}",module);
-            return testResultsMap.get(module);
-        }
+            return multiThreadedSpecFlowIntegrationTestCache.getTestResults(module);
+  
     }
 
     /* (non-Javadoc)
@@ -84,7 +91,7 @@ public class MultiThreadedSpecflowIntegrationTestApplication implements Integrat
      */
     @Override
     public void execute() {
-        if(didExecute) {
+        if(multiThreadedSpecFlowIntegrationTestCache.getDidExecute()) {
             LOG.debug("Using previous data");
             return;
         }
@@ -95,7 +102,7 @@ public class MultiThreadedSpecflowIntegrationTestApplication implements Integrat
         LOG.debug("Using {} threads",threads);
         List<Future<Boolean>> results = queueTests();
         waitTillDone(timeout, results);
-        didExecute=true;
+        multiThreadedSpecFlowIntegrationTestCache.setDidExecute(true);
     }
 
 
@@ -138,7 +145,7 @@ public class MultiThreadedSpecflowIntegrationTestApplication implements Integrat
         .setModule(projectName)
         .setCoverageRoot(integrationTestsConfiguration.getDirectory())
         .setTestCaseFilter(integrationTestsConfiguration.getTestCaseFilter());
-        Callable<Boolean> callable= new CallableTestRunner(testRunner, projectName, testResultsMap);
+        Callable<Boolean> callable= new CallableTestRunner(testRunner, projectName, multiThreadedSpecFlowIntegrationTestCache);
         LOG.debug("Queued {}",projectName);
         return callable;
     }

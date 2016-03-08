@@ -32,11 +32,12 @@ public class MultiThreadedTestRunnerTest {
     @Mock private FileSystem fileSystem;
     @Mock private IntegrationTestRunner testRunner ;
     private List<VisualStudioProject> projects = new ArrayList<VisualStudioProject>();
+    @Mock private MultiThreadedSpecflowIntegrationTestCache multiThreadedSpecflowIntegrationTestCache;
     
     @Before
     public void before() {
         org.mockito.MockitoAnnotations.initMocks(this);
-        multiThreadedSpecflowIntegrationTestRunner=new MultiThreadedSpecflowIntegrationTestApplication(microsoftWindowsEnvironment, integrationTestsConfiguration, testRunnerFactory, fileSystem);  
+        multiThreadedSpecflowIntegrationTestRunner=new MultiThreadedSpecflowIntegrationTestApplication(microsoftWindowsEnvironment, integrationTestsConfiguration, testRunnerFactory, fileSystem, multiThreadedSpecflowIntegrationTestCache);  
         //Fluent stuff
         when(testRunner.setCoverageFile(any(File.class))).thenReturn(testRunner);
         when(testRunner.setProjectName(any(String.class))).thenReturn(testRunner);
