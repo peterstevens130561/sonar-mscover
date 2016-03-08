@@ -19,16 +19,14 @@ public class DefaultIntegrationTestRunnerFactory implements IntegrationTestRunne
     private MsCoverConfiguration msCoverConfiguration;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private FileSystem fileSystem;
-    private Settings settings;
 
     public DefaultIntegrationTestRunnerFactory(
             MsCoverConfiguration msCoverConfiguration,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-            FileSystem fileSystem, VsTestEnvironment vsTestEnvironment,Settings settings) {
+            FileSystem fileSystem) {
         this.msCoverConfiguration = msCoverConfiguration;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.fileSystem = fileSystem;
-        this.settings = settings;
     }
         /* (non-Javadoc)
          * @see com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner.IntegrationTestRunnerFactory#create()

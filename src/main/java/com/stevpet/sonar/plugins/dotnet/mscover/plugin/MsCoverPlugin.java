@@ -36,6 +36,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.IntegrationTestCache;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestCache;
+import com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner.MultiThreadedSpecflowIntegrationTestApplication;
 import com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner.OpenCoverSpecFlowTestRunnerSensor;
 import com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner.OpenCoverSpecFlowTestSaverSensor;
 import com.stevpet.sonar.plugins.dotnet.unittests.OpenCoverUnitTestSensor;
@@ -79,6 +80,8 @@ public final class MsCoverPlugin extends SonarPlugin {
                 
                 // for the integration tests
         		IntegrationTestCache.class,
+        		
+        		MultiThreadedSpecflowIntegrationTestApplication.class,
                 OpenCoverSpecFlowTestRunnerSensor.class,
                 OpenCoverSpecFlowTestSaverSensor.class
                 )

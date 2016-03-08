@@ -91,6 +91,7 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 	 * @param settings
 	 * @param pathResolver
 	 * @param integrationTestsConfiguration
+	 * @param multiThreadedSpecflowIntegrationTestApplication) 
 	 */
 	public OpenCoverSpecFlowTestRunnerSensor(
 			MsCoverConfiguration msCoverConfiguration, 
@@ -99,12 +100,11 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 			VsTestEnvironment vsTestEnvironment, 
 			Settings settings, 
 			PathResolver pathResolver,
-			IntegrationTestsConfiguration integrationTestsConfiguration
-			) {
-		this.integrationTestRunnerApplication = new MultiThreadedSpecflowIntegrationTestApplication(microsoftWindowsEnvironment,
-		        integrationTestsConfiguration,
-		        new DefaultIntegrationTestRunnerFactory(msCoverConfiguration, microsoftWindowsEnvironment, fileSystem, vsTestEnvironment, settings)
-				,fileSystem);
+			IntegrationTestsConfiguration integrationTestsConfiguration, 
+			IntegrationTestRunnerApplication multiThreadedSpecflowIntegrationTestApplication
+			)
+ {
+		this.integrationTestRunnerApplication = multiThreadedSpecflowIntegrationTestApplication;
 		this.testResultsSaver = VsTestTestResultsSaver.create(pathResolver, fileSystem);
 		this.integrationTestsConfiguration = integrationTestsConfiguration;
 	}

@@ -15,10 +15,14 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.BatchExtension;
+import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.config.Settings;
 import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
@@ -28,7 +32,8 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
  * @author stevpet
  *
  */
-public class MultiThreadedSpecflowIntegrationTestApplication implements IntegrationTestRunnerApplication {
+@InstantiationStrategy(value = "PER_BATCH")
+public class MultiThreadedSpecflowIntegrationTestApplication implements IntegrationTestRunnerApplication,BatchExtension {
     private static Logger LOG = LoggerFactory.getLogger(MultiThreadedSpecflowIntegrationTestApplication.class);
     private final MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private final IntegrationTestsConfiguration integrationTestsConfiguration;
@@ -48,6 +53,20 @@ public class MultiThreadedSpecflowIntegrationTestApplication implements Integrat
         this.fileSystem=fileSystem;
     }
 
+    public MultiThreadedSpecflowIntegrationTestApplication(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
+            IntegrationTestsConfiguration integrationTestsConfiguration,
+            MsCoverConfiguration msCoverConfiguration,
+            FileSystem fileSystem,
+            Settings settings) {
+        this(microsoftWindowsEnvironment,
+                integrationTestsConfiguration,
+                new DefaultIntegrationTestRunnerFactory(
+                        msCoverConfiguration,
+                        microsoftWindowsEnvironment,
+                        fileSystem
+                ),
+                fileSystem);
+    }
 
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner.IntegrationTestRunnerApplication#getTestResults()
