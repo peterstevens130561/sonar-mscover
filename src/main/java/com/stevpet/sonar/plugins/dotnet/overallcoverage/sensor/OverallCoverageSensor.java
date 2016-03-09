@@ -29,6 +29,9 @@ public class OverallCoverageSensor implements Sensor {
     public void analyse(Project module, SensorContext context) {
         LOG.info("OveralCoverageSensor invoked");
         SonarCoverage sonarCoverage = coverageCache.get(module);
+        if(sonarCoverage==null) {
+            return;
+        }
         coverageSaver.save(context, sonarCoverage);
     }
 

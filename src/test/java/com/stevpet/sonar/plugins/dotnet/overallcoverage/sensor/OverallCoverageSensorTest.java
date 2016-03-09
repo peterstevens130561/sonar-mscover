@@ -38,5 +38,13 @@ public class OverallCoverageSensorTest {
         verify(coverageCache,times(1)).get(module);
         verify(coverageSaver,times(1)).save(context, sonarCoverage);
     }
+    
+    @Test
+    public void testNoCoverage() {
+        when(coverageCache.get(module)).thenReturn(null);
+        sensor.analyse(module, context);
+        verify(coverageCache,times(1)).get(module);
+        verify(coverageSaver,times(0)).save(context, null);
+    }
 
 }
