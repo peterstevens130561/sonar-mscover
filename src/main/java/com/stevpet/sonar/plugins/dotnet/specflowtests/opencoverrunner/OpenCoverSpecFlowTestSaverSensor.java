@@ -2,8 +2,10 @@ package com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner;
 
 
 import java.io.File;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.DependedUpon;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
@@ -23,14 +25,14 @@ import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSaver
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 
+@DependedUpon(value="IntegrationTestCoverageSaved")
 public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 
-	private static Logger Log = LoggerFactory.getLogger(OpenCoverSpecFlowTestSaverSensor.class);
+	private static Logger LOG = LoggerFactory.getLogger(OpenCoverSpecFlowTestSaverSensor.class);
 	private final OpenCoverIntegrationTestCoverageReader reader;
 	private final CoverageSaver saver;
 	private final OpenCoverModuleSaver openCoverModuleSaver;
 	private final IntegrationTestsConfiguration integrationTestsConfiguration;
-	private final IntegrationTestSensorHelper integrationTestSensorHelper;
     private MsCoverConfiguration msCoverConfiguration;
 	
 	/**
@@ -75,7 +77,6 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 		this.saver=coverageSaver;
 		this.openCoverModuleSaver=openCoverModuleSaver;
 		this.integrationTestsConfiguration=integrationTestsConfiguration;
-		this.integrationTestSensorHelper=integrationTestSensorHelper;
 		this.msCoverConfiguration=msCoverConfiguration;
 	}
 	
@@ -86,17 +87,28 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 
 	@Override
 	public void analyse(Project module, SensorContext context) {
-
-	    File coverageDir=integrationTestsConfiguration.getDirectory();	
-        File artifactFile=openCoverModuleSaver.setProject(module.getName()).setRoot(coverageDir).getCoverageFile(module.getName());
-        File artifactDir=artifactFile.getParentFile();
-        if(!artifactDir.exists()) {
-        	Log.warn("No coverage file available for project {} in dir {}",module.getName(),artifactDir.getAbsolutePath());
+	    LOG.info("OpenCoverSpecFlowTestSaverSensor invoked");
+	    File integrationTestCoverageDir = getModuleIntegrationTestCoverageDir(module);
+        if(!integrationTestCoverageDir.exists()) {
+        	LOG.warn("No coverage file available for project {} in dir {}",module.getName(),integrationTestCoverageDir.getAbsolutePath());
         	return;
         }
         SonarCoverage sonarCoverage = new SonarCoverage();
         reader.setMsCoverConfiguration(msCoverConfiguration);
-        reader.read(sonarCoverage,artifactDir);
+        reader.read(sonarCoverage,integrationTestCoverageDir);
         saver.save(context,sonarCoverage);
+    }
+
+
+	/**
+	 * Directory that has the integration test coverage files for this module
+	 * @param module
+	 * @return
+	 */
+    private File getModuleIntegrationTestCoverageDir(Project module) {
+        File coverageDir=integrationTestsConfiguration.getDirectory();	
+        File artifactFile=openCoverModuleSaver.setProject(module.getName()).setRoot(coverageDir).getCoverageFile(module.getName());
+        File artifactDir=artifactFile.getParentFile();
+        return artifactDir;
     } 
 }

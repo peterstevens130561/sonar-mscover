@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.DependedUpon;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
@@ -58,6 +59,7 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
  * @author stevpet
  * 
  */
+@DependedUpon("UnitTestCoverageSaved")
 public class OpenCoverUnitTestSensor implements Sensor {
 
     private Logger Log = LoggerFactory.getLogger(OpenCoverUnitTestSensor.class);
