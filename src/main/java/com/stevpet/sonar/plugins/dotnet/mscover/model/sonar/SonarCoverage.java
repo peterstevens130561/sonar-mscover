@@ -27,6 +27,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
+import com.google.common.base.Preconditions;
+
 public class SonarCoverage {
 
     private Map<Integer,SonarFileCoverage> idMap = new HashMap<Integer,SonarFileCoverage>();
@@ -92,6 +96,7 @@ public class SonarCoverage {
     private SonarFileCoverage getFileCoverageToMergeInto(
             SonarFileCoverage fileCoverage) {
         String sourceFileName = fileCoverage.getAbsolutePath();
+        Preconditions.checkArgument(StringUtils.isNotEmpty(sourceFileName),"no sourcefilename for coverage data");
 		Integer destinationFileId = getFileIdInThisRepository(sourceFileName);
 		SonarFileCoverage destinationFileCoverage = idMap.get(destinationFileId);
         return destinationFileCoverage;

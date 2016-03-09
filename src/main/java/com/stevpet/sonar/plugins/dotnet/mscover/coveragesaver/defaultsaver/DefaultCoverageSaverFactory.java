@@ -5,7 +5,6 @@ import org.sonar.api.scan.filesystem.PathResolver;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.nullsaver.NullBranchFileCoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.ittest.vstest.IntegrationTestLineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
@@ -51,6 +50,13 @@ public class DefaultCoverageSaverFactory implements CoverageSaverFactory {
         return new CoverageSaverBase(
                 new IntegrationTestBranchFileCoverageSaver(resourceResolver),
                 new IntegrationTestLineFileCoverageSaver(resourceResolver),
+                microsoftWindowsEnvironment);
+    }
+
+    public CoverageSaver createOverallTestCoverageSaver() {
+        return new CoverageSaverBase(
+                new OverallBranchFileCoverageSaver(resourceResolver),
+                new OverallLineFileCoverageSaver(resourceResolver),
                 microsoftWindowsEnvironment);
     }
 

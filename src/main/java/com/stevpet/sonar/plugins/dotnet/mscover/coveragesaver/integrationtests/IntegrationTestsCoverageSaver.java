@@ -5,8 +5,8 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.scan.filesystem.PathResolver;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.CoverageSaverBase;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.IntegrationTestLineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.nullsaver.NullBranchFileCoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.ittest.vstest.IntegrationTestLineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
