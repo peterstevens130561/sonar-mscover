@@ -47,4 +47,15 @@ public class DefaultCoverageCacheTest {
         assertNotNull("should be valid object",coverageGotten);
         assertEquals("should have one file",2,coverageGotten.getValues().size());
     }
+    
+    @Test
+    public void insertThenRemove() {
+        coverage = new SonarCoverage();
+
+        coverage.linkFileNameToFileId("a", "1");
+        coverageCache.merge(coverage,MODULE_NAME);
+        coverageCache.delete(MODULE_NAME);
+        SonarCoverage coverageGotten = coverageCache.get(MODULE_NAME);
+        assertNull("should not have data, as it is deleted",coverageGotten);
+    }
 }

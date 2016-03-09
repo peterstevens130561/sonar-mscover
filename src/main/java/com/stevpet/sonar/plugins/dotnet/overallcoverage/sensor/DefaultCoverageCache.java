@@ -17,21 +17,28 @@ public class DefaultCoverageCache implements CoverageCache,BatchExtension {
     private Map<String, SonarCoverage> map = new HashMap<>();
 
     @Override
-    public SonarCoverage get(String module) {
-        LOG.info("get {}",module);
-        return map.get(module);
+    public SonarCoverage get(String moduleName) {
+        LOG.info("get {}",moduleName);
+        return map.get(moduleName);
     }
 
     @Override
-    public void merge(SonarCoverage coverage, String module) {
-        LOG.info("merging {}",module);
-        if (!map.containsKey(module)){
-            map.put(module, coverage);
+    public void merge(SonarCoverage coverage, String moduleName) {
+        LOG.info("merging {}",moduleName);
+        if (!map.containsKey(moduleName)){
+            map.put(moduleName, coverage);
         } else {
-            SonarCoverage dest = map.get(module);
+            SonarCoverage dest = map.get(moduleName);
             dest.merge(coverage);
 
         }
     }
+
+    @Override
+    public void delete(String moduleName) {
+        map.remove(moduleName);
+    }
+    
+    
 
 }

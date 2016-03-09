@@ -7,16 +7,22 @@ public interface CoverageCache {
 
     /**
      * query coverage of the module
-     * @param string
+     * @param moduleName
      * @return coverage, or null
      */
-    SonarCoverage get(String string);
+    SonarCoverage get(String moduleName);
 
     /**
      * merge coverage into the cache.
      * @param coverage
-     * @param string
+     * @param moduleName
      */
-    void merge(SonarCoverage coverage, String string);
+    void merge(SonarCoverage coverage, String moduleName);
+
+    /**
+     * remove coverage from the cache
+     * @param moduleName
+     */
+    void delete(String moduleName);
 
 }
