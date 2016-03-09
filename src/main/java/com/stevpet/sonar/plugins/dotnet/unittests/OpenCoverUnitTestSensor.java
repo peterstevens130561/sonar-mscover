@@ -48,6 +48,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.DefaultOpen
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestCache;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestCache;
+import com.stevpet.sonar.plugins.dotnet.overallcoverage.sensor.CoverageCache;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 /**
@@ -72,6 +73,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
     private TestResultsBuilder testResultsBuilder;
     private VsTestTestResultsSaver testResultsSaver;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
+    private CoverageCache overallCoverageCache;
 
     /**
      * Includes all dependencies
@@ -92,7 +94,8 @@ public class OpenCoverUnitTestSensor implements Sensor {
             TestResultsBuilder testResultsBuilder,
             VsTestTestResultsSaver testResultsSaver,
             CoverageReader coverageReader, CoverageSaver coverageSaver,
-            MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+            MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
+            CoverageCache overallCoverageCache) {
         this.fileSystem = fileSystem;
         this.configuration = configuration;
         this.cache = unitTestBatchData;
@@ -102,6 +105,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
         this.reader = coverageReader;
         this.coverageSaver = coverageSaver;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
+        this.overallCoverageCache = overallCoverageCache;
         ;
     }
 
@@ -120,7 +124,8 @@ public class OpenCoverUnitTestSensor implements Sensor {
             MsCoverConfiguration msCoverConfiguration,
             UnitTestCache unitTestBatchData,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-            PathResolver pathResolver) {
+            PathResolver pathResolver,
+            CoverageCache overallCoverageCache) {
         this(fileSystem, msCoverConfiguration, unitTestBatchData,
                 DefaultOpenCoverTestRunner.create(msCoverConfiguration,
                         microsoftWindowsEnvironment, fileSystem), SpecFlowTestResultsBuilder
@@ -128,7 +133,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
                 VsTestTestResultsSaver.create(pathResolver, fileSystem),
                 new OpenCoverCoverageReader(msCoverConfiguration),
                 new OpenCoverUnitTestCoverageSaver(microsoftWindowsEnvironment,
-                        pathResolver, fileSystem), microsoftWindowsEnvironment);
+                        pathResolver, fileSystem), microsoftWindowsEnvironment,overallCoverageCache);
     }
 
     @Override
@@ -163,7 +168,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
             testResultsFile = cache.getTestResultsFile();
             coverageFile = cache.getTestCoverageFile();
         }
-
+        overallCoverageCache.merge(sonarCoverage, project.getName());
         coverageSaver.save(context, sonarCoverage);
 
         if (testResultsFile != null

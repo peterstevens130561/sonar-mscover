@@ -12,6 +12,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.eq;
+
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
@@ -25,6 +26,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBu
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.VsTestTestResultsSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestCache;
+import com.stevpet.sonar.plugins.dotnet.overallcoverage.sensor.CoverageCache;
 import com.stevpet.sonar.plugins.dotnet.utils.MsCoverTestUtils;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
@@ -47,6 +49,7 @@ public class SensorAnalyzeTest {
     private File testResultsFile = new File("testResults");
     private File coverageFile = new File("workdir/coverage.xml");
     private ProjectUnitTestResults projectUnitTestResults = new ProjectUnitTestResults();
+    @Mock private CoverageCache overallCoverageCache;
 
     @Before
     public void before() {
@@ -54,7 +57,7 @@ public class SensorAnalyzeTest {
 
         sensor = new OpenCoverUnitTestSensor(fileSystem, configuration, cache,
                 runner, testResultsBuilder, testResultsSaver, coverageReader,
-                coverageSaver, microsoftWindowsEnvironment);
+                coverageSaver, microsoftWindowsEnvironment, overallCoverageCache);
         when(fileSystem.workDir()).thenReturn(new File("workdir"));
         when(runner.getTestResultsFile()).thenReturn(testResultsFile);
         when(cache.getTestCoverageFile()).thenReturn(coverageFile);
