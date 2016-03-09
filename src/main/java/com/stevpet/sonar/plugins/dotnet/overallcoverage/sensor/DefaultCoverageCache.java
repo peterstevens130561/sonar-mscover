@@ -3,11 +3,14 @@ package com.stevpet.sonar.plugins.dotnet.overallcoverage.sensor;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.sonar.api.BatchExtension;
+import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
-public class DefaultCoverageCache implements CoverageCache {
+@InstantiationStrategy(value=InstantiationStrategy.PER_BATCH)
+public class DefaultCoverageCache implements CoverageCache,BatchExtension {
 
     private Map<String, SonarCoverage> map = new HashMap<>();
 
