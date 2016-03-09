@@ -22,7 +22,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultCoverageSaverFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSaver;
-import com.stevpet.sonar.plugins.dotnet.overallcoverage.sensor.CoverageCache;
+import com.stevpet.sonar.plugins.dotnet.overallcoverage.sensor.OverallCoverageCache;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 
@@ -35,7 +35,7 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 	private final OpenCoverModuleSaver openCoverModuleSaver;
 	private final IntegrationTestsConfiguration integrationTestsConfiguration;
     private MsCoverConfiguration msCoverConfiguration;
-    private final CoverageCache overallCoverageCache;
+    private final OverallCoverageCache overallCoverageCache;
 	
 	/**
 	 * Instantiate with default dependencies, from Plugin
@@ -52,7 +52,7 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 			FileSystem fileSystem,
 			Settings settings,
 			IntegrationTestsConfiguration integrationTestsConfiguration,
-			CoverageCache overallCoverageCache) {
+			OverallCoverageCache overallCoverageCache) {
 		this(
 				new OpenCoverIntegrationTestCoverageReader(microsoftWindowsEnvironment, msCoverConfiguration, fileSystem, integrationTestsConfiguration),
 				new DefaultCoverageSaverFactory(microsoftWindowsEnvironment, pathResolver, fileSystem).createOpenCoverIntegrationTestCoverageSaver(), 
@@ -77,7 +77,7 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 			OpenCoverModuleSaver openCoverModuleSaver, 
 			IntegrationTestsConfiguration integrationTestsConfiguration,
 			IntegrationTestSensorHelper integrationTestSensorHelper, MsCoverConfiguration msCoverConfiguration,
-			CoverageCache overallCoverageCache) {
+			OverallCoverageCache overallCoverageCache) {
 		this.reader=coverageReader;
 		this.saver=coverageSaver;
 		this.openCoverModuleSaver=openCoverModuleSaver;

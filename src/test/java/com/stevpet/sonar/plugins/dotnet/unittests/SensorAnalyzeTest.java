@@ -26,7 +26,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBu
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.VsTestTestResultsSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestCache;
-import com.stevpet.sonar.plugins.dotnet.overallcoverage.sensor.CoverageCache;
+import com.stevpet.sonar.plugins.dotnet.overallcoverage.sensor.OverallCoverageCache;
 import com.stevpet.sonar.plugins.dotnet.utils.MsCoverTestUtils;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
@@ -49,7 +49,7 @@ public class SensorAnalyzeTest {
     private File testResultsFile = new File("testResults");
     private File coverageFile = new File("workdir/coverage.xml");
     private ProjectUnitTestResults projectUnitTestResults = new ProjectUnitTestResults();
-    @Mock private CoverageCache overallCoverageCache;
+    @Mock private OverallCoverageCache overallCoverageCache;
 
     @Before
     public void before() {

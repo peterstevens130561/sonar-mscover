@@ -48,7 +48,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.DefaultOpen
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestCache;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestCache;
-import com.stevpet.sonar.plugins.dotnet.overallcoverage.sensor.CoverageCache;
+import com.stevpet.sonar.plugins.dotnet.overallcoverage.sensor.OverallCoverageCache;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 /**
@@ -73,7 +73,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
     private TestResultsBuilder testResultsBuilder;
     private VsTestTestResultsSaver testResultsSaver;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-    private CoverageCache overallCoverageCache;
+    private OverallCoverageCache overallCoverageCache;
 
     /**
      * Includes all dependencies
@@ -95,7 +95,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
             VsTestTestResultsSaver testResultsSaver,
             CoverageReader coverageReader, CoverageSaver coverageSaver,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-            CoverageCache overallCoverageCache) {
+            OverallCoverageCache overallCoverageCache) {
         this.fileSystem = fileSystem;
         this.configuration = configuration;
         this.cache = unitTestBatchData;
@@ -125,7 +125,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
             UnitTestCache unitTestBatchData,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             PathResolver pathResolver,
-            CoverageCache overallCoverageCache) {
+            OverallCoverageCache overallCoverageCache) {
         this(fileSystem, msCoverConfiguration, unitTestBatchData,
                 DefaultOpenCoverTestRunner.create(msCoverConfiguration,
                         microsoftWindowsEnvironment, fileSystem), SpecFlowTestResultsBuilder

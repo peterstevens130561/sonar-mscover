@@ -3,7 +3,7 @@ package com.stevpet.sonar.plugins.dotnet.overallcoverage.sensor;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
-public interface CoverageCache {
+public interface OverallCoverageCache {
 
     /**
      * query coverage of the module

@@ -12,8 +12,8 @@ import org.sonar.api.resources.Project;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 @InstantiationStrategy(value=InstantiationStrategy.PER_BATCH)
-public class DefaultCoverageCache implements CoverageCache,BatchExtension {
-    private final Logger LOG = LoggerFactory.getLogger(DefaultCoverageCache.class);
+public class DefaultOverallCoverageCache implements OverallCoverageCache,BatchExtension {
+    private final Logger LOG = LoggerFactory.getLogger(DefaultOverallCoverageCache.class);
     private Map<String, SonarCoverage> map = new HashMap<>();
 
     @Override
