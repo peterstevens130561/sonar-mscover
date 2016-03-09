@@ -33,7 +33,7 @@ public class CallableTestRunner implements Callable<Boolean> {
         LOG.info("+++ tests on project {} completed",projectName);
         return true;
         } catch (Exception e) {
-            LOG.error("Failed to execute tests on project {} message {}",projectName, e.getLocalizedMessage());
+            LOG.error("Failed to execute tests on project {}\n message {}\n{}",projectName, e.getLocalizedMessage(),e.getStackTrace().toString());
             throw e;
         }
     }

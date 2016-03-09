@@ -97,7 +97,6 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 			MsCoverConfiguration msCoverConfiguration, 
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment, 
 			FileSystem fileSystem, 
-			VsTestEnvironment vsTestEnvironment, 
 			Settings settings, 
 			PathResolver pathResolver,
 			IntegrationTestsConfiguration integrationTestsConfiguration, 
