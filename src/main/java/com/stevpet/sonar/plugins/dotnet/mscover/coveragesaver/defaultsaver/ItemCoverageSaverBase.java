@@ -15,7 +15,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.FileCoverageSaver;
 
-public abstract class ItemCoverageSaverBase implements FileCoverageSaver {
+public class ItemCoverageSaverBase implements FileCoverageSaver {
     private ResourceResolver resourceResolver;
     private SensorContext sensorContext;
     private final BranchCoverageMetrics branchCoverageMetrics ;
