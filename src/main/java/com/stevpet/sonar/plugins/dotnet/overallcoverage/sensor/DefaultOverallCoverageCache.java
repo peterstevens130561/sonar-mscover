@@ -18,13 +18,13 @@ public class DefaultOverallCoverageCache implements OverallCoverageCache,BatchEx
 
     @Override
     public SonarCoverage get(String moduleName) {
-        LOG.info("get {}",moduleName);
+        LOG.debug("get {}",moduleName);
         return map.get(moduleName);
     }
 
     @Override
     public void merge(SonarCoverage coverage, String moduleName) {
-        LOG.info("merging {}",moduleName);
+        LOG.debug("merging {}",moduleName);
         if (!map.containsKey(moduleName)){
             map.put(moduleName, coverage);
         } else {

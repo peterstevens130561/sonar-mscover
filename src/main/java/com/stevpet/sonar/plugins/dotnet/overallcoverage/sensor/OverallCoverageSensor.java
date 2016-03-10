@@ -42,11 +42,13 @@ public class OverallCoverageSensor implements Sensor {
     @Override
     public void analyse(Project module, SensorContext context) {
         LOG.info("OveralCoverageSensor invoked");
-        SonarCoverage sonarCoverage = coverageCache.get(module.getName());
+        String moduleName=module.getName();
+        SonarCoverage sonarCoverage = coverageCache.get(moduleName);
         if(sonarCoverage==null) {
             return;
         }
         coverageSaver.save(context, sonarCoverage);
+        coverageCache.delete(moduleName);
     }
 
 }
