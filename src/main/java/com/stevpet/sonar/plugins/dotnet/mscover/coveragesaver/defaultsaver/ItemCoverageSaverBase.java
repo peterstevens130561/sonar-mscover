@@ -18,9 +18,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.FileCoverageSaver;
 public abstract class ItemCoverageSaverBase implements FileCoverageSaver {
     private ResourceResolver resourceResolver;
     private SensorContext sensorContext;
-
-    public ItemCoverageSaverBase(ResourceResolver resourceResolver) {
+    private final BranchCoverageMetrics branchCoverageMetrics ;
+    public ItemCoverageSaverBase(ResourceResolver resourceResolver,BranchCoverageMetrics  branchCoverageMetrics) {
         this.resourceResolver = resourceResolver;
+        this.branchCoverageMetrics = branchCoverageMetrics;
     }
     @Override
     public void setSensorContext(SensorContext sensorContext) {
@@ -34,14 +35,14 @@ public abstract class ItemCoverageSaverBase implements FileCoverageSaver {
             return;
         }
         SonarCoverageSummary summary=coveragePoints.getSummary();
-        sensorContext.saveMeasure(resource,getUncoveredMetric(),(double) summary.getToCover()-summary.getCovered());
-        sensorContext.saveMeasure(resource,getToCoverMetric(),(double)summary.getToCover());
-        sensorContext.saveMeasure(resource,getCoverageMetric(),convertPercentage(summary.getCoverage()));
+        sensorContext.saveMeasure(resource,branchCoverageMetrics.getUncoveredMetric(),(double) summary.getToCover()-summary.getCovered());
+        sensorContext.saveMeasure(resource,branchCoverageMetrics.getToCoverMetric(),(double)summary.getToCover());
+        sensorContext.saveMeasure(resource,branchCoverageMetrics.getCoverageMetric(),convertPercentage(summary.getCoverage()));
 
         PropertiesBuilder<String, Integer> lineConditionsBuilder = new PropertiesBuilder<String, Integer>(
-                getToCoverByLineMetric());
+                branchCoverageMetrics.getToCoverByLineMetric());
         PropertiesBuilder<String, Integer> lineCoveredConditionsBuilder = new PropertiesBuilder<String, Integer>(
-                getCoveredByLineMetric());
+                branchCoverageMetrics.getCoveredByLineMetric());
         lineConditionsBuilder.clear();
         lineCoveredConditionsBuilder.clear();
         for (CoverageLinePoint linePoint : coveragePoints.getPoints()) {
@@ -55,11 +56,6 @@ public abstract class ItemCoverageSaverBase implements FileCoverageSaver {
         sensorContext.saveMeasure(resource,lineCoveredConditionsMeasure); 
     }
     
-    abstract Metric getCoveredByLineMetric();
-    abstract Metric getToCoverByLineMetric();
-    abstract Metric getCoverageMetric() ;
-    abstract Metric getToCoverMetric() ;
-    abstract Metric getUncoveredMetric() ;
    
     private double convertPercentage(Number percentage) {
         return ParsingUtils.scaleValue(percentage.doubleValue() * 100.0);
