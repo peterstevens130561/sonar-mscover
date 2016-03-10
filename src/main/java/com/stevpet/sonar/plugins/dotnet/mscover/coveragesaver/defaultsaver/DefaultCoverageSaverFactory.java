@@ -55,7 +55,7 @@ public class DefaultCoverageSaverFactory implements CoverageSaverFactory {
 
     public CoverageSaver createOverallTestCoverageSaver() {
         return new CoverageSaverBase(
-                new OverallBranchFileCoverageSaver(resourceResolver),
+                new DefaultFileCoverageSaverFactory(resourceResolver).createOverallBranchSaver(),
                 new OverallLineFileCoverageSaver(resourceResolver),
                 microsoftWindowsEnvironment);
     }

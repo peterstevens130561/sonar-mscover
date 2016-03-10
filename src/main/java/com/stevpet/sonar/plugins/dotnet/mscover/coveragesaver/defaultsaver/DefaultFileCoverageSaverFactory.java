@@ -1,5 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.BranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.FileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 
@@ -9,15 +10,15 @@ public class DefaultFileCoverageSaverFactory {
     public DefaultFileCoverageSaverFactory(ResourceResolver resourceResolver) {
         this.resourceResolver = resourceResolver;
     }
-    public FileCoverageSaver createIntegrationTestBranchSaver() {
+    public BranchFileCoverageSaver createIntegrationTestBranchSaver() {
         return new ItemCoverageSaverBase(resourceResolver,new IntegrationTestBranchCoverageMetrics());
     }
     
-    public FileCoverageSaver createUnitTestBranchSaver() {
+    public BranchFileCoverageSaver createUnitTestBranchSaver() {
         return new ItemCoverageSaverBase(resourceResolver,new UnitTestBranchCoverageMetrics());       
     }
     
-    public FileCoverageSaver createOverallBranchSaver() {        
+    public BranchFileCoverageSaver createOverallBranchSaver() {        
         return new ItemCoverageSaverBase(resourceResolver,new OverallBranchCoverageMetrics());       
     }
 }

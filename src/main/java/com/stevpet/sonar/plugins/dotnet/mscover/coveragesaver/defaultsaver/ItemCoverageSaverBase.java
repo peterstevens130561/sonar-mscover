@@ -13,9 +13,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.BranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.FileCoverageSaver;
 
-public class ItemCoverageSaverBase implements FileCoverageSaver {
+public class ItemCoverageSaverBase implements BranchFileCoverageSaver {
     private ResourceResolver resourceResolver;
     private SensorContext sensorContext;
     private final BranchCoverageMetrics branchCoverageMetrics ;
