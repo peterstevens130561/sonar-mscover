@@ -15,8 +15,7 @@ public class OpenCoverUnitTestCoverageSaver extends CoverageSaverBase implements
 			PathResolver pathResolver, 
 			FileSystem fileSystem) {
 		super(
-				new DefaultBranchFileCoverageSaver(
-						new DefaultResourceResolver(pathResolver, fileSystem)), 
+				new DefaultFileCoverageSaverFactory(new DefaultResourceResolver(pathResolver, fileSystem)).createUnitTestBranchSaver(),
 				new DefaultLineFileCoverageSaver(
 						new DefaultResourceResolver(pathResolver, fileSystem)), 
 				microsoftWindowsEnvironment);
