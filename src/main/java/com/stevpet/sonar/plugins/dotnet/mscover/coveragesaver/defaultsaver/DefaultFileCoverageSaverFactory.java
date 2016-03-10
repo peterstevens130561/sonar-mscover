@@ -11,14 +11,14 @@ public class DefaultFileCoverageSaverFactory {
         this.resourceResolver = resourceResolver;
     }
     public BranchFileCoverageSaver createIntegrationTestBranchSaver() {
-        return new ItemCoverageSaverBase(resourceResolver,new IntegrationTestBranchCoverageMetrics());
+        return new DefaultBranchCoverageSaver(resourceResolver,new IntegrationTestBranchCoverageMetrics());
     }
     
     public BranchFileCoverageSaver createUnitTestBranchSaver() {
-        return new ItemCoverageSaverBase(resourceResolver,new UnitTestBranchCoverageMetrics());       
+        return new DefaultBranchCoverageSaver(resourceResolver,new UnitTestBranchCoverageMetrics());       
     }
     
     public BranchFileCoverageSaver createOverallBranchSaver() {        
-        return new ItemCoverageSaverBase(resourceResolver,new OverallBranchCoverageMetrics());       
+        return new DefaultBranchCoverageSaver(resourceResolver,new OverallBranchCoverageMetrics());       
     }
 }

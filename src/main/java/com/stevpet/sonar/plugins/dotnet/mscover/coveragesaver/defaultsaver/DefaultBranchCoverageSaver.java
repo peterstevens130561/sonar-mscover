@@ -16,11 +16,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolve
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.BranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.FileCoverageSaver;
 
-public class ItemCoverageSaverBase implements BranchFileCoverageSaver {
+public class DefaultBranchCoverageSaver implements BranchFileCoverageSaver {
     private ResourceResolver resourceResolver;
     private SensorContext sensorContext;
     private final BranchCoverageMetrics branchCoverageMetrics ;
-    public ItemCoverageSaverBase(ResourceResolver resourceResolver,BranchCoverageMetrics  branchCoverageMetrics) {
+    public DefaultBranchCoverageSaver(ResourceResolver resourceResolver,BranchCoverageMetrics  branchCoverageMetrics) {
         this.resourceResolver = resourceResolver;
         this.branchCoverageMetrics = branchCoverageMetrics;
     }
