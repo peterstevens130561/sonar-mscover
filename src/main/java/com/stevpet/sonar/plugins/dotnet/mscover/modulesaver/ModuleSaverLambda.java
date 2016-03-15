@@ -64,18 +64,18 @@ class ModuleSaverLambda implements ModuleLambda {
 	}
 	
 
-
-	private File createModuleDir(File artifactFile) {
-
+	private  File createModuleDir(File artifactFile) {
 		File moduleDir=artifactFile.getParentFile();
 		if(!moduleDir.exists()) {
-			if(!moduleDir.mkdirs()) {
+		    // multithreading may kick in here
+			if(!moduleDir.mkdirs() || !moduleDir.exists()) {
 				throw new SonarException("Could not create dir " + moduleDir.getAbsolutePath());
 			}
 		}
 		if(!moduleDir.isDirectory()) {
 			throw new SonarException("Is not a directory " + moduleDir.getAbsolutePath());
 		}
+	    
 		return moduleDir;
 	}
 	

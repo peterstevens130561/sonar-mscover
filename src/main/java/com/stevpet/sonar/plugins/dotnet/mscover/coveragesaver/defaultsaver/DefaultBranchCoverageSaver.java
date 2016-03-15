@@ -2,7 +2,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver;
 
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.Measure;
-import org.sonar.api.measures.Metric;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.File;
@@ -14,7 +13,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.BranchFileCoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.FileCoverageSaver;
 
 public class DefaultBranchCoverageSaver implements BranchFileCoverageSaver {
     private ResourceResolver resourceResolver;
@@ -35,11 +33,18 @@ public class DefaultBranchCoverageSaver implements BranchFileCoverageSaver {
         if(resource==null) {
             return;
         }
+        saveSummary(coveragePoints, resource);
+        saveLines(coveragePoints, resource); 
+    }
+    
+    private void saveSummary(CoverageLinePoints coveragePoints, File resource) {
         SonarCoverageSummary summary=coveragePoints.getSummary();
         sensorContext.saveMeasure(resource,branchCoverageMetrics.getUncoveredMetric(),(double) summary.getToCover()-summary.getCovered());
         sensorContext.saveMeasure(resource,branchCoverageMetrics.getToCoverMetric(),(double)summary.getToCover());
         sensorContext.saveMeasure(resource,branchCoverageMetrics.getCoverageMetric(),convertPercentage(summary.getCoverage()));
-
+    }
+    
+    private void saveLines(CoverageLinePoints coveragePoints, File resource) {
         PropertiesBuilder<String, Integer> lineConditionsBuilder = new PropertiesBuilder<String, Integer>(
                 branchCoverageMetrics.getToCoverByLineMetric());
         PropertiesBuilder<String, Integer> lineCoveredConditionsBuilder = new PropertiesBuilder<String, Integer>(
@@ -54,8 +59,9 @@ public class DefaultBranchCoverageSaver implements BranchFileCoverageSaver {
         Measure lineConditionsMeasure= lineConditionsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
         sensorContext.saveMeasure(resource,lineConditionsMeasure);
         Measure lineCoveredConditionsMeasure=lineCoveredConditionsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
-        sensorContext.saveMeasure(resource,lineCoveredConditionsMeasure); 
+        sensorContext.saveMeasure(resource,lineCoveredConditionsMeasure);
     }
+
     
    
     private double convertPercentage(Number percentage) {

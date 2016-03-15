@@ -25,5 +25,13 @@ class OpenCoverModuleParser implements ModuleParser{
     public String getModuleName() {
     	return openCoverFullNameObserver.getModuleName();   
     }
+
+    /**
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.ModuleFullNameObserver.getSkipped
+     * @return
+     */
+    public boolean getSkipped() {
+        return openCoverFullNameObserver.getSkipped();
+    }
 }
 
