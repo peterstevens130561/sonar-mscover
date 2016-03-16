@@ -22,6 +22,7 @@ class OpenCoverModuleParser implements ModuleParser{
         parser.parseString(xmlDoc); 
     }
     
+    @Override
     public String getModuleName() {
     	return openCoverFullNameObserver.getModuleName();   
     }
@@ -30,6 +31,7 @@ class OpenCoverModuleParser implements ModuleParser{
      * @see com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.ModuleFullNameObserver.getSkipped
      * @return
      */
+    @Override
     public boolean getSkipped() {
         return openCoverFullNameObserver.getSkipped();
     }

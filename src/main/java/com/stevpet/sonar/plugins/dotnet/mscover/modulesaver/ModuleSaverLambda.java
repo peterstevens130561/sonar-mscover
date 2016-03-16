@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.SonarException;
 
 import com.google.common.base.Preconditions;
@@ -41,7 +42,10 @@ class ModuleSaverLambda implements ModuleLambda {
 	public void execute(String xmlDoc)  {
 		Preconditions.checkNotNull(projectName,"project not set");
 		Preconditions.checkNotNull(root,"root not set");
-		String moduleName = getArtifactNameFromXmlDoc(xmlDoc);		
+		String moduleName = getArtifactNameFromXmlDoc(xmlDoc);
+		if(StringUtils.isEmpty(moduleName)) {
+		    return;
+		}
 		File artifactFile=getArtifactCoverageFile(moduleName);
 		createModuleDir(artifactFile);	
 		saveModule(artifactFile,xmlDoc);
@@ -49,6 +53,9 @@ class ModuleSaverLambda implements ModuleLambda {
 
 	private String getArtifactNameFromXmlDoc(String xmlDoc) {
 		moduleParser.parse(xmlDoc);
+		if(moduleParser.getSkipped()) {
+		    return null;
+		}
 		String moduleName=moduleParser.getModuleName();
 		return moduleName;
 	}

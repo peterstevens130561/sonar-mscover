@@ -8,4 +8,9 @@ public interface ModuleParser {
 	 */
 	void parse(String module);
 	String getModuleName();
+	/**
+	 * Check whether the module is skipped (i.e. because of filter or no pdb)
+	 * @return
+	 */
+    boolean getSkipped();
 }
