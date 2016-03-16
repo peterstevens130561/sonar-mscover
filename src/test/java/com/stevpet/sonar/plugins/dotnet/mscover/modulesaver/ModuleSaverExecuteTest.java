@@ -41,6 +41,15 @@ public class ModuleSaverExecuteTest {
         skipped=saver.getSkipped();
         assertFalse("should not be skipped",skipped);
     }
+    
+    @Test 
+    public void skippedFollowedByNotSkipped() {
+        isSkipped();
+        String xmlDoc = getXmlDoc("");
+        saver.parse(xmlDoc);
+        skipped=saver.getSkipped();
+        assertFalse("second doc should not be skipped",skipped);
+    }
     private String getXmlDoc(String attribute) {
         String xmlDoc=XML_VERSION_1_0_ENCODING_UTF_8 + 
                 COVERAGE_SESSION+
