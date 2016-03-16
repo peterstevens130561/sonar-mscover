@@ -4,12 +4,13 @@ import org.apache.commons.lang.StringUtils;
 
 import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.PathMatcher;
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverPaths;
 
 
 public class OpenCoverFullNameObserver  extends ModuleFullNameObserver {
 
 	private static final String MODULES_MODULE = "Modules/Module";
-    private static final String MODULES_MODULES_MODULEPATH = MODULES_MODULE + "/ModulePath";
+
     private String moduleName ;
     private boolean skipped;
 	
@@ -21,10 +22,10 @@ public class OpenCoverFullNameObserver  extends ModuleFullNameObserver {
 		return moduleName;
 	}
 	public OpenCoverFullNameObserver() {
-		setPattern(MODULES_MODULES_MODULEPATH + "|" + MODULES_MODULE);
+		setPattern(OpenCoverPaths.MODULE_FULLPATH + "|" + MODULES_MODULE);
 	}
 
-    @PathMatcher(path=MODULES_MODULES_MODULEPATH)
+    @PathMatcher(path=OpenCoverPaths.MODULE_FULLPATH)
     public void setModuleName(String value) {
     	int lastDirSep = value.lastIndexOf("\\");
     	moduleName=value.substring(lastDirSep+1);	

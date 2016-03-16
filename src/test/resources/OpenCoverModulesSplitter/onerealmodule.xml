@@ -4,7 +4,7 @@
   <Modules>
     <Module hash="11-19-0C-D0-6E-DA-4E-8E-CE-58-67-1F-50-3A-8E-63-3F-B3-91-15">
       <Summary numSequencePoints="9106" visitedSequencePoints="138" numBranchPoints="3256" visitedBranchPoints="47" sequenceCoverage="1.52" branchCoverage="1.44" maxCyclomaticComplexity="38" minCyclomaticComplexity="1" />
-      <FullName>C:\Development\Radiant\main\bin\Debug\joaGridder3DAddin.dll</FullName>
+      <ModulePath>C:\Development\Radiant\main\bin\Debug\joaGridder3DAddin.dll</ModulePath>
       <ModuleName>joaGridder3DAddin</ModuleName>
       <Files>
         <File uid="369" fullPath="c:\Development\Radiant\Main\JewelSuite\JewelAddins\joaGridder3DAddin\joaGridder3DAddin\Actions\Grid3dExtractHorizonAction.cs" />

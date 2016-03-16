@@ -49,7 +49,7 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
     protected String nameSpaceName;
     public OpenCoverMethodObserver() {
         setPattern("(Modules/Module/ModuleName)|" +
-                "(Modules/Module/FullName)|" +
+                "(" + OpenCoverPaths.MODULE_FULLPATH + ")|" +
                 "(Modules/Module/Classes/Class/FullName)|" +
                 "(Modules/Module/Classes/Class/Methods/Method/Name)|" +
                 "(Modules/Module/Classes/Class/Methods/Method/FileRef)|");
@@ -71,7 +71,7 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
      *       <ModuleName>BHI.JewelEarth.ThinClient.Common</ModuleName>
      * @param value
      */
-    @PathMatcher(path="Modules/Module/FullName")
+    @PathMatcher(path=OpenCoverPaths.MODULE_FULLPATH)
     public void setModuleName(String value) {
         scanMode=ScanMode.SCAN;
         String regex = ".*\\\\(.*)";

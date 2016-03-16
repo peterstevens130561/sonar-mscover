@@ -94,7 +94,7 @@ class ModuleSaverLambda implements ModuleLambda {
 	
 	private final  Pattern pattern = Pattern.compile("(.*)\\.(dll|exe)$");
 	
-	private String removeSuffix(String moduleName) {
+	private String removeSuffix(@Nonnull String moduleName) {
 		Matcher matcher = pattern.matcher(moduleName);
 		String module=matcher.find()?matcher.group(1):moduleName;
 		return module;

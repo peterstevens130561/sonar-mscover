@@ -3,13 +3,13 @@
   <Summary numSequencePoints="19274" visitedSequencePoints="4411" numBranchPoints="8826" visitedBranchPoints="1728" sequenceCoverage="22.89" branchCoverage="19.58" maxCyclomaticComplexity="38" minCyclomaticComplexity="0" />
   <Modules>
     <Module skippedDueTo="Filter" hash="14-3D-05-8D-99-D4-2A-75-D3-21-57-04-93-CD-3F-7B-76-07-28-5E">
-      <FullName>C:\windows\assembly\GAC_MSIL\Microsoft.VisualStudio.QualityTools.Resource\12.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.QualityTools.Resource.dll</FullName>
+      <ModulePath>C:\windows\assembly\GAC_MSIL\Microsoft.VisualStudio.QualityTools.Resource\12.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.QualityTools.Resource.dll</ModulePath>
       <ModuleName>Microsoft.VisualStudio.QualityTools.Resource</ModuleName>
       <Classes />
     </Module>
     <Module hash="11-19-0C-D0-6E-DA-4E-8E-CE-58-67-1F-50-3A-8E-63-3F-B3-91-15">
       <Summary numSequencePoints="9106" visitedSequencePoints="138" numBranchPoints="3256" visitedBranchPoints="47" sequenceCoverage="1.52" branchCoverage="1.44" maxCyclomaticComplexity="38" minCyclomaticComplexity="1" />
-      <FullName>C:\Development\Radiant\main\bin\Debug\joaGridder3DAddin.dll</FullName>
+      <ModulePath>C:\Development\Radiant\main\bin\Debug\joaGridder3DAddin.dll</ModulePath>
       <ModuleName>joaGridder3DAddin</ModuleName>
       <Files>
         <File uid="369" fullPath="c:\Development\Radiant\Main\JewelSuite\JewelAddins\joaGridder3DAddin\joaGridder3DAddin\Actions\Grid3dExtractHorizonAction.cs" />

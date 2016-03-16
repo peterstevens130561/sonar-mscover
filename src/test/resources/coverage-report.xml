@@ -4,7 +4,7 @@
   <Modules>
     <Module hash="70-A0-41-05-A4-8C-4E-86-AF-A0-94-4D-C7-03-F8-E2-00-F3-3E-C5">
       <Summary numSequencePoints="321" visitedSequencePoints="40" numBranchPoints="186" visitedBranchPoints="16" sequenceCoverage="12.46" branchCoverage="8.60" maxCyclomaticComplexity="12" minCyclomaticComplexity="1" />
-      <FullName>C:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Common.UnitTest\bin\Debug\BHI.JewelEarth.ThinClient.Common.dll</FullName>
+      <ModulePath>C:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Common.UnitTest\bin\Debug\BHI.JewelEarth.ThinClient.Common.dll</ModulePath>
       <ModuleName>BHI.JewelEarth.ThinClient.Common</ModuleName>
       <Files>
         <File uid="1" fullPath="c:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Common\AsyncPassthroughStream.cs" />
@@ -1731,33 +1731,33 @@
       </Classes>
     </Module>
     <Module skippedDueTo="Filter" hash="3A-DF-7D-5B-70-1C-2E-E4-AF-9F-AA-79-C3-6F-C7-24-A7-3A-14-27">
-      <FullName>C:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Common.UnitTest\bin\Debug\Newtonsoft.Json.dll</FullName>
+      <ModulePath>C:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Common.UnitTest\bin\Debug\Newtonsoft.Json.dll</ModulePath>
       <ModuleName>Newtonsoft.Json</ModuleName>
       <Classes />
     </Module>
     <Module skippedDueTo="Filter" hash="11-BD-EA-3B-07-58-50-35-D9-9B-84-21-BE-B0-5F-82-E0-C5-EF-B9">
-      <FullName>C:\windows\Microsoft.Net\assembly\GAC_MSIL\System.ComponentModel.DataAnnotations\v4.0_4.0.0.0__31bf3856ad364e35\System.ComponentModel.DataAnnotations.dll</FullName>
+      <ModulePath>C:\windows\Microsoft.Net\assembly\GAC_MSIL\System.ComponentModel.DataAnnotations\v4.0_4.0.0.0__31bf3856ad364e35\System.ComponentModel.DataAnnotations.dll</ModulePath>
       <ModuleName>System.ComponentModel.DataAnnotations</ModuleName>
       <Classes />
     </Module>
     <Module skippedDueTo="Filter" hash="90-11-3C-51-97-25-95-F6-50-E6-7B-14-1D-43-70-4F-5C-FA-AC-B4">
-      <FullName>C:\windows\Microsoft.Net\assembly\GAC_MSIL\System.Runtime.Serialization\v4.0_4.0.0.0__b77a5c561934e089\System.Runtime.Serialization.dll</FullName>
+      <ModulePath>C:\windows\Microsoft.Net\assembly\GAC_MSIL\System.Runtime.Serialization\v4.0_4.0.0.0__b77a5c561934e089\System.Runtime.Serialization.dll</ModulePath>
       <ModuleName>System.Runtime.Serialization</ModuleName>
       <Classes />
     </Module>
     <Module skippedDueTo="Filter" hash="AD-B5-23-C4-40-37-2B-C4-47-EB-3E-D6-3D-5C-07-30-E6-46-69-A0">
-      <FullName>C:\windows\Microsoft.Net\assembly\GAC_MSIL\System.Xml.Linq\v4.0_4.0.0.0__b77a5c561934e089\System.Xml.Linq.dll</FullName>
+      <ModulePath>C:\windows\Microsoft.Net\assembly\GAC_MSIL\System.Xml.Linq\v4.0_4.0.0.0__b77a5c561934e089\System.Xml.Linq.dll</ModulePath>
       <ModuleName>System.Xml.Linq</ModuleName>
       <Classes />
     </Module>
     <Module skippedDueTo="Filter" hash="D0-C4-31-DF-9B-8D-D3-CC-74-AB-93-8A-6F-C9-61-63-14-F1-4A-B7">
-      <FullName>C:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Infrastructure.UnitTest\bin\Debug\Moq.dll</FullName>
+      <ModulePath>C:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Infrastructure.UnitTest\bin\Debug\Moq.dll</ModulePath>
       <ModuleName>Moq</ModuleName>
       <Classes />
     </Module>
     <Module hash="0B-C1-D5-4B-CB-DC-94-3B-8A-D1-F1-BF-73-71-B1-04-B5-E3-35-10">
       <Summary numSequencePoints="128" visitedSequencePoints="0" numBranchPoints="48" visitedBranchPoints="0" sequenceCoverage="0" branchCoverage="0" maxCyclomaticComplexity="4" minCyclomaticComplexity="1" />
-      <FullName>C:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Infrastructure.UnitTest\bin\Debug\BHI.JewelEarth.ThinClient.WinForms.dll</FullName>
+      <ModulePath>C:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Infrastructure.UnitTest\bin\Debug\BHI.JewelEarth.ThinClient.WinForms.dll</ModulePath>
       <ModuleName>BHI.JewelEarth.ThinClient.WinForms</ModuleName>
       <Files>
         <File uid="45" fullPath="c:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\WinForms\ResourceHandlerWrapper.cs" />
@@ -2220,7 +2220,7 @@
     </Module>
     <Module hash="87-6B-E7-40-17-F5-89-C2-00-FA-C6-30-1E-0A-CF-F2-8E-40-6E-37">
       <Summary numSequencePoints="64" visitedSequencePoints="49" numBranchPoints="28" visitedBranchPoints="18" sequenceCoverage="76.56" branchCoverage="64.29" maxCyclomaticComplexity="4" minCyclomaticComplexity="1" />
-      <FullName>C:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Infrastructure.UnitTest\bin\Debug\BHI.JewelEarth.ThinClient.Infrastructure.dll</FullName>
+      <ModulePath>C:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Infrastructure.UnitTest\bin\Debug\BHI.JewelEarth.ThinClient.Infrastructure.dll</ModulePath>
       <ModuleName>BHI.JewelEarth.ThinClient.Infrastructure</ModuleName>
       <Files>
         <File uid="51" fullPath="c:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Infrastructure\Handlers\ApiResourceHandler.cs" />
@@ -2521,7 +2521,7 @@
     </Module>
     <Module hash="65-19-A3-5C-4C-7A-C0-28-70-DC-BA-6F-9E-14-63-A4-F7-96-93-6E">
       <Summary numSequencePoints="152" visitedSequencePoints="0" numBranchPoints="69" visitedBranchPoints="0" sequenceCoverage="0" branchCoverage="0" maxCyclomaticComplexity="7" minCyclomaticComplexity="1" />
-      <FullName>C:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Infrastructure.UnitTest\bin\Debug\BHI.JewelEarth.ThinClient.Common.UI.dll</FullName>
+      <ModulePath>C:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Infrastructure.UnitTest\bin\Debug\BHI.JewelEarth.ThinClient.Common.UI.dll</ModulePath>
       <ModuleName>BHI.JewelEarth.ThinClient.Common.UI</ModuleName>
       <Files>
         <File uid="59" fullPath="c:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Common.UI\EmbeddedAsset.cs" />
@@ -3060,7 +3060,7 @@
     </Module>
     <Module hash="AA-F4-BB-73-11-A5-A1-10-A6-4A-B3-33-F6-1D-47-18-4C-97-5A-D8">
       <Summary numSequencePoints="186" visitedSequencePoints="17" numBranchPoints="133" visitedBranchPoints="13" sequenceCoverage="9.14" branchCoverage="9.77" maxCyclomaticComplexity="11" minCyclomaticComplexity="1" />
-      <FullName>C:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Service.UnitTest\bin\Debug\BHI.JewelEarth.ThinClient.Service.dll</FullName>
+      <ModulePath>C:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Service.UnitTest\bin\Debug\BHI.JewelEarth.ThinClient.Service.dll</ModulePath>
       <ModuleName>BHI.JewelEarth.ThinClient.Service</ModuleName>
       <Files>
         <File uid="75" fullPath="c:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Service\ContextManager.cs" />
@@ -4355,12 +4355,12 @@
       </Classes>
     </Module>
     <Module skippedDueTo="Filter" hash="5D-61-A7-62-D3-EC-D6-F3-F7-A8-10-45-10-57-7E-80-33-83-CD-2C">
-      <FullName>C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Extensions\CppUnitFramework\Microsoft.VisualStudio.TestTools.CppUnitTestFramework.TestEngine.dll</FullName>
+      <ModulePath>C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Extensions\CppUnitFramework\Microsoft.VisualStudio.TestTools.CppUnitTestFramework.TestEngine.dll</ModulePath>
       <ModuleName>Microsoft.VisualStudio.TestTools.CppUnitTestFramework.TestEngine</ModuleName>
       <Classes />
     </Module>
     <Module skippedDueTo="Filter" hash="C8-C6-29-99-CA-01-AD-D3-16-19-A6-31-80-F3-CD-F7-92-E1-B3-1C">
-      <FullName>C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Extensions\CppUnitFramework\Microsoft.VisualStudio.TestTools.CppUnitTestFramework.Discoverer.dll</FullName>
+      <ModulePath>C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Extensions\CppUnitFramework\Microsoft.VisualStudio.TestTools.CppUnitTestFramework.Discoverer.dll</ModulePath>
       <ModuleName>Microsoft.VisualStudio.TestTools.CppUnitTestFramework.Discoverer</ModuleName>
       <Classes />
     </Module>

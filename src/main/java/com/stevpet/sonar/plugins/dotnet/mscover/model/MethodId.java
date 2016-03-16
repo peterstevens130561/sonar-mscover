@@ -25,8 +25,12 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.SonarException;
+
+import com.google.common.base.Preconditions;
 
 public final class MethodId  {
     private String moduleName,namespaceName,className,methodName;
@@ -40,7 +44,12 @@ public final class MethodId  {
      * @param className
      * @param methodName
      */
-    public MethodId(String moduleName, String namespaceName, String className, String methodName) {
+    public MethodId(@Nonnull String moduleName, @Nonnull String namespaceName, @Nonnull String className, @Nonnull String methodName) {
+        Preconditions.checkNotNull(moduleName,"moduleName");
+        Preconditions.checkNotNull(namespaceName,"namespaceName");
+        Preconditions.checkNotNull(className,"className");
+        Preconditions.checkNotNull(methodName,"methodName");
+        
         setModuleName(moduleName);
         this.namespaceName=namespaceName;
         this.className=className;
