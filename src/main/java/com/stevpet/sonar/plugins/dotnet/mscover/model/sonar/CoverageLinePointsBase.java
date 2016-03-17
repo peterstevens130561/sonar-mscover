@@ -66,14 +66,12 @@ public abstract class CoverageLinePointsBase implements CoverageLinePoints {
            } else if (destinationLine > sourceLine) {
                 mergedList.add(sourceLinePoint);
                 sourceIndex++;
-            } else if(destinationLine == sourceLine) {
+            } else  {
                 destinationLinePoint.merge(sourceLinePoint);
                 mergedList.add(destinationLinePoint);
                 ++destinationIndex;
                 ++sourceIndex;
-            } else {
-                throw new SonarCoverageException("booh");
-            }
+            } 
         }
         while (sourceIndex < sourceSize) {
             mergedList.add(sourceLinePoints.get(sourceIndex));
@@ -86,24 +84,10 @@ public abstract class CoverageLinePointsBase implements CoverageLinePoints {
         points = mergedList;
     }
 
-    private void mergeIntoDestinationWithSamesSize(
-            List<CoverageLinePoint> sourceLinePoints) {
-        for (int index = 0; index < sourceLinePoints.size(); index++) {
-            CoverageLinePoint sourceLinePoint = sourceLinePoints.get(index);
-            CoverageLinePoint destinationLinePoint = points.get(index);
-            destinationLinePoint.merge(sourceLinePoint);
-        }
-    }
 
     private void mergeIntoEmptyDestination(
             List<CoverageLinePoint> sourceLinePoints) {
         points.addAll(sourceLinePoints);
-        /*
-         * for(int index=0;index<sourceLinePoints.size();index++) {
-         * CoverageLinePoint linePoint=sourceLinePoints.get(index); int
-         * line=linePoint.getLine(); int covered = linePoint.getCovered();
-         * addPoint(line, covered>0); }
-         */
     }
 
     @Override
