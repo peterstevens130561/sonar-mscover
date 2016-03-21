@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -100,22 +101,31 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
         int timeout = integrationTestsConfiguration.getTestRunnerTimeout();
         executorService = Executors.newFixedThreadPool(threads);
         LOG.debug("Using {} threads",threads);
-        List<Future<Boolean>> results = queueTests();
+        List<TestRunnerThreadValues> results = queueTests();
         waitTillDone(timeout, results);
         multiThreadedSpecFlowIntegrationTestCache.setDidExecute(true);
     }
 
 
-    private void waitTillDone(int timeout, List<Future<Boolean>> results) {
+    private void waitTillDone(int timeout, List<TestRunnerThreadValues> testRunnersThreadValues) {
         try {
             executorService.shutdown();
             if (!executorService.awaitTermination(timeout, TimeUnit.MINUTES)) {
                 String msg="Timeout occurred during execution of tests after " + timeout + " minutes";
                 LOG.error(msg);
+                for(TestRunnerThreadValues testRunnerThreadValues:testRunnersThreadValues) {
+                    Future<Boolean> future=testRunnerThreadValues.getFuture();
+                    if(!future.isDone()) {
+                        LOG.error("Shutting down {}",testRunnerThreadValues.getName());
+                        future.cancel(true);
+                    }
+                }
                 throw new SonarException(msg);
             }
-            for(Future<Boolean> result:results) {
-                result.get();
+            for(TestRunnerThreadValues testRunnerThreadValues:testRunnersThreadValues) {
+                Future<Boolean> future=testRunnerThreadValues.getFuture();
+                LOG.info("Getting result from {}",testRunnerThreadValues.getName());
+                future.get();
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -124,16 +134,17 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
             throw new SonarException("Execution of tests failed, see inner exception",e.getCause());
         }
     }
-
-
-    private List<Future<Boolean>> queueTests() {
+    
+    private List<TestRunnerThreadValues> queueTests() {
         Pattern pattern=integrationTestsConfiguration.getTestProjectPattern();
         List<VisualStudioProject> testProjects = microsoftWindowsEnvironment.getTestProjects(pattern);
-        List<Future<Boolean>> results = new ArrayList<>();
+        List<TestRunnerThreadValues> results = new ArrayList<>();
         for(VisualStudioProject project:testProjects){
             String projectName=project.getAssemblyName();
             Callable<Boolean> callable = createTestRunner(projectName);
-            results.add(executorService.submit(callable));
+            Future<Boolean> future=executorService.submit(callable);
+            TestRunnerThreadValues threadValues = new TestRunnerThreadValues(future,callable,projectName);
+            results.add(threadValues);
         }
         return results;
     }
