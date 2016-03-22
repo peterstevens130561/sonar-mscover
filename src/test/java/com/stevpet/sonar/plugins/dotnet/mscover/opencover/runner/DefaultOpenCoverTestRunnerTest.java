@@ -75,16 +75,15 @@ public class DefaultOpenCoverTestRunnerTest {
     @Test
     public void runWithNoAssembly() {
         //given no assembly
-        String commandLine;
+
         try {
             //when I execute the runner
             openCoverCoverageRunner.onlyReportAssembliesOfTheSolution().execute();
-            commandLine=commandLineExecutorStub.getCommandLine();
         } catch (NoAssembliesDefinedException e) {
             // then the NoAssembliesDefinedException should be thrown
             return;
         }
-        fail("no assemblies specified, expected exception, but got " + commandLine);
+        fail("no assemblies specified, expected exception");
     }
 
 
