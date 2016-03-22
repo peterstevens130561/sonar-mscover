@@ -129,7 +129,7 @@ public class SpecflowIntegrationTestRunner implements
 		openCoverModuleSaver.setProject(module).setRoot(rootDir);
         Pattern pattern=Pattern.compile(projectName);
 		testRunner.setTestProjectPattern(pattern);
-		
+		testRunner.setTimeout(timeout);
 		testRunner.setCoverageFile(coverageFile);
 		
 		testRunner.setTestCaseFilter(testCaseFilter);
