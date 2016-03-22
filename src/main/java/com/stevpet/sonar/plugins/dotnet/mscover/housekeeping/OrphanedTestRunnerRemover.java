@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class OrphanedTestRunnerRemover {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+public class OrphanedTestRunnerRemover {
+    private final static Logger LOG = LoggerFactory.getLogger(OrphanedTestRunnerRemover.class);
     private ProcessHelper processHelper;
     private List<ProcessInfo> engines;
     private List<ProcessInfo> consoles;
@@ -23,7 +26,9 @@ public class OrphanedTestRunnerRemover {
             if(isOrphaned(consoleInfo)){
                 for(ProcessInfo engineInfo : engines) {
                     if(engineInfo.parentId.equals(consoleInfo.getId())) {
-                        processHelper.killProcess(engineInfo.getId());
+                        String engineId=engineInfo.getId();
+                        LOG.info("cleaner will kill {}",engineId);
+                        processHelper.killProcess(engineId);
                     }
                 }
             }

@@ -24,6 +24,7 @@ import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
+import com.stevpet.sonar.plugins.dotnet.mscover.housekeeping.OrphanedTestRemoverThread;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
@@ -102,7 +103,11 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
         executorService = Executors.newFixedThreadPool(threads);
         LOG.debug("Using {} threads",threads);
         List<TestRunnerThreadValues> results = queueTests();
+        OrphanedTestRemoverThread cleaner = new OrphanedTestRemoverThread();
+        cleaner.run();
         waitTillDone(timeout, results);
+        cleaner.stop();
+        
         multiThreadedSpecFlowIntegrationTestCache.setDidExecute(true);
     }
 
