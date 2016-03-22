@@ -3,8 +3,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jfree.util.Log;
-
 public abstract class CoverageLinePointsBase implements CoverageLinePoints {
     protected List<CoverageLinePoint> points = new ArrayList<CoverageLinePoint>();
 

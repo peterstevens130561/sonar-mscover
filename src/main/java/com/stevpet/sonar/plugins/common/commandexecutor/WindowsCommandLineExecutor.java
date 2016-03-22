@@ -49,7 +49,7 @@ public class WindowsCommandLineExecutor implements CommandLineExecutor {
      * @see com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor#execute(com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.ShellCommand)
      */
     public int execute(ShellCommand command) {
-        return execute(command,30);
+        return execute(command,120);
     }
     
     public int execute(ShellCommand command,int timeOutMinutes) {
