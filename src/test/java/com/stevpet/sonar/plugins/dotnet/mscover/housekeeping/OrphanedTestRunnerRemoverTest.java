@@ -71,10 +71,57 @@ public class OrphanedTestRunnerRemoverTest {
        
        orphanedTestRunnerRemover.execute();
        
-       verify(processHelper,times(1)).killProcess("301");
+       verify(processHelper,times(1)).killProcess("101");
       
     }
     
+    @Test
+    public void noOrphanedTestRunnerLeave2() {
+
+       List<ProcessInfo> engineValues = new ArrayList<>();
+       engineValues.add(new ProcessInfo("vstest.executionengine.exe","100","200"));
+       engineValues.add(new ProcessInfo("vstest.executionengine.exe","101","201"));
+       
+       List<ProcessInfo> consoleValues=new ArrayList<>();
+       consoleValues.add(new ProcessInfo("vstest.console.exe","200","300"));
+       consoleValues.add(new ProcessInfo("vstest.console.exe","201","301"));     
+       List<ProcessInfo> opencoverValues=new ArrayList<>();
+       opencoverValues.add(new ProcessInfo("opencover.console.exe","300","400"));
+       opencoverValues.add(new ProcessInfo("opencover.console.exe","301","400"));
+       
+       when(processHelper.getProcessInfoFromName("vstest.executionengine.exe")).thenReturn(engineValues);
+       when(processHelper.getProcessInfoFromName("vstest.console.exe")).thenReturn(consoleValues);
+       when(processHelper.getProcessInfoFromName("opencover.console.exe")).thenReturn(opencoverValues);
+       
+       orphanedTestRunnerRemover.execute();
+       
+       verify(processHelper,times(0)).killProcess(anyString());
+      
+    }
+    
+    
+    @Test
+    public void twoOrphanedTestRunners() {
+
+       List<ProcessInfo> engineValues = new ArrayList<>();
+       engineValues.add(new ProcessInfo("vstest.executionengine.exe","100","200"));
+       engineValues.add(new ProcessInfo("vstest.executionengine.exe","101","201"));
+       
+       List<ProcessInfo> consoleValues=new ArrayList<>();
+       consoleValues.add(new ProcessInfo("vstest.console.exe","200","300"));
+       consoleValues.add(new ProcessInfo("vstest.console.exe","201","301"));     
+       List<ProcessInfo> opencoverValues=new ArrayList<>();
+       
+       when(processHelper.getProcessInfoFromName("vstest.executionengine.exe")).thenReturn(engineValues);
+       when(processHelper.getProcessInfoFromName("vstest.console.exe")).thenReturn(consoleValues);
+       when(processHelper.getProcessInfoFromName("opencover.console.exe")).thenReturn(opencoverValues);
+       
+       orphanedTestRunnerRemover.execute();
+       
+       verify(processHelper,times(1)).killProcess("100");
+       verify(processHelper,times(1)).killProcess("101");
+      
+    }
     @Test
     public void orphanedTestRunnerLeave() {
        List<ProcessInfo> engineValues = new ArrayList<>();

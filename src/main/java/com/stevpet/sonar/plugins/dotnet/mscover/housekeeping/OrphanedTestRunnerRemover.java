@@ -1,5 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.housekeeping;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class OrphanedTestRunnerRemover {
@@ -17,11 +19,25 @@ public class OrphanedTestRunnerRemover {
         engines=processHelper.getProcessInfoFromName("vstest.executionengine.exe");
         consoles=processHelper.getProcessInfoFromName("vstest.console.exe");
         opencovers=processHelper.getProcessInfoFromName("opencover.console.exe");
-        if(opencovers.size()==0 && engines.size()>0){
-            for(ProcessInfo processInfo : engines) {
-                processHelper.killProcess(processInfo.getId());
+        for(ProcessInfo consoleInfo : consoles) {
+            if(isOrphaned(consoleInfo)){
+                for(ProcessInfo engineInfo : engines) {
+                    if(engineInfo.parentId.equals(consoleInfo.getId())) {
+                        processHelper.killProcess(engineInfo.getId());
+                    }
+                }
             }
         }
+    }
+
+    private boolean isOrphaned(ProcessInfo consoleInfo) {
+        String parentId = consoleInfo.getParentId();
+        for(ProcessInfo opencoverInfo : opencovers) {
+            if(opencoverInfo.getId().equals(parentId)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 

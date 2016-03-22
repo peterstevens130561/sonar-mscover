@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.housekeeping;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -17,11 +18,13 @@ public class ProcessHelper {
     }
     
     List<ProcessInfo> getProcessInfoFromName(String processName) {
-        List<ProcessInfo> processesInfo=new ArrayList<ProcessInfo>();
+
         ProcessInfoShellCommand processInfoCommand = new ProcessInfoShellCommand();
         processInfoCommand.setProcessName(processName);
         commandLineExecutor.execute(processInfoCommand);
         String result=commandLineExecutor.getStdOut();
+        
+        List<ProcessInfo> processesInfo=new ArrayList<ProcessInfo>();
         if(StringUtils.isEmpty(result)) {
             return processesInfo;
         }

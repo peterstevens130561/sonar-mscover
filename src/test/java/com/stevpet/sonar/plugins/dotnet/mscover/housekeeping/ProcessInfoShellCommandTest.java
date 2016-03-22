@@ -1,5 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.housekeeping;
 
+import java.util.HashSet;
 import java.util.List;
 
 import org.junit.Before;
