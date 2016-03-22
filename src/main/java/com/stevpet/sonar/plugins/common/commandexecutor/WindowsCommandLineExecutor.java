@@ -28,6 +28,7 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.command.CommandExecutor;
 import org.sonar.api.utils.command.StreamConsumer;
 
+import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
 import com.stevpet.sonar.plugins.common.api.ShellCommand;
 
@@ -38,18 +39,19 @@ import com.stevpet.sonar.plugins.common.api.ShellCommand;
  * 
  */
 public class WindowsCommandLineExecutor implements CommandLineExecutor {
+    private static final int DEFAULT_TIMEOUT = 120;
     private static Logger LOG = LoggerFactory
             .getLogger(WindowsCommandLineExecutor.class);
     private StringStreamConsumer stdOut = new StringStreamConsumer();
     private StringStreamConsumer stdErr = new StringStreamConsumer();
     private String executable;
-
+    private int timeout = DEFAULT_TIMEOUT;
     private CommandExecutor commandExecutor = CommandExecutor.create();
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor#execute(com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.ShellCommand)
      */
     public int execute(ShellCommand command) {
-        return execute(command,120);
+        return execute(command,DEFAULT_TIMEOUT);
     }
     
     public int execute(ShellCommand command,int timeOutMinutes) {
@@ -106,4 +108,5 @@ public class WindowsCommandLineExecutor implements CommandLineExecutor {
     public void setCommandExecutor(CommandExecutor commandExecutor) {
         this.commandExecutor = commandExecutor;
     }
+    
 }

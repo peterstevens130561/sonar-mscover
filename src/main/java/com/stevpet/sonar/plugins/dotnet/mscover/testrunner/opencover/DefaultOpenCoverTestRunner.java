@@ -29,7 +29,8 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 
 public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
-	private OpenCoverCommand openCoverCommand;
+	private static final int DEFAULT_TIMEOUT = 30;
+    private OpenCoverCommand openCoverCommand;
 	private MsCoverConfiguration msCoverProperties;
 	private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 	private AssembliesFinder assembliesFinder;
@@ -39,6 +40,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 	private VSTestStdOutParser vsTestStdOutParser;
 	private CommandLineExecutor commandLineExecutor;
     private Pattern testProjectPattern;
+    private int timeout = DEFAULT_TIMEOUT;
 
 	public DefaultOpenCoverTestRunner(MsCoverConfiguration msCoverProperties,
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
@@ -101,7 +103,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 	@Override
 	public void execute() {
 		buildCommonArguments();
-		commandLineExecutor.execute(openCoverCommand);
+		commandLineExecutor.execute(openCoverCommand,timeout);
 	}
 
 	@Override
@@ -144,6 +146,11 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
     @Override
     public void setTestProjectPattern(@Nonnull Pattern pattern) {
         this.testProjectPattern=pattern;
+    }
+    
+    @Override
+    public void setTimeout(int timeout) {
+        this.timeout=timeout;
     }
 
 }

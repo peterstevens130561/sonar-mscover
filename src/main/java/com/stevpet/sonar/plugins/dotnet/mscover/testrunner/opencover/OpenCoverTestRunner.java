@@ -8,8 +8,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;
 
 public interface OpenCoverTestRunner extends TestRunner {
 
-
-	
 	/**
 	 * only the assemblies of this solution will be reported in the coverage file
 	 * @return 
@@ -23,6 +21,12 @@ public interface OpenCoverTestRunner extends TestRunner {
 	 * @param string
 	 */
     void setTestProjectPattern(@Nonnull Pattern string);
+
+    /**
+     * set timeout in minutes
+     * @param timeout
+     */
+    void setTimeout(int timeout);
 
 
 }

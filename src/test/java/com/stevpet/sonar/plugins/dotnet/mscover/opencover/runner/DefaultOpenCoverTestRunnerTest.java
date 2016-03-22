@@ -28,6 +28,7 @@ import static org.mockito.Mockito.verify;
 
 public class DefaultOpenCoverTestRunnerTest {
 
+    private static final int TIMEOUT_SET = 45;
     private DefaultOpenCoverTestRunner openCoverCoverageRunner;
     private OpenCoverCommand  openCoverCommand ;
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
@@ -133,5 +134,26 @@ public class DefaultOpenCoverTestRunnerTest {
         openCoverCoverageRunner.execute();
         VsTestRunnerCommandBuilder vsTestRunner=vsTestRunnerCommandBuilderMock.getMock();
         verify(vsTestRunner,times(1)).setTestProjectPattern(bogusPattern); 
+    }
+    
+    @Test
+    public void checkTimeoutDefault() {
+        assemblies.add("one");
+        //when
+        openCoverCoverageRunner.onlyReportAssembliesOfTheSolution().execute();
+        //then I expect the proper commandline, with the one assembly
+        openCoverCoverageRunner.execute();
+        assertEquals("timeout default",30,commandLineExecutorStub.getTimeoutMinutes());
+    }
+    
+    @Test
+    public void checkTimeoutSet() {
+        assemblies.add("one");
+        //when
+        openCoverCoverageRunner.onlyReportAssembliesOfTheSolution().execute();
+        //then I expect the proper commandline, with the one assembly
+        openCoverCoverageRunner.setTimeout(TIMEOUT_SET);
+        openCoverCoverageRunner.execute();
+        assertEquals("timeout should be set",TIMEOUT_SET,commandLineExecutorStub.getTimeoutMinutes());
     }
 }
