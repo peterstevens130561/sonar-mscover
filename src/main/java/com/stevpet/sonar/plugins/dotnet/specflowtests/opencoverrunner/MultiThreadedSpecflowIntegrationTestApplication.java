@@ -152,6 +152,7 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
         IntegrationTestRunner testRunner = testRunnerFactory.create();
         File coverageFile = new File(fileSystem.workDir(),"coverage_" + projectName + ".xml");
         testRunner.setCoverageFile(coverageFile)
+        .setTimeout(120)
         .setProjectName(projectName)
         .setModule(projectName)
         .setCoverageRoot(integrationTestsConfiguration.getDirectory())

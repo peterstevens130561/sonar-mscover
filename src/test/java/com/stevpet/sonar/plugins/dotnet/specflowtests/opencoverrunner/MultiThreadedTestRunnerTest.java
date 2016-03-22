@@ -42,6 +42,7 @@ public class MultiThreadedTestRunnerTest {
         when(testRunner.setCoverageFile(any(File.class))).thenReturn(testRunner);
         when(testRunner.setProjectName(any(String.class))).thenReturn(testRunner);
         when(testRunner.setModule(any(String.class))).thenReturn(testRunner);
+        when(testRunner.setTimeout(120)).thenReturn(testRunner);
         when(testRunner.setCoverageRoot(any(File.class))).thenReturn(testRunner);
         when(integrationTestsConfiguration.getTestRunnerThreads()).thenReturn(5);
         when(integrationTestsConfiguration.getTestRunnerTimeout()).thenReturn(5);

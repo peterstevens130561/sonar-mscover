@@ -20,6 +20,7 @@ public class OpenCoverSpecFlowTestRunnerSensorInstantationTest {
 
 	@Mock Settings settings ;
 	@Mock Project project;
+	@Mock DefaultFileSystem fs;
 	DefaultPicoContainer picoContainer;
 	
 	@Before
@@ -40,13 +41,13 @@ public class OpenCoverSpecFlowTestRunnerSensorInstantationTest {
 	
 	@Test
 	public void instantiateSaver() {
-		picoContainer.addComponent(DefaultFileSystem.class).addComponent(project);
+		picoContainer.addComponent(fs).addComponent(project);
 		Sensor sensor = picoContainer.getComponent(OpenCoverSpecFlowTestSaverSensor.class);		
 	}
 	
 	@Test
 	public void instantiateRunner() {
-		picoContainer.addComponent(DefaultFileSystem.class).addComponent(project);
+		picoContainer.addComponent(fs).addComponent(project);
 		Sensor sensor = picoContainer.getComponent(OpenCoverSpecFlowTestRunnerSensor.class);		
 	}
 }

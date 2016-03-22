@@ -40,6 +40,7 @@ public class SpecflowIntegrationTestRunner implements
 	private ProjectUnitTestResults testResults;
     private String projectName;
     private String testCaseFilter;
+    private int timeout ;
 
 	/**
 	 * All of the dependencies of the runner
@@ -123,6 +124,7 @@ public class SpecflowIntegrationTestRunner implements
 		Preconditions.checkNotNull(module,"module not set");
 		Preconditions.checkNotNull(coverageFile,"coverage file not set");
 		Preconditions.checkNotNull(rootDir,"rootDir not set");
+		Preconditions.checkState(timeout>0,"timeout invalid,, should be > 0");
 
 		openCoverModuleSaver.setProject(module).setRoot(rootDir);
         Pattern pattern=Pattern.compile(projectName);
@@ -163,6 +165,12 @@ public class SpecflowIntegrationTestRunner implements
     @Override
     public IntegrationTestRunner setTestCaseFilter(String testCaseFilter) {
         this.testCaseFilter=testCaseFilter;
+        return this;
+    }
+
+    @Override
+    public IntegrationTestRunner setTimeout(int timeout) {
+        this.timeout=timeout;
         return this;
     }
 }
