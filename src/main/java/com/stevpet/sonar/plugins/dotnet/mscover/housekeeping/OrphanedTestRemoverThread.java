@@ -10,18 +10,21 @@ public class OrphanedTestRemoverThread implements Runnable {
     private enum State {
         RUNNING,STOPPING,STOPPED
     }
-    private State state;
+    private State state = State.RUNNING;
     @Override
     public void run() {
-        state=State.RUNNING;
+        int wait=1000;
+        Thread.currentThread().setName("OrphanedTestRunnerRemover");
         LOG.info("cleaner starting");
         OrphanedTestRunnerRemover cleaner = new OrphanedTestRunnerRemover(new ProcessHelper(new WindowsCommandLineExecutor()));
         while(state!=State.STOPPING) {
+            LOG.info("State {} ",state);
             LOG.info("cleaner busy");
             cleaner.execute();
             try {
                 LOG.info("cleaner sleeping");
-                Thread.sleep(60000);
+                Thread.sleep(wait);
+                wait = wait<60000?wait*2:60000;
             } catch (InterruptedException e) {
                 state=State.STOPPED;
                 return;
@@ -33,10 +36,11 @@ public class OrphanedTestRemoverThread implements Runnable {
     }
 
     public void stop() {
+        LOG.info("please stop");
         state=State.STOPPING;
         while(state!=State.STOPPED) {
             try {
-                Thread.sleep(30000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                Thread.interrupted();
             }

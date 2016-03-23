@@ -104,8 +104,10 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
         LOG.debug("Using {} threads",threads);
         List<TestRunnerThreadValues> results = queueTests();
         OrphanedTestRemoverThread cleaner = new OrphanedTestRemoverThread();
-        cleaner.run();
+        Thread cleanerThread = new Thread(cleaner);
+        cleanerThread.start();
         waitTillDone(timeout, results);
+        //cleanerThread.interrupt();
         cleaner.stop();
         
         multiThreadedSpecFlowIntegrationTestCache.setDidExecute(true);
