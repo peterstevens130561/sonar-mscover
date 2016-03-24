@@ -7,10 +7,11 @@ import org.mockito.MockitoAnnotations;
 import org.sonar.api.utils.command.CommandExecutor;
 
 import com.stevpet.sonar.plugins.common.api.ShellCommand;
+import com.stevpet.sonar.plugins.common.commandexecutor.ImpatientCommandExecutor;
 import com.stevpet.sonar.plugins.common.commandexecutor.WindowsCommandLineExecutor;
 
 public class WindowsCommandLineExecutor_ExecuteTest {
-    @Mock private CommandExecutor commandExecutor ;
+    @Mock private ImpatientCommandExecutor commandExecutor ;
     @Mock private ShellCommand shellCommand;
     
     @Before

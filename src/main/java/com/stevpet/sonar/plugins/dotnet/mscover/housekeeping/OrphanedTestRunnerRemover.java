@@ -13,9 +13,10 @@ public class OrphanedTestRunnerRemover {
     private List<ProcessInfo> engines;
     private List<ProcessInfo> consoles;
     private List<ProcessInfo> opencovers;
-
+    private List<String> orphans;
     public OrphanedTestRunnerRemover(ProcessHelper processLister) {
         this.processHelper=processLister;
+        orphans = new ArrayList<String>();
     }
 
     public void execute() {
@@ -27,7 +28,8 @@ public class OrphanedTestRunnerRemover {
                 for(ProcessInfo engineInfo : engines) {
                     if(engineInfo.parentId.equals(consoleInfo.getId())) {
                         String engineId=engineInfo.getId();
-                        LOG.info("cleaner will kill {}",engineId);
+                        LOG.warn("cleaner will kill {}",engineId);
+                        orphans.add(engineId);
                         processHelper.killProcess(engineId);
                     }
                 }
@@ -35,6 +37,9 @@ public class OrphanedTestRunnerRemover {
         }
     }
 
+    public List<String> getOrphans() {
+        return orphans;
+    }
     private boolean isOrphaned(ProcessInfo consoleInfo) {
         String parentId = consoleInfo.getParentId();
         for(ProcessInfo opencoverInfo : opencovers) {

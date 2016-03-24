@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.command.CommandExecutor;
+import org.sonar.api.utils.command.ImpatientCommandExecutor;
 import org.sonar.api.utils.command.StreamConsumer;
 
 import com.google.common.base.Preconditions;
@@ -46,7 +47,7 @@ public class WindowsCommandLineExecutor implements CommandLineExecutor {
     private StringStreamConsumer stdErr = new StringStreamConsumer();
     private String executable;
     private int timeout = DEFAULT_TIMEOUT;
-    private CommandExecutor commandExecutor = CommandExecutor.create();
+    private ImpatientCommandExecutor commandExecutor = ImpatientCommandExecutor.create();
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor#execute(com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.ShellCommand)
      */
@@ -105,8 +106,8 @@ public class WindowsCommandLineExecutor implements CommandLineExecutor {
         
     }
     
-    public void setCommandExecutor(CommandExecutor commandExecutor) {
-        this.commandExecutor = commandExecutor;
+    public void setCommandExecutor(ImpatientCommandExecutor commandExecutor2) {
+        this.commandExecutor = commandExecutor2;
     }
     
 }

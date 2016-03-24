@@ -11,7 +11,6 @@ import org.sonar.api.batch.fs.FileSystem;
 
 import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
-import com.stevpet.sonar.plugins.common.commandexecutor.DefaultProcessLock;
 import com.stevpet.sonar.plugins.common.commandexecutor.LockedWindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.common.commandexecutor.NullProcessLock;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
@@ -21,7 +20,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverTarge
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VSTestStdOutParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommand;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;

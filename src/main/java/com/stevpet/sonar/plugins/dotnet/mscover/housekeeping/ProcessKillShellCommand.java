@@ -11,7 +11,6 @@ public class ProcessKillShellCommand implements ShellCommand {
     private String id;
     @Override
     public String toCommandLine() {
-        // TODO Auto-generated method stub
         return toCommand().toString();
     }
 
@@ -22,7 +21,7 @@ public class ProcessKillShellCommand implements ShellCommand {
         command.addArgument("process");
         command.addArgument("where");
         command.addArgument("processid=\"" + id + "\"");
-        command.addArgument("cal");
+        command.addArgument("call");
         command.addArgument("terminate");
         return command;
     }
