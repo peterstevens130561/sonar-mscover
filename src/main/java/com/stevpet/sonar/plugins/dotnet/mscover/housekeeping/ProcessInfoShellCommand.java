@@ -15,7 +15,6 @@ public class ProcessInfoShellCommand implements ShellCommand {
     }
     @Override
     public String toCommandLine() {
-        // TODO Auto-generated method stub
         return toCommand().toString();
     }
 
@@ -33,8 +32,7 @@ public class ProcessInfoShellCommand implements ShellCommand {
 
     @Override
     public String getExecutable() {
-        // TODO Auto-generated method stub
-        return null;
+        return "WMIC";
     }
 
 }

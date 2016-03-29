@@ -34,4 +34,24 @@ public class LogChanger {
 			appender.start();
 		}
 	}
+	
+	   public static void setCustomPattern(String pattern) {
+	        PatternLayoutEncoder encoder = new PatternLayoutEncoder(); 
+	        ch.qos.logback.classic.Logger loggerImpl =(ch.qos.logback.classic.Logger) LOG;
+	        encoder.setContext(loggerImpl.getLoggerContext());
+	        encoder.setPattern(pattern);
+	        encoder.start();
+
+	        Logger rootLogger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+	        AppenderAttachable<ILoggingEvent> appenderAttachable = (AppenderAttachable<ILoggingEvent>) rootLogger;
+	        Iterator<Appender<ILoggingEvent>> iterator = appenderAttachable.iteratorForAppenders();
+	        while (iterator.hasNext()) {
+	            Appender<ILoggingEvent> appender = iterator.next();
+	            if (appender instanceof OutputStreamAppender) {
+	                ((OutputStreamAppender)appender).setEncoder(encoder);
+	            }
+	            appender.stop();
+	            appender.start();
+	        }
+	    }
 }

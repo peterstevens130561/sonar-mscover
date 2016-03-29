@@ -19,6 +19,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBu
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.SpecFlowTestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.DefaultOpenCoverTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.LogChanger;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 /**
@@ -125,7 +126,7 @@ public class SpecflowIntegrationTestRunner implements
 		Preconditions.checkNotNull(coverageFile,"coverage file not set");
 		Preconditions.checkNotNull(rootDir,"rootDir not set");
 		Preconditions.checkState(timeout>0,"timeout invalid,, should be > 0");
-
+        LogChanger.setCustomPattern("%level %thread  %msg%n");
 		openCoverModuleSaver.setProject(module).setRoot(rootDir);
         Pattern pattern=Pattern.compile(projectName);
 		testRunner.setTestProjectPattern(pattern);

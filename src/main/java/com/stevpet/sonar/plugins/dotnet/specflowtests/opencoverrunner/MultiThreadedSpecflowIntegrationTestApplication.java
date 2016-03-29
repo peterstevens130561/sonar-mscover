@@ -26,6 +26,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.housekeeping.OrphanedTestRemoverThread;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
+import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.LogChanger;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 
@@ -97,7 +98,6 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
             LOG.debug("Using previous data");
             return;
         }
-
         int threads = integrationTestsConfiguration.getTestRunnerThreads();
         int timeout = integrationTestsConfiguration.getTestRunnerTimeout();
         executorService = Executors.newFixedThreadPool(threads);
