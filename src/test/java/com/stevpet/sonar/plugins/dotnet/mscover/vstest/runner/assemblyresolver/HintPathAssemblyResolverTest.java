@@ -24,12 +24,15 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 
-public class HintPathAssemblyResolverTest {
+import static org.mockito.Mockito.when ;
 
-    MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
+public class HintPathAssemblyResolverTest {
+    @Mock MsCoverConfiguration msCoverConfiguration;
     VisualStudioProjectMock visualStudioProjectMock = new VisualStudioProjectMock();
     HintPathAssemblyResolver assemblyResolver = new HintPathAssemblyResolver();
     AssemblyResolverTestUtils utils = new AssemblyResolverTestUtils();
@@ -39,7 +42,8 @@ public class HintPathAssemblyResolverTest {
     
     @Before()
     public void before() {
-        assemblyResolver.setMsCoverProperties(msCoverPropertiesMock.getMock());
+        org.mockito.MockitoAnnotations.initMocks(this);
+        assemblyResolver.setMsCoverProperties(msCoverConfiguration);
         
         utils.setAssemblyResolver(assemblyResolver);
         utils.givenAssembly(fileName);
@@ -56,8 +60,7 @@ public class HintPathAssemblyResolverTest {
     
     @Test
     public void resolveAssembly_HitPathDefined_ReturnHintPath() {
-
-        msCoverPropertiesMock.givenUnitTestHintPath(hintPath);
+        when(msCoverConfiguration.getUnitTestHintPath()).thenReturn(hintPath);
      
         utils.resolveAssembly(); 
         utils.verifyResolvedAs(hintPath + "\\" + artifactName);
