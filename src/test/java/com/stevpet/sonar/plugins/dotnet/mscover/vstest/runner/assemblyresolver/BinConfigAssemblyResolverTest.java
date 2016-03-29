@@ -27,13 +27,14 @@ import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.ProjectMock;
 
 public class BinConfigAssemblyResolverTest {
     private AssemblyResolverTestUtils utils = new AssemblyResolverTestUtils();
-    private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
+    @Mock MsCoverConfiguration msCoverConfiguration ;
     private String artifactName = "somename.dll";
     VisualStudioProjectMock visualStudioProjectMock = new VisualStudioProjectMock();
     
@@ -42,7 +43,8 @@ public class BinConfigAssemblyResolverTest {
     
     @Before() 
     public void before() {
-        assemblyResolver.setMsCoverProperties(msCoverPropertiesMock.getMock());
+        org.mockito.MockitoAnnotations.initMocks(this);
+        assemblyResolver.setMsCoverProperties(msCoverConfiguration);
         utils.setAssemblyResolver(assemblyResolver);
         utils.setVisualStudioProject(visualStudioProjectMock.getMock());
     }
