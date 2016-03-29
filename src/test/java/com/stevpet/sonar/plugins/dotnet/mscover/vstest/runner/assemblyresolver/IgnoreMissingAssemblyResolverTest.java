@@ -27,12 +27,14 @@ import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
-
+import static org.mockito.Mockito.when;
 public class IgnoreMissingAssemblyResolverTest {
 
-    private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
+    private @Mock MsCoverConfiguration msCoverConfiguration;
     private AssemblyResolver assemblyResolver = new IgnoreMissingAssemblyResolver();
     private AssemblyResolverTestUtils utils = new AssemblyResolverTestUtils();
 
@@ -41,10 +43,10 @@ public class IgnoreMissingAssemblyResolverTest {
     
     @Before
     public void before() {
-        assemblyResolver.setMsCoverProperties(msCoverPropertiesMock.getMock());
+        org.mockito.MockitoAnnotations.initMocks(this);
+        assemblyResolver.setMsCoverProperties(msCoverConfiguration);
         utils.setAssemblyResolver(assemblyResolver);
         utils.givenAssembly(fileName);
-        msCoverPropertiesMock.givenUnitTestAssembliesThatCanBeIgnoredIfMissing(null);
     }
     
     @Test
@@ -76,7 +78,7 @@ public class IgnoreMissingAssemblyResolverTest {
             list=new ArrayList<String>();
         }
         list.add(name);
-        msCoverPropertiesMock.givenUnitTestAssembliesThatCanBeIgnoredIfMissing(list);
+        when(msCoverConfiguration.getUnitTestAssembliesThatCanBeIgnoredIfMissing()).thenReturn(list);
     }
     
     
