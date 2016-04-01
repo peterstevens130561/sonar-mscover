@@ -33,6 +33,7 @@ import org.sonar.api.SonarPlugin;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultIntegrationTestsConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
+import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.DefaultOpenCoverCommandLineConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.IntegrationTestCache;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestCache;
@@ -62,7 +63,7 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualS
         @Property(key = DefaultMsCoverConfiguration.MSCOVER_EXCLUSIONS, name = "regular expression to match files that should be excluded", defaultValue = "", global = false, project = true, type = PropertyType.STRING),
         @Property(key = DefaultMsCoverConfiguration.MSCOVER_IGNOREMISSING_DLL, name = "list of dlls that may be ignored if missing", defaultValue = "", global = false, project = true, type = PropertyType.STRING),
         @Property(key = DefaultMsCoverConfiguration.MSCOVER_UNITTEST_HINTPATH, name = "hintpath for unit testing dlls", defaultValue = "", global = false, project = true, type = PropertyType.STRING),
-        @Property(key = DefaultMsCoverConfiguration.MSCOVER_OPENCOVER_SKIPAUTOPROPS, name = "skip autoproperties", defaultValue = "true", global = true, project = true, type = PropertyType.BOOLEAN)
+        @Property(key = DefaultOpenCoverCommandLineConfiguration.SKIPAUTOPROPS_KEY, name = "skip autoproperties", defaultValue = "true", global = true, project = true, type = PropertyType.BOOLEAN)
         })
 public final class MsCoverPlugin extends SonarPlugin {
 

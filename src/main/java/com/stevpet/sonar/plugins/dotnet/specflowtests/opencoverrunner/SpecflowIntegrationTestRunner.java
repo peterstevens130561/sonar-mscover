@@ -76,7 +76,7 @@ public class SpecflowIntegrationTestRunner implements
 			FileSystem fileSystem,Settings settings) {
 		return new SpecflowIntegrationTestRunner(
 				new OpenCoverModuleSaver(), DefaultOpenCoverTestRunner.create(
-						msCoverConfiguration, microsoftWindowsEnvironment,
+						msCoverConfiguration, settings,microsoftWindowsEnvironment,
 						fileSystem),
 				SpecFlowTestResultsBuilder.create(microsoftWindowsEnvironment));
 	}

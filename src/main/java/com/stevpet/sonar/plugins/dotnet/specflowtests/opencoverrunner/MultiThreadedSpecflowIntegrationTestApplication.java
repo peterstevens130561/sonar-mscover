@@ -71,7 +71,7 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
         this(microsoftWindowsEnvironment,
                 integrationTestsConfiguration,
                 new DefaultIntegrationTestRunnerFactory(
-                        msCoverConfiguration,
+                        msCoverConfiguration, settings,
                         microsoftWindowsEnvironment,
                         fileSystem
                 ),

@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
 
 import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.config.Settings;
 
 import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
@@ -31,7 +32,6 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 	private static final int DEFAULT_TIMEOUT = 30;
     private OpenCoverCommand openCoverCommand;
-	private MsCoverConfiguration msCoverProperties;
 	private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 	private AssembliesFinder assembliesFinder;
 	private VsTestRunnerCommandBuilder vsTestRunnerCommandBuilder;
@@ -41,8 +41,9 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 	private CommandLineExecutor commandLineExecutor;
     private Pattern testProjectPattern;
     private int timeout = DEFAULT_TIMEOUT;
+    private OpenCoverCommandLineConfiguration configuration;
 
-	public DefaultOpenCoverTestRunner(MsCoverConfiguration msCoverProperties,
+	public DefaultOpenCoverTestRunner(OpenCoverCommandLineConfiguration openCoverCommandLineConfiguration,
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
 			OpenCoverCommand openCoverCommand,
 			AssembliesFinder assembliesFinder,
@@ -50,7 +51,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 			VSTestStdOutParser vsTestStdOutParser,
 			CommandLineExecutor commandLineExecutor) {
 		this.openCoverCommand = openCoverCommand;
-		this.msCoverProperties = msCoverProperties;
+		this.configuration = openCoverCommandLineConfiguration;
 		this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
 		this.assembliesFinder = assembliesFinder;
 		this.vsTestRunnerCommandBuilder = vsTestRunnerCommandBuilder;
@@ -59,12 +60,11 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 	}
 
 	public static DefaultOpenCoverTestRunner create(
-			MsCoverConfiguration msCoverProperties,
+			MsCoverConfiguration msCoverProperties,Settings settings,
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
 			FileSystem fileSystem) {
-		return new DefaultOpenCoverTestRunner(msCoverProperties,
-				microsoftWindowsEnvironment, new OpenCoverCommand(
-						msCoverProperties), new DefaultAssembliesFinder(
+		return new DefaultOpenCoverTestRunner(new DefaultOpenCoverCommandLineConfiguration(settings),
+				microsoftWindowsEnvironment, new OpenCoverCommand(), new DefaultAssembliesFinder(
 						msCoverProperties), new VsTestRunnerCommandBuilder(
 						msCoverProperties, microsoftWindowsEnvironment,
 						fileSystem, new VsTestConfigFinder(),
@@ -80,7 +80,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 		OpenCoverTarget openCoverTarget = vsTestRunnerCommandBuilder
 				.build(false);
 		openCoverCommand.setTargetCommand(openCoverTarget);
-
+		openCoverCommand.setInstallDir(configuration.getInstallDir());
 		VisualStudioSolution solution = microsoftWindowsEnvironment
 				.getCurrentSolution();
 		String targetDir = assembliesFinder.findUnitTestAssembliesDir(solution);
@@ -91,11 +91,11 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 		openCoverCommand.setExcludeByFileFilter(excludeFilters);
 
 		openCoverCommand.setExcludeFromCodeCoverageAttributeFilter();
-		openCoverCommand.setRegister("user");
+		openCoverCommand.setRegister(configuration.getRegister());
 		openCoverCommand.setMergeByHash();
 		openCoverCommand.setOutputPath(coverageFile.getAbsolutePath());
 		
-		if (msCoverProperties.getOpenCoverSkipAutoProps()) {
+		if (configuration.getSkipAutoProps()) {
 			openCoverCommand.setSkipAutoProps();
 		}
 	}

@@ -34,7 +34,8 @@ public class OpenCoverTestHelper {
     protected OpenCoverCommand openCoverCommand;
 
     public OpenCoverTestHelper() {
-        openCoverCommand = new OpenCoverCommand(EXECUTABLE);
+        openCoverCommand = new OpenCoverCommand();
+        openCoverCommand.setInstallDir(EXECUTABLE);
     }
 
     protected void assertArgument(String value) {
@@ -51,7 +52,8 @@ public class OpenCoverTestHelper {
         assertTrue("argument should not contain " + value,doesNotContain);
     }
     protected OpenCoverCommand createCommand() {
-        OpenCoverCommand openCoverCommand = new OpenCoverCommand(EXECUTABLE);
+        OpenCoverCommand openCoverCommand = new OpenCoverCommand();
+        openCoverCommand.setInstallDir(EXECUTABLE);
         return openCoverCommand;
     }
 

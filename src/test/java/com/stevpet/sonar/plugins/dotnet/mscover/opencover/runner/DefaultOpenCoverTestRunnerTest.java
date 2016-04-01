@@ -9,8 +9,8 @@ import java.util.regex.Pattern;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.VsTestRunnerCommandBuilderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExexutorStub;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.NoAssembliesDefinedException;
@@ -18,20 +18,21 @@ import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverComma
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.AssembliesFinderMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.sensor.MicrosoftWindowsEnvironmentMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.DefaultOpenCoverTestRunner;
+import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverCommandLineConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommandMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParserMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class DefaultOpenCoverTestRunnerTest {
 
     private static final int TIMEOUT_SET = 45;
     private DefaultOpenCoverTestRunner openCoverCoverageRunner;
     private OpenCoverCommand  openCoverCommand ;
-    private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
     private CommandLineExexutorStub commandLineExecutorStub = new CommandLineExexutorStub();
     private AssembliesFinderMock assembliesFinderMock = new AssembliesFinderMock();
@@ -43,21 +44,25 @@ public class DefaultOpenCoverTestRunnerTest {
 			"-register:user -excludebyfile:*\\*.Designer.cs -excludebyattribute:*ExcludeFromCodeCoverage* " +
 			"\"-target:exedir\" \"-targetdir:somedir\" -mergebyhash: \"-targetargs:arguments\" \"-output:";
     private String coveragePath;
+    private MicrosoftWindowsEnvironment settings;
+    private @Mock OpenCoverCommandLineConfiguration configuration;
     
     /**
      * Setting up the mocks/stubs to work with. Note that it is assumed the builder does its work.
      */
     @Before
     public void before() {
-        msCoverPropertiesMock.givenOpenCoverInstallPath("opencover");
-        openCoverCommand = new OpenCoverCommand(msCoverPropertiesMock.getMock());
-        
+        org.mockito.MockitoAnnotations.initMocks(this);
+        openCoverCommand = new OpenCoverCommand();
         assemblies= new ArrayList<String>();
         
         microsoftWindowsEnvironmentMock.givenHasAssemblies(assemblies);
 
-		openCoverCoverageRunner = new DefaultOpenCoverTestRunner(msCoverPropertiesMock.getMock(),microsoftWindowsEnvironmentMock.getMock(),openCoverCommand,assembliesFinderMock.getMock(),
+		openCoverCoverageRunner = new DefaultOpenCoverTestRunner(configuration, microsoftWindowsEnvironmentMock.getMock(),openCoverCommand,assembliesFinderMock.getMock(),
 				vsTestRunnerCommandBuilderMock.getMock(),vsStdOutParserMock.getMock(),commandLineExecutorStub);
+		when(configuration.getInstallDir()).thenReturn("opencover");
+		when(configuration.getRegister()).thenReturn("user");
+		when(configuration.getSkipAutoProps()).thenReturn(false);
         assembliesFinderMock.onFindUnitTestAssembliesDir("somedir");
         vsTestRunnerCommandBuilderMock.givenBuild(vsTestCommandMock.getMock());
         vsTestCommandMock.giveExeDir("exedir");
@@ -90,10 +95,7 @@ public class DefaultOpenCoverTestRunnerTest {
 
     @Test
     public void runWithOneAssembly_CommandLineOk() {
-        //given one assembly
-        assemblies.add("one");
-        //when
-        openCoverCoverageRunner.onlyReportAssembliesOfTheSolution().execute();
+        minimalSetup();
         //then I expect the proper commandline, with the one assembly
         String commandLine=commandLineExecutorStub.getCommandLine();
         String expected =  baseCommandLine + coveragePath + " \"-filter:+[one]* \"";
@@ -137,9 +139,7 @@ public class DefaultOpenCoverTestRunnerTest {
     
     @Test
     public void checkTimeoutDefault() {
-        assemblies.add("one");
-        //when
-        openCoverCoverageRunner.onlyReportAssembliesOfTheSolution().execute();
+        minimalSetup();
         //then I expect the proper commandline, with the one assembly
         openCoverCoverageRunner.execute();
         assertEquals("timeout default",30,commandLineExecutorStub.getTimeoutMinutes());
@@ -147,12 +147,36 @@ public class DefaultOpenCoverTestRunnerTest {
     
     @Test
     public void checkTimeoutSet() {
-        assemblies.add("one");
-        //when
-        openCoverCoverageRunner.onlyReportAssembliesOfTheSolution().execute();
+        minimalSetup();
         //then I expect the proper commandline, with the one assembly
         openCoverCoverageRunner.setTimeout(TIMEOUT_SET);
         openCoverCoverageRunner.execute();
         assertEquals("timeout should be set",TIMEOUT_SET,commandLineExecutorStub.getTimeoutMinutes());
     }
+    
+    @Test
+    public void checkSkipAutoProps() {
+        minimalSetup();
+        
+        when(configuration.getSkipAutoProps()).thenReturn(true);
+        openCoverCoverageRunner.execute();
+        String commandLine=openCoverCommand.toCommandLine();
+        assertTrue("should contain the skipAutoProps argument",commandLine.contains(" -skipautoprops"));
+    }
+    
+    @Test
+    public void checkNoSkipAutoProps() {
+        minimalSetup();
+        
+        when(configuration.getSkipAutoProps()).thenReturn(false);
+        openCoverCoverageRunner.execute();
+        String commandLine=openCoverCommand.toCommandLine();
+        assertFalse("should not contain the skipAutoProps argument",commandLine.contains(" -skipautoprops"));
+    }
+
+    private void minimalSetup() {
+        assemblies.add("one");
+        openCoverCoverageRunner.onlyReportAssembliesOfTheSolution().execute();
+    }
+    
 }

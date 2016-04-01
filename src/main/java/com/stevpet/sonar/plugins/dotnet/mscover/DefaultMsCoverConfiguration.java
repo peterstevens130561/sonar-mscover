@@ -70,7 +70,6 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
     public static final String MSCOVER_COVERAGETOOL = MSCOVER + "coveragetool";
     public static final String MSCOVER_IGNOREMISSING_DLL = MSCOVER + "vstest.ignoremissingdlls";
     public static final String MSCOVER_IGNOREMISSING_PDB = MSCOVER + "opencover.ignoremissingpdbs";
-    public static final String MSCOVER_OPENCOVER_SKIPAUTOPROPS = MSCOVER + "opencover.skipautoprops";
     private static final String MSCOVER_VSTEST_INSTALLDIR=MSCOVER+"vstest.installDirectory";
     private static final String MSCOVER_WORKSPACE_ROOT= MSCOVER + "workspace";
     
@@ -251,13 +250,6 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
         return getUnitTestAssembliesThatCanBeIgnoredIfMissing().size()>0;
     }
 
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.PropertiesInterface#getOpenCoverInstallPath()
-     */
-    @Override
-    public String getOpenCoverInstallPath() {
-        return settings.getString("sonar.opencover.installDirectory");
-    }
     
     @Override
     public String getVsTestInstallPath() {
@@ -269,10 +261,6 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
         return settings.getString(MSCOVER_UNITTEST_HINTPATH);
     }
     
-    @Override
-    public boolean getOpenCoverSkipAutoProps() {
-        return settings.getBoolean(MSCOVER_OPENCOVER_SKIPAUTOPROPS);
-    }
 
     @Override
     public String getIntegrationTestsDir() {

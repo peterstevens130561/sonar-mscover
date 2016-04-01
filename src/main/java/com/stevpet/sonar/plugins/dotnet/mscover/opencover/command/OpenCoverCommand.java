@@ -25,6 +25,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.command;
 import java.util.List;
 import java.util.Map;
 
+import org.assertj.core.util.Preconditions;
 import org.sonar.api.utils.command.Command;
 
 import com.google.common.collect.Lists;
@@ -39,13 +40,11 @@ public class OpenCoverCommand implements ShellCommand {
     private Map<String,String> arguments = Maps.newHashMap();
     
     @SuppressWarnings("ucd")
-    public OpenCoverCommand(MsCoverConfiguration msCoverProperties) {
-        path=msCoverProperties.getOpenCoverInstallPath();
+    public OpenCoverCommand() {
     }
     
-    public OpenCoverCommand(String path) {
+    public void setInstallDir(String path) {
         this.path=path;
-
     }
     
     public void setCommandPath(String path) {
@@ -108,6 +107,7 @@ public class OpenCoverCommand implements ShellCommand {
     }
 
     public Command toCommand() {
+        Preconditions.checkNotNull(path,"installdir not set");
         List<String> list = Lists.newArrayList(arguments.values());
         Command command =Command.create(path + "/OpenCover.Console.Exe");
         command.addArguments(list);

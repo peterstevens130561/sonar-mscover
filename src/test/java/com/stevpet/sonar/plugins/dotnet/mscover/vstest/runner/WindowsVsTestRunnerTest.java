@@ -67,6 +67,7 @@ public class WindowsVsTestRunnerTest {
     private VSTestStdOutParser vsTestResultsParser= mock(VSTestStdOutParser.class);
     private FileSystemMock fileSystemMock = new FileSystemMock();
     private MicrosoftWindowsEnvironmentMock microsoftWindowsEnvironmentMock = new MicrosoftWindowsEnvironmentMock();
+    
     private MsCoverPropertiesMock msCoverPropertiesMock = new MsCoverPropertiesMock();
     private AssembliesFinderMock assembliesFinderMock = new AssembliesFinderMock();
     private VsTestEnvironment testEnvironment;

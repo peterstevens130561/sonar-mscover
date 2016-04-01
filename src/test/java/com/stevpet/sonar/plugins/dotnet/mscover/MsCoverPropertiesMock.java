@@ -53,10 +53,6 @@ public class MsCoverPropertiesMock {
         when(properties.getRequiredBuildConfiguration()).thenReturn(buildConfiguration);
     }
     
-    public void givenOpenCoverSkipAutoProps(boolean value) {
-        when(properties.getOpenCoverSkipAutoProps()).thenReturn(value);
-    }
-
     /**
      * 
      * @param mode - to return when getMode is used
@@ -65,8 +61,5 @@ public class MsCoverPropertiesMock {
         when(properties.getMode()).thenReturn(mode);
     }
 
-    public void givenOpenCoverInstallPath(String path) {
-        when(properties.getOpenCoverInstallPath()).thenReturn(path);
-    }
 
  }

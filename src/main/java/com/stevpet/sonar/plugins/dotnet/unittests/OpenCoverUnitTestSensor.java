@@ -31,6 +31,7 @@ import org.sonar.api.batch.DependedUpon;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.PathResolver;
 
@@ -122,12 +123,13 @@ public class OpenCoverUnitTestSensor implements Sensor {
      */
     public OpenCoverUnitTestSensor(FileSystem fileSystem,
             MsCoverConfiguration msCoverConfiguration,
+            Settings settings,
             UnitTestCache unitTestBatchData,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             PathResolver pathResolver,
             OverallCoverageCache overallCoverageCache) {
         this(fileSystem, msCoverConfiguration, unitTestBatchData,
-                DefaultOpenCoverTestRunner.create(msCoverConfiguration,
+                DefaultOpenCoverTestRunner.create(msCoverConfiguration,settings,
                         microsoftWindowsEnvironment, fileSystem), SpecFlowTestResultsBuilder
                         .create(microsoftWindowsEnvironment),
                 VsTestTestResultsSaver.create(pathResolver, fileSystem),

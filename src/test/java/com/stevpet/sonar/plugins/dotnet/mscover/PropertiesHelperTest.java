@@ -117,19 +117,6 @@ public class PropertiesHelperTest {
         assertEquals(path, actual);
     }
 
-    @Test
-    public void givenOpenCoverSkipAutoProps_True() {
-        setBoolean(DefaultMsCoverConfiguration.MSCOVER_OPENCOVER_SKIPAUTOPROPS, true);
-        boolean actual = helper.getOpenCoverSkipAutoProps();
-        assertTrue(actual);
-    }
-
-    @Test
-    public void givenOpenCoverSkipAutoProps_False() {
-        setBoolean(DefaultMsCoverConfiguration.MSCOVER_OPENCOVER_SKIPAUTOPROPS, false);
-        boolean actual = helper.getOpenCoverSkipAutoProps();
-        assertFalse(actual);
-    }
     
     @Test
     public void noWorkSpaceDefinedExectpion() {
@@ -165,8 +152,5 @@ public class PropertiesHelperTest {
         when(settings.getString(property)).thenReturn(value);
     }
 
-    private void setBoolean(String property, boolean value) {
-        when(settings.getBoolean(property)).thenReturn(value);
-    }
 
 }

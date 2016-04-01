@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.config.Settings;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
@@ -17,6 +18,7 @@ public class OpenCoverCoverageRunnerTests {
 	@Mock private MsCoverConfiguration msCoverConfiguration;
 	@Mock private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 	@Mock private FileSystem fileSystem;
+	@Mock private Settings settings;
 
 	@Before
 	public void before() {
@@ -27,7 +29,7 @@ public class OpenCoverCoverageRunnerTests {
 		try {
 			
 			DefaultOpenCoverTestRunner.create(
-				msCoverConfiguration,
+				msCoverConfiguration, settings,
 				microsoftWindowsEnvironment,
 				fileSystem);
 		} catch (Exception e) {

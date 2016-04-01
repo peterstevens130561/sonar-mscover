@@ -5,7 +5,9 @@ import org.sonar.api.config.Settings;
 
 public class DefaultOpenCoverCommandLineConfiguration implements OpenCoverCommandLineConfiguration {
     private static final String OPENCOVER = "sonar.mscover.opencover.";
-    private static String INSTALLDIR_KEY = OPENCOVER + "installDirectory";
+    public static final String INSTALLDIR_KEY = OPENCOVER + "installDirectory";
+    public static final String SKIPAUTOPROPS_KEY = OPENCOVER + "skipautoprops";
+    public static final String REGISTER = OPENCOVER + "register";
     private final Settings settings;
 
     public DefaultOpenCoverCommandLineConfiguration(
@@ -24,14 +26,14 @@ public class DefaultOpenCoverCommandLineConfiguration implements OpenCoverComman
 
     @Override
     public boolean getSkipAutoProps() {
-        // TODO Auto-generated method stub
-        return false;
+        boolean skip = settings.getBoolean(SKIPAUTOPROPS_KEY);
+        return skip;
     }
 
     @Override
     public String getRegister() {
-        // TODO Auto-generated method stub
-        return null;
+        String register = settings.getString(REGISTER);
+        return register;
     }
 
 }

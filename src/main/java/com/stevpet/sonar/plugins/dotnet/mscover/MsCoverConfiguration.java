@@ -35,8 +35,6 @@ public interface MsCoverConfiguration {
     String getUnitTestCoveragePath();
 
    
-
-
     String getMode();
 
     String getUnitTestsAssemblies();
@@ -77,12 +75,9 @@ public interface MsCoverConfiguration {
 
     boolean isIgnoreMissingUnitTestAssembliesSpecified();
 
-    String getOpenCoverInstallPath();
 
     String getUnitTestHintPath();
     
-    boolean getOpenCoverSkipAutoProps();
-
     String getIntegrationTestsDir();
 
     /**
