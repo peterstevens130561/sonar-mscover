@@ -22,6 +22,7 @@ import org.sonar.test.TestUtils;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
+import com.stevpet.sonar.plugins.common.commandexecutor.CommandExecutors;
 import com.stevpet.sonar.plugins.common.commandexecutor.ProcessLock;
 import com.stevpet.sonar.plugins.common.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration;
@@ -59,7 +60,7 @@ public class IntegrationTestSerializationTests {
     public void before() {
         initMocks(this);
         coverageParser= new VsTestFilteringCoverageParser();
-        commandLineExecutor = new WindowsCommandLineExecutor();
+        commandLineExecutor = new WindowsCommandLineExecutor(new CommandExecutors());
         codeCoverageCommand = new WindowsCodeCoverageCommand();
         coverageToXmlConverter = new VsTestCoverageToXmlConverterBase(fileSystem, codeCoverageCommand, commandLineExecutor,processLock);
         serializer = new Serializer();

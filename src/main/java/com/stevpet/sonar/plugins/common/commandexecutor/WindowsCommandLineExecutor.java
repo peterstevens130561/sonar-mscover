@@ -25,10 +25,8 @@ package com.stevpet.sonar.plugins.common.commandexecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.SonarException;
-import org.sonar.api.utils.command.CommandExecutor;
 import org.sonar.api.utils.command.StreamConsumer;
 
-import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
 import com.stevpet.sonar.plugins.common.api.ShellCommand;
 
@@ -44,21 +42,33 @@ public class WindowsCommandLineExecutor implements CommandLineExecutor {
             .getLogger(WindowsCommandLineExecutor.class);
     private StringStreamConsumer stdOut = new StringStreamConsumer();
     private StringStreamConsumer stdErr = new StringStreamConsumer();
-    private String executable;
-    private int timeout = DEFAULT_TIMEOUT;
-    private CommandExecutor commandExecutor = CommandExecutor.create();
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor#execute(com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.ShellCommand)
+ 
+    private CommandExecutors commandExecutors;
+
+    /**
+     * Inject own factory
+     * @param commandExecutors
      */
+    public WindowsCommandLineExecutor(CommandExecutors commandExecutors) {
+        this.commandExecutors = commandExecutors;
+    }
+    
+    /**
+     * default constructor
+     */
+    public WindowsCommandLineExecutor() {
+        this(new CommandExecutors());
+    }
     public int execute(ShellCommand command) {
         return execute(command,DEFAULT_TIMEOUT);
     }
     
     public int execute(ShellCommand command,int timeOutMinutes) {
+        CommandExecutor commandExecutor= commandExecutors.create();
         stdOut = new StringStreamConsumer();
         stdErr = new StringStreamConsumer();
         long timeOut = (long) (timeOutMinutes * 60000);
-        executable=command.getExecutable();
+        String executable=command.getExecutable();
         int exitCode = commandExecutor.execute(command.toCommand(),
                 stdOut, stdErr, timeOut);
         if (exitCode != 0 && exitCode != 1) {
@@ -105,8 +115,5 @@ public class WindowsCommandLineExecutor implements CommandLineExecutor {
         
     }
     
-    public void setCommandExecutor(CommandExecutor commandExecutor) {
-        this.commandExecutor = commandExecutor;
-    }
     
 }

@@ -34,7 +34,6 @@ public interface MsCoverConfiguration {
 
     String getUnitTestCoveragePath();
 
-   
     String getMode();
 
     String getUnitTestsAssemblies();
@@ -87,10 +86,5 @@ public interface MsCoverConfiguration {
 
     File getWorkSpaceRoot();
 
-
-
-
     Pattern getTestProjectPattern();
-
-
 }
