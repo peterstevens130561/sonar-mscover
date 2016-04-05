@@ -18,11 +18,11 @@ public class OrphanedTestRemoverThread implements Runnable {
         LOG.info("cleaner starting");
         OrphanedTestRunnerRemover cleaner = new OrphanedTestRunnerRemover(new ProcessHelper(new WindowsCommandLineExecutor()));
         while(state!=State.STOPPING) {
-            LOG.info("State {} ",state);
-            LOG.info("cleaner busy");
+            LOG.debug("State {} ",state);
+            LOG.debug("cleaner busy");
             cleaner.execute();
             try {
-                LOG.info("cleaner sleeping");
+                LOG.debug("cleaner sleeping");
                 Thread.sleep(wait);
                 wait = wait<60000?wait*2:60000;
             } catch (InterruptedException e) {

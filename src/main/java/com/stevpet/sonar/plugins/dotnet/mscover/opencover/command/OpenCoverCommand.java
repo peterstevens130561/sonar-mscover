@@ -25,13 +25,12 @@ package com.stevpet.sonar.plugins.dotnet.mscover.opencover.command;
 import java.util.List;
 import java.util.Map;
 
-import org.assertj.core.util.Preconditions;
 import org.sonar.api.utils.command.Command;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.stevpet.sonar.plugins.common.api.ShellCommand;
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 
 public class OpenCoverCommand implements ShellCommand {
 
