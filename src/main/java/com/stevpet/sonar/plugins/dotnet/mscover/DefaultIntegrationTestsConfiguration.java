@@ -1,14 +1,19 @@
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
+import org.sonar.api.PropertyType;
 import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.Settings;
+import org.sonar.api.config.PropertyDefinition.Builder;
 
 import com.google.common.base.Preconditions;
 
@@ -35,7 +40,54 @@ public  class DefaultIntegrationTestsConfiguration implements IntegrationTestsCo
 		this.settingsHelper=new SettingsHelper(settings);
 		
 	}
+    public static Collection<PropertyDefinition> getProperties() {
+        Collection<PropertyDefinition> properties = new ArrayList<>();
+        properties.add(createProperty(MSCOVER_SPECFLOWTESTS_ROOT,PropertyType.STRING)
+                .name("root directory of integration test projects")
+                .description("used in auto mode to determine whether to execute integration tests or save coverage data")
+                .index(0)
+                .build());
+        properties.add(createProperty(MSCOVER_INTEGRATION_TESTCASEFILTER,PropertyType.STRING)
+                .name("TestCase filter")
+                .description("filter to apply to VSTEST to run only those tests that pass the filter")
+                .index(1)
+                .build());
+        properties.add(createProperty(MSCOVER_INTEGRATION_PROJECTPATTERN,PropertyType.REGULAR_EXPRESSION)
+                .name("Pattern for integration test projects")
+                .description("Regular expression to determine which projects are integration test projects, should also be included in overall test project pattern")
+                .index(2)
+                .build());
+        properties.add(createProperty(MSCOVER_INTEGRATION_COVERAGEREADER_THREADS,PropertyType.INTEGER)
+                .name("Number of threads for coverage reader")
+                .description("Specified number of threads that the coverage reader uses when reading the coverage data for a project")
+                .defaultValue("5")
+                .index(3)
+                .build());
+        properties.add(createProperty(MSCOVER_INTEGRATION_COVERAGEREADER_TIMEOUT,PropertyType.INTEGER)
+                .name("Timeout for coverage reader")
+                .description("Specifies max time that the coveragereader may take to parse all coverage data of a project")
+                .defaultValue("4")
+                .index(4)
+                .build());
+        properties.add(createProperty(MSCOVER_INTEGRATION_TESTRUNNER_THREADS,PropertyType.INTEGER)
+                .name("Number of threads for integrationtestrunner")
+                .description("Specified number of threads that the integrationtestrunner uses when reading the coverage data for a project")
+                .defaultValue("5")
+                .index(3)
+                .build());
+        properties.add(createProperty(MSCOVER_INTEGRATION_TESTRUNNER_TIMEOUT,PropertyType.INTEGER)
+                .name("Timeout for coverage reader")
+                .description("Specifies max time in minutes that the testrunner may take to run all integrationtests in a solution")
+                .defaultValue("120")
+                .index(4)
+                .build());
+        return properties;
+    }
     
+    private static Builder createProperty(String key, PropertyType propertyType) {
+        return PropertyDefinition.builder(key).type(propertyType).subCategory("Integration tests");
+
+    }
     /* (non-Javadoc)
 	 * @see com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration#getMode()
 	 */

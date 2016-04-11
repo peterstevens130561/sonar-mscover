@@ -2,7 +2,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.housekeeping;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.utils.SonarException;
 
+import com.stevpet.sonar.plugins.common.commandexecutor.TimeoutException;
 import com.stevpet.sonar.plugins.common.commandexecutor.WindowsCommandLineExecutor;
 
 public class OrphanedTestRemoverThread implements Runnable {
@@ -15,7 +17,7 @@ public class OrphanedTestRemoverThread implements Runnable {
     public void run() {
         int wait=1000;
         Thread.currentThread().setName("OrphanedTestRunnerRemover");
-        LOG.info("cleaner starting");
+        LOG.debug("cleaner starting");
         OrphanedTestRunnerRemover cleaner = new OrphanedTestRunnerRemover(new ProcessHelper(new WindowsCommandLineExecutor()));
         while(state!=State.STOPPING) {
             LOG.debug("State {} ",state);
@@ -31,14 +33,19 @@ public class OrphanedTestRemoverThread implements Runnable {
             }
             
         }
-        LOG.info("Stopped");
+        LOG.debug("Stopped");
         state=State.STOPPED;
     }
 
     public void stop() {
-        LOG.info("please stop");
+        LOG.debug("please stop");
         state=State.STOPPING;
+        int ctr=0;
         while(state!=State.STOPPED) {
+            ++ctr;
+            if(ctr>100) {
+                throw new SonarException("Thread did not close in time");
+            }
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

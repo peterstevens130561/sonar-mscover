@@ -138,7 +138,6 @@ public class IntegrationTestSerializationTests {
         try {
             FileUtils.forceMkdir(workDir);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             fail("could not create directory");
         }

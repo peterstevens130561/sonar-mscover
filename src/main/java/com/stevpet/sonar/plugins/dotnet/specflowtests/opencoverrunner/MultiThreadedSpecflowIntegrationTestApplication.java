@@ -36,6 +36,8 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
  *
  */
 public class MultiThreadedSpecflowIntegrationTestApplication  implements IntegrationTestRunnerApplication {
+    private static final int MINUTES_TO_MILLIS = 60000;
+    private static final int ONE_MINUTE = 60000;
     private static Logger LOG = LoggerFactory.getLogger(MultiThreadedSpecflowIntegrationTestApplication.class);
     private final MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private final IntegrationTestsConfiguration integrationTestsConfiguration;
@@ -99,14 +101,14 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
             return;
         }
         int threads = integrationTestsConfiguration.getTestRunnerThreads();
-        int timeout = integrationTestsConfiguration.getTestRunnerTimeout();
+        int timeoutMinutes = integrationTestsConfiguration.getTestRunnerTimeout();
         executorService = Executors.newFixedThreadPool(threads);
         LOG.debug("Using {} threads",threads);
         List<TestRunnerThreadValues> results = queueTests();
         OrphanedTestRemoverThread cleaner = new OrphanedTestRemoverThread();
         Thread cleanerThread = new Thread(cleaner);
         cleanerThread.start();
-        waitTillDone(timeout, results);
+        waitTillDone(timeoutMinutes, results);
         //cleanerThread.interrupt();
         cleaner.stop();
         
@@ -117,7 +119,7 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
     private void waitTillDone(int timeout, List<TestRunnerThreadValues> testRunnersThreadValues) {
         try {
             executorService.shutdown();
-            if (!executorService.awaitTermination(timeout, TimeUnit.MINUTES)) {
+            if (!waitTillAllTasksAreCompletedOrTimedout(timeout,testRunnersThreadValues)) {
                 String msg="Timeout occurred during execution of tests after " + timeout + " minutes";
                 LOG.error(msg);
                 for(TestRunnerThreadValues testRunnerThreadValues:testRunnersThreadValues) {
@@ -140,6 +142,39 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
             LOG.error("Execution of tests failed {}",e.getCause().toString());
             throw new SonarException("Execution of tests failed, see inner exception",e.getCause());
         }
+    }
+
+    private boolean waitTillAllTasksAreCompletedOrTimedout(int timeoutMinutes, List<TestRunnerThreadValues> testRunnersThreadValues) throws InterruptedException {
+        long start = System.currentTimeMillis();
+        while(!allTasksCompleted(testRunnersThreadValues)) {
+            Thread.sleep(ONE_MINUTE);
+            if(timedout(start,timeoutMinutes*MINUTES_TO_MILLIS)) {
+                return false;
+            }
+        }
+        return true;
+        
+    }
+
+    /**
+     * 
+     * @param startMillis - beginning of action, in millis
+     * @param timeoutMillis - timeout, in millis
+     * @return
+     */
+    private boolean timedout(long startMillis, int timeoutMillis) {
+        long currentMillis = System.currentTimeMillis();
+        return (currentMillis - startMillis) > timeoutMillis ;
+    }
+
+    private boolean allTasksCompleted(List<TestRunnerThreadValues> testRunnersThreadValues) {
+        for(TestRunnerThreadValues testRunnerThreadValues:testRunnersThreadValues) {
+            Future<Boolean> future=testRunnerThreadValues.getFuture();
+            if(!future.isDone()) {
+                return false;
+            }
+        }
+        return true;
     }
     
     private List<TestRunnerThreadValues> queueTests() {

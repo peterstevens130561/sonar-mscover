@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.common.commandexecutor;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -20,6 +21,13 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Closeables;
 
 import org.sonar.api.utils.command.Command;
+
+/**
+ * Will not wait indefinitely on the process to close
+ * 
+ * @author stevpet
+ *
+ */
 
 public class ImpatientCommandExecutor implements CommandExecutor {
 
@@ -85,7 +93,7 @@ public class ImpatientCommandExecutor implements CommandExecutor {
         } catch (Exception e) {
             throw new CommandException(command, e);
         } finally {
-            closeStreams(process);
+            //closeStreams(process);
 
             if (executorService != null) {
                 executorService.shutdown();
@@ -173,7 +181,7 @@ public class ImpatientCommandExecutor implements CommandExecutor {
 
         @Override
         public void close() throws Exception {
-            is.close();
+           is.close();
         }
     }
 
