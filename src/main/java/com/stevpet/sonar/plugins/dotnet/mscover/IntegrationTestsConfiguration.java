@@ -70,4 +70,10 @@ public interface IntegrationTestsConfiguration {
      */
     int getTestRunnerTimeout();
 
+    /**
+     * the schedule pattern, 1=MONDAY, 2=TUESDAY i.e. * or empty is each day 
+     * @return
+     */
+    Pattern getSchedule();
+
 }
