@@ -69,7 +69,7 @@ public class ImpatientCommandExecutor implements CommandExecutor {
                         return finalProcess.waitFor();
                     }
                 });
-                LOG.debug("waiting for completion");
+                LOG.info("waiting for completion");
                 int exitCode;
                 if (timeoutMilliseconds < 0) {
                     exitCode = ft.get();
@@ -93,8 +93,6 @@ public class ImpatientCommandExecutor implements CommandExecutor {
         } catch (Exception e) {
             throw new CommandException(command, e);
         } finally {
-            //closeStreams(process);
-
             if (executorService != null) {
                 executorService.shutdown();
             }
@@ -181,7 +179,7 @@ public class ImpatientCommandExecutor implements CommandExecutor {
 
         @Override
         public void close() throws Exception {
-           is.close();
+            //Intentionally empty, to prevent being blocked forever
         }
     }
 
