@@ -21,6 +21,7 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration;
+import com.stevpet.sonar.plugins.dotnet.mscover.housekeeping.OrphanedTestRunnerRemover;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 
@@ -33,11 +34,19 @@ public class MultiThreadedTestRunnerTest {
     @Mock private IntegrationTestRunner testRunner ;
     private List<VisualStudioProject> projects = new ArrayList<VisualStudioProject>();
     @Mock private MultiThreadedSpecflowIntegrationTestCache multiThreadedSpecflowIntegrationTestCache;
+    @Mock private OrphanedTestRunnerRemover orphanedTestRunnerRemover;
     
     @Before
     public void before() {
         org.mockito.MockitoAnnotations.initMocks(this);
-        multiThreadedSpecflowIntegrationTestRunner=new MultiThreadedSpecflowIntegrationTestApplication(microsoftWindowsEnvironment, integrationTestsConfiguration, testRunnerFactory, fileSystem, multiThreadedSpecflowIntegrationTestCache);  
+
+        multiThreadedSpecflowIntegrationTestRunner = new MultiThreadedSpecflowIntegrationTestApplication(
+                microsoftWindowsEnvironment,
+                integrationTestsConfiguration,
+                testRunnerFactory,
+                fileSystem,
+                multiThreadedSpecflowIntegrationTestCache,
+                orphanedTestRunnerRemover);
         //Fluent stuff
         when(testRunner.setCoverageFile(any(File.class))).thenReturn(testRunner);
         when(testRunner.setProjectName(any(String.class))).thenReturn(testRunner);
@@ -66,6 +75,7 @@ public class MultiThreadedTestRunnerTest {
 
         verify(testRunnerFactory,times(1)).create();
         verify(testRunner,times(1)).execute();
+        verify(orphanedTestRunnerRemover,times(1)).execute();
     }
     
     @Test
@@ -86,6 +96,7 @@ public class MultiThreadedTestRunnerTest {
 
         verify(testRunnerFactory,times(2)).create();
         verify(testRunner,times(2)).execute();
+        verify(orphanedTestRunnerRemover,times(1)).execute();
     }
     
     @Test

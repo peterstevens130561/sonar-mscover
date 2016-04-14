@@ -126,7 +126,7 @@ public class SpecflowIntegrationTestRunner implements
 		Preconditions.checkNotNull(coverageFile,"coverage file not set");
 		Preconditions.checkNotNull(rootDir,"rootDir not set");
 		Preconditions.checkState(timeout>0,"timeout invalid,, should be > 0");
-        LogChanger.setCustomPattern("%level %thread  %msg%n");
+        LogChanger.setCustomPattern("%level %time %thread  %msg%n");
 		openCoverModuleSaver.setProject(module).setRoot(rootDir);
         Pattern pattern=Pattern.compile(projectName);
 		testRunner.setTestProjectPattern(pattern);

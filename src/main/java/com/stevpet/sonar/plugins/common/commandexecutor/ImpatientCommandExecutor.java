@@ -69,7 +69,7 @@ public class ImpatientCommandExecutor implements CommandExecutor {
                         return finalProcess.waitFor();
                     }
                 });
-                LOG.info("waiting for completion");
+                LOG.debug("waiting for completion");
                 int exitCode;
                 if (timeoutMilliseconds < 0) {
                     exitCode = ft.get();

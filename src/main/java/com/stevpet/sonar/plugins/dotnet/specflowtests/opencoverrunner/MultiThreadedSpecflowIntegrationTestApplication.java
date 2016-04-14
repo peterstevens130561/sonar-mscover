@@ -47,15 +47,19 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
     private final FileSystem fileSystem;
     private IntegrationTestRunnerFactory testRunnerFactory;
     private MultiThreadedSpecflowIntegrationTestCache multiThreadedSpecFlowIntegrationTestCache;
+    private final OrphanedTestRunnerRemover orphanedTestRunnerRemover;
     public MultiThreadedSpecflowIntegrationTestApplication(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             IntegrationTestsConfiguration integrationTestsConfiguration,
             IntegrationTestRunnerFactory testRunnerFactory,
-            FileSystem fileSystem, MultiThreadedSpecflowIntegrationTestCache multiThreadedSpecflowIntegrationTestCache) {
+            FileSystem fileSystem, 
+            MultiThreadedSpecflowIntegrationTestCache multiThreadedSpecflowIntegrationTestCache,
+            OrphanedTestRunnerRemover orphanedTestRunnerRemover) {
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.integrationTestsConfiguration=integrationTestsConfiguration;
         this.testRunnerFactory=testRunnerFactory;
         this.fileSystem=fileSystem;
         this.multiThreadedSpecFlowIntegrationTestCache = multiThreadedSpecflowIntegrationTestCache;
+        this.orphanedTestRunnerRemover = orphanedTestRunnerRemover;
     }
 
     /**
@@ -80,7 +84,13 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
                         fileSystem
                 ),
                 fileSystem, 
-                multiThreadedSpecflowIntegrationTestCache);
+                multiThreadedSpecflowIntegrationTestCache,
+                new OrphanedTestRunnerRemover(
+                        new ProcessHelper(
+                                new WindowsCommandLineExecutor()
+                                )
+                        )
+        );
     }
 
     /* (non-Javadoc)
@@ -108,8 +118,7 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
         LOG.debug("Using {} threads",threads);
         List<TestRunnerThreadValues> results = queueTests();
         waitTillDone(timeoutMinutes, results);
-        OrphanedTestRunnerRemover cleaner = new OrphanedTestRunnerRemover(new ProcessHelper(new WindowsCommandLineExecutor()));
-        cleaner.execute();
+        orphanedTestRunnerRemover.execute();
         multiThreadedSpecFlowIntegrationTestCache.setDidExecute(true);
     }
 
