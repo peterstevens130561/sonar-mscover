@@ -25,9 +25,12 @@ public class CallableTestRunner implements Callable<Boolean> {
     @Override
     public Boolean call() throws Exception {
         try {
+        LOG.info("+++ tests on project {} started",projectName);
         testRunner.execute();
         ProjectUnitTestResults testResults = testRunner.getTestResults();
+        LOG.info("+++ tests on project {} waiting to for access to coverage map",projectName);
         synchronized(testResultsMap) {
+            LOG.info("+++ tests on project {} writing coverage map",projectName);
             testResultsMap.put(projectName,testResults);
         }
         LOG.info("+++ tests on project {} completed",projectName);

@@ -22,11 +22,13 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.utils.SonarException;
 
+import com.stevpet.sonar.plugins.common.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.housekeeping.OrphanedTestRemoverThread;
+import com.stevpet.sonar.plugins.dotnet.mscover.housekeeping.OrphanedTestRunnerRemover;
+import com.stevpet.sonar.plugins.dotnet.mscover.housekeeping.ProcessHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
-import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.LogChanger;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 
@@ -105,13 +107,9 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
         executorService = Executors.newFixedThreadPool(threads);
         LOG.debug("Using {} threads",threads);
         List<TestRunnerThreadValues> results = queueTests();
-        OrphanedTestRemoverThread cleaner = new OrphanedTestRemoverThread();
-        Thread cleanerThread = new Thread(cleaner);
-        cleanerThread.start();
         waitTillDone(timeoutMinutes, results);
-        //cleanerThread.interrupt();
-        cleaner.stop();
-        
+        OrphanedTestRunnerRemover cleaner = new OrphanedTestRunnerRemover(new ProcessHelper(new WindowsCommandLineExecutor()));
+        cleaner.execute();
         multiThreadedSpecFlowIntegrationTestCache.setDidExecute(true);
     }
 
