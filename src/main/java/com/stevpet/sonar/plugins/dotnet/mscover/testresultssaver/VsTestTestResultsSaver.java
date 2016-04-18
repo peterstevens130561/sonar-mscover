@@ -60,8 +60,7 @@ public class VsTestTestResultsSaver implements BatchExtension{
     public void save(@Nonnull SensorContext sensorContext,@Nonnull ProjectUnitTestResults projectUnitTestResults) {
         this.sensorContext=sensorContext;
         int saved = 0;
-    	for (ClassUnitTestResult classUnitTestResult : projectUnitTestResults
-                .values()) {
+    	for (ClassUnitTestResult classUnitTestResult : projectUnitTestResults.values()) {
             java.io.File file = classUnitTestResult.getFile();
             if (file == null) {
                 continue;

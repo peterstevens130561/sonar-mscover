@@ -113,6 +113,17 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
 
     }
 
+    /**
+     * Fail Fast through calling this is early as possible
+     */
+    public void validate() {
+        validateMode();
+        validateDirectory();
+        validateSchedule();
+        validateCoverageTool();
+        validateTestRunnerThreads();
+        validateTestRunnerTimeout();
+    }
     /*
      * (non-Javadoc)
      * 
@@ -140,6 +151,9 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
         return mode;
     }
 
+    private void validateMode() {
+        getMode();
+    }
     private boolean isModulePathChildOfRootPath() {
         String modulePath = fileSystem.baseDir().getAbsolutePath();
         String rootPath = settings.getString(MSCOVER_SPECFLOWTESTS_ROOT);
@@ -164,6 +178,20 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
         return new File(coverageDir);
     }
 
+    private void validateDirectory() {
+        String coveragePath = settings.getString(MSCOVER_INTEGRATION_RESULTS);
+        if(coveragePath == null) {
+            throw new InvalidPropertyValueException(MSCOVER_INTEGRATION_RESULTS, "property is required, and parent must exist");
+        }
+        File coverageDir = new File(coveragePath);
+        File parentDir=coverageDir.getParentFile();
+        if(parentDir==null) {
+            throw new InvalidPropertyValueException(MSCOVER_INTEGRATION_RESULTS, coveragePath,"must have parent");
+        }
+        if(!parentDir.exists()) {
+            throw new InvalidPropertyValueException(MSCOVER_INTEGRATION_RESULTS, coveragePath,"parent must exist");            
+        }
+    }
     /*
      * (non-Javadoc)
      * 
@@ -188,6 +216,9 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
         return tool;
     }
 
+    private void validateCoverageTool() {
+        getTool();
+    }
     /**
      * Used by sensors in shouldExecute() to see if they should run.
      * 
@@ -213,7 +244,6 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
 
     @Override
     public String getTestCaseFilter() {
-
         return settings.getString(MSCOVER_INTEGRATION_TESTCASEFILTER);
     }
 
@@ -250,6 +280,12 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
         return threads;
     }
 
+    private void validateTestRunnerThreads() {
+        int threads = settings.getInt(MSCOVER_INTEGRATION_TESTRUNNER_THREADS);
+        if(threads <0 || threads > 10) {
+            throw new InvalidPropertyValueException(MSCOVER_INTEGRATION_TESTRUNNER_THREADS, threads, ">0 and <=10");
+        }
+    }
     @Override
     public int getTestRunnerTimeout() {
         int timeout = settings.getInt(MSCOVER_INTEGRATION_TESTRUNNER_TIMEOUT);
@@ -257,6 +293,13 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
             timeout = TESTRUNNER_TIMEOUT_DEFAULT;
         }
         return timeout;
+    }
+    
+    private void validateTestRunnerTimeout() {
+        int timeout = settings.getInt(MSCOVER_INTEGRATION_TESTRUNNER_THREADS);
+        if(timeout < 0 || timeout > 120) {
+            throw new InvalidPropertyValueException(MSCOVER_INTEGRATION_TESTRUNNER_THREADS, timeout, ">0 and <=120 minutes");           
+        }
     }
 
     @Override
@@ -269,7 +312,11 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
             Pattern p = Pattern.compile(schedule);
             return p;
         } catch (PatternSyntaxException e) {
-            throw new InvalidPropertyValueException(MSCOVER_INTEGRATION_SCHEDULE, schedule, "invalid regular expression", e);
+            throw new InvalidPropertyValueException(MSCOVER_INTEGRATION_SCHEDULE, schedule, "valid regular expression", e);
         }
+    }
+    
+    public void validateSchedule() {
+        getSchedule();
     }
 }

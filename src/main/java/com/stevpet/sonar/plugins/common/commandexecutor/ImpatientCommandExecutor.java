@@ -32,7 +32,7 @@ import org.sonar.api.utils.command.Command;
 public class ImpatientCommandExecutor implements CommandExecutor {
 
     private static final Logger LOG = Loggers.get(CommandExecutor.class);
-
+    private long lastTrigger;
     /**
      * @throws org.sonar.api.utils.command.TimeoutException
      *             on timeout, since 4.4
@@ -60,7 +60,8 @@ public class ImpatientCommandExecutor implements CommandExecutor {
                     StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), stdErr);) {
                 outputGobbler.start();
                 errorGobbler.start();
-
+                triggerWatchdog();
+                
                 final Process finalProcess = process;
                 executorService = Executors.newSingleThreadExecutor();
                 Future<Integer> ft = executorService.submit(new Callable<Integer>() {
@@ -74,7 +75,27 @@ public class ImpatientCommandExecutor implements CommandExecutor {
                 if (timeoutMilliseconds < 0) {
                     exitCode = ft.get();
                 } else {
-                    exitCode = ft.get(timeoutMilliseconds, TimeUnit.MILLISECONDS);
+                    long pollingTime=1000;
+                    long start=System.currentTimeMillis();
+                    while(!ft.isDone()) {
+                        Thread.sleep(pollingTime);
+                        long now=System.currentTimeMillis();
+                        long lapse = now-start;
+                        if(lapse > timeoutMilliseconds) {
+                            throw new TimeoutException(command, "after " + lapse);
+                        }
+                        long alarmclock=lastTrigger+300000;
+                        if(now >= alarmclock) {
+                            LOG.error(stdOut.toString());
+                            boolean didCancel=ft.cancel(true);
+                            LOG.error("cancelling result={}",didCancel);
+                            throw new TimeoutException(command, "due to timeout");
+                        }
+                        if((now + 20000) >= alarmclock ) {
+                            LOG.warn("watchdog will trigger in {} seconds",(alarmclock-now)/1000);
+                        }
+                    }
+                    exitCode=ft.get();
                 }
                 waitUntilFinish(outputGobbler);
                 waitUntilFinish(errorGobbler);
@@ -139,11 +160,16 @@ public class ImpatientCommandExecutor implements CommandExecutor {
             }
         }
     }
+    
+    private void triggerWatchdog() {
+        lastTrigger=System.currentTimeMillis();
+    }
 
     private class StreamGobbler extends Thread implements AutoCloseable {
         private final InputStream is;
         private final StreamConsumer consumer;
         private volatile Exception exception;
+
 
         StreamGobbler(InputStream is, StreamConsumer consumer) {
             super("ProcessStreamGobbler");
@@ -156,12 +182,15 @@ public class ImpatientCommandExecutor implements CommandExecutor {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(is, Charsets.UTF_8))) {
                 String line;
                 while ((line = br.readLine()) != null) {
+                    triggerWatchdog();
                     consumeLine(line);
                 }
             } catch (IOException ioe) {
                 exception = ioe;
             }
         }
+
+
 
         private void consumeLine(String line) {
             if (exception == null) {

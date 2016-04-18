@@ -17,6 +17,7 @@ public interface IntegrationTestsConfiguration {
     	VSTEST,OPENCOVER
     }
 
+    public void validate();
     public static final int TESTRUNNER_THREADS_DEFAULT = 1;
     public static final int TESTRUNNER_TIMEOUT_DEFAULT = 10;
     

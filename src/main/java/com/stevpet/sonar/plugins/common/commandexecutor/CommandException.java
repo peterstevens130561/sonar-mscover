@@ -10,9 +10,19 @@ public class CommandException extends RuntimeException {
       this.command = command;
     }
 
-    public CommandException(DefaultCommand command, Throwable throwable) {
-      super(throwable);
+    public CommandException(DefaultCommand command, String message) {
+      super(message + " [command: " + command + "]");
       this.command = command;
+    }
+
+    public CommandException(DefaultCommand command) {
+        super();
+        this.command = command;
+      }
+    
+    public CommandException(DefaultCommand command, Exception e) {
+       super(e);
+       this.command=command;
     }
 
     public DefaultCommand getCommand() {
