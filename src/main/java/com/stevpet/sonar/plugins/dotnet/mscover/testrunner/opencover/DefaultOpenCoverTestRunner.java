@@ -79,6 +79,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 	    vsTestRunnerCommandBuilder.setTestProjectPattern(testProjectPattern);
 		OpenCoverTarget openCoverTarget = vsTestRunnerCommandBuilder
 				.build(false);
+	    openCoverCommand.setRegister(configuration.getRegister());
 		openCoverCommand.setTargetCommand(openCoverTarget);
 		openCoverCommand.setInstallDir(configuration.getInstallDir());
 		VisualStudioSolution solution = microsoftWindowsEnvironment
@@ -91,7 +92,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 		openCoverCommand.setExcludeByFileFilter(excludeFilters);
 
 		openCoverCommand.setExcludeFromCodeCoverageAttributeFilter();
-		openCoverCommand.setRegister(configuration.getRegister());
+
 		openCoverCommand.setMergeByHash();
 		openCoverCommand.setOutputPath(coverageFile.getAbsolutePath());
 		

@@ -17,20 +17,23 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.config.PropertyDefinition.Builder;
 
 import com.google.common.base.Preconditions;
+import com.stevpet.sonar.plugins.dotnet.mscover.property.ConfigurationProperty;
+import com.stevpet.sonar.plugins.dotnet.mscover.property.CoverageRootProperty;
+import com.stevpet.sonar.plugins.dotnet.mscover.property.InvalidPropertyValueException;
+import com.stevpet.sonar.plugins.dotnet.mscover.property.SpecflowTestsRootProperty;
+import com.stevpet.sonar.plugins.dotnet.mscover.property.TestRunnerTimeoutProperty;
 
 public class DefaultIntegrationTestsConfiguration implements IntegrationTestsConfiguration, BatchExtension {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultIntegrationTestsConfiguration.class);
-    private static final String MSCOVER = "sonar.mscover.integrationtests.";
-    private static final String MSCOVER_INTEGRATION_RESULTS = MSCOVER + "dir";
+    public static final String MSCOVER = "sonar.mscover.integrationtests.";
+    private static final String MSCOVER_INTEGRATION_RESULTS = DefaultIntegrationTestsConfiguration.MSCOVER + "dir";
     private static final String MSCOVER_INTEGRATION_TOOL = MSCOVER + "tool";
     private static final String MSCOVER_INTEGRATION_MODE = MSCOVER + "mode";
-    static final String MSCOVER_SPECFLOWTESTS_ROOT = DefaultIntegrationTestsConfiguration.MSCOVER + "root";
     private static final String MSCOVER_INTEGRATION_TESTCASEFILTER = DefaultIntegrationTestsConfiguration.MSCOVER
             + "testcasefilter";
     private static final String MSCOVER_INTEGRATION_PROJECTPATTERN = DefaultIntegrationTestsConfiguration.MSCOVER
             + "projectpattern";
-    private static final String MSCOVER_INTEGRATION_COVERAGEREADER_TIMEOUT = DefaultIntegrationTestsConfiguration.MSCOVER
-            + "coveragereader.timeout";
+
     private static final String MSCOVER_INTEGRATION_COVERAGEREADER_THREADS = DefaultIntegrationTestsConfiguration.MSCOVER
             + "coveragereader.threads";
     private static final String MSCOVER_INTEGRATION_TESTRUNNER_THREADS = DefaultIntegrationTestsConfiguration.MSCOVER
@@ -42,31 +45,51 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     private FileSystem fileSystem;
 
     private SettingsHelper settingsHelper;
+    private ConfigurationProperty<Integer> testRunnerTimeoutProperty;
+    private ConfigurationProperty<File> coverageRootProperty;
+    private SpecflowTestsRootProperty specflowTestsRootProperty;
+    private CoverageReaderTimeoutProperty coverageReaderTimeoutProperty;
+    private TestCaseFilterProperty testcaseFilterProperty;
+    private ProjectPatternProperty projectPatternProperty;
 
     public DefaultIntegrationTestsConfiguration(Settings settings, FileSystem fileSystem) {
+        this(settings);
         this.settings = settings;
         this.fileSystem = fileSystem;
         this.settingsHelper = new SettingsHelper(settings);
 
+
     }
 
-    public static Collection<PropertyDefinition> getProperties() {
+
+    public DefaultIntegrationTestsConfiguration(Settings settings) {
+        this.testcaseFilterProperty = new TestCaseFilterProperty(settings);
+        this.projectPatternProperty = new ProjectPatternProperty(settings);
+        this.testRunnerTimeoutProperty = new TestRunnerTimeoutProperty(settings); 
+        this.coverageRootProperty = new CoverageRootProperty(settings);
+        this.specflowTestsRootProperty = new SpecflowTestsRootProperty(settings);
+        this.coverageReaderTimeoutProperty = new CoverageReaderTimeoutProperty(settings);
+        this.testRunnerTimeoutProperty = new TestRunnerTimeoutProperty(settings);
+        
+    }
+
+    /**
+     * Use in plugin only
+     */
+    public DefaultIntegrationTestsConfiguration() {
+        this(null);
+    }
+
+    public Collection<PropertyDefinition> getProperties() {
         Collection<PropertyDefinition> properties = new ArrayList<>();
-        properties.add(createProperty(MSCOVER_SPECFLOWTESTS_ROOT, PropertyType.STRING)
-                .name("root directory of integration test projects")
-                .description("used in auto mode to determine whether to execute integration tests or save coverage data")
+        properties.add(specflowTestsRootProperty.getPropertyBuilder()
                 .index(0)
                 .build());
-        properties.add(createProperty(MSCOVER_INTEGRATION_TESTCASEFILTER, PropertyType.STRING)
-                .name("TestCase filter")
-                .description("filter to apply to VSTEST to run only those tests that pass the filter")
+        properties.add(testcaseFilterProperty.getPropertyBuilder()
                 .index(1)
                 .build());
         properties
-                .add(createProperty(MSCOVER_INTEGRATION_PROJECTPATTERN, PropertyType.REGULAR_EXPRESSION)
-                        .name("Pattern for integration test projects")
-                        .description(
-                                "Regular expression to determine which projects are integration test projects, should also be included in overall test project pattern")
+                .add(projectPatternProperty.getPropertyBuilder()
                         .index(2)
                         .build());
         properties.add(createProperty(MSCOVER_INTEGRATION_COVERAGEREADER_THREADS, PropertyType.INTEGER)
@@ -76,10 +99,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
                 .defaultValue("5")
                 .index(3)
                 .build());
-        properties.add(createProperty(MSCOVER_INTEGRATION_COVERAGEREADER_TIMEOUT, PropertyType.INTEGER)
-                .name("Timeout for coverage reader")
-                .description("Specifies max time that the coveragereader may take to parse all coverage data of a project")
-                .defaultValue("4")
+        properties.add(coverageReaderTimeoutProperty.getPropertyBuilder()
                 .index(4)
                 .build());
         properties
@@ -91,11 +111,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
                         .index(3)
                         .build());
         properties
-                .add(createProperty(MSCOVER_INTEGRATION_TESTRUNNER_TIMEOUT, PropertyType.INTEGER)
-                        .name("Timeout for coverage reader")
-                        .description(
-                                "Specifies max time in minutes that the testrunner may take to run all integrationtests in a solution")
-                        .defaultValue("120")
+                .add(testRunnerTimeoutProperty.getPropertyBuilder()
                         .index(6)
                         .build());
         properties.add(createProperty(MSCOVER_INTEGRATION_SCHEDULE, PropertyType.REGULAR_EXPRESSION)
@@ -117,6 +133,9 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
      * Fail Fast through calling this is early as possible
      */
     public void validate() {
+        specflowTestsRootProperty.validate();
+        testcaseFilterProperty.validate();
+        projectPatternProperty.validate();
         validateMode();
         validateDirectory();
         validateSchedule();
@@ -156,11 +175,15 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     }
     private boolean isModulePathChildOfRootPath() {
         String modulePath = fileSystem.baseDir().getAbsolutePath();
-        String rootPath = settings.getString(MSCOVER_SPECFLOWTESTS_ROOT);
-        Preconditions.checkNotNull(rootPath, "property not set: " + MSCOVER_SPECFLOWTESTS_ROOT);
+        File rootFile = specflowTestsRootProperty.getValue();
+        if(rootFile == null) {
+            throw new InvalidPropertyValueException(specflowTestsRootProperty.getKey(),"required when auto mode selected");
+        }
+        String rootPath = rootFile.getAbsolutePath();
         String windowsPath = rootPath.replaceAll("/", "\\\\");
         return modulePath.contains(windowsPath);
     }
+
 
     /*
      * (non-Javadoc)
@@ -228,7 +251,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
      */
     @Override
     public boolean matches(Tool tool, Mode mode) {
-        if (settings.getString(MSCOVER_INTEGRATION_PROJECTPATTERN) == null) {
+        if (projectPatternProperty.getValue()==null) {
             return false;
         }
         if (!(getMode() == mode)) {
@@ -244,22 +267,17 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
 
     @Override
     public String getTestCaseFilter() {
-        return settings.getString(MSCOVER_INTEGRATION_TESTCASEFILTER);
+        return testcaseFilterProperty.getValue();
     }
 
     @Override
     public Pattern getTestProjectPattern() {
-        Pattern pattern = settingsHelper.getPattern(MSCOVER_INTEGRATION_PROJECTPATTERN);
-        return pattern;
+        return  projectPatternProperty.getValue();
     }
 
     @Override
     public int getCoverageReaderTimeout() {
-        int timeout = settings.getInt(MSCOVER_INTEGRATION_COVERAGEREADER_TIMEOUT);
-        if (timeout == 0) {
-            timeout = 5;
-        }
-        return timeout;
+        return coverageReaderTimeoutProperty.getValue();
     }
 
     @Override
@@ -288,18 +306,11 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     }
     @Override
     public int getTestRunnerTimeout() {
-        int timeout = settings.getInt(MSCOVER_INTEGRATION_TESTRUNNER_TIMEOUT);
-        if (timeout <= 0) {
-            timeout = TESTRUNNER_TIMEOUT_DEFAULT;
-        }
-        return timeout;
+        return testRunnerTimeoutProperty.getValue();
     }
     
     private void validateTestRunnerTimeout() {
-        int timeout = settings.getInt(MSCOVER_INTEGRATION_TESTRUNNER_THREADS);
-        if(timeout < 0 || timeout > 120) {
-            throw new InvalidPropertyValueException(MSCOVER_INTEGRATION_TESTRUNNER_THREADS, timeout, ">0 and <=120 minutes");           
-        }
+        testRunnerTimeoutProperty.validate();
     }
 
     @Override

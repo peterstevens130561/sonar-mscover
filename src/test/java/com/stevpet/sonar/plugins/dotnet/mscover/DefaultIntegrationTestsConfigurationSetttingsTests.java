@@ -12,6 +12,8 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.PropertyDefinitions;
 import org.sonar.api.config.Settings;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.property.InvalidPropertyValueException;
+
 public class DefaultIntegrationTestsConfigurationSetttingsTests  {
 
     private static final String SCHEDULE_PROPERTY_KEY = "sonar.mscover.integrationtests.schedule";
@@ -22,7 +24,7 @@ public class DefaultIntegrationTestsConfigurationSetttingsTests  {
     @Before
     public void before() {
         org.mockito.MockitoAnnotations.initMocks(this);
-        PropertyDefinitions definitions = new PropertyDefinitions(DefaultIntegrationTestsConfiguration.getProperties());
+        PropertyDefinitions definitions = new PropertyDefinitions(new DefaultIntegrationTestsConfiguration().getProperties());
         settings = new Settings(definitions);
         integrationTestsConfiguration = new DefaultIntegrationTestsConfiguration(settings, fileSystem);
         

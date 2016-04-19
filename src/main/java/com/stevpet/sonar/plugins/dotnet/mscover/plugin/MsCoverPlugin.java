@@ -98,7 +98,7 @@ public final class MsCoverPlugin extends SonarPlugin {
         
         extensions.addAll(DefaultMsCoverConfiguration.getProperties());
         extensions.addAll(VisualStudioConfiguration.getProperties());
-        extensions.addAll(DefaultIntegrationTestsConfiguration.getProperties());
+        extensions.addAll(new DefaultIntegrationTestsConfiguration().getProperties());
         return extensions;
     }
 }

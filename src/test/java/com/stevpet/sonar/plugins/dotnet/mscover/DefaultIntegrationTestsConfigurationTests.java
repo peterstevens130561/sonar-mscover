@@ -15,13 +15,19 @@ import org.mockito.Mock;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.utils.SonarException;
+import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.Mode;
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.Tool;
+import com.stevpet.sonar.plugins.dotnet.mscover.property.InvalidPropertyValueException;
+import com.stevpet.sonar.plugins.dotnet.mscover.property.SpecflowTestsRootProperty;
 
 import static org.mockito.Mockito.when;
 public class DefaultIntegrationTestsConfigurationTests {
-	private static final String SONAR_MSCOVER_INTEGRATIONTESTS_MODE = "sonar.mscover.integrationtests.mode";
+	private static final String SOLUTION_PROJECT_PATH = "IntegrationTestsConfiguration/Development/JewelSuite/Solution/Project";
+    private static final String SPECFLOW_ROOT_PATH = "IntegrationTestsConfiguration/Development/Tests";
+    private static final String SPECFLOW_PROJECT = "IntegrationTestsConfiguration/Development/Tests/Solution/Project";
+    private static final String SONAR_MSCOVER_INTEGRATIONTESTS_MODE = "sonar.mscover.integrationtests.mode";
 	private static final String SONAR_MSCOVER_INTEGRATIONTESTS_TOOL = "sonar.mscover.integrationtests.tool";
     private static final String SONAR_MSCOVER_INTEGRATIONTESTS_PATTERN = "sonar.mscover.integrationtests.projectpattern";
 
@@ -135,11 +141,12 @@ public class DefaultIntegrationTestsConfigurationTests {
 	@Test
 	public void autoModeDirNotSpecified() {
 		try {
-		when(fileSystem.baseDir()).thenReturn(new File("C:\\Development\\Solution\\Project"));
+		      File baseDir = TestUtils.getResource(SPECFLOW_PROJECT);
+		when(fileSystem.baseDir()).thenReturn(baseDir);
 		when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_MODE)).thenReturn("auto");
 		configuration.matches(Tool.OPENCOVER,Mode.RUN);
-		} catch (NullPointerException e) {
-			assertTrue("expect NullPointerException on property not set",e.getMessage().contains("property not set"));
+		} catch (InvalidPropertyValueException e) {
+			assertTrue("expect InvalidPropertyValueException on property not set",e.getMessage().contains("Missing property"));
 			return;
 		}
 		fail("expected NullPointerException");
@@ -147,8 +154,10 @@ public class DefaultIntegrationTestsConfigurationTests {
 	
 	@Test 
 	public void autoModeIsTest() {
-		when(fileSystem.baseDir()).thenReturn(new File("C:\\Development\\Tests\\Solution\\Project"));
-		when(settings.getString(DefaultIntegrationTestsConfiguration.MSCOVER_SPECFLOWTESTS_ROOT)).thenReturn("C:/Development/Tests");
+	    File baseDir = TestUtils.getResource(SPECFLOW_PROJECT);
+	    File testRootDir=TestUtils.getResource(SPECFLOW_ROOT_PATH);
+		when(fileSystem.baseDir()).thenReturn(baseDir);
+		when(settings.getString(new SpecflowTestsRootProperty().getKey())).thenReturn(testRootDir.getAbsolutePath());
 		when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_MODE)).thenReturn("auto");
 		assertTrue("As module is below root, expect RUN mode",configuration.matches(Tool.OPENCOVER, Mode.RUN));
 		
@@ -156,8 +165,10 @@ public class DefaultIntegrationTestsConfigurationTests {
 	
 	@Test 
 	public void autoModeIsProject() {
-		when(fileSystem.baseDir()).thenReturn(new File("C:\\Development\\JewelSuite\\Solution\\Project"));
-		when(settings.getString(DefaultIntegrationTestsConfiguration.MSCOVER_SPECFLOWTESTS_ROOT)).thenReturn("C:/Development/Tests");
+	    File baseDir = TestUtils.getResource(SOLUTION_PROJECT_PATH);
+	       File testRootDir=TestUtils.getResource(SPECFLOW_ROOT_PATH);
+		when(fileSystem.baseDir()).thenReturn(baseDir);
+		when(settings.getString(new SpecflowTestsRootProperty().getKey())).thenReturn(testRootDir.getAbsolutePath());
 		when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_MODE)).thenReturn("auto");
 		assertTrue("As module is not root, expect READ mode",configuration.matches(Tool.OPENCOVER, Mode.READ));
 		

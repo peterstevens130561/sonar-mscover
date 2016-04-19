@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover;
+package com.stevpet.sonar.plugins.dotnet.mscover.property;
 
 import java.util.regex.PatternSyntaxException;
 
