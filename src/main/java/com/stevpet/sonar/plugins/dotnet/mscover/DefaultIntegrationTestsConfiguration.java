@@ -25,6 +25,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.property.CoverageReaderTimeoutPr
 import com.stevpet.sonar.plugins.dotnet.mscover.property.CoverageRootProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.InvalidPropertyValueException;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.ProjectPatternProperty;
+import com.stevpet.sonar.plugins.dotnet.mscover.property.ScheduleProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.SpecflowTestsRootProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.TestCaseFilterProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.TestRunnerThreadsProperty;
@@ -38,7 +39,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     private static final String MSCOVER_INTEGRATION_MODE = MSCOVER + "mode";
     private PropertyBag propertyBag;
 
-    private static final String MSCOVER_INTEGRATION_SCHEDULE = DefaultIntegrationTestsConfiguration.MSCOVER + "schedule";
+
     private Settings settings;
     private FileSystem fileSystem;
 
@@ -50,13 +51,13 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     private TestCaseFilterProperty testcaseFilterProperty;
     private ProjectPatternProperty projectPatternProperty;
     private TestRunnerThreadsProperty testRunnerThreadsProperty;
+    private ScheduleProperty scheduleProperty;
 
     public DefaultIntegrationTestsConfiguration(Settings settings, FileSystem fileSystem) {
         this(settings);
         this.settings = settings;
         this.fileSystem = fileSystem;;
     }
-
 
     public DefaultIntegrationTestsConfiguration(Settings settings) {
         propertyBag = new PropertyBag(settings);
@@ -69,6 +70,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
         this.coverageReaderThreadsProperty  = propertyBag.create(CoverageReaderThreadsProperty.class);
         this.testRunnerThreadsProperty = propertyBag.create(TestRunnerThreadsProperty.class);
         this.testRunnerTimeoutProperty = propertyBag.create(TestRunnerTimeoutProperty.class);
+        this.scheduleProperty=propertyBag.create(ScheduleProperty.class);
         
     }
 
@@ -80,38 +82,14 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     }
 
     public Collection<PropertyDefinition> getProperties() {
+        
         Collection<PropertyDefinition> properties = new ArrayList<>();
-        properties.add(specflowTestsRootProperty.getPropertyBuilder()
-                .index(0)
-                .build());
-        properties.add(testcaseFilterProperty.getPropertyBuilder()
-                .index(1)
-                .build());
-        properties
-                .add(projectPatternProperty.getPropertyBuilder()
-                        .index(2)
-                        .build());
-        properties.add(coverageReaderThreadsProperty.getPropertyBuilder()
-                .index(3)
-                .build());
-        properties.add(coverageReaderTimeoutProperty.getPropertyBuilder()
-                .index(4)
-                .build());
-        properties
-                .add(testRunnerThreadsProperty.getPropertyBuilder()
-                        .index(5)
-                        .build());
-        properties
-                .add(testRunnerTimeoutProperty.getPropertyBuilder()
-                        .index(6)
-                        .build());
-        properties.add(createProperty(MSCOVER_INTEGRATION_SCHEDULE, PropertyType.REGULAR_EXPRESSION)
-                .name("Pattern to specify schedule")
-                .description("Regular expression to specify the day on which integration tests are run\n" +
-                        "1=MONDAY, 2=Tuesday i.e. [6-7] = SATURDAY and SUNDAY")
-                .defaultValue(".*")
-                .index(7)
-                .build());
+        int i=0;
+        for(ConfigurationProperty configurationProperty : propertyBag.getProperties()) {
+            properties.add(configurationProperty.getPropertyBuilder().index(i).build());
+            ++i;
+        }
+
         return properties;
     }
 
@@ -288,16 +266,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
 
     @Override
     public Pattern getSchedule() {
-        String schedule = settings.getString(MSCOVER_INTEGRATION_SCHEDULE);
-        if ("*".equals(schedule)) {
-            schedule = ".*";
-        }
-        try {
-            Pattern p = Pattern.compile(schedule);
-            return p;
-        } catch (PatternSyntaxException e) {
-            throw new InvalidPropertyValueException(MSCOVER_INTEGRATION_SCHEDULE, schedule, "valid regular expression", e);
-        }
+        return scheduleProperty.getValue();
     }
     
     public void validateSchedule() {
