@@ -4,7 +4,6 @@ import org.sonar.api.PropertyType;
 import org.sonar.api.config.PropertyDefinition.Builder;
 import org.sonar.api.config.Settings;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.ConfigurationPropertyBase;
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultIntegrationTestsConfiguration;
 
 public class TestRunnerThreadsProperty extends ConfigurationPropertyBase<Integer> {

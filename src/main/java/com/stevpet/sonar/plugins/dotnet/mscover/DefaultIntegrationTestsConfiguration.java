@@ -20,9 +20,13 @@ import org.sonar.api.config.PropertyDefinition.Builder;
 import org.sonar.api.utils.SonarException;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.property.ConfigurationProperty;
+import com.stevpet.sonar.plugins.dotnet.mscover.property.CoverageReaderThreadsProperty;
+import com.stevpet.sonar.plugins.dotnet.mscover.property.CoverageReaderTimeoutProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.CoverageRootProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.InvalidPropertyValueException;
+import com.stevpet.sonar.plugins.dotnet.mscover.property.ProjectPatternProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.SpecflowTestsRootProperty;
+import com.stevpet.sonar.plugins.dotnet.mscover.property.TestCaseFilterProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.TestRunnerThreadsProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.TestRunnerTimeoutProperty;
 

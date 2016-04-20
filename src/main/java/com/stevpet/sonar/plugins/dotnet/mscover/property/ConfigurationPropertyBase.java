@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover;
+package com.stevpet.sonar.plugins.dotnet.mscover.property;
 
 import static org.junit.Assert.assertEquals;
 
@@ -15,8 +15,6 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.Settings;
 import org.sonar.api.config.PropertyDefinition.Builder;
 import org.sonar.api.utils.SonarException;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.property.ConfigurationProperty;
 
 public abstract class ConfigurationPropertyBase<T> implements ConfigurationProperty<T> {
 

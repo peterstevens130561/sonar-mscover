@@ -1,12 +1,11 @@
-package com.stevpet.sonar.plugins.dotnet.mscover;
+package com.stevpet.sonar.plugins.dotnet.mscover.property;
 
 import org.assertj.core.util.Preconditions;
 import org.sonar.api.PropertyType;
 import org.sonar.api.config.PropertyDefinition.Builder;
 import org.sonar.api.config.Settings;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.property.ConfigurationProperty;
-import com.stevpet.sonar.plugins.dotnet.mscover.property.InvalidPropertyValueException;
+import com.stevpet.sonar.plugins.dotnet.mscover.DefaultIntegrationTestsConfiguration;
 
 public class CoverageReaderTimeoutProperty extends ConfigurationPropertyBase<Integer> {
 
