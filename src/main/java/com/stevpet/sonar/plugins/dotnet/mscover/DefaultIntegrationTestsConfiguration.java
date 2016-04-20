@@ -29,17 +29,12 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     private static final String MSCOVER_INTEGRATION_RESULTS = DefaultIntegrationTestsConfiguration.MSCOVER + "dir";
     private static final String MSCOVER_INTEGRATION_TOOL = MSCOVER + "tool";
     private static final String MSCOVER_INTEGRATION_MODE = MSCOVER + "mode";
-    private static final String MSCOVER_INTEGRATION_TESTCASEFILTER = DefaultIntegrationTestsConfiguration.MSCOVER
-            + "testcasefilter";
-    private static final String MSCOVER_INTEGRATION_PROJECTPATTERN = DefaultIntegrationTestsConfiguration.MSCOVER
-            + "projectpattern";
 
-    private static final String MSCOVER_INTEGRATION_COVERAGEREADER_THREADS = DefaultIntegrationTestsConfiguration.MSCOVER
-            + "coveragereader.threads";
+
+
     private static final String MSCOVER_INTEGRATION_TESTRUNNER_THREADS = DefaultIntegrationTestsConfiguration.MSCOVER
             + "testrunner.threads";
-    private static final String MSCOVER_INTEGRATION_TESTRUNNER_TIMEOUT = DefaultIntegrationTestsConfiguration.MSCOVER
-            + "testrunner.timeout";
+
     private static final String MSCOVER_INTEGRATION_SCHEDULE = DefaultIntegrationTestsConfiguration.MSCOVER + "schedule";
     private Settings settings;
     private FileSystem fileSystem;
@@ -49,6 +44,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     private ConfigurationProperty<File> coverageRootProperty;
     private SpecflowTestsRootProperty specflowTestsRootProperty;
     private CoverageReaderTimeoutProperty coverageReaderTimeoutProperty;
+    private CoverageReaderThreadsProperty coverageReaderThreadsProperty;
     private TestCaseFilterProperty testcaseFilterProperty;
     private ProjectPatternProperty projectPatternProperty;
 
@@ -69,6 +65,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
         this.coverageRootProperty = new CoverageRootProperty(settings);
         this.specflowTestsRootProperty = new SpecflowTestsRootProperty(settings);
         this.coverageReaderTimeoutProperty = new CoverageReaderTimeoutProperty(settings);
+        this.coverageReaderThreadsProperty  = new CoverageReaderThreadsProperty(settings);
         this.testRunnerTimeoutProperty = new TestRunnerTimeoutProperty(settings);
         
     }
@@ -92,11 +89,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
                 .add(projectPatternProperty.getPropertyBuilder()
                         .index(2)
                         .build());
-        properties.add(createProperty(MSCOVER_INTEGRATION_COVERAGEREADER_THREADS, PropertyType.INTEGER)
-                .name("Number of threads for coverage reader")
-                .description(
-                        "Specified number of threads that the coverage reader uses when reading the coverage data for a project")
-                .defaultValue("5")
+        properties.add(coverageReaderThreadsProperty.getPropertyBuilder()
                 .index(3)
                 .build());
         properties.add(coverageReaderTimeoutProperty.getPropertyBuilder()
@@ -282,11 +275,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
 
     @Override
     public int getCoverageReaderThreads() {
-        int threads = settings.getInt(MSCOVER_INTEGRATION_COVERAGEREADER_THREADS);
-        if (threads <= 0) {
-            threads = 1;
-        }
-        return threads;
+        return coverageReaderThreadsProperty.getValue();
     }
 
     @Override
