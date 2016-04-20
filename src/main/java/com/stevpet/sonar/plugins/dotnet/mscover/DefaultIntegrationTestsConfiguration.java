@@ -1,8 +1,10 @@
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -15,12 +17,13 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.Settings;
 import org.sonar.api.config.PropertyDefinition.Builder;
+import org.sonar.api.utils.SonarException;
 
-import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.ConfigurationProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.CoverageRootProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.InvalidPropertyValueException;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.SpecflowTestsRootProperty;
+import com.stevpet.sonar.plugins.dotnet.mscover.property.TestRunnerThreadsProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.TestRunnerTimeoutProperty;
 
 public class DefaultIntegrationTestsConfiguration implements IntegrationTestsConfiguration, BatchExtension {
@@ -29,44 +32,39 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     private static final String MSCOVER_INTEGRATION_RESULTS = DefaultIntegrationTestsConfiguration.MSCOVER + "dir";
     private static final String MSCOVER_INTEGRATION_TOOL = MSCOVER + "tool";
     private static final String MSCOVER_INTEGRATION_MODE = MSCOVER + "mode";
-
-
-
-    private static final String MSCOVER_INTEGRATION_TESTRUNNER_THREADS = DefaultIntegrationTestsConfiguration.MSCOVER
-            + "testrunner.threads";
+    private PropertyBag propertyBag;
 
     private static final String MSCOVER_INTEGRATION_SCHEDULE = DefaultIntegrationTestsConfiguration.MSCOVER + "schedule";
     private Settings settings;
     private FileSystem fileSystem;
 
-    private SettingsHelper settingsHelper;
-    private ConfigurationProperty<Integer> testRunnerTimeoutProperty;
-    private ConfigurationProperty<File> coverageRootProperty;
+    private TestRunnerTimeoutProperty testRunnerTimeoutProperty;
+    private CoverageRootProperty coverageRootProperty;
     private SpecflowTestsRootProperty specflowTestsRootProperty;
     private CoverageReaderTimeoutProperty coverageReaderTimeoutProperty;
     private CoverageReaderThreadsProperty coverageReaderThreadsProperty;
     private TestCaseFilterProperty testcaseFilterProperty;
     private ProjectPatternProperty projectPatternProperty;
+    private TestRunnerThreadsProperty testRunnerThreadsProperty;
 
     public DefaultIntegrationTestsConfiguration(Settings settings, FileSystem fileSystem) {
         this(settings);
         this.settings = settings;
-        this.fileSystem = fileSystem;
-        this.settingsHelper = new SettingsHelper(settings);
-
-
+        this.fileSystem = fileSystem;;
     }
 
 
     public DefaultIntegrationTestsConfiguration(Settings settings) {
-        this.testcaseFilterProperty = new TestCaseFilterProperty(settings);
-        this.projectPatternProperty = new ProjectPatternProperty(settings);
-        this.testRunnerTimeoutProperty = new TestRunnerTimeoutProperty(settings); 
-        this.coverageRootProperty = new CoverageRootProperty(settings);
-        this.specflowTestsRootProperty = new SpecflowTestsRootProperty(settings);
-        this.coverageReaderTimeoutProperty = new CoverageReaderTimeoutProperty(settings);
-        this.coverageReaderThreadsProperty  = new CoverageReaderThreadsProperty(settings);
-        this.testRunnerTimeoutProperty = new TestRunnerTimeoutProperty(settings);
+        propertyBag = new PropertyBag(settings);
+        this.testcaseFilterProperty = propertyBag.create(TestCaseFilterProperty.class);
+        this.projectPatternProperty = propertyBag.create(ProjectPatternProperty.class);
+        this.testRunnerTimeoutProperty = propertyBag.create(TestRunnerTimeoutProperty.class);
+        this.coverageRootProperty = propertyBag.create(CoverageRootProperty.class);
+        this.specflowTestsRootProperty = propertyBag.create(SpecflowTestsRootProperty.class);
+        this.coverageReaderTimeoutProperty = propertyBag.create(CoverageReaderTimeoutProperty.class);
+        this.coverageReaderThreadsProperty  = propertyBag.create(CoverageReaderThreadsProperty.class);
+        this.testRunnerThreadsProperty = propertyBag.create(TestRunnerThreadsProperty.class);
+        this.testRunnerTimeoutProperty = propertyBag.create(TestRunnerTimeoutProperty.class);
         
     }
 
@@ -96,12 +94,8 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
                 .index(4)
                 .build());
         properties
-                .add(createProperty(MSCOVER_INTEGRATION_TESTRUNNER_THREADS, PropertyType.INTEGER)
-                        .name("Number of threads for integrationtestrunner")
-                        .description(
-                                "Specified number of threads that the integrationtestrunner uses when reading the coverage data for a project")
-                        .defaultValue("5")
-                        .index(3)
+                .add(testRunnerThreadsProperty.getPropertyBuilder()
+                        .index(5)
                         .build());
         properties
                 .add(testRunnerTimeoutProperty.getPropertyBuilder()
@@ -133,8 +127,8 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
         validateDirectory();
         validateSchedule();
         validateCoverageTool();
-        validateTestRunnerThreads();
-        validateTestRunnerTimeout();
+        testRunnerThreadsProperty.validate();
+        testRunnerTimeoutProperty.validate();
     }
     /*
      * (non-Javadoc)
@@ -280,26 +274,12 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
 
     @Override
     public int getTestRunnerThreads() {
-        int threads = settings.getInt(MSCOVER_INTEGRATION_TESTRUNNER_THREADS);
-        if (threads <= 0) {
-            threads = TESTRUNNER_THREADS_DEFAULT;
-        }
-        return threads;
+        return testRunnerThreadsProperty.getValue();
     }
 
-    private void validateTestRunnerThreads() {
-        int threads = settings.getInt(MSCOVER_INTEGRATION_TESTRUNNER_THREADS);
-        if(threads <0 || threads > 10) {
-            throw new InvalidPropertyValueException(MSCOVER_INTEGRATION_TESTRUNNER_THREADS, threads, ">0 and <=10");
-        }
-    }
     @Override
     public int getTestRunnerTimeout() {
         return testRunnerTimeoutProperty.getValue();
-    }
-    
-    private void validateTestRunnerTimeout() {
-        testRunnerTimeoutProperty.validate();
     }
 
     @Override
@@ -318,5 +298,33 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     
     public void validateSchedule() {
         getSchedule();
+    }
+    
+    private class PropertyBag {
+        
+        private Settings settings;
+        private List<ConfigurationProperty> properties = new ArrayList<>();
+        
+
+        
+       public PropertyBag(Settings settings) {
+            this.settings = settings;
+        }
+
+    public <T> T create(Class clazz) {
+            T instance;
+            try {
+                instance = (T) clazz.getDeclaredConstructor(Settings.class).newInstance(settings);
+                properties.add((ConfigurationProperty) instance);
+                return instance;
+            } catch (Exception e) {
+                throw new SonarException(e);
+            }
+
+        }
+       
+       List<ConfigurationProperty> getProperties() {
+           return properties;
+       }
     }
 }

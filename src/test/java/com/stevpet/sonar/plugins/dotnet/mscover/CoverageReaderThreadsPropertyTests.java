@@ -17,58 +17,33 @@ public class CoverageReaderThreadsPropertyTests extends ConfigurationPropertyTes
     }
     @Test
     public void notSpecificedExpectDefault() {
-        int value = property.getValue();
-        assertEquals("expect default",1,value);
+        checkDefaultOnNotSet(1);
     }
     
     
     @Test
     public void garbagepecificedExpectExecption() {
-        setPropertyValue("groble");
-        try {
-            property.validate();
-        } catch (InvalidPropertyValueException e) {
-            return ; // this is expected
-        } catch ( Exception e) {
-            fail("expected InvalidPropertyException"); 
-        }
+        checkExceptionOnNotInt();
     }
     
     @Test
     public void negativeSpecificedExpectExecption() {
-        setPropertyValue("-1");
-        try {
-            property.validate();
-        } catch (InvalidPropertyValueException e) {
-            return ; // this is expected
-        } catch ( Exception e) {
-            fail("expected InvalidPropertyException"); 
-        }
+        checkOutsideRangeInt(-1);
     }
     
     @Test
     public void tooMuchExpectExecption() {
-        setPropertyValue("10");
-        try {
-            property.validate();
-        } catch (InvalidPropertyValueException e) {
-            return ; // this is expected
-        } catch ( Exception e) {
-            fail("just too much expected InvalidPropertyException"); 
-        }
+        checkOutsideRangeInt(10);
     }
     @Test
     public void validLowExpect() {
-        setPropertyValue("1");
-        int timeout = property.getValue();
-        assertEquals(1,timeout);
+        checkInRangeInt(1);
+
     }
     
     @Test
     public void validHighExpect() {
-        setPropertyValue("9");
-        int timeout = property.getValue();
-        assertEquals(9,timeout);
+        checkInRangeInt(9);
     }
     @Test
     public void notSpecifiedShouldValidate() {

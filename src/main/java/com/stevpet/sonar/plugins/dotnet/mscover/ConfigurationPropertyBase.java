@@ -1,5 +1,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -30,6 +33,7 @@ public abstract class ConfigurationPropertyBase<T> implements ConfigurationPrope
     }
     
     protected abstract T onGetValue(Settings settings);
+    
     public void validate() {
         getValue();
     }
@@ -54,4 +58,10 @@ public abstract class ConfigurationPropertyBase<T> implements ConfigurationPrope
         return pattern;
         
     }
+
+    public ConfigurationPropertyBase register(List<ConfigurationProperty> list) {
+        list.add(this);
+        return this;
+    }
+
 }
