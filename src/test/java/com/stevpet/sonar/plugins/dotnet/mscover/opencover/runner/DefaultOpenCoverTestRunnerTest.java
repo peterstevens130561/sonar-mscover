@@ -99,7 +99,8 @@ public class DefaultOpenCoverTestRunnerTest {
         //then I expect the proper commandline, with the one assembly
         String commandLine=commandLineExecutorStub.getCommandLine();
         String expected =  baseCommandLine + coveragePath + " \"-filter:+[one]* \"";
-        assertEquals("building a basic OpenCover commandline for one assembly",expected,commandLine);
+        compareCommandLines("building a basic OpenCover commandline for one assembly",expected,commandLine);
+
     }
     
     @Test
@@ -111,7 +112,7 @@ public class DefaultOpenCoverTestRunnerTest {
         //then I expect the proper commandline, with the one assembly
         String commandLine=commandLineExecutorStub.getCommandLine();
         String expected =  baseCommandLine + coveragePath;
-        assertEquals("building a basic OpenCover commandline for one assembly",expected,commandLine);
+        compareCommandLines("building a basic OpenCover commandline for one assembly",expected,commandLine);
     }
     @Test
     public void runWithTwoAssemblies() {
@@ -123,10 +124,19 @@ public class DefaultOpenCoverTestRunnerTest {
         //then I exepct the proper commandline with the two assemblies
         String commandLine=commandLineExecutorStub.getCommandLine();
         String expected = baseCommandLine +  coveragePath + " \"-filter:+[one]* +[two]* \"";
-        assertEquals("building a basic OpenCover commandline with two assemblies",expected,commandLine);
+        compareCommandLines("building a basic OpenCover commandline with two assemblies",expected,commandLine);
     }
     
-    
+    private void compareCommandLines(String msg,String expected,String actual) {
+        if(expected.split(" ").length != actual.split(" ").length) {
+            assertEquals("different number of arguments",expected,actual);
+        }
+        for(String argument : expected.split(" ")) {
+            assertTrue(msg + "expected "+ argument,actual.contains(argument));
+        }
+        
+        
+    }
     @Test
     public void checkPattern() {
         Pattern bogusPattern = Pattern.compile("bogus");
