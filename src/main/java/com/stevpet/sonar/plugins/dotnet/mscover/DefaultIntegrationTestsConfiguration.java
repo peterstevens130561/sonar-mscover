@@ -106,7 +106,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
         testcaseFilterProperty.validate();
         projectPatternProperty.validate();
         validateMode();
-        validateDirectory();
+        coverageRootProperty.validate();
         validateSchedule();
         validateCoverageTool();
         testRunnerThreadsProperty.validate();
@@ -163,27 +163,9 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
      */
     @Override
     public File getDirectory() {
-        String coverageDir = settings.getString(MSCOVER_INTEGRATION_RESULTS);
-        if (StringUtils.isEmpty(coverageDir)) {
-            LOG.error("property {} must be set to directoy where coverage results should be stored", MSCOVER_INTEGRATION_RESULTS);
-        }
-        return new File(coverageDir);
+        return coverageRootProperty.getValue();
     }
 
-    private void validateDirectory() {
-        String coveragePath = settings.getString(MSCOVER_INTEGRATION_RESULTS);
-        if(coveragePath == null) {
-            throw new InvalidPropertyValueException(MSCOVER_INTEGRATION_RESULTS, "property is required, and parent must exist");
-        }
-        File coverageDir = new File(coveragePath);
-        File parentDir=coverageDir.getParentFile();
-        if(parentDir==null) {
-            throw new InvalidPropertyValueException(MSCOVER_INTEGRATION_RESULTS, coveragePath,"must have parent");
-        }
-        if(!parentDir.exists()) {
-            throw new InvalidPropertyValueException(MSCOVER_INTEGRATION_RESULTS, coveragePath,"parent must exist");            
-        }
-    }
     /*
      * (non-Javadoc)
      * 

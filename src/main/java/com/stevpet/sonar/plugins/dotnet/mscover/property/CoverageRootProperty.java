@@ -1,23 +1,20 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.property;
 
 import java.io.File;
-
-import org.assertj.core.util.Preconditions;
 import org.sonar.api.PropertyType;
-import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.Settings;
 import org.sonar.api.config.PropertyDefinition.Builder;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultIntegrationTestsConfiguration;
 
-public class CoverageRootProperty implements ConfigurationProperty<File> {
-    private Settings settings;
+public class CoverageRootProperty extends ConfigurationPropertyBase<File> {
+    
     public CoverageRootProperty(Settings settings) {
-        this.settings = settings ;
+        super(settings);
     }
     
     public CoverageRootProperty() {
-        this.settings = null;
+        super();
     }
 
     @Override
@@ -28,8 +25,7 @@ public class CoverageRootProperty implements ConfigurationProperty<File> {
     }
 
     @Override
-    public File getValue() {
-        Preconditions.checkNotNull(settings);
+    public File onGetValue(Settings settings) {
         String key=getKey();
         String coveragePath = settings.getString(key);
         if(coveragePath == null) {
@@ -46,19 +42,11 @@ public class CoverageRootProperty implements ConfigurationProperty<File> {
         return coverageDir;
     }
 
-    @Override
-    public void validate() {
-        // TODO Auto-generated method stub
-        
-    }
 
     @Override
     public String getKey() {
         return DefaultIntegrationTestsConfiguration.MSCOVER + "dir";
     }
     
-    private static Builder createProperty(String key, PropertyType propertyType) {
-        return PropertyDefinition.builder(key).type(propertyType).subCategory("Integration tests");
-    }
 
 }
