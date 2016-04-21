@@ -1,5 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.property;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -36,8 +37,17 @@ public class CoverageRootPropertyTests extends ConfigurationPropertyTestsBase<Fi
     
     @Test
     public void doesNotExisttException() {
-        File doesNotExist = TestUtils.getResource("CoverageRootProperty/CoverageRoot");
-        this.setPropertyValue(doesNotExist.getAbsolutePath());
+        File dummy = TestUtils.getResource("CoverageRootProperty/CoverageRoot/dummy");
+        File notExistingRoot = new File(dummy.getParentFile(),"bogus/bogus");
+        this.setPropertyValue(notExistingRoot.getAbsolutePath());
         super.expectInvalidPropetyValueExceptionOnGetValue();
+    }
+    
+    @Test
+    public void existsShouldGet() {
+        File dummy = TestUtils.getResource("CoverageRootProperty/CoverageRoot/dummy");
+        File existingRoot = dummy.getParentFile();
+        this.setPropertyValue(existingRoot.getAbsolutePath());      
+        assertEquals("should get path",existingRoot,property.getValue());
     }
 }
