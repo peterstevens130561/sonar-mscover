@@ -8,11 +8,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.DefaultIntegrationTestsConfigura
 
 public class CoverageReaderTimeoutProperty extends ConfigurationPropertyBase<Integer> {
 
-    private Settings settings;
-
     public CoverageReaderTimeoutProperty(Settings settings) {
         super(settings);
-        this.settings = settings;
     }
 
     @Override
