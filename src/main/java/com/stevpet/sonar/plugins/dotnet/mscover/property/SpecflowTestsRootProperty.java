@@ -3,7 +3,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.property;
 import java.io.File;
 
 import org.apache.commons.lang.StringUtils;
-import org.assertj.core.util.Preconditions;
 import org.sonar.api.PropertyType;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.PropertyDefinition.Builder;
@@ -11,17 +10,17 @@ import org.sonar.api.config.Settings;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultIntegrationTestsConfiguration;
 
-public class SpecflowTestsRootProperty implements ConfigurationProperty<File> {
+public class SpecflowTestsRootProperty extends ConfigurationPropertyBase<File> {
 
     private static final String PRECONDITION_TEXT = "must be directory and must exist";
-    private Settings settings;
 
     public SpecflowTestsRootProperty(Settings settings) {
-        this.settings = settings ;
+        super(settings);
     }
     public SpecflowTestsRootProperty() {
-        this.settings = null;
+        super();
     }
+    
     @Override
     public Builder getPropertyBuilder() {
         return createProperty(getKey(), PropertyType.STRING)
@@ -30,8 +29,7 @@ public class SpecflowTestsRootProperty implements ConfigurationProperty<File> {
     }
 
     @Override
-    public File getValue() {
-        Preconditions.checkNotNull(settings);
+    public File onGetValue(Settings settings) {
         String path=settings.getString(getKey());
         if(StringUtils.isEmpty(path)) {
             return null;
@@ -53,8 +51,4 @@ public class SpecflowTestsRootProperty implements ConfigurationProperty<File> {
         return DefaultIntegrationTestsConfiguration.MSCOVER + "root";
     }
 
-    private static Builder createProperty(String key, PropertyType propertyType) {
-        return PropertyDefinition.builder(key).type(propertyType).subCategory("Integration tests");
-
-    }
 }

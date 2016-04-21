@@ -1,6 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.property;
 
-import org.assertj.core.util.Preconditions;
 import org.sonar.api.PropertyType;
 import org.sonar.api.config.PropertyDefinition.Builder;
 import org.sonar.api.config.Settings;
@@ -26,7 +25,6 @@ public class CoverageReaderTimeoutProperty extends ConfigurationPropertyBase<Int
 
     @Override
     public Integer onGetValue(Settings settings) {
-        Preconditions.checkNotNull(settings);
         int timeout = settings.getInt(getKey());
         if(timeout <0) {
             throw new InvalidPropertyValueException(getKey(),timeout,"must be positive integer");

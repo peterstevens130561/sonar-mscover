@@ -1,6 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.property;
 
-import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -9,12 +8,13 @@ import java.util.regex.PatternSyntaxException;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.StringUtils;
-import org.assertj.core.util.Preconditions;
 import org.sonar.api.PropertyType;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.Settings;
 import org.sonar.api.config.PropertyDefinition.Builder;
 import org.sonar.api.utils.SonarException;
+
+import com.google.common.base.Preconditions;
 
 public abstract class ConfigurationPropertyBase<T> implements ConfigurationProperty<T> {
 

@@ -2,32 +2,29 @@ package com.stevpet.sonar.plugins.dotnet.mscover.property;
 
 import javax.annotation.Nonnull;
 
-import org.assertj.core.util.Preconditions;
 import org.sonar.api.PropertyType;
-import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.PropertyDefinition.Builder;
 import org.sonar.api.config.Settings;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultIntegrationTestsConfiguration;
 
-public class TestRunnerTimeoutProperty implements ConfigurationProperty<Integer> {
+public class TestRunnerTimeoutProperty extends ConfigurationPropertyBase<Integer> {
     private static final String PROPERTY_KEY = DefaultIntegrationTestsConfiguration.MSCOVER
             + "testrunner.timeout";
-    private Settings settings;
     
     /**
      * regular use
      * @param settings - valid settings
      */
     public TestRunnerTimeoutProperty(@Nonnull Settings settings) {
-        this.settings = settings;
+        super(settings);
     }
     
     /**
      * use only to get the PropertyBuilder
      */
     public TestRunnerTimeoutProperty() {
-        this.settings = null;
+        super();
     }
     
     @Override
@@ -40,8 +37,7 @@ public class TestRunnerTimeoutProperty implements ConfigurationProperty<Integer>
     }
 
     @Override
-    public Integer getValue() {
-        Preconditions.checkNotNull(settings);
+    public Integer onGetValue(Settings settings) {
         int timeout=0;
         try {
         timeout = settings.getInt(PROPERTY_KEY);
@@ -54,17 +50,10 @@ public class TestRunnerTimeoutProperty implements ConfigurationProperty<Integer>
         return timeout;
     }
 
-    private static Builder createProperty(String key, PropertyType propertyType) {
-        return PropertyDefinition.builder(key).type(propertyType).subCategory("Integration tests");
-    }
 
     @Override
     public String getKey() {
         return PROPERTY_KEY;
     }
 
-    @Override
-    public void validate() {
-        getValue();
-    }
 }
