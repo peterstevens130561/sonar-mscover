@@ -69,9 +69,8 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
         this.coverageReaderTimeoutProperty = propertyBag.create(CoverageReaderTimeoutProperty.class);
         this.coverageReaderThreadsProperty  = propertyBag.create(CoverageReaderThreadsProperty.class);
         this.testRunnerThreadsProperty = propertyBag.create(TestRunnerThreadsProperty.class);
-        this.testRunnerTimeoutProperty = propertyBag.create(TestRunnerTimeoutProperty.class);
-        this.scheduleProperty=propertyBag.create(ScheduleProperty.class);
-        
+
+        this.scheduleProperty=propertyBag.create(ScheduleProperty.class);       
     }
 
     /**
@@ -93,10 +92,6 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
         return properties;
     }
 
-    private static Builder createProperty(String key, PropertyType propertyType) {
-        return PropertyDefinition.builder(key).type(propertyType).subCategory("Integration tests");
-
-    }
 
     /**
      * Fail Fast through calling this is early as possible

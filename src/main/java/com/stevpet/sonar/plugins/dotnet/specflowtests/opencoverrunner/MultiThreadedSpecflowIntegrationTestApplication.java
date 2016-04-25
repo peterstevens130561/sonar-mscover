@@ -185,9 +185,13 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
     }
     
     private List<TestRunnerThreadValues> queueTests() {
+        List<TestRunnerThreadValues> results = new ArrayList<>();
         Pattern pattern=integrationTestsConfiguration.getTestProjectPattern();
         List<VisualStudioProject> testProjects = microsoftWindowsEnvironment.getTestProjects(pattern);
-        List<TestRunnerThreadValues> results = new ArrayList<>();
+        if(testProjects.size()==0) {
+            LOG.warn("No integrationtest projects found with pattern {}",pattern);
+            return results;
+        }
         for(VisualStudioProject project:testProjects){
             String projectName=project.getAssemblyName();
             Callable<Boolean> callable = createTestRunner(projectName);

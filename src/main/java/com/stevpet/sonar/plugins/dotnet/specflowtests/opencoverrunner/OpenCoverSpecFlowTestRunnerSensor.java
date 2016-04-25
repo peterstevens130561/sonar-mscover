@@ -132,6 +132,9 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 		integrationTestRunnerApplication.execute();
 
 		ProjectUnitTestResults testResults = integrationTestRunnerApplication.getTestResults(projectName);
+		if(testResults==null) {
+		    LOG.warn("Could not get testresults for {}",projectName);
+		}
 		testResultsSaver.save(context, testResults);
 	}
 }
