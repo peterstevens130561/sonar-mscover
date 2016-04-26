@@ -103,7 +103,7 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
         reader.setMsCoverConfiguration(msCoverConfiguration);
         reader.read(sonarCoverage,integrationTestCoverageDir);
         saver.save(context,sonarCoverage);
-        overallCoverageCache.merge(sonarCoverage, module.getName());
+        overallCoverageCache.merge(sonarCoverage, module.getName()); 
     }
 
 
