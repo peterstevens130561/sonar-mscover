@@ -43,6 +43,7 @@ import com.stevpet.sonar.plugins.dotnet.overallcoverage.sensor.OverallCoverageSe
 import com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner.MultiThreadedSpecflowIntegrationTestCache;
 import com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner.OpenCoverSpecFlowTestRunnerSensor;
 import com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner.OpenCoverSpecFlowTestSaverSensor;
+import com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner.OpenCoverSpecFlowTestSensor;
 import com.stevpet.sonar.plugins.dotnet.unittests.OpenCoverUnitTestSensor;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.DefaultMicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioConfiguration;
@@ -90,7 +91,8 @@ public final class MsCoverPlugin extends SonarPlugin {
         		DefaultOverallCoverageCache.class,
         		OverallCoverageSensor.class,
                 OpenCoverSpecFlowTestRunnerSensor.class,
-                OpenCoverSpecFlowTestSaverSensor.class
+                OpenCoverSpecFlowTestSaverSensor.class,
+                OpenCoverSpecFlowTestSensor.class
                 )
                 ;
         List extensions = new ArrayList();

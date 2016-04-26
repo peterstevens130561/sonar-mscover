@@ -30,11 +30,12 @@ public class OpenCoverSpecFlowTestSensorTest {
     @Mock private SensorContext context;
     @Mock private IntegrationTestRunnerApplication integrationTestRunner ;
     @Mock private OpenCoverSpecFlowTestSaverSensor saverSensor ;
+    @Mock private OpenCoverSpecFlowTestRunnerSensor runnerSensor;
     
     @Before
     public void before() {
         org.mockito.MockitoAnnotations.initMocks(this);
-        sensor = new OpenCoverSpecFlowTestSensor(configuration,integrationTestRunner, saverSensor);
+        sensor = new OpenCoverSpecFlowTestSensor(configuration,runnerSensor, saverSensor);
         Pattern specflowPattern = Pattern.compile(".*SpecFlow.*");
         when(configuration.getTestProjectPattern()).thenReturn(specflowPattern);
         when(project.isModule()).thenReturn(true);
@@ -76,6 +77,14 @@ public class OpenCoverSpecFlowTestSensorTest {
         sensor.analyse(project, context);
         verify(integrationTestRunner,times(1)).execute();
         verify(saverSensor,times(0)).analyse(project,context);
+    }
+    
+    @Test
+    public void analyseNormal() {
+        when(project.getName()).thenReturn("Normal"); 
+        sensor.analyse(project, context);
+        verify(integrationTestRunner,times(1)).execute();
+        verify(saverSensor,times(1)).analyse(project,context);
     }
     
     
