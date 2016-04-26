@@ -3,6 +3,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover;
 import java.io.File;
 import java.util.regex.Pattern;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.Tool;
+
 public interface IntegrationTestsConfiguration {
 
     public enum Mode {
@@ -22,11 +24,13 @@ public interface IntegrationTestsConfiguration {
     public static final int TESTRUNNER_TIMEOUT_DEFAULT = 10;
     
 	/**
-	 * get the mode, plugins should use this to select where they should run or not
+	 * get the mode, plugins should use this to select where they should run or not, in case of automode it will resolv it run if the current
+	 * module is below the root, otherwise read
 	 * @return
 	 */
 	Mode getMode();
 
+    
 	/**
 	 * get the directory where coverage files are stored. Use when it has been verified that
 	 * the mode is not disabled
@@ -76,5 +80,6 @@ public interface IntegrationTestsConfiguration {
      * @return
      */
     Pattern getSchedule();
+
 
 }
