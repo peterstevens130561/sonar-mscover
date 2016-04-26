@@ -29,11 +29,12 @@ public class OpenCoverSpecFlowTestSensorTest {
     @Mock private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     @Mock private SensorContext context;
     @Mock private IntegrationTestRunnerApplication integrationTestRunner ;
+    @Mock private OpenCoverSpecFlowTestSaverSensor saverSensor ;
     
     @Before
     public void before() {
         org.mockito.MockitoAnnotations.initMocks(this);
-        sensor = new OpenCoverSpecFlowTestSensor(configuration,integrationTestRunner);
+        sensor = new OpenCoverSpecFlowTestSensor(configuration,integrationTestRunner, saverSensor);
         Pattern specflowPattern = Pattern.compile(".*SpecFlow.*");
         when(configuration.getTestProjectPattern()).thenReturn(specflowPattern);
         when(project.isModule()).thenReturn(true);
@@ -74,6 +75,7 @@ public class OpenCoverSpecFlowTestSensorTest {
         when(project.getName()).thenReturn("SpecFlow"); 
         sensor.analyse(project, context);
         verify(integrationTestRunner,times(1)).execute();
+        verify(saverSensor,times(0)).analyse(project,context);
     }
     
     

@@ -15,10 +15,12 @@ public class OpenCoverSpecFlowTestSensor implements Sensor {
 
     private IntegrationTestsConfiguration integrationTestsConfiguration;
     private IntegrationTestRunnerApplication integrationTestRunnerApplication;
+    private OpenCoverSpecFlowTestSaverSensor saverSensor ; 
 
-    public OpenCoverSpecFlowTestSensor(IntegrationTestsConfiguration integrationTestsConfiguration, IntegrationTestRunnerApplication integrationTestRunnerApplication) {
+    public OpenCoverSpecFlowTestSensor(IntegrationTestsConfiguration integrationTestsConfiguration, IntegrationTestRunnerApplication integrationTestRunnerApplication, OpenCoverSpecFlowTestSaverSensor saverSensor) {
         this.integrationTestsConfiguration = integrationTestsConfiguration;
         this.integrationTestRunnerApplication = integrationTestRunnerApplication;
+        this.saverSensor = saverSensor;
     }
 
     @Override
@@ -31,6 +33,10 @@ public class OpenCoverSpecFlowTestSensor implements Sensor {
         Pattern pattern=integrationTestsConfiguration.getTestProjectPattern();
         boolean isTestProject=pattern.matcher(module.getName()).matches();       // TODO Auto-generated method stub
         integrationTestRunnerApplication.execute();
+        if(saverSensor.shouldExecuteOnProject(module)) {
+            saverSensor.analyse(module, context);
+        }
+        
     }
 
 }
