@@ -147,7 +147,7 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
             e.printStackTrace();
         } catch (ExecutionException e) {
             LOG.error("Execution of tests failed {}",e.getCause().toString());
-            throw new SonarException("Execution of tests failed, see inner exception",e.getCause());
+            throw new SonarException("Execution of tests failed, see inner exception {}",e.getCause());
         }
     }
 

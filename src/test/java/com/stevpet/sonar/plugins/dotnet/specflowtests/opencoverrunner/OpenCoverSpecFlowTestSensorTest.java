@@ -8,8 +8,10 @@ import java.util.regex.Pattern;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
@@ -17,6 +19,8 @@ import org.sonar.api.resources.Project;
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.Mode;
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.Tool;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.VsTestTestResultsSaver;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 import static org.mockito.Mockito.when;
@@ -30,12 +34,13 @@ public class OpenCoverSpecFlowTestSensorTest {
     @Mock private SensorContext context;
     @Mock private IntegrationTestRunnerApplication integrationTestRunner ;
     @Mock private OpenCoverSpecFlowTestSaverSensor saverSensor ;
-    @Mock private OpenCoverSpecFlowTestRunnerSensor runnerSensor;
+    @Mock private VsTestTestResultsSaver testResultsSaver;
+    private ProjectUnitTestResults projectUnitTestResults;
     
     @Before
     public void before() {
         org.mockito.MockitoAnnotations.initMocks(this);
-        sensor = new OpenCoverSpecFlowTestSensor(configuration,runnerSensor, saverSensor);
+        sensor = new OpenCoverSpecFlowTestSensor(configuration, integrationTestRunner, saverSensor, testResultsSaver);
         Pattern specflowPattern = Pattern.compile(".*SpecFlow.*");
         when(configuration.getTestProjectPattern()).thenReturn(specflowPattern);
         when(project.isModule()).thenReturn(true);
@@ -71,20 +76,23 @@ public class OpenCoverSpecFlowTestSensorTest {
         assertFalse("really checks on tool and mode",sensor.shouldExecuteOnProject(project));       
     }
     
+
     @Test
     public void analyseSpecFlow() {
         when(project.getName()).thenReturn("SpecFlow"); 
-        sensor.analyse(project, context);
-        verify(integrationTestRunner,times(1)).execute();
-        verify(saverSensor,times(0)).analyse(project,context);
+        sensor.analyse(project, context); 
+        verify(integrationTestRunner,times(1)).execute(); // runner always executes
+        verify(saverSensor,times(0)).analyse(project,context); // should not save coverage
+        verify(testResultsSaver,times(1)).save(context, projectUnitTestResults); // save the test results
     }
     
     @Test
     public void analyseNormal() {
         when(project.getName()).thenReturn("Normal"); 
         sensor.analyse(project, context);
-        verify(integrationTestRunner,times(1)).execute();
-        verify(saverSensor,times(1)).analyse(project,context);
+        verify(integrationTestRunner,times(1)).execute();// runner always executes
+        verify(saverSensor,times(1)).analyse(project,context); // save coverage
+        verify(testResultsSaver,times(0)).save(context, projectUnitTestResults); // do not save the test results
     }
     
     
