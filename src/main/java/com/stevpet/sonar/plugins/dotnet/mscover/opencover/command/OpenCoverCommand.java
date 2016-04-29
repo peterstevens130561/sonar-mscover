@@ -88,8 +88,11 @@ public class OpenCoverCommand implements ShellCommand {
         
     }
 
+    public void setHideSkipped(String skip) {
+        addArgument("hideskipped",skip);
+    }
     public void setExcludeFromCodeCoverageAttributeFilter() {
-        addArgument("excludebyattribute","*ExcludeFromCodeCoverage*");
+        addArgument("excludebyattribute","*.ExcludeFromCoverageAttribute*");
     }
 
     public void setOutputPath(String value) {

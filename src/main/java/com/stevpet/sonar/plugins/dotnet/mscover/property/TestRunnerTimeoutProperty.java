@@ -44,8 +44,8 @@ public class TestRunnerTimeoutProperty extends ConfigurationPropertyBase<Integer
         } catch ( NumberFormatException e) {
             throw new InvalidPropertyValueException(PROPERTY_KEY,settings.getString(PROPERTY_KEY),"number >0 and <=120 minutes");
         }
-        if(timeout < 0 || timeout > 120) {
-            throw new InvalidPropertyValueException(PROPERTY_KEY, timeout, "number >0 and <=120 minutes");           
+        if(timeout < 0 || timeout > 480) {
+            throw new InvalidPropertyValueException(PROPERTY_KEY, timeout, "number >0 and <=480 minutes");           
         }
         return timeout;
     }

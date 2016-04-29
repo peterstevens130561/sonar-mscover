@@ -95,6 +95,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 
 		openCoverCommand.setMergeByHash();
 		openCoverCommand.setOutputPath(coverageFile.getAbsolutePath());
+		openCoverCommand.setHideSkipped("all");
 		
 		if (configuration.getSkipAutoProps()) {
 			openCoverCommand.setSkipAutoProps();

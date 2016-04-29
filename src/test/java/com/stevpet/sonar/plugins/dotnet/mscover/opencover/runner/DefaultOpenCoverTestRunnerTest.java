@@ -41,8 +41,8 @@ public class DefaultOpenCoverTestRunnerTest {
 	private VSTestStdOutParserMock vsStdOutParserMock= new VSTestStdOutParserMock();
 	private VSTestCommandMock vsTestCommandMock = new VSTestCommandMock();
 	private String baseCommandLine="opencover/OpenCover.Console.Exe " +
-			"-register:user -excludebyfile:*\\*.Designer.cs -excludebyattribute:*ExcludeFromCodeCoverage* " +
-			"\"-target:exedir\" \"-targetdir:somedir\" -mergebyhash: \"-targetargs:arguments\" \"-output:";
+			"-register:user -excludebyfile:*\\*.Designer.cs -excludebyattribute:*.ExcludeFromCoverageAttribute* " +
+			"\"-target:exedir\" \"-targetdir:somedir\" -mergebyhash: \"-targetargs:arguments\" -hideskipped:all \"-output:";
     private String coveragePath;
     private MicrosoftWindowsEnvironment settings;
     private @Mock OpenCoverCommandLineConfiguration configuration;

@@ -49,6 +49,12 @@ public class OpenCoverCommandTest {
         assertEquals(OpenCoverTestHelper.EXECUTABLE + "/OpenCover.Console.Exe",commandLine);
     }
 
+    @Test
+    public void testSetSkipped() {
+        String value="all";
+        openCoverCommand.setHideSkipped(value);
+        testHelper.assertArgument("-hideskipped:" + value);       
+    }
 
     @Test
     public void testSetRegister() {
@@ -118,7 +124,7 @@ public class OpenCoverCommandTest {
     @Test
     public void testExcludeFromCodeCoverageSet_AttributeFilterInArgumentList() {
         openCoverCommand.setExcludeFromCodeCoverageAttributeFilter();
-        testHelper.assertArgument("-excludebyattribute:*ExcludeFromCodeCoverage*");
+        testHelper.assertArgument("-excludebyattribute:*.ExcludeFromCoverageAttribute*");
     }
     
     @Test
