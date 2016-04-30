@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import javax.persistence.ExcludeDefaultListeners;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.property.ConfigurationProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.CoverageReaderThreadsProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.CoverageReaderTimeoutProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.CoverageRootProperty;
+import com.stevpet.sonar.plugins.dotnet.mscover.property.ExcludeProjectsProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.InvalidPropertyValueException;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.ProjectPatternProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.ScheduleProperty;
@@ -43,15 +46,16 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     private Settings settings;
     private FileSystem fileSystem;
 
-    private TestRunnerTimeoutProperty testRunnerTimeoutProperty;
-    private CoverageRootProperty coverageRootProperty;
-    private SpecflowTestsRootProperty specflowTestsRootProperty;
-    private CoverageReaderTimeoutProperty coverageReaderTimeoutProperty;
-    private CoverageReaderThreadsProperty coverageReaderThreadsProperty;
-    private TestCaseFilterProperty testcaseFilterProperty;
-    private ProjectPatternProperty projectPatternProperty;
-    private TestRunnerThreadsProperty testRunnerThreadsProperty;
-    private ScheduleProperty scheduleProperty;
+    private final TestRunnerTimeoutProperty testRunnerTimeoutProperty;
+    private final CoverageRootProperty coverageRootProperty;
+    private final SpecflowTestsRootProperty specflowTestsRootProperty;
+    private final CoverageReaderTimeoutProperty coverageReaderTimeoutProperty;
+    private final CoverageReaderThreadsProperty coverageReaderThreadsProperty;
+    private final TestCaseFilterProperty testcaseFilterProperty;
+    private final ProjectPatternProperty projectPatternProperty;
+    private final TestRunnerThreadsProperty testRunnerThreadsProperty;
+    private final ScheduleProperty scheduleProperty;
+    private final ExcludeProjectsProperty excludedProjectsProperty;
 
     public DefaultIntegrationTestsConfiguration(Settings settings, FileSystem fileSystem) {
         this(settings);
@@ -69,6 +73,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
         this.coverageReaderTimeoutProperty = propertyBag.create(CoverageReaderTimeoutProperty.class);
         this.coverageReaderThreadsProperty  = propertyBag.create(CoverageReaderThreadsProperty.class);
         this.testRunnerThreadsProperty = propertyBag.create(TestRunnerThreadsProperty.class);
+        this.excludedProjectsProperty = propertyBag.create(ExcludeProjectsProperty.class);
 
         this.scheduleProperty=propertyBag.create(ScheduleProperty.class);       
     }
@@ -97,15 +102,9 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
      * Fail Fast through calling this is early as possible
      */
     public void validate() {
-        specflowTestsRootProperty.validate();
-        testcaseFilterProperty.validate();
-        projectPatternProperty.validate();
-        validateMode();
-        coverageRootProperty.validate();
-        validateSchedule();
-        validateCoverageTool();
-        testRunnerThreadsProperty.validate();
-        testRunnerTimeoutProperty.validate();
+        for(ConfigurationProperty configurationProperty : propertyBag.getProperties()) {
+            configurationProperty.validate();
+        }
     }
     /*
      * (non-Javadoc)
@@ -250,6 +249,10 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
         getSchedule();
     }
     
+    @Override
+    public List<String> getExcludedProjects() {
+        return excludedProjectsProperty.getValue();
+    }
     private class PropertyBag {
         
         private Settings settings;
@@ -277,4 +280,6 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
            return properties;
        }
     }
+
+
 }

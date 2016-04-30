@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
 import java.io.File;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.Tool;
@@ -81,5 +82,9 @@ public interface IntegrationTestsConfiguration {
      */
     Pattern getSchedule();
 
-
+    /**
+     * get projects to exclude from running. If not defined, then it should be an empty list
+     * @return
+     */
+    List<String> getExcludedProjects();
 }
