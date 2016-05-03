@@ -87,9 +87,9 @@ public class ImpatientCommandExecutor implements CommandExecutor {
                         long alarmclock=lastTrigger+300000;
                         if(now >= alarmclock) {
                             LOG.error(stdOut.toString());
-                            boolean didCancel=ft.cancel(true);
-                            LOG.error("cancelling result={}",didCancel);
-                            throw new TimeoutException(command, "due to timeout");
+                            //boolean didCancel=ft.cancel(true);
+                            //LOG.error("cancelling result={}",didCancel);
+                            //throw new TimeoutException(command, "due to timeout");
                         }
                         if((now + 20000) >= alarmclock ) {
                             LOG.warn("watchdog will trigger in {} seconds",(alarmclock-now)/1000);
@@ -162,7 +162,12 @@ public class ImpatientCommandExecutor implements CommandExecutor {
     }
     
     private void triggerWatchdog() {
+        long prevTrigger=lastTrigger;
         lastTrigger=System.currentTimeMillis();
+        if(prevTrigger>0) {
+            long lapse=lastTrigger-prevTrigger;
+            LOG.debug("Trigger after {} ms",lapse);
+        }
     }
 
     private class StreamGobbler extends Thread implements AutoCloseable {

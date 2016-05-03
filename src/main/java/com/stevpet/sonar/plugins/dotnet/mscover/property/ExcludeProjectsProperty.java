@@ -26,7 +26,7 @@ public class ExcludeProjectsProperty extends ConfigurationPropertyBase<List<Stri
         return createProperty(getKey(),PropertyType.STRING)
                 .name("Exclude from run")
                 .description("list of projects to exclude from test run")
-                .multiValues(true).onlyOnQualifiers(Qualifiers.MODULE);
+                .multiValues(true).onlyOnQualifiers(Qualifiers.PROJECT);
     }
 
     @Override
