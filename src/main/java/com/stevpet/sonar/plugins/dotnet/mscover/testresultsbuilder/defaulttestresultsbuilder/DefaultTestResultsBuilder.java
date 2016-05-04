@@ -35,7 +35,6 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
  
 	@Override
 	public ProjectUnitTestResults parse(File testResultsFile, File coverageFile) {
-		LOG.info("Invoked");
 
     	fileNamesParser.parse(coverageFile);
     	MethodToSourceFileIdMap methodToSourceFileIdMap=fileNamesParser.getMethodToSourceFileIdMap();

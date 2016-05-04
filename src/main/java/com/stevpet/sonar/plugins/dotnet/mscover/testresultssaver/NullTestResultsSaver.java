@@ -11,7 +11,6 @@ public class NullTestResultsSaver implements TestResultsSaver {
 
     @Override
     public void save(ProjectUnitTestResults projetUnitTestResults) {
-        LOG.info("Invoked");
     }
 
 }

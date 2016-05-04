@@ -141,7 +141,7 @@ public class SpecflowIntegrationTestRunner implements
 		coverageFile.delete();
 
 		File moduleCoverageFile = openCoverModuleSaver.getCoverageFile(module);
-        LOG.info("!!! module {} path {}",module,moduleCoverageFile.getAbsolutePath());
+        LOG.info("completed rnning tests on module {} path {}",module,moduleCoverageFile.getAbsolutePath());
 		if(!moduleCoverageFile.exists()) {
 			String msg="Can't find coverage file '" + moduleCoverageFile.getAbsolutePath() + "'  for project '" + module + "'\n most likely cause is that the sonar.visualstudio.testProjectPattern property is incorrect";
 			LOG.error(msg);

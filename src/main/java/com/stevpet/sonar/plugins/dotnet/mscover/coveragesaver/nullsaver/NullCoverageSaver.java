@@ -12,8 +12,7 @@ public class NullCoverageSaver implements CoverageSaver {
 	private final static Logger LOG = LoggerFactory.getLogger(NullCoverageSaver.class);
 	@Override
 	public void save(SonarCoverage sonarCoverage) {
-		// As this is null class, no implementation
-		LOG.info("Invoked");
+
 	}
 	@Override
 	public void save(SensorContext sensorContext, SonarCoverage sonarCoverage) {

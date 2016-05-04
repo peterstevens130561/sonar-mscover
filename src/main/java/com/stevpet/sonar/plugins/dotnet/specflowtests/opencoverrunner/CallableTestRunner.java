@@ -21,6 +21,9 @@ public class CallableTestRunner implements Callable<Boolean> {
         this.testResultsMap = multiThreadedSpecFlowIntegrationTestCache;
     }
 
+    /**
+     * runs the tests, and saves the results
+     */
     @Override
     public Boolean call() throws Exception {
         try {
@@ -28,7 +31,7 @@ public class CallableTestRunner implements Callable<Boolean> {
             testRunner.execute();
             ProjectUnitTestResults testResults = testRunner.getTestResults();
             synchronized (testResultsMap) {
-                LOG.info("+++ tests on project {} writing coverage map", projectName);
+                LOG.debug("+++ tests on project {} writing coverage map", projectName);
                 testResultsMap.put(projectName, testResults);
             }
             LOG.debug("+++ tests on project {} completed", projectName);

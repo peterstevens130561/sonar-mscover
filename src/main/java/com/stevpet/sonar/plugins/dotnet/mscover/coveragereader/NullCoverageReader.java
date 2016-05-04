@@ -12,7 +12,6 @@ public class NullCoverageReader implements CoverageReader {
 	
 	@Override
 	public void read(SonarCoverage registry, File file) {
-		LOG.info("Invoked");
 	}
 
 }

@@ -12,7 +12,6 @@ class NullTestResultsBuilder implements TestResultsBuilder {
 	private static final Logger LOG = LoggerFactory.getLogger(NullTestResultsBuilder.class);
 	@Override
 	public ProjectUnitTestResults parse(File testResultsFile, File coverageFile) {
-		LOG.info("Invoked");
 		return new ProjectUnitTestResults();
 	}
 
