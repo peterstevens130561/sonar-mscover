@@ -77,6 +77,7 @@ public class ImpatientCommandExecutor implements CommandExecutor {
                 } else {
                     long pollingTime=1000;
                     long start=System.currentTimeMillis();
+                    boolean reported=false;
                     while(!ft.isDone()) {
                         Thread.sleep(pollingTime);
                         long now=System.currentTimeMillis();
@@ -85,8 +86,15 @@ public class ImpatientCommandExecutor implements CommandExecutor {
                             throw new TimeoutException(command, "after " + lapse);
                         }
                         long alarmclock=lastTrigger+300000;
-                        if(now >= alarmclock) {
+                        if(now >= alarmclock && !reported) {
+                            reported=true;
                             LOG.warn("It has been very silent for a while now on this thread");
+                            LOG.warn("Received on stdout:");
+                            LOG.warn(stdOut.toString());
+                            LOG.warn("Received on stderr");
+                            LOG.warn(stdErr.toString());
+                        } else {
+                            reported=false;
                         }
 
                     }
