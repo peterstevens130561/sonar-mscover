@@ -51,15 +51,21 @@ public class SonarBranchPoint extends BaseCoverageLinePoint {
     @Override
     public void merge(CoveragePoint source) {
         SonarBranchPoint other = (SonarBranchPoint) source;
-        Preconditions.checkArgument(other.paths.size() == paths.size(), "different number of paths: other" + this.paths.size() + " this" + other.paths.size());
         Preconditions.checkArgument(other.line == this.line,"diffent line: other" + other.line + " this" + this.line );
-        int items=paths.size();
-        for(int index=0;index<items;++index) {
+        int thisSize = paths.size();
+        int otherSize = other.paths.size();        
+        int shared = otherSize > thisSize ? thisSize : otherSize ;
+
+        for(int index=0;index<shared;++index) {
             if(!this.paths.get(index) && other.paths.get(index)) {
                 covered++;
                 this.paths.set(index, true);
             }
         }
+        for(int index=shared;index < otherSize;index++) {
+            addPath(other.paths.get(index));
+        }
+
     }
 
 

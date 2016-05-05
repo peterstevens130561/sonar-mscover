@@ -83,4 +83,8 @@ public class SonarFileCoverage  {
                 this.branchPoints.equals(other.branchPoints) &&
                 this.linePoints.equals(other.linePoints);
     }
+
+    public void addBranchPoint(int line, int branchPath, boolean visited) {
+        getBranchPoints().addPoint(line, visited);
+    }
 }

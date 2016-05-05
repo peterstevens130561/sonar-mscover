@@ -42,6 +42,8 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         private boolean branchVisited;
         private int line;
         private String fileId;
+        private int branchLine;
+        private int branchPath;
         
         
         private static final String SEQUENCE_POINT = "SequencePoint";
@@ -127,6 +129,22 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
 
         }
         
+        @AttributeMatcher(attributeName = "sl", elementName = BRANCH_POINT)
+        public void lineBranchPoint(String attributeValue) {
+            branchLine=Integer.parseInt(attributeValue);
+        }
+        
+        @AttributeMatcher(attributeName = "path", elementName = BRANCH_POINT)
+        public void pathBranchPoint(String attributeValue) {
+            branchPath=Integer.parseInt(attributeValue);
+        }
+        @ElementObserver(path=BRANCHPOINT_PATH, event=Event.EXIT)
+        public void branchPointExit() { 
+            if(isPragmaFile(fileId)) {
+                return;
+            }
+            coveredFile.addBranchPoint(branchLine,branchPath,branchVisited);
+        }
         @ElementObserver(path=SEQUENCEPOINT_PATH,event=Event.ENTRY)
         public void sequencePointEntry() {
             sequencePoint=new OpenCoverSequencePoint();

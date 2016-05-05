@@ -84,4 +84,45 @@ public class BranchPointMergeTest {
         assertTrue("three paths two covered",dest.getCovered()==2);
         assertTrue("three paths to cover",dest.getToCover()==3);
     }
+    
+    @Test
+    public void mergeOneAndTwoPathsTwoCovered() {
+        SonarBranchPoint dest = new SonarBranchPoint(LINE);
+        dest.addPath(true);
+        dest.addPath(true);
+        SonarBranchPoint source = new SonarBranchPoint(LINE);
+        source.addPath(false);
+        source.addPath(false);
+        source.addPath(false);
+        dest.merge(source);   
+        assertTrue("three paths two covered",dest.getCovered()==2);
+        assertTrue("three paths to cover",dest.getToCover()==3);
+        
+    }
+    
+    @Test
+    public void mergeOneAndTwoPathsOneCovered() {
+        SonarBranchPoint dest = new SonarBranchPoint(LINE);
+        dest.addPath(false);
+        dest.addPath(false);
+        SonarBranchPoint source = new SonarBranchPoint(LINE);
+        source.addPath(false);
+        source.addPath(false);
+        source.addPath(true);
+        dest.merge(source);   
+        assertTrue("three paths one covered",dest.getCovered()==1);
+        assertTrue("three paths to cover",dest.getToCover()==3);
+    }
+    
+    @Test
+    public void mergeTwoAndOneathsOneCovered() {
+        SonarBranchPoint dest = new SonarBranchPoint(LINE);
+        dest.addPath(false);
+        dest.addPath(false);
+        SonarBranchPoint source = new SonarBranchPoint(LINE);
+        source.addPath(true);
+        dest.merge(source);   
+        assertTrue("two paths one covered",dest.getCovered()==1);
+        assertTrue("two paths to cover",dest.getToCover()==2);
+    }
 }
