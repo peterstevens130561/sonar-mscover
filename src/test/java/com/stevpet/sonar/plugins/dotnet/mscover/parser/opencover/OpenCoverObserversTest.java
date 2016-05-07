@@ -136,11 +136,11 @@ public class OpenCoverObserversTest {
         
         SonarFileCoverage coverage=registry.getCoveredFile("8");
         assertEquals("line points",15,coverage.getLinePoints().size());
-        assertEquals("branch points",4,coverage.getBranchPoints().size());
+        assertEquals("branch points",6,coverage.getBranchPoints().size());
 
         coverage=registry.getCoveredFile("11");
         assertEquals("line points",48,coverage.getLinePoints().size());
-        assertEquals("branch points",4,coverage.getBranchPoints().size());
+        assertEquals("branch points",1,coverage.getBranchPoints().size());
     }
     
 

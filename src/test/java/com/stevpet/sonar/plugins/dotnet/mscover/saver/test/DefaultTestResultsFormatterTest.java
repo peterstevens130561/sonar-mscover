@@ -28,18 +28,18 @@ public class DefaultTestResultsFormatterTest {
 	@Test
 	public void passedtest_HeaderAndBody() {
 		UnitTestMethodResult unitTest = new UnitTestMethodResult();
-		unitTest.setTestName("TestMethod").setOutcome("Passed").setDuration("1ms").setMessage("Message").setStackTrace("Stacktrace");
+		unitTest.setTestName("TestMethod").setOutcome("Passed").setDuration(1000).setMessage("Message").setStackTrace("Stacktrace");
 		classUnitTestResult.add(unitTest);
 		String result=testResultsFormatter.formatClassUnitTestResults(classUnitTestResult);
-		assertEquals("expect just the wrapper","<tests-details><testcase status=\"ok\" time=\"0\" name=\"TestMethod\"></testcase></tests-details>",result);
+		assertEquals("expect just the wrapper","<tests-details><testcase status=\"ok\" time=\"1.000\" name=\"TestMethod\"></testcase></tests-details>",result);
 	}
 	
 	@Test
 	public void failedtest_HeaderAndBody() {
 		UnitTestMethodResult unitTest = new UnitTestMethodResult();
-		unitTest.setTestName("TestMethod").setOutcome("Failed").setDuration("1ms").setMessage("Message").setStackTrace("Stacktrace");
+		unitTest.setTestName("TestMethod").setOutcome("Failed").setDuration(1000).setMessage("Message").setStackTrace("Stacktrace");
 		classUnitTestResult.add(unitTest);
 		String result=testResultsFormatter.formatClassUnitTestResults(classUnitTestResult);
-		assertEquals("expect error message","<tests-details><testcase status=\"error\" time=\"0\" name=\"TestMethod\"><error message=\"Message\"><![CDATA[Stacktrace]]></error></testcase></tests-details>",result);
+		assertEquals("expect error message","<tests-details><testcase status=\"error\" time=\"1.000\" name=\"TestMethod\"><error message=\"Message\"><![CDATA[Stacktrace]]></error></testcase></tests-details>",result);
 	}
 }

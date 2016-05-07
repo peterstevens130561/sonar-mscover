@@ -119,6 +119,7 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
 
         }
         
+        /*
         @AttributeMatcher(attributeName = "offset", elementName = BRANCH_POINT)
         public void offsetBranchPointMatcher(String attributeValue) {
             int offset=Integer.parseInt(attributeValue);
@@ -127,7 +128,7 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
                 coveredFile.addBranchPoint(branchLine,branchVisited);
             }
 
-        }
+        }*/
         
         @AttributeMatcher(attributeName = "sl", elementName = BRANCH_POINT)
         public void lineBranchPoint(String attributeValue) {
