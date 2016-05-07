@@ -69,9 +69,7 @@ public class VsTestTestResultsSaver implements BatchExtension{
             if (sonarFile == null) {
                 continue;
             }
-            if("ServicesTest.cs".equals(sonarFile.getKey())) {
-                LOG.info("gotcha");
-            }
+
             saveFileSummaryResults(classUnitTestResult, sonarFile);
             saveFileTestResults(classUnitTestResult, sonarFile);
             saved += classUnitTestResult.getTests();
