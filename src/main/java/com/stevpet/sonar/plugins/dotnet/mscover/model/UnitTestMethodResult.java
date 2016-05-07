@@ -101,8 +101,14 @@ public class UnitTestMethodResult {
         return className;
     }
 
+    /**
+     * in format HH:MM:SS.PART
+     * @param duration
+     * @return
+     */
     public UnitTestMethodResult setDuration(String duration) {
-        this.duration = duration;
+        
+        this.duration = "10,234";
         return this;
     }
 
@@ -212,6 +218,15 @@ public class UnitTestMethodResult {
     public boolean isFailed() {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    /**
+     * 
+     * @param durationsInMicroSeconds - duration in microSeconds
+     */
+    public void setDuration(long durationsInMicroSeconds) {
+       duration= String.format("%.3f", durationsInMicroSeconds/1000.);
+        
     }
 
 }

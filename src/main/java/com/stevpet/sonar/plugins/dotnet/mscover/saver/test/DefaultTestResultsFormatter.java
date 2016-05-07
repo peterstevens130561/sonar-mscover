@@ -22,7 +22,7 @@ public class DefaultTestResultsFormatter implements TestResultsFormatter {
 	    for (UnitTestMethodResult detail : details) {
 	        testCaseDetails.append("<testcase status=\""
 	                + getSonarStatus(detail.getTestResult()) + "\"");
-	        testCaseDetails.append(" time=\"0\"");
+	        testCaseDetails.append(" time=\""    + detail.getDuration() + "\"");
 	        testCaseDetails.append(" name=\"");
 	        testCaseDetails.append(detail.getTestName());
 	        testCaseDetails.append("\">");

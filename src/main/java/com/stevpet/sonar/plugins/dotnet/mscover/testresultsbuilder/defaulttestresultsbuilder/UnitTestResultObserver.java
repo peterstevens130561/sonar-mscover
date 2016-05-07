@@ -25,6 +25,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestr
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementMatcher;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.ParserHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
 
@@ -43,6 +44,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
  */
 public class UnitTestResultObserver extends BaseParserObserver {
 
+    private ParserHelper parserHelper = new ParserHelper();
     public UnitTestResultObserver() {
         setPattern("(Results/UnitTestResult)|(.*/Message)|(.*/StackTrace)");
     }
@@ -72,7 +74,8 @@ public class UnitTestResultObserver extends BaseParserObserver {
     
     @AttributeMatcher(attributeName= "duration", elementName = "UnitTestResult")
     public void duration(String value) {
-        unitTestResult.setDuration(value);
+        long durationsInMicroSeconds = parserHelper.parseDuration(value);
+        unitTestResult.setDuration(durationsInMicroSeconds);
     }
     
     @AttributeMatcher(attributeName= "relativeResultsDirectory",elementName = "UnitTestResult")
