@@ -22,6 +22,8 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder;
 
+import java.time.LocalTime;
+
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementMatcher;
@@ -74,8 +76,8 @@ public class UnitTestResultObserver extends BaseParserObserver {
     
     @AttributeMatcher(attributeName= "duration", elementName = "UnitTestResult")
     public void duration(String value) {
-        long durationsInMicroSeconds = parserHelper.parseDuration(value);
-        unitTestResult.setDuration(durationsInMicroSeconds);
+        LocalTime testDuration= parserHelper.parseDurationToTime(value);
+        unitTestResult.setTime(testDuration);
     }
     
     @AttributeMatcher(attributeName= "relativeResultsDirectory",elementName = "UnitTestResult")

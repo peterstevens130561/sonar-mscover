@@ -15,11 +15,10 @@ public class UnitTestResultObserverTest {
     public void someMilliSeconds() {
         UnitTestingResults unitTestingResults = new UnitTestingResults();
         observer.setRegistry(unitTestingResults);
-        long duration = 1234567 ;
         observer.testId("1");
-        observer.duration("00:00:99.12346795");
+        observer.duration("00:00:59.12346795");
         UnitTestMethodResult result = unitTestingResults.getById("1");
-        assertEquals("99123.466",result.getDuration());
+        assertEquals("59123.467",result.getFormattedDuration());
     }
     
     @Test
@@ -30,6 +29,17 @@ public class UnitTestResultObserverTest {
         observer.testId("1");
         observer.duration("00:00:00.001230");
         UnitTestMethodResult result = unitTestingResults.getById("1");
-        assertEquals("1.230",result.getDuration());
+        assertEquals("1.230",result.getFormattedDuration());
+    }
+    
+    @Test
+    public void almostoneday() {
+        UnitTestingResults unitTestingResults = new UnitTestingResults();
+        observer.setRegistry(unitTestingResults);
+        long duration = 1234567 ;
+        observer.testId("1");
+        observer.duration("23:59:59.99999");
+        UnitTestMethodResult result = unitTestingResults.getById("1");
+        assertEquals("86399999.989",result.getFormattedDuration());
     }
 }

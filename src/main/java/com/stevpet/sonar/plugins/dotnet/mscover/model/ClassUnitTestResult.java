@@ -23,6 +23,10 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
 import java.io.File;
+import java.time.LocalTime;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +40,7 @@ public class ClassUnitTestResult {
     private int error;
     private int ignored;
     private int passed;
+    private LocalTime localTime = LocalTime.MIN;
     private List<UnitTestMethodResult> tests = new ArrayList<UnitTestMethodResult>();
     private File file;
 
@@ -59,6 +64,7 @@ public class ClassUnitTestResult {
             default:
                 throw new InvalidTestResultException(testResult.toString());
         }
+        localTime=localTime.plus(unitTest.getLocalTime().toNanoOfDay(),ChronoUnit.NANOS);
                    
     }
 
@@ -95,5 +101,14 @@ public class ClassUnitTestResult {
 
     public List<UnitTestMethodResult> getUnitTests() {
         return tests;
+    }
+
+   
+    public LocalTime getLocalTime() {
+        return localTime;
+    }
+
+    public Double getLocalTimeMillis() {
+       return (double) (localTime.getNano()/1000000);
     }
 }

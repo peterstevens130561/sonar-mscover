@@ -22,6 +22,9 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
+import java.time.LocalTime;
+import java.time.temporal.TemporalAmount;
+
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.SonarException;
 
@@ -34,7 +37,6 @@ public class UnitTestMethodResult {
     }
 
     private String testId;
-    private String duration;
     private String outcome;
     private String relativeResultsDirectory;
     private String codeBase;
@@ -45,6 +47,7 @@ public class UnitTestMethodResult {
 	private String namespaceName;
 	private String className;
 	private String methodName;
+    private LocalTime localTime = LocalTime.MIN;
 
     UnitTestMethodResult(UnitTestingResults unitTestingResults) {
         this.parent = unitTestingResults;
@@ -89,10 +92,17 @@ public class UnitTestMethodResult {
         return this;
     }
 
-    public String getDuration() {
-        return duration;
+    public String getFormattedDuration() {
+        return String.format("%.3f", getTimeInMicros()/1000.);
     }
 
+    /**
+     * In microseconds
+     * @return
+     */
+    public long getTimeInMicros() {
+        return localTime.toNanoOfDay()/1000;
+    }
     public String getCodeBase() {
         return codeBase;
     }
@@ -209,9 +219,18 @@ public class UnitTestMethodResult {
      * 
      * @param durationsInMicroSeconds - duration in microSeconds
      */
-    public UnitTestMethodResult setDuration(long durationsInMicroSeconds) {
-       duration= String.format("%.3f", durationsInMicroSeconds/1000.);
-       return this;
+    public UnitTestMethodResult setTime(LocalTime localTime) {
+        this.localTime = localTime;
+        return this;
+    }
+
+    public UnitTestMethodResult setTimeMicros(long microSeconds) {
+        this.localTime = localTime.ofNanoOfDay(microSeconds*1000);
+        return this;
+    }
+
+    public LocalTime getLocalTime() {
+        return localTime;
     }
 
 }
