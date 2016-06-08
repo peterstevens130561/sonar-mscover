@@ -33,6 +33,7 @@ public class ImpatientCommandExecutor implements CommandExecutor {
 
     private static final Logger LOG = Loggers.get(CommandExecutor.class);
     private long lastTrigger;
+
     /**
      * @throws org.sonar.api.utils.command.TimeoutException
      *             on timeout, since 4.4
@@ -61,7 +62,7 @@ public class ImpatientCommandExecutor implements CommandExecutor {
                 outputGobbler.start();
                 errorGobbler.start();
                 triggerWatchdog();
-                
+
                 final Process finalProcess = process;
                 executorService = Executors.newSingleThreadExecutor();
                 Future<Integer> ft = executorService.submit(new Callable<Integer>() {
@@ -75,30 +76,21 @@ public class ImpatientCommandExecutor implements CommandExecutor {
                 if (timeoutMilliseconds < 0) {
                     exitCode = ft.get();
                 } else {
-                    long pollingTime=1000;
-                    long start=System.currentTimeMillis();
-                    boolean reported=false;
-                    while(!ft.isDone()) {
+                    long pollingTime = 1000;
+                    long start = System.currentTimeMillis();
+                    boolean reported = false;
+                    while (!ft.isDone()) {
                         Thread.sleep(pollingTime);
-                        long now=System.currentTimeMillis();
-                        long lapse = now-start;
-                        if(lapse > timeoutMilliseconds) {
+                        long now = System.currentTimeMillis();
+                        long lapse = now - start;
+                        if (lapse > timeoutMilliseconds) {
+                            LOG.error("Timeout after {}" + lapse);
                             throw new TimeoutException(command, "after " + lapse);
                         }
-                        long alarmclock=lastTrigger+300000;
-                        if(now >= alarmclock && !reported) {
-                            reported=true;
-                            LOG.warn("It has been very silent for a while now on this thread");
-                            LOG.warn("Received on stdout:");
-                            LOG.warn(stdOut.toString());
-                            LOG.warn("Received on stderr");
-                            LOG.warn(stdErr.toString());
-                        } else {
-                            reported=false;
-                        }
+                        reported = reportSilence(stdOut, stdErr, reported, now);
 
                     }
-                    exitCode=ft.get();
+                    exitCode = ft.get();
                 }
                 waitUntilFinish(outputGobbler);
                 waitUntilFinish(errorGobbler);
@@ -121,6 +113,23 @@ public class ImpatientCommandExecutor implements CommandExecutor {
                 executorService.shutdown();
             }
         }
+    }
+
+    private boolean reportSilence(StreamConsumer stdOut, StreamConsumer stdErr, boolean reported, long now) {
+        long alarmclock = lastTrigger + 300000;
+        if (now >= alarmclock) {
+            if (!reported) {
+                reported = true;
+                LOG.debug("It has been very silent for a while now on this thread");
+                LOG.debug("Received on stdout:");
+                LOG.debug(stdOut.toString());
+                LOG.debug("Received on stderr");
+                LOG.debug(stdErr.toString());
+            }
+        } else {
+            reported = false;
+        }
+        return reported;
     }
 
     private void verifyGobbler(DefaultCommand command, StreamGobbler gobbler, String type) {
@@ -163,16 +172,15 @@ public class ImpatientCommandExecutor implements CommandExecutor {
             }
         }
     }
-    
+
     private void triggerWatchdog() {
-        lastTrigger=System.currentTimeMillis();
+        lastTrigger = System.currentTimeMillis();
     }
 
     private class StreamGobbler extends Thread implements AutoCloseable {
         private final InputStream is;
         private final StreamConsumer consumer;
         private volatile Exception exception;
-
 
         StreamGobbler(InputStream is, StreamConsumer consumer) {
             super("ProcessStreamGobbler");
@@ -193,8 +201,6 @@ public class ImpatientCommandExecutor implements CommandExecutor {
             }
         }
 
-
-
         private void consumeLine(String line) {
             if (exception == null) {
                 try {
@@ -211,7 +217,7 @@ public class ImpatientCommandExecutor implements CommandExecutor {
 
         @Override
         public void close() throws Exception {
-            //Intentionally empty, to prevent being blocked forever
+            // Intentionally empty, to prevent being blocked forever
         }
     }
 
