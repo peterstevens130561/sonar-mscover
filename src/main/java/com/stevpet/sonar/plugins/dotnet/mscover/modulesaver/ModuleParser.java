@@ -13,4 +13,10 @@ public interface ModuleParser {
 	 * @return
 	 */
     boolean getSkipped();
+    
+    /**
+     * 
+     * @return true if there are 0 lines covered.
+     */
+    boolean isNotCovered();
 }

@@ -42,22 +42,14 @@ class ModuleSaverLambda implements ModuleLambda {
 	public void execute(String xmlDoc)  {
 		Preconditions.checkNotNull(projectName,"project not set");
 		Preconditions.checkNotNull(root,"root not set");
-		String moduleName = getArtifactNameFromXmlDoc(xmlDoc);
-		if(StringUtils.isEmpty(moduleName)) {
-		    return;
-		}
+	      moduleParser.parse(xmlDoc);
+	        if(moduleParser.getSkipped() || moduleParser.isNotCovered()) {
+	            return;
+	        }
+		String moduleName = moduleParser.getModuleName();
 		File artifactFile=getArtifactCoverageFile(moduleName);
 		createModuleDir(artifactFile);	
 		saveModule(artifactFile,xmlDoc);
-	}
-
-	private String getArtifactNameFromXmlDoc(String xmlDoc) {
-		moduleParser.parse(xmlDoc);
-		if(moduleParser.getSkipped()) {
-		    return null;
-		}
-		String moduleName=moduleParser.getModuleName();
-		return moduleName;
 	}
 
 	private void saveModule(File artifactFile,String xmlDoc) {

@@ -45,10 +45,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.workflow.IntegrationTestCache;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 /**
- * ProjectBuilder for dotnet projects
- * 
- * The build method will be invoked by sonar in the ProjectBuild phase, and
- * populates the MicrosoftWindowsEnvironment
+ * Runs the specflow test projects
  * 
  * @author stevpet
  * 
@@ -58,19 +55,13 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 	private final IntegrationTestRunnerApplication integrationTestRunnerApplication;
 	private final VsTestTestResultsSaver testResultsSaver;
 	private final IntegrationTestsConfiguration integrationTestsConfiguration;
+	
 	/**
-	 * Create with all dependencies
 	 * 
-	 * @param fileSystem
 	 * @param integrationTestRunnerApplication
-	 * @param testResultsBuilder
 	 * @param testResultsSaver
-	 * @param coverageReader
-	 * @param coverageSaver
-	 * @param openCoverModuleSaver
 	 * @param integrationTestsConfiguration
 	 */
-
 	public OpenCoverSpecFlowTestRunnerSensor(
 			IntegrationTestRunnerApplication integrationTestRunnerApplication,
 			VsTestTestResultsSaver testResultsSaver,

@@ -24,6 +24,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercovera
 
 import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
 
+/**
+ * Parser for all OpenCover files. Instantiate, and then register all observers
+ */
 
 public class OpenCoverParserSubject extends XmlParserSubject {
    

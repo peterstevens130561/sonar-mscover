@@ -1,5 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -27,7 +28,7 @@ public class OpenCoverModuleSaverTest {
 		File root = rootPath.toFile();
 		moduleSaver.setRoot(root).setProject("ProjectName").splitFile(xmlFile);
 		File firstXmlFile = new File(root,"Microsoft.VisualStudio.QualityTools.Resource/ProjectName.xml");
-		assertTrue("File should exist " + firstXmlFile.getAbsolutePath(),firstXmlFile.exists());
+		assertFalse("File should not exist as it is empty" + firstXmlFile.getAbsolutePath(),firstXmlFile.exists());
 		File secondXmlFile = new File(root,"joaGridder3DAddin/ProjectName.xml");
 		assertTrue("File should exist " + secondXmlFile.getAbsolutePath(),secondXmlFile.exists());
 		

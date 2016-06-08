@@ -11,11 +11,14 @@ class OpenCoverModuleParser implements ModuleParser{
     private final Logger LOG = LoggerFactory.getLogger(OpenCoverModuleParser.class);
 	private XmlParserSubject parser;
 	private ModuleFullNameObserver openCoverFullNameObserver;
-
+	private ModuleSummaryObserver moduleSummaryObserver;
+	
     public OpenCoverModuleParser() {
     	parser = new OpenCoverParserSubject();
         openCoverFullNameObserver = new OpenCoverFullNameObserver();
         parser.registerObserver(openCoverFullNameObserver);
+        moduleSummaryObserver = new OpenCoverModuleSummaryObserver();
+        parser.registerObserver(moduleSummaryObserver);
     }
 
     public void parse(String xmlDoc) {
@@ -34,6 +37,11 @@ class OpenCoverModuleParser implements ModuleParser{
     @Override
     public boolean getSkipped() {
         return openCoverFullNameObserver.getSkipped();
+    }
+
+    @Override
+    public boolean isNotCovered() {
+        return moduleSummaryObserver.isNotCovered();
     }
 }
 

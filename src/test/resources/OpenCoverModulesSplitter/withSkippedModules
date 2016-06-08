@@ -1,0 +1,79 @@
+    <Module skippedDueTo="MissingPdb" hash="14-3D-05-8D-99-D4-2A-75-D3-21-57-04-93-CD-3F-7B-76-07-28-5E">
+      <ModulePath>C:\windows\assembly\GAC_MSIL\Microsoft.VisualStudio.QualityTools.Resource\12.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.QualityTools.Resource.dll</ModulePath>
+<?xml version="1.0" encoding="utf-8"?>
+<CoverageSession xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Summary numSequencePoints="4349" visitedSequencePoints="3656" numBranchPoints="1400" visitedBranchPoints="1146" sequenceCoverage="84.07" branchCoverage="81.86" maxCyclomaticComplexity="10" minCyclomaticComplexity="1" visitedClasses="46" numClasses="56" visitedMethods="987" numMethods="1084" />
+  <Modules>
+ 
+    <Module skippedDueTo="MissingPdb" hash="33-5C-87-81-C2-81-7C-51-9C-25-9F-90-6D-C9-17-93-79-13-E6-74">
+      <ModulePath>C:\windows\Microsoft.Net\assembly\GAC_MSIL\SMDiagnostics\v4.0_4.0.0.0__b77a5c561934e089\SMDiagnostics.dll</ModulePath>
+      <ModuleTime>2015-06-19T21:14:56Z</ModuleTime>
+      <ModuleName>SMDiagnostics</ModuleName>
+      <Classes />
+    </Module>
+    <Module hash="E9-1B-F6-4E-38-9D-FB-C3-AC-B3-8F-55-24-59-C9-46-24-1C-8D-DC">
+      <Summary numSequencePoints="3057" visitedSequencePoints="2854" numBranchPoints="864" visitedBranchPoints="810" sequenceCoverage="93.36" branchCoverage="93.75" maxCyclomaticComplexity="3" minCyclomaticComplexity="1" visitedClasses="34" numClasses="39" visitedMethods="786" numMethods="816" />
+      <ModulePath>C:\Development\Radiant\Main\bin\Debug\Math.Geometry.SpecflowTest.dll</ModulePath>
+      <ModuleTime>2016-03-08T09:33:18.082Z</ModuleTime>
+      <ModuleName>Math.Geometry.SpecflowTest</ModuleName>
+            <Method visited="true" cyclomaticComplexity="1" nPathComplexity="0" sequenceCoverage="100" branchCoverage="100" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+ 
+        <File uid="1" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\PerformanceTest.cs" />
+        <File uid="2" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Conversion.feature.cs" />
+        <File uid="3" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Line2D.feature.cs" />
+        <File uid="4" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Line3D.feature.cs" />
+        <File uid="5" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Plane.feature.cs" />
+        <File uid="6" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Point2D\Point2D.Methods.feature.cs" />
+        <File uid="7" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Point2D\Point2D.Operators.Binary.Point2D.feature.cs" />
+        <File uid="8" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Point2D\Point2D.Operators.Binary.Scalar.feature.cs" />
+        <File uid="9" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Point2D\Point2D.Operators.Binary.Vector2D.feature.cs" />
+        <File uid="10" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Point2D\Point2D.Operators.Unary.feature.cs" />
+        <File uid="11" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Point3D\Point3D.Methods.feature.cs" />
+        <File uid="12" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Point3D\Point3D.Operators.Binary.Point3D.feature.cs" />
+        <File uid="13" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Point3D\Point3D.Operators.Binary.Scalar.feature.cs" />
+        <File uid="14" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Point3D\Point3D.Operators.Binary.Vector3D.feature.cs" />
+        <File uid="15" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Point3D\Point3D.Operators.Unary.feature.cs" />
+        <File uid="16" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Vector2D\Vector2D.Operators.Binary.Scalar.feature.cs" />
+        <File uid="17" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Vector2D\Vector2D.Operators.Binary.Vector2D.feature.cs" />
+        <File uid="18" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Vector2D\Vector2D.Operators.Unary.feature.cs" />
+        <File uid="19" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Vector2D\Vector2D.Properties.feature.cs" />
+        <File uid="20" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Vector3D\Vector3D.Operators.Binary.Scalar.feature.cs" />
+        <File uid="21" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Vector3D\Vector3D.Operators.Binary.Vector3D.feature.cs" />
+        <File uid="22" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Vector3D\Vector3D.Operators.Unary.feature.cs" />
+        <File uid="23" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Features\Vector3D\Vector3D.Properties.feature.cs" />
+        <File uid="24" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Steps\StepBase.cs" />
+        <File uid="25" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Steps\CommonSteps.cs" />
+        <File uid="26" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Steps\ConversionSteps.cs" />
+        <File uid="27" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Steps\Line2DSteps.cs" />
+        <File uid="28" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Steps\Line3DSteps.cs" />
+        <File uid="29" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Steps\Point2DSteps.cs" />
+        <File uid="30" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Steps\Point3DSteps.cs" />
+        <File uid="31" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Steps\PlaneSteps.cs" />
+        <File uid="32" fullPath="c:\Development\Radiant\Main\Tests\SpecflowTests\Api\Math.Geometry\Steps\Vector2DSteps.cs" />
+            <Method visited="true" cyclomaticComplexity="1" nPathComplexity="0" sequenceCoverage="100" branchCoverage="100" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Name>System.Void Math.Geometry.SpecflowTest.Features.Point2D.Point2DMethodsFeature::DistanceBetweenTwo2DPoints_24()</Name>
+              <FileRef uid="6" />
+              <SequencePoints>
+                <SequencePoint vc="1" uspid="880" ordinal="0" offset="0" sl="126" sc="9" el="126" ec="10" bec="0" bev="0" fileid="6" />
+	  <Classes />
+	  </Module>
+    <Module skippedDueTo="MissingPdb" hash="80-91-7B-77-89-19-B3-0A-B9-FD-35-76-4A-23-60-1A-8D-35-58-07">
+      <ModulePath>C:\windows\assembly\GAC_MSIL\Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel\12.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel.dll</ModulePath>
+      <ModuleTime>2015-02-19T20:12:57.2344637Z</ModuleTime>
+      <ModuleName>Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="7E-D6-0C-5F-08-95-B3-B7-AE-9C-0F-24-97-E9-46-63-43-CF-F3-C3">
+      <ModulePath>C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Extensions\CppUnitFramework\Microsoft.VisualStudio.TestTools.CppUnitTestFramework.TestEngine.dll</ModulePath>
+      <ModuleTime>2013-10-05T08:38:22Z</ModuleTime>
+      <ModuleName>Microsoft.VisualStudio.TestTools.CppUnitTestFramework.TestEngine</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="49-FB-E6-5F-63-17-3F-47-76-D5-73-EE-00-1C-ED-B8-E9-ED-07-82">
+      <ModulePath>C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Extensions\CppUnitFramework\Microsoft.VisualStudio.TestTools.CppUnitTestFramework.Discoverer.dll</ModulePath>
+      <ModuleTime>2013-10-05T08:38:22Z</ModuleTime>
+      <ModuleName>Microsoft.VisualStudio.TestTools.CppUnitTestFramework.Discoverer</ModuleName>
+      <Classes />
+    </Module>
+  </Modules>
+</CoverageSession>

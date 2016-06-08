@@ -16,6 +16,7 @@ public class OpenCoverFullNameObserver  extends ModuleFullNameObserver {
 
     private String moduleName ;
     private boolean skipped;
+
     public OpenCoverFullNameObserver() {
         setPattern(OpenCoverPaths.MODULE_FULLPATH + "|" + MODULES_MODULE);
     }
@@ -53,4 +54,6 @@ public class OpenCoverFullNameObserver  extends ModuleFullNameObserver {
     public boolean getSkipped() {
         return skipped;
     }
+    
+
 }
