@@ -38,6 +38,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.Mode;
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.Tool;
+import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.CoverageHashes;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.VsTestTestResultsSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
@@ -82,6 +83,7 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 	 * @param settings
 	 * @param pathResolver
 	 * @param integrationTestsConfiguration
+	 * @param coverageHashes 
 	 * @param multiThreadedSpecflowIntegrationTestApplication) 
 	 */
 	public OpenCoverSpecFlowTestRunnerSensor(

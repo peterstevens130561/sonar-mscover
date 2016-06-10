@@ -14,19 +14,33 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.TransformerException;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.sonar.test.TestUtils;
-
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.when;
 
 public class OpenCoverModuleSaverTest {
 
-	@Test
+    private OpenCoverModuleSplitter moduleSplitter;
+    private CoverageFileLocator coverageFileLocator = new DefaultCoverageFileLocator();
+    @Mock
+	private CoverageHashes coverageHashes;
+    
+    @Before()
+public void before(){
+        org.mockito.MockitoAnnotations.initMocks(this);
+        when(coverageHashes.add(anyString())).thenReturn(false);
+    }
+
+    @Test
 	public void basicTest() throws XMLStreamException, TransformerException, IOException {
 		File xmlFile = TestUtils.getResource("OpenCoverModulesSplitter/twomodules.xml");
-		OpenCoverModuleSaver moduleSaver= new OpenCoverModuleSaver();
+	    moduleSplitter= new OpenCoverModuleSplitter(coverageHashes);
 		Path rootPath = Files.createTempDirectory("cover");
 		File root = rootPath.toFile();
-		moduleSaver.setRoot(root).setProject("ProjectName").splitFile(xmlFile);
+		moduleSplitter.setRoot(root).setProject("ProjectName").splitFile(xmlFile);
 		File firstXmlFile = new File(root,"Microsoft.VisualStudio.QualityTools.Resource/ProjectName.xml");
 		assertFalse("File should not exist as it is empty" + firstXmlFile.getAbsolutePath(),firstXmlFile.exists());
 		File secondXmlFile = new File(root,"joaGridder3DAddin/ProjectName.xml");
@@ -40,11 +54,12 @@ public class OpenCoverModuleSaverTest {
 	@Test
 	public void testProjectt() throws XMLStreamException, TransformerException, IOException {
 		File xmlFile = TestUtils.getResource("OpenCoverModulesSplitter/twomodules.xml");
-		OpenCoverModuleSaver moduleSaver= new OpenCoverModuleSaver();
+		OpenCoverModuleSplitter moduleSaver= new OpenCoverModuleSplitter(coverageHashes);
 		Path rootPath = Files.createTempDirectory("cover");
 		File root = rootPath.toFile();
 		moduleSaver.setRoot(root).setProject("joaGridder3DAddin").splitFile(xmlFile);
-		File coverageFile=moduleSaver.getCoverageFile("joaGridder3DAddin");
+		//File coverageFile=moduleSaver.getCoverageFile("joaGridder3DAddin");
+		File coverageFile= coverageFileLocator.getArtifactCoverageFile(root,"joaGridder3DAddin","joaGridder3DAddin");
 		
 		assertNotNull(coverageFile);
 		assertTrue("coverage file of this project should exist",coverageFile.exists());

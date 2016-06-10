@@ -21,7 +21,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.OpenCoverIntegrat
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultCoverageSaverFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.CoverageFileLocator;
+import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.CoverageHashes;
+import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.DefaultCoverageFileLocator;
+import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSplitter;
 import com.stevpet.sonar.plugins.dotnet.overallcoverage.sensor.OverallCoverageCache;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
@@ -32,10 +35,11 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 	private static Logger LOG = LoggerFactory.getLogger(OpenCoverSpecFlowTestSaverSensor.class);
 	private final OpenCoverIntegrationTestCoverageReader reader;
 	private final CoverageSaver saver;
-	private final OpenCoverModuleSaver openCoverModuleSaver;
+	private final OpenCoverModuleSplitter openCoverModuleSaver;
 	private final IntegrationTestsConfiguration integrationTestsConfiguration;
     private MsCoverConfiguration msCoverConfiguration;
     private final OverallCoverageCache overallCoverageCache;
+    private final CoverageFileLocator coverageFileLocator = new DefaultCoverageFileLocator();
 	
 	/**
 	 * Instantiate with default dependencies, from Plugin
@@ -44,6 +48,7 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 	 * @param pathResolver
 	 * @param fileSystem
 	 * @param settings
+	 * @param coverageHashes 
 	 */
 	public OpenCoverSpecFlowTestSaverSensor(
 			MsCoverConfiguration msCoverConfiguration,
@@ -56,7 +61,7 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 		this(
 				new OpenCoverIntegrationTestCoverageReader(microsoftWindowsEnvironment, msCoverConfiguration, fileSystem, integrationTestsConfiguration),
 				new DefaultCoverageSaverFactory(microsoftWindowsEnvironment, pathResolver, fileSystem).createOpenCoverIntegrationTestCoverageSaver(), 
-				new OpenCoverModuleSaver(),integrationTestsConfiguration,
+				new OpenCoverModuleSplitter(new CoverageHashes()),integrationTestsConfiguration,
 				new IntegrationTestSensorHelper(microsoftWindowsEnvironment,integrationTestsConfiguration),msCoverConfiguration,
 				overallCoverageCache);
 		        
@@ -74,7 +79,7 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 	public OpenCoverSpecFlowTestSaverSensor(
 			OpenCoverIntegrationTestCoverageReader coverageReader,
 			CoverageSaver coverageSaver,
-			OpenCoverModuleSaver openCoverModuleSaver, 
+			OpenCoverModuleSplitter openCoverModuleSaver, 
 			IntegrationTestsConfiguration integrationTestsConfiguration,
 			IntegrationTestSensorHelper integrationTestSensorHelper, MsCoverConfiguration msCoverConfiguration,
 			OverallCoverageCache overallCoverageCache) {
@@ -114,7 +119,9 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 	 */
     private File getModuleIntegrationTestCoverageDir(Project module) {
         File coverageDir=integrationTestsConfiguration.getDirectory();	
-        File artifactFile=openCoverModuleSaver.setProject(module.getName()).setRoot(coverageDir).getCoverageFile(module.getName());
+        //File artifactFile=openCoverModuleSaver.setProject(module.getName()).setRoot(coverageDir).getCoverageFile(module.getName());
+        String projectName=module.getName();
+        File artifactFile=coverageFileLocator.getArtifactCoverageFile(coverageDir, projectName, projectName);
         File artifactDir=artifactFile.getParentFile();
         return artifactDir;
     } 

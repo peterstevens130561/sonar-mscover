@@ -19,41 +19,33 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stax.StAXSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.sonar.api.utils.SonarException;
 
 /**
  * Parse the OpenCover file, and give each module to the moduleLambda
  * 
  */
-public class OpenCoverModuleSaver implements ModuleSplitter {
+public class OpenCoverModuleSplitter implements ModuleSplitter {
 
-    private ModuleLambda moduleHelper;
+    private CoverageModuleSaver coverageModuleSaver;
+    private CoverageHashes coverageHashes;
+    public OpenCoverModuleSplitter(CoverageHashes coverageHashes) {
+        this(new OpenCoverCoverageModuleSaver(new OpenCoverModuleParser()), coverageHashes);
 
-    public OpenCoverModuleSaver() {
-        this(new ModuleSaverLambda(new OpenCoverModuleParser()));
     }
 
-    public OpenCoverModuleSaver(ModuleLambda moduleHelper) {
-        this.moduleHelper = moduleHelper;
+    public OpenCoverModuleSplitter(CoverageModuleSaver moduleHelper,CoverageHashes coverageHashes) {
+        this.coverageModuleSaver = moduleHelper;
+        this.coverageHashes = coverageHashes;
     }
 
     public ModuleSplitter setRoot(File root) {
-        moduleHelper.setDirectory(root);
+        coverageModuleSaver.setDirectory(root);
         return this;
     }
 
     public ModuleSplitter setProject(@Nonnull String projectName) {
-        moduleHelper.setProject(projectName);
+        coverageModuleSaver.setProject(projectName);
         return this;
-    }
-
-    /**
-     * gets the coverage file of the current artifact
-     * 
-     * @return
-     */
-    public File getCoverageFile(String artifact) {
-        return moduleHelper.getArtifactCoverageFile(artifact);
     }
 
     /*
@@ -69,12 +61,12 @@ public class OpenCoverModuleSaver implements ModuleSplitter {
         try {
             inputStream = new FileInputStream(file);
         } catch (FileNotFoundException e) {
-            throw new SonarException("Could not find" + file.getAbsolutePath());
+            throw new IllegalStateException("Could not find" + file.getAbsolutePath());
         }
         try {
             return split(inputStream);
         } catch (XMLStreamException | TransformerException e) {
-            throw new SonarException("XML exception", e);
+            throw new IllegalStateException("XML exception", e);
         }
     }
 
@@ -101,7 +93,10 @@ public class OpenCoverModuleSaver implements ModuleSplitter {
                 t.transform(new StAXSource(streamReader), new StreamResult(
                         writer));
                 StringBuilder sb = writeXml(writer);
-                moduleHelper.execute(sb.toString());
+                String xml = sb.toString();
+                if(!coverageHashes.add(xml)) {
+                    coverageModuleSaver.save(xml);
+                }
 
             }
 

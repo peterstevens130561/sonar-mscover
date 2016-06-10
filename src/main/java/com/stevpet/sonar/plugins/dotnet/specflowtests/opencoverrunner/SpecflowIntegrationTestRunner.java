@@ -9,11 +9,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
-import org.sonar.api.utils.SonarException;
 
 import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
-import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.CoverageFileLocator;
+import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.CoverageHashes;
+import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.DefaultCoverageFileLocator;
+import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSplitter;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.SpecFlowTestResultsBuilder;
@@ -32,7 +34,8 @@ public class SpecflowIntegrationTestRunner implements
 		IntegrationTestRunner {
 
 	private Logger LOG = LoggerFactory.getLogger(SpecflowIntegrationTestRunner.class);
-	private final OpenCoverModuleSaver openCoverModuleSaver;
+	private final OpenCoverModuleSplitter openCoverModuleSaver;
+	private final CoverageFileLocator coverageFileLocator;
 	private final OpenCoverTestRunner testRunner;
 	private final TestResultsBuilder testResultsBuilder;
 	private String module;
@@ -51,11 +54,12 @@ public class SpecflowIntegrationTestRunner implements
 	 * @param testRunner
 	 */
 	public SpecflowIntegrationTestRunner(
-			OpenCoverModuleSaver openCoverModuleSaver, OpenCoverTestRunner testRunner,
+			OpenCoverModuleSplitter openCoverModuleSaver, OpenCoverTestRunner testRunner,
 			TestResultsBuilder testResultsBuilder) {
 		this.openCoverModuleSaver = openCoverModuleSaver;
 		this.testRunner = testRunner;
 		this.testResultsBuilder = testResultsBuilder;
+		this.coverageFileLocator = new DefaultCoverageFileLocator();
 
 	}
 
@@ -67,15 +71,16 @@ public class SpecflowIntegrationTestRunner implements
 	 * @param msCoverConfiguration
 	 * @param microsoftWindowsEnvironment
 	 * @param fileSystem
+	 * @param coverageHashes 
 	 * @param vsTestEnvironment
 	 * @return
 	 */
 	public static SpecflowIntegrationTestRunner create(
 			MsCoverConfiguration msCoverConfiguration,
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-			FileSystem fileSystem,Settings settings) {
+			FileSystem fileSystem,Settings settings, CoverageHashes coverageHashes) {
 		return new SpecflowIntegrationTestRunner(
-				new OpenCoverModuleSaver(), DefaultOpenCoverTestRunner.create(
+				new OpenCoverModuleSplitter(coverageHashes), DefaultOpenCoverTestRunner.create(
 						msCoverConfiguration, settings,microsoftWindowsEnvironment,
 						fileSystem),
 				SpecFlowTestResultsBuilder.create(microsoftWindowsEnvironment));
@@ -127,7 +132,6 @@ public class SpecflowIntegrationTestRunner implements
 		Preconditions.checkNotNull(rootDir,"rootDir not set");
 		Preconditions.checkState(timeout>0,"timeout invalid,, should be > 0");
         LogChanger.setCustomPattern("%level %date %thread  %msg%n");
-		openCoverModuleSaver.setProject(module).setRoot(rootDir);
         Pattern pattern=Pattern.compile(projectName);
 		testRunner.setTestProjectPattern(pattern);
 		testRunner.setTimeout(timeout);
@@ -140,12 +144,12 @@ public class SpecflowIntegrationTestRunner implements
 		openCoverModuleSaver.splitFile(coverageFile);
 		coverageFile.delete();
 
-		File moduleCoverageFile = openCoverModuleSaver.getCoverageFile(module);
+		File moduleCoverageFile = coverageFileLocator.getArtifactCoverageFile(rootDir, projectName, module);
         LOG.info("completed rnning tests on module {} path {}",module,moduleCoverageFile.getAbsolutePath());
 		if(!moduleCoverageFile.exists()) {
 			String msg="Can't find coverage file '" + moduleCoverageFile.getAbsolutePath() + "'  for project '" + module + "'\n most likely cause is that the sonar.visualstudio.testProjectPattern property is incorrect";
 			LOG.error(msg);
-			throw new SonarException(msg);
+			throw new IllegalStateException(msg);
 		}
 		testResults = testResultsFile == null ? new ProjectUnitTestResults()
 				: testResultsBuilder.parse(testResultsFile, moduleCoverageFile);

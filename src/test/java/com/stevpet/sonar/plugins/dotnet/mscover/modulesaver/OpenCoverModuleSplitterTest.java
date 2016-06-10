@@ -10,11 +10,11 @@ import org.junit.Test;
 import org.sonar.test.TestUtils;
 
 import com.google.common.io.Files;
-import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.ModuleLambda;
+import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.CoverageModuleSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.ModuleParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.ModuleSaverLambda;
+import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverCoverageModuleSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSplitter;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -23,12 +23,14 @@ import static org.mockito.Mockito.anyString;
 
 public class OpenCoverModuleSplitterTest {
 
-	@Test
+	private CoverageHashes coverageHashes = new CoverageHashes();
+
+    @Test
 	public void simpleTest() throws FileNotFoundException, XMLStreamException, TransformerException {
 		File xmlFile = TestUtils.getResource("OpenCoverCoverageParser/coverage-report.xml");
-		ModuleLambda moduleHelper = mock(ModuleLambda.class);
-		int modules=new OpenCoverModuleSaver(moduleHelper).splitFile(xmlFile);
-		verify(moduleHelper,times(34)).execute(anyString());
+		CoverageModuleSaver moduleHelper = mock(CoverageModuleSaver.class);
+		int modules=new OpenCoverModuleSplitter(moduleHelper,coverageHashes).splitFile(xmlFile);
+		verify(moduleHelper,times(34)).save(anyString());
 	}
 	
 	@Test
@@ -37,10 +39,10 @@ public class OpenCoverModuleSplitterTest {
 		ModuleParser moduleParser = new OpenCoverModuleParser();
 		File tempDir = Files.createTempDir();
 		
-		ModuleSaverLambda moduleLambda = new ModuleSaverLambda(moduleParser);
+		OpenCoverCoverageModuleSaver moduleLambda = new OpenCoverCoverageModuleSaver(moduleParser);
 		moduleLambda.setDirectory(tempDir);
 		moduleLambda.setProject("BaseProject");
-		int modules=new OpenCoverModuleSaver(moduleLambda).splitFile(xmlFile);	
+		int modules=new OpenCoverModuleSplitter(moduleLambda,coverageHashes).splitFile(xmlFile);	
 	}
 
 }

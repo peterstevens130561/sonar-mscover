@@ -8,32 +8,32 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-public class ModuleSaverLambdaTest {
+public class CoverageFileLocatorTest {
 
 	@Mock private ModuleParser parser;
-	ModuleSaverLambda moduleSaverLambda ;
+	CoverageFileLocator coverageFileLocator ;
 	
 	@Before
 	public void before() {
 		org.mockito.MockitoAnnotations.initMocks(this);
-		moduleSaverLambda = new ModuleSaverLambda(parser);
+		coverageFileLocator = new DefaultCoverageFileLocator();
 	}
 	
 	@Test
 	public void testOneDot() {
-		File coverageFile=moduleSaverLambda.setDirectory(new File("c:/root")).setProject("projectName").getArtifactCoverageFile("hi.dll");
+		File coverageFile=coverageFileLocator.getArtifactCoverageFile(new File("c:/root"),"projectName","hi.dll");
 		assertEquals(new File("c:/root/hi/projectName.xml"),coverageFile);
 	}
 	
 	@Test
 	public void testTwoDots() {
-		File coverageFile=moduleSaverLambda.setDirectory(new File("c:/root")).setProject("projectName").getArtifactCoverageFile("hi.john.dll");
+		File coverageFile=coverageFileLocator.getArtifactCoverageFile(new File("c:/root"),"projectName","hi.john.dll");
 		assertEquals(new File("c:/root/hi.john/projectName.xml"),coverageFile);
 	}
 	
 	@Test
 	public void testNoDots() {
-		File coverageFile=moduleSaverLambda.setDirectory(new File("c:/root")).setProject("projectName").getArtifactCoverageFile("assemblyWithNoDots");
+		File coverageFile=coverageFileLocator.getArtifactCoverageFile(new File("c:/root"),"projectName","assemblyWithNoDots");
 		assertEquals(new File("c:/root/assemblyWithNoDots/projectName.xml"),coverageFile);
 	}
 }

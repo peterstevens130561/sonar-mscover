@@ -28,6 +28,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.housekeeping.OrphanedTestRemoverThread;
 import com.stevpet.sonar.plugins.dotnet.mscover.housekeeping.OrphanedTestRunnerRemover;
 import com.stevpet.sonar.plugins.dotnet.mscover.housekeeping.ProcessHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.CoverageHashes;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
@@ -69,6 +70,7 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
      * @param msCoverConfiguration
      * @param fileSystem
      * @param settings
+     * @param coverageHashes 
      */
     public MultiThreadedSpecflowIntegrationTestApplication(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             IntegrationTestsConfiguration integrationTestsConfiguration,

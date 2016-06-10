@@ -24,6 +24,4 @@ public interface ModuleSplitter {
 
     ModuleSplitter setProject(String string);
 
-    File getCoverageFile(String name);
-
 }
