@@ -48,7 +48,7 @@ class OpenCoverCoverageModuleSaver implements CoverageModuleSaver {
 	            return;
 	        }
 		String moduleName = moduleParser.getModuleName();
-		File artifactFile= coverageFileLocator.getArtifactCoverageFile(root, projectName, moduleName);
+		File artifactFile= coverageFileLocator.getFile(root, projectName, moduleName);
 		createModuleDir(artifactFile);	
 		saveModule(artifactFile,xmlDoc);
 	}
@@ -78,14 +78,6 @@ class OpenCoverCoverageModuleSaver implements CoverageModuleSaver {
 	    
 		return moduleDir;
 	}
-	
-	
-	private final  Pattern pattern = Pattern.compile("(.*)\\.(dll|exe)$");
-	
-	private String removeSuffix(@Nonnull String moduleName) {
-		Matcher matcher = pattern.matcher(moduleName);
-		String module=matcher.find()?matcher.group(1):moduleName;
-		return module;
-	}
+		
 
 }

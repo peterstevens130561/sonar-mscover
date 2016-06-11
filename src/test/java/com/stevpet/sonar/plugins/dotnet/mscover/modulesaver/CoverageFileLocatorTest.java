@@ -21,19 +21,19 @@ public class CoverageFileLocatorTest {
 	
 	@Test
 	public void testOneDot() {
-		File coverageFile=coverageFileLocator.getArtifactCoverageFile(new File("c:/root"),"projectName","hi.dll");
+		File coverageFile=coverageFileLocator.getFile(new File("c:/root"),"projectName","hi.dll");
 		assertEquals(new File("c:/root/hi/projectName.xml"),coverageFile);
 	}
 	
 	@Test
 	public void testTwoDots() {
-		File coverageFile=coverageFileLocator.getArtifactCoverageFile(new File("c:/root"),"projectName","hi.john.dll");
+		File coverageFile=coverageFileLocator.getFile(new File("c:/root"),"projectName","hi.john.dll");
 		assertEquals(new File("c:/root/hi.john/projectName.xml"),coverageFile);
 	}
 	
 	@Test
 	public void testNoDots() {
-		File coverageFile=coverageFileLocator.getArtifactCoverageFile(new File("c:/root"),"projectName","assemblyWithNoDots");
+		File coverageFile=coverageFileLocator.getFile(new File("c:/root"),"projectName","assemblyWithNoDots");
 		assertEquals(new File("c:/root/assemblyWithNoDots/projectName.xml"),coverageFile);
 	}
 }

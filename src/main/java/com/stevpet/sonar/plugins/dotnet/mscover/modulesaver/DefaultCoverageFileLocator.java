@@ -14,9 +14,9 @@ public class DefaultCoverageFileLocator implements CoverageFileLocator {
         
 
         @Override
-        public File getArtifactCoverageFile(File root, String projectName, String artifactName) {
+        public File getFile(File root, String projectName, String assemblyName) {
             Preconditions.checkNotNull(projectName);
-            String relativePath=removeSuffix(artifactName)+ "/" + projectName + ".xml";
+            String relativePath=removeSuffix(assemblyName)+ "/" + projectName + ".xml";
             return new File(root,relativePath);
         }
         
@@ -24,5 +24,10 @@ public class DefaultCoverageFileLocator implements CoverageFileLocator {
             Matcher matcher = pattern.matcher(moduleName);
             String module=matcher.find()?matcher.group(1):moduleName;
             return module;
+        }
+
+        @Override
+        public File getProjectDir(File root, String assemblyName) {
+            return new File(root,assemblyName);
         }
 }

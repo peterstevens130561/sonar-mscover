@@ -59,7 +59,7 @@ public void before(){
 		File root = rootPath.toFile();
 		moduleSaver.setRoot(root).setProject("joaGridder3DAddin").splitFile(xmlFile);
 		//File coverageFile=moduleSaver.getCoverageFile("joaGridder3DAddin");
-		File coverageFile= coverageFileLocator.getArtifactCoverageFile(root,"joaGridder3DAddin","joaGridder3DAddin");
+		File coverageFile= coverageFileLocator.getFile(root,"joaGridder3DAddin","joaGridder3DAddin");
 		
 		assertNotNull(coverageFile);
 		assertTrue("coverage file of this project should exist",coverageFile.exists());
