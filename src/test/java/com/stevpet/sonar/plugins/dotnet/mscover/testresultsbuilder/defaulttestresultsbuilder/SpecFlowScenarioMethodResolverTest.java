@@ -39,7 +39,7 @@ public class SpecFlowScenarioMethodResolverTest {
     public void IllegalFeatureFile() {
         givenIllegalFeatureFile();
         try {
-            File file=resolver.getFile("bogusmethod"); 
+            resolver.getFile("bogusmethod"); 
             } catch(MsCoverException e) {
                 return;
             }

@@ -7,7 +7,7 @@ import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.utils.SonarException;
+
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
@@ -29,7 +29,7 @@ public class ConfigFinder_GetTestSettingsFileOrDie {
         File configAbsolutePath ;
         try {
             configAbsolutePath = configFinder.getTestSettingsFileOrDie(solutionDir, settings);
-        } catch(SonarException e) {
+        } catch(IllegalStateException e) {
             return;
         }
         assertNull("should not find any path",configAbsolutePath);

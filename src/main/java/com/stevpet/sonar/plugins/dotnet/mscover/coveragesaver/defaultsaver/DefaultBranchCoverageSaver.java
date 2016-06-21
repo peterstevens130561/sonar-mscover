@@ -56,9 +56,9 @@ public class DefaultBranchCoverageSaver implements BranchFileCoverageSaver {
             lineConditionsBuilder.add(Integer.toString(lineNumber), linePoint.getToCover());
             lineCoveredConditionsBuilder.add(Integer.toString(lineNumber), linePoint.getCovered());
         }
-        Measure lineConditionsMeasure= lineConditionsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
+        Measure<?> lineConditionsMeasure= lineConditionsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
         sensorContext.saveMeasure(resource,lineConditionsMeasure);
-        Measure lineCoveredConditionsMeasure=lineCoveredConditionsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
+        Measure<?> lineCoveredConditionsMeasure=lineCoveredConditionsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
         sensorContext.saveMeasure(resource,lineCoveredConditionsMeasure);
     }
 

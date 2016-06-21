@@ -4,7 +4,6 @@ import java.io.File;
 
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.PropertyType;
-import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.PropertyDefinition.Builder;
 import org.sonar.api.config.Settings;
 

@@ -1,6 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.overallcoverage.sensor;
 
-import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -22,9 +22,9 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.exception;
 
-import org.sonar.api.utils.SonarException;
 
-public class MsCoverException extends SonarException {
+
+public class MsCoverException extends IllegalStateException {
     private static final long serialVersionUID = -7658006430846367652L;
 
     public MsCoverException(String msg) {

@@ -7,8 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.InstantiationStrategy;
-import org.sonar.api.resources.Project;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 @InstantiationStrategy(value=InstantiationStrategy.PER_BATCH)

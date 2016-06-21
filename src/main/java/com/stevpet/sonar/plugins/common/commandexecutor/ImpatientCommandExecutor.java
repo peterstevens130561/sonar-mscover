@@ -9,8 +9,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-
 import javax.annotation.Nullable;
 
 import org.sonar.api.utils.command.StreamConsumer;
@@ -18,8 +16,6 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
 import com.google.common.base.Charsets;
-import com.google.common.io.Closeables;
-
 import org.sonar.api.utils.command.Command;
 
 /**
@@ -153,14 +149,6 @@ public class ImpatientCommandExecutor implements CommandExecutor {
 
         LOG.info("Executing command: " + command);
         return execute(command, new DefaultConsumer(), new DefaultConsumer(), timeoutMilliseconds);
-    }
-
-    private void closeStreams(@Nullable Process process) {
-        if (process != null) {
-            Closeables.closeQuietly(process.getOutputStream());
-            Closeables.closeQuietly(process.getInputStream());
-            Closeables.closeQuietly(process.getErrorStream());
-        }
     }
 
     private void waitUntilFinish(@Nullable StreamGobbler thread) {

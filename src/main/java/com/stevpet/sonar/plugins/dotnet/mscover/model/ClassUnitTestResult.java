@@ -24,9 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
 import java.io.File;
 import java.time.LocalTime;
-import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 

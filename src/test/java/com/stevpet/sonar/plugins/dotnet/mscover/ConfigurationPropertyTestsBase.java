@@ -3,16 +3,12 @@ package com.stevpet.sonar.plugins.dotnet.mscover;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.lang.reflect.InvocationTargetException;
-
-import org.junit.Before;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.PropertyDefinitions;
 import org.sonar.api.config.Settings;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.property.ConfigurationProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.InvalidPropertyValueException;
-import com.stevpet.sonar.plugins.dotnet.mscover.property.TestRunnerTimeoutProperty;
 
 public class ConfigurationPropertyTestsBase<T> {
 

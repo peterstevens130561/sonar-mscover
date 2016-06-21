@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.sonar.api.config.Settings;
 
 import static org.mockito.Mockito.when;
 

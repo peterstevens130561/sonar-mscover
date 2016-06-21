@@ -3,7 +3,6 @@ package com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner;
 import java.io.File;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
-import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 
 public interface IntegrationTestRunner {
 

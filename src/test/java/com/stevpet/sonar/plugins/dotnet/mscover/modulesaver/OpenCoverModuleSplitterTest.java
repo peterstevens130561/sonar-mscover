@@ -29,7 +29,7 @@ public class OpenCoverModuleSplitterTest {
 	public void simpleTest() throws FileNotFoundException, XMLStreamException, TransformerException {
 		File xmlFile = TestUtils.getResource("OpenCoverCoverageParser/coverage-report.xml");
 		CoverageModuleSaver moduleHelper = mock(CoverageModuleSaver.class);
-		int modules=new OpenCoverModuleSplitter(moduleHelper,coverageHashes).splitFile(xmlFile);
+		new OpenCoverModuleSplitter(moduleHelper,coverageHashes).splitFile(xmlFile);
 		verify(moduleHelper,times(34)).save(anyString());
 	}
 	
@@ -42,7 +42,7 @@ public class OpenCoverModuleSplitterTest {
 		OpenCoverCoverageModuleSaver moduleLambda = new OpenCoverCoverageModuleSaver(moduleParser);
 		moduleLambda.setDirectory(tempDir);
 		moduleLambda.setProject("BaseProject");
-		int modules=new OpenCoverModuleSplitter(moduleLambda,coverageHashes).splitFile(xmlFile);	
+		new OpenCoverModuleSplitter(moduleLambda,coverageHashes).splitFile(xmlFile);	
 	}
 
 }

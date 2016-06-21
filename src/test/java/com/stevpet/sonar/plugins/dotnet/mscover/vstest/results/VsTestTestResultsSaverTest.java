@@ -67,7 +67,7 @@ public class VsTestTestResultsSaverTest {
 		ProjectUnitTestResults projectUnitTestResults = new ProjectUnitTestResults();
 		File sourceFile = new File("source.cs");
 		org.sonar.api.resources.File resourceFile=org.sonar.api.resources.File.create("source.cs");
-		ClassUnitTestResult result = projectUnitTestResults.addFile(sourceFile);
+		projectUnitTestResults.addFile(sourceFile);
 		
 		when(resourceResolver.getFile(sourceFile)).thenReturn(resourceFile);
 		

@@ -3,7 +3,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 import org.apache.commons.lang.StringUtils;
 
 import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
-import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementObserver;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementObserver.Event;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.PathMatcher;

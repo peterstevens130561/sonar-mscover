@@ -8,8 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.TransformerException;
 
@@ -47,7 +45,6 @@ public void before(){
 		assertTrue("File should exist " + secondXmlFile.getAbsolutePath(),secondXmlFile.exists());
 		
 		// if we get here, remove the tempdir
-		Path path =  Paths.get(root.getAbsolutePath());
 		FileUtils.deleteDirectory(root);
 	}
 

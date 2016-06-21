@@ -82,7 +82,7 @@ public class DefaultLineFileCoverageSaver implements  LineFileCoverageSaver {
     	sensorContext.saveMeasure(resource, CoreMetrics.UNCOVERED_LINES, (double)summary.getToCover() -summary.getCovered());
     	sensorContext.saveMeasure(resource,  CoreMetrics.COVERAGE, convertPercentage(coverage));
     	sensorContext.saveMeasure(resource,  CoreMetrics.LINE_COVERAGE, convertPercentage(coverage));
-        Measure lineMeasures=getHitData(coveragePoints);
+        Measure<?> lineMeasures=getHitData(coveragePoints);
         sensorContext.saveMeasure(resource, lineMeasures);
     }
 
@@ -90,7 +90,7 @@ public class DefaultLineFileCoverageSaver implements  LineFileCoverageSaver {
      * Generates a measure that contains the visits of each line of the source
      * file.
      */
-    private Measure getHitData(CoverageLinePoints coveragePoints) {
+    private Measure<?> getHitData(CoverageLinePoints coveragePoints) {
         PropertiesBuilder<String, Integer> hitsBuilder =  lineHitsBuilder;
 
         hitsBuilder.clear();

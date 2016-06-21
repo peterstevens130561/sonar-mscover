@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.Tool;
 
 public interface IntegrationTestsConfiguration {
 

@@ -50,7 +50,7 @@ public class OpenCoverSequencePointsObserverTest {
         SonarFileCoverage coverage=registry.getCoveredFile("1");
         CoverageLinePoints linePoints=coverage.getLinePoints();
         List<CoverageLinePoint> pointsList=linePoints.getPoints();
-        CoverageLinePoint point;
+
         assertEquals("should have 11 points",11,pointsList.size());
     }
     
@@ -64,7 +64,6 @@ public class OpenCoverSequencePointsObserverTest {
         SonarFileCoverage coverage=registry.getCoveredFile("1");
         CoverageLinePoints linePoints=coverage.getLinePoints();
         List<CoverageLinePoint> pointsList=linePoints.getPoints();
-        CoverageLinePoint point;
         assertEquals("should have 11 points",11,pointsList.size());
     }
 

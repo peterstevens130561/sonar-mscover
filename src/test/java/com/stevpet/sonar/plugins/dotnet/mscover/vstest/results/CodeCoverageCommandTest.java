@@ -24,14 +24,14 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.results;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.sonar.api.utils.SonarException;
+
 
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.CodeCoverageCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.WindowsCodeCoverageCommand;
 
 public class CodeCoverageCommandTest {
     private static String defaultPath = "C:/Program Files (x86)/Microsoft Visual Studio 11.0/Team Tools/Dynamic Code Coverage Tools/CodeCoverage.exe";
-    @Test(expected=SonarException.class)
+    @Test(expected=IllegalStateException.class)
     public void emptyCommand() {
         WindowsCodeCoverageCommand command = new WindowsCodeCoverageCommand();
         String emptyCommandLine = command.toCommandLine();

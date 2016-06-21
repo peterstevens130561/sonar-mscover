@@ -35,7 +35,6 @@ public class SpecFlowTestResultsBuilder extends DefaultTestResultsBuilder {
     @Override
     protected String onNotFound(MethodId methodId) {
         String methodName=methodId.getMethodName();
-        String methodClass=methodId.getClassName();
         File  file=specFlowScenarioMethodResolver.getFile(methodName);
         if(file==null) {
             LOG.warn("Tried to resolve a potential specflow method, but failed {}",methodName);

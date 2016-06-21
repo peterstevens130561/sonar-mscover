@@ -1,8 +1,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
-import org.sonar.api.utils.SonarException;
 
-public class SonarCoverageException extends SonarException {
+
+public class SonarCoverageException extends IllegalStateException {
 
 	/**
 	 * 

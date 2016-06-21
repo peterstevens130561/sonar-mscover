@@ -1,7 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.housekeeping;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import org.slf4j.Logger;

@@ -26,11 +26,11 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.sonar.api.utils.SonarException;
+
 
 public class MethodIdModelTest {
   
-    @Test(expected=SonarException.class)
+    @Test(expected=IllegalStateException.class)
     public void setModuleName_Invalid_Exception() {
     	new MethodId("!@( 12345:780.exe","validnamespace","MyClass","MyMethod");
     }

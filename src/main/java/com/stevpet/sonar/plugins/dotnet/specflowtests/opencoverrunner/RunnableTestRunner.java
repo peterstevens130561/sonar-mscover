@@ -1,6 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner;
 
-import java.io.File;
 import java.util.Map;
 
 import org.slf4j.Logger;

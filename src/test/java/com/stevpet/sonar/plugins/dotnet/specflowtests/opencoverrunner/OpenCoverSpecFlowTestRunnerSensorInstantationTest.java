@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.picocontainer.DefaultPicoContainer;
 import org.sonar.api.SonarPlugin;
-import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.Settings;
@@ -42,12 +41,12 @@ public class OpenCoverSpecFlowTestRunnerSensorInstantationTest {
 	@Test
 	public void instantiateSaver() {
 		picoContainer.addComponent(fs).addComponent(project);
-		Sensor sensor = picoContainer.getComponent(OpenCoverSpecFlowTestSaverSensor.class);		
+		picoContainer.getComponent(OpenCoverSpecFlowTestSaverSensor.class);		
 	}
 	
 	@Test
 	public void instantiateRunner() {
 		picoContainer.addComponent(fs).addComponent(project);
-		Sensor sensor = picoContainer.getComponent(OpenCoverSpecFlowTestRunnerSensor.class);		
+		picoContainer.getComponent(OpenCoverSpecFlowTestRunnerSensor.class);		
 	}
 }

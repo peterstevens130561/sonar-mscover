@@ -12,7 +12,7 @@ import org.sonar.api.PropertyType;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.Settings;
 import org.sonar.api.config.PropertyDefinition.Builder;
-import org.sonar.api.utils.SonarException;
+
 
 import com.google.common.base.Preconditions;
 
@@ -51,7 +51,7 @@ public abstract class ConfigurationPropertyBase<T> implements ConfigurationPrope
             pattern=Pattern.compile(value);
         } catch (PatternSyntaxException e) {
             String msg = "Property value is not a valid regular expression:" + pattern + "=" + value;
-            throw new SonarException(msg,e);
+            throw new IllegalStateException(msg,e);
         }
         return pattern;
         

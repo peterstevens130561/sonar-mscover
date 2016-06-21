@@ -43,13 +43,13 @@ public class DecoratorContextMock extends GenericClassMock<DecoratorContext> {
      * @param metric of the measure
      * @param value of the measure
      */
-    public void givenMeasure(Metric metric, double value) {
-        Measure measure = new Measure(metric);
+    public void givenMeasure(Metric<?> metric, double value) {
+        Measure<?> measure = new Measure<Object>(metric);
         measure.setValue(value);
         givenMeasure(metric,measure);
     }
 
-    public void givenMeasure(Metric metric, Measure measure) {
+    public void givenMeasure(Metric<?> metric, Measure<?> measure) {
         when(instance.getMeasure(metric)).thenReturn(measure);  
     }
 
