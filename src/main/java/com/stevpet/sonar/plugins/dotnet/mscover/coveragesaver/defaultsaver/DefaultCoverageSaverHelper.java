@@ -30,12 +30,19 @@ public class DefaultCoverageSaverHelper implements CoverageSaverHelper{
         return getLineHitData(coveragePoints, metric, point -> point.getToCover());
     }
 
-    private interface PointCoverage {
+    private interface Strategy {
         int data(CoverageLinePoint point);
     }
-    private Measure<?> getLineHitData(CoverageLinePoints coveragePoints, Metric<?> metric, PointCoverage pointCoverage) {
+    
+    private Measure<?> getLineHitData(CoverageLinePoints coveragePoints, Metric<?> metric, Strategy strategy) {
         PropertiesBuilder<Integer, Integer> propertiesBuilder = new PropertiesBuilder<Integer, Integer>(metric);
-        coveragePoints.getPoints().forEach(point -> propertiesBuilder.add(point.getLine(), pointCoverage.data(point)));
+        coveragePoints.getPoints()
+        .forEach(point -> propertiesBuilder
+                .add(
+                        point.getLine(), 
+                        strategy.data(point)
+                )
+        );
         return propertiesBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
     }
 
