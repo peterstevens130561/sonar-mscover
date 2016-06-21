@@ -26,7 +26,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
-import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.File;
 import org.sonar.api.utils.ParsingUtils;
 
@@ -40,7 +39,7 @@ public class DefaultLineFileCoverageSaver implements  LineFileCoverageSaver {
 
 	private ResourceResolver resourceResolver;
 	private SensorContext sensorContext;
-	private final CoverageSaverHelper saverHelper = new CoverageSaverHelper() ;
+	private final CoverageSaverHelper saverHelper = new DefaultCoverageSaverHelper() ;
 
 	@Deprecated
     public  DefaultLineFileCoverageSaver(ResourceResolver resourceResolver,SensorContext sensorContext) {

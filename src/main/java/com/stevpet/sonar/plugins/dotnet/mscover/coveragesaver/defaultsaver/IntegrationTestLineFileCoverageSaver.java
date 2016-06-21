@@ -22,7 +22,7 @@ public class IntegrationTestLineFileCoverageSaver implements
 		LineFileCoverageSaver {
 	private ResourceResolver resourceResolver;
 	private SensorContext sensorContext;
-	private CoverageSaverHelper coverageSaverHelper = new CoverageSaverHelper();
+	private CoverageSaverHelper coverageSaverHelper = new DefaultCoverageSaverHelper();
 
 	@Deprecated
     public  IntegrationTestLineFileCoverageSaver(IntegrationTestResourceResolver resourceResolver,SensorContext sensorContext) {
