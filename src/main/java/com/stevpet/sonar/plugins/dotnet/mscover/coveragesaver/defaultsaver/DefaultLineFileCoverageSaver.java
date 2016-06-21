@@ -26,23 +26,21 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
-import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.File;
 import org.sonar.api.utils.ParsingUtils;
 
 import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.LineFileCoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 
 public class DefaultLineFileCoverageSaver implements  LineFileCoverageSaver {
 
 	private ResourceResolver resourceResolver;
 	private SensorContext sensorContext;
+	private final CoverageSaverHelper saverHelper = new CoverageSaverHelper() ;
 
 	@Deprecated
     public  DefaultLineFileCoverageSaver(ResourceResolver resourceResolver,SensorContext sensorContext) {
@@ -58,8 +56,7 @@ public class DefaultLineFileCoverageSaver implements  LineFileCoverageSaver {
     public void setSensorContext(SensorContext sensorContext) {
     	this.sensorContext = sensorContext;
     }
-    private final PropertiesBuilder<String, Integer> lineHitsBuilder = new PropertiesBuilder<String, Integer>(
-            CoreMetrics.COVERAGE_LINE_HITS_DATA);
+
     
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.sensor.opencover.FileCoverageSaver#saveMeasures(com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints, java.io.File)
@@ -82,26 +79,10 @@ public class DefaultLineFileCoverageSaver implements  LineFileCoverageSaver {
     	sensorContext.saveMeasure(resource, CoreMetrics.UNCOVERED_LINES, (double)summary.getToCover() -summary.getCovered());
     	sensorContext.saveMeasure(resource,  CoreMetrics.COVERAGE, convertPercentage(coverage));
     	sensorContext.saveMeasure(resource,  CoreMetrics.LINE_COVERAGE, convertPercentage(coverage));
-        Measure lineMeasures=getHitData(coveragePoints);
+        Measure<?> lineMeasures=saverHelper.getHitData( coveragePoints,CoreMetrics.COVERAGE_LINE_HITS_DATA);
         sensorContext.saveMeasure(resource, lineMeasures);
     }
 
-    /*
-     * Generates a measure that contains the visits of each line of the source
-     * file.
-     */
-    private Measure getHitData(CoverageLinePoints coveragePoints) {
-        PropertiesBuilder<String, Integer> hitsBuilder =  lineHitsBuilder;
-
-        hitsBuilder.clear();
-        for (CoverageLinePoint point : coveragePoints.getPoints()) {
-            int lineNumber = ((SonarLinePoint) point).getLine();
-            int countVisits = point.getCovered();
-            hitsBuilder.add(Integer.toString(lineNumber), countVisits);
-        }
-        return hitsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
-    }
-    
     private double convertPercentage(Number percentage) {
         return ParsingUtils.scaleValue(percentage.doubleValue() * 100.0);
     }

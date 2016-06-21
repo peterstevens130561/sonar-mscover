@@ -25,7 +25,7 @@ public class IntegrationTestLineFileCoverageSaver implements
     private Logger LOG = LoggerFactory.getLogger(IntegrationTestLineFileCoverageSaver.class);
 	private ResourceResolver resourceResolver;
 	private SensorContext sensorContext;
-
+	private CoverageSaverHelper coverageSaverHelper = new CoverageSaverHelper();
 
 	@Deprecated
     public  IntegrationTestLineFileCoverageSaver(IntegrationTestResourceResolver resourceResolver,SensorContext sensorContext) {
@@ -58,7 +58,7 @@ public class IntegrationTestLineFileCoverageSaver implements
     	sensorContext.saveMeasure(resource, CoreMetrics.IT_UNCOVERED_LINES, (double)summary.getToCover() -summary.getCovered());
     	sensorContext.saveMeasure(resource,  CoreMetrics.IT_COVERAGE, convertPercentage(coverage));
     	sensorContext.saveMeasure(resource,  CoreMetrics.IT_LINE_COVERAGE, convertPercentage(coverage));
-        Measure lineMeasures=getHitData(coveragePoints,CoreMetrics.IT_COVERAGE_LINE_HITS_DATA);
+        Measure<?> lineMeasures=coverageSaverHelper.getHitData(coveragePoints,CoreMetrics.IT_COVERAGE_LINE_HITS_DATA);
         sensorContext.saveMeasure(resource, lineMeasures);
     }
 
