@@ -49,7 +49,7 @@ public class DefaultBranchCoverageSaver implements BranchFileCoverageSaver {
     }
     
     void saveLines( Metric<?> toCoverMetric, Metric<?> coveredMetric, CoverageLinePoints coveragePoints, File resource) {
-        Measure lineConditionsMeasure = coverageSaverHelper.getToCoverHitData(toCoverMetric, coveragePoints);
+        Measure lineConditionsMeasure = coverageSaverHelper.getToCoverHitData(coveragePoints, toCoverMetric);
         sensorContext.saveMeasure(resource,lineConditionsMeasure);
         
         Measure lineCoveredConditionsMeasure = coverageSaverHelper.getCoveredHitData(coveragePoints, coveredMetric);
