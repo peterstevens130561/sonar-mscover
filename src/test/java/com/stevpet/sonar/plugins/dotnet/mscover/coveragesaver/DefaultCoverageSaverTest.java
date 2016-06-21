@@ -1,7 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver;
 
-import static org.junit.Assert.assertNotNull;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +8,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
 import static org.mockito.Mockito.when;
+
 import org.picocontainer.DefaultPicoContainer;
 import org.sonar.api.batch.SensorContext;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultBranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.CoverageSaverBase;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultLineFileCoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.nullsaver.NullBranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
@@ -48,23 +45,7 @@ public class DefaultCoverageSaverTest {
         when(microsoftWindowsEnvironment.getUnitTestSourceFiles()).thenReturn(testFiles);
     }
 
-    @Test
-    public void createWithLineandBranchCoverageSaver() {
-        container
-                .addComponent(DefaultLineFileCoverageSaver.class)
-                .addComponent(DefaultBranchFileCoverageSaver.class);
-        CoverageSaver saver = container.getComponent(CoverageSaverBase.class);
-        assertNotNull("could not create coveragesaver with both savers", saver);
-    }
 
-    @Test
-    public void createWithOnlyLineCoverageSaver() {
-        container
-                .addComponent(DefaultLineFileCoverageSaver.class)
-                .addComponent(NullBranchFileCoverageSaver.class);
-        CoverageSaver saver = container.getComponent(CoverageSaverBase.class);
-        assertNotNull("could not create coveragesaver with null branch saver saver", saver);
-    }
 
     @Test
     public void coverageWithTwoFiles_CalledTwice() {
