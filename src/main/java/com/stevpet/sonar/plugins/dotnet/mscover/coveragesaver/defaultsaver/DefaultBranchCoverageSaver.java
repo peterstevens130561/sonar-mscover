@@ -16,10 +16,29 @@ public class DefaultBranchCoverageSaver implements BranchFileCoverageSaver {
     private ResourceResolver resourceResolver;
     SensorContext sensorContext;
     private final BranchCoverageMetrics branchCoverageMetrics ;
-    private CoverageSaverHelper coverageSaverHelper = new CoverageSaverHelper();
+    private final CoverageSaverHelper coverageSaverHelper;
+    
+
+    /**
+     * Normal instantiation
+     * @param resourceResolver
+     * @param branchCoverageMetrics
+     */
     public DefaultBranchCoverageSaver(ResourceResolver resourceResolver,BranchCoverageMetrics  branchCoverageMetrics) {
+        this(resourceResolver,branchCoverageMetrics,new DefaultCoverageSaverHelper());
+    }
+    
+    /**
+     * For unit testing
+     * 
+     * @param resourceResolver
+     * @param branchCoverageMetrics
+     * @param coverageSaverHelper
+     */
+    public DefaultBranchCoverageSaver(ResourceResolver resourceResolver,BranchCoverageMetrics  branchCoverageMetrics, CoverageSaverHelper coverageSaverHelper) {
         this.resourceResolver = resourceResolver;
         this.branchCoverageMetrics = branchCoverageMetrics;
+        this.coverageSaverHelper = coverageSaverHelper;
     }
     @Override
     public void setSensorContext(SensorContext sensorContext) {
@@ -48,10 +67,10 @@ public class DefaultBranchCoverageSaver implements BranchFileCoverageSaver {
     }
     
     void saveLines( Metric<?> toCoverMetric, Metric<?> coveredMetric, CoverageLinePoints coveragePoints, File resource) {
-        Measure lineConditionsMeasure = coverageSaverHelper.getToCoverHitData(coveragePoints, toCoverMetric);
+        Measure<?> lineConditionsMeasure = coverageSaverHelper.getToCoverHitData(coveragePoints, toCoverMetric);
         sensorContext.saveMeasure(resource,lineConditionsMeasure);
         
-        Measure lineCoveredConditionsMeasure = coverageSaverHelper.getCoveredHitData(coveragePoints, coveredMetric);
+        Measure<?> lineCoveredConditionsMeasure = coverageSaverHelper.getCoveredHitData(coveragePoints, coveredMetric);
         sensorContext.saveMeasure(resource,lineCoveredConditionsMeasure);
     }
 

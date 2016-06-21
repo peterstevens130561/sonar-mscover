@@ -25,7 +25,7 @@ public class IntegrationTestLineFileCoverageSaver implements
     private Logger LOG = LoggerFactory.getLogger(IntegrationTestLineFileCoverageSaver.class);
 	private ResourceResolver resourceResolver;
 	private SensorContext sensorContext;
-	private CoverageSaverHelper coverageSaverHelper = new CoverageSaverHelper();
+	private CoverageSaverHelper coverageSaverHelper = new DefaultCoverageSaverHelper();
 
 	@Deprecated
     public  IntegrationTestLineFileCoverageSaver(IntegrationTestResourceResolver resourceResolver,SensorContext sensorContext) {

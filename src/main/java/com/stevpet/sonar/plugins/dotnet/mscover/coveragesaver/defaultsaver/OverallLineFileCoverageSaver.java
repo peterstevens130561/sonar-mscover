@@ -22,7 +22,7 @@ public class OverallLineFileCoverageSaver implements
         LineFileCoverageSaver {
     private ResourceResolver resourceResolver;
     private SensorContext sensorContext;
-    private final CoverageSaverHelper coverageSaverHelper = new CoverageSaverHelper();
+    private final CoverageSaverHelper coverageSaverHelper = new DefaultCoverageSaverHelper();
     public OverallLineFileCoverageSaver(ResourceResolver resourceResolver) {
         this.resourceResolver = resourceResolver;
     }
