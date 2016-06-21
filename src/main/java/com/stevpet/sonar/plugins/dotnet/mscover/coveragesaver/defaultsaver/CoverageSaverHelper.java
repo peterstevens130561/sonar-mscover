@@ -1,6 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver;
 
-
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.measures.PersistenceMode;
@@ -21,25 +20,30 @@ public class CoverageSaverHelper {
 
     /**
      * given the coveragepoints, and metric create the measure
+     * 
      * @param coveragePoints
-     * @param metric - a linhits metric
+     * @param metric
+     *            - a linhits metric
      * @return the measure
      */
 
+    private interface PointCoverage {
+        int data(CoverageLinePoint point);
+    }
+
     Measure<?> getCoveredHitData(CoverageLinePoints coveragePoints, Metric<?> metric) {
-        PropertiesBuilder<Integer, Integer> propertiesBuilder = new PropertiesBuilder<Integer, Integer>(
-                metric);
-        coveragePoints.getPoints().forEach(point -> propertiesBuilder.add(point.getLine(),point.getCovered()));
-        return propertiesBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
+
+        return getLineHitData(coveragePoints, metric, point -> point.getCovered());
     }
 
     Measure<?> getToCoverHitData(CoverageLinePoints coveragePoints, Metric<?> metric) {
-        PropertiesBuilder<Integer, Integer> propertiesBuilder = new PropertiesBuilder<Integer, Integer>(
-                metric);
-        coveragePoints.getPoints().forEach(point -> propertiesBuilder.add(point.getLine(),point.getToCover()));
-        return propertiesBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
+        return getLineHitData(coveragePoints, metric, point -> point.getToCover());
     }
 
-
+    Measure<?> getLineHitData(CoverageLinePoints coveragePoints, Metric<?> metric, PointCoverage pointCoverage) {
+        PropertiesBuilder<Integer, Integer> propertiesBuilder = new PropertiesBuilder<Integer, Integer>(metric);
+        coveragePoints.getPoints().forEach(point -> propertiesBuilder.add(point.getLine(), pointCoverage.data(point)));
+        return propertiesBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
+    }
 
 }
