@@ -20,25 +20,16 @@ public class DefaultBranchCoverageSaver implements BranchFileCoverageSaver {
     
 
     /**
-     * Normal instantiation
-     * @param resourceResolver
-     * @param branchCoverageMetrics
-     */
-    public DefaultBranchCoverageSaver(ResourceResolver resourceResolver,BranchCoverageMetrics  branchCoverageMetrics) {
-        this(resourceResolver,branchCoverageMetrics,new DefaultCoverageSaverHelper());
-    }
-    
-    /**
-     * For unit testing
      * 
      * @param resourceResolver
      * @param branchCoverageMetrics
      * @param coverageSaverHelper
      */
-    public DefaultBranchCoverageSaver(ResourceResolver resourceResolver,BranchCoverageMetrics  branchCoverageMetrics, CoverageSaverHelper coverageSaverHelper) {
+    public DefaultBranchCoverageSaver(ResourceResolver resourceResolver,BranchCoverageMetrics  branchCoverageMetrics,CoverageSaverHelper coverageSaverHelper) {
         this.resourceResolver = resourceResolver;
         this.branchCoverageMetrics = branchCoverageMetrics;
-        this.coverageSaverHelper = coverageSaverHelper;
+        this.coverageSaverHelper=coverageSaverHelper;
+
     }
     @Override
     public void setSensorContext(SensorContext sensorContext) {

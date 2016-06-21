@@ -12,7 +12,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarLinePoints;
 
 public class CoverageSaverHelperTests {
-    private CoverageSaverHelper coverageSaverHelper = new CoverageSaverHelper();
+    private CoverageSaverHelper coverageSaverHelper = new DefaultCoverageSaverHelper();
     
     @Before() 
     public void before() {
