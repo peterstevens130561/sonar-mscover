@@ -25,41 +25,21 @@ public class CoverageSaverHelper {
      * @param metric - a linhits metric
      * @return the measure
      */
-    Measure<?> getHitData( CoverageLinePoints coveragePoints,Metric<?> metric) {
-        PropertiesBuilder<Integer, Integer> hitsBuilder =  new PropertiesBuilder<Integer, Integer>( metric);
-    
-        hitsBuilder.clear();
-        for (CoverageLinePoint point : coveragePoints.getPoints()) {
-            int lineNumber = ((SonarLinePoint) point).getLine();
-            int countVisits = point.getCovered();
-            hitsBuilder.add(lineNumber, countVisits);
-        }
-        return hitsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
+
+    Measure<?> getCoveredHitData(CoverageLinePoints coveragePoints, Metric<?> metric) {
+        PropertiesBuilder<Integer, Integer> propertiesBuilder = new PropertiesBuilder<Integer, Integer>(
+                metric);
+        coveragePoints.getPoints().forEach(point -> propertiesBuilder.add(point.getLine(),point.getCovered()));
+        return propertiesBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
     }
 
-    Measure<?> getCoveredHitData(CoverageLinePoints coveragePoints, Metric<?> coveredMetric) {
-        PropertiesBuilder<Integer, Integer> lineCoveredConditionsBuilder = new PropertiesBuilder<Integer, Integer>(
-                coveredMetric);
-        lineCoveredConditionsBuilder.clear();
-        for (CoverageLinePoint linePoint : coveragePoints.getPoints()) {
-            int lineNumber = linePoint.getLine();
-            lineCoveredConditionsBuilder.add(lineNumber, linePoint.getCovered());
-        }
-        Measure lineCoveredConditionsMeasure=lineCoveredConditionsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
-        return lineCoveredConditionsMeasure;
+    Measure<?> getToCoverHitData(CoverageLinePoints coveragePoints, Metric<?> metric) {
+        PropertiesBuilder<Integer, Integer> propertiesBuilder = new PropertiesBuilder<Integer, Integer>(
+                metric);
+        coveragePoints.getPoints().forEach(point -> propertiesBuilder.add(point.getLine(),point.getToCover()));
+        return propertiesBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
     }
 
-    Measure<?> getToCoverHitData(Metric<?> toCoverMetric, CoverageLinePoints coveragePoints) {
-        PropertiesBuilder<Integer, Integer> lineConditionsBuilder = new PropertiesBuilder<Integer, Integer>(
-                toCoverMetric);
-        lineConditionsBuilder.clear();
-        for (CoverageLinePoint linePoint : coveragePoints.getPoints()) {
-            int lineNumber = linePoint.getLine();
-            lineConditionsBuilder.add(lineNumber, linePoint.getToCover());
-        }
-        Measure lineConditionsMeasure= lineConditionsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
-        return lineConditionsMeasure;
-    }
 
 
 }

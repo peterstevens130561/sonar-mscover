@@ -56,7 +56,7 @@ public class OverallLineFileCoverageSaver implements
                 (double) summary.getToCover() - summary.getCovered());
         sensorContext.saveMeasure(resource, CoreMetrics.OVERALL_COVERAGE, convertPercentage(coverage));
         sensorContext.saveMeasure(resource, CoreMetrics.OVERALL_LINE_COVERAGE, convertPercentage(coverage));
-        Measure<?> lineMeasures = coverageSaverHelper.getHitData(coveragePoints, CoreMetrics.OVERALL_COVERAGE_LINE_HITS_DATA);
+        Measure<?> lineMeasures = coverageSaverHelper.getCoveredHitData(coveragePoints, CoreMetrics.OVERALL_COVERAGE_LINE_HITS_DATA);
         sensorContext.saveMeasure(resource, lineMeasures);
     }
 

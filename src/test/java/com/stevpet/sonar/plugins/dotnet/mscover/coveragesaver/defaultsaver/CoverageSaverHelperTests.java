@@ -23,7 +23,7 @@ public class CoverageSaverHelperTests {
     public void empty() {
         CoverageLinePoints coveragePoints = new SonarLinePoints();     
         Metric<?> metric = CoreMetrics.COVERAGE_LINE_HITS_DATA;
-        Measure<?> measure=coverageSaverHelper.getHitData(coveragePoints, metric);
+        Measure<?> measure=coverageSaverHelper.getCoveredHitData(coveragePoints, metric);
         String values=measure.getData();
         String expected="";
         assertEquals(expected,values);
@@ -38,7 +38,23 @@ public class CoverageSaverHelperTests {
         coveragePoints.addPoint(100,true);
         coveragePoints.addPoint(101,true);       
         Metric<?> metric = CoreMetrics.COVERAGE_LINE_HITS_DATA;
-        Measure<?> measure=coverageSaverHelper.getHitData(coveragePoints, metric);
+        Measure<?> measure=coverageSaverHelper.getCoveredHitData(coveragePoints, metric);
+        String values=measure.getData();
+        String expected="1=1;2=1;10=1;11=1;100=1;101=1";
+        assertEquals(expected,values);
+    }
+    
+    @Test
+    public void simpleOrderToCover() {
+        CoverageLinePoints coveragePoints = new SonarLinePoints();
+        coveragePoints.addPoint(1, true);
+        coveragePoints.addPoint(2,true);
+        coveragePoints.addPoint(10, true);
+        coveragePoints.addPoint(11, true);
+        coveragePoints.addPoint(100,true);
+        coveragePoints.addPoint(101,true);       
+        Metric<?> metric = CoreMetrics.COVERAGE_LINE_HITS_DATA;
+        Measure<?> measure=coverageSaverHelper.getToCoverHitData(coveragePoints, metric);
         String values=measure.getData();
         String expected="1=1;2=1;10=1;11=1;100=1;101=1";
         assertEquals(expected,values);
