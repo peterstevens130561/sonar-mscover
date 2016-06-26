@@ -33,9 +33,10 @@ import com.google.common.base.Preconditions;
 
 public class SonarCoverage {
 
-    private Map<Integer,SonarFileCoverage> idMap = new HashMap<Integer,SonarFileCoverage>();
+    private static int INITIAL_SIZE = 4096;
+    private Map<Integer,SonarFileCoverage> idMap = new HashMap<Integer,SonarFileCoverage>(INITIAL_SIZE);
     // key = sourceFileName, value = id
-    private Map<String,Integer> sourceFileNameMap = new HashMap<String,Integer>();
+    private Map<String,Integer> sourceFileNameMap = new HashMap<String,Integer>(INITIAL_SIZE);
     private Integer maxFileId=0;
 
     /**

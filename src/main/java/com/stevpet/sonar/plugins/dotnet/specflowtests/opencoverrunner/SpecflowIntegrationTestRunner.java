@@ -108,6 +108,7 @@ public class SpecflowIntegrationTestRunner implements
 	@Override
 	public IntegrationTestRunner setCoverageRoot(File rootDir) {
 		this.rootDir = rootDir;
+        openCoverModuleSaver.setRoot(rootDir);
 		return this;
 	}
 	
@@ -164,6 +165,7 @@ public class SpecflowIntegrationTestRunner implements
     @Override
     public IntegrationTestRunner setProjectName(String name) {
         this.projectName=name;
+        openCoverModuleSaver.setProject(name);
         return this;
     }
 
