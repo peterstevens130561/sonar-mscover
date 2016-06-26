@@ -18,19 +18,13 @@ import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.File;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultBranchCoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultCoverageSaverHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.UnitTestBranchCoverageMetrics;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultBranchFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
-/**
- * This is a set of sociable tests to verify the  BranchCoverageSaver
- * @author stevpet
- *
- */
-public class DefaultBranchCoverageSaverTest {
+
+public class DefaultBranchFileCoverageSaverTest {
 	private static final String FIRST_FILE = "a/b";
 	private SonarCoverage coverage = new SonarCoverage();
 	
@@ -44,18 +38,16 @@ public class DefaultBranchCoverageSaverTest {
 	private ArgumentCaptor<Metric> metricsArgument;
 	@Captor
 	private ArgumentCaptor<Double> valueArgument;
-
 	
 	@Before
 	public void before() {
 		MockitoAnnotations.initMocks(this);
-		coverageSaver = new DefaultBranchCoverageSaver(resourceResolver,new UnitTestBranchCoverageMetrics(),new DefaultCoverageSaverHelper());
+		coverageSaver = new DefaultBranchFileCoverageSaver(resourceResolver, sensorContext);
 		coveredFile = new java.io.File(FIRST_FILE);
 		coveredResource = File.create(FIRST_FILE);
 		when(resourceResolver.getFile(eq(coveredFile))).thenReturn(coveredResource);
 		givenCoveredFile();
 		CoverageLinePoints coveragePoints=coverage.getCoveredFile("1").getBranchPoints();
-		coverageSaver.setSensorContext(sensorContext);
 		coverageSaver.saveMeasures(coveragePoints, coveredFile);
 	}
 	

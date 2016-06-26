@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
@@ -20,9 +21,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolve
 
 public class OverallLineFileCoverageSaver implements
         LineFileCoverageSaver {
+    private Logger LOG = LoggerFactory.getLogger(OverallLineFileCoverageSaver.class);
     private ResourceResolver resourceResolver;
     private SensorContext sensorContext;
-    private final CoverageSaverHelper coverageSaverHelper = new DefaultCoverageSaverHelper();
+
     public OverallLineFileCoverageSaver(ResourceResolver resourceResolver) {
         this.resourceResolver = resourceResolver;
     }
@@ -56,7 +58,7 @@ public class OverallLineFileCoverageSaver implements
                 (double) summary.getToCover() - summary.getCovered());
         sensorContext.saveMeasure(resource, CoreMetrics.OVERALL_COVERAGE, convertPercentage(coverage));
         sensorContext.saveMeasure(resource, CoreMetrics.OVERALL_LINE_COVERAGE, convertPercentage(coverage));
-        Measure<?> lineMeasures = coverageSaverHelper.getCoveredHitData(coveragePoints, CoreMetrics.OVERALL_COVERAGE_LINE_HITS_DATA);
+        Measure lineMeasures = getHitData(coveragePoints, CoreMetrics.OVERALL_COVERAGE_LINE_HITS_DATA);
         sensorContext.saveMeasure(resource, lineMeasures);
     }
 

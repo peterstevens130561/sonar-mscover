@@ -22,7 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonar;
 
-public class SonarLinePoints extends CoverageLinePointsBase {
+class SonarLinePoints extends CoverageLinePointsBase {
 
     /**
      * add a point. If the line is the same as the previous one added, and this one is not covered, then the line is considered not covered
