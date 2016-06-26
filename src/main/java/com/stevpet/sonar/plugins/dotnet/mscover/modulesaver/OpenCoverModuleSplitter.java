@@ -38,6 +38,12 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
         this.coverageHashes = coverageHashes;
     }
 
+    @Override
+    public int splitCoverageFileInFilePerModule(File coverageRootDir, String testProjectName, File testCoverageFile) {
+        setRoot(coverageRootDir);
+        setProject(testProjectName);
+        return splitFile(testCoverageFile);
+    }
     public ModuleSplitter setRoot(File root) {
         coverageModuleSaver.setDirectory(root);
         return this;
@@ -115,5 +121,7 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
         sb.append("</CoverageSession>");
         return sb;
     }
+
+
 
 }
