@@ -41,17 +41,21 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
     @Override
     public int splitCoverageFileInFilePerModule(File coverageRootDir, String testProjectName, File testCoverageFile) {
 
-        InputStream inputStream;
-        try {
-            inputStream = new FileInputStream(testCoverageFile);
-        } catch (FileNotFoundException e) {
-            throw new IllegalStateException("Could not find" + testCoverageFile.getAbsolutePath());
-        }
+        InputStream inputStream = getInputStream(testCoverageFile);
         try {
             return split(coverageRootDir, testProjectName, inputStream);
         } catch (XMLStreamException | TransformerException e) {
             throw new IllegalStateException("XML exception", e);
         }
+    }
+
+    private InputStream getInputStream(File testCoverageFile) {
+        try {
+            return new FileInputStream(testCoverageFile);
+        } catch (FileNotFoundException e) {
+            throw new IllegalStateException("Could not find" + testCoverageFile.getAbsolutePath());
+        }
+
     }
 
     private int split(File coverageRootDir,String testProjectName,InputStream inputStream) throws XMLStreamException,
@@ -73,11 +77,7 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
 
             if (streamReader.getEventType() == XMLStreamReader.START_ELEMENT
                     && "Module".equals(streamReader.getLocalName())) {
-                StringWriter writer = new StringWriter();
-                t.transform(new StAXSource(streamReader), new StreamResult(
-                        writer));
-                StringBuilder sb = writeXml(writer);
-                String xml = sb.toString();
+                String xml = getModuleIntoNewXmlDoc(t, streamReader);
                 if(!coverageHashes.add(xml)) {
                     coverageModuleSaver.setProject(testProjectName).setDirectory(coverageRootDir).save(xml);
                 }
@@ -87,6 +87,15 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
         }
         return modules;
 
+    }
+
+    private String getModuleIntoNewXmlDoc(Transformer t, XMLStreamReader streamReader) throws TransformerException {
+        StringWriter writer = new StringWriter();
+        t.transform(new StAXSource(streamReader), new StreamResult(
+                writer));
+        StringBuilder sb = writeXml(writer);
+        String xml = sb.toString();
+        return xml;
     }
 
     private StringBuilder writeXml(StringWriter writer) {
