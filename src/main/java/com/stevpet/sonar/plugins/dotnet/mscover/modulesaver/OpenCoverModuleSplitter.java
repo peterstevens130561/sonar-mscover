@@ -41,22 +41,17 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
     @Override
     public int splitCoverageFileInFilePerModule(File coverageRootDir, String testProjectName, File testCoverageFile) {
 
-        InputStream inputStream = getInputStream(testCoverageFile);
+        InputStream inputStream;
+        try {
+            inputStream = new FileInputStream(testCoverageFile);
+        } catch (FileNotFoundException e) {
+            throw new IllegalStateException("Could not find" + testCoverageFile.getAbsolutePath());
+        }
         try {
             return split(coverageRootDir, testProjectName, inputStream);
         } catch (XMLStreamException | TransformerException e) {
             throw new IllegalStateException("XML exception", e);
         }
-    }
-
-    private InputStream getInputStream(File testCoverageFile) {
-        try {
-            return new FileInputStream(testCoverageFile);
-        } catch (FileNotFoundException e) {
-            throw new IllegalStateException("Could not find" + testCoverageFile.getAbsolutePath());
-        }
-
-    }
 
     private int split(File coverageRootDir,String testProjectName,InputStream inputStream) throws XMLStreamException,
             TransformerException {
