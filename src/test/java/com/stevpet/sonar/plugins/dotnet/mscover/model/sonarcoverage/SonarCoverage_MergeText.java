@@ -1,16 +1,12 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonarcoverage;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.util.List;
 
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageException;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 
 public class SonarCoverage_MergeText {
@@ -192,7 +188,6 @@ public class SonarCoverage_MergeText {
         assertEquals("size should be same",lines3.length,points.size());
         for(int i=0;i<points.size();i++) {
             CoverageLinePoint linePoint = points.get(i);
-            int line=linePoint.getLine();
             int covered=linePoint.getCovered();
             assertEquals("line at " + i,lines3[i],linePoint.getLine());
             assertEquals("coverage at " + i,coverage[i]>0,covered>0);

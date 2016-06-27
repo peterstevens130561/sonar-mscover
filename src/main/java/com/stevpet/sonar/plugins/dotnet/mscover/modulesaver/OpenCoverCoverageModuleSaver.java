@@ -4,13 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.annotation.Nonnull;
-
-import org.apache.commons.lang.StringUtils;
-import org.sonar.api.utils.SonarException;
 
 import com.google.common.base.Preconditions;
 

@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.sonar.api.utils.SonarException;
+
 import org.sonar.api.utils.command.Command;
 import org.sonar.api.utils.command.StreamConsumer;
 
@@ -46,9 +46,9 @@ public class WindowsCommandLineExecutor_ExecuteTest {
         WindowsCommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor(commandExecutors);
         try { 
             commandLineExecutor.execute(shellCommand);
-        } catch (SonarException e) {
+        } catch (IllegalStateException e) {
             return;
         }
-        fail("expected SonarException");
+        fail("expected IllegalStateException");
     }
 }

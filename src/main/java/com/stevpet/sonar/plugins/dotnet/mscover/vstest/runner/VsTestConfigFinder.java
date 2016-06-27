@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.utils.SonarException;
+
 
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
 
@@ -58,7 +58,7 @@ public class VsTestConfigFinder implements TestConfigFinder {
             testSettingsFile= findDefaultFileUpwards(solutionDirectory);
             if(testSettingsFile==null) {
                 LOG.error(msg);
-                throw new SonarException(msg);
+                throw new IllegalStateException(msg);
             }
             return testSettingsFile;
         }
@@ -74,7 +74,7 @@ public class VsTestConfigFinder implements TestConfigFinder {
         if(testSettingsFile == null || !testSettingsFile.exists()) {
             msg=DefaultMsCoverConfiguration.MSCOVER_TESTSETTINGS + "=" + testSettings + " not found";
             LOG.error(msg);
-            throw new SonarException(msg);
+            throw new IllegalStateException(msg);
         }
         return testSettingsFile;
     }
@@ -120,7 +120,7 @@ public class VsTestConfigFinder implements TestConfigFinder {
         File absoluteFile = new File(setting);
         if(absoluteFile.isAbsolute()) {
             if(!absoluteFile.exists()) {
-                throw new SonarException("absolute test runner setting does not exist" + setting);
+                throw new IllegalStateException("absolute test runner setting does not exist" + setting);
             }
             return absoluteFile;
         }
@@ -150,7 +150,7 @@ public class VsTestConfigFinder implements TestConfigFinder {
         try {
             canonicalFile = file.getCanonicalFile();
         } catch (IOException e) {
-            throw new SonarException("IOException on " + file.getAbsolutePath(),e);
+            throw new IllegalStateException("IOException on " + file.getAbsolutePath(),e);
         }
         return canonicalFile;
     }

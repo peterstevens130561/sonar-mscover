@@ -1,7 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
@@ -22,7 +20,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolve
 
 public class IntegrationTestLineFileCoverageSaver implements
 		LineFileCoverageSaver {
-    private Logger LOG = LoggerFactory.getLogger(IntegrationTestLineFileCoverageSaver.class);
 	private ResourceResolver resourceResolver;
 	private SensorContext sensorContext;
 	private CoverageSaverHelper coverageSaverHelper = new DefaultCoverageSaverHelper();

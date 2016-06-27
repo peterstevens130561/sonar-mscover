@@ -23,10 +23,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
 import java.time.LocalTime;
-import java.time.temporal.TemporalAmount;
-
 import org.apache.commons.lang.StringUtils;
-import org.sonar.api.utils.SonarException;
+
 
 public class UnitTestMethodResult {
     
@@ -152,7 +150,7 @@ public class UnitTestMethodResult {
      */
     public UnitTestMethodResult setModuleFromCodeBase(String codeBase) {
         if (StringUtils.isEmpty(codeBase)) {
-            throw new SonarException("module can't be null");
+            throw new IllegalStateException("module can't be null");
         }
         codeBase = codeBase.replace("\\", "/");
         String[] parts = codeBase.split("/");
@@ -168,7 +166,7 @@ public class UnitTestMethodResult {
      */
     public UnitTestMethodResult setNamespaceNameFromClassName(String value) {
         if (StringUtils.isEmpty(value)) {
-            throw new SonarException("namespacename can't be null");
+            throw new IllegalStateException("namespacename can't be null");
         }
         int lastDot = value.lastIndexOf(".");
         if (lastDot == -1) {
@@ -181,7 +179,7 @@ public class UnitTestMethodResult {
 
     public UnitTestMethodResult setClassName(String value) {
         if (StringUtils.isEmpty(value)) {
-            throw new SonarException("className can't be null");
+            throw new IllegalStateException("className can't be null");
         }
         int lastDot = value.lastIndexOf(".");
         if (lastDot == -1) {

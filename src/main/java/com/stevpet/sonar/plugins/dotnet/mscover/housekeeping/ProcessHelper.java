@@ -1,13 +1,11 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.housekeeping;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
-import com.stevpet.sonar.plugins.common.api.ShellCommand;
 
 public class ProcessHelper {
     

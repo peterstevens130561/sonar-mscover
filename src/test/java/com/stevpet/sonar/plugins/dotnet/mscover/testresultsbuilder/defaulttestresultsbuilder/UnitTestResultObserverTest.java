@@ -25,7 +25,6 @@ public class UnitTestResultObserverTest {
     public void oneMilliSeconds() {
         UnitTestingResults unitTestingResults = new UnitTestingResults();
         observer.setRegistry(unitTestingResults);
-        long duration = 1234567 ;
         observer.testId("1");
         observer.duration("00:00:00.001230");
         UnitTestMethodResult result = unitTestingResults.getById("1");
@@ -36,7 +35,6 @@ public class UnitTestResultObserverTest {
     public void almostoneday() {
         UnitTestingResults unitTestingResults = new UnitTestingResults();
         observer.setRegistry(unitTestingResults);
-        long duration = 1234567 ;
         observer.testId("1");
         observer.duration("23:59:59.99999");
         UnitTestMethodResult result = unitTestingResults.getById("1");

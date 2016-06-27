@@ -3,32 +3,24 @@ package com.stevpet.sonar.plugins.dotnet.specflowtests.opencoverrunner;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.BatchComponent;
-import org.sonar.api.BatchExtension;
-import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
-import org.sonar.api.utils.SonarException;
+
 
 import com.stevpet.sonar.plugins.common.commandexecutor.WindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
-import com.stevpet.sonar.plugins.dotnet.mscover.housekeeping.OrphanedTestRemoverThread;
 import com.stevpet.sonar.plugins.dotnet.mscover.housekeeping.OrphanedTestRunnerRemover;
 import com.stevpet.sonar.plugins.dotnet.mscover.housekeeping.ProcessHelper;
-import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.CoverageHashes;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
@@ -138,7 +130,7 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
                         future.cancel(true);
                     }
                 }
-                throw new SonarException(msg);
+                throw new IllegalStateException(msg);
             }
             for(TestRunnerThreadValues testRunnerThreadValues:testRunnersThreadValues) {
                 Future<Boolean> future=testRunnerThreadValues.getFuture();
@@ -149,7 +141,7 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
             e.printStackTrace();
         } catch (ExecutionException e) {
             LOG.error("Execution of tests failed {}",e.getCause().toString());
-            throw new SonarException("Execution of tests failed, see inner exception {}",e.getCause());
+            throw new IllegalStateException("Execution of tests failed, see inner exception {}",e.getCause());
         }
     }
 

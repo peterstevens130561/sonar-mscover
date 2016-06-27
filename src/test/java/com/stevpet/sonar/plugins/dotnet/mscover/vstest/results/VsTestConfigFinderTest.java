@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 
 import org.junit.Test;
-import org.sonar.api.utils.SonarException;
+
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.VsTestConfigFinder;
@@ -63,7 +63,7 @@ public class VsTestConfigFinderTest {
 
         try {
             finder.getTestSettingsFileOrDie(solutionDir,null);
-        } catch (SonarException e ) {
+        } catch (IllegalStateException e ) {
             assertEquals("sonar.mscover.vstest.testsettings not set, and no testsettings file found",e.getMessage());
             return;
         }
@@ -94,7 +94,7 @@ public class VsTestConfigFinderTest {
         solutionDir = TestUtils.getResource(ROOT + "\\InProject_ExpectFile");
         try {
             finder.getTestSettingsFileOrDie(solutionDir,"bmyst.conftxt");
-        } catch (SonarException e ) {
+        } catch (IllegalStateException e ) {
             assertEquals("sonar.mscover.vstest.testsettings=bmyst.conftxt not found",e.getMessage());
             return;
         }

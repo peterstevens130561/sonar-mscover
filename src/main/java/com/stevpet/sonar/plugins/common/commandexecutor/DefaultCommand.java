@@ -33,7 +33,6 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import org.sonar.api.utils.command.Command;
 /**
  * @since 2.7
  */

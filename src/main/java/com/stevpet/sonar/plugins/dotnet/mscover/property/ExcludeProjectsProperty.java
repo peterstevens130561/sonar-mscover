@@ -8,7 +8,6 @@ import org.sonar.api.config.PropertyDefinition.Builder;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Qualifiers;
 
-import com.google.common.collect.ImmutableList;
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultIntegrationTestsConfiguration;
 
 public class ExcludeProjectsProperty extends ConfigurationPropertyBase<List<String>> {

@@ -2,9 +2,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.housekeeping;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.utils.SonarException;
 
-import com.stevpet.sonar.plugins.common.commandexecutor.TimeoutException;
+
 import com.stevpet.sonar.plugins.common.commandexecutor.WindowsCommandLineExecutor;
 
 public class OrphanedTestRemoverThread implements Runnable {
@@ -44,7 +43,7 @@ public class OrphanedTestRemoverThread implements Runnable {
         while(state!=State.STOPPED) {
             ++ctr;
             if(ctr>100) {
-                throw new SonarException("Thread did not close in time");
+                throw new IllegalStateException("Thread did not close in time");
             }
             try {
                 Thread.sleep(1000);

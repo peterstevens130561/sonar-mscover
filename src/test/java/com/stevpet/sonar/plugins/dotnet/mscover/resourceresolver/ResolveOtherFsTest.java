@@ -6,7 +6,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 import org.junit.Test;
-import org.sonar.api.utils.SonarException;
+
 
 public class ResolveOtherFsTest {
 
@@ -23,8 +23,8 @@ public class ResolveOtherFsTest {
         File root = new File("c:/Development/Radiant/Bogus");
         File solution = new File("c:/Development/Radiant/Main/JewelEarth/Solution");
         try{ 
-            String path = getPathFromRootToSolution(solution, root);
-        }catch(SonarException e) {
+            getPathFromRootToSolution(solution, root);
+        }catch(IllegalStateException e) {
                 return;
             }
         fail("expect exception");
@@ -35,8 +35,8 @@ public class ResolveOtherFsTest {
         File root = new File("c:/Development/Radiant/Main/JewelEarth/Solution/Fun");
         File solution = new File("c:/Development/Radiant/Main/JewelEarth/Solution"); 
         try{ 
-            String path = getPathFromRootToSolution(solution, root);
-        }catch(SonarException e) {
+            getPathFromRootToSolution(solution, root);
+        }catch(IllegalStateException e) {
                 return;
             }
         fail("expect exception");
@@ -83,11 +83,11 @@ public class ResolveOtherFsTest {
             solutionPath = solutionDir.getCanonicalPath();
         } catch (IOException e) {
             String msg = "Could not get canonical path " + e.getLocalizedMessage();
-            throw new SonarException(msg, e);
+            throw new IllegalStateException(msg, e);
         }
         if (!solutionPath.startsWith(rootPath)) {
             String msg = "Project=" + solutionPath + " not found in root= " + rootPath;
-            throw new SonarException(msg);
+            throw new IllegalStateException(msg);
         }
         int len = rootPath.length();
         String pathToSolution = solutionPath.substring(len + 1);
@@ -113,7 +113,7 @@ public class ResolveOtherFsTest {
             return file.getCanonicalPath();
         } catch (IOException e) {
             String msg ="Could not get CanonicalPath for " + file.getAbsolutePath();
-            throw new SonarException(msg);
+            throw new IllegalStateException(msg);
         }
     }
 }

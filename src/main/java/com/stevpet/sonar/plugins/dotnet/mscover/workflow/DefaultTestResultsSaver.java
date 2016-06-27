@@ -1,12 +1,11 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.workflow;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.resources.File;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
@@ -15,9 +14,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTe
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.TestResultsSaver;
 
 class DefaultTestResultsSaver implements TestResultsSaver {
-    private static final Logger LOG = LoggerFactory
-            .getLogger(DefaultTestResultsSaver.class);
-    private TestResultsSaver testResultsSaver;
     private SensorContext sensorContext;
     private TestResultsFormatter testResultsFormatter;
     private ResourceResolver resourceResolver;
@@ -68,7 +64,7 @@ class DefaultTestResultsSaver implements TestResultsSaver {
             File sonarFile) {
         String data = testResultsFormatter
                 .formatClassUnitTestResults(fileResults);
-        Measure testData = new Measure(CoreMetrics.TEST_DATA, data);
+        Measure<?> testData = new Measure(CoreMetrics.TEST_DATA, data);
         testData.setPersistenceMode(PersistenceMode.DATABASE);
         sensorContext.saveMeasure(sonarFile, testData);
     }

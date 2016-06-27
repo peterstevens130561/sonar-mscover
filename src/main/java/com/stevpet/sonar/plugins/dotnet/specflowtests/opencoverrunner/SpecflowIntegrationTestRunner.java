@@ -142,7 +142,7 @@ public class SpecflowIntegrationTestRunner implements
 		testRunner.execute();
 		
 		File testResultsFile = testRunner.getTestResultsFile();
-		openCoverModuleSaver.splitFile(coverageFile);
+		openCoverModuleSaver.splitCoverageFileInFilePerModule(rootDir, projectName, coverageFile);
 		coverageFile.delete();
 
 		File moduleCoverageFile = coverageFileLocator.getFile(rootDir, projectName, module);

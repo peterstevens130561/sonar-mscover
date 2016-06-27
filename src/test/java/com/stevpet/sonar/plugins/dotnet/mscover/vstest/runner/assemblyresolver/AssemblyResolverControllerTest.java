@@ -32,7 +32,6 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 
 public class AssemblyResolverControllerTest {

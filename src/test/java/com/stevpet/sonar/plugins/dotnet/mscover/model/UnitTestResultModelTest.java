@@ -25,7 +25,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
-import org.sonar.api.utils.SonarException;
+
 
 public class UnitTestResultModelTest {
     private UnitTestMethodResult model;
@@ -51,7 +51,7 @@ public class UnitTestResultModelTest {
         
     }
     
-    @Test(expected=SonarException.class)
+    @Test(expected=IllegalStateException.class)
     public void setNamespaceNameFromClassName_Null() {
         String className = "";
         model.setNamespaceNameFromClassName(className);
@@ -74,7 +74,7 @@ public class UnitTestResultModelTest {
         Assert.assertEquals(namespace, actual);
     }
     
-    @Test(expected=SonarException.class)
+    @Test(expected=IllegalStateException.class)
     public void setClassName_Empty() {
         String className = "";
         model.setClassName(className);
@@ -99,7 +99,7 @@ public class UnitTestResultModelTest {
         Assert.assertEquals(className, actual);
     }
     
-    @Test(expected=SonarException.class)
+    @Test(expected=IllegalStateException.class)
     public void setModuleFromCodeBase_Empty() {
         testCodeBase("","");
 

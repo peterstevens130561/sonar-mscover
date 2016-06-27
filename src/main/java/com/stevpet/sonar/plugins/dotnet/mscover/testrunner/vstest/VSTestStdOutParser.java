@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.utils.SonarException;
+
 
 import com.google.common.io.Files;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunnerStdOutParser;
@@ -47,7 +47,7 @@ public class VSTestStdOutParser implements TestRunnerStdOutParser {
         try {
             results = Files.toString(resultsFile, Charset.defaultCharset());
         } catch (IOException e) {
-            throw new SonarException("Failed to read", e);
+            throw new IllegalStateException("Failed to read", e);
         }
     }
 

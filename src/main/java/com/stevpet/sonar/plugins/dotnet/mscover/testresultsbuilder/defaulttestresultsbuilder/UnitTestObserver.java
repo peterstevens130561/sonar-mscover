@@ -23,7 +23,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder;
 
 import org.apache.commons.lang.StringUtils;
-import org.sonar.api.utils.SonarException;
+
 
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
@@ -79,7 +79,7 @@ public class UnitTestObserver extends BaseParserObserver {
             unitTestResult.setTestName(value);
         }
         if(!value.equals(unitTestResult.getTestName())) {
-            throw new SonarException("Name differs " + value );
+            throw new IllegalStateException("Name differs " + value );
         }
     }
 }

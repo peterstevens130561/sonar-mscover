@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.StringUtils;
-import org.sonar.api.utils.SonarException;
+
 
 import com.google.common.base.Preconditions;
 
@@ -77,14 +77,14 @@ public final class MethodId  {
     private String validate(String name) {
         Matcher suffixMatcher = moduleSuffixPattern.matcher(name);
         if(!suffixMatcher.find() ) {
-            throw new SonarException("Modulename '" + name + "' must end on .dll or .exe");
+            throw new IllegalStateException("Modulename '" + name + "' must end on .dll or .exe");
         }
         
         String stripped = name.substring(0, suffixMatcher.end());
         Matcher matcher=pattern.matcher(stripped);
         if(matcher.find()) {
             String firstChar= name.substring(matcher.start(),matcher.end());
-            throw new SonarException("invalid character(s) '" + firstChar + "'  in " + name);
+            throw new IllegalStateException("invalid character(s) '" + firstChar + "'  in " + name);
         }
         return stripped;
     }

@@ -37,7 +37,7 @@ import org.junit.Test;
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.SolutionHasNoProjectsSonarException;
+import com.stevpet.sonar.plugins.dotnet.mscover.exception.SolutionHasNoProjectsException;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.AssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.DefaultAssembliesFinder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.assemblyresolver.VisualStudioProjectMock;
@@ -58,14 +58,14 @@ public class AssembliesFinderConfigTest {
         
     }
     
-    @Test(expected=SolutionHasNoProjectsSonarException.class)
+    @Test(expected=SolutionHasNoProjectsException.class)
     public void NoProjectList_ExpectSolutionHasNoProjects() {
         List<VisualStudioProject> projects = null;
 
         assembliesFinder.findUnitTestAssembliesFromConfig(null, projects);  
         fail("expected exception");
     }
-    @Test(expected=SolutionHasNoProjectsSonarException.class)
+    @Test(expected=SolutionHasNoProjectsException.class)
     public void NoProject_ExpectSolutionHasNoProjects() {
         List<VisualStudioProject> projects = new ArrayList<VisualStudioProject>();
 
@@ -114,7 +114,6 @@ public class AssembliesFinderConfigTest {
         visualStudioProjectMock.givenDirectory(testResourceDir);
         visualStudioProjectMock.givenAssemblyName("somename");
         String bogusPath="solutiondir\\bindebug.dll";
-        String expectedPath="\\bin\\Debug\\bindebug.dll";
         givenArtifact(buildConfiguration, buildPlatform, bogusPath);
         assembliesFinder.setTestProjectPattern(Pattern.compile("doesnotmatch"));
         List<String> assemblies=assembliesFinder.findUnitTestAssembliesFromConfig(null, projects);
@@ -128,7 +127,6 @@ public class AssembliesFinderConfigTest {
         visualStudioProjectMock.givenDirectory(testResourceDir);
         visualStudioProjectMock.givenAssemblyName("somename");
         String bogusPath="solutiondir\\bindebug.dll";
-        String expectedPath="\\bin\\Debug\\bindebug.dll";
         givenArtifact(buildConfiguration, buildPlatform, bogusPath);
         assembliesFinder.setTestProjectPattern(Pattern.compile("name"));
         List<String> assemblies=assembliesFinder.findUnitTestAssembliesFromConfig(null, projects);
@@ -142,7 +140,6 @@ public class AssembliesFinderConfigTest {
         visualStudioProjectMock.givenDirectory(testResourceDir);
         visualStudioProjectMock.givenAssemblyName("somename");
         String bogusPath="solutiondir\\bindebug.dll";
-        String expectedPath="\\bin\\Debug\\bindebug.dll";
         givenArtifact(buildConfiguration, buildPlatform, bogusPath);
         assembliesFinder.setTestProjectPattern(Pattern.compile(".*name.*"));
         List<String> assemblies=assembliesFinder.findUnitTestAssembliesFromConfig(null, projects);

@@ -30,7 +30,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.config.Settings;
-import org.sonar.api.utils.SonarException;
+
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
@@ -83,7 +83,7 @@ public class AssembliesFinderPatternTest {
         Assert.assertEquals(3, result.size());
     }
     
-    @Test(expected=SonarException.class)
+    @Test(expected=IllegalStateException.class)
     public void simpleFinderExplicit_Nothin() throws IOException {
 
         setPattern("unitTestProject");

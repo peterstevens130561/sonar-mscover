@@ -1,6 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.housekeeping;
 
-import java.util.HashSet;
 import java.util.List;
 
 import org.junit.Before;
@@ -11,7 +10,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
-import com.stevpet.sonar.plugins.common.commandexecutor.WindowsCommandLineExecutor;
 
 public class ProcessInfoShellCommandTest {
     private String normalResponse = "Name                        ParentProcessId  ProcessId\r\n" +

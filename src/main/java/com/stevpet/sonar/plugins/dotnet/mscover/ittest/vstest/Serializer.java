@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import org.sonar.api.utils.SonarException;
+
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
@@ -22,7 +22,7 @@ public class Serializer {
        fileOut.close();
     } catch(IOException i)
     {
-        throw new SonarException(i);
+        throw new IllegalStateException(i);
     }
     }
         
@@ -37,10 +37,10 @@ public class Serializer {
            return sonarCoverage;
         }catch(IOException i)
         {
-            throw new SonarException(i);
+            throw new IllegalStateException(i);
         }catch(ClassNotFoundException c)
         {
-            throw new SonarException(c);
+            throw new IllegalStateException(c);
         }
     }
 }

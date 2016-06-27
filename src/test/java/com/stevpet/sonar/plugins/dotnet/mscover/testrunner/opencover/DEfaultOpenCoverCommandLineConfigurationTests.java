@@ -10,8 +10,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.sonar.api.config.Settings;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
-
 import static org.mockito.Mockito.when;
 public class DEfaultOpenCoverCommandLineConfigurationTests {
 

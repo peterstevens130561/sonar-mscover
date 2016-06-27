@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.utils.SonarException;
+
 
 import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
@@ -92,7 +92,7 @@ public  class VsTestRunnerCommandBuilder {
         VisualStudioSolution solution = microsoftWindowsEnvironment
                 .getCurrentSolution();
         if (solution == null) {
-            throw new SonarException("No current solution");
+            throw new IllegalStateException("No current solution");
         }
         return solution.getSolutionDir();
     }

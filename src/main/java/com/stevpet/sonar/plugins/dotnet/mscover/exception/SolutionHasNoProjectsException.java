@@ -23,14 +23,14 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.exception;
 
 
-public class SolutionHasNoProjectsSonarException extends MsCoverException {
+public class SolutionHasNoProjectsException extends MsCoverException {
 
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
 
-    public SolutionHasNoProjectsSonarException() {
+    public SolutionHasNoProjectsException() {
         super("Solution has no projects");
     }
 

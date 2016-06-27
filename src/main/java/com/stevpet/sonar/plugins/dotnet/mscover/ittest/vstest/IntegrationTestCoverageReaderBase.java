@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.utils.SonarException;
+
 
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
@@ -73,9 +73,9 @@ public class IntegrationTestCoverageReaderBase implements
         }
         try {
             executorService.shutdown();
-            int timeout = integrationTestConfiguration.getCoverageReaderTimeout();
+             integrationTestConfiguration.getCoverageReaderTimeout();
             if (!executorService.awaitTermination(100, TimeUnit.MINUTES)) {
-                throw new SonarException("Timeout occurred during parsing of coveragefiles");
+                throw new IllegalStateException("Timeout occurred during parsing of coveragefiles");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

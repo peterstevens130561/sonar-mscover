@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.sonar.api.config.Settings;
-import org.sonar.api.utils.SonarException;
+
 
 public class SettingsHelperTest {
 
@@ -30,11 +30,11 @@ public class SettingsHelperTest {
         when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_PATTERN)).thenReturn("[illegal");
         try {
             configuration.getPattern(SONAR_MSCOVER_INTEGRATIONTESTS_PATTERN);
-        } catch(SonarException e) {
+        } catch(IllegalStateException e) {
 
             return;
         }
-        fail("expected SonarException");
+        fail("expected IllegalStateException");
     }
     
        @Test

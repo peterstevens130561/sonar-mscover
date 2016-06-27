@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.junit.Before;
-import org.junit.Test;
 import org.mockito.Mock;
 
 import static org.junit.Assert.fail;
@@ -18,7 +17,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.doThrow;
 
 import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.utils.SonarException;
+
 
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.housekeeping.OrphanedTestRunnerRemover;
@@ -109,10 +108,10 @@ public class MultiThreadedTestRunnerTest {
         when(testRunnerFactory.create()).thenReturn(testRunner);
         projects.add(project);
         when(microsoftWindowsEnvironment.getTestProjects(any(Pattern.class))).thenReturn(projects);
-        doThrow(new SonarException()).when(testRunner).execute();
+        doThrow(new IllegalStateException()).when(testRunner).execute();
         try {
             multiThreadedSpecflowIntegrationTestRunner.execute();
-        } catch (SonarException e) {
+        } catch (IllegalStateException e) {
             return; // ok
         }
 

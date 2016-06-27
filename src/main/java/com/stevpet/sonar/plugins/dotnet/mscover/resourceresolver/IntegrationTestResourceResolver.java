@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.utils.SonarException;
+
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 
@@ -55,11 +55,11 @@ public class IntegrationTestResourceResolver implements ResourceResolver {
             solutionPath = solutionDir.getCanonicalPath();
         } catch (IOException e) {
             String msg = "Could not get canonical path " + e.getLocalizedMessage();
-            throw new SonarException(msg, e);
+            throw new IllegalStateException(msg, e);
         }
         if (!solutionPath.startsWith(rootPath)) {
             String msg = "Project=" + solutionPath + " not found in root= " + rootPath;
-            throw new SonarException(msg);
+            throw new IllegalStateException(msg);
         }
         int len = rootPath.length();
         String pathToSolution = solutionPath.substring(len + 1);
@@ -71,7 +71,7 @@ public class IntegrationTestResourceResolver implements ResourceResolver {
             return file.getCanonicalPath();
         } catch (IOException e) {
             String msg = "Could not get CanonicalPath for " + file.getAbsolutePath();
-            throw new SonarException(msg);
+            throw new IllegalStateException(msg);
         }
     }
 }

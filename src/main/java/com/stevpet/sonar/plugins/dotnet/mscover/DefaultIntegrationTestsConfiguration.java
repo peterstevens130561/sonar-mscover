@@ -1,25 +1,18 @@
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
-
-import javax.persistence.ExcludeDefaultListeners;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
-import org.sonar.api.PropertyType;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.Settings;
-import org.sonar.api.config.PropertyDefinition.Builder;
-import org.sonar.api.utils.SonarException;
+
 
 import com.stevpet.sonar.plugins.dotnet.mscover.property.ConfigurationProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.CoverageReaderThreadsProperty;
@@ -271,7 +264,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
                 properties.add((ConfigurationProperty) instance);
                 return instance;
             } catch (Exception e) {
-                throw new SonarException(e);
+                throw new IllegalStateException(e);
             }
 
         }

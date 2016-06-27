@@ -38,7 +38,6 @@ public class ProcessInfo {
             return id.equals((String) other);
         }
         if (other instanceof ProcessInfo) {
-            ProcessInfo otherInfo = (ProcessInfo) other;
             return id.equals(((ProcessInfo) other).getId());
         }
         return false;

@@ -14,7 +14,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
-import org.sonar.api.utils.SonarException;
+
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.Mode;
@@ -179,11 +179,11 @@ public class DefaultIntegrationTestsConfigurationTests {
 	    when(settings.getString(SONAR_MSCOVER_INTEGRATIONTESTS_PATTERN)).thenReturn("[illegal");
 	    try {
 	        configuration.getTestProjectPattern();
-	    } catch(SonarException e) {
+	    } catch(IllegalStateException e) {
 
 	        return;
 	    }
-	    fail("expected SonarException");
+	    fail("expected IllegalStateException");
 	}
 	
 	   @Test

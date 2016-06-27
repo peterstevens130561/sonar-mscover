@@ -33,13 +33,12 @@ import javax.annotation.Nonnull;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.WildcardPattern;
 
 import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.NoAssemblyDefinedMsCoverException;
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.SolutionHasNoProjectsSonarException;
+import com.stevpet.sonar.plugins.dotnet.mscover.exception.SolutionHasNoProjectsException;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 
@@ -70,7 +69,7 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
      * If no assembliesPattern is defined, then find through the projects, otherwise use the pattern starting in the
      * solutiondirectory
      * 
-     * @exception SonarException is thrown when no assemblies are found while pattern is defined.
+     * @exception IllegalStateException is thrown when no assemblies are found while pattern is defined.
      * @return the list of assemblies
      * 
      * exception is thrown when no assemblies are found while pattern is defined.
@@ -96,7 +95,7 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
      */
     private List<String> fromBuildConfiguration(List<VisualStudioProject> projects) {
         if(projects==null || projects.isEmpty()) {
-            throw new SolutionHasNoProjectsSonarException() ;
+            throw new SolutionHasNoProjectsException() ;
         }
         assemblies=new ArrayList<String>();
         for(VisualStudioProject project: projects) {
@@ -119,7 +118,7 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
         setPattern(assembliesPattern);
         findAssemblies(solutionDirectory);
         if(assemblies.isEmpty()) {
-            throw new SonarException(" No unittest assemblies found with pattern '" + assembliesPattern + "'");
+            throw new IllegalStateException(" No unittest assemblies found with pattern '" + assembliesPattern + "'");
         }
         return assemblies; 
     }

@@ -22,8 +22,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverCo
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VsTestRunnerCommandBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.command.VSTestCommandMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VSTestStdOutParserMock;
-import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
-
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -44,7 +42,6 @@ public class DefaultOpenCoverTestRunnerTest {
 			"-register:user -excludebyfile:*\\*.Designer.cs -excludebyattribute:*.ExcludeFromCoverageAttribute* " +
 			"\"-target:exedir\" \"-targetdir:somedir\" -mergebyhash: \"-targetargs:arguments\" -hideskipped:all \"-output:";
     private String coveragePath;
-    private MicrosoftWindowsEnvironment settings;
     private @Mock OpenCoverCommandLineConfiguration configuration;
     
     /**

@@ -27,8 +27,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
-import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverPropertiesMock;
-
 import static org.mockito.Mockito.when ;
 
 public class HintPathAssemblyResolverTest {
