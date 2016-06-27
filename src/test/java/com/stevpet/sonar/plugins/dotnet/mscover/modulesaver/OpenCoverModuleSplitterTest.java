@@ -24,25 +24,26 @@ import static org.mockito.Mockito.anyString;
 public class OpenCoverModuleSplitterTest {
 
 	private CoverageHashes coverageHashes = new CoverageHashes();
-
+	private String projectName = "bogus";
+	private File root = new File("bogus");
     @Test
 	public void simpleTest() throws FileNotFoundException, XMLStreamException, TransformerException {
-		File xmlFile = TestUtils.getResource("OpenCoverCoverageParser/coverage-report.xml");
-		CoverageModuleSaver moduleHelper = mock(CoverageModuleSaver.class);
-		new OpenCoverModuleSplitter(moduleHelper,coverageHashes).splitFile(xmlFile);
-		verify(moduleHelper,times(34)).save(anyString());
+		File testCoverageFile = TestUtils.getResource("OpenCoverCoverageParser/coverage-report.xml");
+		CoverageModuleSaver coverageModuleSaver = mock(CoverageModuleSaver.class);
+		new OpenCoverModuleSplitter(coverageModuleSaver,coverageHashes).splitCoverageFileInFilePerModule(root, projectName, testCoverageFile);
+		verify(coverageModuleSaver,times(34)).save(anyString());
 	}
 	
 	@Test
 	public void fullTest() throws FileNotFoundException, XMLStreamException, TransformerException {
-		File xmlFile = TestUtils.getResource("OpenCoverCoverageParser/coverage-report.xml");
+		File testCoverageFile = TestUtils.getResource("OpenCoverCoverageParser/coverage-report.xml");
 		ModuleParser moduleParser = new OpenCoverModuleParser();
 		File tempDir = Files.createTempDir();
 		
 		OpenCoverCoverageModuleSaver moduleLambda = new OpenCoverCoverageModuleSaver(moduleParser);
 		moduleLambda.setDirectory(tempDir);
 		moduleLambda.setProject("BaseProject");
-		new OpenCoverModuleSplitter(moduleLambda,coverageHashes).splitFile(xmlFile);	
+		new OpenCoverModuleSplitter(moduleLambda,coverageHashes).splitCoverageFileInFilePerModule(root, projectName, testCoverageFile);
 	}
 
 }

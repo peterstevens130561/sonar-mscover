@@ -40,43 +40,21 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
 
     @Override
     public int splitCoverageFileInFilePerModule(File coverageRootDir, String testProjectName, File testCoverageFile) {
-        setRoot(coverageRootDir);
-        setProject(testProjectName);
-        return splitFile(testCoverageFile);
-    }
-    public ModuleSplitter setRoot(File root) {
-        coverageModuleSaver.setDirectory(root);
-        return this;
-    }
 
-    public ModuleSplitter setProject(@Nonnull String projectName) {
-        coverageModuleSaver.setProject(projectName);
-        return this;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.stevpet.sonar.plugins.dotnet.mscover.modulesplitter.ModuleSplitter
-     * #splitFile(java.io.File)
-     */
-    @Override
-    public int splitFile(File file) {
         InputStream inputStream;
         try {
-            inputStream = new FileInputStream(file);
+            inputStream = new FileInputStream(testCoverageFile);
         } catch (FileNotFoundException e) {
-            throw new IllegalStateException("Could not find" + file.getAbsolutePath());
+            throw new IllegalStateException("Could not find" + testCoverageFile.getAbsolutePath());
         }
         try {
-            return split(inputStream);
+            return split(coverageRootDir, testProjectName, inputStream);
         } catch (XMLStreamException | TransformerException e) {
             throw new IllegalStateException("XML exception", e);
         }
     }
 
-    private int split(InputStream inputStream) throws XMLStreamException,
+    private int split(File coverageRootDir,String testProjectName,InputStream inputStream) throws XMLStreamException,
             TransformerException {
 
         BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -101,7 +79,7 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
                 StringBuilder sb = writeXml(writer);
                 String xml = sb.toString();
                 if(!coverageHashes.add(xml)) {
-                    coverageModuleSaver.save(xml);
+                    coverageModuleSaver.setProject(testProjectName).setDirectory(coverageRootDir).save(xml);
                 }
 
             }

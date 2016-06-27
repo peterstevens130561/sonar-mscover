@@ -21,7 +21,7 @@ import org.sonar.test.TestUtils;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.when;
 
-public class OpenCoverModuleSaverTest {
+public class OpenCoverModuleSplitterTest2 {
 
     private OpenCoverModuleSplitter moduleSplitter;
     private CoverageFileLocator coverageFileLocator = new DefaultCoverageFileLocator();

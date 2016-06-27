@@ -9,23 +9,13 @@ import javax.xml.transform.TransformerException;
 public interface ModuleSplitter {
 
 	/**
-	 * Parse the OpenCover coverage file, and give each Module to the moduleLambda to process
+	 * Parse the OpenCover coverage file, and save each module
 	 * 
 	 * @param file - OpenCover coverage file
 	 * @return
 	 * @throws FileNotFoundException
 	 * @throws XMLStreamException
 	 * @throws TransformerException
-	 */
-    @Deprecated
-	int splitFile(File file) throws FileNotFoundException, XMLStreamException,
-			TransformerException;
-
-    @Deprecated
-    ModuleSplitter setRoot(File coverageDir);
-
-    @Deprecated
-    ModuleSplitter setProject(String string);
-    
+	 */  
     int splitCoverageFileInFilePerModule(File coverageRootDir, String testProjectName,File testCoverageFile);
 }
