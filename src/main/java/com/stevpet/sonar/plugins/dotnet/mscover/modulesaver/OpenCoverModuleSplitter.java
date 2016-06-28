@@ -39,7 +39,7 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
     }
 
     @Override
-    public int splitCoverageFileInFilePerModule(File coverageRootDir, String testProjectName, File testCoverageFile) {
+    public int splitCoverageFileInFilePerModule(@Nonnull File coverageRootDir, @Nonnull String testProjectName, @Nonnull File testCoverageFile) {
 
         InputStream inputStream;
         try {
@@ -52,7 +52,7 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
         } catch (XMLStreamException | TransformerException e) {
             throw new IllegalStateException("XML exception", e);
         }
-
+    }
     private int split(File coverageRootDir,String testProjectName,InputStream inputStream) throws XMLStreamException,
             TransformerException {
 
@@ -74,7 +74,7 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
                     && "Module".equals(streamReader.getLocalName())) {
                 String xml = getModuleIntoNewXmlDoc(t, streamReader);
                 if(!coverageHashes.add(xml)) {
-                    coverageModuleSaver.setProject(testProjectName).setDirectory(coverageRootDir).save(xml);
+                    coverageModuleSaver.save(coverageRootDir,testProjectName,xml);
                 }
 
             }

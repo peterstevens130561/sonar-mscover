@@ -20,6 +20,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.eq;
 
 public class OpenCoverModuleSplitterTest {
 
@@ -31,7 +32,7 @@ public class OpenCoverModuleSplitterTest {
 		File testCoverageFile = TestUtils.getResource("OpenCoverCoverageParser/coverage-report.xml");
 		CoverageModuleSaver coverageModuleSaver = mock(CoverageModuleSaver.class);
 		new OpenCoverModuleSplitter(coverageModuleSaver,coverageHashes).splitCoverageFileInFilePerModule(root, projectName, testCoverageFile);
-		verify(coverageModuleSaver,times(34)).save(anyString());
+		verify(coverageModuleSaver,times(34)).save(eq(root),eq(projectName),anyString());
 	}
 	
 	@Test
@@ -41,8 +42,6 @@ public class OpenCoverModuleSplitterTest {
 		File tempDir = Files.createTempDir();
 		
 		OpenCoverCoverageModuleSaver moduleLambda = new OpenCoverCoverageModuleSaver(moduleParser);
-		moduleLambda.setDirectory(tempDir);
-		moduleLambda.setProject("BaseProject");
 		new OpenCoverModuleSplitter(moduleLambda,coverageHashes).splitCoverageFileInFilePerModule(root, projectName, testCoverageFile);
 	}
 
