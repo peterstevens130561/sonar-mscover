@@ -75,7 +75,7 @@ public class VsTestTestResultsSaver implements BatchExtension{
     	LOG.debug("saved {} testresults",saved);
     }
 
-    public void saveFileSummaryResults(ClassUnitTestResult fileResults,
+    private void saveFileSummaryResults(ClassUnitTestResult fileResults,
             File sonarFile) {
         sensorContext.saveMeasure(sonarFile, CoreMetrics.SKIPPED_TESTS,
                 fileResults.getIgnored());
@@ -92,27 +92,27 @@ public class VsTestTestResultsSaver implements BatchExtension{
     }
 
  
-    public void saveFileTestResults(ClassUnitTestResult fileResults, File sonarFile) {
-        for( UnitTestMethodResult result : fileResults.getUnitTests()) {
-            MutableTestPlan testplan = perspectives.as(MutableTestPlan.class, sonarFile);
-            if(testplan == null) {
-                continue;
-            }
+    private void saveFileTestResults(ClassUnitTestResult fileResults, File sonarFile) {
+        MutableTestPlan testplan = perspectives.as(MutableTestPlan.class, sonarFile);
+        if(testplan == null) {
+            return;
+        }
+        fileResults.getUnitTests()
+        .forEach( result ->
             testplan.addTestCase(result.getTestName())
             .setDurationInMs(result.getTimeInMicros()/1000)
             .setStackTrace(result.getStackTrace())
             .setMessage(result.getMessage())
             .setStatus(getStatus(result))
-            .setType(TestCase.TYPE_UNIT);
-        }
+            .setType(TestCase.TYPE_UNIT)
+            );
     }
-
+    
     private Status getStatus(UnitTestMethodResult result) {
-        switch (result.getOutcome()) {
-        case "Passed" : return Status.OK ;
-        case "Ignored" : return Status.SKIPPED;
-        case "Failed" : return Status.FAILURE;
-        case "Error" : return Status.ERROR;
+        switch (result.getTestResult()) {
+        case Passed: return Status.OK ;
+        case Ignored: return Status.SKIPPED;
+        case Failed : return Status.FAILURE;
         default : throw new IllegalArgumentException("Illegal test outcome " + result.getOutcome());
         }
     }
