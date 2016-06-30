@@ -61,6 +61,14 @@ public class VsTestResultsSaverSociableTest {
     }
     
     @Test
+    public void fileNotKnown() {
+        when(perspectives.as(eq(MutableTestPlan.class), any( org.sonar.api.resources.File.class))).thenReturn(null);
+        setupForStatus("Failed");
+        verify(perspectives,times(1)).as(eq(MutableTestPlan.class), eq(sonarFile));
+        verify(testPlan,times(0)).addTestCase("first");
+        
+    }
+    @Test
     public void oneFile() {
         results= new ProjectUnitTestResults();
         sonarFile = new org.sonar.api.resources.File("first");
