@@ -7,13 +7,17 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.resources.File;
 import org.sonar.api.scan.filesystem.PathResolver;
+import org.sonar.api.test.MutableTestPlan;
+import org.sonar.api.test.TestCase;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.DefaultTestResultsFormatter;
@@ -25,8 +29,8 @@ public class VsTestTestResultsSaver implements BatchExtension{
             .getLogger(VsTestTestResultsSaver.class);
     TestResultsSaver testResultsSaver;
     SensorContext sensorContext;
-    private TestResultsFormatter testResultsFormatter;
     private ResourceResolver resourceResolver;
+    private ResourcePerspectives perspectives;
 
     @SuppressWarnings("ucd")
     /**
@@ -37,11 +41,9 @@ public class VsTestTestResultsSaver implements BatchExtension{
      */
 	public
     VsTestTestResultsSaver(
-            DefaultResourceResolver resourceResolver,
-            TestResultsFormatter testResultsFormatter) {
-
-        this.testResultsFormatter = testResultsFormatter;
+            DefaultResourceResolver resourceResolver,ResourcePerspectives perspectives) {
         this.resourceResolver = resourceResolver;
+        this.perspectives = perspectives;
     }
     
     /**
@@ -50,10 +52,9 @@ public class VsTestTestResultsSaver implements BatchExtension{
      * @param filesystem
      */
 	public static VsTestTestResultsSaver create(
-			PathResolver pathResolver, FileSystem filesystem) {
+			PathResolver pathResolver, FileSystem filesystem, ResourcePerspectives perspectives) {
 		return new VsTestTestResultsSaver(
-			new DefaultResourceResolver(pathResolver,filesystem), 
-			new DefaultTestResultsFormatter()
+			new DefaultResourceResolver(pathResolver,filesystem), perspectives
 		);
 	}
 
@@ -93,13 +94,18 @@ public class VsTestTestResultsSaver implements BatchExtension{
                 fileResults.getTests());
     }
 
-    public void saveFileTestResults(ClassUnitTestResult fileResults,
-            File sonarFile) {
-        String data = testResultsFormatter
-                .formatClassUnitTestResults(fileResults);
-        Measure testData = new Measure(CoreMetrics.TEST_DATA, data);
-        testData.setPersistenceMode(PersistenceMode.DATABASE);
-        sensorContext.saveMeasure(sonarFile, testData);
+ 
+    public void saveFileTestResults(ClassUnitTestResult fileResults, File sonarFile) {
+        for( UnitTestMethodResult result : fileResults.getUnitTests()) {
+            MutableTestPlan testplan = perspectives.as(MutableTestPlan.class, sonarFile);
+            if(testplan == null) {
+                continue;
+            }
+            testplan.addTestCase(result.getTestName())
+            .setDurationInMs(result.getTimeInMicros()/1000)
+            .setMessage(result.getMessage())
+            .setType(TestCase.TYPE_UNIT);
+        }
     }
 
 }

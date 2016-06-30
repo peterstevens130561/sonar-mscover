@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.PathResolver;
@@ -79,6 +80,7 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 	 * @param settings
 	 * @param pathResolver
 	 * @param integrationTestsConfiguration
+	 * @param perspectives 
 	 * @param coverageHashes 
 	 * @param multiThreadedSpecflowIntegrationTestApplication) 
 	 */
@@ -89,7 +91,7 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 			Settings settings, 
 			PathResolver pathResolver,
 			IntegrationTestsConfiguration integrationTestsConfiguration, 
-			MultiThreadedSpecflowIntegrationTestCache multiThreadedSpecflowIntegrationTestCache
+			MultiThreadedSpecflowIntegrationTestCache multiThreadedSpecflowIntegrationTestCache, ResourcePerspectives perspectives
 			)
  {
 		this.integrationTestRunnerApplication = new MultiThreadedSpecflowIntegrationTestApplication(microsoftWindowsEnvironment,
@@ -98,7 +100,7 @@ public class OpenCoverSpecFlowTestRunnerSensor implements Sensor {
 		        fileSystem,
 		        settings,
 		        multiThreadedSpecflowIntegrationTestCache);
-		this.testResultsSaver = VsTestTestResultsSaver.create(pathResolver, fileSystem);
+		this.testResultsSaver = VsTestTestResultsSaver.create(pathResolver, fileSystem,perspectives);
 		this.integrationTestsConfiguration = integrationTestsConfiguration;
 	}
 

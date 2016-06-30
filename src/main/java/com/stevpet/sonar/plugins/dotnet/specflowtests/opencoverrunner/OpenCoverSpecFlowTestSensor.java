@@ -6,6 +6,7 @@ import org.sonar.api.batch.DependedUpon;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.PathResolver;
@@ -51,7 +52,8 @@ public class OpenCoverSpecFlowTestSensor implements Sensor {
             PathResolver pathResolver,
             IntegrationTestsConfiguration integrationTestsConfiguration, 
             MultiThreadedSpecflowIntegrationTestCache multiThreadedSpecflowIntegrationTestCache,
-            OpenCoverSpecFlowTestSaverSensor saverSensor
+            OpenCoverSpecFlowTestSaverSensor saverSensor, 
+            ResourcePerspectives perspectives
             )
     {
         this.integrationTestRunnerApplication = new MultiThreadedSpecflowIntegrationTestApplication(microsoftWindowsEnvironment,
@@ -60,7 +62,7 @@ public class OpenCoverSpecFlowTestSensor implements Sensor {
                 fileSystem,
                 settings,
                 multiThreadedSpecflowIntegrationTestCache);
-        this.testResultsSaver = VsTestTestResultsSaver.create(pathResolver, fileSystem);
+        this.testResultsSaver = VsTestTestResultsSaver.create(pathResolver, fileSystem,perspectives);
         this.integrationTestsConfiguration = integrationTestsConfiguration;
         this.saverSensor = saverSensor;
     }
