@@ -9,19 +9,16 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.measures.Measure;
-import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.resources.File;
 import org.sonar.api.scan.filesystem.PathResolver;
 import org.sonar.api.test.MutableTestPlan;
 import org.sonar.api.test.TestCase;
+import org.sonar.api.test.TestCase.Status;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.DefaultTestResultsFormatter;
-import com.stevpet.sonar.plugins.dotnet.mscover.saver.test.TestResultsFormatter;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 
 public class VsTestTestResultsSaver implements BatchExtension{
@@ -103,8 +100,20 @@ public class VsTestTestResultsSaver implements BatchExtension{
             }
             testplan.addTestCase(result.getTestName())
             .setDurationInMs(result.getTimeInMicros()/1000)
+            .setStackTrace(result.getStackTrace())
             .setMessage(result.getMessage())
+            .setStatus(getStatus(result))
             .setType(TestCase.TYPE_UNIT);
+        }
+    }
+
+    private Status getStatus(UnitTestMethodResult result) {
+        switch (result.getOutcome()) {
+        case "Passed" : return Status.OK ;
+        case "Ignored" : return Status.SKIPPED;
+        case "Failed" : return Status.FAILURE;
+        case "Error" : return Status.ERROR;
+        default : throw new IllegalArgumentException("Illegal test outcome " + result.getOutcome());
         }
     }
 
