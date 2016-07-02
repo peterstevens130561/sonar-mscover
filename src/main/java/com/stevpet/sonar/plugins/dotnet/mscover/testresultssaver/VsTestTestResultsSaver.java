@@ -97,6 +97,7 @@ public class VsTestTestResultsSaver implements BatchExtension{
         if(testplan == null) {
             return;
         }
+        String testCaseType = sonarFile.getName().endsWith("feature.cs")?TestCase.TYPE_INTEGRATION:TestCase.TYPE_UNIT;
         fileResults.getUnitTests()
         .forEach( result ->
             testplan.addTestCase(result.getTestName())
@@ -104,7 +105,7 @@ public class VsTestTestResultsSaver implements BatchExtension{
             .setStackTrace(result.getStackTrace())
             .setMessage(result.getMessage())
             .setStatus(getStatus(result))
-            .setType(TestCase.TYPE_UNIT)
+            .setType(testCaseType)
             );
     }
     
