@@ -68,10 +68,11 @@ public class VsTestResultsSaverSociableTest {
         verify(testPlan,times(0)).addTestCase("first");
         
     }
+    
     @Test
-    public void oneFile() {
+    public void integrationTestFile() {
         results= new ProjectUnitTestResults();
-        sonarFile = new org.sonar.api.resources.File("first");
+        sonarFile = new org.sonar.api.resources.File("sources","first.feature.cs");
         File first = new File("first");
         when(testPlan.addTestCase("first")).thenReturn(testCase);
         ClassUnitTestResult result = results.addFile(first);
@@ -87,6 +88,29 @@ public class VsTestResultsSaverSociableTest {
         verify(testCase,times(1)).setMessage("message");
         verify(testCase,times(1)).setStatus(Status.OK);
         verify(testCase,times(1)).setDurationInMs(25l);
+        verify(testCase,times(1)).setType("INTEGRATION");  
+        verify(testCase,times(1)).setStackTrace("stacktrace");      
+    }
+    @Test
+    public void oneFile() {
+        results= new ProjectUnitTestResults();
+        createFirstFile();
+        File first = new File("first");
+        when(testPlan.addTestCase("first")).thenReturn(testCase);
+        ClassUnitTestResult result = results.addFile(first);
+        when(resourceResolver.getFile(first)).thenReturn(sonarFile);
+        UnitTestMethodResult unitTest = new UnitTestMethodResult();
+        unitTest.setClassName("class").setMessage("message").setTestName("first").setTimeMicros(25000).setOutcome("Passed").setStackTrace("stacktrace");
+        result.add(unitTest);
+        saver.save(sensorContext, results);
+
+
+        verify(perspectives,times(1)).as(eq(MutableTestPlan.class), eq(sonarFile));
+        verify(testPlan,times(1)).addTestCase("first");
+        verify(testCase,times(1)).setMessage("message");
+        verify(testCase,times(1)).setStatus(Status.OK);
+        verify(testCase,times(1)).setDurationInMs(25l);
+        verify(testCase,times(1)).setType("UNIT");        
         verify(testCase,times(1)).setStackTrace("stacktrace");      
     }
     
@@ -104,7 +128,7 @@ public class VsTestResultsSaverSociableTest {
     
     private void setupForStatus(String outcome) {
         results= new ProjectUnitTestResults();
-        sonarFile = new org.sonar.api.resources.File("first");
+        createFirstFile();
         File first = new File("first");
         when(testPlan.addTestCase("first")).thenReturn(testCase);
         ClassUnitTestResult result = results.addFile(first);
@@ -117,7 +141,7 @@ public class VsTestResultsSaverSociableTest {
     @Test
     public void twoFiles() {
         results= new ProjectUnitTestResults();
-        sonarFile = new org.sonar.api.resources.File("first");
+        createFirstFile();
         File first = new File("first");
         when(testPlan.addTestCase("first")).thenReturn(testCase);
         ClassUnitTestResult result = results.addFile(first);
@@ -137,6 +161,7 @@ public class VsTestResultsSaverSociableTest {
         verify(testCase,times(1)).setMessage("message");
         verify(testCase,times(1)).setStatus(Status.OK);
         verify(testCase,times(1)).setDurationInMs(25l);
+
         verify(testCase,times(1)).setStackTrace("stacktrace");
         
         verify(perspectives,times(1)).as(eq(MutableTestPlan.class), eq(sonarFile));
@@ -144,7 +169,13 @@ public class VsTestResultsSaverSociableTest {
         verify(testCase,times(1)).setMessage("message2");
         verify(testCase,times(1)).setStatus(Status.OK);
         verify(testCase,times(1)).setDurationInMs(5l);
-        verify(testCase,times(1)).setStackTrace("stacktrace2");       
+        verify(testCase,times(1)).setStackTrace("stacktrace2");  
+        
+        verify(testCase,times(2)).setType("UNIT"); 
+    }
+
+    private void createFirstFile() {
+        sonarFile = new org.sonar.api.resources.File("sources","first");
     }
    
 }

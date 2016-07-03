@@ -55,7 +55,7 @@ class DefaultTestResultsSaver implements TestResultsSaver {
         sensorContext.saveMeasure(sonarFile, CoreMetrics.TEST_FAILURES,
                 fileResults.getFail());
         sensorContext.saveMeasure(sonarFile, CoreMetrics.TEST_EXECUTION_TIME,
-                1000.0);
+                fileResults.getLocalTimeMillis());
         sensorContext.saveMeasure(sonarFile, CoreMetrics.TESTS,
                 fileResults.getTests());
     }

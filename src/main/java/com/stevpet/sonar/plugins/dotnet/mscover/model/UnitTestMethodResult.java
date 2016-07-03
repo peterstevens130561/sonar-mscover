@@ -101,6 +101,10 @@ public class UnitTestMethodResult {
     public long getTimeInMicros() {
         return localTime.toNanoOfDay()/1000;
     }
+    
+    public long getTimeInMillis() {
+            return localTime.toNanoOfDay()/1000000;
+    }
     public String getCodeBase() {
         return codeBase;
     }

@@ -107,6 +107,6 @@ public class ClassUnitTestResult {
     }
 
     public Double getLocalTimeMillis() {
-       return (double) (localTime.getNano()/1000000);
+       return (double) (localTime.toNanoOfDay()/1000000);
     }
 }
