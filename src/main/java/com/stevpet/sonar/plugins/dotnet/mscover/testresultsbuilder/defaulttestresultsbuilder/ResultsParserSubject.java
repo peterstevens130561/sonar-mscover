@@ -33,7 +33,7 @@ public class ResultsParserSubject extends  XmlParserSubject {
                 "Results","TestDefinitions","UnitTest","UnitTestResult",
                 "TestEntries","TestLists","ResultSummary","RunInfos","RunInfo",
                 "UriAttachments","UriAttachment",
-                "CollectorDataEntries","Collector","Output","FileUris","ErrorInfo"};
+                "CollectorDataEntries","Collector","Output","FileUris","ErrorInfo","TestCategory"};
         return hierarchy;
     }
 }
