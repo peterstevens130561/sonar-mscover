@@ -33,14 +33,14 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.ResultsObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.ResultsParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.VsTestResultsParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.UnitTestObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.UnitTestResultObserver;
 
-public class ResultsParserTest {
+public class VsTestResultsParserTest {
     @Test
     public void parser_GetCounters_ShouldMatch() {
-        XmlParserSubject parserSubject = new ResultsParserSubject();
+        XmlParserSubject parserSubject = new VsTestResultsParserSubject();
         File file = TestUtils.getResource("results.trx");
         TestResults results = new TestResults();
         ResultsObserver resultsObserver = new ResultsObserver();
@@ -54,7 +54,7 @@ public class ResultsParserTest {
 
     @Test
     public void parser_GetResults_ShouldMatch() {
-        XmlParserSubject parserSubject = new ResultsParserSubject();
+        XmlParserSubject parserSubject = new VsTestResultsParserSubject();
         File file = TestUtils.getResource("results.trx");
         UnitTestingResults results = new UnitTestingResults();
         UnitTestResultObserver resultsObserver = new UnitTestResultObserver();
@@ -67,7 +67,7 @@ public class ResultsParserTest {
     
     @Test
     public void parser_GetResultsWithError_ShouldMatch() {
-        XmlParserSubject parserSubject = new ResultsParserSubject();
+        XmlParserSubject parserSubject = new VsTestResultsParserSubject();
         File file = TestUtils.getResource("ResultsWithError.trx");
         UnitTestingResults results = new UnitTestingResults();
         UnitTestResultObserver resultsObserver = new UnitTestResultObserver();
@@ -109,7 +109,7 @@ public class ResultsParserTest {
     }
     @Test
     public void parser_GetTest_ShouldMatch() {
-        XmlParserSubject parserSubject = new ResultsParserSubject();
+        XmlParserSubject parserSubject = new VsTestResultsParserSubject();
         File file = TestUtils.getResource("results.trx");
         UnitTestingResults results = new UnitTestingResults();
         UnitTestResultObserver resultsObserver = new UnitTestResultObserver();

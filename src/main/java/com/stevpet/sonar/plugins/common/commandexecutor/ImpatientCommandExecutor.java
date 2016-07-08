@@ -96,7 +96,7 @@ public class ImpatientCommandExecutor implements CommandExecutor {
             }
 
         } catch (java.util.concurrent.TimeoutException te) {
-            process.destroy();
+            process.destroyForcibly();
             throw new TimeoutException(command, "Timeout exceeded: " + timeoutMilliseconds + " ms", te);
 
         } catch (CommandException e) {
