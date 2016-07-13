@@ -147,7 +147,7 @@ public class PropertiesTest {
     @Before
     public void before() {
         org.mockito.MockitoAnnotations.initMocks(this);
-        ProcessHelper processHelper = new ProcessHelper(executor);
+        MwicBridge processHelper = new MwicBridge(executor);
         when(executor.getStdOut()).thenReturn(result);
         processes = processHelper.getProcessPropertiesForName("opencover.console.exe");
     }

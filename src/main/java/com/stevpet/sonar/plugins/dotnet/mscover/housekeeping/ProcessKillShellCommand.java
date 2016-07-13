@@ -9,6 +9,10 @@ import com.stevpet.sonar.plugins.common.api.ShellCommand;
 public class ProcessKillShellCommand implements ShellCommand {
 
     private String id;
+    public ProcessKillShellCommand(String processId) {
+        this.id=id;
+    }
+
     @Override
     public String toCommandLine() {
         // TODO Auto-generated method stub
@@ -27,9 +31,6 @@ public class ProcessKillShellCommand implements ShellCommand {
         return command;
     }
 
-    public void setProcessId(String id) {
-        this.id=id;
-    }
     @Override
     public String getExecutable() {
         // TODO Auto-generated method stub

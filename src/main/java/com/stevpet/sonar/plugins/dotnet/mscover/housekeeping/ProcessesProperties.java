@@ -5,14 +5,32 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang.StringUtils;
+
 
 public class ProcessesProperties {
     List<ProcessProperties> processesProperties = new ArrayList<>();
     
-    public void put(ProcessProperties processProperties) {
-        this.processesProperties.add(processProperties);
+    /**
+     * given the output of MWIC, parse it process by process, and store it for later querying
+     * 
+     * @param result - the MWIC output
+     */
+    public ProcessesProperties(String result) {
+        if (StringUtils.isEmpty(result)) {
+            return;
+        }
+
+        String[] processBlock = result.split("\r\n\r\n");
+        ProcessProperties processProperties = null;
+        for (int block = 1; block < processBlock.length; block++) {
+            String processLines[] = processBlock[block].split("\r\n");
+            processProperties = new ProcessProperties(processLines);
+            processesProperties.add(processProperties);
+        }
     }
-    
+   
+  
     public String getProcessIdOfCommandLine(String commandLine) {
         Optional<ProcessProperties> process = processesProperties.stream().filter(p -> p.getCommandLine().equals(commandLine)).findFirst();
         return process.isPresent() ? process.get().getProcessId() : null;

@@ -14,7 +14,7 @@ import static org.mockito.Matchers.anyString;
 public class OrphanedTestRunnerRemoverTest {
 
     private OrphanedTestRunnerRemover orphanedTestRunnerRemover;
-    private @Mock ProcessHelper processHelper;
+    private @Mock MwicBridge processHelper;
 
     @Before
     public void before() {
@@ -28,7 +28,7 @@ public class OrphanedTestRunnerRemoverTest {
         verify(processHelper,times(1)).getProcessInfoFromName("vstest.executionengine.exe");
         verify(processHelper,times(1)).getProcessInfoFromName("vstest.console.exe");
         verify(processHelper,times(1)).getProcessInfoFromName("opencover.console.exe");
-        verify(processHelper,times(0)).killProcess(anyString());
+        verify(processHelper,times(0)).killProcessId(anyString());
     }
     @Test
     public void noOrphanedTestRunnerLeave() {
@@ -48,7 +48,7 @@ public class OrphanedTestRunnerRemoverTest {
        
        orphanedTestRunnerRemover.execute();
        
-       verify(processHelper,times(0)).killProcess(anyString());
+       verify(processHelper,times(0)).killProcessId(anyString());
       
     }
     
@@ -71,7 +71,7 @@ public class OrphanedTestRunnerRemoverTest {
        
        orphanedTestRunnerRemover.execute();
        
-       verify(processHelper,times(1)).killProcess("101");
+       verify(processHelper,times(1)).killProcessId("101");
       
     }
     
@@ -95,7 +95,7 @@ public class OrphanedTestRunnerRemoverTest {
        
        orphanedTestRunnerRemover.execute();
        
-       verify(processHelper,times(0)).killProcess(anyString());
+       verify(processHelper,times(0)).killProcessId(anyString());
       
     }
     
@@ -118,8 +118,8 @@ public class OrphanedTestRunnerRemoverTest {
        
        orphanedTestRunnerRemover.execute();
        
-       verify(processHelper,times(1)).killProcess("100");
-       verify(processHelper,times(1)).killProcess("101");
+       verify(processHelper,times(1)).killProcessId("100");
+       verify(processHelper,times(1)).killProcessId("101");
       
     }
     @Test
@@ -138,7 +138,7 @@ public class OrphanedTestRunnerRemoverTest {
        
        orphanedTestRunnerRemover.execute();
        
-       verify(processHelper,times(1)).killProcess("100");
+       verify(processHelper,times(1)).killProcessId("100");
       
     }
 }

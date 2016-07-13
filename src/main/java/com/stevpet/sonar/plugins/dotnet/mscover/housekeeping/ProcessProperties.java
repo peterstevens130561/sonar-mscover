@@ -11,10 +11,18 @@ import java.util.Hashtable;
 public class ProcessProperties {
     private Dictionary<String,String> properties = new Hashtable<>(60);
     
-    public void put(Property property) {
-        properties.put(property.getKey(),property.getValue());
-    }
-    
+    public ProcessProperties(String[] processLines) {
+            for(int line=0;line<processLines.length;line++) {
+                String currentLine = processLines[line] ;
+                if(currentLine.isEmpty()) {
+                    continue;
+                }
+                Property property = new Property(currentLine);
+                properties.put(property.getKey(),property.getValue());       
+            }
+        }
+
+ 
     private String get(String key) {
         return properties.get(key);
     }

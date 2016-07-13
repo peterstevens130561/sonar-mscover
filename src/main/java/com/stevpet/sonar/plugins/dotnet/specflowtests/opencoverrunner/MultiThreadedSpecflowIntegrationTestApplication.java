@@ -20,7 +20,7 @@ import com.stevpet.sonar.plugins.common.commandexecutor.WindowsCommandLineExecut
 import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.housekeeping.OrphanedTestRunnerRemover;
-import com.stevpet.sonar.plugins.dotnet.mscover.housekeeping.ProcessHelper;
+import com.stevpet.sonar.plugins.dotnet.mscover.housekeeping.MwicBridge;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioProject;
@@ -80,7 +80,7 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
                 fileSystem, 
                 multiThreadedSpecflowIntegrationTestCache,
                 new OrphanedTestRunnerRemover(
-                        new ProcessHelper(
+                        new MwicBridge(
                                 new WindowsCommandLineExecutor()
                                 )
                         )

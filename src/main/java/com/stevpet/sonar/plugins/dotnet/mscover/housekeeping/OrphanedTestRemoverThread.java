@@ -23,7 +23,7 @@ public class OrphanedTestRemoverThread implements Runnable {
         int wait=1000;
         Thread.currentThread().setName("OrphanedTestRunnerRemover");
         LOG.debug("cleaner starting");
-        OrphanedTestRunnerRemover cleaner = new OrphanedTestRunnerRemover(new ProcessHelper(new WindowsCommandLineExecutor()));
+        OrphanedTestRunnerRemover cleaner = new OrphanedTestRunnerRemover(new MwicBridge(new WindowsCommandLineExecutor()));
         while(state!=State.STOPPING) {
             LOG.debug("State {} ",state);
             LOG.debug("cleaner busy");

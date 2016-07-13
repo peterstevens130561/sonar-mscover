@@ -24,7 +24,7 @@ public class ProcessInfoShellCommandTest {
     }
     @Test
     public void normalResponse() {
-        ProcessHelper ph = new ProcessHelper(commandLineExecutor);
+        MwicBridge ph = new MwicBridge(commandLineExecutor);
         when(commandLineExecutor.getStdOut()).thenReturn(normalResponse);
         List<ProcessInfo> pi=ph.getProcessInfoFromName("vstest.executionengine.exe");
         assertEquals(3,pi.size());
@@ -35,7 +35,7 @@ public class ProcessInfoShellCommandTest {
     
     @Test
     public void noResponse() {
-        ProcessHelper ph = new ProcessHelper(commandLineExecutor);
+        MwicBridge ph = new MwicBridge(commandLineExecutor);
         when(commandLineExecutor.getStdOut()).thenReturn(null);
         List<ProcessInfo> pi=ph.getProcessInfoFromName("vstest.executionengine.exe");
         assertEquals(0,pi.size());

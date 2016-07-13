@@ -7,12 +7,12 @@ import org.slf4j.LoggerFactory;
 
 public class OrphanedTestRunnerRemover {
     private final static Logger LOG = LoggerFactory.getLogger(OrphanedTestRunnerRemover.class);
-    private ProcessHelper processHelper;
+    private MwicBridge processHelper;
     private List<ProcessInfo> engines;
     private List<ProcessInfo> consoles;
     private List<ProcessInfo> opencovers;
 
-    public OrphanedTestRunnerRemover(ProcessHelper processLister) {
+    public OrphanedTestRunnerRemover(MwicBridge processLister) {
         this.processHelper=processLister;
     }
 
@@ -26,7 +26,7 @@ public class OrphanedTestRunnerRemover {
                     if(engineInfo.parentId.equals(consoleInfo.getId())) {
                         String engineId=engineInfo.getId();
                         LOG.info("cleaner will kill {}",engineId);
-                        processHelper.killProcess(engineId);
+                        processHelper.killProcessId(engineId);
                     }
                 }
             }

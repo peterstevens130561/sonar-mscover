@@ -8,11 +8,11 @@ import org.apache.commons.lang.StringUtils;
 
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
 
-public class ProcessHelper {
+public class MwicBridge {
 
     private CommandLineExecutor commandLineExecutor;
 
-    public ProcessHelper(CommandLineExecutor commandLineExecutor) {
+    public MwicBridge(CommandLineExecutor commandLineExecutor) {
         this.commandLineExecutor = commandLineExecutor;
     }
 
@@ -52,34 +52,17 @@ public class ProcessHelper {
     private ProcessesProperties collectProperties() {
         String result = commandLineExecutor.getStdOut();
 
-        ProcessesProperties processesInfo = new ProcessesProperties();
-        if (StringUtils.isEmpty(result)) {
-            return processesInfo;
-        }
+        ProcessesProperties processesInfo = new ProcessesProperties(result);
 
-        String[] lines = result.split("\r\n");
-        ProcessProperties processProperties = null;
-        for (int i = 1; i < lines.length; i++) {
-            while(i<lines.length && lines[i].isEmpty()) {
-                i++;
-            }
-            if(i==lines.length) {
-                continue;
-            }
-            processProperties = new ProcessProperties();    
-            while(i<lines.length && !lines[i].isEmpty()) {
-                Property property = new Property(lines[i]);
-                processProperties.put(property);        
-                i++;
-            }
-            processesInfo.put(processProperties);
-        }
         return processesInfo;
     }
 
-    public void killProcess(String anyString) {
-        ProcessKillShellCommand processKillCommand = new ProcessKillShellCommand();
-        processKillCommand.setProcessId(anyString);
+    /**
+     * kill process by id
+     * @param anyString
+     */
+    public void killProcessId(String processId) {
+        ProcessKillShellCommand processKillCommand = new ProcessKillShellCommand(processId);
         commandLineExecutor.execute(processKillCommand);
     }
 
