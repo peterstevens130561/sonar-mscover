@@ -11,7 +11,7 @@ import com.stevpet.sonar.plugins.common.api.ShellCommand;
  * 
  *
  */
-public class AllProcessInfoShellCommand implements ShellCommand  {
+public class AllProcessInfoMwicCommand implements ShellCommand  {
     private String name;
 
     /**

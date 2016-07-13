@@ -20,12 +20,10 @@ public class ProcessesProperties {
         if (StringUtils.isEmpty(result)) {
             return;
         }
-
         String[] processBlock = result.split("\r\n\r\n");
         ProcessProperties processProperties = null;
         for (int block = 1; block < processBlock.length; block++) {
-            String processLines[] = processBlock[block].split("\r\n");
-            processProperties = new ProcessProperties(processLines);
+            processProperties = new ProcessProperties(processBlock[block]);
             processesProperties.add(processProperties);
         }
     }

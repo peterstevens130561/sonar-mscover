@@ -1,7 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.housekeeping;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -43,17 +42,11 @@ public class MwicBridge {
 
     ProcessesProperties getProcessPropertiesForName(String processName) {
 
-        AllProcessInfoShellCommand processInfoCommand = new AllProcessInfoShellCommand();
+        AllProcessInfoMwicCommand processInfoCommand = new AllProcessInfoMwicCommand();
         processInfoCommand.setProcessName(processName);
         commandLineExecutor.execute(processInfoCommand);
-        return collectProperties();
-    }
-
-    private ProcessesProperties collectProperties() {
         String result = commandLineExecutor.getStdOut();
-
         ProcessesProperties processesInfo = new ProcessesProperties(result);
-
         return processesInfo;
     }
 
