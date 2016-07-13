@@ -6,6 +6,12 @@ import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.common.commandexecutor.WindowsCommandLineExecutor;
 
+/**
+ * Use to remove dangling test runners
+ * 
+ * Start at the beginning of a test run, at the end stop it.
+ *
+ */
 public class OrphanedTestRemoverThread implements Runnable {
     private final static Logger LOG = LoggerFactory.getLogger(OrphanedTestRemoverThread.class);
     private enum State {
