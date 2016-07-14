@@ -16,6 +16,7 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
 import com.google.common.base.Charsets;
+import com.stevpet.sonar.plugins.dotnet.mscover.housekeeping.CommandAndChildrenRemover;
 
 import org.sonar.api.utils.command.Command;
 
@@ -86,6 +87,7 @@ public class MonitoringCommandExecutor implements CommandExecutor {
                             throw new TimeoutException(command, "after " + lapse);
                         }
                         if(watchdogBarks(stdOut, stdErr)) {
+                            throw new TimeoutException(command, "watchdog expired");
                         }
 
                     }

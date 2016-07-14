@@ -1,9 +1,12 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.housekeeping;
 
-import java.util.List;
+
+import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
+import com.stevpet.sonar.plugins.common.commandexecutor.WindowsCommandLineExecutor;
 
 public class CommandAndChildrenRemover {
-    private MwicBridge processHelper ;
+    private CommandLineExecutor commandLineExecutor = new WindowsCommandLineExecutor();
+    private MwicBridge processHelper = new MwicBridge(commandLineExecutor ) ;
     
     public void cancel(String commandLine) {
         ProcessesProperties properties = processHelper.getProcessPropertiesForName("opencover.console.exe");
@@ -12,9 +15,10 @@ public class CommandAndChildrenRemover {
         }
         String processId = properties.getProcessIdOfCommandLine(commandLine);
         ProcessesProperties vsTestProperties=processHelper.getProcessPropertiesForName("vstest.console.exe");
-        String vstTestId=properties.getProcessIdOfChildOf(processId);
+        String vsTestId=vsTestProperties.getProcessIdOfChildOf(processId);
         ProcessesProperties teProperties=processHelper.getProcessPropertiesForName("TE....");
-        String teID=properties.getProcessIdOfChildOf(vstTestId);      
-        processHelper.killProcessId(teID);
+        String teID=properties.getProcessIdOfChildOf(vsTestId);      
+        processHelper.killProcessId(vsTestId);
+        processHelper.killProcessId(processId);
     }
 }

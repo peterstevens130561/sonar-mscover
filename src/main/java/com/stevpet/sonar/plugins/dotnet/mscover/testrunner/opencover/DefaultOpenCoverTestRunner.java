@@ -14,8 +14,10 @@ import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
 import com.stevpet.sonar.plugins.common.commandexecutor.LockedWindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.common.commandexecutor.NullProcessLock;
+import com.stevpet.sonar.plugins.common.commandexecutor.TimeoutException;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.exception.NoAssembliesDefinedException;
+import com.stevpet.sonar.plugins.dotnet.mscover.housekeeping.CommandAndChildrenRemover;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverTarget;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.vstest.VSTestStdOutParser;
@@ -103,7 +105,13 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 	@Override
 	public void execute() {
 		buildCommonArguments();
+		try {
 		commandLineExecutor.execute(openCoverCommand,timeout);
+		} catch (TimeoutException t) {
+            String commandLine=openCoverCommand.toCommandLine();
+            CommandAndChildrenRemover remover = new CommandAndChildrenRemover();
+            remover.cancel(commandLine);
+		}
 	}
 
 	@Override
