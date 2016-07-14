@@ -14,8 +14,8 @@ import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
 
 public class ProcessesPropertiesTest {
 
-    private static final String BLOCK3 = "\r\n" +
-                "\r\n" +
+    private static final String BLOCKSEPERATOR = "\r\n\r\n\r\n\r\n";
+    private static final String BLOCK3 = BLOCKSEPERATOR +
                 "CommandLine=C:\\users\\stevpet\\AppData\\Local\\Apps\\OpenCover\\OpenCover.Console.Exe \"-output:C:/Development/Radiant/Main/Tests/SpecflowTests/Api/Math.Geometry/.sonar/coverage_Volumetrics.SpecflowTest.xml\" -excludebyfile:*\\*.Designer.cs -hideskipped:all \"-targetargs:\\\"C:\\Development\\Radiant\\Main\\bin\\Release\\Volumetrics.SpecflowTest.dll\\\" /Settings:C:\\Development\\Radiant\\Main\\Tests\\unittests.runsettings /Logger:trx /Platform:x64 /inIsolation /TestCaseFilter:\\\"(TestCategory=RegressionTest|TestCategory=AcceptanceTest)\\\"\" -mergebyhash: -skipautoprops -register:Path64 \"-target:C:/Program Files (x86)/Microsoft Visual Studio 14.0/Common7/IDE/CommonExtensions/Microsoft/TestWindow\\vstest.console.exe\" \"-targetdir:C:/Development/Radiant/Main/bin/Release\" -excludebyattribute:*.ExcludeFromCoverageAttribute*\r\n" +
                 "CSName=RDSJ741TY1\r\n" +
                 "Description=OpenCover.Console.exe\r\n" +
@@ -56,8 +56,7 @@ public class ProcessesPropertiesTest {
                 "WorkingSetSize=553455616\r\n" +
                 "WriteOperationCount=3\r\n" +
                 "WriteTransferCount=133\r\n";
-    private static final String BLOCK2 = "\r\n" +
-                "\r\n" +
+    private static final String BLOCK2 = BLOCKSEPERATOR +
                 "CommandLine=C:\\users\\stevpet\\AppData\\Local\\Apps\\OpenCover\\OpenCover.Console.Exe \"-output:C:/Development/Radiant/Main/Tests/SpecflowTests/Api/Math.Geometry/.sonar/coverage_ReservoirSimulation.SpecflowTest.xml\" -excludebyfile:*\\*.Designer.cs -hideskipped:all \"-targetargs:\\\"C:\\Development\\Radiant\\Main\\bin\\Release\\ReservoirSimulation.SpecflowTest.dll\\\" /Settings:C:\\Development\\Radiant\\Main\\Tests\\unittests.runsettings /Logger:trx /Platform:x64 /inIsolation /TestCaseFilter:\\\"(TestCategory=RegressionTest|TestCategory=AcceptanceTest)\\\"\" -mergebyhash: -skipautoprops -register:Path64 \"-target:C:/Program Files (x86)/Microsoft Visual Studio 14.0/Common7/IDE/CommonExtensions/Microsoft/TestWindow\\vstest.console.exe\" \"-targetdir:C:/Development/Radiant/Main/bin/Release\" -excludebyattribute:*.ExcludeFromCoverageAttribute*\r\n" +
                 "CSName=RDSJ741TY1\r\n" +
                 "Description=OpenCover.Console.exe\r\n" +
@@ -98,8 +97,7 @@ public class ProcessesPropertiesTest {
                 "WorkingSetSize=534892544\r\n" +
                 "WriteOperationCount=3\r\n" +
                 "WriteTransferCount=133\r\n";
-    private static final String BLOCK1 = "\r\n" +
-                "\r\n" + 
+    private static final String BLOCK1 = BLOCKSEPERATOR +
                 "CommandLine=C:\\users\\stevpet\\AppData\\Local\\Apps\\OpenCover\\OpenCover.Console.Exe \"-output:C:/Development/Radiant/Main/Tests/SpecflowTests/Api/Math.Geometry/.sonar/coverage_FluidModeling.SpecflowTest.xml\" -excludebyfile:*\\*.Designer.cs -hideskipped:all \"-targetargs:\\\"C:\\Development\\Radiant\\Main\\bin\\Release\\FluidModeling.SpecflowTest.dll\\\" /Settings:C:\\Development\\Radiant\\Main\\Tests\\unittests.runsettings /Logger:trx /Platform:x64 /inIsolation /TestCaseFilter:\\\"(TestCategory=RegressionTest|TestCategory=AcceptanceTest)\\\"\" -mergebyhash: -skipautoprops -register:Path64 \"-target:C:/Program Files (x86)/Microsoft Visual Studio 14.0/Common7/IDE/CommonExtensions/Microsoft/TestWindow\\vstest.console.exe\" \"-targetdir:C:/Development/Radiant/Main/bin/Release\" -excludebyattribute:*.ExcludeFromCoverageAttribute*\r\n" +
                 "CSName=RDSJ741TY1\r\n" +
                 "Description=OpenCover.Console.exe\r\n" +
@@ -163,5 +161,10 @@ public class ProcessesPropertiesTest {
         assertEquals(3,processes.size());
     }
     
-    
+    @Test
+    public void mwicFindProcess() {
+        String commandLine="C:/users/stevpet/AppData/Local/Apps/OpenCover/OpenCover.Console.Exe \"-output:C:/Development/Radiant/Main/Tests/SpecflowTests/Api/Math.Geometry/.sonar/coverage_ReservoirSimulation.SpecflowTest.xml\" -excludebyfile:*\\*.Designer.cs -hideskipped:all \"-targetargs:\\\"C:\\Development\\Radiant\\Main\\bin\\Release\\ReservoirSimulation.SpecflowTest.dll\\\" /Settings:C:\\Development\\Radiant\\Main\\Tests\\unittests.runsettings /Logger:trx /Platform:x64 /inIsolation /TestCaseFilter:\\\"(TestCategory=RegressionTest|TestCategory=AcceptanceTest)\\\"\" -mergebyhash: -skipautoprops -register:Path64 \"-target:C:/Program Files (x86)/Microsoft Visual Studio 14.0/Common7/IDE/CommonExtensions/Microsoft/TestWindow\\vstest.console.exe\" \"-targetdir:C:/Development/Radiant/Main/bin/Release\" -excludebyattribute:*.ExcludeFromCoverageAttribute*";
+        String id=processes.getProcessIdOfCommandLine(commandLine);
+        assertEquals("19412",id);
+    }
 }

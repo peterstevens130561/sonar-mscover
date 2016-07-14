@@ -3,6 +3,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.housekeeping;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.internal.google.common.base.Preconditions;
 
 /**
@@ -11,6 +13,7 @@ import org.sonar.api.internal.google.common.base.Preconditions;
  *
  */
 public class ProcessProperties {
+    private static final Logger LOG = LoggerFactory.getLogger(ProcessProperties.class);
     private Dictionary<String,String> properties = new Hashtable<>(60);
     
     public ProcessProperties(String processBlock) {
@@ -32,7 +35,9 @@ public class ProcessProperties {
     }
     
     public String getCommandLine() {
-        return get("CommandLine");
+        String commandLine=get("CommandLine");
+        LOG.info("CommandLine {}",commandLine);
+        return commandLine;
     }
 
     public int size() {

@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 
@@ -30,6 +32,7 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 
 public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
+    private static final Logger LOG = LoggerFactory.getLogger(OpenCoverTestRunner.class);
 	private static final int DEFAULT_TIMEOUT = 30;
     private OpenCoverCommand openCoverCommand;
 	private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
@@ -102,17 +105,25 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 		}
 	}
 
-	@Override
-	public void execute() {
-		buildCommonArguments();
-		try {
-		commandLineExecutor.execute(openCoverCommand,timeout);
-		} catch (TimeoutException t) {
-            String commandLine=openCoverCommand.toCommandLine();
-            CommandAndChildrenRemover remover = new CommandAndChildrenRemover();
-            remover.cancel(commandLine);
-		}
-	}
+    @Override
+    public void execute() {
+        buildCommonArguments();
+        for (int i = 0; i < 3; i++) {
+            try {
+                commandLineExecutor.execute(openCoverCommand, timeout);
+                return;
+            } catch (TimeoutException t) {
+                LOG.error("Timeout occurred on try {}",i);
+                String commandLine = openCoverCommand.toCommandLine();
+                CommandAndChildrenRemover remover = new CommandAndChildrenRemover();
+                remover.cancel(commandLine);
+            }
+        }
+        String msg="Failed after several tries on " + openCoverCommand.toCommandLine();
+        LOG.error(msg);
+        throw new IllegalStateException(msg);
+        
+    }
 
 	@Override
 	public OpenCoverTestRunner onlyReportAssembliesOfTheSolution() {

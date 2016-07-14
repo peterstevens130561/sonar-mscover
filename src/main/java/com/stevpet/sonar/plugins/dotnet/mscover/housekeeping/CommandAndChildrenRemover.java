@@ -13,12 +13,12 @@ public class CommandAndChildrenRemover {
         if(properties.size()==0) {
             return;
         }
-        String processId = properties.getProcessIdOfCommandLine(commandLine);
+        String openCoverProcessId = properties.getProcessIdOfCommandLine(commandLine);
         ProcessesProperties vsTestProperties=processHelper.getProcessPropertiesForName("vstest.console.exe");
-        String vsTestId=vsTestProperties.getProcessIdOfChildOf(processId);
-        ProcessesProperties teProperties=processHelper.getProcessPropertiesForName("TE....");
+        String vsTestId=vsTestProperties.getProcessIdOfChildOf(openCoverProcessId);
+        ProcessesProperties teProperties=processHelper.getProcessPropertiesForName("TE.ProcessHost.Managed.exe");
         String teID=properties.getProcessIdOfChildOf(vsTestId);      
         processHelper.killProcessId(vsTestId);
-        processHelper.killProcessId(processId);
+        processHelper.killProcessId(openCoverProcessId);
     }
 }
