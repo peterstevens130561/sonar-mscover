@@ -46,6 +46,9 @@ public class ProcessesProperties {
 
 
     public String getProcessIdOfChildOf(String parentId) {
+        if(parentId==null) {
+            return null;
+        }
         Optional<ProcessProperties> process = processesProperties.stream().filter(p -> p.getParentProcessId().equals(parentId)).findFirst();
         return process.isPresent() ? process.get().getProcessId() : null;        
     }

@@ -14,6 +14,7 @@ import org.sonar.api.config.Settings;
 
 import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
+import com.stevpet.sonar.plugins.common.commandexecutor.CommandLineExecutorWithEvents;
 import com.stevpet.sonar.plugins.common.commandexecutor.LockedWindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.common.commandexecutor.NullProcessLock;
 import com.stevpet.sonar.plugins.common.commandexecutor.TimeoutException;
@@ -41,7 +42,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 
 	private File coverageFile;
 	private VSTestStdOutParser vsTestStdOutParser;
-	private CommandLineExecutor commandLineExecutor;
+	private CommandLineExecutorWithEvents commandLineExecutor;
     private Pattern testProjectPattern;
     private int timeout = DEFAULT_TIMEOUT;
     private OpenCoverCommandLineConfiguration configuration;
@@ -52,7 +53,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 			AssembliesFinder assembliesFinder,
 			VsTestRunnerCommandBuilder vsTestRunnerCommandBuilder,
 			VSTestStdOutParser vsTestStdOutParser,
-			CommandLineExecutor commandLineExecutor) {
+			CommandLineExecutorWithEvents commandLineExecutor) {
 		this.openCoverCommand = openCoverCommand;
 		this.configuration = openCoverCommandLineConfiguration;
 		this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;

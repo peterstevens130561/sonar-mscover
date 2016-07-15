@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -117,7 +119,7 @@ public class MonitoringCommandExecutor implements CommandExecutor {
     }
 
     private boolean watchdogBarks(StreamConsumer stdOut, StreamConsumer stdErr) {
-        boolean bark= (lastTrigger + 5*60*1000) < System.currentTimeMillis();
+        boolean bark= (lastTrigger + 10*60*1000) < System.currentTimeMillis();
         if(bark) {
             LOG.error("It has been too long silent on this thread");
             LOG.error("Received on stdout:");
@@ -133,6 +135,7 @@ public class MonitoringCommandExecutor implements CommandExecutor {
             throw new CommandException(command, "Error inside " + type + " stream", gobbler.getException());
         }
     }
+
 
     /**
      * Execute command and display error and output streams in log. Method

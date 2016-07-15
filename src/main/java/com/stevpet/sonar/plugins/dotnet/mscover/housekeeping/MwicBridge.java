@@ -51,10 +51,13 @@ public class MwicBridge {
     }
 
     /**
-     * kill process by id
-     * @param anyString
+     * kill process by id 
+     * @param anyString - if null, then nothing is done
      */
     public void killProcessId(String processId) {
+        if(processId==null) {
+            return;
+        }
         ProcessKillShellCommand processKillCommand = new ProcessKillShellCommand(processId);
         commandLineExecutor.execute(processKillCommand);
     }

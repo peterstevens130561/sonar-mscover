@@ -22,9 +22,11 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.common.commandexecutor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.sonar.api.utils.command.StreamConsumer;
 
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
@@ -36,7 +38,7 @@ import com.stevpet.sonar.plugins.common.api.ShellCommand;
  * Execute any command by invoking execute. Afterwards get stdout and stderr
  * 
  */
-public class WindowsCommandLineExecutor implements CommandLineExecutor {
+public class WindowsCommandLineExecutor implements CommandLineExecutorWithEvents {
     private static final int DEFAULT_TIMEOUT = 120;
     private static Logger LOG = LoggerFactory
             .getLogger(WindowsCommandLineExecutor.class);
@@ -79,6 +81,22 @@ public class WindowsCommandLineExecutor implements CommandLineExecutor {
         } 
         return exitCode;
     }
+    
+    private List<LineReceivedListener> listeners = new ArrayList<>();
+    
+    @Override
+    public void addLineReceivedListener(LineReceivedListener listener) {
+        listeners.add(listener);
+    }
+    
+    @Override
+    public void removeLineReceivedListener(LineReceivedListener listener) {
+        listeners.remove(listener);
+    }
+    
+    private void lineReceived(String line) { 
+        listeners.forEach(listener -> listener.lineReceivedPerformed(() -> line));
+    }
 
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor#getStdOut()
@@ -107,6 +125,7 @@ public class WindowsCommandLineExecutor implements CommandLineExecutor {
         }
 
         public void consumeLine(String line) {
+            lineReceived(line);
             LOG.debug(line);
             log.append(line);
             log.append("\r\n");
