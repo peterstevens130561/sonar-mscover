@@ -120,13 +120,6 @@ public class MonitoringCommandExecutor implements CommandExecutor {
 
     private boolean watchdogBarks(StreamConsumer stdOut, StreamConsumer stdErr) {
         boolean bark= (lastTrigger + 10*60*1000) < System.currentTimeMillis();
-        if(bark) {
-            LOG.error("It has been too long silent on this thread");
-            LOG.error("Received on stdout:");
-            LOG.error(stdOut.toString());
-            LOG.error("Received on stderr");
-            LOG.error(stdErr.toString());
-        }
         return bark;
     }
 
