@@ -1,6 +1,8 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover;
 
 import java.io.File;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ import org.sonar.api.config.Settings;
 import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
 import com.stevpet.sonar.plugins.common.commandexecutor.CommandLineExecutorWithEvents;
+import com.stevpet.sonar.plugins.common.commandexecutor.LineReceivedEvent;
 import com.stevpet.sonar.plugins.common.commandexecutor.LineReceivedListener;
 import com.stevpet.sonar.plugins.common.commandexecutor.LockedWindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.common.commandexecutor.NullProcessLock;
@@ -51,6 +54,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
     private StringBuilder sb;
     private long lastTrigger;
     private long lapse;
+    private LocalDateTime previous;
 	public DefaultOpenCoverTestRunner(OpenCoverCommandLineConfiguration openCoverCommandLineConfiguration,
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
 			OpenCoverCommand openCoverCommand,
@@ -115,7 +119,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 
         buildCommonArguments();
         clearLog();
-        commandLineExecutor.addLineReceivedListener(event -> logAppend(event.getLine()));
+        commandLineExecutor.addLineReceivedListener(event -> logAppend(event));
         for (int i = 0; i < 3; i++) {
             try {
                 commandLineExecutor.execute(openCoverCommand, timeout);
@@ -135,17 +139,16 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
     }
 
 	private void clearLog() {
-	    lastTrigger=System.currentTimeMillis();
+	    previous=LocalDateTime.now();
 	    sb = new StringBuilder(2048);
     }
 
-	private void logAppend(String line) {
-	    long now  = System.currentTimeMillis();
-	    lapse = System.currentTimeMillis()-lastTrigger;
-	    lastTrigger=now;
-	    
-	    sb.append(String.format("%05d   ", lapse/1000));
-	    sb.append(line);
+	private void logAppend(LineReceivedEvent event) {
+	    LocalDateTime now  = event.getDateTime();
+	    Duration duration=Duration.between(now, previous);
+	    previous=now;
+	    sb.append(String.format("%03d ",duration.getSeconds()));
+	    sb.append(event.getLine());
 	    sb.append("\n");
 	}
 	

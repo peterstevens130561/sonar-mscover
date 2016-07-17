@@ -18,7 +18,7 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
 import com.google.common.base.Charsets;
-import com.stevpet.sonar.plugins.dotnet.mscover.housekeeping.CommandAndChildrenRemover;
+
 
 import org.sonar.api.utils.command.Command;
 

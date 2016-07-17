@@ -22,7 +22,10 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.common.commandexecutor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -95,7 +98,14 @@ public class WindowsCommandLineExecutor implements CommandLineExecutorWithEvents
     }
     
     private void lineReceived(String line) { 
-        listeners.forEach(listener -> listener.lineReceivedPerformed(() -> line));
+        LineReceivedEvent event = new LineReceivedEvent() {
+            @Override
+            public String getLine() { return line ; }
+            
+            @Override
+            public LocalDateTime getDateTime() { return LocalDateTime.now() ; }
+        };
+        listeners.forEach(listener -> listener.lineReceivedPerformed(event));
     }
 
     /* (non-Javadoc)
