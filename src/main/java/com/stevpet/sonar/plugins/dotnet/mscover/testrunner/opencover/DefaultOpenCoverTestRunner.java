@@ -119,7 +119,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
         buildCommonArguments();
         clearLog();
         commandLineExecutor.addLineReceivedListener(event -> logAppend(event));
-        for (int retry = 0; retry < retries; retry++) {
+        for (int retry = 0; retry <= retries; retry++) {
             try {
                 commandLineExecutor.execute(openCoverCommand, timeout);
                 return;
@@ -167,6 +167,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
     
     @Override
     public OpenCoverTestRunner setRetries(@Nonnull int retries) {
+        Preconditions.checkArgument(retries>-1,"retries should be >-1");
         this.retries=retries;
         return this;
     }

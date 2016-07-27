@@ -57,7 +57,30 @@ public class DefaultOpenCoverTestRunnerRetriesTest {
     }
 
     @Test
+    public void illegalRetries() {
+        try {
+            openCoverTestRunner.setRetries(-1);
+            fail("expect IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+
+        }
+    }
+    
+    @Test
+    public void definedRetries() {
+        openCoverTestRunner.setRetries(1);
+        executeWithRetries();
+        verify(commandLineExecutor, times(2)).execute(any(ShellCommand.class), anyInt());
+    }
+    @Test
     public void defaultRetries() {
+        executeWithRetries();
+        verify(commandLineExecutor, times(4)).execute(any(ShellCommand.class), anyInt());
+    }
+    
+
+
+    private void executeWithRetries() {
         when(commandLineExecutor.execute(any(ShellCommand.class), anyInt())).thenThrow(new TimeoutException(null, null));
         try {
             openCoverTestRunner.execute();
@@ -65,6 +88,5 @@ public class DefaultOpenCoverTestRunnerRetriesTest {
         } catch (IllegalStateException e) {
 
         }
-        verify(commandLineExecutor, times(3)).execute(any(ShellCommand.class), anyInt());
     }
 }
