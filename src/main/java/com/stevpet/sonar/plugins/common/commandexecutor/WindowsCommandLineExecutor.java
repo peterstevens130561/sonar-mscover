@@ -43,85 +43,97 @@ import com.stevpet.sonar.plugins.common.api.ShellCommand;
  */
 public class WindowsCommandLineExecutor implements CommandLineExecutorWithEvents {
     private static final int DEFAULT_TIMEOUT = 120;
-    private static Logger LOG = LoggerFactory
-            .getLogger(WindowsCommandLineExecutor.class);
+    private static Logger LOG = LoggerFactory.getLogger(WindowsCommandLineExecutor.class);
     private StringStreamConsumer stdOut = new StringStreamConsumer();
     private StringStreamConsumer stdErr = new StringStreamConsumer();
- 
+
     private CommandExecutors commandExecutors;
 
     /**
      * Inject own factory
+     * 
      * @param commandExecutors
      */
     public WindowsCommandLineExecutor(CommandExecutors commandExecutors) {
         this.commandExecutors = commandExecutors;
     }
-    
+
     /**
      * default constructor
      */
     public WindowsCommandLineExecutor() {
         this(new CommandExecutors());
     }
+
     public int execute(ShellCommand command) {
-        return execute(command,DEFAULT_TIMEOUT);
+        return execute(command, DEFAULT_TIMEOUT);
     }
-    
-    public int execute(ShellCommand command,int timeOutMinutes) {
-        CommandExecutor commandExecutor= commandExecutors.create();
+
+    public int execute(ShellCommand command, int timeOutMinutes) {
+        CommandExecutor commandExecutor = commandExecutors.create();
         stdOut = new StringStreamConsumer();
         stdErr = new StringStreamConsumer();
         long timeOut = (long) (timeOutMinutes * 60000);
-        int exitCode = commandExecutor.execute(command.toCommand(),
-                stdOut, stdErr, timeOut);
+        int exitCode = 1;
+        exitCode = commandExecutor.execute(command.toCommand(), stdOut, stdErr, timeOut);
         if (exitCode != 0 && exitCode != 1) {
-            String msg = command.toCommandLine() + " failed with exitCode "
-                    + exitCode;
+            String msg = command.toCommandLine() + " failed with exitCode " + exitCode;
             LOG.error(stdOut.toString());
             LOG.error(stdErr.toString());
             throw new IllegalStateException(msg);
-        } 
+        }
         return exitCode;
     }
-    
+
     private List<LineReceivedListener> listeners = new ArrayList<>();
-    
+
     @Override
     public void addLineReceivedListener(LineReceivedListener listener) {
         listeners.add(listener);
     }
-    
+
     @Override
     public void removeLineReceivedListener(LineReceivedListener listener) {
         listeners.remove(listener);
     }
-    
+
     private void lineReceived(String line) { 
         LineReceivedEvent event = new LineReceivedEvent() {
             @Override
             public String getLine() { return line ; }
-            
+
+
             @Override
-            public LocalDateTime getDateTime() { return LocalDateTime.now() ; }
+            public LocalDateTime getDateTime() {
+                return LocalDateTime.now(); 
+            }
+
         };
         listeners.forEach(listener -> listener.lineReceivedPerformed(event));
     }
 
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor#getStdOut()
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor
+     * #getStdOut()
      */
     public String getStdOut() {
         return stdOut.toString();
     }
-    
-    /* (non-Javadoc)
-     * @see com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor#getStdErr()
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor.CommandLineExecutor
+     * #getStdErr()
      */
     public String getStdErr() {
         return stdErr.toString();
     }
-    
+
     private class StringStreamConsumer implements StreamConsumer {
         private StringBuilder log;
 
@@ -140,8 +152,7 @@ public class WindowsCommandLineExecutor implements CommandLineExecutorWithEvents
             log.append(line);
             log.append("\r\n");
         }
-        
+
     }
-    
-    
+
 }

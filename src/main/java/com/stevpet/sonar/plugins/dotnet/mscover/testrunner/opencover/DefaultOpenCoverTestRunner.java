@@ -3,7 +3,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover;
 import java.io.File;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -16,10 +15,8 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 
 import com.google.common.base.Preconditions;
-import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
 import com.stevpet.sonar.plugins.common.commandexecutor.CommandLineExecutorWithEvents;
 import com.stevpet.sonar.plugins.common.commandexecutor.LineReceivedEvent;
-import com.stevpet.sonar.plugins.common.commandexecutor.LineReceivedListener;
 import com.stevpet.sonar.plugins.common.commandexecutor.LockedWindowsCommandLineExecutor;
 import com.stevpet.sonar.plugins.common.commandexecutor.NullProcessLock;
 import com.stevpet.sonar.plugins.common.commandexecutor.TimeoutException;
@@ -40,6 +37,7 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.VisualStudioSolution;
 public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
     private static final Logger LOG = LoggerFactory.getLogger(OpenCoverTestRunner.class);
 	private static final int DEFAULT_TIMEOUT = 30;
+    private static final int DEFAULT_RETRIES = 3;
     private OpenCoverCommand openCoverCommand;
 	private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 	private AssembliesFinder assembliesFinder;
@@ -55,6 +53,7 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
     private long lastTrigger;
     private long lapse;
     private LocalDateTime previous;
+    private int retries = DEFAULT_RETRIES ;
 	public DefaultOpenCoverTestRunner(OpenCoverCommandLineConfiguration openCoverCommandLineConfiguration,
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
 			OpenCoverCommand openCoverCommand,
@@ -120,12 +119,12 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
         buildCommonArguments();
         clearLog();
         commandLineExecutor.addLineReceivedListener(event -> logAppend(event));
-        for (int i = 0; i < 3; i++) {
+        for (int retry = 0; retry < retries; retry++) {
             try {
                 commandLineExecutor.execute(openCoverCommand, timeout);
                 return;
             } catch (TimeoutException t) {
-                LOG.error("Timeout occurred on try {}",i);
+                LOG.error("Timeout occurred on try {}",retry);
                 logPrint();
                 String commandLine = openCoverCommand.toCommandLine();
                 CommandAndChildrenRemover remover = new CommandAndChildrenRemover();
@@ -165,6 +164,12 @@ public class DefaultOpenCoverTestRunner implements OpenCoverTestRunner {
 		openCoverCommand.setFilter(filter);
 		return this;
 	}
+    
+    @Override
+    public OpenCoverTestRunner setRetries(@Nonnull int retries) {
+        this.retries=retries;
+        return this;
+    }
 
 	public String getAssembliesToIncludeInCoverageFilter(List<String> assemblies) {
 		if (assemblies == null || assemblies.size() == 0) {
