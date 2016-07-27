@@ -92,5 +92,5 @@ public interface IntegrationTestsConfiguration {
      * number of retries to perform. If not defined then it should be 0
      * @return
      */
-    public int getRetries();
+    public int getTestRunnerRetries();
 }

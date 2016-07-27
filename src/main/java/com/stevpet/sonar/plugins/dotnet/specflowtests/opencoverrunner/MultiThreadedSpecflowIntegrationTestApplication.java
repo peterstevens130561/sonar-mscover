@@ -203,7 +203,7 @@ public class MultiThreadedSpecflowIntegrationTestApplication  implements Integra
         .setProjectName(projectName)
         .setModule(projectName)
         .setCoverageRoot(integrationTestsConfiguration.getDirectory())
-        .setRetries(integrationTestsConfiguration.getRetries())
+        .setRetries(integrationTestsConfiguration.getTestRunnerRetries())
         .setTestCaseFilter(integrationTestsConfiguration.getTestCaseFilter());
         
         Callable<Boolean> callable= new CallableTestRunner(testRunner, projectName, multiThreadedSpecFlowIntegrationTestCache);

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.Settings;
+
 
 
 import com.stevpet.sonar.plugins.dotnet.mscover.property.ConfigurationProperty;
@@ -49,6 +51,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     private final TestRunnerThreadsProperty testRunnerThreadsProperty;
     private final ScheduleProperty scheduleProperty;
     private final ExcludeProjectsProperty excludedProjectsProperty;
+    private final TestRunnerRetriesProperty testRunnerRetriesProperty;
 
     public DefaultIntegrationTestsConfiguration(Settings settings, FileSystem fileSystem) {
         this(settings);
@@ -67,7 +70,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
         this.coverageReaderThreadsProperty  = propertyBag.create(CoverageReaderThreadsProperty.class);
         this.testRunnerThreadsProperty = propertyBag.create(TestRunnerThreadsProperty.class);
         this.excludedProjectsProperty = propertyBag.create(ExcludeProjectsProperty.class);
-
+        this.testRunnerRetriesProperty=propertyBag.create(TestRunnerRetriesProperty.class);
         this.scheduleProperty=propertyBag.create(ScheduleProperty.class);       
     }
 
@@ -234,6 +237,11 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     }
 
     @Override
+    public int getTestRunnerRetries() {
+        return testRunnerRetriesProperty.getValue();
+    }
+
+    @Override
     public Pattern getSchedule() {
         return scheduleProperty.getValue();
     }
@@ -272,10 +280,6 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
        List<ConfigurationProperty> getProperties() {
            return properties;
        }
-    }
-    @Override
-    public int getRetries() {
-        return 0;
     }
 
 
