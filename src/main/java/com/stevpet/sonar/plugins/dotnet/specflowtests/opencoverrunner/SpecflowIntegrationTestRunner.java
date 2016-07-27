@@ -45,6 +45,7 @@ public class SpecflowIntegrationTestRunner implements
     private String projectName;
     private String testCaseFilter;
     private int timeout ;
+    private int retries;
 
 	/**
 	 * All of the dependencies of the runner
@@ -136,7 +137,7 @@ public class SpecflowIntegrationTestRunner implements
 		testRunner.setTestProjectPattern(pattern);
 		testRunner.setTimeout(timeout);
 		testRunner.setCoverageFile(coverageFile);
-		
+		testRunner.setRetries(retries);
 		testRunner.setTestCaseFilter(testCaseFilter);
 		testRunner.execute();
 		
@@ -176,6 +177,12 @@ public class SpecflowIntegrationTestRunner implements
     @Override
     public IntegrationTestRunner setTimeout(int timeout) {
         this.timeout=timeout;
+        return this;
+    }
+
+    @Override
+    public IntegrationTestRunner setRetries(int retries) {
+        this.retries=retries;
         return this;
     }
 }

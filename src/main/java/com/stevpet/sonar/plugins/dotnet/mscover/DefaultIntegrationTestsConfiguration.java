@@ -273,6 +273,10 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
            return properties;
        }
     }
+    @Override
+    public int getRetries() {
+        return 0;
+    }
 
 
 }
