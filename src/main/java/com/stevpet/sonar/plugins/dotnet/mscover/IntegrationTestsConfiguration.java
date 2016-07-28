@@ -86,4 +86,11 @@ public interface IntegrationTestsConfiguration {
      * @return
      */
     List<String> getExcludedProjects();
+
+
+    /**
+     * number of retries to perform. If not defined then it should be 0
+     * @return
+     */
+    public int getTestRunnerRetries();
 }

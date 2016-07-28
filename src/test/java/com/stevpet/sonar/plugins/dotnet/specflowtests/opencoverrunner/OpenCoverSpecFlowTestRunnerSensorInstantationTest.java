@@ -6,6 +6,7 @@ import org.mockito.Mock;
 import org.picocontainer.DefaultPicoContainer;
 import org.sonar.api.SonarPlugin;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
+import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
@@ -20,6 +21,7 @@ public class OpenCoverSpecFlowTestRunnerSensorInstantationTest {
 	@Mock Settings settings ;
 	@Mock Project project;
 	@Mock DefaultFileSystem fs;
+	@Mock ResourcePerspectives resourcePerspectives;
 	DefaultPicoContainer picoContainer;
 	
 	@Before
@@ -27,6 +29,7 @@ public class OpenCoverSpecFlowTestRunnerSensorInstantationTest {
 		org.mockito.MockitoAnnotations.initMocks(this);
 		picoContainer = new DefaultPicoContainer() ;
 		picoContainer.addComponent( settings);
+		picoContainer.addComponent(resourcePerspectives);
 		SonarPlugin plugin = new MsCoverPlugin();
 		for(Object clazz : plugin.getExtensions()) {
 

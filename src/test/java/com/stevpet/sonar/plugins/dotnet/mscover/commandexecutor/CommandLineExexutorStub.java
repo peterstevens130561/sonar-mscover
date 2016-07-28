@@ -2,8 +2,10 @@ package com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor;
 
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
 import com.stevpet.sonar.plugins.common.api.ShellCommand;
+import com.stevpet.sonar.plugins.common.commandexecutor.CommandLineExecutorWithEvents;
+import com.stevpet.sonar.plugins.common.commandexecutor.LineReceivedListener;
 
-public class CommandLineExexutorStub implements CommandLineExecutor {
+public class CommandLineExexutorStub implements CommandLineExecutorWithEvents {
 
     String commandLine ;
     private int timeoutMinutes;
@@ -39,6 +41,18 @@ public class CommandLineExexutorStub implements CommandLineExecutor {
             commandLine=command.toCommandLine();
         }
         return 0;
+    }
+
+    @Override
+    public void addLineReceivedListener(LineReceivedListener listener) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void removeLineReceivedListener(LineReceivedListener listener) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

@@ -20,20 +20,33 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder;
+package com.stevpet.sonar.plugins.dotnet.mscover.parser.results;
+
+
+import java.io.File;
+
+import javax.xml.stream.FactoryConfigurationError;
+import javax.xml.stream.XMLStreamException;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.VsTestResultsParserSubject;
 
-public class ResultsParserSubject extends  XmlParserSubject {
+public class VsTestResultsParserSubjectTest {
 
-
-    @Override
-    public String[] getHierarchy() {
-        String[] hierarchy = { "TestResults","TestSettings","Execution",
-                "Results","TestDefinitions","UnitTest","UnitTestResult",
-                "TestEntries","TestLists","ResultSummary","RunInfos","RunInfo",
-                "UriAttachments","UriAttachment",
-                "CollectorDataEntries","Collector","Output","FileUris","ErrorInfo"};
-        return hierarchy;
+    @Test
+    public void createParser_ShouldWork() {
+        XmlParserSubject parserSubject = new VsTestResultsParserSubject();
+        Assert.assertNotNull(parserSubject);
+    }
+    
+    @Test
+    public void createParser_ParseResultsFile() throws FactoryConfigurationError, XMLStreamException {
+        XmlParserSubject parserSubject = new VsTestResultsParserSubject();
+        File file = TestUtils.getResource("results.trx");
+        parserSubject.parseFile(file);
     }
 }

@@ -28,5 +28,12 @@ public interface OpenCoverTestRunner extends TestRunner {
      */
     void setTimeout(int timeout);
 
+    /**
+     * 
+     * @param retries  number of retries > 0
+     * @return
+     */
+    OpenCoverTestRunner setRetries(int retries);
+
 
 }

@@ -20,33 +20,25 @@
  *
  * Author: Peter Stevens, peter@famstevens.eu
  *******************************************************************************/
-package com.stevpet.sonar.plugins.dotnet.mscover.parser.results;
-
-
-import java.io.File;
-
-import javax.xml.stream.FactoryConfigurationError;
-import javax.xml.stream.XMLStreamException;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.sonar.test.TestUtils;
+package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder;
 
 import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.ResultsParserSubject;
 
-public class ResultsParserSubjectTest {
+/**
+ * Base parser for VsTestResult files
+ * @author stevpet
+ *
+ */
+public class VsTestResultsParserSubject extends  XmlParserSubject {
 
-    @Test
-    public void createParser_ShouldWork() {
-        XmlParserSubject parserSubject = new ResultsParserSubject();
-        Assert.assertNotNull(parserSubject);
-    }
-    
-    @Test
-    public void createParser_ParseResultsFile() throws FactoryConfigurationError, XMLStreamException {
-        XmlParserSubject parserSubject = new ResultsParserSubject();
-        File file = TestUtils.getResource("results.trx");
-        parserSubject.parseFile(file);
+
+    @Override
+    public String[] getHierarchy() {
+        String[] hierarchy = { "TestResults","TestSettings","Execution",
+                "Results","TestDefinitions","UnitTest","UnitTestResult",
+                "TestEntries","TestLists","ResultSummary","RunInfos","RunInfo",
+                "UriAttachments","UriAttachment",
+                "CollectorDataEntries","Collector","Output","FileUris","ErrorInfo","TestCategory"};
+        return hierarchy;
     }
 }

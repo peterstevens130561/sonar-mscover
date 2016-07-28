@@ -30,4 +30,10 @@ public interface IntegrationTestRunner {
      * @return
      */
     IntegrationTestRunner setTimeout(int timeout);
+
+    /**
+     * @param retries number of retries to perform
+     * @return
+     */
+    IntegrationTestRunner setRetries(int retries);
 }

@@ -19,20 +19,34 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stax.StAXSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * Parse the OpenCover file, and give each module to the moduleLambda
  * 
  */
 public class OpenCoverModuleSplitter implements ModuleSplitter {
-
+    private final Logger LOG = LoggerFactory.getLogger(OpenCoverModuleSplitter.class);
     private CoverageModuleSaver coverageModuleSaver;
     private CoverageHashes coverageHashes;
+    private final XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
+    private final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+
+    /**
+     * For general use
+     * @param coverageHashes
+     */
     public OpenCoverModuleSplitter(CoverageHashes coverageHashes) {
         this(new OpenCoverCoverageModuleSaver(new OpenCoverModuleParser()), coverageHashes);
-
     }
 
+    /**
+     * For unit testing
+     * @param moduleHelper
+     * @param coverageHashes
+     */
     public OpenCoverModuleSplitter(CoverageModuleSaver moduleHelper,CoverageHashes coverageHashes) {
         this.coverageModuleSaver = moduleHelper;
         this.coverageHashes = coverageHashes;
@@ -56,32 +70,33 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
     private int split(File coverageRootDir,String testProjectName,InputStream inputStream) throws XMLStreamException,
             TransformerException {
 
+        Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        
         BufferedReader in = new BufferedReader(new InputStreamReader(
                 inputStream));
-
-        XMLInputFactory factory = XMLInputFactory.newInstance();
-        TransformerFactory tf = TransformerFactory.newInstance();
-
-        Transformer t = tf.newTransformer();
-        t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-
-        XMLStreamReader streamReader = factory.createXMLStreamReader(in);
+        
+        XMLStreamReader reader=xmlInputFactory.createXMLStreamReader(in);
+ 
         int modules = 0;
-        while (streamReader.hasNext()) {
-            streamReader.next();
-
-            if (streamReader.getEventType() == XMLStreamReader.START_ELEMENT
-                    && "Module".equals(streamReader.getLocalName())) {
-                String xml = getModuleIntoNewXmlDoc(t, streamReader);
+        while (reader.hasNext()) {
+            reader.next();
+            if(isModuleStartElement(reader)) {
+            LOG.debug(reader.getLocalName());
+                String xml = getModuleIntoNewXmlDoc(transformer, reader);
+                ++modules;
                 if(!coverageHashes.add(xml)) {
                     coverageModuleSaver.save(coverageRootDir,testProjectName,xml);
                 }
-
             }
 
         }
         return modules;
+    }
 
+    private boolean isModuleStartElement(XMLStreamReader streamReader) {
+        return streamReader.getEventType() == XMLStreamReader.START_ELEMENT
+                && "Module".equals(streamReader.getLocalName());
     }
 
     private String getModuleIntoNewXmlDoc(Transformer t, XMLStreamReader streamReader) throws TransformerException {
@@ -103,7 +118,5 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
         sb.append("</CoverageSession>");
         return sb;
     }
-
-
 
 }

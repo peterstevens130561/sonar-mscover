@@ -1,14 +1,16 @@
 package com.stevpet.sonar.plugins.common.commandexecutor;
 
 import java.io.BufferedReader;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
 import javax.annotation.Nullable;
 
 import org.sonar.api.utils.command.StreamConsumer;
@@ -16,6 +18,8 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
 import com.google.common.base.Charsets;
+
+
 import org.sonar.api.utils.command.Command;
 
 /**
@@ -25,7 +29,7 @@ import org.sonar.api.utils.command.Command;
  *
  */
 
-public class ImpatientCommandExecutor implements CommandExecutor {
+public class MonitoringCommandExecutor implements CommandExecutor {
 
     private static final Logger LOG = Loggers.get(CommandExecutor.class);
     private long lastTrigger;
@@ -75,15 +79,18 @@ public class ImpatientCommandExecutor implements CommandExecutor {
                     long pollingTime = 1000;
                     long start = System.currentTimeMillis();
                     boolean reported = false;
+                    long lapse=0;
                     while (!ft.isDone()) {
                         Thread.sleep(pollingTime);
-                        long now = System.currentTimeMillis();
-                        long lapse = now - start;
+                        lapse += pollingTime;
+                        // tests are just taking too long
                         if (lapse > timeoutMilliseconds) {
                             LOG.error("Timeout after {}" + lapse);
                             throw new TimeoutException(command, "after " + lapse);
                         }
-                        reported = reportSilence(stdOut, stdErr, reported, now);
+                        if(watchdogBarks(stdOut, stdErr)) {
+                            throw new TimeoutException(command, "watchdog expired");
+                        }
 
                     }
                     exitCode = ft.get();
@@ -111,21 +118,9 @@ public class ImpatientCommandExecutor implements CommandExecutor {
         }
     }
 
-    private boolean reportSilence(StreamConsumer stdOut, StreamConsumer stdErr, boolean reported, long now) {
-        long alarmclock = lastTrigger + 300000;
-        if (now >= alarmclock) {
-            if (!reported) {
-                reported = true;
-                LOG.debug("It has been very silent for a while now on this thread");
-                LOG.debug("Received on stdout:");
-                LOG.debug(stdOut.toString());
-                LOG.debug("Received on stderr");
-                LOG.debug(stdErr.toString());
-            }
-        } else {
-            reported = false;
-        }
-        return reported;
+    private boolean watchdogBarks(StreamConsumer stdOut, StreamConsumer stdErr) {
+        boolean bark= (lastTrigger + 10*60*1000) < System.currentTimeMillis();
+        return bark;
     }
 
     private void verifyGobbler(DefaultCommand command, StreamGobbler gobbler, String type) {
@@ -133,6 +128,7 @@ public class ImpatientCommandExecutor implements CommandExecutor {
             throw new CommandException(command, "Error inside " + type + " stream", gobbler.getException());
         }
     }
+
 
     /**
      * Execute command and display error and output streams in log. Method

@@ -4,6 +4,7 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 
+
 import org.sonar.api.resources.File;
 import org.sonar.api.utils.ParsingUtils;
 
@@ -56,7 +57,7 @@ public class DefaultBranchCoverageSaver implements BranchFileCoverageSaver {
     
     private double convertPercentage(Number percentage) {
         return ParsingUtils.scaleValue(percentage.doubleValue() * 100.0);
-    }
+        }
     
     void saveLines( Metric<?> toCoverMetric, Metric<?> coveredMetric, CoverageLinePoints coveragePoints, File resource) {
         Measure<?> lineConditionsMeasure = coverageSaverHelper.getToCoverHitData(coveragePoints, toCoverMetric);

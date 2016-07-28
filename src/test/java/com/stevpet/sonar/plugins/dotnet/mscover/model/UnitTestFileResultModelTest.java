@@ -23,6 +23,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
 import java.io.File;
+import java.time.LocalTime;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -95,6 +96,29 @@ public class UnitTestFileResultModelTest {
         Assert.assertEquals(0.5,fileResult.getDensity(),0.00001);        
     }
     
+    @Test
+    public void checkDuration() {
+        UnitTestMethodResult test = new UnitTestMethodResult();
+        LocalTime localTime = LocalTime.of(0, 3, 10, 11150000);
+        test.setTime(localTime).setOutcome("Failed");
+        fileResult.add(test);
+        Assert.assertEquals((Double)((3*60+10)*1000.0 + 11),fileResult.getLocalTimeMillis());       
+    }
+    
+    @Test
+    public void checkDurationAdd() {
+        UnitTestMethodResult test = new UnitTestMethodResult();
+        LocalTime localTime = LocalTime.of(0, 3, 10, 11150000);
+        test.setTime(localTime).setOutcome("Failed");
+        fileResult.add(test);
+        
+        test = new UnitTestMethodResult();
+        localTime = LocalTime.of(1, 1, 10, 0);
+        test.setTime(localTime).setOutcome("Failed");
+        fileResult.add(test);
+        Assert.assertEquals((Double)((3*60+10 + 3600 + 60 + 10)*1000.0 + 11 ),fileResult.getLocalTimeMillis());
+        
+    }
     private void addFailedTest() {
         UnitTestMethodResult failedTest = new UnitTestMethodResult();
         failedTest.setOutcome("Failed");

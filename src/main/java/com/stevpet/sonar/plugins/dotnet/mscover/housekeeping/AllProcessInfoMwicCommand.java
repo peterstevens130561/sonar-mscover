@@ -6,13 +6,21 @@ import org.sonar.api.utils.command.Command;
 import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.common.api.ShellCommand;
 
-public class ProcessInfoShellCommand implements ShellCommand {
-
+/**
+ * Gives all process info of processes that match the name
+ * 
+ *
+ */
+public class AllProcessInfoMwicCommand implements ShellCommand  {
     private String name;
 
+    /**
+     * @param name full name of the process i.e. opencover.console.exe
+     */
     public void setProcessName(String name) {
         this.name=name;
     }
+    
     @Override
     public String toCommandLine() {
         return toCommand().toString();
@@ -25,8 +33,8 @@ public class ProcessInfoShellCommand implements ShellCommand {
         command.addArgument("process");
         command.addArgument("where");
         command.addArgument("name=\"" + name + "\"");
-        command.addArgument("get");
-        command.addArgument("processid,parentprocessid,name,commandline");
+        command.addArgument("list");
+        command.addArgument("full");
         return command;
     }
 
@@ -34,5 +42,4 @@ public class ProcessInfoShellCommand implements ShellCommand {
     public String getExecutable() {
         return "WMIC";
     }
-
 }

@@ -15,7 +15,7 @@ public class DefaultTestResultsParser implements TestResultsParser {
     @Override
 	public void parse(File unitTestResultsFile) {
     	registry = new UnitTestRegistry();
-        XmlParserSubject parser = new ResultsParserSubject();
+        XmlParserSubject parser = new VsTestResultsParserSubject();
         
         ResultsObserver resultsObserver = new ResultsObserver();
         resultsObserver.setRegistry(registry.getSummary());
