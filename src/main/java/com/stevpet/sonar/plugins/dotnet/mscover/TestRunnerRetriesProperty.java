@@ -9,6 +9,11 @@ import com.stevpet.sonar.plugins.dotnet.mscover.property.InvalidPropertyValueExc
 
 public class TestRunnerRetriesProperty extends ConfigurationPropertyBase<Integer> {
     private static final String PRECONDITION = "must be int > -1";
+    
+    public TestRunnerRetriesProperty(Settings settings) {
+        super(settings);
+    }
+    
     @Override
     public Builder getPropertyBuilder() {
         return createProperty(getKey(),PropertyType.INTEGER)

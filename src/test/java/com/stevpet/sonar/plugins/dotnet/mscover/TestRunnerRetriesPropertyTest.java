@@ -13,13 +13,14 @@ import static org.mockito.Mockito.when;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.InvalidPropertyValueException;
 
 public class TestRunnerRetriesPropertyTest {
-
-    TestRunnerRetriesProperty property = new TestRunnerRetriesProperty();
     @Mock private Settings settings ;
+    private TestRunnerRetriesProperty property;
+
     
     @Before()
     public void before() {
         org.mockito.MockitoAnnotations.initMocks(this);
+        property = new TestRunnerRetriesProperty(settings);
     }
     
     @Test
