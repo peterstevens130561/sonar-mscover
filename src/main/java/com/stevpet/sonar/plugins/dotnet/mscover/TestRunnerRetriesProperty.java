@@ -26,15 +26,15 @@ public class TestRunnerRetriesProperty extends ConfigurationPropertyBase<Integer
 
     @Override
     protected Integer onGetValue(Settings settings) {
-        int threads=0;
+        int retries=0;
         try {
-            threads = settings.getInt(getKey());
+            retries = settings.getInt(getKey());
         } catch (NumberFormatException e) {
             throw new InvalidPropertyValueException(getKey(), settings.getString(getKey()), PRECONDITION);
         }
-        if (threads < 0) {
+        if (retries < 0) {
             throw new InvalidPropertyValueException(getKey(), settings.getString(getKey()), PRECONDITION);
         }
-        return threads;
+        return retries;
     }
 }
