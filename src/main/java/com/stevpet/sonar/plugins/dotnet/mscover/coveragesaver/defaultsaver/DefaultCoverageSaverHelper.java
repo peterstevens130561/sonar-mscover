@@ -4,6 +4,7 @@ import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.PropertiesBuilder;
+import org.sonar.api.utils.ParsingUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
@@ -44,6 +45,11 @@ public class DefaultCoverageSaverHelper implements CoverageSaverHelper{
                 )
         );
         return propertiesBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
+    }
+
+    @Override
+    public double convertPercentage(Number percentage) {
+        return  ParsingUtils.scaleValue(percentage.doubleValue() * 100.0);
     }
 
 }

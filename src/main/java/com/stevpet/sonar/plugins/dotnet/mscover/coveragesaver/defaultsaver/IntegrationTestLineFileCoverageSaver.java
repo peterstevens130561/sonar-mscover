@@ -59,21 +59,6 @@ public class IntegrationTestLineFileCoverageSaver implements
         sensorContext.saveMeasure(resource, lineMeasures);
     }
 
-    /*
-     * Generates a measure that contains the visits of each line of the source
-     * file.
-     */
-    public Measure getHitData(CoverageLinePoints coveragePoints, Metric metric) {
-        PropertiesBuilder<String, Integer> hitsBuilder =  new PropertiesBuilder<String, Integer>(metric);
-
-        hitsBuilder.clear();
-        for (CoverageLinePoint point : coveragePoints.getPoints()) {
-            int lineNumber = ((SonarLinePoint) point).getLine();
-            int countVisits = point.getCovered();
-            hitsBuilder.add(Integer.toString(lineNumber), countVisits);
-        }
-        return hitsBuilder.build().setPersistenceMode(PersistenceMode.DATABASE);
-    }
     
     protected double convertPercentage(Number percentage) {
         return ParsingUtils.scaleValue(percentage.doubleValue() * 100.0);

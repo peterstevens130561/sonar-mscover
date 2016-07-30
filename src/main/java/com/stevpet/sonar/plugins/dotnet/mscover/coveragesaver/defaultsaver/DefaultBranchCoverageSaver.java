@@ -52,12 +52,9 @@ public class DefaultBranchCoverageSaver implements BranchFileCoverageSaver {
         SonarCoverageSummary summary=coveragePoints.getSummary();
         sensorContext.saveMeasure(resource,branchCoverageMetrics.getUncoveredMetric(),(double) summary.getToCover()-summary.getCovered());
         sensorContext.saveMeasure(resource,branchCoverageMetrics.getToCoverMetric(),(double)summary.getToCover());
-        sensorContext.saveMeasure(resource,branchCoverageMetrics.getCoverageMetric(),convertPercentage(summary.getCoverage()));
+        sensorContext.saveMeasure(resource,branchCoverageMetrics.getCoverageMetric(),coverageSaverHelper.convertPercentage(summary.getCoverage()));
     }
     
-    private double convertPercentage(Number percentage) {
-        return ParsingUtils.scaleValue(percentage.doubleValue() * 100.0);
-        }
     
     void saveLines( Metric<?> toCoverMetric, Metric<?> coveredMetric, CoverageLinePoints coveragePoints, File resource) {
         Measure<?> lineConditionsMeasure = coverageSaverHelper.getToCoverHitData(coveragePoints, toCoverMetric);

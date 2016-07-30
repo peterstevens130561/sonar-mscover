@@ -39,7 +39,7 @@ public class DefaultLineFileCoverageSaver implements  LineFileCoverageSaver {
 
 	private ResourceResolver resourceResolver;
 	private SensorContext sensorContext;
-	private final CoverageSaverHelper saverHelper = new DefaultCoverageSaverHelper() ;
+	private final CoverageSaverHelper coverageSaverHelper = new DefaultCoverageSaverHelper() ;
 
 	@Deprecated
     public  DefaultLineFileCoverageSaver(ResourceResolver resourceResolver,SensorContext sensorContext) {
@@ -76,15 +76,12 @@ public class DefaultLineFileCoverageSaver implements  LineFileCoverageSaver {
         double coverage = summary.getCoverage();
     	sensorContext.saveMeasure(resource, CoreMetrics.LINES_TO_COVER, (double) summary.getToCover());
     	sensorContext.saveMeasure(resource, CoreMetrics.UNCOVERED_LINES, (double)summary.getToCover() -summary.getCovered());
-    	sensorContext.saveMeasure(resource,  CoreMetrics.COVERAGE, convertPercentage(coverage));
-    	sensorContext.saveMeasure(resource,  CoreMetrics.LINE_COVERAGE, convertPercentage(coverage));
-        Measure<?> lineMeasures=saverHelper.getCoveredHitData( coveragePoints,CoreMetrics.COVERAGE_LINE_HITS_DATA);
+    	sensorContext.saveMeasure(resource,  CoreMetrics.COVERAGE, coverageSaverHelper.convertPercentage(coverage));
+    	sensorContext.saveMeasure(resource,  CoreMetrics.LINE_COVERAGE, coverageSaverHelper.convertPercentage(coverage));
+        Measure<?> lineMeasures=coverageSaverHelper.getCoveredHitData( coveragePoints,CoreMetrics.COVERAGE_LINE_HITS_DATA);
         sensorContext.saveMeasure(resource, lineMeasures);
     }
 
-    private double convertPercentage(Number percentage) {
-        return ParsingUtils.scaleValue(percentage.doubleValue() * 100.0);
-    }
     
 
 }
