@@ -53,15 +53,11 @@ public class IntegrationTestLineFileCoverageSaver implements
         double coverage = summary.getCoverage();
     	sensorContext.saveMeasure(resource, CoreMetrics.IT_LINES_TO_COVER, (double) summary.getToCover());
     	sensorContext.saveMeasure(resource, CoreMetrics.IT_UNCOVERED_LINES, (double)summary.getToCover() -summary.getCovered());
-    	sensorContext.saveMeasure(resource,  CoreMetrics.IT_COVERAGE, convertPercentage(coverage));
-    	sensorContext.saveMeasure(resource,  CoreMetrics.IT_LINE_COVERAGE, convertPercentage(coverage));
+    	sensorContext.saveMeasure(resource,  CoreMetrics.IT_COVERAGE, coverageSaverHelper.convertPercentage(coverage));
+    	sensorContext.saveMeasure(resource,  CoreMetrics.IT_LINE_COVERAGE, coverageSaverHelper.convertPercentage(coverage));
         Measure<?> lineMeasures=coverageSaverHelper.getCoveredHitData(coveragePoints,CoreMetrics.IT_COVERAGE_LINE_HITS_DATA);
         sensorContext.saveMeasure(resource, lineMeasures);
     }
 
-    
-    protected double convertPercentage(Number percentage) {
-        return ParsingUtils.scaleValue(percentage.doubleValue() * 100.0);
-    }
     
 }
