@@ -37,7 +37,7 @@ public class CoverageSaverBase implements CoverageSaver {
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
 			PathResolver pathResolver, FileSystem fileSystem) {
 		return new CoverageSaverBase(new NullBranchFileCoverageSaver(),
-				new DefaultLineFileCoverageSaver(new DefaultResourceResolver(
+				new UnitTestLineFileCoverageSaver(new DefaultResourceResolver(
 						pathResolver, fileSystem)), microsoftWindowsEnvironment);
 	}
     

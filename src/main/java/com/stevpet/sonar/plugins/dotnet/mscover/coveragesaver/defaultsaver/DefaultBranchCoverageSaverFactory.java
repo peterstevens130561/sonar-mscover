@@ -4,7 +4,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.BranchFileCoverage
 
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 
-public class DefaultBranchCoverageSaverFactory {
+public class DefaultBranchCoverageSaverFactory implements BranchCoverageSaverFactory {
     private final ResourceResolver resourceResolver;
     private CoverageSaverHelper coverageSaverHelper;
 
@@ -12,15 +12,27 @@ public class DefaultBranchCoverageSaverFactory {
         this.resourceResolver = resourceResolver;
         this.coverageSaverHelper = new DefaultCoverageSaverHelper();
     }
-    public BranchFileCoverageSaver createIntegrationTestBranchSaver() {
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.BranchCoverageSaverFactory#createIntegrationTestBranchSaver()
+     */
+    @Override
+    public BranchFileCoverageSaver createIntegrationTestSaver() {
         return new DefaultBranchCoverageSaver(resourceResolver,new IntegrationTestBranchCoverageMetrics(),coverageSaverHelper);
     }
     
-    public BranchFileCoverageSaver createUnitTestBranchSaver() {
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.BranchCoverageSaverFactory#createUnitTestBranchSaver()
+     */
+    @Override
+    public BranchFileCoverageSaver createUnitTestSaver() {
         return new DefaultBranchCoverageSaver(resourceResolver,new UnitTestBranchCoverageMetrics(), coverageSaverHelper);       
     }
     
-    public BranchFileCoverageSaver createOverallBranchSaver() {        
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.BranchCoverageSaverFactory#createOverallBranchSaver()
+     */
+    @Override
+    public BranchFileCoverageSaver createOverallSaver() {        
         return new DefaultBranchCoverageSaver(resourceResolver,new OverallBranchCoverageMetrics(),coverageSaverHelper);       
     }
 }
