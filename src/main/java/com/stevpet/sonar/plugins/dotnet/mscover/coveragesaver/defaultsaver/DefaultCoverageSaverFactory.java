@@ -38,7 +38,7 @@ public class DefaultCoverageSaverFactory implements CoverageSaverFactory {
     public CoverageSaver createOpenCoverUnitTestCoverageSaver() {
         return new CoverageSaverBase(
                 new DefaultBranchCoverageSaverFactory(resourceResolver).createUnitTestSaver(), 
-                new UnitTestLineFileCoverageSaver(resourceResolver), 
+                new DefaultLineCoverageSaverFactory(resourceResolver).createUnitTestSaver(), 
                 microsoftWindowsEnvironment);
 
     }
@@ -50,14 +50,14 @@ public class DefaultCoverageSaverFactory implements CoverageSaverFactory {
     public CoverageSaver createOpenCoverIntegrationTestCoverageSaver() {
         return new CoverageSaverBase(
                 new DefaultBranchCoverageSaverFactory(resourceResolver).createIntegrationTestSaver(),
-                new IntegrationTestLineFileCoverageSaver(resourceResolver),
+                new DefaultLineCoverageSaverFactory(resourceResolver).createIntegrationTestSaver(),
                 microsoftWindowsEnvironment);
     }
 
     public CoverageSaver createOverallTestCoverageSaver() {
         return new CoverageSaverBase(
                 new DefaultBranchCoverageSaverFactory(resourceResolver).createOverallSaver(),
-                new OverallLineFileCoverageSaver(resourceResolver),
+                new DefaultLineCoverageSaverFactory(resourceResolver).createOverallSaver(),
                 microsoftWindowsEnvironment);
     }
 

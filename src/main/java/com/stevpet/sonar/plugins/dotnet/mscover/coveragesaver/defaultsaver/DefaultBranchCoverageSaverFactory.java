@@ -6,7 +6,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolve
 
 public class DefaultBranchCoverageSaverFactory implements BranchCoverageSaverFactory {
     private final ResourceResolver resourceResolver;
-    private CoverageSaverHelper coverageSaverHelper;
+    private final CoverageSaverHelper coverageSaverHelper;
 
     public DefaultBranchCoverageSaverFactory(ResourceResolver resourceResolver) {
         this.resourceResolver = resourceResolver;

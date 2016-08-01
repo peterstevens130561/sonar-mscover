@@ -12,7 +12,7 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.File;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.LineFileCoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultLineFileCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.UnitTestLineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
@@ -43,7 +43,7 @@ public class DefaultLineFileCoverageSaverTest {
 	@Before
 	public void before() {
 		MockitoAnnotations.initMocks(this);
-		coverageSaver = new DefaultLineFileCoverageSaver(resourceResolver, sensorContext);
+		coverageSaver = new UnitTestLineFileCoverageSaver(resourceResolver, sensorContext);
 		coveredFile = new java.io.File(FIRST_FILE);
 		coveredResource = File.create(FIRST_FILE);
 		when(resourceResolver.getFile(eq(coveredFile))).thenReturn(coveredResource);
