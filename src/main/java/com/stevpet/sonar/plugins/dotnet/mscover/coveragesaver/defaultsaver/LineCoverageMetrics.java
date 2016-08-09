@@ -23,10 +23,10 @@ public interface LineCoverageMetrics {
      * Percentage of lines covered
      * @return
      */
-    Metric<?> GetLineCoverageMetric();
+    Metric<Double> getLineCoverageMetric();
     /**
      * Coverage per line
      * @return
      */
-    Metric<?> getCoverageLineHitsDataMetric();
+    Metric<String> getCoverageLineHitsDataMetric();
 }

@@ -43,9 +43,9 @@ public class DefaultLineFileCoverageSaver implements LineFileCoverageSaver
         double coverage = summary.getCoverage();
         sensorContext.saveMeasure(resource, lineCoverageMetrics.getLinesToCoverMetric(), (double) summary.getToCover());
         sensorContext.saveMeasure(resource, lineCoverageMetrics.getUncoveredLinesMetric(), (double)summary.getToCover() -summary.getCovered());
-        sensorContext.saveMeasure(resource,  CoreMetrics.COVERAGE, coverageSaverHelper.convertPercentage(coverage));
-        sensorContext.saveMeasure(resource,  CoreMetrics.LINE_COVERAGE, coverageSaverHelper.convertPercentage(coverage));
-        Measure<?> lineMeasures=coverageSaverHelper.getCoveredHitData( coveragePoints,CoreMetrics.COVERAGE_LINE_HITS_DATA);
+        sensorContext.saveMeasure(resource,  lineCoverageMetrics.getCoverageMetric(), coverageSaverHelper.convertPercentage(coverage));
+        sensorContext.saveMeasure(resource,  lineCoverageMetrics.getLineCoverageMetric(), coverageSaverHelper.convertPercentage(coverage));
+        Measure<?> lineMeasures=coverageSaverHelper.getCoveredHitData( coveragePoints,lineCoverageMetrics.getCoverageLineHitsDataMetric());
         sensorContext.saveMeasure(resource, lineMeasures); 
     }
 

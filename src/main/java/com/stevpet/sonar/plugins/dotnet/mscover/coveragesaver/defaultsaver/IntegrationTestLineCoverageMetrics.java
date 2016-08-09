@@ -21,12 +21,12 @@ public class IntegrationTestLineCoverageMetrics implements LineCoverageMetrics {
     }
 
     @Override
-    public Metric<?> GetLineCoverageMetric() {
+    public Metric<Double> getLineCoverageMetric() {
         return CoreMetrics.IT_LINE_COVERAGE;
     }
 
     @Override
-    public Metric<?> getCoverageLineHitsDataMetric() {
+    public Metric<String> getCoverageLineHitsDataMetric() {
         return CoreMetrics.IT_COVERAGE_LINE_HITS_DATA;
     }
 

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
@@ -22,7 +23,6 @@ import javax.xml.transform.stream.StreamResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * Parse the OpenCover file, and give each module to the moduleLambda
  * 
@@ -36,6 +36,7 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
 
     /**
      * For general use
+     * 
      * @param coverageHashes
      */
     public OpenCoverModuleSplitter(CoverageHashes coverageHashes) {
@@ -44,16 +45,18 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
 
     /**
      * For unit testing
+     * 
      * @param moduleHelper
      * @param coverageHashes
      */
-    public OpenCoverModuleSplitter(CoverageModuleSaver moduleHelper,CoverageHashes coverageHashes) {
+    public OpenCoverModuleSplitter(CoverageModuleSaver moduleHelper, CoverageHashes coverageHashes) {
         this.coverageModuleSaver = moduleHelper;
         this.coverageHashes = coverageHashes;
     }
 
     @Override
-    public int splitCoverageFileInFilePerModule(@Nonnull File coverageRootDir, @Nonnull String testProjectName, @Nonnull File testCoverageFile) {
+    public int splitCoverageFileInFilePerModule(@Nonnull File coverageRootDir, @Nonnull String testProjectName,
+            @Nonnull File testCoverageFile) {
 
         InputStream inputStream;
         try {
@@ -67,42 +70,44 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
             throw new IllegalStateException("XML exception", e);
         }
     }
-    private int split(File coverageRootDir,String testProjectName,InputStream inputStream) throws XMLStreamException,
+
+    private int split(File coverageRootDir, String testProjectName, InputStream inputStream) throws XMLStreamException,
             TransformerException {
 
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-        
-        BufferedReader in = new BufferedReader(new InputStreamReader(
-                inputStream));
-        
-        XMLStreamReader reader=xmlInputFactory.createXMLStreamReader(in);
- 
+        BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
         int modules = 0;
-        while (reader.hasNext()) {
-            reader.next();
-            if(isModuleStartElement(reader)) {
-            LOG.debug(reader.getLocalName());
-                String xml = getModuleIntoNewXmlDoc(transformer, reader);
-                ++modules;
-                if(!coverageHashes.add(xml)) {
-                    coverageModuleSaver.save(coverageRootDir,testProjectName,xml);
-                }
-            }
+        try {
 
+            XMLStreamReader reader = xmlInputFactory.createXMLStreamReader(in);
+
+            while (reader.hasNext()) {
+                reader.next();
+                if (isModuleStartElement(reader)) {
+                    LOG.debug(reader.getLocalName());
+                    String xml = getModuleIntoNewXmlDoc(transformer, reader);
+                    ++modules;
+                    if (!coverageHashes.add(xml)) {
+                        coverageModuleSaver.save(coverageRootDir, testProjectName, xml);
+                    }
+                }
+
+            }
+            in.close();
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
         }
         return modules;
     }
 
     private boolean isModuleStartElement(XMLStreamReader streamReader) {
-        return streamReader.getEventType() == XMLStreamReader.START_ELEMENT
-                && "Module".equals(streamReader.getLocalName());
+        return streamReader.getEventType() == XMLStreamReader.START_ELEMENT && "Module".equals(streamReader.getLocalName());
     }
 
     private String getModuleIntoNewXmlDoc(Transformer t, XMLStreamReader streamReader) throws TransformerException {
         StringWriter writer = new StringWriter();
-        t.transform(new StAXSource(streamReader), new StreamResult(
-                writer));
+        t.transform(new StAXSource(streamReader), new StreamResult(writer));
         StringBuilder sb = writeXml(writer);
         String xml = sb.toString();
         return xml;
