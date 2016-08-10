@@ -6,6 +6,7 @@ import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementObserver;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementObserver.Event;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.PathMatcher;
+import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverPaths;
 
 
@@ -28,8 +29,12 @@ public class OpenCoverFullNameObserver  extends ModuleFullNameObserver {
 		return moduleName;
 	}
 
+	@Override
+	public void registerObservers(ObserverRegistrar registrar) {
+	    registrar.onPath(this::setModuleName, OpenCoverPaths.MODULE_FULLPATH)
+	    .onAttribute(this::observeSkippedDueAttribute,"Module/skippedDueTo");
+	}
 
-    @PathMatcher(path=OpenCoverPaths.MODULE_FULLPATH)
     public void setModuleName(String value) {
     	int lastDirSep = value.lastIndexOf("\\");
     	moduleName=value.substring(lastDirSep+1);	
@@ -41,7 +46,6 @@ public class OpenCoverFullNameObserver  extends ModuleFullNameObserver {
         skipped=false;
     }
     
-    @AttributeMatcher(attributeName="skippedDueTo", elementName = "Module")
     public void observeSkippedDueAttribute(String value) {
         if(StringUtils.isNotEmpty(value)) {
             skipped=true;
