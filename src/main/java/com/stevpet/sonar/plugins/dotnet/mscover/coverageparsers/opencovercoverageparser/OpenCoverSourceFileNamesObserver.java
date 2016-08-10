@@ -23,6 +23,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser;
 
 import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
+import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 public class OpenCoverSourceFileNamesObserver extends OpenCoverObserver {
@@ -32,13 +33,18 @@ public class OpenCoverSourceFileNamesObserver extends OpenCoverObserver {
         setPattern("Modules/Module/Files/File");
     }
 
-    
-    @AttributeMatcher(attributeName = "uid", elementName = "File")
+    @Override
+    public void registerObservers(ObserverRegistrar registrar) {
+        registrar.onAttribute(this::uidMatcher, "File/uid")
+        .onAttribute(this::fileMatcher, "File/fullPath");
+
+    }
+
     public void uidMatcher(String attributeValue) {
         fileID=attributeValue;
     }
     
-    @AttributeMatcher(attributeName="fullPath",elementName="File")
+
     public void fileMatcher(String sourceFileName) {
     	registry.linkFileNameToFileId(sourceFileName, fileID);
 

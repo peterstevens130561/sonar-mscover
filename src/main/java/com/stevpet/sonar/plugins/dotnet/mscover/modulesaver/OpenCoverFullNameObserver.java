@@ -32,7 +32,7 @@ public class OpenCoverFullNameObserver  extends ModuleFullNameObserver {
 	@Override
 	public void registerObservers(ObserverRegistrar registrar) {
 	    registrar.onPath(this::setModuleName, OpenCoverPaths.MODULE_FULLPATH)
-	    .onAttribute(this::observeSkippedDueAttribute,"Module/skippedDueTo");
+	    .onAttribute(this::observeSkippedDueAttribute,"Module/skippedDueTo");    
 	}
 
     public void setModuleName(String value) {
