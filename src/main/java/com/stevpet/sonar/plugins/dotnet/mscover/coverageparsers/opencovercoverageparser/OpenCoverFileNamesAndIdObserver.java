@@ -23,7 +23,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser;
 
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
-import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
@@ -34,6 +33,13 @@ public class OpenCoverFileNamesAndIdObserver extends BaseParserObserver {
     private SourceFileNameTable registry ;
     private SourceFileNameRow model;
 
+    @Override
+    public void registerObservers(ObserverRegistrar registrar) {
+        registrar
+        .onAttribute(this::uidMatcher, "File/uid")
+        .onAttribute(this::fileMatcher,"File/fullPath");
+    }
+
     public OpenCoverFileNamesAndIdObserver() {
         setPattern("Modules/Module/Files/File");
     }
@@ -42,22 +48,15 @@ public class OpenCoverFileNamesAndIdObserver extends BaseParserObserver {
         this.registry=registry;
     }
 
-    @AttributeMatcher(attributeName = "uid", elementName = "File")
     public void uidMatcher(String attributeValue) {
         model = new SourceFileNameRow();
         model.setSourceFileID(Integer.parseInt(attributeValue));
     }
     
-    @AttributeMatcher(attributeName="fullPath",elementName="File")
     public void fileMatcher(String attributeValue) {
         model.setSourceFileName(attributeValue);
         registry.add(model);
     }
 
-    @Override
-    public void registerObservers(ObserverRegistrar registrar) {
-        // TODO Auto-generated method stub
-        
-    }
 
 }
