@@ -70,6 +70,9 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         public void setRegistry(SonarCoverage registry) {
             this.registry = registry;
         }
+        
+
+        
         @ElementMatcher(elementName=FULL_NAME)
         public void classMatcher(String text) {
             offsetToLineMapper.init();

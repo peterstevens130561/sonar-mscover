@@ -53,7 +53,14 @@ public class UnitTestObserver extends BaseParserObserver {
         this.registry = registry;
     }
     
-    @AttributeMatcher(attributeName = "id", elementName = "UnitTest")
+    @Override
+    public void registerObservers(ObserverRegistrar registrar) {
+        registrar.onAttribute(this::id, "UnitTest/id")
+        .onAttribute(this::codeBase, "TestMethod/codeBase")
+        .onAttribute(this::className, "TestMethod/className")
+        .onAttribute(this::name,"TestMethod/name");
+    }
+    
     public void id(String value) {
         unitTestResult=registry.getById(value);
         if(unitTestResult==null) {
@@ -61,20 +68,18 @@ public class UnitTestObserver extends BaseParserObserver {
         }
     }
     
-    @AttributeMatcher(attributeName="codeBase",elementName="TestMethod")
     public void codeBase(String value) {
         unitTestResult.setCodeBase(value);
         unitTestResult.setModuleFromCodeBase(value);
     }
     
-    @AttributeMatcher(attributeName="className",elementName="TestMethod") 
+
     public void className(String value) {
         unitTestResult.setClassName(value);
         unitTestResult.setNamespaceNameFromClassName(value);
         
     }
     
-    @AttributeMatcher(attributeName="name",elementName="TestMethod")
     public void name(String value) {
         String currentName=unitTestResult.getTestName();
         if(StringUtils.isEmpty(currentName)) {
@@ -85,9 +90,5 @@ public class UnitTestObserver extends BaseParserObserver {
         }
     }
 
-    @Override
-    public void registerObservers(ObserverRegistrar registrar) {
-        // TODO Auto-generated method stub
-        
-    }
+
 }

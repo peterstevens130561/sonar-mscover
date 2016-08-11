@@ -125,6 +125,7 @@ public class VsTestResultsParserTest {
         
         UnitTestMethodResult model = results.getById("6debf182-8726-2cb3-6825-ea98526b8f76");
         Assert.assertNotNull(model);
+        Assert.assertEquals("TestQuadTreeGetNodeDataInRangeMockSGrid",model.getTestName());
         Assert.assertEquals("joaQuadtreeTest", model.getClassName());
         Assert.assertEquals("joaGeometriesUnitTest", model.getNamespaceName());
         Assert.assertEquals("c:\\Development\\Jewel.Release.Oahu.StructMod\\JewelEarth\\Core\\joaGeometries\\joaGeometriesUnitTest\\Debug\\joaGeometriesUnitTests.dll",model.getCodeBase());
