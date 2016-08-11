@@ -23,6 +23,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser;
 
 import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementMatcher;
+import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 public class LinesObserver extends VsTestCoverageObserver {
@@ -52,6 +53,12 @@ public class LinesObserver extends VsTestCoverageObserver {
     @Override
     public void setVsTestRegistry(SonarCoverage registry) {
         this.registry = registry;
+    }
+
+    @Override
+    public void registerObservers(ObserverRegistrar registrar) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

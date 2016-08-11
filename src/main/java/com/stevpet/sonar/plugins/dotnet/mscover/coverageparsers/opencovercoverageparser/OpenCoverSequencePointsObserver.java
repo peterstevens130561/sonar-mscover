@@ -26,6 +26,7 @@ import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementObserver;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementObserver.Event;
+import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.OpenCoverSequencePoint;
@@ -158,6 +159,12 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
             }
             offsetToLineMapper.addSequencePoint(sequencePoint);
             coveredFile.addLinePoint(line,lineVisited);
+        }
+
+        @Override
+        public void registerObservers(ObserverRegistrar registrar) {
+            // TODO Auto-generated method stub
+            
         }
         
 }

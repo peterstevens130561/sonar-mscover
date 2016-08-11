@@ -25,6 +25,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestr
 
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
+import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
 
 public class ResultsObserver extends BaseParserObserver {
@@ -59,5 +60,12 @@ public class ResultsObserver extends BaseParserObserver {
     @AttributeMatcher(attributeName="error",elementName="Counters")
     public void erroredMatcher(String attributeValue) {
         data.setErroredTests(Integer.parseInt(attributeValue));
+    }
+
+
+    @Override
+    public void registerObservers(ObserverRegistrar registrar) {
+        // TODO Auto-generated method stub
+        
     }
 }

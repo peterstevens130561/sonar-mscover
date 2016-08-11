@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementMatcher;
+import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 /**
@@ -79,5 +80,11 @@ public class VsTestModuleNameObserver extends VsTestCoverageObserver {
     @Override
 	public void setVsTestRegistry(SonarCoverage registry) {
         // Ignoring intentionally
+    }
+
+    @Override
+    public void registerObservers(ObserverRegistrar registrar) {
+        // TODO Auto-generated method stub
+        
     }
 }

@@ -29,6 +29,7 @@ import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.PathMatcher;
+import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 
@@ -146,6 +147,12 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
         MethodId method = new MethodId(moduleName,nameSpaceName,className,methodName);
        
         registry.add(method, sourceFileId);
+    }
+
+    @Override
+    public void registerObservers(ObserverRegistrar registrar) {
+        // TODO Auto-generated method stub
+        
     }
     
 

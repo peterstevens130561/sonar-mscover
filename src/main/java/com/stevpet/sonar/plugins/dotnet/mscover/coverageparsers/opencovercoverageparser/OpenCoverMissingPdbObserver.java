@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementMatcher;
+import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 public class OpenCoverMissingPdbObserver extends OpenCoverObserver{
@@ -58,5 +59,11 @@ public class OpenCoverMissingPdbObserver extends OpenCoverObserver{
     @Override
     public void setRegistry(SonarCoverage registry) {
         // Registry not used
+    }
+
+    @Override
+    public void registerObservers(ObserverRegistrar registrar) {
+        // TODO Auto-generated method stub
+        
     }
 }

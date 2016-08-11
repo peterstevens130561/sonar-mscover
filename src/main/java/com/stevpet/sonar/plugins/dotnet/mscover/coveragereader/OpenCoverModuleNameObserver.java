@@ -38,4 +38,10 @@ public class OpenCoverModuleNameObserver extends ModuleNameObserver {
 			setSkipTillNextElement("Module");
 		}
 	}
+
+    @Override
+    public void registerObservers(ObserverRegistrar registrar) {
+        // TODO Auto-generated method stub
+        
+    }
 }

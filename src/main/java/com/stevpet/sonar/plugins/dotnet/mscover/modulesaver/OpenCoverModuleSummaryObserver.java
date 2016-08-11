@@ -1,6 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 
 import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
+import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverPaths;
 
 public class OpenCoverModuleSummaryObserver extends  ModuleSummaryObserver{
@@ -24,6 +25,12 @@ public class OpenCoverModuleSummaryObserver extends  ModuleSummaryObserver{
     @Override
     public boolean isNotCovered() {
         return visitedSequencePoints == 0 ;
+    }
+
+    @Override
+    public void registerObservers(ObserverRegistrar registrar) {
+        // TODO Auto-generated method stub
+        
     }
 
 }
