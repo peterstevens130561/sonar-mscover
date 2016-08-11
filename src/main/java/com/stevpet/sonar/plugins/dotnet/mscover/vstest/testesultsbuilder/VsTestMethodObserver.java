@@ -21,36 +21,39 @@ public class VsTestMethodObserver extends BaseParserObserver {
                 + "|(Module/NamespaceTable/Class/ClassName)"
                 + "|(Module/NamespaceTable/Class/Method/MethodFullName)"
                 + "|(Module/NamespaceTable/Class/Method/Lines/SourceFileID)");
-
     }
 
     public void setRegistry(MethodToSourceFileIdMap methodToSourceFileIdMap) {
         this.methodToSourceFileIdMap = methodToSourceFileIdMap;
 
     }
+    
+    @Override
+    public void registerObservers(ObserverRegistrar registrar) {
+        registrar.onPath(this::moduleNameMatcher,"Module/ModuleName")
+        .onPath(this::nameSpaceNameMatcher, "Module/NamespaceTable/NamespaceName")
+        .onPath(this::classNameMatcher, "Module/NamespaceTable/Class/ClassName")
+        .onPath(this::methodFullNameMatcher, "Module/NamespaceTable/Class/Method/MethodFullName")
+        .onPath(this::lineIDMatcher, "Module/NamespaceTable/Class/Method/Lines/SourceFileID");
+    }
 
-    @PathMatcher(path = "Module/ModuleName")
     public void moduleNameMatcher(String moduleName) {
         this.moduleName = moduleName;
     }
 
-    @PathMatcher(path = "Module/NamespaceTable/NamespaceName")
     public void nameSpaceNameMatcher(String nameSpaceName) {
         this.nameSpaceName = nameSpaceName;
     }
 
-    @PathMatcher(path = "Module/NamespaceTable/Class/ClassName")
     public void classNameMatcher(String className) {
         this.className = className;
     }
 
-    @PathMatcher(path = "Module/NamespaceTable/Class/Method/MethodFullName")
     public void methodFullNameMatcher(String methodSignature) {
         methodFullName = methodSignature;
         lookForLine = true;
     }
 
-    @PathMatcher(path = "Module/NamespaceTable/Class/Method/Lines/SourceFileID")
     public void lineIDMatcher(String sourceFileID) {
         if (lookForLine) {
             lookForLine = false;
@@ -61,9 +64,4 @@ public class VsTestMethodObserver extends BaseParserObserver {
 
     }
 
-    @Override
-    public void registerObservers(ObserverRegistrar registrar) {
-        // TODO Auto-generated method stub
-        
-    }
 }
