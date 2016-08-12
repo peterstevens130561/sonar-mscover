@@ -67,12 +67,19 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
         this.registry = registry;
     }
  
+    @Override
+    public void registerObservers(ObserverRegistrar registrar) {
+        registrar.onPath(this::setModuleName, OpenCoverPaths.MODULE_FULLPATH)
+        .onPath(this::setNamespaceAndClassName,"Modules/Module/Classes/Class/FullName")
+        .onElement(this::setMethodName, "Name")
+        .onAttribute(this::setFileId,"FileRef/uid");      
+    }
+    
     /**
      * The moduleName is like
      *       <ModuleName>BHI.JewelEarth.ThinClient.Common</ModuleName>
      * @param value
      */
-    @PathMatcher(path=OpenCoverPaths.MODULE_FULLPATH)
     public void setModuleName(String value) {
         scanMode=ScanMode.SCAN;
         String regex = ".*\\\\(.*)";
@@ -92,7 +99,6 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
      * the last part is the classname, everything before is the namespace
      * @param value
      */
-    @PathMatcher(path="Modules/Module/Classes/Class/FullName")
     public void setNamespaceAndClassName(String value) {
         if("<Module>".equals(value)) {
             this.nameSpaceName="";
@@ -118,7 +124,6 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
      * <Name>System.Boolean BHI.JewelEarth.ThinClient.Common.AsyncPassthroughStream::get_CanRead()</Name>
      * @param value
      */
-    @ElementMatcher(elementName="Name")
     public void setMethodName(String value){
         String regex = "::(.*)\\(.*\\)";
         Pattern pattern = Pattern.compile(regex);
@@ -131,14 +136,11 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
         this.methodName = matcher.group(1); 
     }
    
-
-
     /**
      * Is last element
      * <FileRef uid="1" />
      * @param value
      */
-    @AttributeMatcher(elementName="FileRef",attributeName="uid")
     public void setFileId(String sourceFileId) {
         if(scanMode == ScanMode.SKIP) {
             scanMode=ScanMode.SCAN;
@@ -149,12 +151,7 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
         registry.add(method, sourceFileId);
     }
 
-    @Override
-    public void registerObservers(ObserverRegistrar registrar) {
-        // TODO Auto-generated method stub
-        
-    }
-    
+
 
 }
 
