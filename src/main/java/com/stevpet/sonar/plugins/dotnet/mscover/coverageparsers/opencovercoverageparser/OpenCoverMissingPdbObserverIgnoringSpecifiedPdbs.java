@@ -45,6 +45,10 @@ public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs extends OpenCoverO
                  );
     }
 
+    @Override
+    public void setRegistry(SonarCoverage registry) {
+        // empty, as the registry is not needed
+    }
     public void setPdbsThatCanBeIgnoredIfMissing(Collection<String> missingPdbsThatCanBeIgnored) {
         if(missingPdbsThatCanBeIgnored == null) {
             throw new IllegalArgumentException("pdbs can't be null");
@@ -52,12 +56,12 @@ public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs extends OpenCoverO
         this.pdbs = missingPdbsThatCanBeIgnored;
     }
     
-    @AttributeMatcher(attributeName="skippedDueTo",elementName="Module")
-    public void fileRefMatcher(String attributeValue) {
-        isMissing="MissingPdb".equals(attributeValue);
+    @Override
+    public void registerObservers(ObserverRegistrar registrar) {
+        registrar.onAttribute((value ->isMissing="MissingPdb".equals(value)), "Module/skippedDueTo")
+        .onElement(this::fullName, "FullName");
     }
-    
-    @ElementMatcher(elementName="FullName")
+
     public void fullName(String value) {
         if(isMissing) {
             String msg="Missing PDB file for " + value + "\n did you use a file reference instead of a project reference ?";
@@ -78,15 +82,7 @@ public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs extends OpenCoverO
         isMissing=false;
     }
 
-    @Override
-    public void setRegistry(SonarCoverage registry) {
-        // Tempty, as the registry is not needed
-        
-    }
 
-    @Override
-    public void registerObservers(ObserverRegistrar registrar) {
-        // TODO Auto-generated method stub
-        
-    }
+
+
 }
