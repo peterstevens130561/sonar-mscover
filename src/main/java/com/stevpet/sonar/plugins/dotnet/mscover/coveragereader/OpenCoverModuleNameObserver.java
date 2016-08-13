@@ -18,7 +18,11 @@ public class OpenCoverModuleNameObserver extends ModuleNameObserver {
 
 	}
 	
-	@ElementMatcher(elementName = "FullName")
+    @Override
+    public void registerObservers(ObserverRegistrar registrar) {
+        registrar.onElement(this::moduleNameMatcher, "FullName");
+    }
+
 	public void moduleNameMatcher(String value) {
 		if (modulesToParse == null || modulesToParse.isEmpty()) {
 			return;
@@ -39,9 +43,5 @@ public class OpenCoverModuleNameObserver extends ModuleNameObserver {
 		}
 	}
 
-    @Override
-    public void registerObservers(ObserverRegistrar registrar) {
-        // TODO Auto-generated method stub
-        
-    }
+
 }
