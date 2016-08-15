@@ -34,12 +34,16 @@ public class FileNamesObserver extends VsTestCoverageObserver {
         setPattern("SourceFileNames/(SourceFileID|SourceFileName)");
     }
 
-    @ElementMatcher(elementName = "SourceFileID")
+    @Override
+    public void registerObservers(ObserverRegistrar registrar) {
+        registrar.onElement(this::sourceFileIDMatcher, "SourceFileID")
+        .onElement(this::sourceFileNameMatcher, "SourceFileName");
+    }
+    
     public void sourceFileIDMatcher(String value) {
         fileID = value;
     }
 
-    @ElementMatcher(elementName = "SourceFileName")
     public void sourceFileNameMatcher(String sourceFileName) {
         if (registry.fileIdExists(fileID)) {
             registry.linkFileNameToFileId(sourceFileName, fileID);
@@ -51,9 +55,5 @@ public class FileNamesObserver extends VsTestCoverageObserver {
         this.registry = registry;
     }
 
-    @Override
-    public void registerObservers(ObserverRegistrar registrar) {
-        // TODO Auto-generated method stub
-        
-    }
+
 }
