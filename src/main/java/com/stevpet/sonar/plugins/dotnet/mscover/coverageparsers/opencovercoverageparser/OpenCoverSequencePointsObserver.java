@@ -86,10 +86,11 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
             .onAttribute(this::visitedBranchCountMatcher,BRANCH_POINT + "/vc")
             .onAttribute(this::lineBranchPoint,BRANCH_POINT + "/sl")
             .onAttribute(this::pathBranchPoint,BRANCH_POINT + "/path")
-            .onExit(this::branchPointExit, BRANCHPOINT_PATH);
+            .onExit(this::branchPointExit, BRANCHPOINT_PATH)
+            .onEntry(this::sequencePointEntry, SEQUENCEPOINT_PATH)
+            .onExit(this::sequencePointExit, SEQUENCEPOINT_PATH);
         }
         
-        //@ElementMatcher(elementName=FULL_NAME)
         public void classMatcher(String text) {
             offsetToLineMapper.init();
             coveredFile = new SonarFileCoverage(); // make sure we have somewhere to register the data, maybe there is no FileRef
@@ -99,31 +100,27 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
          * The 
          * @param attributeValue
          */
-        //@AttributeMatcher(attributeName="uid",elementName=FILE_REF)
         public void fileRefMatcher(String attributeValue) {
            coveredFile=registry.getCoveredFile(attributeValue);
            offsetToLineMapper.init();
         }
         
-        //@AttributeMatcher(attributeName = "vc", elementName = SEQUENCE_POINT)
         public void visitedCountMatcher(String attributeValue) {
            lineVisited = !"0".equals(attributeValue);
 
         }
         
-        //@AttributeMatcher(attributeName="offset",elementName=SEQUENCE_POINT)
         public void offsetMatcher(String attributeValue) {
             sequencePoint.setOffset(attributeValue);
         }
         
-        //@AttributeMatcher(attributeName="sl",elementName=SEQUENCE_POINT)
+
         public void startLineMatcher(String attributeValue) {
 
             sequencePoint.setStartLine(attributeValue);
             line=Integer.parseInt(attributeValue);
         }
   
-        //@AttributeMatcher(attributeName="fileid",elementName=SEQUENCE_POINT)
         public void fileIdMatcher(String attributeValue) {
                fileId=attributeValue;
 
@@ -133,35 +130,22 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
             return "0".equals(attributeValue);
         }
         
-        //@AttributeMatcher(attributeName ="vc", elementName = BRANCH_POINT)
+
         public void visitedBranchCountMatcher(String attributeValue) {
             branchVisited = !isPragmaFile(attributeValue);
 
         }
         
-        /*
-        @AttributeMatcher(attributeName = "offset", elementName = BRANCH_POINT)
-        public void offsetBranchPointMatcher(String attributeValue) {
-            int offset=Integer.parseInt(attributeValue);
-            int branchLine=offsetToLineMapper.mapOffsetToLine(offset);
-            if(branchLine != -1) {
-                coveredFile.addBranchPoint(branchLine,branchVisited);
-            }
 
-        }*/
-        
-        //@AttributeMatcher(attributeName = "sl", elementName = BRANCH_POINT)
         public void lineBranchPoint(String attributeValue) {
             branchLine=Integer.parseInt(attributeValue);
         }
         
-        //@AttributeMatcher(attributeName = "path", elementName = BRANCH_POINT)
         public void pathBranchPoint(String attributeValue) {
             branchPath=Integer.parseInt(attributeValue);
         }
         
 
-        //@ElementObserver(path=BRANCHPOINT_PATH, event=Event.EXIT)
         public void branchPointExit() { 
 
             if(isPragmaFile(fileId)) {
@@ -169,12 +153,11 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
             }
             coveredFile.addBranchPoint(branchLine,branchPath,branchVisited);
         }
-        @ElementObserver(path=SEQUENCEPOINT_PATH,event=Event.ENTRY)
+        
         public void sequencePointEntry() {
             sequencePoint=new OpenCoverSequencePoint();
         }
         
-        @ElementObserver(path=SEQUENCEPOINT_PATH, event=Event.EXIT)
         public void sequencePointExit() { 
             if(isPragmaFile(fileId)) {
                 return;
