@@ -35,9 +35,7 @@ public class OpenCoverFileNamesAndIdObserver extends BaseParserObserver {
 
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
-        registrar
-        .onAttribute(this::uidMatcher, "File/uid")
-        .onAttribute(this::fileMatcher,"File/fullPath");
+        registrar.inElement("File", (r ->r.onAttribute("uid",this::uidMatcher).onAttribute("fullPath",this::fileMatcher)));
     }
 
     public OpenCoverFileNamesAndIdObserver() {

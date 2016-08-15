@@ -78,14 +78,14 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         @Override
         public void registerObservers(ObserverRegistrar registrar) {
             registrar.onElement(this::classMatcher, FULL_NAME)
-            .onAttribute(this::fileRefMatcher, FILE_REF + "/uid")
-            .onAttribute(this::visitedCountMatcher, SEQUENCE_POINT + "/vc")
-            .onAttribute(this::offsetMatcher, SEQUENCE_POINT + "/offset")
-            .onAttribute(this::startLineMatcher, SEQUENCE_POINT + "/sl")
-            .onAttribute(this::fileIdMatcher,SEQUENCE_POINT + "/fileid")
-            .onAttribute(this::visitedBranchCountMatcher,BRANCH_POINT + "/vc")
-            .onAttribute(this::lineBranchPoint,BRANCH_POINT + "/sl")
-            .onAttribute(this::pathBranchPoint,BRANCH_POINT + "/path")
+            .onAttribute(FILE_REF + "/uid", this::fileRefMatcher)
+            .onAttribute(SEQUENCE_POINT + "/vc", this::visitedCountMatcher)
+            .onAttribute(SEQUENCE_POINT + "/offset", this::offsetMatcher)
+            .onAttribute(SEQUENCE_POINT + "/sl", this::startLineMatcher)
+            .onAttribute(SEQUENCE_POINT + "/fileid",this::fileIdMatcher)
+            .onAttribute(BRANCH_POINT + "/vc",this::visitedBranchCountMatcher)
+            .onAttribute(BRANCH_POINT + "/sl",this::lineBranchPoint)
+            .onAttribute(BRANCH_POINT + "/path",this::pathBranchPoint)
             .onExit(this::branchPointExit, BRANCHPOINT_PATH)
             .onEntry(this::sequencePointEntry, SEQUENCEPOINT_PATH)
             .onExit(this::sequencePointExit, SEQUENCEPOINT_PATH);

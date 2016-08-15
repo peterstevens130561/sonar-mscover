@@ -72,7 +72,7 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
         registrar.onPath(this::setModuleName, OpenCoverPaths.MODULE_FULLPATH)
         .onPath(this::setNamespaceAndClassName,"Modules/Module/Classes/Class/FullName")
         .onElement(this::setMethodName, "Name")
-        .onAttribute(this::setFileId,"FileRef/uid");      
+        .onAttribute("FileRef/uid",this::setFileId);      
     }
     
     /**

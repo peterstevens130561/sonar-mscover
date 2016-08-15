@@ -35,8 +35,8 @@ public class OpenCoverSourceFileNamesObserver extends OpenCoverObserver {
 
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
-        registrar.onAttribute(this::uidMatcher, "File/uid")
-        .onAttribute(this::fileMatcher, "File/fullPath");
+        registrar.onAttribute("File/uid", this::uidMatcher)
+        .onAttribute("File/fullPath", this::fileMatcher);
 
     }
 

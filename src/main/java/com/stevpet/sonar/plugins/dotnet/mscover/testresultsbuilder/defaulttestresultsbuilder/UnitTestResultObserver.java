@@ -59,13 +59,15 @@ public class UnitTestResultObserver extends BaseParserObserver {
  
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
-        registrar
-        .onAttribute(this::testId, UNIT_TEST_RESULT + "/testId")
-        .onAttribute((value-> unitTestResult.setTestName(value)), UNIT_TEST_RESULT + "/testName")
-        .onAttribute((value ->unitTestResult.setOutcome(value)),  UNIT_TEST_RESULT + "/outcome")
-        .onAttribute(this::duration, UNIT_TEST_RESULT + "/duration")
-        .onAttribute((value ->unitTestResult.setRelativeResultsDirectory(value)),UNIT_TEST_RESULT + "/relativeResultsDirectory")
-        .onElement((value ->unitTestResult.setMessage(value)),"Message")
+        registrar.inElement(UNIT_TEST_RESULT, (r -> r
+                .onAttribute("testId", this::testId)
+                .onAttribute("testName", (value-> unitTestResult.setTestName(value)))
+                .onAttribute("outcome",  (value ->unitTestResult.setOutcome(value)))
+                .onAttribute("duration", this::duration)
+                .onAttribute("relativeResultsDirectory",(value ->unitTestResult.setRelativeResultsDirectory(value)))
+                ));
+           
+        registrar.onElement((value ->unitTestResult.setMessage(value)),"Message")
         .onElement((value -> unitTestResult.setStackTrace(value)), "StackTrace");
     }
     

@@ -15,7 +15,7 @@ public class OpenCoverModuleSummaryObserver extends  ModuleSummaryObserver{
     
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
-        registrar.onAttribute(this::observeVisitedSequencePointsAttribute,SUMMARY + "/visitedSequencePoints");
+        registrar.onAttribute(SUMMARY + "/visitedSequencePoints",this::observeVisitedSequencePointsAttribute);
     }
 
     public void observeVisitedSequencePointsAttribute(String value) {
