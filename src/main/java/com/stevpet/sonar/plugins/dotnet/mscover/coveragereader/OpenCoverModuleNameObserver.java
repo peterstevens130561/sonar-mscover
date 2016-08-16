@@ -20,7 +20,7 @@ public class OpenCoverModuleNameObserver extends ModuleNameObserver {
 	
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
-        registrar.onElement(this::moduleNameMatcher, "FullName");
+        registrar.onElement("FullName", this::moduleNameMatcher);
     }
 
 	public void moduleNameMatcher(String value) {

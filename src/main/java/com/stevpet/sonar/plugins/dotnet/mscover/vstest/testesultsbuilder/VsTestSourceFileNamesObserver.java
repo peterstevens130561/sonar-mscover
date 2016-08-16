@@ -10,8 +10,8 @@ public class VsTestSourceFileNamesObserver extends BaseParserObserver {
 
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
-        registrar.onElement(this::sourceFileIDMatcher, "SourceFileID")
-        .onElement(this::sourceFileNameMatcher, "SourceFileName");
+        registrar.onElement("SourceFileID", this::sourceFileIDMatcher)
+        .onElement("SourceFileName", this::sourceFileNameMatcher);
     }
     
     public void setRegistry(SourceFileNameTable sourceFileNameTable) {

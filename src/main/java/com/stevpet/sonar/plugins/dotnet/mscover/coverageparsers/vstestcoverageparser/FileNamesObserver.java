@@ -36,8 +36,8 @@ public class FileNamesObserver extends VsTestCoverageObserver {
 
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
-        registrar.onElement(this::sourceFileIDMatcher, "SourceFileID")
-        .onElement(this::sourceFileNameMatcher, "SourceFileName");
+        registrar.onElement("SourceFileID", this::sourceFileIDMatcher)
+        .onElement("SourceFileName", this::sourceFileNameMatcher);
     }
     
     public void sourceFileIDMatcher(String value) {

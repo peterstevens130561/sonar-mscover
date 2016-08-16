@@ -77,7 +77,7 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         
         @Override
         public void registerObservers(ObserverRegistrar registrar) {
-            registrar.onElement(this::classMatcher, FULL_NAME)
+            registrar.onElement(FULL_NAME, this::classMatcher)
             .onAttribute(FILE_REF + "/uid", this::fileRefMatcher)
             .onAttribute(SEQUENCE_POINT + "/vc", this::visitedCountMatcher)
             .onAttribute(SEQUENCE_POINT + "/offset", this::offsetMatcher)
