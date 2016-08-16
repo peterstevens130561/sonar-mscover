@@ -1,5 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 
+import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverPaths;
 
@@ -15,9 +16,10 @@ public class OpenCoverModuleSummaryObserver extends  ModuleSummaryObserver{
     
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
-        registrar.onAttribute(SUMMARY + "/visitedSequencePoints",this::observeVisitedSequencePointsAttribute);
+        //registrar.onAttribute(SUMMARY + "/visitedSequencePoints",this::observeVisitedSequencePointsAttribute);
     }
 
+    @AttributeMatcher(elementName = "Summary", attributeName = "visitedSequencePoints") 
     public void observeVisitedSequencePointsAttribute(String value) {
         visitedSequencePoints=Integer.parseInt(value);
     }
