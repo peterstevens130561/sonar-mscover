@@ -16,10 +16,12 @@ public class OpenCoverModuleSummaryObserver extends  ModuleSummaryObserver{
     
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
+        registrar.inPath("Modules/Module/Summary", 
+                        (summary -> summary.onAttribute("visitedSequencePoints",this::observeVisitedSequencePointsAttribute)));
         //registrar.onAttribute(SUMMARY + "/visitedSequencePoints",this::observeVisitedSequencePointsAttribute);
     }
 
-    @AttributeMatcher(elementName = "Summary", attributeName = "visitedSequencePoints") 
+    //@AttributeMatcher(elementName = "Summary", attributeName = "visitedSequencePoints") 
     public void observeVisitedSequencePointsAttribute(String value) {
         visitedSequencePoints=Integer.parseInt(value);
     }
