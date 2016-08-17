@@ -25,9 +25,9 @@ public class DefaultTestResultsParser implements TestResultsParser {
         unitTestResultObserver.setRegistry(registry.getTestingResults());
         parser.registerObserver(unitTestResultObserver);
         
-        UnitTestObserver unitTestObserver = new UnitTestObserver();
-        unitTestObserver.setRegistry(registry.getTestingResults());
-        parser.registerObserver(unitTestObserver);
+        UnitTestDefinitionObserver unitTestDefinitionObserver = new UnitTestDefinitionObserver();
+        unitTestDefinitionObserver.setRegistry(registry.getTestingResults());
+        parser.registerObserver(unitTestDefinitionObserver);
 
        parser.parseFile(unitTestResultsFile);
     }

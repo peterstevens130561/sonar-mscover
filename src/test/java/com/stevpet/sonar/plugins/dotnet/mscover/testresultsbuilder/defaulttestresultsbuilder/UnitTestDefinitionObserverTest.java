@@ -37,7 +37,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
 
 public class UnitTestDefinitionObserverTest {
-    private final UnitTestObserver observer = new UnitTestObserver();
+    private final UnitTestDefinitionObserver observer = new UnitTestDefinitionObserver();
     private TestResults data;
     private UnitTestingResults registry = new UnitTestingResults();
     private UnitTestMethodResult result;

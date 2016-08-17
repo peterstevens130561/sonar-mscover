@@ -40,9 +40,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
  * @author stevpet
  *
  */
-public class UnitTestObserver extends BaseParserObserver {
+public class UnitTestDefinitionObserver extends BaseParserObserver {
 
-    public UnitTestObserver() {
+    public UnitTestDefinitionObserver() {
         setPattern("TestDefinitions/(UnitTest|UnitTest/TestMethod)");
     }
     

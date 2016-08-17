@@ -34,7 +34,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.ResultsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.VsTestResultsParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.UnitTestObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.UnitTestDefinitionObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.UnitTestResultObserver;
 
 public class VsTestResultsParserTest {
@@ -116,9 +116,9 @@ public class VsTestResultsParserTest {
         resultsObserver.setRegistry(results);
         parserSubject.registerObserver(resultsObserver);
         
-        UnitTestObserver unitTestObserver = new UnitTestObserver() ;
-        unitTestObserver.setRegistry(results);
-        parserSubject.registerObserver(unitTestObserver);
+        UnitTestDefinitionObserver unitTestDefinitionObserver = new UnitTestDefinitionObserver() ;
+        unitTestDefinitionObserver.setRegistry(results);
+        parserSubject.registerObserver(unitTestDefinitionObserver);
         
         parserSubject.parseFile(file); 
         Assert.assertEquals(186, results.size());

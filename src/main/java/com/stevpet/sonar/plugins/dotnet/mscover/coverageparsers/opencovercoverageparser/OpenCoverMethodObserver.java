@@ -141,7 +141,7 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
 
         Matcher matcher = pattern.matcher(value) ;
         if(!matcher.find() || matcher.groupCount() !=1) {
-            //scanMode=ScanMode.SKIP;
+            scanMode=ScanMode.SKIP;
             return;
         }
         int a = matcher.groupCount();
