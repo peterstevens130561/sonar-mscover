@@ -58,7 +58,7 @@ public class TestResults {
     public void setErroredTests(int erroredTests) {
         this.erroredTests = erroredTests;
     }
-    public double getErroredTests() {
+    public int getErroredTests() {
         return erroredTests;
     }
 

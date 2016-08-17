@@ -35,6 +35,11 @@ public class ResultsObserver extends BaseParserObserver {
         setPattern("ResultSummary/Counters");
     }
     
+    @Override
+    public void registerObservers(ObserverRegistrar registrar) {
+        // TODO Auto-generated method stub
+        
+    }
     private TestResults data;
 
     public void setRegistry(TestResults data) {
@@ -63,9 +68,4 @@ public class ResultsObserver extends BaseParserObserver {
     }
 
 
-    @Override
-    public void registerObservers(ObserverRegistrar registrar) {
-        // TODO Auto-generated method stub
-        
-    }
 }
