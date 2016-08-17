@@ -24,48 +24,32 @@ package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestr
 
 
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
-import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
 
 public class ResultsObserver extends BaseParserObserver {
-
+    private TestResults data;
 
     public ResultsObserver() {
         setPattern("ResultSummary/Counters");
     }
     
-    @Override
-    public void registerObservers(ObserverRegistrar registrar) {
-        // TODO Auto-generated method stub
-        
-    }
-    private TestResults data;
+
 
     public void setRegistry(TestResults data) {
         this.data = data;
     }
     
-   
-    @AttributeMatcher(attributeName = "executed", elementName = "Counters")
-    public void executedMatcher(String attributeValue) {
-        data.setExecutedTests(Integer.parseInt(attributeValue));
+    @Override
+    public void registerObservers(ObserverRegistrar registrar) {
+        registrar.inPath("ResultSummary/Counters",counters -> counters
+                .onAttribute("executed", (value ->data.setExecutedTests(Integer.parseInt(value))))
+                .onAttribute("passed",(value ->data.setPassedTests(Integer.parseInt(value))))
+                .onAttribute("failed",(value ->data.setFailedTests(Integer.parseInt(value))))
+                .onAttribute("error",(value ->data.setErroredTests(Integer.parseInt(value))))
+                );
+     
     }
+
     
-    @AttributeMatcher(attributeName="passed",elementName="Counters")
-    public void passedMatcher(String attributeValue) {
-        data.setPassedTests(Integer.parseInt(attributeValue));
-    }
-
-    @AttributeMatcher(attributeName="failed",elementName="Counters")
-    public void failedMatcher(String attributeValue) {
-        data.setFailedTests(Integer.parseInt(attributeValue));
-    }
-    
-    @AttributeMatcher(attributeName="error",elementName="Counters")
-    public void erroredMatcher(String attributeValue) {
-        data.setErroredTests(Integer.parseInt(attributeValue));
-    }
-
-
 }
