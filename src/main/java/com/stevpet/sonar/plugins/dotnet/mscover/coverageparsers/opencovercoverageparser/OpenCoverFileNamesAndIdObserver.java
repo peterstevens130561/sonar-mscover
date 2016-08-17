@@ -57,4 +57,11 @@ public class OpenCoverFileNamesAndIdObserver extends BaseParserObserver {
     }
 
 
+    public int getUid() {
+    	return model.getSourceFileID();
+    }
+    
+    public String getFileName() {
+    	return model.getSourceFileName();
+    }
 }
