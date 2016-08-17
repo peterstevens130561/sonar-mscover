@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="f879f4d6-80b3-4ae6-be8f-5a761bbfb4f3" name="stevpet@RDSJ741TY1 2014-04-10 20:59:56" runUser="BHI-MASTER\stevpet" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestDefinitions>
+    <UnitTest name="TestEqualSurfaces" storage="c:\development\jewel.release.oahu.structmod\jewelearth\core\joageometries\joageometriesunittest\debug\joageometriesunittests.dll" id="6dd2b593-aa2d-3a7b-1a71-f15debf90d70">
+      <Execution id="33fc91bf-404f-494e-bd05-34cdc1b6af55" />
+      <TestMethod codeBase="c:\Development\Jewel.Release.Oahu.StructMod\JewelEarth\Core\joaGeometries\joaGeometriesUnitTest\Debug\joaGeometriesUnitTests.dll" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter" className="joaGeometriesUnitTest.joaGeometriesUnitTests" name="TestEqualSurfaces" />
+    </UnitTest>
+  </TestDefinitions>
+</TestRun>
