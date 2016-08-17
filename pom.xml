@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <groupId>com.stevpet.sonar</groupId>
   <artifactId>sonar-mscover-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
@@ -11,7 +10,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <sonar.buildVersion>5.4</sonar.buildVersion>
+    <sonar.buildVersion>5.6</sonar.buildVersion>
     <jdk.min.version>1.8</jdk.min.version>
     <powermock.version>1.4.10</powermock.version>
   </properties>
@@ -79,6 +78,15 @@
 
   <build>
     <plugins>
+          <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.5.1</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.codehaus.sonar</groupId>
         <artifactId>sonar-packaging-maven-plugin</artifactId>
@@ -88,90 +96,6 @@
           <pluginClass>com.stevpet.sonar.plugins.dotnet.mscover.plugin.MsCoverPlugin</pluginClass>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.5.1</version>
-        <configuration>
-          <source>${jdk.min.version}</source>
-          <target>${jdk.min.version}</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <!-- UTF-8 bundles are not supported by Java, so they must be converted during build -->
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>native2ascii-maven-plugin</artifactId>
-        <version>1.0-beta-1</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>native2ascii</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-    <pluginManagement>
-    	<plugins>
-    		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-    		<plugin>
-    			<groupId>org.eclipse.m2e</groupId>
-    			<artifactId>lifecycle-mapping</artifactId>
-    			<version>1.0.0</version>
-    			<configuration>
-    				<lifecycleMappingMetadata>
-    					<pluginExecutions>
-    						<pluginExecution>
-    							<pluginExecutionFilter>
-    								<groupId>org.codehaus.mojo</groupId>
-    								<artifactId>
-    									native2ascii-maven-plugin
-    								</artifactId>
-    								<versionRange>
-    									[1.0-beta-1,)
-    								</versionRange>
-    								<goals>
-    									<goal>native2ascii</goal>
-    								</goals>
-    							</pluginExecutionFilter>
-    							<action>
-    								<ignore></ignore>
-    							</action>
-    						</pluginExecution>
-    						<pluginExecution>
-    							<pluginExecutionFilter>
-    								<groupId>
-    									org.codehaus.sonar
-    								</groupId>
-    								<artifactId>
-    									sonar-packaging-maven-plugin
-    								</artifactId>
-    								<versionRange>[1.13,)</versionRange>
-    								<goals>
-    									<goal>check-dependencies</goal>
-    								</goals>
-    							</pluginExecutionFilter>
-    							<action>
-    								<ignore></ignore>
-    							</action>
-    						</pluginExecution>
-    					</pluginExecutions>
-    				</lifecycleMappingMetadata>
-    			</configuration>
-    		</plugin>
-    	</plugins>
-    </pluginManagement>
-    
-  </build>
-
-  <description>Plugin to report test / code coverage for ms environment</description>
-  <scm>
-	<url>scm:git:https://github.com/peterstevens130561/sonar-mscover</url>
-  	<developerConnection>scm:git:https://github.com/peterstevens130561/sonar-mscover</developerConnection>
-  </scm>
-  <url>https://github.com/peterstevens130561/sonar-mscover</url>
-  <organization>
-  	<name>Baker Hughes Reservoir Software B.V. Delft Netherlands</name>
-  	<url>www.bakerhughes.com</url>
-  </organization>
+</plugins>
+</build>
 </project>
