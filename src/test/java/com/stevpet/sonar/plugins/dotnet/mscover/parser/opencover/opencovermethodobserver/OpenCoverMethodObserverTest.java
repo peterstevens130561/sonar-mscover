@@ -43,7 +43,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 
 public class OpenCoverMethodObserverTest {
-    private OpenCoverMethodObserver observer;
+
+	private OpenCoverMethodObserver observer;
     private MethodToSourceFileIdMap registry;
     @Before
     public void before() {
@@ -85,4 +86,6 @@ public class OpenCoverMethodObserverTest {
         parser.parseFile(file);
         verify(mockRegistry,times(170)).add(any(MethodId.class), anyString());
     }
+    
+   
 }

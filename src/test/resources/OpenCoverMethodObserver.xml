@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoverageSession xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Modules>
+    <Module hash="AA-F4-BB-73-11-A5-A1-10-A6-4A-B3-33-F6-1D-47-18-4C-97-5A-D8">
+      <Summary numSequencePoints="186" visitedSequencePoints="17" numBranchPoints="133" visitedBranchPoints="13" sequenceCoverage="9.14" branchCoverage="9.77" maxCyclomaticComplexity="11" minCyclomaticComplexity="1" />
+      <ModulePath>C:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Service.UnitTest\bin\Debug\BHI.JewelEarth.ThinClient.Service.dll</ModulePath>
+      <ModuleName>BHI.JewelEarth.ThinClient.Service</ModuleName>
+      <Files>
+        <File uid="84" fullPath="c:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Service\OperationHandlerSet.cs" />
+      </Files>
+      <Classes>
+        <Class>
+          <Summary numSequencePoints="18" visitedSequencePoints="17" numBranchPoints="18" visitedBranchPoints="13" sequenceCoverage="94.44" branchCoverage="72.22" maxCyclomaticComplexity="5" minCyclomaticComplexity="1" />
+          <FullName>BHI.JewelEarth.ThinClient.Service.OperationHandlerSet</FullName>
+          <Methods>
+            <Method visited="true" cyclomaticComplexity="2" sequenceCoverage="83.33" branchCoverage="66.67" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="6" visitedSequencePoints="5" numBranchPoints="3" visitedBranchPoints="2" sequenceCoverage="83.33" branchCoverage="66.67" maxCyclomaticComplexity="2" minCyclomaticComplexity="2" />
+              <MetadataToken>100663355</MetadataToken>
+              <Name>System.Void BHI.JewelEarth.ThinClient.Service.OperationHandlerSet::RegisterHandler(BHI.JewelEarth.ThinClient.Service.IOperationHandler)</Name>
+              <FileRef uid="84" />
+            </Method>
+          </Methods>
+        </Class>
+      </Classes>
+    </Module>
+  </Modules>
+</CoverageSession>

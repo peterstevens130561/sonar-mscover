@@ -69,10 +69,21 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
  
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
-        registrar.onPath(this::setModuleName, OpenCoverPaths.MODULE_FULLPATH)
+        registrar.inPath("Modules/Module",module -> module
+            .onElement("ModulePath", this::setModuleName)
+            .inPath("Classes/Class",clazz -> clazz
+                .onElement("FullName", this::setNamespaceAndClassName)
+                .inPath("Methods/Method", method -> 
+                    method.onElement("Name", this::setMethodName)
+                .onAttribute("FileRef/uid",this::setFileId)
+                )
+            ));
+        /*
+        registrar
         .onPath(this::setNamespaceAndClassName,"Modules/Module/Classes/Class/FullName")
         .onElement("Name", this::setMethodName)
-        .onAttribute("FileRef/uid",this::setFileId);      
+        .onAttribute("FileRef/uid",this::setFileId);
+        */
     }
     
     /**
@@ -130,9 +141,10 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
 
         Matcher matcher = pattern.matcher(value) ;
         if(!matcher.find() || matcher.groupCount() !=1) {
-            scanMode=ScanMode.SKIP;
+            //scanMode=ScanMode.SKIP;
             return;
         }
+        int a = matcher.groupCount();
         this.methodName = matcher.group(1); 
     }
    
@@ -150,6 +162,22 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
        
         registry.add(method, sourceFileId);
     }
+
+	public String getModuleName() {
+		return moduleName;
+	}
+
+	public String getNameSpaceName() {
+		return nameSpaceName;
+	}
+
+	public String getClassName() {
+		return className;
+	}
+
+	public String getMethodName() {
+		return methodName;
+	}
 
 
 
