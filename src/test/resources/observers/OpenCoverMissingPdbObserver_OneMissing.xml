@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoverageSession xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Summary numSequencePoints="67950" visitedSequencePoints="2090" numBranchPoints="22940" visitedBranchPoints="383" sequenceCoverage="3.08" branchCoverage="1.67" maxCyclomaticComplexity="124" minCyclomaticComplexity="0" />
+  <Modules>
+   
+    <Module hash="F2-CE-8D-8C-78-D5-9C-C8-D1-12-38-C0-3F-3E-34-A6-2D-08-2A-ED">
+      <FullName>c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\JewelExplorer.UnitTest\bin\Debug\JewelExplorer.UnitTest.dll</FullName>
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="B3-B0-E0-C8-70-55-3B-AC-B7-C9-82-8C-78-51-D8-33-CE-AE-DF-4E">
+      <FullName>c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\JewelExplorer.UnitTest\bin\Debug\joaJewelUtilitiesUI.dll</FullName>
+    </Module>
+    <Module skippedDueTo="Filter" hash="D0-C4-31-DF-9B-8D-D3-CC-74-AB-93-8A-6F-C9-61-63-14-F1-4A-B7">
+      <FullName>c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\JewelExplorer.UnitTest\bin\Debug\Moq.dll</FullName>
+    </Module>
+    
+  </Modules>
+</CoverageSession>

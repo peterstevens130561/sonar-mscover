@@ -22,6 +22,8 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.parser.opencover;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 
 import org.junit.Test;
@@ -40,7 +42,8 @@ public class OpenCoverMissingPdbObserverTest {
     public void reportWithTwoMissingPdbs_ExpectExepction() {
         //Arrange
         XmlParserSubject parser = initializeParser();
-        File file = TestUtils.getResource("coverage-report-missingPdbs.xml");
+        File file = TestUtils.getResource("observers/OpenCoverMissingPdbObserver_OneMissing.xml");
+        assertNotNull("File not found",file);
         //Act
         parser.parseFile(file);
     }
@@ -49,7 +52,8 @@ public class OpenCoverMissingPdbObserverTest {
     public void reportWithNoPdbsMissing_ExpectNone(){
         //Arrange
         XmlParserSubject parser = initializeParser();
-        File file = TestUtils.getResource("coverage-report.xml");
+        File file = TestUtils.getResource("observers/OpenCoverMissingPdbObserver_NoneMissing.xml");
+        assertNotNull("File not found",file);
         //Act
         parser.parseFile(file);
         //no exception expected
