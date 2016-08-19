@@ -25,8 +25,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercovera
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
-import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementMatcher;
+
 import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
@@ -41,13 +40,19 @@ public class OpenCoverMissingPdbObserver extends OpenCoverObserver{
                  "|Modules/Module/ModuleName"
                  );
     }
+    
+    @Override
+    public void registerObservers(ObserverRegistrar registrar) {
+        registrar.inPath("Modules/Module", module -> module
+                .onAttribute("skippedDueTo", this::fileRefMatcher)
+                .onElement("FullName", this::fullName));
+        
+    }
 
-    @AttributeMatcher(attributeName="skippedDueTo",elementName="Module")
     public void fileRefMatcher(String attributeValue) {
         isMissing="MissingPdb".equals(attributeValue);
     }
     
-    @ElementMatcher(elementName="FullName")
     public void fullName(String value) {
         if(isMissing) {
             LOG.error("Missing PDB file for " + value + "\n did you use a file reference instead of a project reference ?");
@@ -61,9 +66,5 @@ public class OpenCoverMissingPdbObserver extends OpenCoverObserver{
         // Registry not used
     }
 
-    @Override
-    public void registerObservers(ObserverRegistrar registrar) {
-        // TODO Auto-generated method stub
-        
-    }
+
 }
