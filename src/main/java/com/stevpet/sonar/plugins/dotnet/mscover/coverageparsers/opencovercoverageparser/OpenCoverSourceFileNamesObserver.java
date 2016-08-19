@@ -22,7 +22,6 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser;
 
-import com.stevpet.sonar.plugins.common.api.parser.annotations.AttributeMatcher;
 import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 

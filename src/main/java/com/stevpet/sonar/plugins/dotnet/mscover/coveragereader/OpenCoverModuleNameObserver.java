@@ -3,9 +3,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coveragereader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
-import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverPaths;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.ModuleNameObserver;
 
 public class OpenCoverModuleNameObserver extends ModuleNameObserver {

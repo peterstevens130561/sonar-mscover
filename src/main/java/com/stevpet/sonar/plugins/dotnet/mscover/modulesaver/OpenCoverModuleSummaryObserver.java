@@ -19,7 +19,6 @@ public class OpenCoverModuleSummaryObserver extends  ModuleSummaryObserver{
                         (summary -> summary.onAttribute("visitedSequencePoints",this::observeVisitedSequencePointsAttribute)));
     }
 
-    //@AttributeMatcher(elementName = "Summary", attributeName = "visitedSequencePoints") 
     public void observeVisitedSequencePointsAttribute(String value) {
         visitedSequencePoints=Integer.parseInt(value);
     }
