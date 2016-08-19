@@ -46,7 +46,6 @@ public class OpenCoverMissingPdbObserver extends OpenCoverObserver{
         registrar.inPath("Modules/Module", module -> module
                 .onAttribute("skippedDueTo", this::fileRefMatcher)
                 .onElement("FullName", this::fullName));
-        
     }
 
     public void fileRefMatcher(String attributeValue) {
