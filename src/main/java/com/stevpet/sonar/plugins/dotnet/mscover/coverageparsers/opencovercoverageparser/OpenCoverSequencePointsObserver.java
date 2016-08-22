@@ -79,9 +79,9 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
             .onAttribute(BRANCH_POINT + "/vc",this::visitedBranchCountMatcher)
             .onAttribute(BRANCH_POINT + "/sl",this::lineBranchPoint)
             .onAttribute(BRANCH_POINT + "/path",this::pathBranchPoint)
-            .onExit(this::branchPointExit, BRANCHPOINT_PATH)
-            .onEntry(this::sequencePointEntry, SEQUENCEPOINT_PATH)
-            .onExit(this::sequencePointExit, SEQUENCEPOINT_PATH);
+            .onExit(BRANCHPOINT_PATH, this::branchPointExit)
+            .onEntry(SEQUENCEPOINT_PATH, this::sequencePointEntry)
+            .onExit(SEQUENCEPOINT_PATH, this::sequencePointExit);
         }
         
         public void classMatcher(String text) {

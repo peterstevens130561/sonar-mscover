@@ -33,7 +33,7 @@ public class OpenCoverFullNameObserver  extends ModuleFullNameObserver {
             (modules -> modules.inPath("Module",
                 (module -> module.onAttribute("skippedDueTo",this::observeSkippedDueAttribute)
                     .onElement("ModuleName",this::setModuleName)))));
-	    registrar.inPath("Modules", modules -> modules.onEntry(() -> skipped=false,"Module"));
+	    registrar.inPath("Modules", modules -> modules.onEntry("Module",() -> skipped=false));
    
 	}
 
