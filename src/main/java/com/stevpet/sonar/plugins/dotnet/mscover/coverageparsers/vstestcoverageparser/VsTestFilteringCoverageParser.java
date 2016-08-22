@@ -30,7 +30,7 @@ public class VsTestFilteringCoverageParser implements FilteringCoverageParser {
         XmlParserSubject parserSubject = new VsTestCoverageParserSubject();
 
         VsTestCoverageObserver[] observers = { new FileNamesObserver(),
-                new LinesObserver(), moduleNameObserver };
+                new VsTestLinesObserver(), moduleNameObserver };
 
         for (VsTestCoverageObserver observer : observers) {
             observer.setVsTestRegistry(registry);

@@ -22,32 +22,16 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser;
 
-import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
-public class LinesObserver extends VsTestCoverageObserver {
+public class VsTestLinesObserver extends VsTestCoverageObserver {
     private boolean covered;
     private int line;
     private SonarCoverage registry;
 
-    public LinesObserver() {
+    public VsTestLinesObserver() {
         setPattern("Module/NamespaceTable/Class/Method/Lines/(LnStart|LnEnd|Coverage|SourceFileID)");
-    }
-
-    @ElementMatcher(elementName = "LnStart")
-    public void lnStartMatcher(String value) {
-        line = Integer.parseInt(value);
-    }
-
-    @ElementMatcher(elementName = "Coverage")
-    public void coverageMatcher(String coverage) {
-        covered = "0".equals(coverage);
-    }
-
-    @ElementMatcher(elementName = "SourceFileID")
-    public void sourceFileIdMatcher(String value) {
-        registry.getCoveredFile(value).addLinePoint(line, covered);
     }
 
     @Override
@@ -57,8 +41,11 @@ public class LinesObserver extends VsTestCoverageObserver {
 
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
-        // TODO Auto-generated method stub
-        
+        registrar.inPath("Module/NamespaceTable/Class/Method/Lines", lines -> lines
+            .onElement("LnStart", value ->line = Integer.parseInt(value) )
+            .onElement("Coverage", value -> covered = "0".equals(value))
+            .onElement("SourceFileID", value ->registry.getCoveredFile(value).addLinePoint(line, covered))
+        );   
     }
-
+    
 }

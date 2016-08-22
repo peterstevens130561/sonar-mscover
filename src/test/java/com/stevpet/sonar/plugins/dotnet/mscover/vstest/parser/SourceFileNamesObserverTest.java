@@ -14,7 +14,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoveragepa
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestCoverageParserSubject;
 
-public class SourceFileNamesObserverTest extends ObserverTest {
+public class SourceFileNamesObserverTest extends VsTestObserverTest {
 	private VsTestCoverageObserver observer;
 	private SonarCoverage registry;
 	private XmlParserSubject parser;

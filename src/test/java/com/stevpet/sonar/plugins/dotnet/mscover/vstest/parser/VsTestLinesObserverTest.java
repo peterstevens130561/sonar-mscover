@@ -9,20 +9,20 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.LinesObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestLinesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestCoverageObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestCoverageParserSubject;
 
-public class LinesObserverTest extends ObserverTest {
+public class VsTestLinesObserverTest extends VsTestObserverTest {
 	private VsTestCoverageObserver observer;
 	private SonarCoverage registry;
 	private XmlParserSubject parser;
 	@Before
 	public void before() {
-		observer = new LinesObserver();
+		observer = new VsTestLinesObserver();
 		registry = new SonarCoverage();
 		observer.setVsTestRegistry(registry);
 		parser = new VsTestCoverageParserSubject();

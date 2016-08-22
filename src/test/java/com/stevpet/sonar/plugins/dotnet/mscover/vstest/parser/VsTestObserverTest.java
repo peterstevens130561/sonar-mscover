@@ -15,7 +15,7 @@ import static org.junit.Assert.fail;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class ObserverTest {
+public class VsTestObserverTest {
 
 	protected Document doc;
 	protected Element rootElement;
@@ -23,7 +23,7 @@ public class ObserverTest {
 	private Element moduleElement;
 	private Element namespaceTableElement;
 	private Element classElement;
-	public ObserverTest() {
+	public VsTestObserverTest() {
 		super();
 	}
 

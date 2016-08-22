@@ -22,11 +22,23 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser;
 
+import com.stevpet.sonar.plugins.common.parser.ParserData;
 import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
 
 
 public class VsTestCoverageParserSubject extends XmlParserSubject {
    
+    /**
+     * For unit testing only
+     * @param parserData
+     */
+    public VsTestCoverageParserSubject(ParserData parserData) {
+        super(parserData);
+    }
+
+    public VsTestCoverageParserSubject() {
+    }
+
     @Override
     public String[] getHierarchy() {
         String[] hierarchy= { "Module","NamespaceTable","Class","Method","Lines","SourceFileNames"};

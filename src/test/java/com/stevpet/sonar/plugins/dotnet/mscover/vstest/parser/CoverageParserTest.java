@@ -21,7 +21,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 
-public class CoverageParserTest extends ObserverTest {
+public class CoverageParserTest extends VsTestObserverTest {
 
 	private SonarCoverage sonarCoverage;
 	private CoverageParser coverageParser ;

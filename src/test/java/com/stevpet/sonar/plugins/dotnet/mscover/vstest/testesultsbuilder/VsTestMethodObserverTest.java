@@ -9,10 +9,10 @@ import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestCoverageParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.ObserverTest;
+import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.VsTestObserverTest;
 
 
-public class VsTestMethodObserverTest extends ObserverTest {
+public class VsTestMethodObserverTest extends VsTestObserverTest {
 	private static final String CLASS_NAME = "class";
 	private static final String NAMESPACE_NAME = "namespace";
 	private static final String MODULE_NAME = "module.dll";

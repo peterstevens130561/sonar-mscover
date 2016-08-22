@@ -22,7 +22,7 @@ public class VsTestCoverageParser implements CoverageParser {
         XmlParserSubject parserSubject = new VsTestCoverageParserSubject();
 
         VsTestCoverageObserver[] observers = { new FileNamesObserver(),
-                new LinesObserver() };
+                new VsTestLinesObserver() };
 
         for (VsTestCoverageObserver observer : observers) {
             observer.setVsTestRegistry(registry);
