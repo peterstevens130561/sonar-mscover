@@ -28,7 +28,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.stevpet.sonar.plugins.common.api.parser.annotations.ElementMatcher;
 import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
@@ -48,6 +47,12 @@ public class VsTestModuleNameObserver extends VsTestCoverageObserver {
         setPattern("Module/ModuleName");
     }
 
+    @Override
+    public void registerObservers(ObserverRegistrar registrar) {
+        registrar.inPath("Module", module -> module
+                .onElement("ModuleName",this::moduleNameMatcher));
+        
+    }
     /* (non-Javadoc)
 	 * @see com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.ModuleNameObserver#addModulesToParse(java.util.List)
 	 */
@@ -60,7 +65,6 @@ public class VsTestModuleNameObserver extends VsTestCoverageObserver {
         }
     }
 
-    @ElementMatcher(elementName = "ModuleName")
     public void moduleNameMatcher(String value) {
         if (modulesToParse.isEmpty()) {
             return;
@@ -82,9 +86,5 @@ public class VsTestModuleNameObserver extends VsTestCoverageObserver {
         // Ignoring intentionally
     }
 
-    @Override
-    public void registerObservers(ObserverRegistrar registrar) {
-        // TODO Auto-generated method stub
-        
-    }
+
 }
