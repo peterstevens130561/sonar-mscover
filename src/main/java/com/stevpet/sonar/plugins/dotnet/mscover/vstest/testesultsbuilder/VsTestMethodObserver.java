@@ -1,7 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.testesultsbuilder;
 
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
-import com.stevpet.sonar.plugins.common.api.parser.annotations.PathMatcher;
 import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
