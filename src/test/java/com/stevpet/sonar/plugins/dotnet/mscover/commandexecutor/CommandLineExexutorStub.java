@@ -1,6 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor;
 
-import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
 import com.stevpet.sonar.plugins.common.api.ShellCommand;
 import com.stevpet.sonar.plugins.common.commandexecutor.CommandLineExecutorWithEvents;
 import com.stevpet.sonar.plugins.common.commandexecutor.LineReceivedListener;

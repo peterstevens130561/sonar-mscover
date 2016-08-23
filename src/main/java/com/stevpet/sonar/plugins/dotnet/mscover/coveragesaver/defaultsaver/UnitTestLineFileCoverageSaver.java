@@ -27,7 +27,6 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.File;
-import org.sonar.api.utils.ParsingUtils;
 
 import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.LineFileCoverageSaver;

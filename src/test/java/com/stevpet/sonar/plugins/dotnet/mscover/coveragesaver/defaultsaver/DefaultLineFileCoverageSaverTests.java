@@ -6,11 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.measures.Metric;
-
-import static org.mockito.Mockito.when;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.LineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;

@@ -1,8 +1,5 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.controltest;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import javax.annotation.Nonnull;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.TestRunner;

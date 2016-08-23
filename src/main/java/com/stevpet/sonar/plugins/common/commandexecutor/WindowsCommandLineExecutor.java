@@ -24,15 +24,12 @@ package com.stevpet.sonar.plugins.common.commandexecutor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.command.StreamConsumer;
 
-import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
 import com.stevpet.sonar.plugins.common.api.ShellCommand;
 
 /**
