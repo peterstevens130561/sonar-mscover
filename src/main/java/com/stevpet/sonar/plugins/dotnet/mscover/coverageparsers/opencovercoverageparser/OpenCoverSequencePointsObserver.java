@@ -37,11 +37,12 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         private boolean lineVisited;
         private BranchOffsetToLineMapper offsetToLineMapper = new BranchOffsetToLineMapper();
         private boolean branchVisited;
-        private int line;
+        private int sequencePointLine;
         private String fileId;
         private int branchLine;
         private int branchPath;
         private int visited;
+        private String uid;
         
         
         private static final String SEQUENCE_POINT = "SequencePoint";
@@ -70,18 +71,28 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         
         @Override
         public void registerObservers(ObserverRegistrar registrar) {
-            registrar.onElement(FULL_NAME, this::classMatcher)
-            .onAttribute(FILE_REF + "/uid", this::fileRefMatcher)
-            .onAttribute(SEQUENCE_POINT + "/vc", this::visitedCountMatcher)
-            .onAttribute(SEQUENCE_POINT + "/offset", this::offsetMatcher)
-            .onAttribute(SEQUENCE_POINT + "/sl", this::startLineMatcher)
-            .onAttribute(SEQUENCE_POINT + "/fileid",this::fileIdMatcher)
-            .onAttribute(BRANCH_POINT + "/vc",this::visitedBranchCountMatcher)
-            .onAttribute(BRANCH_POINT + "/sl",this::lineBranchPoint)
-            .onAttribute(BRANCH_POINT + "/path",this::pathBranchPoint)
-            .onExit(BRANCHPOINT_PATH, this::branchPointExit)
-            .onEntry(SEQUENCEPOINT_PATH, this::sequencePointEntry)
-            .onExit(SEQUENCEPOINT_PATH, this::sequencePointExit);
+            registrar.inPath("Modules/Module/Classes/Class", module -> module.onElement(FULL_NAME, this::classMatcher));
+            registrar.inPath("Modules/Module/Classes/Class/Methods/Method",method -> method
+            .onAttribute(FILE_REF + "/uid", this::fileRefMatcher));
+            
+            registrar.inPath("Modules/Module/Classes/Class/Methods/Method/SequencePoints", method -> method.inElement("SequencePoint", sequencePointB -> sequencePointB
+            .onAttribute("vc", this::visitedCountMatcher)
+            .onAttribute("offset", this::offsetMatcher)
+            .onAttribute("sl", this::startLineMatcher)
+            .onAttribute("fileid",this::fileIdMatcher)));
+            
+            registrar.inPath("Modules/Module/Classes/Class/Methods/Method/BranchPoints", branchPoints -> branchPoints.inElement("BranchPoint", branchPoint -> branchPoint
+            .onAttribute("vc",this::visitedBranchCountMatcher)
+            .onAttribute("sl",this::lineBranchPoint)
+            .onAttribute("path",this::pathBranchPoint)));
+            
+            //TODO mind the events
+            registrar.inPath("Modules/Module/Classes/Class/Methods/Method/BranchPoints", branchPoints -> branchPoints
+            .onExit(BRANCH_POINT, this::branchPointExit));
+            
+            registrar.inPath("Modules/Module/Classes/Class/Methods/Method/SequencePoints", method -> method
+            .onEntry(SEQUENCE_POINT, this::sequencePointEntry)
+            .onExit(SEQUENCE_POINT, this::sequencePointExit));
         }
         
         public void classMatcher(String text) {
@@ -91,10 +102,11 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         /**
          * FilerRef has uid attribute, which referes to the file in the Files element which has that uid
          * The 
-         * @param attributeValue
+         * @param uid
          */
-        public void fileRefMatcher(String attributeValue) {
-           coveredFile=registry.getCoveredFile(attributeValue);
+        public void fileRefMatcher(String uid) {
+           this.uid= uid;
+           coveredFile=registry.getCoveredFile(uid);
            offsetToLineMapper.init();
         }
         
@@ -109,9 +121,8 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         
 
         public void startLineMatcher(String attributeValue) {
-
             sequencePoint.setStartLine(attributeValue);
-            line=Integer.parseInt(attributeValue);
+            sequencePointLine=Integer.parseInt(attributeValue);
         }
   
         public void fileIdMatcher(String attributeValue) {
@@ -156,9 +167,37 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
                 return;
             }
             offsetToLineMapper.addSequencePoint(sequencePoint);
-            coveredFile.addLinePoint(line,lineVisited);
+            coveredFile.addLinePoint(sequencePointLine,lineVisited);
         }
 
+        SequencePoint getSequencePoint() {
+            return sequencePoint;
+        }
+        
+        public int getBranchLine() {
+            return branchLine;
+        }
+        
+        public int getBranchPath() {
+            return branchPath ;
+        }
+        
+        public boolean getBranchVisited() {
+            return branchVisited ;
+        }
+        
+        public int getSequencePointLine() {
+            return  sequencePointLine ;
+        }
+        
+        public boolean getSequencePointVisited() {
+            return lineVisited;
+        }
+        
+        public String getMethodUid() {
+            return uid;
+        }
+  
 
         
 }

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoverageSession xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Summary numSequencePoints="851" visitedSequencePoints="106" numBranchPoints="464" visitedBranchPoints="47" sequenceCoverage="12.46" branchCoverage="10.13" maxCyclomaticComplexity="12" minCyclomaticComplexity="1" />
+  <Modules>
+    <Module hash="AA-F4-BB-73-11-A5-A1-10-A6-4A-B3-33-F6-1D-47-18-4C-97-5A-D8">
+      <Summary numSequencePoints="186" visitedSequencePoints="17" numBranchPoints="133" visitedBranchPoints="13" sequenceCoverage="9.14" branchCoverage="9.77" maxCyclomaticComplexity="11" minCyclomaticComplexity="1" />
+      <ModulePath>C:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Service.UnitTest\bin\Debug\BHI.JewelEarth.ThinClient.Service.dll</ModulePath>
+      <ModuleName>BHI.JewelEarth.ThinClient.Service</ModuleName>
+      <Files>
+        <File uid="75" fullPath="c:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Service\ContextManager.cs" />
+        <File uid="76" fullPath="c:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Service\OperationHandlerBase.cs" />
+        <File uid="77" fullPath="c:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Service\OperationHandler.cs" />
+        <File uid="78" fullPath="c:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Service\Handlers\ContextHandler.cs" />
+        <File uid="81" fullPath="c:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Service\Handlers\LambdaExpressionHandler.cs" />
+        <File uid="82" fullPath="c:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Service\OperationContext.cs" />
+        <File uid="84" fullPath="c:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Service\OperationHandlerSet.cs" />
+        <File uid="85" fullPath="c:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Service\OperationService.cs" />
+        <File uid="86" fullPath="c:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Service\OperationServiceContext.cs" />
+        <File uid="87" fullPath="c:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Service\SerializeResult.cs" />
+      </Files>
+      <Classes>
+        <Class>
+          <Summary numSequencePoints="18" visitedSequencePoints="17" numBranchPoints="18" visitedBranchPoints="13" sequenceCoverage="94.44" branchCoverage="72.22" maxCyclomaticComplexity="5" minCyclomaticComplexity="1" />
+          <FullName>BHI.JewelEarth.ThinClient.Service.OperationHandlerSet</FullName>
+          <Methods>
+            <Method visited="true" cyclomaticComplexity="5" sequenceCoverage="100" branchCoverage="55.56" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <Summary numSequencePoints="1" visitedSequencePoints="1" numBranchPoints="9" visitedBranchPoints="5" sequenceCoverage="100" branchCoverage="55.56" maxCyclomaticComplexity="5" minCyclomaticComplexity="5" />
+              <MetadataToken>100663356</MetadataToken>
+              <Name>System.Linq.ILookup`2&lt;System.Type,BHI.JewelEarth.ThinClient.Service.IOperationHandler&gt; BHI.JewelEarth.ThinClient.Service.OperationHandlerSet::&lt;RegisterHandler&gt;b__0()</Name>
+              <FileRef uid="84" />
+              <SequencePoints>
+                <SequencePoint vc="1" uspid="1687" ordinal="0" offset="0" sl="80" sc="23" el="80" ec="155" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="1" uspid="1688" ordinal="0" offset="11" path="0" />
+                <BranchPoint vc="0" uspid="1689" ordinal="1" offset="11" path="1" />
+                <BranchPoint vc="1" uspid="1690" ordinal="2" offset="42" path="0" />
+                <BranchPoint vc="0" uspid="1691" ordinal="3" offset="42" path="1" />
+                <BranchPoint vc="1" uspid="1692" ordinal="4" offset="78" path="0" />
+                <BranchPoint vc="0" uspid="1693" ordinal="5" offset="78" path="1" />
+                <BranchPoint vc="1" uspid="1694" ordinal="6" offset="109" path="0" />
+                <BranchPoint vc="0" uspid="1695" ordinal="7" offset="109" path="1" />
+              </BranchPoints>
+              <MethodPoint xsi:type="SequencePoint" vc="1" uspid="1687" ordinal="0" offset="0" sl="80" sc="23" el="80" ec="155" />
+            </Method>
+          </Methods>
+        </Class>
+      </Classes>
+    </Module>
+  </Modules>
+</CoverageSession>
