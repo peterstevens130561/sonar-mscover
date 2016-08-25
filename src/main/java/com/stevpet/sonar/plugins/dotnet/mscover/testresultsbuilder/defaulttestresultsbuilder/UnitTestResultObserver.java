@@ -66,7 +66,7 @@ public class UnitTestResultObserver extends BaseParserObserver {
                 .onAttribute("relativeResultsDirectory",(value ->unitTestResult.setRelativeResultsDirectory(value))
                 );
            
-        registrar.inPath("Results/UnitTestResult").onElement("Message",(value ->unitTestResult.setMessage(value)))
+        registrar.inPath("Results/UnitTestResult/Output/ErrorInfo").onElement("Message",(value ->unitTestResult.setMessage(value)))
         .onElement("StackTrace", (value -> unitTestResult.setStackTrace(value)));
     }
     
