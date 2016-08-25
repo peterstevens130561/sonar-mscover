@@ -44,7 +44,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 public class OpenCoverObserversTest {
 
     private SonarCoverage registry;
-    File file = TestUtils.getResource("coverage-report.xml");
+    private File file = TestUtils.getResource("coverage-report.xml");
     
     @Test
     public void ReadFileNames_Expect31() {
