@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoverageSession xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Modules>
+    <Module hash="AA-F4-BB-73-11-A5-A1-10-A6-4A-B3-33-F6-1D-47-18-4C-97-5A-D8">
+      <Classes>
+        <Class>
+          <FullName>BHI.JewelEarth.ThinClient.Service.OperationHandlerSet</FullName>
+          <Methods>
+            <Method visited="true" cyclomaticComplexity="5" sequenceCoverage="100" branchCoverage="55.56" isConstructor="false" isStatic="false" isGetter="false" isSetter="false">
+              <MetadataToken>100663356</MetadataToken>
+              <Name>System.Linq.ILookup`2&lt;System.Type,BHI.JewelEarth.ThinClient.Service.IOperationHandler&gt; BHI.JewelEarth.ThinClient.Service.OperationHandlerSet::&lt;RegisterHandler&gt;b__0()</Name>
+              <FileRef uid="84" />
+              <SequencePoints>
+                <SequencePoint vc="1" uspid="1687" ordinal="0" offset="0" sl="80" sc="23" el="80" ec="155" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="1" uspid="1688" ordinal="0" offset="11" sl="81" path="5" />
+              </BranchPoints>
+            </Method>
+          </Methods>
+        </Class>
+      </Classes>
+    </Module>
+  </Modules>
+</CoverageSession>
