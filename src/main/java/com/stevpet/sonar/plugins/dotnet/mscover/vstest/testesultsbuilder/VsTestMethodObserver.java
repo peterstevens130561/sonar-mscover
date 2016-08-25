@@ -29,11 +29,12 @@ public class VsTestMethodObserver extends BaseParserObserver {
     
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
-        registrar.onPath(this::moduleNameMatcher,"Module/ModuleName")
-        .onPath(this::nameSpaceNameMatcher, "Module/NamespaceTable/NamespaceName")
-        .onPath(this::classNameMatcher, "Module/NamespaceTable/Class/ClassName")
-        .onPath(this::methodFullNameMatcher, "Module/NamespaceTable/Class/Method/MethodFullName")
-        .onPath(this::lineIDMatcher, "Module/NamespaceTable/Class/Method/Lines/SourceFileID");
+        registrar.inPath("Module").onElement("ModuleName",this::moduleNameMatcher)
+        .inPath("NamespaceTable").onElement("NamespaceName",this::nameSpaceNameMatcher);
+        registrar.inPath("Module/NamespaceTable/Class").onElement("ClassName", this::classNameMatcher);
+        registrar.inPath("Module/NamespaceTable/Class/Method").onElement("MethodFullName",this::methodFullNameMatcher);
+        registrar.inPath("Module/NamespaceTable/Class/Method/Lines").onElement("SourceFileID",this::lineIDMatcher);
+
     }
 
     public void moduleNameMatcher(String moduleName) {
