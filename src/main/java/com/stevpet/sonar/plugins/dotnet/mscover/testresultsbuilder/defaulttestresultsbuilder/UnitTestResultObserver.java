@@ -45,7 +45,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
  */
 public class UnitTestResultObserver extends BaseParserObserver {
 
-    private static final String UNIT_TEST_RESULT = "UnitTestResult";
     private ParserHelper parserHelper = new ParserHelper();
     public UnitTestResultObserver() {
         setPattern("(Results/UnitTestResult)|(.*/Message)|(.*/StackTrace)");
@@ -59,15 +58,15 @@ public class UnitTestResultObserver extends BaseParserObserver {
  
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
-        registrar.inElement(UNIT_TEST_RESULT, (r -> r
+        registrar.inPath("Results").inElement("UnitTestResult")
                 .onAttribute("testId", this::testId)
                 .onAttribute("testName", (value-> unitTestResult.setTestName(value)))
                 .onAttribute("outcome",  (value ->unitTestResult.setOutcome(value)))
                 .onAttribute("duration", this::duration)
-                .onAttribute("relativeResultsDirectory",(value ->unitTestResult.setRelativeResultsDirectory(value)))
-                ));
+                .onAttribute("relativeResultsDirectory",(value ->unitTestResult.setRelativeResultsDirectory(value))
+                );
            
-        registrar.onElement("Message",(value ->unitTestResult.setMessage(value)))
+        registrar.inPath("Results/UnitTestResult").onElement("Message",(value ->unitTestResult.setMessage(value)))
         .onElement("StackTrace", (value -> unitTestResult.setStackTrace(value)));
     }
     

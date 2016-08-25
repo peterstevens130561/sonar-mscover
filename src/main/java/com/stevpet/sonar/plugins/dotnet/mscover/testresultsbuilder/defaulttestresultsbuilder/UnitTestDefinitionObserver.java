@@ -54,10 +54,12 @@ public class UnitTestDefinitionObserver extends BaseParserObserver {
     
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
-        registrar.onAttribute("UnitTest/id", this::id)
-        .onAttribute("TestMethod/codeBase", this::codeBase)
-        .onAttribute("TestMethod/className", this::className)
-        .onAttribute("TestMethod/name",this::name);
+        registrar.inPath("TestDefinitions").inElement("UnitTest").onAttribute("id", this::id);
+        
+        registrar.inPath("TestDefinitions/UnitTest").inElement("TestMethod")
+            .onAttribute("codeBase", this::codeBase)
+            .onAttribute("className", this::className)
+            .onAttribute("name",this::name);
     }
     
     public void id(String value) {

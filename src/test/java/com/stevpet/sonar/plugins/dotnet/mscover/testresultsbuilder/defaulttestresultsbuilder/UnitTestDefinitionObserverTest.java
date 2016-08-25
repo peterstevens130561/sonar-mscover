@@ -52,6 +52,7 @@ public class UnitTestDefinitionObserverTest {
         observer.setRegistry(registry);
         parser.parseFile(xmlFile);
         result=registry.getById("6dd2b593-aa2d-3a7b-1a71-f15debf90d70");
+        assertNotNull(result);
     }
     
     @Test
