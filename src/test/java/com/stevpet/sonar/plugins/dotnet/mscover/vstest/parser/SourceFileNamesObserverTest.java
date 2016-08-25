@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.FileNamesObserver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestFileNamesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestCoverageObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestCoverageParserSubject;
@@ -21,7 +21,7 @@ public class SourceFileNamesObserverTest extends VsTestObserverTest {
 
 	@Before
 	public void before() {
-		observer = new FileNamesObserver();
+		observer = new VsTestFileNamesObserver();
 		registry = new SonarCoverage();
 		observer.setVsTestRegistry(registry);
 		parser = new VsTestCoverageParserSubject();

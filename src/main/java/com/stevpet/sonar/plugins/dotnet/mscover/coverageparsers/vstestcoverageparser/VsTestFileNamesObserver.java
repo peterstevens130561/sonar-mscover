@@ -25,11 +25,11 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoveragep
 import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
-public class FileNamesObserver extends VsTestCoverageObserver {
+public class VsTestFileNamesObserver extends VsTestCoverageObserver {
     SonarCoverage registry;
     private String fileID;
 
-    public FileNamesObserver() {
+    public VsTestFileNamesObserver() {
         setPattern("SourceFileNames/(SourceFileID|SourceFileName)");
     }
 

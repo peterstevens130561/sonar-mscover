@@ -29,7 +29,7 @@ public class VsTestFilteringCoverageParser implements FilteringCoverageParser {
         moduleNameObserver.setModulesToParse(modules);
         XmlParserSubject parserSubject = new VsTestCoverageParserSubject();
 
-        VsTestCoverageObserver[] observers = { new FileNamesObserver(),
+        VsTestCoverageObserver[] observers = { new VsTestFileNamesObserver(),
                 new VsTestLinesObserver(), moduleNameObserver };
 
         for (VsTestCoverageObserver observer : observers) {
