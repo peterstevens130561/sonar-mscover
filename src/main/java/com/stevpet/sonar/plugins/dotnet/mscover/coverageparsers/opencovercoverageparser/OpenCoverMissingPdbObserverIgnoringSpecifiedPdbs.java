@@ -57,8 +57,8 @@ public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs extends OpenCoverO
     
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
-        registrar.onAttribute("Module/skippedDueTo", (value ->isMissing="MissingPdb".equals(value)))
-        .onElement("FullName", this::fullName);
+        registrar.inPath("Modules").inElement("Module").onAttribute("Module/skippedDueTo", (value ->isMissing="MissingPdb".equals(value)));
+        registrar.inPath("Modules/Module").onElement("FullName", this::fullName);
     }
 
     public void fullName(String value) {
