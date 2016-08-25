@@ -4,6 +4,7 @@
   <groupId>com.stevpet.sonar</groupId>
   <artifactId>sonar-mscover-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
+  <description>Plugin to combine unit testing and integration testing for C#</description>
   <version>4.0-SNAPSHOT</version>
 
   <name>Sonar Integration Test Plugin MSCover</name>
