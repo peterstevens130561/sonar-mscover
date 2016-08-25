@@ -29,25 +29,14 @@ public class VsTestMethodObserver extends BaseParserObserver {
     
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
-        registrar.inPath("Module").onElement("ModuleName",this::moduleNameMatcher)
-        .inPath("NamespaceTable").onElement("NamespaceName",this::nameSpaceNameMatcher);
-        registrar.inPath("Module/NamespaceTable/Class").onElement("ClassName", this::classNameMatcher);
-        registrar.inPath("Module/NamespaceTable/Class/Method").onElement("MethodFullName",this::methodFullNameMatcher);
-        registrar.inPath("Module/NamespaceTable/Class/Method/Lines").onElement("SourceFileID",this::lineIDMatcher);
+        registrar.inPath("Module").onElement("ModuleName",value -> this.moduleName=value)
+            .inPath("NamespaceTable").onElement("NamespaceName",value-> this.nameSpaceName=value)
+                .inPath("Class").onElement("ClassName", value -> this.className = value)
+                    .inPath("Method").onElement("MethodFullName",this::methodFullNameMatcher)
+                        .inPath("Lines").onElement("SourceFileID",this::lineIDMatcher);
 
     }
 
-    public void moduleNameMatcher(String moduleName) {
-        this.moduleName = moduleName;
-    }
-
-    public void nameSpaceNameMatcher(String nameSpaceName) {
-        this.nameSpaceName = nameSpaceName;
-    }
-
-    public void classNameMatcher(String className) {
-        this.className = className;
-    }
 
     public void methodFullNameMatcher(String methodSignature) {
         methodFullName = methodSignature;
