@@ -30,12 +30,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
 public class ResultsObserver extends BaseParserObserver {
     private TestResults data;
 
-    public ResultsObserver() {
-        setPattern("ResultSummary/Counters");
-    }
-    
-
-
     public void setRegistry(TestResults data) {
         this.data = data;
     }

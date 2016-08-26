@@ -34,13 +34,6 @@ public class OpenCoverMissingPdbObserver extends OpenCoverObserver{
     private boolean isMissing=false;
 
     
-    public OpenCoverMissingPdbObserver() {
-        setPattern("Modules/Module" +
-                 "|Modules/Module/FullName" +
-                 "|Modules/Module/ModuleName"
-                 );
-    }
-    
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
         registrar.inPath("Modules/Module", module -> module

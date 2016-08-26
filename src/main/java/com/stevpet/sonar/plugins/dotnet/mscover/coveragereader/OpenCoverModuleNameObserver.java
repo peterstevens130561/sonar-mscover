@@ -10,11 +10,6 @@ public class OpenCoverModuleNameObserver extends ModuleNameObserver {
 
 	private final static Logger LOG = LoggerFactory
 			.getLogger(OpenCoverModuleNameObserver.class);
-
-	public OpenCoverModuleNameObserver() {
-		setPattern("(Modules/Module/FullName)");
-
-	}
 	
     @Override
     public void registerObservers(ObserverRegistrar registrar) {

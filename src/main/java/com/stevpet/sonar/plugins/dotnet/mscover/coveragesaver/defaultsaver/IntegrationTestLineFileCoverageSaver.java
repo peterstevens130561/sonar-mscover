@@ -3,18 +3,11 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
-import org.sonar.api.measures.Metric;
-import org.sonar.api.measures.PersistenceMode;
-import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.File;
-import org.sonar.api.utils.ParsingUtils;
-
 import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.LineFileCoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.IntegrationTestResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 

@@ -14,14 +14,6 @@ public class VsTestMethodObserver extends BaseParserObserver {
     private String moduleName;
     private boolean lookForLine;
 
-    public VsTestMethodObserver() {
-        setPattern("(Module/ModuleName)"
-                + "|(Module/NamespaceTable/NamespaceName)"
-                + "|(Module/NamespaceTable/Class/ClassName)"
-                + "|(Module/NamespaceTable/Class/Method/MethodFullName)"
-                + "|(Module/NamespaceTable/Class/Method/Lines/SourceFileID)");
-    }
-
     public void setRegistry(MethodToSourceFileIdMap methodToSourceFileIdMap) {
         this.methodToSourceFileIdMap = methodToSourceFileIdMap;
 

@@ -28,9 +28,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 public class OpenCoverSourceFileNamesObserver extends OpenCoverObserver {
 	private String fileID;
 	private SonarCoverage registry;
-    public OpenCoverSourceFileNamesObserver() {
-        setPattern("Modules/Module/Files/File");
-    }
 
     @Override
     public void registerObservers(ObserverRegistrar registrar) {

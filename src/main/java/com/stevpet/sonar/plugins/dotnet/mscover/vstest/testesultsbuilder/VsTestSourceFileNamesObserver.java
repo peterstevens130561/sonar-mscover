@@ -7,10 +7,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 public class VsTestSourceFileNamesObserver extends BaseParserObserver {
     private SourceFileNameTable sourceFileNameTable;
     private String sourceFileID;
-
-    public VsTestSourceFileNamesObserver() {
-        setPattern("SourceFileNames/(SourceFileID|SourceFileName)");
-    }
     
     @Override
     public void registerObservers(ObserverRegistrar registrar) {

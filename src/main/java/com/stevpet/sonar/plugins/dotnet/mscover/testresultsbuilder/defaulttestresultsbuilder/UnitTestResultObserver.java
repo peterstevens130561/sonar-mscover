@@ -46,9 +46,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
 public class UnitTestResultObserver extends BaseParserObserver {
 
     private ParserHelper parserHelper = new ParserHelper();
-    public UnitTestResultObserver() {
-        setPattern("(Results/UnitTestResult)|(.*/Message)|(.*/StackTrace)");
-    }
     
     private UnitTestingResults registry;
     private UnitTestMethodResult unitTestResult;

@@ -30,10 +30,6 @@ public class VsTestLinesObserver extends VsTestCoverageObserver {
     private int line;
     private SonarCoverage registry;
 
-    public VsTestLinesObserver() {
-        setPattern("Module/NamespaceTable/Class/Method/Lines/(LnStart|LnEnd|Coverage|SourceFileID)");
-    }
-
     @Override
     public void setVsTestRegistry(SonarCoverage registry) {
         this.registry = registry;

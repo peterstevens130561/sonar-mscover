@@ -37,13 +37,6 @@ public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs extends OpenCoverO
     private boolean isMissing=false;
     private Collection<String> pdbs = new ArrayList<String>();
     
-    public OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs() {
-        setPattern("Modules/Module" +
-                 "|Modules/Module/FullName" +
-                 "|Modules/Module/ModuleName"
-                 );
-    }
-
     @Override
     public void setRegistry(SonarCoverage registry) {
         // empty, as the registry is not needed
@@ -57,7 +50,7 @@ public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs extends OpenCoverO
     
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
-        registrar.inPath("Modules").inElement("Module").onAttribute("Module/skippedDueTo", (value ->isMissing="MissingPdb".equals(value)));
+        registrar.inPath("Modules").inElement("Module").onAttribute("skippedDueTo", (value ->isMissing="MissingPdb".equals(value)));
         registrar.inPath("Modules/Module").onElement("FullName", this::fullName);
     }
 

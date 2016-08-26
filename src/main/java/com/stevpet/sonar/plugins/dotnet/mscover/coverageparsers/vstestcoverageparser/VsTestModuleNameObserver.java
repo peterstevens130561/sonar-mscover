@@ -43,10 +43,6 @@ public class VsTestModuleNameObserver extends VsTestCoverageObserver {
             .getLogger(VsTestModuleNameObserver.class);
     private List<String> modulesToParse = new ArrayList<String>();
 
-    public VsTestModuleNameObserver() {
-        setPattern("Module/ModuleName");
-    }
-
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
         registrar.inPath("Module", module -> module

@@ -41,10 +41,6 @@ public class OpenCoverFileNamesAndIdObserver extends BaseParserObserver {
     	);
     	
     }
-
-    public OpenCoverFileNamesAndIdObserver() {
-        setPattern("Modules/Module/Files/File");
-    }
     
     public void setRegistry(SourceFileNameTable registry) {
         this.registry=registry;

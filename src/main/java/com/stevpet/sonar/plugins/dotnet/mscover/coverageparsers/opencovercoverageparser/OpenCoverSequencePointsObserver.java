@@ -55,15 +55,7 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         private static final String BRANCHPOINT_PATH = "Modules/Module/Classes/Class/Methods/Method/BranchPoints/" + BRANCH_POINT ;
         
         private static final String FULLNAME_PATH = "Modules/Module/Classes/Class/" + FULL_NAME;
-        public OpenCoverSequencePointsObserver() {
 
-            setPattern(FULLNAME_PATH +
-                    "|" + FILEREF_PATH +
-                     "|" + SEQUENCEPOINT_PATH +
-                     "|" + BRANCHPOINT_PATH +
-                     ""
-                     );
-        }
 
         public void setRegistry(SonarCoverage registry) {
             this.registry = registry;

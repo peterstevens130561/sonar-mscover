@@ -45,14 +45,7 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
     
     protected String methodName;
     protected String nameSpaceName;
-    public OpenCoverMethodObserver() {
-        setPattern("(Modules/Module/ModuleName)|" +
-                "(" + OpenCoverPaths.MODULE_FULLPATH + ")|" +
-                "(Modules/Module/Classes/Class/FullName)|" +
-                "(Modules/Module/Classes/Class/Methods/Method/Name)|" +
-                "(Modules/Module/Classes/Class/Methods/Method/FileRef)|");
 
-    }
 
     protected enum ScanMode {
         SCAN,
