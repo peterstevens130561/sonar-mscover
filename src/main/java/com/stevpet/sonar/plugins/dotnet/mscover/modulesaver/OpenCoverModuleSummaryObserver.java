@@ -1,6 +1,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 
-import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.ObserverRegistrar;
 
 public class OpenCoverModuleSummaryObserver extends  ModuleSummaryObserver{
     private int visitedSequencePoints=0;

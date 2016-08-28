@@ -24,7 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestr
 
 
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
-import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
 
 public class ResultsObserver extends BaseParserObserver {

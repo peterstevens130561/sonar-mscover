@@ -25,8 +25,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercovera
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import com.stevpet.sonar.plugins.common.parser.ObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.ObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 public class OpenCoverMissingPdbObserver extends OpenCoverObserver{
