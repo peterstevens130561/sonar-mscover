@@ -31,14 +31,4 @@ import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
  */
 public class VsTestResultsParserSubject extends  XmlParserSubject {
 
-
-    @Override
-    public String[] getHierarchy() {
-        String[] hierarchy = { "TestResults","TestSettings","Execution",
-                "Results","TestDefinitions","UnitTest","UnitTestResult",
-                "TestEntries","TestLists","ResultSummary","RunInfos","RunInfo",
-                "UriAttachments","UriAttachment",
-                "CollectorDataEntries","Collector","Output","FileUris","ErrorInfo","TestCategory"};
-        return hierarchy;
-    }
 }

@@ -39,10 +39,5 @@ public class VsTestCoverageParserSubject extends XmlParserSubject {
     public VsTestCoverageParserSubject() {
     }
 
-    @Override
-    public String[] getHierarchy() {
-        String[] hierarchy= { "Module","NamespaceTable","Class","Method","Lines","SourceFileNames"};
-        return hierarchy;
-    }
     
 }
