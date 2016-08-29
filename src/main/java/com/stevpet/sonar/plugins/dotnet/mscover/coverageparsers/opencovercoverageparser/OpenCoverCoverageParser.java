@@ -24,7 +24,7 @@ public class OpenCoverCoverageParser implements CoverageParser {
     @SuppressWarnings("ucd")
     public OpenCoverCoverageParser(MsCoverConfiguration msCoverProperties) {
         this.msCoverProperties = msCoverProperties;
-        parser = new OpenCoverParserSubject();
+        parser = new XmlParserSubject();
         missingPdbObserver = new OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs();
         observers = new OpenCoverObserver[] { 
                 new OpenCoverSourceFileNamesObserver(),

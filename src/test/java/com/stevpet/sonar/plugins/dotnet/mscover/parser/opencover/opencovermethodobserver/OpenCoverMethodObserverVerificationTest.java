@@ -11,8 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
+import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverMethodObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 
@@ -34,7 +34,7 @@ public class OpenCoverMethodObserverVerificationTest {
         observer.setRegistry(registry);
 		mockRegistry = mock(MethodToSourceFileIdMap.class);    
         observer.setRegistry(mockRegistry);
-        OpenCoverParserSubject parser = new OpenCoverParserSubject();
+        XmlParserSubject parser = new XmlParserSubject();
         parser.registerObserver(observer);
         File file=TestUtils.getResource("OpenCoverMethodObserver.xml"); 
         parser.parseFile(file);

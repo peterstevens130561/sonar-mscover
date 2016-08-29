@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
+import com.stevpet.sonar.plugins.common.api.parser.ParserSubject;
 import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
@@ -20,7 +21,7 @@ public class OpenCoverFileNamesAndIdObserverTest {
 	
 	@Before
 	public void before() {
-		XmlParserSubject parser = new OpenCoverParserSubject();
+		XmlParserSubject parser = new XmlParserSubject();
 		parser.registerObserver(observer);
 		observer.setRegistry(registry);
 		File xmlFile = TestUtils.getResource("observers/OpenCoverFileNamesAndIdObserver.xml");

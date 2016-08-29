@@ -25,7 +25,7 @@ public class OpenCoverSequencePointsObserverTest {
     @Before
     public void before() {
         registry = new SonarCoverage();
-        parser = new OpenCoverParserSubject();
+        parser = new XmlParserSubject();
         OpenCoverObserver observer = new OpenCoverSequencePointsObserver();
         observer.setRegistry(registry);
         parser.registerObserver(observer);        

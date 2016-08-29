@@ -4,6 +4,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.stevpet.sonar.plugins.common.api.parser.ParserSubject;
 import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverParserSubject;
 
@@ -14,7 +15,7 @@ class OpenCoverModuleParser implements ModuleParser{
 	private ModuleSummaryObserver moduleSummaryObserver;
 	
     public OpenCoverModuleParser() {
-    	parser = new OpenCoverParserSubject();
+    	parser = new XmlParserSubject();
         openCoverFullNameObserver = new OpenCoverFullNameObserver();
         parser.registerObserver(openCoverFullNameObserver);
         moduleSummaryObserver = new OpenCoverModuleSummaryObserver();

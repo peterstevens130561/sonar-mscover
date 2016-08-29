@@ -122,7 +122,7 @@ public class OpenCoverObserversTest {
     }
     
     private XmlParserSubject initializeParser() {
-        XmlParserSubject parser = new OpenCoverParserSubject();
+        XmlParserSubject parser = new XmlParserSubject();
         OpenCoverObserver observer = new OpenCoverSourceFileNamesObserver();
         registry = new SonarCoverage();
         observer.setRegistry(registry);

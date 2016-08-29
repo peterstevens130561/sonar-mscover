@@ -60,7 +60,7 @@ public class OpenCoverMissingPdbObserverTest {
     }
     
     private XmlParserSubject initializeParser() {
-        XmlParserSubject parser = new OpenCoverParserSubject();
+        XmlParserSubject parser = new XmlParserSubject();
         observer = new OpenCoverMissingPdbObserver();
         observer.setRegistry(null);
         parser.registerObserver(observer);

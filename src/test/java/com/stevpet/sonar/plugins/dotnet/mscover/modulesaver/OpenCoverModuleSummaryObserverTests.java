@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
-import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverParserSubject;
 
 public class OpenCoverModuleSummaryObserverTests {
 
@@ -22,7 +21,7 @@ public class OpenCoverModuleSummaryObserverTests {
     @Before
     public void before() {
         moduleSummaryObserver = new OpenCoverModuleSummaryObserver();
-        parserSubject = new OpenCoverParserSubject();
+        parserSubject = new XmlParserSubject();
         parserSubject.registerObserver(moduleSummaryObserver); 
     }
     
