@@ -25,7 +25,7 @@ public class VsTestLinesObserverTest extends VsTestObserverTest {
 		observer = new VsTestLinesObserver();
 		registry = new SonarCoverage();
 		observer.setVsTestRegistry(registry);
-		parser = new VsTestCoverageParserSubject();
+		parser = new XmlParserSubject();
 		parser.registerObserver(observer);
 	}
 	

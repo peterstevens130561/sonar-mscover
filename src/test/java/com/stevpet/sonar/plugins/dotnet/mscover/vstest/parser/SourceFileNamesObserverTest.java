@@ -24,7 +24,7 @@ public class SourceFileNamesObserverTest extends VsTestObserverTest {
 		observer = new VsTestFileNamesObserver();
 		registry = new SonarCoverage();
 		observer.setVsTestRegistry(registry);
-		parser = new VsTestCoverageParserSubject();
+		parser = new XmlParserSubject();
 		parser.registerObserver(observer);
 	}
 	

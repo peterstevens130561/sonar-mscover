@@ -25,7 +25,7 @@ public class VsTestMethodObserverTest extends VsTestObserverTest {
 		observer = new VsTestMethodObserver();
 		methodToSourceFileIdMap = new MethodToSourceFileIdMap();
 		observer.setRegistry(methodToSourceFileIdMap);
-		parser = new VsTestCoverageParserSubject();
+		parser = new XmlParserSubject();
 		parser.registerObserver(observer);		
 	}
 	

@@ -19,7 +19,7 @@ public class VsTestCoverageParser implements CoverageParser {
      */
     @Override
     public void parse(SonarCoverage registry, File file) {
-        XmlParserSubject parserSubject = new VsTestCoverageParserSubject();
+        XmlParserSubject parserSubject = new XmlParserSubject();
 
         VsTestCoverageObserver[] observers = { new VsTestFileNamesObserver(),
                 new VsTestLinesObserver() };

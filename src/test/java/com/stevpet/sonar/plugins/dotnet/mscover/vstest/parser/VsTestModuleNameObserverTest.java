@@ -16,20 +16,21 @@ import org.mockito.MockitoAnnotations;
 import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.common.parser.ParserData;
+import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestModuleNameObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestCoverageParserSubject;
 
 public class VsTestModuleNameObserverTest {
 	private VsTestModuleNameObserver observer;
 	@Mock ParserData parserData;
-    private VsTestCoverageParserSubject parser;
+    private XmlParserSubject parser;
     private File file;
 	@Before
 	
 	public void before() {
 		MockitoAnnotations.initMocks(this);
 		observer = new VsTestModuleNameObserver();
-		parser=new VsTestCoverageParserSubject(parserData);
+		parser=new XmlParserSubject(parserData);
 
 		parser.registerObserver(observer);
 		file = TestUtils.getResource("observers/VsTestModuleNameObserver.xml");

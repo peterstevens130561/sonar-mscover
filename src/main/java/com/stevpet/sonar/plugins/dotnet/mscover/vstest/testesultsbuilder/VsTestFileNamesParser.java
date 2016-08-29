@@ -17,7 +17,7 @@ public class VsTestFileNamesParser implements FileNamesParser {
     public void parse(File coverageFile) {
         methodToSourceFileIdMap = new MethodToSourceFileIdMap();
         sourceFileNameTable = new SourceFileNameTable();
-        XmlParserSubject parserSubject = new VsTestCoverageParserSubject();
+        XmlParserSubject parserSubject = new XmlParserSubject();
         VsTestMethodObserver methodObserver = new VsTestMethodObserver();
         methodObserver.setRegistry(methodToSourceFileIdMap);
         parserSubject.registerObserver(methodObserver);

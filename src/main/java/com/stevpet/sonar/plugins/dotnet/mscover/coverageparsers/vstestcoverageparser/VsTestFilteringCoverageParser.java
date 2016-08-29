@@ -27,7 +27,7 @@ public class VsTestFilteringCoverageParser implements FilteringCoverageParser {
     public void parse(SonarCoverage registry, File file) {
         VsTestModuleNameObserver moduleNameObserver = new VsTestModuleNameObserver();
         moduleNameObserver.setModulesToParse(modules);
-        XmlParserSubject parserSubject = new VsTestCoverageParserSubject();
+        XmlParserSubject parserSubject = new XmlParserSubject();
 
         VsTestCoverageObserver[] observers = { new VsTestFileNamesObserver(),
                 new VsTestLinesObserver(), moduleNameObserver };

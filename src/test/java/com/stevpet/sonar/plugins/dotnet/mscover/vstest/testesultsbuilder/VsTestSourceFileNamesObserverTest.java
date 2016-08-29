@@ -17,7 +17,7 @@ public class VsTestSourceFileNamesObserverTest extends VsTestObserverTest {
 	@Before
 	public void before() {
 		VsTestSourceFileNamesObserver observer = new VsTestSourceFileNamesObserver();
-		parser = new VsTestCoverageParserSubject();
+		parser = new XmlParserSubject();
 		parser.registerObserver(observer);
 		sourceFileNameTable = new SourceFileNameTable();
 		observer.setRegistry(sourceFileNameTable);
