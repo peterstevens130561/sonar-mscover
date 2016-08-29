@@ -32,19 +32,20 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
+import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 public class VsTestResultsParserSubjectTest {
 
     @Test
     public void createParser_ShouldWork() {
-        XmlParserSubject parserSubject = new XmlParserSubject();
-        Assert.assertNotNull(parserSubject);
+        XmlParser xmlParser = new DefaultXmlParser();
+        Assert.assertNotNull(xmlParser);
     }
     
     @Test
     public void createParser_ParseResultsFile() throws FactoryConfigurationError, XMLStreamException {
-        XmlParserSubject parserSubject = new XmlParserSubject();
+        XmlParser xmlParser = new DefaultXmlParser();
         File file = TestUtils.getResource("results.trx");
-        parserSubject.parseFile(file);
+        xmlParser.parseFile(file);
     }
 }

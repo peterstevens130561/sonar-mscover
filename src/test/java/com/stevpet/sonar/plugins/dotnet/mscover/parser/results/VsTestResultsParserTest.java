@@ -28,7 +28,8 @@ import org.junit.Test;
 import org.junit.Assert;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
+import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
@@ -39,13 +40,13 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestre
 public class VsTestResultsParserTest {
     @Test
     public void parser_GetCounters_ShouldMatch() {
-        XmlParserSubject parserSubject = createNewParser();
+        XmlParser xmlParser = createNewParser();
         File file = TestUtils.getResource("results.trx");
         TestResults results = new TestResults();
         ResultsObserver resultsObserver = new ResultsObserver();
         resultsObserver.setRegistry(results);
-        parserSubject.registerObserver(resultsObserver);
-        parserSubject.parseFile(file);   
+        xmlParser.registerObserver(resultsObserver);
+        xmlParser.parseFile(file);   
         Assert.assertEquals(120, results.getExecutedTests());
         Assert.assertEquals(20,results.getFailedTests());
         Assert.assertEquals(100,results.getPassedTests());
@@ -53,30 +54,30 @@ public class VsTestResultsParserTest {
 
     @Test
     public void parser_GetResults_ShouldMatch() {
-        XmlParserSubject parserSubject = createNewParser();
+        XmlParser xmlParser = createNewParser();
         File file = TestUtils.getResource("results.trx");
         UnitTestingResults results = new UnitTestingResults();
         UnitTestResultObserver resultsObserver = new UnitTestResultObserver();
         resultsObserver.setRegistry(results);
-        parserSubject.registerObserver(resultsObserver);
-        parserSubject.parseFile(file);
+        xmlParser.registerObserver(resultsObserver);
+        xmlParser.parseFile(file);
         Assert.assertEquals(186, results.size());
     }
 
-    private XmlParserSubject createNewParser() {
-        return new XmlParserSubject();
+    private XmlParser createNewParser() {
+        return new DefaultXmlParser();
     }
 
     
     @Test
     public void parser_GetResultsWithError_ShouldMatch() {
-        XmlParserSubject parserSubject = createNewParser();
+        XmlParser xmlParser = createNewParser();
         File file = TestUtils.getResource("ResultsWithError.trx");
         UnitTestingResults results = new UnitTestingResults();
         UnitTestResultObserver resultsObserver = new UnitTestResultObserver();
         resultsObserver.setRegistry(results);
-        parserSubject.registerObserver(resultsObserver);
-        parserSubject.parseFile(file);
+        xmlParser.registerObserver(resultsObserver);
+        xmlParser.parseFile(file);
         Assert.assertEquals(4, results.size());
         UnitTestMethodResult result=results.getById("2b700139-4cbd-7db0-4b54-6f23eab71b6b");
         Assert.assertTrue(result.getMessage().startsWith("Test method joaFrameworkUnitTests.joaSolutionTest.NewSolutionTest"));
@@ -112,18 +113,18 @@ public class VsTestResultsParserTest {
     }
     @Test
     public void parser_GetTest_ShouldMatch() {
-        XmlParserSubject parserSubject = createNewParser();
+        XmlParser xmlParser = createNewParser();
         File file = TestUtils.getResource("results.trx");
         UnitTestingResults results = new UnitTestingResults();
         UnitTestResultObserver resultsObserver = new UnitTestResultObserver();
         resultsObserver.setRegistry(results);
-        parserSubject.registerObserver(resultsObserver);
+        xmlParser.registerObserver(resultsObserver);
         
         UnitTestDefinitionObserver unitTestDefinitionObserver = new UnitTestDefinitionObserver() ;
         unitTestDefinitionObserver.setRegistry(results);
-        parserSubject.registerObserver(unitTestDefinitionObserver);
+        xmlParser.registerObserver(unitTestDefinitionObserver);
         
-        parserSubject.parseFile(file); 
+        xmlParser.parseFile(file); 
         Assert.assertEquals(186, results.size());
         
         UnitTestMethodResult model = results.getById("6debf182-8726-2cb3-6825-ea98526b8f76");

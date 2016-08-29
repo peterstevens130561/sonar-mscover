@@ -10,25 +10,26 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
+import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 
 public class OpenCoverModuleSummaryObserverTests {
 
 
     private ModuleSummaryObserver moduleSummaryObserver ;
-    private XmlParserSubject parserSubject ;
+    private XmlParser xmlParser ;
     
     @Before
     public void before() {
         moduleSummaryObserver = new OpenCoverModuleSummaryObserver();
-        parserSubject = new XmlParserSubject();
-        parserSubject.registerObserver(moduleSummaryObserver); 
+        xmlParser = new DefaultXmlParser();
+        xmlParser.registerObserver(moduleSummaryObserver); 
     }
     
     @Test
     public void notCovered() {
        File file = getTestFile("NotCovered.xml");
-       parserSubject.parseFile(file);
+       xmlParser.parseFile(file);
        assertTrue("no coverage expected",moduleSummaryObserver.isNotCovered());
     }
 
@@ -36,7 +37,7 @@ public class OpenCoverModuleSummaryObserverTests {
     @Test
     public void isCovered() {
        File file = getTestFile("SequencePointsCovered.xml");
-       parserSubject.parseFile(file);
+       xmlParser.parseFile(file);
        assertFalse("coverage expected",moduleSummaryObserver.isNotCovered());
     }
     

@@ -8,7 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
+import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverSequencePointsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
@@ -19,12 +20,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 public class OpenCoverSequencePointsObserverTest {
 
     private SonarCoverage registry;
-    private  XmlParserSubject parser;
+    private  XmlParser parser;
     
     @Before
     public void before() {
         registry = new SonarCoverage();
-        parser = new XmlParserSubject();
+        parser = new DefaultXmlParser();
         OpenCoverObserver observer = new OpenCoverSequencePointsObserver();
         observer.setRegistry(registry);
         parser.registerObserver(observer);        

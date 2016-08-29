@@ -5,7 +5,9 @@ import java.util.Collection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
+
+import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
+import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.CoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
@@ -17,14 +19,14 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 public class OpenCoverCoverageParser implements CoverageParser {
     private final Logger LOG = LoggerFactory.getLogger(OpenCoverCoverageParser.class);
     private MsCoverConfiguration msCoverProperties;
-	protected XmlParserSubject parser;
+	protected XmlParser parser;
 	private OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs missingPdbObserver;
 	private OpenCoverObserver [] observers;
 
     @SuppressWarnings("ucd")
     public OpenCoverCoverageParser(MsCoverConfiguration msCoverProperties) {
         this.msCoverProperties = msCoverProperties;
-        parser = new XmlParserSubject();
+        parser = new DefaultXmlParser();
         missingPdbObserver = new OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs();
         observers = new OpenCoverObserver[] { 
                 new OpenCoverSourceFileNamesObserver(),

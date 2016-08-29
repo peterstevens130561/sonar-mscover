@@ -2,8 +2,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestr
 
 import java.io.File;
 
-import com.stevpet.sonar.plugins.common.api.parser.ParserSubject;
-import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
+import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsParser;
 
@@ -16,7 +16,7 @@ public class DefaultTestResultsParser implements TestResultsParser {
     @Override
 	public void parse(File unitTestResultsFile) {
     	registry = new UnitTestRegistry();
-        XmlParserSubject parser = new XmlParserSubject();
+        XmlParser parser = new DefaultXmlParser();
         
         ResultsObserver resultsObserver = new ResultsObserver();
         resultsObserver.setRegistry(registry.getSummary());

@@ -30,7 +30,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
+import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
 
 
@@ -40,7 +41,7 @@ public class ResultsObserverTest {
     
     @Before
     public void before() {
-        XmlParserSubject parser = new XmlParserSubject();
+        XmlParser parser = new DefaultXmlParser();
 
         File xmlFile = TestUtils.getResource("observers/ResultsObserver.xml");
         data= new TestResults();

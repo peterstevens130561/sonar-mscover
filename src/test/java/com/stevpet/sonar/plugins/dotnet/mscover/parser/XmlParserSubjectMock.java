@@ -24,14 +24,14 @@ package com.stevpet.sonar.plugins.dotnet.mscover.parser;
 
 import java.io.File;
 
-import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.mock.GenericClassMock;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
-public class XmlParserSubjectMock extends GenericClassMock<XmlParserSubject> {
+public class XmlParserSubjectMock extends GenericClassMock<DefaultXmlParser> {
     public XmlParserSubjectMock() {
-        super(XmlParserSubject.class);
+        super(DefaultXmlParser.class);
     }
 
     public void verifyParseFile(String string) {

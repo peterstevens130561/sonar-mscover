@@ -2,10 +2,10 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoveragep
 
 import java.io.File;
 
-import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
+import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.CoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.vstest.coverageparser.VsTestCoverageParserSubject;
 
 public class VsTestCoverageParser implements CoverageParser {
     /*
@@ -19,15 +19,15 @@ public class VsTestCoverageParser implements CoverageParser {
      */
     @Override
     public void parse(SonarCoverage registry, File file) {
-        XmlParserSubject parserSubject = new XmlParserSubject();
+        XmlParser xmlParser = new DefaultXmlParser();
 
         VsTestCoverageObserver[] observers = { new VsTestFileNamesObserver(),
                 new VsTestLinesObserver() };
 
         for (VsTestCoverageObserver observer : observers) {
             observer.setVsTestRegistry(registry);
-            parserSubject.registerObserver(observer);
+            xmlParser.registerObserver(observer);
         }
-        parserSubject.parseFile(file);
+        xmlParser.parseFile(file);
     }
 }

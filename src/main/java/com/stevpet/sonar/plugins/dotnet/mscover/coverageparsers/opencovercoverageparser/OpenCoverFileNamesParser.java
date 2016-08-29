@@ -2,8 +2,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercovera
 
 import java.io.File;
 
-import com.stevpet.sonar.plugins.common.api.parser.ParserSubject;
-import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
+import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverFileNamesAndIdObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverMethodObserver;
@@ -22,16 +22,16 @@ public class OpenCoverFileNamesParser implements FileNamesParser {
 		
 		methodToSourceFileIdMap=new MethodToSourceFileIdMap();
 		sourceFileNameTable = new SourceFileNameTable();
-		XmlParserSubject parserSubject = new XmlParserSubject();
+		XmlParser xmlParser = new DefaultXmlParser();
 
 		OpenCoverMethodObserver methodObserver = new OpenCoverMethodObserver();
 		methodObserver.setRegistry(methodToSourceFileIdMap);
-		parserSubject.registerObserver(methodObserver);
+		xmlParser.registerObserver(methodObserver);
 
 		OpenCoverFileNamesAndIdObserver sourceFileNamesObserver = new OpenCoverFileNamesAndIdObserver();
 		sourceFileNamesObserver.setRegistry(sourceFileNameTable);
-		parserSubject.registerObserver(sourceFileNamesObserver);
-		parserSubject.parseFile(coverageFile);
+		xmlParser.registerObserver(sourceFileNamesObserver);
+		xmlParser.parseFile(coverageFile);
 	}
 
 

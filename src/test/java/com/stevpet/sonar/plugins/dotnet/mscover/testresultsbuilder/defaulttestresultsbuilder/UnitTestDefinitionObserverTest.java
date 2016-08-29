@@ -31,8 +31,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.common.api.parser.ParserSubject;
-import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
+import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
@@ -45,7 +45,7 @@ public class UnitTestDefinitionObserverTest {
     
     @Before
     public void before() {
-        XmlParserSubject parser = new XmlParserSubject();
+        XmlParser parser = new DefaultXmlParser();
 
         File xmlFile = TestUtils.getResource("observers/UnitTestDefinitionsObserver.xml");
         data= new TestResults();

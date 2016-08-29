@@ -32,7 +32,8 @@ import java.io.File;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
+import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverSequencePointsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverSourceFileNamesObserver;
@@ -48,7 +49,7 @@ public class OpenCoverObserversTest {
     @Test
     public void ReadFileNames_Expect31() {
         //Arrange
-        XmlParserSubject parser = initializeParser();
+        XmlParser parser = initializeParser();
         File file = TestUtils.getResource("coverage-report.xml");
         //Act
         parser.parseFile(file);
@@ -61,7 +62,7 @@ public class OpenCoverObserversTest {
 
     @Test
     public void readTwice() {
-        XmlParserSubject parser = initializeParser();
+        XmlParser parser = initializeParser();
         File file = TestUtils.getResource("coverage-report.xml");
         //Act
         parser.parseFile(file);  
@@ -113,15 +114,15 @@ public class OpenCoverObserversTest {
     }
     
     private void initializeCompleteParser() {
-        XmlParserSubject parser = initializeParser();
+        XmlParser parser = initializeParser();
         OpenCoverObserver pointsObserver = new OpenCoverSequencePointsObserver();
         pointsObserver.setRegistry(registry);
         parser.registerObserver(pointsObserver);
         parser.parseFile(file);
     }
     
-    private XmlParserSubject initializeParser() {
-        XmlParserSubject parser = new XmlParserSubject();
+    private XmlParser initializeParser() {
+        XmlParser parser = new DefaultXmlParser();
         OpenCoverObserver observer = new OpenCoverSourceFileNamesObserver();
         registry = new SonarCoverage();
         observer.setRegistry(registry);

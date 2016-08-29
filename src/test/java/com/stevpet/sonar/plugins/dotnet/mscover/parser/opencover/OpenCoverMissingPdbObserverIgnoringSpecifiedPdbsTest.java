@@ -29,8 +29,9 @@ import java.util.List;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
+import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
 import com.stevpet.sonar.plugins.common.parser.ParserSubjectErrorException;
-import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
+import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs;
 
 public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbsTest {
@@ -39,7 +40,7 @@ public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbsTest {
     @Test(expected=ParserSubjectErrorException.class)
     public void reportWithTwoMissingPdbs_ExpectExepction() {
         //Arrange
-        XmlParserSubject parser = initializeParser();
+        XmlParser parser = initializeParser();
         File file = TestUtils.getResource("coverage-report-missingPdbs.xml");
         //Act
         parser.parseFile(file);
@@ -48,7 +49,7 @@ public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbsTest {
     @Test(expected=ParserSubjectErrorException.class)
     public void reportWithTwoMissingPdbs_IgnoreBothExpectException() {
         //Arrange
-        XmlParserSubject parser = initializeParser();
+        XmlParser parser = initializeParser();
         pdbs.add("joaJewelUtilitiesUI.dll");
         File file = TestUtils.getResource("coverage-report-missingPdbs.xml");
         //Act
@@ -58,7 +59,7 @@ public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbsTest {
     @Test
     public void reportWithTwoMissingPdbs_IgnoreBothExpectNoException() {
         //Arrange
-        XmlParserSubject parser = initializeParser();
+        XmlParser parser = initializeParser();
         pdbs.add("joaJewelUtilitiesUI.dll");
         pdbs.add("joaTouchEngine.dll");
         File file = TestUtils.getResource("coverage-report-missingPdbs.xml");
@@ -68,15 +69,15 @@ public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbsTest {
     @Test
     public void reportWithNoPdbsMissing_ExpectNone(){
         //Arrange
-        XmlParserSubject parser = initializeParser();
+        XmlParser parser = initializeParser();
         File file = TestUtils.getResource("coverage-report.xml");
         //Act
         parser.parseFile(file);
         //no exception expected
     }
     
-    private XmlParserSubject initializeParser() {
-        XmlParserSubject parser = new XmlParserSubject();
+    private XmlParser initializeParser() {
+        XmlParser parser = new DefaultXmlParser();
         observer = new OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs();
         observer.setPdbsThatCanBeIgnoredIfMissing(pdbs);
         observer.setRegistry(null);
