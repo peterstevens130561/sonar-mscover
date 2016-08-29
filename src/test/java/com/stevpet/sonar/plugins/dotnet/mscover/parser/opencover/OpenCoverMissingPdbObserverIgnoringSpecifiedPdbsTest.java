@@ -32,7 +32,6 @@ import org.sonar.test.TestUtils;
 import com.stevpet.sonar.plugins.common.parser.ParserSubjectErrorException;
 import com.stevpet.sonar.plugins.common.parser.XmlParserSubject;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs;
-import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverParserSubject;
 
 public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbsTest {
     private OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs observer;
@@ -77,7 +76,7 @@ public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbsTest {
     }
     
     private XmlParserSubject initializeParser() {
-        XmlParserSubject parser = new OpenCoverParserSubject();
+        XmlParserSubject parser = new XmlParserSubject();
         observer = new OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs();
         observer.setPdbsThatCanBeIgnoredIfMissing(pdbs);
         observer.setRegistry(null);
