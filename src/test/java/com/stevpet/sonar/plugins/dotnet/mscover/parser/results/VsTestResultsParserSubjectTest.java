@@ -39,13 +39,13 @@ public class VsTestResultsParserSubjectTest {
 
     @Test
     public void createParser_ShouldWork() {
-        XmlParserSubject parserSubject = new VsTestResultsParserSubject();
+        XmlParserSubject parserSubject = new XmlParserSubject();
         Assert.assertNotNull(parserSubject);
     }
     
     @Test
     public void createParser_ParseResultsFile() throws FactoryConfigurationError, XMLStreamException {
-        XmlParserSubject parserSubject = new VsTestResultsParserSubject();
+        XmlParserSubject parserSubject = new XmlParserSubject();
         File file = TestUtils.getResource("results.trx");
         parserSubject.parseFile(file);
     }

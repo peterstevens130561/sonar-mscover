@@ -40,7 +40,7 @@ public class ResultsObserverTest {
     
     @Before
     public void before() {
-        XmlParserSubject parser = new VsTestResultsParserSubject();
+        XmlParserSubject parser = new XmlParserSubject();
 
         File xmlFile = TestUtils.getResource("observers/ResultsObserver.xml");
         data= new TestResults();

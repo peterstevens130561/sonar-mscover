@@ -40,7 +40,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestre
 public class VsTestResultsParserTest {
     @Test
     public void parser_GetCounters_ShouldMatch() {
-        XmlParserSubject parserSubject = new VsTestResultsParserSubject();
+        XmlParserSubject parserSubject = createNewParser();
         File file = TestUtils.getResource("results.trx");
         TestResults results = new TestResults();
         ResultsObserver resultsObserver = new ResultsObserver();
@@ -54,7 +54,7 @@ public class VsTestResultsParserTest {
 
     @Test
     public void parser_GetResults_ShouldMatch() {
-        XmlParserSubject parserSubject = new VsTestResultsParserSubject();
+        XmlParserSubject parserSubject = createNewParser();
         File file = TestUtils.getResource("results.trx");
         UnitTestingResults results = new UnitTestingResults();
         UnitTestResultObserver resultsObserver = new UnitTestResultObserver();
@@ -64,10 +64,14 @@ public class VsTestResultsParserTest {
         Assert.assertEquals(186, results.size());
     }
 
+    private XmlParserSubject createNewParser() {
+        return new XmlParserSubject();
+    }
+
     
     @Test
     public void parser_GetResultsWithError_ShouldMatch() {
-        XmlParserSubject parserSubject = new VsTestResultsParserSubject();
+        XmlParserSubject parserSubject = createNewParser();
         File file = TestUtils.getResource("ResultsWithError.trx");
         UnitTestingResults results = new UnitTestingResults();
         UnitTestResultObserver resultsObserver = new UnitTestResultObserver();
@@ -109,7 +113,7 @@ public class VsTestResultsParserTest {
     }
     @Test
     public void parser_GetTest_ShouldMatch() {
-        XmlParserSubject parserSubject = new VsTestResultsParserSubject();
+        XmlParserSubject parserSubject = createNewParser();
         File file = TestUtils.getResource("results.trx");
         UnitTestingResults results = new UnitTestingResults();
         UnitTestResultObserver resultsObserver = new UnitTestResultObserver();
