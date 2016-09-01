@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.common.parser.observer.ObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.ParserEventArgs;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.ModuleNameObserver;
 
 public class OpenCoverModuleNameObserver extends ModuleNameObserver {
@@ -13,7 +14,7 @@ public class OpenCoverModuleNameObserver extends ModuleNameObserver {
 	
     @Override
     public void registerObservers(ObserverRegistrar registrar) {
-        registrar.onElement("FullName", this::moduleNameMatcher);
+        registrar.inPath("Modules/Module").onElement("ModulePath", this::moduleNameMatcher);
     }
 
 	public void moduleNameMatcher(String value) {

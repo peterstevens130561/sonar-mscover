@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoverageSession xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Modules>
+    <Module hash="AA-F4-BB-73-11-A5-A1-10-A6-4A-B3-33-F6-1D-47-18-4C-97-5A-D8">
+      <ModulePath>C:\Development\Jewel.Release.Oahu\JewelEarth\Core\ThinClient\Service.UnitTest\bin\Debug\BHI.JewelEarth.ThinClient.Service.dll</ModulePath>
+      <ModuleName>BHI.JewelEarth.ThinClient.Service</ModuleName>
+    </Module>
+  </Modules>
+</CoverageSession>
