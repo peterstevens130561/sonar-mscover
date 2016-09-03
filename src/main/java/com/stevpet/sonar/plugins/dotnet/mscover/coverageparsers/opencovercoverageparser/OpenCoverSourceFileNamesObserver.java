@@ -22,7 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser;
 
-import com.stevpet.sonar.plugins.common.parser.observer.ObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.StartObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 public class OpenCoverSourceFileNamesObserver extends OpenCoverObserver {
@@ -30,7 +30,7 @@ public class OpenCoverSourceFileNamesObserver extends OpenCoverObserver {
 	private SonarCoverage registry;
 
     @Override
-    public void registerObservers(ObserverRegistrar registrar) {
+    public void registerObservers(StartObserverRegistrar registrar) {
         registrar.inPath("Modules/Module/Files")
             .inElement("File")
                 .onAttribute("uid", this::uidMatcher)

@@ -1,7 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.testesultsbuilder;
 
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
-import com.stevpet.sonar.plugins.common.parser.observer.ObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.StartObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 
 public class VsTestSourceFileNamesObserver extends BaseParserObserver {
@@ -9,7 +9,7 @@ public class VsTestSourceFileNamesObserver extends BaseParserObserver {
     private String sourceFileID;
     
     @Override
-    public void registerObservers(ObserverRegistrar registrar) {
+    public void registerObservers(StartObserverRegistrar registrar) {
         registrar.inPath("SourceFileNames")
             .onElement("SourceFileID", value -> sourceFileID=value)
             .onElement("SourceFileName", value -> sourceFileNameTable.add(sourceFileID, value));

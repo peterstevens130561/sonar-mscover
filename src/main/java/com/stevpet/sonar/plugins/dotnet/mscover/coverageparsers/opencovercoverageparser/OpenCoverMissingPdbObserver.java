@@ -25,7 +25,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercovera
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.stevpet.sonar.plugins.common.parser.observer.ObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.StartObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 public class OpenCoverMissingPdbObserver extends OpenCoverObserver{
@@ -34,10 +34,13 @@ public class OpenCoverMissingPdbObserver extends OpenCoverObserver{
 
     
     @Override
-    public void registerObservers(ObserverRegistrar registrar) {
-        registrar.inPath("Modules/Module", module -> module
-                .onAttribute("skippedDueTo", this::fileRefMatcher)
-                .onElement("FullName", this::fullName));
+    public void registerObservers(StartObserverRegistrar registrar) {
+        registrar.inPath("Modules")
+            .inPath("Module").onElement("FullName", this::fullName);
+        registrar.inPath("Modules")
+            .inElement("Module")
+                .onAttribute("skippedDueTo", this::fileRefMatcher);
+                
     }
 
     public void fileRefMatcher(String attributeValue) {

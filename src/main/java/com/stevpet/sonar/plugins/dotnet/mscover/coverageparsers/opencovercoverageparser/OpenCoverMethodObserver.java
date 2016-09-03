@@ -26,7 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
-import com.stevpet.sonar.plugins.common.parser.observer.ObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.StartObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 
@@ -58,22 +58,15 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
     }
  
     @Override
-    public void registerObservers(ObserverRegistrar registrar) {
-        registrar.inPath("Modules/Module",module -> module
-            .onElement("ModulePath", this::setModuleName)
-            .inPath("Classes/Class",clazz -> clazz
-                .onElement("FullName", this::setNamespaceAndClassName)
-                .inPath("Methods/Method", method -> 
-                    method.onElement("Name", this::setMethodName)
-                .onAttribute("FileRef/uid",this::setFileId)
-                )
-            ));
-        /*
-        registrar
-        .onPath(this::setNamespaceAndClassName,"Modules/Module/Classes/Class/FullName")
-        .onElement("Name", this::setMethodName)
-        .onAttribute("FileRef/uid",this::setFileId);
-        */
+    public void registerObservers(StartObserverRegistrar registrar) {
+        registrar.inPath("Modules/Module")
+            .onElement("ModulePath", this::setModuleName);
+        
+        registrar.inPath("Modules/Module/Classes/Class").onElement("FullName", this::setNamespaceAndClassName);
+        registrar.inPath("Modules/Module/Classes/Class/Methods/Method")
+            .onElement("Name", this::setMethodName)
+            .inElement("FileRef").onAttribute("uid",this::setFileId);
+          
     }
     
     /**

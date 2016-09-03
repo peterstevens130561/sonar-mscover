@@ -22,7 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser;
 
-import com.stevpet.sonar.plugins.common.parser.observer.ObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.StartObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 public class VsTestLinesObserver extends VsTestCoverageObserver {
@@ -36,11 +36,11 @@ public class VsTestLinesObserver extends VsTestCoverageObserver {
     }
 
     @Override
-    public void registerObservers(ObserverRegistrar registrar) {
-        registrar.inPath("Module/NamespaceTable/Class/Method/Lines", lines -> lines
+    public void registerObservers(StartObserverRegistrar registrar) {
+        registrar.inPath("Module/NamespaceTable/Class/Method/Lines")
             .onElement("LnStart", value ->line = Integer.parseInt(value) )
             .onElement("Coverage", value -> covered = "0".equals(value))
-            .onElement("SourceFileID", value ->registry.getCoveredFile(value).addLinePoint(line, covered))
+            .onElement("SourceFileID", value ->registry.getCoveredFile(value).addLinePoint(line, covered)
         );   
     }
     

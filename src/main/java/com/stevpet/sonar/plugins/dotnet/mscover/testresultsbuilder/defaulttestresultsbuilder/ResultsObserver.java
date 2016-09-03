@@ -24,7 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestr
 
 
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
-import com.stevpet.sonar.plugins.common.parser.observer.ObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.StartObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
 
 public class ResultsObserver extends BaseParserObserver {
@@ -35,13 +35,13 @@ public class ResultsObserver extends BaseParserObserver {
     }
     
     @Override
-    public void registerObservers(ObserverRegistrar registrar) {
-        registrar.inPath("ResultSummary/Counters",counters -> counters
+    public void registerObservers(StartObserverRegistrar registrar) {
+        registrar.inPath("ResultSummary")
+            .inElement("Counters")
                 .onAttribute("executed", (value ->data.setExecutedTests(Integer.parseInt(value))))
                 .onAttribute("passed",(value ->data.setPassedTests(Integer.parseInt(value))))
                 .onAttribute("failed",(value ->data.setFailedTests(Integer.parseInt(value))))
-                .onAttribute("error",(value ->data.setErroredTests(Integer.parseInt(value))))
-                );
+                .onAttribute("error",(value ->data.setErroredTests(Integer.parseInt(value))));
      
     }
 

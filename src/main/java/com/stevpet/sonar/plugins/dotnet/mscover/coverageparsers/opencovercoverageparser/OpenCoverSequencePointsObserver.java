@@ -23,7 +23,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
-import com.stevpet.sonar.plugins.common.parser.observer.ObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.StartObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.OpenCoverSequencePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.SequencePoint;
@@ -62,29 +62,29 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         }
         
         @Override
-        public void registerObservers(ObserverRegistrar registrar) {
-            registrar.inPath("Modules/Module/Classes/Class", module -> module.onElement(FULL_NAME, this::classMatcher));
-            registrar.inPath("Modules/Module/Classes/Class/Methods/Method",method -> method
-            .onAttribute(FILE_REF + "/uid", this::fileRefMatcher));
+        public void registerObservers(StartObserverRegistrar registrar) {
+            registrar.inPath("Modules/Module/Classes/Class").onElement(FULL_NAME, this::classMatcher);
+            registrar.inPath("Modules/Module/Classes/Class/Methods").inElement("Method")
+            .onAttribute(FILE_REF + "/uid", this::fileRefMatcher);
             
-            registrar.inPath("Modules/Module/Classes/Class/Methods/Method/SequencePoints", method -> method.inElement("SequencePoint", sequencePointB -> sequencePointB
+            registrar.inPath("Modules/Module/Classes/Class/Methods/Method/SequencePoints").inElement("SequencePoint", sequencePointB -> sequencePointB
             .onAttribute("vc", this::visitedCountMatcher)
             .onAttribute("offset", this::offsetMatcher)
             .onAttribute("sl", this::startLineMatcher)
-            .onAttribute("fileid",this::fileIdMatcher)));
+            .onAttribute("fileid",this::fileIdMatcher));
             
-            registrar.inPath("Modules/Module/Classes/Class/Methods/Method/BranchPoints", branchPoints -> branchPoints.inElement("BranchPoint", branchPoint -> branchPoint
+            registrar.inPath("Modules/Module/Classes/Class/Methods/Method/BranchPoints").inElement("BranchPoint", branchPoint -> branchPoint
             .onAttribute("vc",this::visitedBranchCountMatcher)
             .onAttribute("sl",this::lineBranchPoint)
-            .onAttribute("path",this::pathBranchPoint)));
+            .onAttribute("path",this::pathBranchPoint));
             
             //TODO mind the events
-            registrar.inPath("Modules/Module/Classes/Class/Methods/Method/BranchPoints", branchPoints -> branchPoints
-            .onExit(BRANCH_POINT, this::branchPointExit));
+            registrar.inPath("Modules/Module/Classes/Class/Methods/Method/BranchPoints")
+            .onExit(BRANCH_POINT, this::branchPointExit);
             
-            registrar.inPath("Modules/Module/Classes/Class/Methods/Method/SequencePoints", method -> method
+            registrar.inPath("Modules/Module/Classes/Class/Methods/Method/SequencePoints")
             .onEntry(SEQUENCE_POINT, this::sequencePointEntry)
-            .onExit(SEQUENCE_POINT, this::sequencePointExit));
+            .onExit(SEQUENCE_POINT, this::sequencePointExit);
         }
         
         public void classMatcher(String text) {

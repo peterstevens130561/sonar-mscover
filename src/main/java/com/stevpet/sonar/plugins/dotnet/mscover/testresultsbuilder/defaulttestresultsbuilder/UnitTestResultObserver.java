@@ -25,7 +25,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestr
 import java.time.LocalTime;
 
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
-import com.stevpet.sonar.plugins.common.parser.observer.ObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.StartObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ParserHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
@@ -54,7 +54,7 @@ public class UnitTestResultObserver extends BaseParserObserver {
     }
  
     @Override
-    public void registerObservers(ObserverRegistrar registrar) {
+    public void registerObservers(StartObserverRegistrar registrar) {
         registrar.inPath("Results").inElement("UnitTestResult")
                 .onAttribute("testId", this::testId)
                 .onAttribute("testName", (value-> unitTestResult.setTestName(value)))

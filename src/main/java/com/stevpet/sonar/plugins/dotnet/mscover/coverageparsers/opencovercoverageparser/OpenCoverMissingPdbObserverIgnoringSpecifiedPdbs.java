@@ -28,7 +28,7 @@ import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.stevpet.sonar.plugins.common.parser.observer.ObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.StartObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs extends OpenCoverObserver{
@@ -48,7 +48,7 @@ public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs extends OpenCoverO
     }
     
     @Override
-    public void registerObservers(ObserverRegistrar registrar) {
+    public void registerObservers(StartObserverRegistrar registrar) {
         registrar.inPath("Modules").inElement("Module").onAttribute("skippedDueTo", (value ->isMissing="MissingPdb".equals(value)));
         registrar.inPath("Modules/Module").onElement("FullName", this::fullName);
     }
