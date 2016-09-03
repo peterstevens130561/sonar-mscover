@@ -2,7 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.stevpet.sonar.plugins.common.parser.observer.StartObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.TopLevelObserverRegistrar;
 
 
 public class OpenCoverFullNameObserver  extends ModuleFullNameObserver {
@@ -18,7 +18,7 @@ public class OpenCoverFullNameObserver  extends ModuleFullNameObserver {
 	}
 
 	@Override
-	public void registerObservers(StartObserverRegistrar registrar) {
+	public void registerObservers(TopLevelObserverRegistrar registrar) {
 	    registrar.inPath("Modules")
 	        .onEntry("Module",() -> skipped=false)
 	        .inElement("Module").onAttribute("skippedDueTo",this::observeSkippedDueAttribute);

@@ -2,11 +2,10 @@ package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.test.TestUtils;
+
 
 import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 

@@ -27,7 +27,7 @@ import org.apache.commons.lang.StringUtils;
 
 
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
-import com.stevpet.sonar.plugins.common.parser.observer.StartObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
 
@@ -49,7 +49,7 @@ public class UnitTestDefinitionObserver extends BaseParserObserver {
     }
     
     @Override
-    public void registerObservers(StartObserverRegistrar registrar) {
+    public void registerObservers(TopLevelObserverRegistrar registrar) {
         registrar.inPath("TestDefinitions").inElement("UnitTest").onAttribute("id", this::id);
         
         registrar.inPath("TestDefinitions/UnitTest").inElement("TestMethod")

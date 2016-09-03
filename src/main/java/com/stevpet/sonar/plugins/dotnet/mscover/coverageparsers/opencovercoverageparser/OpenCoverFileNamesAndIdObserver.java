@@ -23,7 +23,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser;
 
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
-import com.stevpet.sonar.plugins.common.parser.observer.StartObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 
@@ -34,7 +34,7 @@ public class OpenCoverFileNamesAndIdObserver extends BaseParserObserver {
     private SourceFileNameRow model;
 
     @Override
-    public void registerObservers(StartObserverRegistrar registrar) {
+    public void registerObservers(TopLevelObserverRegistrar registrar) {
     	registrar.inPath("Modules/Module/Files").inElement("File")
     		.onAttribute("uid", this::uidMatcher)
     		.onAttribute("fullPath", this::fileMatcher);

@@ -23,7 +23,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
-import com.stevpet.sonar.plugins.common.parser.observer.StartObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.OpenCoverSequencePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.SequencePoint;
@@ -62,7 +62,7 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         }
         
         @Override
-        public void registerObservers(StartObserverRegistrar registrar) {
+        public void registerObservers(TopLevelObserverRegistrar registrar) {
             registrar.inPath("Modules/Module/Classes/Class").onElement(FULL_NAME, this::classMatcher);
             registrar.inPath("Modules/Module/Classes/Class/Methods").inElement("Method")
             .onAttribute(FILE_REF + "/uid", this::fileRefMatcher);

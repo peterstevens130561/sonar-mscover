@@ -28,7 +28,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.stevpet.sonar.plugins.common.parser.observer.StartObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 /**
@@ -44,7 +44,7 @@ public class VsTestModuleNameObserver extends VsTestCoverageObserver {
     private List<String> modulesToParse = new ArrayList<String>();
 
     @Override
-    public void registerObservers(StartObserverRegistrar registrar) {
+    public void registerObservers(TopLevelObserverRegistrar registrar) {
         registrar.inPath("Module")
                 .onElement("ModuleName",this::moduleNameMatcher);
         

@@ -22,7 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser;
 
-import com.stevpet.sonar.plugins.common.parser.observer.StartObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 public class VsTestFileNamesObserver extends VsTestCoverageObserver {
@@ -30,7 +30,7 @@ public class VsTestFileNamesObserver extends VsTestCoverageObserver {
     private String fileID;
 
     @Override
-    public void registerObservers(StartObserverRegistrar registrar) {
+    public void registerObservers(TopLevelObserverRegistrar registrar) {
         registrar.inPath("SourceFileNames").onElement("SourceFileID", this::sourceFileIDMatcher)
         .onElement("SourceFileName", this::sourceFileNameMatcher);
     }

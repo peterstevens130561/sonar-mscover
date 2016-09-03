@@ -1,7 +1,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.testesultsbuilder;
 
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
-import com.stevpet.sonar.plugins.common.parser.observer.StartObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 
@@ -20,7 +20,7 @@ public class VsTestMethodObserver extends BaseParserObserver {
     }
     
     @Override
-    public void registerObservers(StartObserverRegistrar registrar) {
+    public void registerObservers(TopLevelObserverRegistrar registrar) {
         registrar.inPath("Module").onElement("ModuleName",value -> this.moduleName=value)
             .inPath("NamespaceTable").onElement("NamespaceName",value-> this.nameSpaceName=value)
                 .inPath("Class").onElement("ClassName", value -> this.className = value)

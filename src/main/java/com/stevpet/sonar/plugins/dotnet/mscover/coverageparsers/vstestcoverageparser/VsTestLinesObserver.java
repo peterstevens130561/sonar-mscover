@@ -22,7 +22,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser;
 
-import com.stevpet.sonar.plugins.common.parser.observer.StartObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observer.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 public class VsTestLinesObserver extends VsTestCoverageObserver {
@@ -36,7 +36,7 @@ public class VsTestLinesObserver extends VsTestCoverageObserver {
     }
 
     @Override
-    public void registerObservers(StartObserverRegistrar registrar) {
+    public void registerObservers(TopLevelObserverRegistrar registrar) {
         registrar.inPath("Module/NamespaceTable/Class/Method/Lines")
             .onElement("LnStart", value ->line = Integer.parseInt(value) )
             .onElement("Coverage", value -> covered = "0".equals(value))
