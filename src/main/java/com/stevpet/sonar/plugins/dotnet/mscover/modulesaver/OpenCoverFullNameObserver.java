@@ -2,7 +2,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.stevpet.sonar.plugins.common.parser.observer.TopLevelObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
 
 
 public class OpenCoverFullNameObserver  extends ModuleFullNameObserver {

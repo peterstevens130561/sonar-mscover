@@ -27,7 +27,7 @@ import org.apache.commons.lang.StringUtils;
 
 
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
-import com.stevpet.sonar.plugins.common.parser.observer.TopLevelObserverRegistrar;
+import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
 
