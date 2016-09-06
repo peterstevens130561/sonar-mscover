@@ -36,7 +36,7 @@ public class OpenCoverMissingPdbObserver extends OpenCoverObserver{
     
     public OpenCoverMissingPdbObserver() {
         setPattern("Modules/Module" +
-                 "|Modules/Module/FullName" +
+                 "|Modules/Module/ModulePath" +
                  "|Modules/Module/ModuleName"
                  );
     }
@@ -46,7 +46,7 @@ public class OpenCoverMissingPdbObserver extends OpenCoverObserver{
         isMissing="MissingPdb".equals(attributeValue);
     }
     
-    @ElementMatcher(elementName="FullName")
+    @ElementMatcher(elementName="ModulePath")
     public void fullName(String value) {
         if(isMissing) {
             LOG.error("Missing PDB file for " + value + "\n did you use a file reference instead of a project reference ?");
