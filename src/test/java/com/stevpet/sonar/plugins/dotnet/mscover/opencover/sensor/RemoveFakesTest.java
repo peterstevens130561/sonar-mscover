@@ -46,13 +46,6 @@ public class RemoveFakesTest {
         assertTrue(noFile.exists());
     }
     
-    @Test
-    public void FakesInUnitTestDir_Removed() {
-        String root = "FakesRemover/SomeFiles";
-        File testDir=TestUtils.getResource(root);
-        int removed=fakesRemover.removeFakes(testDir);
-        assertEquals(2,removed);
-    }
 
     
     @Test
