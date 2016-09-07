@@ -28,7 +28,8 @@ public abstract class AbstractSensorTest {
         container.addComponent(microsoftWindowsEnvironmentMock.getMock())
         .addComponent(fileSystemMock.getMock())
         .addComponent(sensorContextMock.getMock())
-        .addComponent(DefaultProcessLock.class);
+        //.addComponent(DefaultProcessLock.class)
+        ;
         return container;
     }
 }

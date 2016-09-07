@@ -68,6 +68,7 @@ public class OpenCoverWorkflowSteps implements WorkflowSteps {
     private void getTestRunnerComponents(DefaultPicoContainer container) {
         container
                 .addComponent(OpenCoverCommand.class)
+                .addComponent(DefaultProcessLock.class)
                 .addComponent(LockedWindowsCommandLineExecutor.class)
                 .addComponent(VsTestConfigFinder.class)
                 .addComponent(WindowsCodeCoverageCommand.class)

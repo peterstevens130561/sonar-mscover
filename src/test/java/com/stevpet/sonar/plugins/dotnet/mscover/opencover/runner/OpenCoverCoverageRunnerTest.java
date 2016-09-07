@@ -105,8 +105,9 @@ public class OpenCoverCoverageRunnerTest {
         openCoverCoverageRunner.execute();
         //then I expect the proper commandline, with the one assembly
         String commandLine=commandLineExecutorStub.getCommandLine();
-        String expected =  baseCommandLine + " \"-filter:+[one]* \"";
-        assertEquals("building a basic OpenCover commandline for one assembly",expected,commandLine);
+        String expected =  " \"-filter:+[one]* \"";
+        assertTrue("should contain the filter for the one assembly "+commandLine,commandLine.contains(expected));
+        //assertEquals("building a basic OpenCover commandline for one assembly",expected,commandLine);
     }
     
     @Test
@@ -118,8 +119,8 @@ public class OpenCoverCoverageRunnerTest {
         openCoverCoverageRunner.execute();
         //then I exepct the proper commandline with the two assemblies
         String commandLine=commandLineExecutorStub.getCommandLine();
-        String expected = baseCommandLine +  " \"-filter:+[one]* +[two]* \"";
-        assertEquals("building a basic OpenCover commandline with two assemblies",expected,commandLine);
+        String expected = " \"-filter:+[one]* +[two]* \"";
+        assertTrue("should contain the filter for the two assemblies "+commandLine,commandLine.contains(expected));
     }
     
     @Test
