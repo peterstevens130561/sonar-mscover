@@ -1249,7 +1249,7 @@
       <Classes />
     </Module>
     <Module skippedDueTo="MissingPdb" hash="B3-B0-E0-C8-70-55-3B-AC-B7-C9-82-8C-78-51-D8-33-CE-AE-DF-4E">
-      <FullName>c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\JewelExplorer.UnitTest\bin\Debug\joaJewelUtilitiesUI.dll</FullName>
+      <ModulePath>c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\JewelExplorer.UnitTest\bin\Debug\joaJewelUtilitiesUI.dll</ModulePath>
       <ModuleName>joaJewelUtilitiesUI</ModuleName>
       <Classes />
     </Module>
@@ -1260,7 +1260,7 @@
     </Module>
 
     <Module skippedDueTo="MissingPdb" hash="BD-34-FB-78-FF-EB-03-07-90-A4-28-99-FB-F6-3E-B2-7B-48-82-1C">
-      <FullName>c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\joaJewelUtilities.UnitTest\bin\Debug\joaTouchEngine.dll</FullName>
+      <ModulePath>c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\joaJewelUtilities.UnitTest\bin\Debug\joaTouchEngine.dll</ModulePath>
       <ModuleName>joaTouchEngine</ModuleName>
       <Classes />
     </Module>
