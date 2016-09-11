@@ -126,7 +126,6 @@ public class OpenCoverMethodObserver extends BaseParserObserver {
             scanMode=ScanMode.SKIP;
             return;
         }
-        int a = matcher.groupCount();
         this.methodName = matcher.group(1); 
     }
    

@@ -31,7 +31,6 @@ import org.slf4j.LoggerFactory;
 
 public class SonarCoverageSummary implements CoveragePoint {
     
-    private static final long serialVersionUID = 1L;
     private Logger LOG = LoggerFactory.getLogger(SonarCoverageSummary.class);
     private int toCover;
     private int covered;

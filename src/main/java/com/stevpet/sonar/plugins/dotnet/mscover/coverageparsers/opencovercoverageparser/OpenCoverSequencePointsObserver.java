@@ -40,7 +40,6 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         private String fileId;
         private int branchLine;
         private int branchPath;
-        private int visited;
         private String uid;
         
         

@@ -60,7 +60,7 @@ public class OpenCoverModuleSplitterTest {
 	public void fullTest() throws FileNotFoundException, XMLStreamException, TransformerException {
 		File testCoverageFile = TestUtils.getResource("OpenCoverCoverageParser/coverage-report.xml");
 		ModuleParser moduleParser = new OpenCoverModuleParser();
-		File tempDir = Files.createTempDir();
+		Files.createTempDir();
 		
 		OpenCoverCoverageModuleSaver moduleLambda = new OpenCoverCoverageModuleSaver(moduleParser);
 		new OpenCoverModuleSplitter(moduleLambda,coverageHashes).splitCoverageFileInFilePerModule(root, projectName, testCoverageFile);

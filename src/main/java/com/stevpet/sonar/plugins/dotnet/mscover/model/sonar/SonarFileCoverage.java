@@ -28,7 +28,6 @@ public class SonarFileCoverage  {
     /**
      * 
      */
-    private static final long serialVersionUID = -377731136905247501L;
 
     private String absolutePath;
 

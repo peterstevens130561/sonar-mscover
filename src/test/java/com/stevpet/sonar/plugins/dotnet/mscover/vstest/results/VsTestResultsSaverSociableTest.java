@@ -36,6 +36,7 @@ import static org.mockito.Mockito.times;
 
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.scan.filesystem.PathResolver;
 import org.sonar.api.test.MutableTestCase;
@@ -89,6 +90,7 @@ public class VsTestResultsSaverSociableTest {
     @Test
     public void integrationTestFile() {
         results= new ProjectUnitTestResults();
+
         sonarFile = new org.sonar.api.resources.File("sources","first.feature.cs");
         File first = new File("first");
         when(testPlan.addTestCase("first")).thenReturn(testCase);

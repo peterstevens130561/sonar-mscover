@@ -72,6 +72,7 @@ public class DefaultBranchCoverageSaverTest {
 		MockitoAnnotations.initMocks(this);
 		coverageSaver = new DefaultBranchCoverageSaver(resourceResolver,new UnitTestBranchCoverageMetrics(),new DefaultCoverageSaverHelper());
 		coveredFile = new java.io.File(FIRST_FILE);
+
 		coveredResource = File.create(FIRST_FILE);
 		when(resourceResolver.getFile(eq(coveredFile))).thenReturn(coveredResource);
 		givenCoveredFile();

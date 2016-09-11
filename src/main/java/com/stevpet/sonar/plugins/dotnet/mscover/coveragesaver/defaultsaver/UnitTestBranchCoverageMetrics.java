@@ -27,27 +27,27 @@ import org.sonar.api.measures.Metric;
 public class UnitTestBranchCoverageMetrics implements BranchCoverageMetrics {
 
     @Override
-    public Metric getUncoveredMetric() {
+    public Metric<Integer> getUncoveredMetric() {
         return CoreMetrics.UNCOVERED_CONDITIONS;
     }
     
     @Override
-    public Metric getToCoverMetric() {
+    public Metric<Integer> getToCoverMetric() {
         return CoreMetrics.CONDITIONS_TO_COVER;
     }
     
     @Override
-    public Metric getCoverageMetric() {
+    public Metric<Double> getCoverageMetric() {
         return CoreMetrics.BRANCH_COVERAGE;
     }
     
     @Override
-    public Metric getToCoverByLineMetric() {
+    public Metric<String> getToCoverByLineMetric() {
         return CoreMetrics.CONDITIONS_BY_LINE;
     }
     
     @Override
-    public Metric getCoveredByLineMetric() {
+    public Metric<String> getCoveredByLineMetric() {
         return CoreMetrics.COVERED_CONDITIONS_BY_LINE;
     }
 

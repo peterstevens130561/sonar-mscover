@@ -53,7 +53,7 @@ public class PropertyTest {
     @Test
     public void invalidLine() {
         try {
-        Property property = new Property("MissingSeperator");
+            new Property("MissingSeperator");
         } catch (IllegalArgumentException e) {
             return;
         }

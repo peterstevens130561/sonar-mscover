@@ -28,7 +28,6 @@ import java.util.regex.Pattern;
 import com.google.common.base.Preconditions;
 
 public class ParserHelper {
-    private static Pattern durationPattern = Pattern.compile("(\\d\\d):(\\d\\d):(\\d\\d\\.\\d+)");
     private static Pattern timePattern = Pattern.compile("(\\d\\d):(\\d\\d):(\\d\\d)\\.(\\d+)");
 
     
