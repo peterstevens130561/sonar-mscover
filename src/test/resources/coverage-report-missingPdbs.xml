@@ -5,7 +5,7 @@
    
     <Module hash="F2-CE-8D-8C-78-D5-9C-C8-D1-12-38-C0-3F-3E-34-A6-2D-08-2A-ED">
       <Summary numSequencePoints="342" visitedSequencePoints="260" numBranchPoints="67" visitedBranchPoints="48" sequenceCoverage="76.02" branchCoverage="71.64" maxCyclomaticComplexity="5" minCyclomaticComplexity="1" />
-      <FullName>c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\JewelExplorer.UnitTest\bin\Debug\JewelExplorer.UnitTest.dll</FullName>
+      <ModulePath>c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\JewelExplorer.UnitTest\bin\Debug\JewelExplorer.UnitTest.dll</ModulePath>
       <ModuleName>JewelExplorer.UnitTest</ModuleName>
       <Files>
         <File uid="1" fullPath="c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\JewelExplorer.UnitTest\Synchronization\ViewSynchronizer\AttachViewTree.cs" />
@@ -1239,28 +1239,28 @@
       </Classes>
     </Module>
     <Module skippedDueTo="Filter" hash="EB-F0-E6-D2-E0-7F-6C-8F-CC-F8-9F-27-02-E3-74-B6-61-99-D2-2E">
-      <FullName>C:\windows\assembly\GAC_MSIL\Microsoft.VisualStudio.QualityTools.TMI\11.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.QualityTools.TMI.dll</FullName>
+      <ModulePath>C:\windows\assembly\GAC_MSIL\Microsoft.VisualStudio.QualityTools.TMI\11.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.QualityTools.TMI.dll</ModulePath>
       <ModuleName>Microsoft.VisualStudio.QualityTools.TMI</ModuleName>
       <Classes />
     </Module>
     <Module skippedDueTo="Filter" hash="62-1F-8D-3C-F2-4C-62-CC-1C-61-7F-AE-70-4C-45-8A-AA-43-D3-2D">
-      <FullName>C:\windows\Microsoft.Net\assembly\GAC_MSIL\System.Numerics\v4.0_4.0.0.0__b77a5c561934e089\System.Numerics.dll</FullName>
+      <ModulePath>C:\windows\Microsoft.Net\assembly\GAC_MSIL\System.Numerics\v4.0_4.0.0.0__b77a5c561934e089\System.Numerics.dll</ModulePath>
       <ModuleName>System.Numerics</ModuleName>
       <Classes />
     </Module>
     <Module skippedDueTo="MissingPdb" hash="B3-B0-E0-C8-70-55-3B-AC-B7-C9-82-8C-78-51-D8-33-CE-AE-DF-4E">
-      <FullName>c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\JewelExplorer.UnitTest\bin\Debug\joaJewelUtilitiesUI.dll</FullName>
+      <ModulePath>c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\JewelExplorer.UnitTest\bin\Debug\joaJewelUtilitiesUI.dll</ModulePath>
       <ModuleName>joaJewelUtilitiesUI</ModuleName>
       <Classes />
     </Module>
     <Module skippedDueTo="Filter" hash="D0-C4-31-DF-9B-8D-D3-CC-74-AB-93-8A-6F-C9-61-63-14-F1-4A-B7">
-      <FullName>c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\JewelExplorer.UnitTest\bin\Debug\Moq.dll</FullName>
+      <ModulePath>c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\JewelExplorer.UnitTest\bin\Debug\Moq.dll</ModulePath>
       <ModuleName>Moq</ModuleName>
       <Classes />
     </Module>
 
     <Module skippedDueTo="MissingPdb" hash="BD-34-FB-78-FF-EB-03-07-90-A4-28-99-FB-F6-3E-B2-7B-48-82-1C">
-      <FullName>c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\joaJewelUtilities.UnitTest\bin\Debug\joaTouchEngine.dll</FullName>
+      <ModulePath>c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\joaJewelUtilities.UnitTest\bin\Debug\joaTouchEngine.dll</ModulePath>
       <ModuleName>joaTouchEngine</ModuleName>
       <Classes />
     </Module>

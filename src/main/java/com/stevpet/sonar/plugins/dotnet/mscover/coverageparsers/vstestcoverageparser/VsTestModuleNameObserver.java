@@ -27,6 +27,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.stevpet.sonar.plugins.common.parser.observer.ParserEventArgs;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
@@ -45,7 +46,7 @@ public class VsTestModuleNameObserver extends VsTestCoverageObserver {
     @Override
     public void registerObservers(TopLevelObserverRegistrar registrar) {
         registrar.inPath("Module")
-                .onElement("ModuleName",this::moduleNameMatcher);
+                .inElement("ModuleName", i-> { i.withEventArgs(this::moduleNameMatcher); });
         
     }
     /* (non-Javadoc)
@@ -60,7 +61,8 @@ public class VsTestModuleNameObserver extends VsTestCoverageObserver {
         }
     }
 
-    public void moduleNameMatcher(String value) {
+    public void moduleNameMatcher(ParserEventArgs eventArgs) {
+        String value=eventArgs.getValue();
         if (modulesToParse.isEmpty()) {
             return;
         }
@@ -69,7 +71,7 @@ public class VsTestModuleNameObserver extends VsTestCoverageObserver {
             LOG.debug("Module {} will be parsed", value);
         }
         if (shouldSkip) {
-            setSkipTillNextElement("Module");
+            eventArgs.setSkipTillNextElement("Module");
         }
     }
 

@@ -24,6 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coveragereader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.stevpet.sonar.plugins.common.parser.observer.ParserEventArgs;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.ModuleNameObserver;
 
@@ -34,10 +35,11 @@ public class OpenCoverModuleNameObserver extends ModuleNameObserver {
 	
     @Override
     public void registerObservers(TopLevelObserverRegistrar registrar) {
-        registrar.inPath("Modules/Module").onElement("ModulePath", this::moduleNameMatcher);
+        registrar.inPath("Modules/Module").inElement("ModulePath", i -> { i.withEventArgs(this::moduleNameMatcher); } );
     }
 
-	public void moduleNameMatcher(String value) {
+	public void moduleNameMatcher(ParserEventArgs eventArgs) {
+	    String value=eventArgs.getValue();
 		if (modulesToParse == null || modulesToParse.isEmpty()) {
 			return;
 		}
@@ -53,7 +55,7 @@ public class OpenCoverModuleNameObserver extends ModuleNameObserver {
 			LOG.debug("Module {} will be parsed", value);
 		}
 		if (shouldSkip) {
-			setSkipTillNextElement("Module");
+			eventArgs.setSkipTillNextElement("Module");
 		}
 	}
 

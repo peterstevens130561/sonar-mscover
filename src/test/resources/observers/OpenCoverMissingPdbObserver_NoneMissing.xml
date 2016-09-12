@@ -4,10 +4,10 @@
   <Modules>
    
     <Module hash="F2-CE-8D-8C-78-D5-9C-C8-D1-12-38-C0-3F-3E-34-A6-2D-08-2A-ED">
-      <FullName>c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\JewelExplorer.UnitTest\bin\Debug\JewelExplorer.UnitTest.dll</FullName>
+      <ModulePath>c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\JewelExplorer.UnitTest\bin\Debug\JewelExplorer.UnitTest.dll</ModulePath>
     </Module>
     <Module skippedDueTo="Filter" hash="D0-C4-31-DF-9B-8D-D3-CC-74-AB-93-8A-6F-C9-61-63-14-F1-4A-B7">
-      <FullName>c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\JewelExplorer.UnitTest\bin\Debug\Moq.dll</FullName>
+      <ModulePath>c:\Development\Jewel.Release.Oahu\JewelEarth\Core\JOA Jewel Suite\JewelExplorer.UnitTest\bin\Debug\Moq.dll</ModulePath>
     </Module>
     
   </Modules>
