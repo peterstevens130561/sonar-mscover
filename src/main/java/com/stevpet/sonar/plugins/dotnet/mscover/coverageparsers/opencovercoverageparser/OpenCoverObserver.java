@@ -21,10 +21,10 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser;
 
-import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
+import com.stevpet.sonar.plugins.common.api.parser.ParserObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
-public abstract class OpenCoverObserver extends BaseParserObserver {
+public abstract class OpenCoverObserver implements ParserObserver {
 
 	public abstract void setRegistry(SonarCoverage registry);
 }

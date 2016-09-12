@@ -24,6 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestr
 import java.time.LocalTime;
 
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
+import com.stevpet.sonar.plugins.common.api.parser.ParserObserver;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ParserHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
@@ -42,7 +43,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
  *   testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" 
  *   relativeResultsDirectory="a3a9f8e0-1cbf-41c5-ae89-a579d2e6ece5" />
  */
-public class UnitTestResultObserver extends BaseParserObserver {
+public class UnitTestResultObserver implements ParserObserver {
 
     private ParserHelper parserHelper = new ParserHelper();
     

@@ -21,12 +21,11 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder;
 
-
-import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
+import com.stevpet.sonar.plugins.common.api.parser.ParserObserver;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
 
-public class ResultsObserver extends BaseParserObserver {
+public class ResultsObserver implements ParserObserver {
     private TestResults data;
 
     public void setRegistry(TestResults data) {

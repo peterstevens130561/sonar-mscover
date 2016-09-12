@@ -24,7 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercovera
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
+import com.stevpet.sonar.plugins.common.api.parser.ParserObserver;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
@@ -36,7 +36,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap
  * @author stevpet
  *
  */
-public class OpenCoverMethodObserver extends BaseParserObserver {
+public class OpenCoverMethodObserver implements ParserObserver {
 
     private MethodToSourceFileIdMap registry;
     protected String moduleName;

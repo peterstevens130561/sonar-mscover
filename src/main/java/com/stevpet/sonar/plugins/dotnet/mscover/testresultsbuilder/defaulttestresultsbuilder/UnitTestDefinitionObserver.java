@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 
 
 import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
+import com.stevpet.sonar.plugins.common.api.parser.ParserObserver;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
@@ -39,7 +40,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
  * @author stevpet
  *
  */
-public class UnitTestDefinitionObserver extends BaseParserObserver {
+public class UnitTestDefinitionObserver implements ParserObserver {
 
     private UnitTestingResults registry;
     private UnitTestMethodResult unitTestResult;

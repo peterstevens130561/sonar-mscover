@@ -21,9 +21,10 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 
-import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
 
-abstract class ModuleFullNameObserver extends BaseParserObserver{
+import com.stevpet.sonar.plugins.common.api.parser.ParserObserver;
+
+abstract class ModuleFullNameObserver implements ParserObserver{
 
 	abstract String getModuleName();
 

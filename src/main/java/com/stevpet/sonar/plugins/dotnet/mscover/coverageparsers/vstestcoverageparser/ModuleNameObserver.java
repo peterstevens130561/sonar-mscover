@@ -24,9 +24,10 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoveragep
 import java.util.ArrayList;
 import java.util.List;
 
-import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
 
-public abstract class ModuleNameObserver extends BaseParserObserver {
+import com.stevpet.sonar.plugins.common.api.parser.ParserObserver;
+
+public abstract class ModuleNameObserver implements ParserObserver {
     protected List<String> modulesToParse = new ArrayList<String>();
 	/**
 	 * modules with name (including the .dll, or .exe part) in the list will be
