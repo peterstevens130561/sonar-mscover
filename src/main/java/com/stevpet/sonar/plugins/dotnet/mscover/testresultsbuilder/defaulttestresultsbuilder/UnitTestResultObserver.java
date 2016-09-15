@@ -23,7 +23,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestr
 
 import java.time.LocalTime;
 
-import com.stevpet.sonar.plugins.common.api.parser.BaseParserObserver;
 import com.stevpet.sonar.plugins.common.api.parser.ParserObserver;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ParserHelper;
