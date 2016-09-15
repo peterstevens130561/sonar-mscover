@@ -39,6 +39,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.OpenCoverCoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultCoverageSaverFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.OpenCoverUnitTestCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
@@ -136,8 +137,8 @@ public class OpenCoverUnitTestSensor implements Sensor {
                         .create(microsoftWindowsEnvironment),
                 VsTestTestResultsSaver.create(pathResolver, fileSystem,perspectives),
                 new OpenCoverCoverageReader(msCoverConfiguration),
-                new OpenCoverUnitTestCoverageSaver(microsoftWindowsEnvironment,
-                        pathResolver, fileSystem), microsoftWindowsEnvironment,overallCoverageCache);
+                new DefaultCoverageSaverFactory(microsoftWindowsEnvironment, pathResolver, fileSystem).createOpenCoverUnitTestCoverageSaver(), 
+                microsoftWindowsEnvironment,overallCoverageCache);
     }
 
     @Override
