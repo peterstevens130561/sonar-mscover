@@ -21,10 +21,9 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult.TestResult;
 
-public class InvalidTestResultException extends MsCoverException {
+public class InvalidTestResultException extends IllegalStateException {
 
     private static final long serialVersionUID = 1L;
 

@@ -21,10 +21,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.exception;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
-
-
-public class MsCoverRequiredPropertyMissingException extends MsCoverException {
+public class MsCoverRequiredPropertyMissingException extends IllegalStateException {
 
     /**
      * 

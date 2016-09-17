@@ -24,7 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.exception;
 import java.io.File;
 
 public class MsCoverUnitTestAssemblyDoesNotExistException extends
-        MsCoverException {
+        IllegalStateException {
 
     /**
      * 

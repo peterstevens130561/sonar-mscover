@@ -22,7 +22,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.exception;
 
 
-public class NoAssemblyDefinedMsCoverException extends MsCoverException {
+public class NoAssemblyDefinedMsCoverException extends IllegalStateException {
 
     /**
      * 

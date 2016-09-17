@@ -21,9 +21,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.exceptions;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
-
-public class MsCoverInvalidSonarWorkingDir extends MsCoverException {
+public class MsCoverInvalidSonarWorkingDir extends IllegalStateException {
 
     /**
      * 

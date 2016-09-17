@@ -21,7 +21,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.exception;
 
-public class MsCoverProgrammerException extends MsCoverException {
+public class MsCoverProgrammerException extends IllegalStateException{
 
     /**
      * 

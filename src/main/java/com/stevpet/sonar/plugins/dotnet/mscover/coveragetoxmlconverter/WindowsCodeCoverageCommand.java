@@ -29,7 +29,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.command.Command;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.helpers.SonarWindowsFileSystemHelper;
 
 public class WindowsCodeCoverageCommand extends CodeCoverageCommand {
@@ -80,7 +79,7 @@ public class WindowsCodeCoverageCommand extends CodeCoverageCommand {
             try {
                 FileUtils.deleteDirectory(binaryFolder);
             } catch (IOException e) {
-                throw new MsCoverException("Could not delete directory "
+                throw new IllegalStateException("Could not delete directory "
                         + binaryFolderPath + e.getMessage(), e);
             }
         }
@@ -96,7 +95,7 @@ public class WindowsCodeCoverageCommand extends CodeCoverageCommand {
             ZipUtils.extractArchiveFolderIntoDirectory(archivePath, binaryName,
                     tempFolder);
         } catch (IOException e) {
-            throw new MsCoverException(
+            throw new IllegalStateException(
                     "Could not extract the embedded executable: "
                             + e.getMessage(), e);
         }
@@ -111,7 +110,7 @@ public class WindowsCodeCoverageCommand extends CodeCoverageCommand {
             return ; 
         }
         if(!sonarPath.endsWith("\\.sonar")) {
-            throw new MsCoverException("Invalid sonar working directory "
+            throw new IllegalStateException("Invalid sonar working directory "
                     + sonarPath);
         }
         commandFolderPath = sonarPath + binaryFolder;
@@ -126,7 +125,7 @@ public class WindowsCodeCoverageCommand extends CodeCoverageCommand {
     public Command toCommand() {
         if (StringUtils.isEmpty(coveragePath)
                 || StringUtils.isEmpty(outputPath)) {
-            throw new MsCoverException(
+            throw new IllegalStateException(
                     "CodeCoverageCommand: invalid usage, not all parameters set");
         }
 

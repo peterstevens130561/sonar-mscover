@@ -35,7 +35,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 public class SpecFlowScenarioMethodResolverTest {
@@ -61,7 +60,7 @@ public class SpecFlowScenarioMethodResolverTest {
         givenIllegalFeatureFile();
         try {
             resolver.getFile("bogusmethod"); 
-            } catch(MsCoverException e) {
+            } catch(IllegalStateException e) {
                 return;
             }
         fail("expect MSCoverException on invalid file");  

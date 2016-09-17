@@ -28,7 +28,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.config.Settings;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.SettingsMock;
 
 import static org.junit.Assert.assertEquals;
@@ -120,7 +119,7 @@ public class PropertiesHelperTest {
         when(settings.getString("sonar.mscover.workspace")).thenReturn(null);
         try {
             helper.getWorkSpaceRoot();
-        } catch (MsCoverException e) {
+        } catch (IllegalStateException e) {
             return;
         }
         fail("property not defined expect exception");
@@ -131,7 +130,7 @@ public class PropertiesHelperTest {
         when(settings.getString("sonar.mscover.workspace")).thenReturn("Z:/@#$DFGREWSDWS");
         try {
             helper.getWorkSpaceRoot();
-        } catch (MsCoverException e) {
+        } catch (IllegalStateException e) {
             return;
         }
         fail("property not defined expect exception");

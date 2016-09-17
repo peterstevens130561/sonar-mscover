@@ -23,9 +23,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.parser.exceptions;
 
 import java.io.File;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
-
-public class ParserSubjectErrorException extends MsCoverException {
+public class ParserSubjectErrorException extends IllegalStateException {
 
     /**
      * 

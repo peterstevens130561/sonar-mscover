@@ -22,7 +22,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.exception;
 
 
-public class SolutionHasNoProjectsException extends MsCoverException {
+public class SolutionHasNoProjectsException extends IllegalStateException {
 
     /**
      * 

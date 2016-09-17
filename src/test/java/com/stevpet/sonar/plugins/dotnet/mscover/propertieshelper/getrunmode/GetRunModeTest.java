@@ -29,7 +29,6 @@ import org.sonar.api.config.Settings;
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration.RunMode;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 
 import static org.mockito.Mockito.mock ;
 import static org.mockito.Mockito.when ;
@@ -54,7 +53,7 @@ public class GetRunModeTest {
         test(RunMode.SKIP,"");
     }
     
-    @Test(expected=MsCoverException.class)
+    @Test(expected=IllegalStateException.class)
     public void settingInvalid_Exception() {
         test(RunMode.SKIP,"booh");
     }

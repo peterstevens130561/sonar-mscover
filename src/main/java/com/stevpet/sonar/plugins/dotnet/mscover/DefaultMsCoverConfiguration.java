@@ -36,8 +36,6 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.Settings;
 import org.sonar.api.config.PropertyDefinition.Builder;
 import org.sonar.api.resources.Qualifiers;
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverRequiredPropertyMissingException;
 @InstantiationStrategy(InstantiationStrategy.PER_BATCH)
 public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfiguration  {
 
@@ -171,7 +169,7 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
         } catch (IllegalArgumentException e) {
             String msg = "Invalid property value " + MSCOVER_MODE +"=" + name;
             LOG.error(msg);
-            throw new MsCoverException(msg,e);
+            throw new IllegalStateException(msg,e);
         }
         return runMode;
     }
@@ -236,7 +234,7 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
     private String getRequiredProperty(String property) {
         String value = settings.getString(property);
         if(StringUtils.isEmpty(value)) {
-            throw new MsCoverRequiredPropertyMissingException(property);
+            throw new IllegalStateException("missing property setting for :" + property);
         }
         return value;
     }
@@ -313,11 +311,11 @@ public class DefaultMsCoverConfiguration implements BatchExtension, MsCoverConfi
     public File getWorkSpaceRoot() {
         String root=settings.getString(MSCOVER_WORKSPACE_ROOT);
         if(StringUtils.isEmpty(root)) {
-            throw new MsCoverException("undefined property :" + MSCOVER_WORKSPACE_ROOT);
+            throw new IllegalStateException("undefined property :" + MSCOVER_WORKSPACE_ROOT);
         }
         File rootDir=new File(root);
         if(!rootDir.exists()) {
-            throw new MsCoverException("property :" + MSCOVER_WORKSPACE_ROOT + "=" + root + " does not exist");
+            throw new IllegalStateException("property :" + MSCOVER_WORKSPACE_ROOT + "=" + root + " does not exist");
         }
         return rootDir;
     }

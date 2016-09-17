@@ -35,7 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverException;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 public class SpecFlowScenarioMethodResolver implements BatchExtension {
@@ -89,7 +88,7 @@ public class SpecFlowScenarioMethodResolver implements BatchExtension {
         } catch (IOException e) {
             String msg = "IOException during accessing file " + file.getAbsolutePath();
             LOG.error(msg);
-            throw new MsCoverException(msg,e);
+            throw new IllegalStateException(msg,e);
         }
     }
 }
