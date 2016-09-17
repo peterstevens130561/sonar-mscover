@@ -26,7 +26,6 @@ import java.io.File;
 import org.apache.commons.io.FileUtils;
 import org.sonar.api.batch.fs.FileSystem;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverProgrammerException;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.exceptions.MsCoverInvalidSonarWorkingDir;
 
 public class TestResultsCleaner {
@@ -40,7 +39,7 @@ public class TestResultsCleaner {
     public void execute() {
         File sonarDir = fileSystem.workDir();
         if (sonarDir == null) {
-            throw new MsCoverProgrammerException("sonarPath not set");
+            throw new IllegalStateException("sonarPath not set");
         }
         String sonarPath=sonarDir.getAbsolutePath();
         if (!".sonar".equalsIgnoreCase(sonarDir.getName())) {

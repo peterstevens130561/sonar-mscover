@@ -50,7 +50,7 @@ public class CleanTest {
         runner=givenANewCleaner();
         
     }
-    @Test(expected=MsCoverProgrammerException.class)
+    @Test(expected=IllegalStateException.class)
     public void PathNotSet_RaiseException() {
         runner.execute();
     }
