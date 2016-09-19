@@ -33,7 +33,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 public class DefaultCoverageCacheTest {
 
     private static final String MODULE_NAME = "bla";
-    OverallCoverageCache coverageCache ;
+    OverallCoverageRepository coverageCache ;
     private SonarCoverage coverage;
     @Before()
     public void before() {

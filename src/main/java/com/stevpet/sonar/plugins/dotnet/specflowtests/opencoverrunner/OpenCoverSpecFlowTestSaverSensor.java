@@ -46,7 +46,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.CoverageFileLocator;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.CoverageHashes;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.DefaultCoverageFileLocator;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSplitter;
-import com.stevpet.sonar.plugins.dotnet.overallcoverage.sensor.OverallCoverageCache;
+import com.stevpet.sonar.plugins.dotnet.overallcoverage.sensor.OverallCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 
@@ -59,7 +59,7 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 	private final OpenCoverModuleSplitter openCoverModuleSaver;
 	private final IntegrationTestsConfiguration integrationTestsConfiguration;
     private MsCoverConfiguration msCoverConfiguration;
-    private final OverallCoverageCache overallCoverageCache;
+    private final OverallCoverageRepository overallCoverageCache;
     private final CoverageFileLocator coverageFileLocator = new DefaultCoverageFileLocator();
 	
 	/**
@@ -78,7 +78,7 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 			FileSystem fileSystem,
 			Settings settings,
 			IntegrationTestsConfiguration integrationTestsConfiguration,
-			OverallCoverageCache overallCoverageCache) {
+			OverallCoverageRepository overallCoverageCache) {
 		this(
 				new OpenCoverIntegrationTestCoverageReader(microsoftWindowsEnvironment, msCoverConfiguration, fileSystem, integrationTestsConfiguration),
 				new DefaultCoverageSaverFactory(microsoftWindowsEnvironment, pathResolver, fileSystem).createOpenCoverIntegrationTestCoverageSaver(), 
@@ -103,7 +103,7 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
 			OpenCoverModuleSplitter openCoverModuleSaver, 
 			IntegrationTestsConfiguration integrationTestsConfiguration,
 			IntegrationTestSensorHelper integrationTestSensorHelper, MsCoverConfiguration msCoverConfiguration,
-			OverallCoverageCache overallCoverageCache) {
+			OverallCoverageRepository overallCoverageCache) {
 		this.reader=coverageReader;
 		this.saver=coverageSaver;
 		this.openCoverModuleSaver=openCoverModuleSaver;

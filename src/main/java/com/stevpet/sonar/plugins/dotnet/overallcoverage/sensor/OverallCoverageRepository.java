@@ -29,7 +29,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
  * @author stevpet
  *
  */
-public interface OverallCoverageCache {
+public interface OverallCoverageRepository {
 
     /**
      * query coverage of the module

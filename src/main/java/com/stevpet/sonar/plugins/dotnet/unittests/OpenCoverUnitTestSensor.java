@@ -49,7 +49,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.DefaultOpen
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.OpenCoverTestRunner;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.TestCache;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestCache;
-import com.stevpet.sonar.plugins.dotnet.overallcoverage.sensor.OverallCoverageCache;
+import com.stevpet.sonar.plugins.dotnet.overallcoverage.sensor.OverallCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 /**
@@ -74,7 +74,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
     private TestResultsBuilder testResultsBuilder;
     private VsTestTestResultsSaver testResultsSaver;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
-    private OverallCoverageCache overallCoverageCache;
+    private OverallCoverageRepository overallCoverageCache;
 
     /**
      * Includes all dependencies
@@ -96,7 +96,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
             VsTestTestResultsSaver testResultsSaver,
             CoverageReader coverageReader, CoverageSaver coverageSaver,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-            OverallCoverageCache overallCoverageCache) {
+            OverallCoverageRepository overallCoverageCache) {
         this.fileSystem = fileSystem;
         this.configuration = configuration;
         this.cache = unitTestBatchData;
@@ -128,7 +128,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
             UnitTestCache unitTestBatchData,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             PathResolver pathResolver,
-            OverallCoverageCache overallCoverageCache, 
+            OverallCoverageRepository overallCoverageCache, 
             ResourcePerspectives perspectives) {
         this(fileSystem, msCoverConfiguration, unitTestBatchData,
                 DefaultOpenCoverTestRunner.create(msCoverConfiguration,settings,

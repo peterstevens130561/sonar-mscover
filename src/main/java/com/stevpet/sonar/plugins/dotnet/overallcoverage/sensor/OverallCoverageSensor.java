@@ -38,14 +38,14 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
 @DependsUpon( value={"IntegrationTestCoverageSaved","UnitTestCoverageSaved"})
 public class OverallCoverageSensor implements Sensor {
     private static Logger LOG = LoggerFactory.getLogger(OverallCoverageSensor.class);
-    private OverallCoverageCache coverageCache;
+    private OverallCoverageRepository coverageCache;
     private CoverageSaver coverageSaver;
-    public OverallCoverageSensor(OverallCoverageCache coverageCache, CoverageSaver coverageSaver) {
+    public OverallCoverageSensor(OverallCoverageRepository coverageCache, CoverageSaver coverageSaver) {
         this.coverageCache=coverageCache;
         this.coverageSaver=coverageSaver;
     }
     
-    public OverallCoverageSensor(OverallCoverageCache coverageCache, MicrosoftWindowsEnvironment microsoftWindowsEnvironment, PathResolver pathResolver, FileSystem fileSystem) {
+    public OverallCoverageSensor(OverallCoverageRepository coverageCache, MicrosoftWindowsEnvironment microsoftWindowsEnvironment, PathResolver pathResolver, FileSystem fileSystem) {
         this(coverageCache,
                 new DefaultCoverageSaverFactory(
                         microsoftWindowsEnvironment, 

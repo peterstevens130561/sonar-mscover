@@ -43,7 +43,7 @@ public class OverallCoverageSensorTest {
     private Sensor sensor;
     @Mock private Project module;
     @Mock private SensorContext context;
-    @Mock private OverallCoverageCache coverageCache;
+    @Mock private OverallCoverageRepository coverageCache;
     @Mock private CoverageSaver coverageSaver;
 
     @Before
