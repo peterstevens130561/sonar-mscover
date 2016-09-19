@@ -36,7 +36,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.BranchFileCoverage
 
 public class DefaultBranchCoverageSaver implements BranchFileCoverageSaver {
     private ResourceResolver resourceResolver;
-    SensorContext sensorContext;
     private final BranchCoverageMetrics branchCoverageMetrics ;
     private final CoverageSaverHelper coverageSaverHelper;
     
@@ -56,26 +55,17 @@ public class DefaultBranchCoverageSaver implements BranchFileCoverageSaver {
     
     @Override
     public void saveMeasures(SensorContext sensorContext, java.io.File file, CoverageLinePoints coveragePoints) {
-        setSensorContext(sensorContext);
-        saveMeasures(coveragePoints, file);
-    }
-    
-    @Override
-    public void setSensorContext(SensorContext sensorContext) {
-        this.sensorContext = sensorContext;
-    }
-    @Override
-    public void saveMeasures(CoverageLinePoints coveragePoints, java.io.File file) {
         Preconditions.checkState(sensorContext!=null,"must call setSensorContext(sensorContext) first");
         File resource = resourceResolver.getFile(file);
         if(resource==null) {
             return;
         }
-        saveSummary(coveragePoints, resource);
-        saveLines(branchCoverageMetrics.getToCoverByLineMetric(),branchCoverageMetrics.getCoveredByLineMetric(),coveragePoints, resource); 
+   
+        saveSummary(sensorContext,coveragePoints, resource);
+        saveLines(sensorContext, branchCoverageMetrics.getToCoverByLineMetric(),branchCoverageMetrics.getCoveredByLineMetric(),coveragePoints, resource); 
     }
     
-    private void saveSummary(CoverageLinePoints coveragePoints, File resource) {
+    private void saveSummary(SensorContext sensorContext, CoverageLinePoints coveragePoints, File resource) {
         SonarCoverageSummary summary=coveragePoints.getSummary();
         sensorContext.saveMeasure(resource,branchCoverageMetrics.getUncoveredMetric(),(double) summary.getToCover()-summary.getCovered());
         sensorContext.saveMeasure(resource,branchCoverageMetrics.getToCoverMetric(),(double)summary.getToCover());
@@ -83,7 +73,7 @@ public class DefaultBranchCoverageSaver implements BranchFileCoverageSaver {
     }
     
     
-    void saveLines( Metric<?> toCoverMetric, Metric<?> coveredMetric, CoverageLinePoints coveragePoints, File resource) {
+    void saveLines( SensorContext sensorContext, Metric<?> toCoverMetric, Metric<?> coveredMetric, CoverageLinePoints coveragePoints, File resource) {
         Measure<?> lineConditionsMeasure = coverageSaverHelper.getToCoverHitData(coveragePoints, toCoverMetric);
         sensorContext.saveMeasure(resource,lineConditionsMeasure);
         

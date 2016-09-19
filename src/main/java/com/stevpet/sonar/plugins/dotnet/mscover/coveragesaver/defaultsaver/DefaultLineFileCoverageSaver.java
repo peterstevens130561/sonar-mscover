@@ -52,13 +52,12 @@ public class DefaultLineFileCoverageSaver implements LineFileCoverageSaver
         saveMeasures(coveragePoints, file);
     }
 
-    @Override
-    public void setSensorContext(SensorContext sensorContext) {
+    private void setSensorContext(SensorContext sensorContext) {
         this.sensorContext=sensorContext;
     }
 
-    @Override
-    public void saveMeasures(CoverageLinePoints coveragePoints, java.io.File file) {
+
+    private void saveMeasures(CoverageLinePoints coveragePoints, java.io.File file) {
         Preconditions.checkState(sensorContext!=null,"must call setSensorContext(sensorContext) first");
         File resource = resourceResolver.getFile(file);
         if(resource==null) {

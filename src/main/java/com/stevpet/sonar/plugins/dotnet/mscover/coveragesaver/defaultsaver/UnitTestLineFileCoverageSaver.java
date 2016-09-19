@@ -54,8 +54,8 @@ public class UnitTestLineFileCoverageSaver implements  LineFileCoverageSaver {
         setSensorContext(sensorContext);
         saveMeasures(coveragePoints, file);
     }
-    @Override
-    public void setSensorContext(SensorContext sensorContext) {
+    
+    private void setSensorContext(SensorContext sensorContext) {
     	this.sensorContext = sensorContext;
     }
 
@@ -66,8 +66,7 @@ public class UnitTestLineFileCoverageSaver implements  LineFileCoverageSaver {
     /* (non-Javadoc)
 	 * @see com.stevpet.sonar.plugins.dotnet.mscover.opencover.saver.LineFileCoverageSaver#saveMeasures(com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints, java.io.File)
 	 */
-    @Override
-	public void saveMeasures(
+	private void saveMeasures(
             CoverageLinePoints coveragePoints, java.io.File file) {
 		Preconditions.checkState(sensorContext!=null,"must call setSensorContext(sensorContext) first");
     	File resource = resourceResolver.getFile(file);

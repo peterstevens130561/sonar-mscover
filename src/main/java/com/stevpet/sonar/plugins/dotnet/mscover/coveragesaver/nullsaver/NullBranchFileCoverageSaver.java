@@ -30,16 +30,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 
 public class NullBranchFileCoverageSaver implements BranchFileCoverageSaver {
 
-	@Override
-	public void saveMeasures(CoverageLinePoints coveragePoints, File file) {
-		// Intentionally does nothing
-	}
-
-	@Override
-	public void setSensorContext(SensorContext sensorContext) {
-        // Intentionally does nothing	
-	}
-
     @Override
     public void saveMeasures(SensorContext sensorContext, File file, CoverageLinePoints coveragePoints) {
         // Intentionally does nothing

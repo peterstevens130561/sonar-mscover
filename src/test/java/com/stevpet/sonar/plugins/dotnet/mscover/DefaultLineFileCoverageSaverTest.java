@@ -70,7 +70,7 @@ public class DefaultLineFileCoverageSaverTest {
 		when(resourceResolver.getFile(eq(coveredFile))).thenReturn(coveredResource);
 		givenCoveredFile();
 		CoverageLinePoints coveragePoints=coverage.getCoveredFile("1").getLinePoints();
-		coverageSaver.saveMeasures(coveragePoints, coveredFile);
+		coverageSaver.saveMeasures(sensorContext,coveredFile, coveragePoints);
 	}
 	
 	@Test

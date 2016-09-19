@@ -29,16 +29,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 
 public interface FileCoverageSaverService {
 
-	/**
-	 * either inject in the constructor (deprecated) or set prior to using saveMeasures
-	 * @param sensorContext
-	 */
-    @Deprecated
-	void setSensorContext(SensorContext sensorContext);
-	
-    @Deprecated
-    void saveMeasures(CoverageLinePoints coveragePoints,
-            File file);
     
     void saveMeasures(SensorContext sensorContext, File file,CoverageLinePoints coveragePoints );
 

@@ -77,8 +77,7 @@ public class DefaultBranchCoverageSaverTest {
 		when(resourceResolver.getFile(eq(coveredFile))).thenReturn(coveredResource);
 		givenCoveredFile();
 		CoverageLinePoints coveragePoints=coverage.getCoveredFile("1").getBranchPoints();
-		coverageSaver.setSensorContext(sensorContext);
-		coverageSaver.saveMeasures(coveragePoints, coveredFile);
+		coverageSaver.saveMeasures(sensorContext,coveredFile, coveragePoints);
 	}
 	
 	@Test
