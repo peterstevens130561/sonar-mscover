@@ -37,8 +37,12 @@ public class NullBranchFileCoverageSaver implements BranchFileCoverageSaver {
 
 	@Override
 	public void setSensorContext(SensorContext sensorContext) {
-		// TODO Auto-generated method stub
-		
+        // Intentionally does nothing	
 	}
+
+    @Override
+    public void saveMeasures(SensorContext sensorContext, File file, CoverageLinePoints coveragePoints) {
+        // Intentionally does nothing
+    }
 
 }

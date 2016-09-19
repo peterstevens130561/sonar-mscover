@@ -48,7 +48,7 @@ public class DefaultCoverageSaverFactory implements CoverageSaverFactory {
     @Override
     public CoverageSaver createVsTestUnitTestCoverageSaver() {
         return new CoverageSaverBase(new NullBranchFileCoverageSaver(),
-                new UnitTestLineFileCoverageSaver(resourceResolver),
+                new DefaultLineCoverageSaverFactory(resourceResolver).createUnitTestSaver(),
                 microsoftWindowsEnvironment);
     }
 

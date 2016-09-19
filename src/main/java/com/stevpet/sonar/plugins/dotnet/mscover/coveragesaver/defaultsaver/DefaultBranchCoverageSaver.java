@@ -53,6 +53,13 @@ public class DefaultBranchCoverageSaver implements BranchFileCoverageSaver {
         this.coverageSaverHelper=coverageSaverHelper;
 
     }
+    
+    @Override
+    public void saveMeasures(SensorContext sensorContext, java.io.File file, CoverageLinePoints coveragePoints) {
+        setSensorContext(sensorContext);
+        saveMeasures(coveragePoints, file);
+    }
+    
     @Override
     public void setSensorContext(SensorContext sensorContext) {
         this.sensorContext = sensorContext;
@@ -83,5 +90,6 @@ public class DefaultBranchCoverageSaver implements BranchFileCoverageSaver {
         Measure<?> lineCoveredConditionsMeasure = coverageSaverHelper.getCoveredHitData(coveragePoints, coveredMetric);
         sensorContext.saveMeasure(resource,lineCoveredConditionsMeasure);
     }
+
 
 }

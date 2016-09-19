@@ -50,6 +50,11 @@ public class UnitTestLineFileCoverageSaver implements  LineFileCoverageSaver {
     }
     
     @Override
+    public void saveMeasures(SensorContext sensorContext, java.io.File file, CoverageLinePoints coveragePoints) {
+        setSensorContext(sensorContext);
+        saveMeasures(coveragePoints, file);
+    }
+    @Override
     public void setSensorContext(SensorContext sensorContext) {
     	this.sensorContext = sensorContext;
     }
@@ -78,9 +83,7 @@ public class UnitTestLineFileCoverageSaver implements  LineFileCoverageSaver {
     	sensorContext.saveMeasure(resource,  CoreMetrics.LINE_COVERAGE, coverageSaverHelper.convertPercentage(coverage));
         Measure<?> lineMeasures=coverageSaverHelper.getCoveredHitData( coveragePoints,CoreMetrics.COVERAGE_LINE_HITS_DATA);
         sensorContext.saveMeasure(resource, lineMeasures);
-    }
-
-    
+    } 
 
 }
 

@@ -21,7 +21,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.FileCoverageSaver;
+import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.FileCoverageSaverService;
 
-public interface BranchFileCoverageSaver extends FileCoverageSaver {
+public interface BranchFileCoverageSaver extends FileCoverageSaverService {
 }
