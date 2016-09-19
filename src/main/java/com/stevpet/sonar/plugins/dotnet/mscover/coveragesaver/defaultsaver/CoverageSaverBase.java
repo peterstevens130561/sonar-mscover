@@ -62,37 +62,28 @@ public class CoverageSaverBase implements CoverageSaver {
 						pathResolver, fileSystem)), microsoftWindowsEnvironment);
 	}
     
-
-    /**
-     * @deprecated use save(sensorContext,sonarCoverage) instead
-     */
     @Override
-    public void save(SonarCoverage sonarCoverage) {
+    public void save(SensorContext sensorContext, SonarCoverage sonarCoverage) {
         List<File> testFiles = microsoftWindowsEnvironment.getUnitTestSourceFiles();
         if (testFiles == null || testFiles.size()==0) {
             LOG.warn("solution has no testfiles to exclude from results");
         }
         for (SonarFileCoverage fileCoverage : sonarCoverage.getValues()) {
-            saveFileResults(fileCoverage,testFiles);
+            saveFileResults(sensorContext, fileCoverage,testFiles);
         }
     }
 
-    private void saveFileResults(SonarFileCoverage fileCoverage,List<File> testFiles) {
+    private void saveFileResults(SensorContext sensorContext, SonarFileCoverage fileCoverage,List<File> testFiles) {
         File file = new File(fileCoverage.getAbsolutePath());
 
         if (testFiles != null && testFiles.contains(file)) {
             LOG.debug("excluding test file from coverage " + file.getAbsolutePath());
         } else {
-            lineCoverageSaver.saveMeasures(fileCoverage.getLinePoints(), file);
-            branchCoverageSaver.saveMeasures(fileCoverage.getBranchPoints(), file);
+            lineCoverageSaver.saveMeasures(sensorContext,file, fileCoverage.getLinePoints());
+            branchCoverageSaver.saveMeasures(sensorContext,file, fileCoverage.getBranchPoints());
         }
     }
 
-	@Override
-	public void save(SensorContext sensorContext, SonarCoverage sonarCoverage) {
-		branchCoverageSaver.setSensorContext(sensorContext);
-		lineCoverageSaver.setSensorContext(sensorContext);
-		save(sonarCoverage);
-	}
+
 
 }

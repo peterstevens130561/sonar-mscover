@@ -31,10 +31,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 
 public class NullCoverageSaver implements CoverageSaver {
 	private final static Logger LOG = LoggerFactory.getLogger(NullCoverageSaver.class);
-	@Override
-	public void save(SonarCoverage sonarCoverage) {
 
-	}
 	@Override
 	public void save(SensorContext sensorContext, SonarCoverage sonarCoverage) {
 

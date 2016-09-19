@@ -31,7 +31,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.when;
-
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.any;
 import org.picocontainer.DefaultPicoContainer;
 import org.sonar.api.batch.SensorContext;
 
@@ -48,8 +51,10 @@ public class DefaultCoverageSaverTest {
     private SonarCoverage coverage = new SonarCoverage();
     private CoverageSaver saver;
     private List<File> testFiles;
-    private BranchFileCoverageSaverMock branchFileCoverageSaverMock = new BranchFileCoverageSaverMock();
-    private LineFileCoverageSaverMock lineFileCoverageSaverMock = new LineFileCoverageSaverMock();
+    @Mock
+    private BranchFileCoverageSaver branchCoverageSaver;
+    @Mock
+    private LineFileCoverageSaver lineCoverageSaver;
     @Mock
     private SensorContext sensorContext;
     @Mock
@@ -93,9 +98,8 @@ public class DefaultCoverageSaverTest {
         // No files
         whenSaverInvoked();
         // Then two saves are expected
-        lineFileCoverageSaverMock.thenSaveMeasureCalled(1, SECOND_FILE);
-        branchFileCoverageSaverMock.thenSaveMeasureCalled(1, SECOND_FILE);
-
+        verify(lineCoverageSaver,times(1)).saveMeasures(eq(sensorContext),eq(new File(SECOND_FILE)),any());
+        verify(branchCoverageSaver,times(1)).saveMeasures(eq(sensorContext),eq(new File(SECOND_FILE)),any());
     }
 
     @Test
@@ -106,14 +110,15 @@ public class DefaultCoverageSaverTest {
         // No files
         whenSaverInvoked();
         // Then two saves are expected
-        lineFileCoverageSaverMock.thenSaveMeasureCalled(0, FIRST_FILE);
-        branchFileCoverageSaverMock.thenSaveMeasureCalled(0, FIRST_FILE);
-
+        verify(lineCoverageSaver,times(1)).saveMeasures(eq(sensorContext),eq(new File(SECOND_FILE)),any());
+        verify(branchCoverageSaver,times(1)).saveMeasures(eq(sensorContext),eq(new File(SECOND_FILE)),any());
+        verify(lineCoverageSaver,times(0)).saveMeasures(eq(sensorContext),eq(new File(FIRST_FILE)),any());
+        verify(branchCoverageSaver,times(0)).saveMeasures(eq(sensorContext),eq(new File(FIRST_FILE)),any());
     }
 
     private void thenSaveMeasureIsCalledTimes(int times) {
-        lineFileCoverageSaverMock.thenSaveMeasureCalled(times);
-        branchFileCoverageSaverMock.thenSaveMeasureCalled(times);
+        verify(lineCoverageSaver,times(times)).saveMeasures(eq(sensorContext), any(),any());
+        verify(branchCoverageSaver,times(times)).saveMeasures(eq(sensorContext), any(),any());;
     }
 
     private void givenExclude(String path) {
@@ -121,7 +126,7 @@ public class DefaultCoverageSaverTest {
     }
 
     private void whenSaverInvoked() {
-        saver.save(coverage);
+        saver.save(sensorContext, coverage);
     }
 
     private void givenTwoCoveredFiles() {
@@ -137,9 +142,7 @@ public class DefaultCoverageSaverTest {
     }
 
     private void injectSaverMocks() {
-        container.addComponent(branchFileCoverageSaverMock.getMock());
-        container.addComponent(lineFileCoverageSaverMock.getMock());
-        saver = container.getComponent(CoverageSaverBase.class);
+        saver = new CoverageSaverBase(branchCoverageSaver, lineCoverageSaver, microsoftWindowsEnvironment);
     }
 
 }
