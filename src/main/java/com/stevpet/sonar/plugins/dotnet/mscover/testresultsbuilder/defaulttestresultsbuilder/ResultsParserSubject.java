@@ -30,7 +30,7 @@ public class ResultsParserSubject extends  XmlParserSubject {
     @Override
     public String[] getHierarchy() {
         String[] hierarchy = { "TestResults","TestSettings","Execution",
-                "Results","TestDefinitions","UnitTest","UnitTestResult",
+                "Results","TestDefinitions","UnitTest","TestCategory","UnitTestResult",
                 "TestEntries","TestLists","ResultSummary","RunInfos","RunInfo",
                 "UriAttachments","UriAttachment",
                 "CollectorDataEntries","Collector","Output","FileUris","ErrorInfo"};
