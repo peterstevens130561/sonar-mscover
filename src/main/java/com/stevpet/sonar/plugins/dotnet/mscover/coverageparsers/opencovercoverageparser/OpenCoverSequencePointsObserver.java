@@ -22,7 +22,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.OpenCoverSequencePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.SequencePoint;
@@ -32,7 +31,6 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         private ProjectCoverageRepository repository ;
         private SequencePoint sequencePoint;
 
-        private SonarFileCoverage coveredFile;
         private boolean lineVisited;
         private BranchOffsetToLineMapper offsetToLineMapper = new BranchOffsetToLineMapper();
         private boolean branchVisited;
@@ -87,7 +85,6 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         
         public void classMatcher(String text) {
             offsetToLineMapper.init();
-            coveredFile = new SonarFileCoverage(); // make sure we have somewhere to register the data, maybe there is no FileRef
         }
         /**
          * FilerRef has uid attribute, which referes to the file in the Files element which has that uid
@@ -96,7 +93,6 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
          */
         public void fileRefMatcher(String uid) {
            this.uid= uid;
-           coveredFile=repository.getCoverageOfFile(uid);
            offsetToLineMapper.init();
         }
         
@@ -145,11 +141,11 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
             if(isPragmaFile(fileId)) {
                 return;
             }
-            coveredFile.addBranchPoint(branchLine,branchPath,branchVisited);
+            repository.addBranchPoint(uid, branchLine, branchPath, branchVisited);
         }
         
         public void sequencePointEntry() {
-            sequencePoint=new OpenCoverSequencePoint();
+            sequencePoint = new OpenCoverSequencePoint();
         }
         
         public void sequencePointExit() { 
@@ -157,7 +153,7 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
                 return;
             }
             offsetToLineMapper.addSequencePoint(sequencePoint);
-            coveredFile.addLinePoint(sequencePointLine,lineVisited);
+            repository.addLinePoint(uid,sequencePointLine,lineVisited);
         }
 
         SequencePoint getSequencePoint() {

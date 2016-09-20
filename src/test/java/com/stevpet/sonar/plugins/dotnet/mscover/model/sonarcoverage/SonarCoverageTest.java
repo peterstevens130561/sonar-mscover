@@ -135,4 +135,17 @@ public class SonarCoverageTest {
         CoverageLinePoint point = new SonarLinePoint(branchLine, true) ;
         Assert.assertEquals(point,branchPoints.getPoints().get(0));
     }
+    
+    @Test
+    public void addLinePoint() {
+        String fileId="4";
+        int line=6;
+        boolean visited=true;
+        model.addLinePoint(fileId, line, visited);
+        SonarFileCoverage coverage = model.getCoverageOfFile(fileId);
+        CoverageLinePoints points = coverage.getLinePoints();
+        Assert.assertEquals("should have one element", 1,points.size());
+        CoverageLinePoint point = new SonarLinePoint(line, true) ;
+        Assert.assertEquals(point,points.getPoints().get(0));       
+    }
 }

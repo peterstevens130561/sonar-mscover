@@ -146,5 +146,11 @@ public class DefaultProjectCoverageRepository implements ProjectCoverageReposito
         coveragePoints.addBranchPoint(line, path, visited);
     }
 
+    @Override
+    public void addLinePoint(String fileId, int line, boolean visited) {
+        SonarFileCoverage coveragePoints = getCoverageOfFile(fileId);
+        coveragePoints.addLinePoint(line,visited);
+    }
+
 	
 }
