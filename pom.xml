@@ -5,7 +5,7 @@
   <groupId>com.stevpet.sonar</groupId>
   <artifactId>sonar-mscover-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
-  <version>3.3.2-RC16092091046</version>
+  <version>3.3.2-RC1609201046</version>
 
   <name>Sonar Integration Test Plugin MSCover</name>
 
