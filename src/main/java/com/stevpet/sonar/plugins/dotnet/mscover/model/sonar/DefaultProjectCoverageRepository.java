@@ -45,6 +45,7 @@ public class DefaultProjectCoverageRepository implements ProjectCoverageReposito
     /* (non-Javadoc)
      * @see com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository#getCoverageOfFile(java.lang.String)
      */
+    @Deprecated
     @Override
     public SonarFileCoverage getCoverageOfFile(String id) {
     	Integer fileId = Integer.parseInt(id);

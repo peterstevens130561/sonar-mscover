@@ -39,7 +39,7 @@ public class VsTestLinesObserver extends VsTestCoverageObserver {
         registrar.inPath("Module/NamespaceTable/Class/Method/Lines")
             .onElement("LnStart", value ->line = Integer.parseInt(value) )
             .onElement("Coverage", value -> covered = "0".equals(value))
-            .onElement("SourceFileID", value ->registry.getCoverageOfFile(value).addLinePoint(line, covered)
+            .onElement("SourceFileID", value ->registry.addLinePoint(value,line, covered)
         );   
     }
     
