@@ -31,7 +31,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.FilteringCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.ModuleNameObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 public class OpenCoverFilteringCoverageParser extends OpenCoverCoverageParser implements
 		FilteringCoverageParser  {
@@ -48,7 +48,7 @@ public class OpenCoverFilteringCoverageParser extends OpenCoverCoverageParser im
 	}
 
 	@Override
-	public void parse(SonarCoverage registry, File file) {
+	public void parse(ProjectCoverageRepository registry, File file) {
 		super.parse(registry, file);
 	}
 

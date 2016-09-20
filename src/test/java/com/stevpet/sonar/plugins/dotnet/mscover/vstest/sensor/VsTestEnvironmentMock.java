@@ -21,7 +21,7 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.sensor;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 
 import static org.mockito.Matchers.anyString;
@@ -68,11 +68,11 @@ public class VsTestEnvironmentMock {
     }
 
     public void verifySonarCoverageSet() {
-        verify(vsTestEnvironment,times(1)).setSonarCoverage(any(SonarCoverage.class));
+        verify(vsTestEnvironment,times(1)).setSonarCoverage(any(DefaultProjectCoverageRepository.class));
         
     }
 
-    public void givenSonarCoverage(SonarCoverage sonarCoverage) {
+    public void givenSonarCoverage(DefaultProjectCoverageRepository sonarCoverage) {
         when(vsTestEnvironment.getSonarCoverage()).thenReturn(sonarCoverage);
     }
 

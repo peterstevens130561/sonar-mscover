@@ -24,14 +24,14 @@ package com.stevpet.sonar.plugins.dotnet.mscover.workflow;
 import java.io.File;
 
 import com.google.common.base.Preconditions;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
 
 public abstract class TestCacheBase implements TestCache {
 
 	private File testResults;
 	private File testCoverage;
 	private boolean hasRun;
-	private SonarCoverage sonarCoverage = null;
+	private DefaultProjectCoverageRepository sonarCoverage = null;
 
 	public TestCacheBase() {
 		super();
@@ -63,13 +63,13 @@ public abstract class TestCacheBase implements TestCache {
 	}
 
 	@Override
-	public TestCache setSonarCoverage(SonarCoverage sonarCoverage) {
+	public TestCache setSonarCoverage(DefaultProjectCoverageRepository sonarCoverage) {
 		this.sonarCoverage=sonarCoverage ;
 		return this;
 	}
 
 	@Override
-	public SonarCoverage getSonarCoverage() {
+	public DefaultProjectCoverageRepository getSonarCoverage() {
 		Preconditions.checkState(sonarCoverage != null,"sonarCoverage not set");
 		return sonarCoverage;
 	}

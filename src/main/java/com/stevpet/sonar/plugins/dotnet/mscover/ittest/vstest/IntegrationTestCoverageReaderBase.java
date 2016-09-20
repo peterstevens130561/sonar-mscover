@@ -39,7 +39,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.FilteringCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 public class IntegrationTestCoverageReaderBase implements
@@ -66,11 +66,11 @@ public class IntegrationTestCoverageReaderBase implements
      * 
      * @see com.stevpet.sonar.plugins.dotnet.mscover.ittest.vstest.
      *      IntegrationTestsCoverageReader
-     *      #read(com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage)
+     *      #read(com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository)
      */
 
     @Override
-    public void read(@Nonnull SonarCoverage registry,
+    public void read(@Nonnull ProjectCoverageRepository registry,
             @Nonnull File coverageRoot) {
 
         if (coverageRoot.isDirectory()) {
@@ -80,7 +80,7 @@ public class IntegrationTestCoverageReaderBase implements
         }
     }
 
-    private void readFilesFromDir(SonarCoverage registry,
+    private void readFilesFromDir(ProjectCoverageRepository registry,
             File integrationTestsDir) {
 
         List<String> artifactNames = microsoftWindowsEnvironment
@@ -108,7 +108,7 @@ public class IntegrationTestCoverageReaderBase implements
         this.msCoverConfiguration = msCoverConfiguration;
     }
 
-    public void parseFile(SonarCoverage registry, File coverageFile) {
+    public void parseFile(ProjectCoverageRepository registry, File coverageFile) {
         CoverageFileParser coverageFileParser = new CoverageFileParser(msCoverConfiguration);
         coverageFileParser.setCoverageFile(coverageFile);
         coverageFileParser.setMergeDestination(registry);

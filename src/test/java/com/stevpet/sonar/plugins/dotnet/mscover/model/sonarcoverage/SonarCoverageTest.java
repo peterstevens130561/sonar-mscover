@@ -26,14 +26,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 public class SonarCoverageTest {
 
-    private SonarCoverage model;
+    private ProjectCoverageRepository model;
     @Before
     public void before() {
-         model = new SonarCoverage();       
+         model = new DefaultProjectCoverageRepository();       
     }
     @Test 
     public void emptyList_HasZeroItems() {
@@ -44,7 +45,7 @@ public class SonarCoverageTest {
     
     @Test 
     public void oneItemAdded_ListHasOneItems() {
-        SonarFileCoverage fileModel=model.getCoveredFile("0");
+        SonarFileCoverage fileModel=model.getCoverageOfFile("0");
         
         Assert.assertEquals(1,model.getValues().size());
         
@@ -53,9 +54,9 @@ public class SonarCoverageTest {
     
     @Test 
     public void oneItemAddedRequestTwoTimes_ListHasOneItems() {
-        SonarFileCoverage fileModel=model.getCoveredFile("0");
+        SonarFileCoverage fileModel=model.getCoverageOfFile("0");
         
-        fileModel=model.getCoveredFile("0");
+        fileModel=model.getCoverageOfFile("0");
         
         Assert.assertNotNull(fileModel);
         Assert.assertEquals(1,model.getValues().size());
@@ -63,16 +64,16 @@ public class SonarCoverageTest {
     
     @Test
     public void twoItemsAddedRequestItems_MustBeTwoDifferentItems() {
-        SonarFileCoverage fileModel0=model.getCoveredFile("0");
-        SonarFileCoverage fileModel1=model.getCoveredFile("1");
+        SonarFileCoverage fileModel0=model.getCoverageOfFile("0");
+        SonarFileCoverage fileModel1=model.getCoverageOfFile("1");
         Assert.assertEquals("items have same state",fileModel0, fileModel1);
         Assert.assertNotSame("items are different instances",fileModel0,fileModel1);
     }
     
     @Test
     public void twoItemsAddedRequestItems_GiveDifferentSate_ShouldBeUnEqual() {
-        SonarFileCoverage fileModel0=model.getCoveredFile("0");
-        SonarFileCoverage fileModel1=model.getCoveredFile("1");
+        SonarFileCoverage fileModel0=model.getCoverageOfFile("0");
+        SonarFileCoverage fileModel1=model.getCoverageOfFile("1");
         fileModel0.setAbsolutePath("a");
         fileModel1.setAbsolutePath("b");
         Assert.assertNotEquals("items have differentstate",fileModel0, fileModel1);
@@ -81,8 +82,8 @@ public class SonarCoverageTest {
     
     @Test
     public void twoItemsAddedRequestItems_GiveDifferentBranchPoint_ShouldBeUnEqual() {
-        SonarFileCoverage fileModel0=model.getCoveredFile("0");
-        SonarFileCoverage fileModel1=model.getCoveredFile("1");
+        SonarFileCoverage fileModel0=model.getCoverageOfFile("0");
+        SonarFileCoverage fileModel1=model.getCoverageOfFile("1");
         fileModel0.setAbsolutePath("a");
         fileModel1.setAbsolutePath("a");
         fileModel0.addBranchPoint(10, false);
@@ -92,8 +93,8 @@ public class SonarCoverageTest {
     
     @Test
     public void twoItemsAddedRequestItems_GiveDifferentLinePoint_ShouldBeUnEqual() {
-        SonarFileCoverage fileModel0=model.getCoveredFile("0");
-        SonarFileCoverage fileModel1=model.getCoveredFile("1");
+        SonarFileCoverage fileModel0=model.getCoverageOfFile("0");
+        SonarFileCoverage fileModel1=model.getCoverageOfFile("1");
         fileModel0.setAbsolutePath("a");
         fileModel1.setAbsolutePath("a");
         fileModel0.addLinePoint(10, false);
@@ -103,8 +104,8 @@ public class SonarCoverageTest {
     
     @Test
     public void twoItemsAddedRequestItems_GiveSameData_ShouldBeEqual() {
-        SonarFileCoverage fileModel0=model.getCoveredFile("0");
-        SonarFileCoverage fileModel1=model.getCoveredFile("1");
+        SonarFileCoverage fileModel0=model.getCoverageOfFile("0");
+        SonarFileCoverage fileModel1=model.getCoverageOfFile("1");
         fileModel0.setAbsolutePath("a");
         fileModel1.setAbsolutePath("a");
         fileModel0.addLinePoint(10, false);

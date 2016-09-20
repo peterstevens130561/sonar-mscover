@@ -22,10 +22,10 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser;
 
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 public class VsTestFileNamesObserver extends VsTestCoverageObserver {
-    private SonarCoverage registry;
+    private ProjectCoverageRepository registry;
     private String fileID;
 
     @Override
@@ -45,7 +45,7 @@ public class VsTestFileNamesObserver extends VsTestCoverageObserver {
     }
 
     @Override
-    public void setVsTestRegistry(SonarCoverage registry) {
+    public void setVsTestRegistry(ProjectCoverageRepository registry) {
         this.registry = registry;
     }
 

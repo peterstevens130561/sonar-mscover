@@ -28,9 +28,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-
-
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 public class Serializer {
     public void serialize(File destinationFile,Object object) {
@@ -47,12 +45,12 @@ public class Serializer {
     }
     }
         
-    public SonarCoverage deserialize(File sourceFile) {
+    public ProjectCoverageRepository deserialize(File sourceFile) {
         try
         {
            FileInputStream fileIn = new FileInputStream(sourceFile.getAbsolutePath());
            ObjectInputStream in = new ObjectInputStream(fileIn);
-           SonarCoverage sonarCoverage = (SonarCoverage) in.readObject();
+           ProjectCoverageRepository sonarCoverage = (ProjectCoverageRepository) in.readObject();
            in.close();
            fileIn.close();
            return sonarCoverage;

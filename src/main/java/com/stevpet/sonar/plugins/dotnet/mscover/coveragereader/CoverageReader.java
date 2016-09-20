@@ -23,7 +23,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coveragereader;
 
 import java.io.File;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 /**
  * Load a coverage file into memory.
@@ -36,5 +36,5 @@ public interface CoverageReader {
 	 * @param registry in which to put to parser results
 	 * @param file to parse
 	 */
-    void read(SonarCoverage registry, File file);
+    void read(ProjectCoverageRepository registry, File file);
 }

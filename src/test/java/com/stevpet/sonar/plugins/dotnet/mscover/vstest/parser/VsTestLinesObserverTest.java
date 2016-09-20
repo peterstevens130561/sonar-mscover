@@ -34,17 +34,18 @@ import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestLinesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestCoverageObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 
 public class VsTestLinesObserverTest extends VsTestObserverTest {
 	private VsTestCoverageObserver observer;
-	private SonarCoverage registry;
+	private ProjectCoverageRepository registry;
 	private XmlParser parser;
 	@Before
 	public void before() {
 		observer = new VsTestLinesObserver();
-		registry = new SonarCoverage();
+		registry = new DefaultProjectCoverageRepository();
 		observer.setVsTestRegistry(registry);
 		parser = new DefaultXmlParser();
 		parser.registerObserver(observer);
@@ -56,7 +57,7 @@ public class VsTestLinesObserverTest extends VsTestObserverTest {
 		addLine("8","37","0");
 		String coverageDoc=docToString();
 		parser.parseString(coverageDoc);
-		SonarFileCoverage fileCoverage=registry.getCoveredFile("8");
+		SonarFileCoverage fileCoverage=registry.getCoverageOfFile("8");
 		CoverageLinePoints linePoints=fileCoverage.getLinePoints();
 		assertEquals(1,linePoints.size());
 		assertEquals(37,linePoints.getPoints().get(0).getLine());
@@ -69,7 +70,7 @@ public class VsTestLinesObserverTest extends VsTestObserverTest {
 		addLine("8","37","1");
 		String coverageDoc=docToString();
 		parser.parseString(coverageDoc);
-		SonarFileCoverage fileCoverage=registry.getCoveredFile("8");
+		SonarFileCoverage fileCoverage=registry.getCoverageOfFile("8");
 		CoverageLinePoints linePoints=fileCoverage.getLinePoints();
 		assertEquals(1,linePoints.size());
 		assertEquals(37,linePoints.getPoints().get(0).getLine());
@@ -83,7 +84,7 @@ public class VsTestLinesObserverTest extends VsTestObserverTest {
 		addLine("8","38","0");
 		String coverageDoc=docToString();
 		parser.parseString(coverageDoc);
-		SonarFileCoverage fileCoverage=registry.getCoveredFile("8");
+		SonarFileCoverage fileCoverage=registry.getCoverageOfFile("8");
 		CoverageLinePoints linePoints=fileCoverage.getLinePoints();
 		assertEquals(2,linePoints.size());
 	}

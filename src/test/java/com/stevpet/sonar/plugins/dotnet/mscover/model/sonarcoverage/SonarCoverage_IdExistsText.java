@@ -27,15 +27,16 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 public class SonarCoverage_IdExistsText {
 
-	private SonarCoverage sonarCoverage ;
+	private ProjectCoverageRepository sonarCoverage ;
 	
 	@Before()
 	public void before() {
-		sonarCoverage = new SonarCoverage();
+		sonarCoverage = new DefaultProjectCoverageRepository();
 	}
 	
 	@Test
@@ -46,14 +47,14 @@ public class SonarCoverage_IdExistsText {
 	
 	@Test
 	public void oneItem_shouldExist() {
-		sonarCoverage.getCoveredFile("1234");
+		sonarCoverage.getCoverageOfFile("1234");
 		boolean exist=sonarCoverage.fileIdExists("1234");
 		assertTrue("inserted, requested same so should exist",exist);
 	}
 	
 	@Test
 	public void oneItem_findOthershouldNotExist() {
-		sonarCoverage.getCoveredFile("1234");
+		sonarCoverage.getCoverageOfFile("1234");
 		boolean exist=sonarCoverage.fileIdExists("1238");
 		assertFalse("inserted, requested other so should not exist",exist);
 	}

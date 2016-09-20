@@ -33,17 +33,18 @@ import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.FilteringCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestFilteringCoverageParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 public class VsTestFilteringCoverageParserTest {
 
 	private FilteringCoverageParser parser;
 	private File coverageFile;
-	private SonarCoverage sonarCoverage;
+	private ProjectCoverageRepository sonarCoverage;
 
 	@Before
 	public void before() {
-		sonarCoverage = new SonarCoverage();
+		sonarCoverage = new DefaultProjectCoverageRepository();
 		coverageFile = TestUtils.getResource("mscoverage.xml");	
 		parser = new VsTestFilteringCoverageParser();		
 	}

@@ -34,7 +34,8 @@ import org.mockito.Mock;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverCoverageParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 public class OpenCoverCoverageParserTest {
 
@@ -53,12 +54,12 @@ public class OpenCoverCoverageParserTest {
         OpenCoverCoverageParser parser = new OpenCoverCoverageParser(configuration);
         //File file = new File("E:\\Users\\stevpet\\My Documents\\BAM\\coverage-report.xml");
         File file = new File("E:\\Users\\stevpet\\My Documents\\GitHub\\sonar-mscover\\coverage-subsurface.xml");
-        SonarCoverage registry = new SonarCoverage();
+        ProjectCoverageRepository registry = new DefaultProjectCoverageRepository();
         //Act
         parser.parse(registry, file);
         //Assert
         assertEquals(356,registry.size());
-        assertNull(registry.getCoveredFile("5").getAbsolutePath()); // is not included
-        assertNotNull(registry.getCoveredFile("86").getAbsolutePath()); // is included
+        assertNull(registry.getCoverageOfFile("5").getAbsolutePath()); // is not included
+        assertNotNull(registry.getCoverageOfFile("86").getAbsolutePath()); // is included
     }
 }

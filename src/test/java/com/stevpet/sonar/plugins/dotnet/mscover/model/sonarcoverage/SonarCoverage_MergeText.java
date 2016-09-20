@@ -27,13 +27,14 @@ import java.util.List;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 
 public class SonarCoverage_MergeText {
 
-    private SonarCoverage destinationRepository = new SonarCoverage();
-    private SonarCoverage populatedRepository = new SonarCoverage();  
+    private ProjectCoverageRepository destinationRepository = new DefaultProjectCoverageRepository();
+    private ProjectCoverageRepository populatedRepository = new DefaultProjectCoverageRepository();  
     @Test
     public void Merge_RepositoryIntoEmpty_ShouldMatchOriginal() {
         //Given file "statistics.cs" with coverage "1,0,1,0";
@@ -68,11 +69,11 @@ public class SonarCoverage_MergeText {
     
 
 	private void startBuildingCoverageFile() {
-		populatedRepository = new SonarCoverage();
+		populatedRepository = new DefaultProjectCoverageRepository();
 	}
 
 	private void merge() {
-		destinationRepository.merge(populatedRepository);
+		destinationRepository.mergeIntoThis(populatedRepository);
 	}
 	@Test
     public void Merge_RepositoryIntoExisting_ShouldMatchOriginal() {
@@ -178,7 +179,7 @@ public class SonarCoverage_MergeText {
     }
 
     private void givenFileWithCoverageData(String name,String id, int [] coverage) {
-    	SonarFileCoverage fileCoverage=populatedRepository.getCoveredFile(id); 
+    	SonarFileCoverage fileCoverage=populatedRepository.getCoverageOfFile(id); 
     	for(int i=0;i<coverage.length;i++) {
     		fileCoverage.addLinePoint(i, coverage[i]>0);
     	}
@@ -186,16 +187,16 @@ public class SonarCoverage_MergeText {
     }
  
     private void givenFileWithCoverageData(String name, String id, int[] coverage, int[] lines) {
-        SonarFileCoverage fileCoverage=populatedRepository.getCoveredFile(id); 
+        SonarFileCoverage fileCoverage=populatedRepository.getCoverageOfFile(id); 
         for(int i=0;i<coverage.length;i++) {
             fileCoverage.addLinePoint(lines[i], coverage[i]>0);
         }
         populatedRepository.linkFileNameToFileId(name, id);
     }
     
-    private void matchCoverage(SonarCoverage emptyRepository2, String fileID,
+    private void matchCoverage(ProjectCoverageRepository emptyRepository2, String fileID,
 			int[] coverage) {
-    	SonarFileCoverage fileCoverage=destinationRepository.getCoveredFile(fileID);
+    	SonarFileCoverage fileCoverage=destinationRepository.getCoverageOfFile(fileID);
     	for(CoverageLinePoint linePoint: fileCoverage.getLinePoints().getPoints()) {
     		int line=linePoint.getLine();
     		int covered=linePoint.getCovered();
@@ -203,8 +204,8 @@ public class SonarCoverage_MergeText {
     	}
 	}
     
-    private void matchCoverage(SonarCoverage destinationRepository2, String fileID, int[] coverage, int[] lines3) {
-        SonarFileCoverage fileCoverage=destinationRepository.getCoveredFile(fileID);
+    private void matchCoverage(ProjectCoverageRepository destinationRepository2, String fileID, int[] coverage, int[] lines3) {
+        SonarFileCoverage fileCoverage=destinationRepository.getCoverageOfFile(fileID);
         List<CoverageLinePoint> points = fileCoverage.getLinePoints().getPoints();
         assertEquals("size should be same",lines3.length,points.size());
         for(int i=0;i<points.size();i++) {

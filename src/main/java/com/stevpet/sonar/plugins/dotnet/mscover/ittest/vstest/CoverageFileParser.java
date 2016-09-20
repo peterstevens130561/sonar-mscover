@@ -30,14 +30,15 @@ import com.google.common.base.Preconditions;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.CoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.OpenCoverFilteringCoverageParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 public class CoverageFileParser implements Runnable {
     private static Logger LOG = LoggerFactory.getLogger(CoverageFileParser.class);
     private CoverageParser coverageParser;
-    private SonarCoverage sonarCoverage;
+    private ProjectCoverageRepository sonarCoverage;
     private File coverageFile;
-    private SonarCoverage coverageDestination;
+    private ProjectCoverageRepository coverageDestination;
 
     public CoverageFileParser(MsCoverConfiguration msCoverConfiguration) {
         coverageParser = new OpenCoverFilteringCoverageParser(msCoverConfiguration);
@@ -51,13 +52,13 @@ public class CoverageFileParser implements Runnable {
      * The parsed file will be merged into this one
      * @param sonarCoverage
      */
-    public void setMergeDestination(SonarCoverage sonarCoverage) {
+    public void setMergeDestination(ProjectCoverageRepository sonarCoverage) {
         this.coverageDestination = sonarCoverage;
     }
     
     @Override
     public void run() {
-        sonarCoverage=new SonarCoverage();
+        sonarCoverage=new DefaultProjectCoverageRepository();
         Preconditions.checkState(coverageFile!=null,"coverageFile not set");
         Preconditions.checkState(coverageDestination!=null,"coverageDestination");
         LOG.debug("Started parsing {}",coverageFile.getName());
@@ -65,7 +66,7 @@ public class CoverageFileParser implements Runnable {
         LOG.debug("Completed parsing {}",coverageFile.getName());
         synchronized(coverageDestination) {
             LOG.debug("start merging {}",coverageFile.getName());
-            coverageDestination.merge(sonarCoverage);
+            coverageDestination.mergeIntoThis(sonarCoverage);
             LOG.debug("completed merging {}",coverageFile.getName());
         }
     }

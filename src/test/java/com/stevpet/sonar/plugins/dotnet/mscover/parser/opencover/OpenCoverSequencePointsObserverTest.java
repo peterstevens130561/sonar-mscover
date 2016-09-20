@@ -35,17 +35,18 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverag
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverSequencePointsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 
 public class OpenCoverSequencePointsObserverTest {
 
-    private SonarCoverage registry;
+    private ProjectCoverageRepository registry;
     private  XmlParser parser;
     
     @Before
     public void before() {
-        registry = new SonarCoverage();
+        registry = new DefaultProjectCoverageRepository();
         parser = new DefaultXmlParser();
         OpenCoverObserver observer = new OpenCoverSequencePointsObserver();
         observer.setRegistry(registry);
@@ -68,7 +69,7 @@ public class OpenCoverSequencePointsObserverTest {
         parser.parseFile(file);
         //Assert
         assertEquals("Specflow files mess up the coverage info, this one has one file",1,registry.size());
-        SonarFileCoverage coverage=registry.getCoveredFile("1");
+        SonarFileCoverage coverage=registry.getCoverageOfFile("1");
         CoverageLinePoints linePoints=coverage.getLinePoints();
         List<CoverageLinePoint> pointsList=linePoints.getPoints();
 
@@ -82,7 +83,7 @@ public class OpenCoverSequencePointsObserverTest {
         parser.parseFile(file);
         //Assert
         assertEquals("Should have one file",1,registry.size());
-        SonarFileCoverage coverage=registry.getCoveredFile("1");
+        SonarFileCoverage coverage=registry.getCoverageOfFile("1");
         CoverageLinePoints linePoints=coverage.getLinePoints();
         List<CoverageLinePoint> pointsList=linePoints.getPoints();
         assertEquals("should have 11 points",11,pointsList.size());

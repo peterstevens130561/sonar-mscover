@@ -35,7 +35,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverFileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 
 /**
@@ -47,14 +48,14 @@ public class OpenCoverCoverageParserTest {
     private OpenCoverCoverageParser coverageParser ;
     private OpenCoverFileNamesParser fileNamesParser;
     @Mock private MsCoverConfiguration configuration;
-    private SonarCoverage registry;
+    private ProjectCoverageRepository registry;
     
     @Before
     public void before() {
         initMocks(this);
         coverageParser = new OpenCoverCoverageParser(configuration);
         fileNamesParser = new OpenCoverFileNamesParser();
-        registry = new SonarCoverage();
+        registry = new DefaultProjectCoverageRepository();
         
     }
     

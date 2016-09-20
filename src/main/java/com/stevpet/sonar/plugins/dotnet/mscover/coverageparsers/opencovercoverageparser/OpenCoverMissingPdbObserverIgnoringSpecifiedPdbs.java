@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.common.parser.observer.ParserEventArgs;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs extends OpenCoverObserver{
     private static final Logger LOG = LoggerFactory.getLogger(OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs.class);
@@ -37,7 +37,7 @@ public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs extends OpenCoverO
     private Collection<String> pdbs = new ArrayList<String>();
     
     @Override
-    public void setRegistry(SonarCoverage registry) {
+    public void setRegistry(ProjectCoverageRepository registry) {
         // empty, as the registry is not needed
     }
     public void setPdbsThatCanBeIgnoredIfMissing(Collection<String> missingPdbsThatCanBeIgnored) {

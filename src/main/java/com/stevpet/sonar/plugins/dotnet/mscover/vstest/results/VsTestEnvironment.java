@@ -26,7 +26,7 @@ import java.io.File;
 import org.sonar.api.BatchComponent;
 import org.sonar.api.batch.InstantiationStrategy;
 import org.sonar.api.batch.fs.FileSystem;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
 
 @InstantiationStrategy(InstantiationStrategy.PER_BATCH)
 public class VsTestEnvironment implements BatchComponent {
@@ -35,7 +35,7 @@ public class VsTestEnvironment implements BatchComponent {
     private String resultsXmlPath;
     private boolean testsHaveRun = false;
 
-    private SonarCoverage sonarCoverage;
+    private DefaultProjectCoverageRepository sonarCoverage;
 
     public String getXmlCoveragePath() {
         return coverageXmlPath;
@@ -61,12 +61,12 @@ public class VsTestEnvironment implements BatchComponent {
         return testsHaveRun;
     }
 
-    public void setSonarCoverage(SonarCoverage sonarCoverage) {
+    public void setSonarCoverage(DefaultProjectCoverageRepository sonarCoverage) {
         this.sonarCoverage = sonarCoverage;
         this.setTestsHaveRun();
     }
 
-    public SonarCoverage getSonarCoverage() {
+    public DefaultProjectCoverageRepository getSonarCoverage() {
         return sonarCoverage;
     }
 

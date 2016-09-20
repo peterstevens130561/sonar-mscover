@@ -34,7 +34,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.BranchFileCoverage
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.LineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.nullsaver.NullBranchFileCoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
@@ -63,7 +63,7 @@ public class CoverageSaverBase implements CoverageSaver {
 	}
     
     @Override
-    public void save(SensorContext sensorContext, SonarCoverage sonarCoverage) {
+    public void save(SensorContext sensorContext, ProjectCoverageRepository sonarCoverage) {
         List<File> testFiles = microsoftWindowsEnvironment.getUnitTestSourceFiles();
         if (testFiles == null || testFiles.size()==0) {
             LOG.warn("solution has no testfiles to exclude from results");

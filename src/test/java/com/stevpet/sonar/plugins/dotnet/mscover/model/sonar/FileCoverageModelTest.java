@@ -27,16 +27,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
 
 public class FileCoverageModelTest {
     private         int line=73;
-    private SonarCoverage coverageModel;
+    private ProjectCoverageRepository coverageModel;
     private SonarFileCoverage coveredFile;
     @Before
     public void before() {
-         coverageModel = new SonarCoverage();
-         coveredFile = coverageModel.getCoveredFile("100"); 
+         coverageModel = new DefaultProjectCoverageRepository();
+         coveredFile = coverageModel.getCoverageOfFile("100"); 
     }
     
     @Test

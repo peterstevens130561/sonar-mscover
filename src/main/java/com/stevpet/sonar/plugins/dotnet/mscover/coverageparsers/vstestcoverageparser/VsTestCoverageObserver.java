@@ -22,7 +22,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser;
 
 import com.stevpet.sonar.plugins.common.api.parser.ParserObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 public abstract class VsTestCoverageObserver implements ParserObserver {
 
@@ -30,6 +30,6 @@ public abstract class VsTestCoverageObserver implements ParserObserver {
         super();
     }
 
-    public abstract void setVsTestRegistry(SonarCoverage registry);
+    public abstract void setVsTestRegistry(ProjectCoverageRepository registry);
 
 }

@@ -24,7 +24,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver;
 
 import org.sonar.api.batch.SensorContext;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 public interface CoverageSaver  {
 	/**
@@ -32,6 +32,6 @@ public interface CoverageSaver  {
 	 * @param context
 	 * @param coverage - completed coverage data
 	 */
-	void save(SensorContext sensorContext,SonarCoverage sonarCoverage);
+	void save(SensorContext sensorContext,ProjectCoverageRepository sonarCoverage);
 
 }

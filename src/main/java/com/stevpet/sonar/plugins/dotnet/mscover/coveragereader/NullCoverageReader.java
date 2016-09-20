@@ -26,13 +26,13 @@ import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 public class NullCoverageReader implements CoverageReader {
 	private final static Logger LOG = LoggerFactory.getLogger(NullCoverageReader.class);
 	
 	@Override
-	public void read(SonarCoverage registry, File file) {
+	public void read(ProjectCoverageRepository registry, File file) {
 	}
 
 }

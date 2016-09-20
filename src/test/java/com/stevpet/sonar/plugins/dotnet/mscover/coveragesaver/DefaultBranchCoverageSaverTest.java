@@ -43,7 +43,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.Defau
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultCoverageSaverHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.UnitTestBranchCoverageMetrics;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 /**
@@ -53,7 +54,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolve
  */
 public class DefaultBranchCoverageSaverTest {
 	private static final String FIRST_FILE = "a/b";
-	private SonarCoverage coverage = new SonarCoverage();
+	private ProjectCoverageRepository coverage = new DefaultProjectCoverageRepository();
 	
 	@Mock ResourceResolver resourceResolver ;
 	@Mock SensorContext sensorContext;
@@ -76,7 +77,7 @@ public class DefaultBranchCoverageSaverTest {
 		coveredResource = File.create(FIRST_FILE);
 		when(resourceResolver.getFile(eq(coveredFile))).thenReturn(coveredResource);
 		givenCoveredFile();
-		CoverageLinePoints coveragePoints=coverage.getCoveredFile("1").getBranchPoints();
+		CoverageLinePoints coveragePoints=coverage.getCoverageOfFile("1").getBranchPoints();
 		coverageSaver.saveMeasures(sensorContext,coveredFile, coveragePoints);
 	}
 	
@@ -106,7 +107,7 @@ public class DefaultBranchCoverageSaverTest {
 	}
 	
 	private void givenCoveredFile() {	
-		SonarFileCoverage fileCoverage=coverage.getCoveredFile("1");
+		SonarFileCoverage fileCoverage=coverage.getCoverageOfFile("1");
 		fileCoverage.addBranchPoint(3,true);
 		fileCoverage.addBranchPoint(4,false);
 		fileCoverage.addBranchPoint(5,false);

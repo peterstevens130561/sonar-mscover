@@ -32,7 +32,7 @@ import org.sonar.api.scan.filesystem.PathResolver;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultCoverageSaverFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 @DependsUpon( value={"IntegrationTestCoverageSaved","UnitTestCoverageSaved"})
@@ -64,7 +64,7 @@ public class OverallCoverageSensor implements Sensor {
     public void analyse(Project module, SensorContext context) {
         LOG.info("OveralCoverageSensor invoked");
         String moduleName=module.getName();
-        SonarCoverage sonarCoverage = coverageCache.get(moduleName);
+        ProjectCoverageRepository sonarCoverage = coverageCache.get(moduleName);
         if(sonarCoverage==null) {
             return;
         }

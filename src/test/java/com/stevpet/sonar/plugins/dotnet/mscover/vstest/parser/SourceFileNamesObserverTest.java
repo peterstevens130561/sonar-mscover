@@ -33,17 +33,18 @@ import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
 import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestFileNamesObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestCoverageObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 public class SourceFileNamesObserverTest extends VsTestObserverTest {
 	private VsTestCoverageObserver observer;
-	private SonarCoverage registry;
+	private ProjectCoverageRepository registry;
 	private XmlParser parser;
 
 	@Before
 	public void before() {
 		observer = new VsTestFileNamesObserver();
-		registry = new SonarCoverage();
+		registry = new DefaultProjectCoverageRepository();
 		observer.setVsTestRegistry(registry);
 		parser = new DefaultXmlParser();
 		parser.registerObserver(observer);
@@ -63,11 +64,11 @@ public class SourceFileNamesObserverTest extends VsTestObserverTest {
 		createFileName("first","1");
 		String coverageDoc=docToString();
 		//filenames will only be registered if the lines have been loaded
-		registry.getCoveredFile("1");
+		registry.getCoverageOfFile("1");
 		parser.parseString(coverageDoc);
 		assertNotNull(registry.getValues());
 		assertEquals("one element expected",1,registry.getValues().size());	
-		assertEquals("expect file","first",registry.getCoveredFile("1").getAbsolutePath());
+		assertEquals("expect file","first",registry.getCoverageOfFile("1").getAbsolutePath());
 	}
 	
 	@Test
@@ -77,13 +78,13 @@ public class SourceFileNamesObserverTest extends VsTestObserverTest {
 		createFileName("second","10");
 		String coverageDoc=docToString();
 		// filenames will only be registered if the lines have been loaded
-		registry.getCoveredFile("1");
-		registry.getCoveredFile("10");
+		registry.getCoverageOfFile("1");
+		registry.getCoverageOfFile("10");
 		parser.parseString(coverageDoc);
 		assertNotNull(registry.getValues());
 		assertEquals("two elements expected",2,registry.getValues().size());
-		assertEquals("expect file","first",registry.getCoveredFile("1").getAbsolutePath());
-		assertEquals("expect file","second",registry.getCoveredFile("10").getAbsolutePath());
+		assertEquals("expect file","first",registry.getCoverageOfFile("1").getAbsolutePath());
+		assertEquals("expect file","second",registry.getCoverageOfFile("10").getAbsolutePath());
 	}
 	
 }

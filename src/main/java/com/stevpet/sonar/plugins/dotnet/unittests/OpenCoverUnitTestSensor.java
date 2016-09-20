@@ -40,7 +40,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.OpenCoverCoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultCoverageSaverFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.SpecFlowTestResultsBuilder;
@@ -150,7 +150,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
     public void analyse(Project project, SensorContext context) {
         File testResultsFile;
         File coverageFile;
-        SonarCoverage sonarCoverage;
+        DefaultProjectCoverageRepository sonarCoverage;
         Pattern pattern = getTestProjectPattern();
         Log.debug("project {}", project.getName());
         if (!cache.gatHasRun()) {
@@ -163,7 +163,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
 
             testResultsFile = testRunner.getTestResultsFile();
 
-            sonarCoverage = new SonarCoverage();
+            sonarCoverage = new DefaultProjectCoverageRepository();
             reader.read(sonarCoverage, coverageFile);
             cache.setSonarCoverage(sonarCoverage);
             cache.setHasRun(coverageFile, testResultsFile);

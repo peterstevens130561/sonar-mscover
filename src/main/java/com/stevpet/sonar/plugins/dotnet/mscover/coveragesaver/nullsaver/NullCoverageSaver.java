@@ -27,13 +27,13 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 public class NullCoverageSaver implements CoverageSaver {
 	private final static Logger LOG = LoggerFactory.getLogger(NullCoverageSaver.class);
 
 	@Override
-	public void save(SensorContext sensorContext, SonarCoverage sonarCoverage) {
+	public void save(SensorContext sensorContext, ProjectCoverageRepository sonarCoverage) {
 
 	}
 

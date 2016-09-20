@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.common.parser.observer.ParserEventArgs;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 public class OpenCoverMissingPdbObserver extends OpenCoverObserver{
     private static final Logger LOG = LoggerFactory.getLogger(OpenCoverMissingPdbObserver.class);
@@ -56,7 +56,7 @@ public class OpenCoverMissingPdbObserver extends OpenCoverObserver{
     }
 
     @Override
-    public void setRegistry(SonarCoverage registry) {
+    public void setRegistry(ProjectCoverageRepository registry) {
         // Registry not used
     }
 

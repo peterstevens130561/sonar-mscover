@@ -31,7 +31,7 @@ import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
 import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.CoverageParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 
 /**
@@ -59,7 +59,7 @@ public class OpenCoverCoverageParser implements CoverageParser {
     }
 
     @Override
-    public void parse(SonarCoverage registry,File file) {
+    public void parse(ProjectCoverageRepository registry,File file) {
         if(file==null) {
             throw new IllegalArgumentException("file");
         }

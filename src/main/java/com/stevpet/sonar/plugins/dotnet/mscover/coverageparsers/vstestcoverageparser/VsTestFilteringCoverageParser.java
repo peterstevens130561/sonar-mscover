@@ -26,7 +26,7 @@ import java.util.List;
 
 import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
 import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 /**
  * parses VsTest generated coverage files
@@ -45,7 +45,7 @@ public class VsTestFilteringCoverageParser implements FilteringCoverageParser {
     }
 
     @Override
-    public void parse(SonarCoverage registry, File file) {
+    public void parse(ProjectCoverageRepository registry, File file) {
         VsTestModuleNameObserver moduleNameObserver = new VsTestModuleNameObserver();
         moduleNameObserver.setModulesToParse(modules);
         XmlParser xmlParser = new DefaultXmlParser();

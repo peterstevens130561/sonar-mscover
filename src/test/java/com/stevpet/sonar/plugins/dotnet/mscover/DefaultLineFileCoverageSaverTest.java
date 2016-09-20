@@ -35,7 +35,8 @@ import org.sonar.api.resources.File;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.LineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.UnitTestLineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 
@@ -48,7 +49,7 @@ import static org.mockito.Mockito.any;
 
 public class DefaultLineFileCoverageSaverTest {
 	private static final String FIRST_FILE = "a/b";
-	private SonarCoverage coverage = new SonarCoverage();
+	private ProjectCoverageRepository coverage = new DefaultProjectCoverageRepository();
 	
 	@Mock ResourceResolver resourceResolver ;
 	@Mock SensorContext sensorContext;
@@ -69,7 +70,7 @@ public class DefaultLineFileCoverageSaverTest {
 		coveredResource = File.create(FIRST_FILE);
 		when(resourceResolver.getFile(eq(coveredFile))).thenReturn(coveredResource);
 		givenCoveredFile();
-		CoverageLinePoints coveragePoints=coverage.getCoveredFile("1").getLinePoints();
+		CoverageLinePoints coveragePoints=coverage.getCoverageOfFile("1").getLinePoints();
 		coverageSaver.saveMeasures(sensorContext,coveredFile, coveragePoints);
 	}
 	
@@ -101,7 +102,7 @@ public class DefaultLineFileCoverageSaverTest {
 	}
 	
 	private void givenCoveredFile() {	
-		SonarFileCoverage fileCoverage=coverage.getCoveredFile("1");
+		SonarFileCoverage fileCoverage=coverage.getCoverageOfFile("1");
 		fileCoverage.addLinePoint(3,true);
 		fileCoverage.addLinePoint(4,false);
 		fileCoverage.addLinePoint(5,false);

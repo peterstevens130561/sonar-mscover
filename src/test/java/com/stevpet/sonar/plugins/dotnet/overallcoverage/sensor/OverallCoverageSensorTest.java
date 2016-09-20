@@ -35,7 +35,7 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
 
 public class OverallCoverageSensorTest {
 
@@ -55,7 +55,7 @@ public class OverallCoverageSensorTest {
     
     @Test
     public void testAnalyse() {
-        SonarCoverage sonarCoverage = new SonarCoverage();
+        DefaultProjectCoverageRepository sonarCoverage = new DefaultProjectCoverageRepository();
         when(coverageCache.get(MODULE_NAME)).thenReturn(sonarCoverage);
         sensor.analyse(module, context);
         verify(coverageCache,times(1)).get(MODULE_NAME);

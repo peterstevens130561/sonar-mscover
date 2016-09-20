@@ -22,7 +22,7 @@
 package com.stevpet.sonar.plugins.dotnet.overallcoverage.sensor;
 
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
 
 /**
  * maintains the overall coverage data (merged result of integration tests and unit test)
@@ -36,14 +36,14 @@ public interface OverallCoverageRepository {
      * @param moduleName
      * @return coverage, or null
      */
-    SonarCoverage get(String moduleName);
+    DefaultProjectCoverageRepository get(String moduleName);
 
     /**
      * merge coverage into the overall cache.
      * @param coverage
      * @param moduleName
      */
-    void merge(SonarCoverage coverage, String moduleName);
+    void merge(DefaultProjectCoverageRepository coverage, String moduleName);
 
     /**
      * remove coverage from the cache

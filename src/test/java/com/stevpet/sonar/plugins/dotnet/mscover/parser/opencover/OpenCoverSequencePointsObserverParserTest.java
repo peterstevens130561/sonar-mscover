@@ -34,18 +34,19 @@ import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverSequencePointsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 
 public class OpenCoverSequencePointsObserverParserTest {
-    private SonarCoverage registry;
+    private ProjectCoverageRepository registry;
     private OpenCoverSequencePointsObserver observer;
 
     @Before()
     public void before() {
         XmlParser parser = new DefaultXmlParser();
         observer = new OpenCoverSequencePointsObserver();
-        registry = new SonarCoverage();
+        registry = new DefaultProjectCoverageRepository();
         observer.setRegistry(registry);
         parser.registerObserver(observer);
         File file = TestUtils.getResource("observers/OpenCoverSequencePointsObserver_minimal.xml");   
@@ -85,7 +86,7 @@ public class OpenCoverSequencePointsObserverParserTest {
         
         @Test
         public void branchPointEvents() {
-            SonarFileCoverage entry = registry.getCoveredFile("84");
+            SonarFileCoverage entry = registry.getCoverageOfFile("84");
             assertNotNull("file not saved",entry);
             CoverageLinePoints branchPoints = entry.getBranchPoints();
             assertEquals("one point",1,branchPoints.size());
@@ -96,7 +97,7 @@ public class OpenCoverSequencePointsObserverParserTest {
         
         @Test
         public void linePointEvents() {
-            SonarFileCoverage entry = registry.getCoveredFile("84");
+            SonarFileCoverage entry = registry.getCoverageOfFile("84");
             assertNotNull("file not saved",entry);
             CoverageLinePoints points = entry.getLinePoints();
             assertEquals("one point",1,points.size());

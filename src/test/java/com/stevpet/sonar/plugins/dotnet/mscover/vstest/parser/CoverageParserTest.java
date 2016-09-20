@@ -39,19 +39,20 @@ import org.junit.Test;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.CoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.VsTestCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 
 public class CoverageParserTest extends VsTestObserverTest {
 
-	private SonarCoverage sonarCoverage;
+	private ProjectCoverageRepository sonarCoverage;
 	private CoverageParser coverageParser ;
 	private File coverageFile;
 	
 	@Before
 	public void before() {
 		coverageParser = new VsTestCoverageParser();
-		sonarCoverage = new SonarCoverage();
+		sonarCoverage = new DefaultProjectCoverageRepository();
 		String tmpPath=System.getenv("TMP");
 		File parentDir=new File(tmpPath);
 		coverageFile=FileUtils.createTempFile("coverage", ".xml", parentDir);
@@ -80,7 +81,7 @@ public class CoverageParserTest extends VsTestObserverTest {
 		coverageParser.parse(sonarCoverage, coverageFile);
 		// should be empty
 		assertEquals("one file expected",1,sonarCoverage.getValues().size());
-		SonarFileCoverage fileCoverage=sonarCoverage.getCoveredFile("1");
+		SonarFileCoverage fileCoverage=sonarCoverage.getCoverageOfFile("1");
 		assertEquals("filename","file1",fileCoverage.getAbsolutePath());
 		CoverageLinePoint linePoint=fileCoverage.getLinePoints().getPoints().get(0);
 		assertEquals("line",20,linePoint.getLine());

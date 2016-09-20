@@ -22,15 +22,15 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser;
 
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 public class VsTestLinesObserver extends VsTestCoverageObserver {
     private boolean covered;
     private int line;
-    private SonarCoverage registry;
+    private ProjectCoverageRepository registry;
 
     @Override
-    public void setVsTestRegistry(SonarCoverage registry) {
+    public void setVsTestRegistry(ProjectCoverageRepository registry) {
         this.registry = registry;
     }
 
@@ -39,7 +39,7 @@ public class VsTestLinesObserver extends VsTestCoverageObserver {
         registrar.inPath("Module/NamespaceTable/Class/Method/Lines")
             .onElement("LnStart", value ->line = Integer.parseInt(value) )
             .onElement("Coverage", value -> covered = "0".equals(value))
-            .onElement("SourceFileID", value ->registry.getCoveredFile(value).addLinePoint(line, covered)
+            .onElement("SourceFileID", value ->registry.getCoverageOfFile(value).addLinePoint(line, covered)
         );   
     }
     

@@ -36,13 +36,14 @@ import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverSequencePointsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverSourceFileNamesObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 
 public class OpenCoverObserversTest {
 
-    private SonarCoverage registry;
+    private ProjectCoverageRepository registry;
     private File file = TestUtils.getResource("coverage-report.xml");
     
     @Test
@@ -54,8 +55,8 @@ public class OpenCoverObserversTest {
         parser.parseFile(file);
         //Assert
         assertEquals(31,registry.size());
-        assertNull(registry.getCoveredFile("5").getAbsolutePath()); // is not included
-        assertNotNull(registry.getCoveredFile("86").getAbsolutePath()); // is included
+        assertNull(registry.getCoverageOfFile("5").getAbsolutePath()); // is not included
+        assertNotNull(registry.getCoverageOfFile("86").getAbsolutePath()); // is included
     }
 
 
@@ -79,7 +80,7 @@ public class OpenCoverObserversTest {
     @Test
     public void ReadPoints_CheckLineSummaryFile8() {
         initializeCompleteParser();
-        SonarFileCoverage coverage=registry.getCoveredFile("8");
+        SonarFileCoverage coverage=registry.getCoverageOfFile("8");
         SonarCoverageSummary summaryCoverage=coverage.getLinePoints().getSummary();
         assertEquals(15,summaryCoverage.getToCover()); 
         assertEquals(0,summaryCoverage.getCovered());
@@ -88,7 +89,7 @@ public class OpenCoverObserversTest {
     @Test
     public void ReadPoints_CheckLineSummaryFile11() {
         initializeCompleteParser();
-        SonarFileCoverage coverage=registry.getCoveredFile("11");
+        SonarFileCoverage coverage=registry.getCoverageOfFile("11");
         SonarCoverageSummary summaryCoverage=coverage.getLinePoints().getSummary();
         assertEquals(48,summaryCoverage.getToCover()); 
         assertEquals(29,summaryCoverage.getCovered());
@@ -97,7 +98,7 @@ public class OpenCoverObserversTest {
     @Test
     public void ReadPoints_CheckBranchSummaryFile8() {
         initializeCompleteParser();
-        SonarFileCoverage coverage=registry.getCoveredFile("8");
+        SonarFileCoverage coverage=registry.getCoverageOfFile("8");
         SonarCoverageSummary summaryCoverage=coverage.getBranchPoints().getSummary();
         assertEquals(12,summaryCoverage.getToCover()); 
         assertEquals(0,summaryCoverage.getCovered());
@@ -106,7 +107,7 @@ public class OpenCoverObserversTest {
     @Test
     public void ReadPoints_CheckBranchSummaryFile11() {
         initializeCompleteParser();
-        SonarFileCoverage coverage=registry.getCoveredFile("11");
+        SonarFileCoverage coverage=registry.getCoverageOfFile("11");
         SonarCoverageSummary summaryCoverage=coverage.getBranchPoints().getSummary();
         assertEquals(15,summaryCoverage.getToCover()); 
         assertEquals(5,summaryCoverage.getCovered());
@@ -123,21 +124,21 @@ public class OpenCoverObserversTest {
     private XmlParser initializeParser() {
         XmlParser parser = new DefaultXmlParser();
         OpenCoverObserver observer = new OpenCoverSourceFileNamesObserver();
-        registry = new SonarCoverage();
+        registry = new DefaultProjectCoverageRepository();
         observer.setRegistry(registry);
         parser.registerObserver(observer);
         return parser;
     }
   
-    public static void checkCoverageParsingResults(SonarCoverage registry) {
+    public static void checkCoverageParsingResults(ProjectCoverageRepository registry) {
         int fileCount=registry.getValues().size();
         assertEquals("files",31,fileCount);
         
-        SonarFileCoverage coverage=registry.getCoveredFile("8");
+        SonarFileCoverage coverage=registry.getCoverageOfFile("8");
         assertEquals("line points",15,coverage.getLinePoints().size());
         assertEquals("branch points",6,coverage.getBranchPoints().size());
 
-        coverage=registry.getCoveredFile("11");
+        coverage=registry.getCoverageOfFile("11");
         assertEquals("line points",48,coverage.getLinePoints().size());
         assertEquals("branch points",1,coverage.getBranchPoints().size());
     }

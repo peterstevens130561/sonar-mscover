@@ -39,7 +39,8 @@ import org.picocontainer.DefaultPicoContainer;
 import org.sonar.api.batch.SensorContext;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.CoverageSaverBase;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
@@ -48,7 +49,7 @@ public class DefaultCoverageSaverTest {
     private static final String SECOND_FILE = "b/c";
     private static final String FIRST_FILE = "a/b";
     private DefaultPicoContainer container = new DefaultPicoContainer();
-    private SonarCoverage coverage = new SonarCoverage();
+    private ProjectCoverageRepository coverage = new DefaultProjectCoverageRepository();
     private CoverageSaver saver;
     private List<File> testFiles;
     @Mock
@@ -130,12 +131,12 @@ public class DefaultCoverageSaverTest {
     }
 
     private void givenTwoCoveredFiles() {
-        SonarFileCoverage fileCoverage = coverage.getCoveredFile("0");
+        SonarFileCoverage fileCoverage = coverage.getCoverageOfFile("0");
         fileCoverage.addBranchPoint(1, true);
         fileCoverage.addBranchPoint(2, true);
         fileCoverage.setAbsolutePath(FIRST_FILE);
 
-        fileCoverage = coverage.getCoveredFile("1");
+        fileCoverage = coverage.getCoverageOfFile("1");
         fileCoverage.addLinePoint(3, true);
         fileCoverage.addLinePoint(4, true);
         fileCoverage.setAbsolutePath(SECOND_FILE);

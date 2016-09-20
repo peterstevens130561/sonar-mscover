@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.common.parser.observer.ParserEventArgs;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 /**
  * Used to parse only those modules that are of interest to this project.
@@ -79,7 +79,7 @@ public class VsTestModuleNameObserver extends VsTestCoverageObserver {
 	 * @see com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.vstestcoverageparser.ModuleNameObserver#setVsTestRegistry(com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage)
 	 */
     @Override
-	public void setVsTestRegistry(SonarCoverage registry) {
+	public void setVsTestRegistry(ProjectCoverageRepository registry) {
         // Ignoring intentionally
     }
 

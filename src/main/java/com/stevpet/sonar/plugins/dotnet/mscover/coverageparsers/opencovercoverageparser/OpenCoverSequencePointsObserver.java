@@ -21,15 +21,15 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.OpenCoverSequencePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.model.SequencePoint;
 public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
 
         private static final String FULL_NAME = "FullName";
-        private SonarCoverage registry ;
+        private ProjectCoverageRepository repository ;
         private SequencePoint sequencePoint;
 
         private SonarFileCoverage coveredFile;
@@ -55,8 +55,8 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
         private static final String FULLNAME_PATH = "Modules/Module/Classes/Class/" + FULL_NAME;
 
 
-        public void setRegistry(SonarCoverage registry) {
-            this.registry = registry;
+        public void setRegistry(ProjectCoverageRepository repository) {
+            this.repository = repository;
         }
         
         @Override
@@ -96,7 +96,7 @@ public class OpenCoverSequencePointsObserver extends OpenCoverObserver {
          */
         public void fileRefMatcher(String uid) {
            this.uid= uid;
-           coveredFile=registry.getCoveredFile(uid);
+           coveredFile=repository.getCoverageOfFile(uid);
            offsetToLineMapper.init();
         }
         

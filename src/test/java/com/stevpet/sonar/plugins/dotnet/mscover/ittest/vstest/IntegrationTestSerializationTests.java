@@ -55,12 +55,13 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.CodeCover
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.BinaryCoverageToXmlConverter;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.VsTestCoverageToXmlConverterBase;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragetoxmlconverter.WindowsCodeCoverageCommand;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
 public class IntegrationTestSerializationTests {
 
-    private SonarCoverage coverageData;
+    private ProjectCoverageRepository coverageData;
     @Mock private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     @Mock private MsCoverConfiguration msCoverProperties;
     private FilteringCoverageParser coverageParser;
@@ -72,7 +73,7 @@ public class IntegrationTestSerializationTests {
     private Serializer serializer;
     private File workDir;
     private File testDir;
-    private SonarCoverage deserialized;
+    private ProjectCoverageRepository deserialized;
     @Mock private ProcessLock processLock;
     @Mock private IntegrationTestsConfiguration integrationTestConfiguration;
 
@@ -109,7 +110,7 @@ public class IntegrationTestSerializationTests {
     public void otherBranchPoint() throws IOException {
         givenCoverageFilesInDirectoryRead();
         whenSerializingTheData();
-        coverageData.getCoveredFile("1").addBranchPoint(300, true);
+        coverageData.getCoverageOfFile("1").addBranchPoint(300, true);
         thenDeserializedDataDiffers(coverageData);
     }
     
@@ -118,17 +119,17 @@ public class IntegrationTestSerializationTests {
     public void otherLinePoint() throws IOException {
         givenCoverageFilesInDirectoryRead();
         whenSerializingTheData();
-        coverageData.getCoveredFile("1").addLinePoint(300, true);
+        coverageData.getCoverageOfFile("1").addLinePoint(300, true);
         thenDeserializedDataDiffers(coverageData);
     }
-    private void thenDeserializedDataEquals(SonarCoverage coverageData) {
+    private void thenDeserializedDataEquals(ProjectCoverageRepository coverageData) {
         File serializationFile=new File(workDir,"serialization.ser");
         deserialized = serializer.deserialize(serializationFile);
         assertEquals("serialized and deserialized should have same state",coverageData,deserialized);
         
     }
 
-    private void thenDeserializedDataDiffers(SonarCoverage coverageData) {
+    private void thenDeserializedDataDiffers(ProjectCoverageRepository coverageData) {
         File serializationFile=new File(workDir,"serialization.ser");
         deserialized = serializer.deserialize(serializationFile);
         assertNotEquals("serialized and deserialized should have different state",coverageData,deserialized);
@@ -167,7 +168,7 @@ public class IntegrationTestSerializationTests {
         assertNotNull("could not find test resource",testFile);
         testDir = testFile.getParentFile();
         assertNotNull("could not get parent",testDir);
-        coverageData=new SonarCoverage();
+        coverageData=new DefaultProjectCoverageRepository();
         coverageReader=new IntegrationTestCoverageReaderBase(microsoftWindowsEnvironment, coverageParser, integrationTestConfiguration);
         coverageReader.read(coverageData,testDir);
         assertEquals("expect some files to be read",2,coverageData.getValues().size());

@@ -25,7 +25,7 @@ import java.io.File;
 
 import org.sonar.api.BatchExtension;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 /**
  * Parser of coverage files. The parser that implements this should fill the registry
@@ -37,6 +37,6 @@ public interface CoverageParser extends BatchExtension {
 	 * @param registry - empty registry at start, to be filled with line/branch coverage info from file
 	 * @param file - coveragefile
 	 */
-	void parse(SonarCoverage registry, File file);
+	void parse(ProjectCoverageRepository registry, File file);
 
 }

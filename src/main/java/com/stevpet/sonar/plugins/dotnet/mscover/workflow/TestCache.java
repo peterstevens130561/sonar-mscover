@@ -23,7 +23,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.workflow;
 
 import java.io.File;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
 
 public interface TestCache {
 
@@ -35,9 +35,9 @@ public interface TestCache {
 
 	void setHasRun(File coverageFile, File testResultsFile);
 
-	TestCache setSonarCoverage(SonarCoverage sonarCoverage);
+	TestCache setSonarCoverage(DefaultProjectCoverageRepository sonarCoverage);
 
-	SonarCoverage getSonarCoverage();
+	DefaultProjectCoverageRepository getSonarCoverage();
 
 	void setHasRun(boolean b);
 

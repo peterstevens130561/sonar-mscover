@@ -28,13 +28,14 @@ import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 public class DefaultCoverageCacheTest {
 
     private static final String MODULE_NAME = "bla";
     OverallCoverageRepository coverageCache ;
-    private SonarCoverage coverage;
+    private DefaultProjectCoverageRepository coverage;
     @Before()
     public void before() {
         coverageCache = new DefaultOverallCoverageCache();
@@ -48,7 +49,7 @@ public class DefaultCoverageCacheTest {
     
     @Test
     public void insertFirst() {
-        coverage = new SonarCoverage();
+        coverage = new DefaultProjectCoverageRepository();
 
         coverage.linkFileNameToFileId("a", "1");
         coverageCache.merge(coverage,MODULE_NAME);
@@ -58,25 +59,25 @@ public class DefaultCoverageCacheTest {
     
     @Test
     public void insertSecond() {
-        coverage = new SonarCoverage();
+        coverage = new DefaultProjectCoverageRepository();
         coverage.linkFileNameToFileId("a", "1");
         coverageCache.merge(coverage,MODULE_NAME);
-        coverage = new SonarCoverage();
+        coverage = new DefaultProjectCoverageRepository();
         coverage.linkFileNameToFileId("b", "2");
         coverageCache.merge(coverage, MODULE_NAME);
-        SonarCoverage coverageGotten = coverageCache.get(MODULE_NAME);
+        ProjectCoverageRepository coverageGotten = coverageCache.get(MODULE_NAME);
         assertNotNull("should be valid object",coverageGotten);
         assertEquals("should have one file",2,coverageGotten.getValues().size());
     }
     
     @Test
     public void insertThenRemove() {
-        coverage = new SonarCoverage();
+        coverage = new DefaultProjectCoverageRepository();
 
         coverage.linkFileNameToFileId("a", "1");
         coverageCache.merge(coverage,MODULE_NAME);
         coverageCache.delete(MODULE_NAME);
-        SonarCoverage coverageGotten = coverageCache.get(MODULE_NAME);
+        ProjectCoverageRepository coverageGotten = coverageCache.get(MODULE_NAME);
         assertNull("should not have data, as it is deleted",coverageGotten);
     }
 }

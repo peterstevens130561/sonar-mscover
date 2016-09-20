@@ -41,7 +41,7 @@ import org.sonar.api.resources.Project;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultssaver.VsTestTestResultsSaver;
@@ -204,7 +204,7 @@ public class SensorAnalyzeTest {
 
     private void shouldSaveCoverage() {
         verify(coverageSaver, times(1)).save(eq(sensorContext),
-                any(SonarCoverage.class));
+                any(DefaultProjectCoverageRepository.class));
     }
 
 }

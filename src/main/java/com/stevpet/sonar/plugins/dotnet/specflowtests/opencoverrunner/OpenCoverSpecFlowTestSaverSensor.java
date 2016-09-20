@@ -41,7 +41,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.IntegrationTestsConfiguration.To
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.OpenCoverIntegrationTestCoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultCoverageSaverFactory;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.CoverageFileLocator;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.CoverageHashes;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.DefaultCoverageFileLocator;
@@ -125,7 +125,7 @@ public class OpenCoverSpecFlowTestSaverSensor implements Sensor {
         	LOG.warn("No coverage file available for project {} in dir {}",module.getName(),integrationTestCoverageDir.getAbsolutePath());
         	return;
         }
-        SonarCoverage sonarCoverage = new SonarCoverage();
+        DefaultProjectCoverageRepository sonarCoverage = new DefaultProjectCoverageRepository();
         reader.setMsCoverConfiguration(msCoverConfiguration);
         reader.read(sonarCoverage,integrationTestCoverageDir);
         saver.save(context,sonarCoverage);

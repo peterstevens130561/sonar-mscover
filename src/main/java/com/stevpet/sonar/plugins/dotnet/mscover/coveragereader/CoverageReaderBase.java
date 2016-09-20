@@ -25,7 +25,7 @@ import java.io.File;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.CoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 
 /**
  * reader for coverage file created by vstest
@@ -39,7 +39,7 @@ public class CoverageReaderBase implements CoverageReader {
 		this.coverageParser = parser;
 	}
 	@Override
-	public void read(SonarCoverage registry, File file) {
+	public void read(ProjectCoverageRepository registry, File file) {
 		coverageParser.parse(registry, file);
 	}
 }
