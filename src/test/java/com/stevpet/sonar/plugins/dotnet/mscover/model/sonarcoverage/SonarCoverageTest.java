@@ -21,13 +21,19 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonarcoverage;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarLinePoint;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary;
 
 public class SonarCoverageTest {
 
@@ -114,5 +120,19 @@ public class SonarCoverageTest {
         fileModel1.addBranchPoint(10,true);
         Assert.assertEquals("items have same state",fileModel0, fileModel1);
         Assert.assertNotSame("items are different instances",fileModel0,fileModel1);
+    }
+    
+    @Test
+    public void addBranchPoint() {
+        String fileId="4";
+        int branchLine=6;
+        int branchPath=1;
+        boolean branchVisited=true;
+        model.addBranchPoint(fileId, branchLine, branchPath, branchVisited);
+        SonarFileCoverage coverage = model.getCoverageOfFile(fileId);
+        CoverageLinePoints branchPoints = coverage.getBranchPoints();
+        Assert.assertEquals("should have one element", 1,branchPoints.size());
+        CoverageLinePoint point = new SonarLinePoint(branchLine, true) ;
+        Assert.assertEquals(point,branchPoints.getPoints().get(0));
     }
 }
