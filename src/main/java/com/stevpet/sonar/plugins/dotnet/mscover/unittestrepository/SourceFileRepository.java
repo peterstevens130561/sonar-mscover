@@ -8,4 +8,6 @@ public interface SourceFileRepository {
 
     List<SourceFile> getSourceFiles();
 
+    String getId(String filePath);
+
 }

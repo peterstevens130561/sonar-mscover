@@ -6,19 +6,22 @@ import java.util.List;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTest;
 
-public class DefaultUnitTestRepository {
+public class DefaultUnitTestRepository implements UnitTestRepository {
 
     List<UnitTest> unitTests = new ArrayList<>() ;
     
-    public void addTestResult(UnitTest unitTest) {
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.UnitTestRepository#addTestResult(com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTest)
+     */
+    @Override
+    public void addUnitTest(UnitTest unitTest) {
         unitTests.add(unitTest);
     }
     
-    /**
-     * get all unit tests that match the given MethodId.  If no methods are found then an empty list is returned
-     * @param methodId
-     * @return
+    /* (non-Javadoc)
+     * @see com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.UnitTestRepository#getUnitTests(com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId)
      */
+    @Override
     public List<UnitTest> getUnitTests(MethodId methodId) {
         List<UnitTest> result = new ArrayList<>(); 
         unitTests.stream().filter( v -> v.hasTestMethod(methodId)).forEach(v -> result.add(v));
