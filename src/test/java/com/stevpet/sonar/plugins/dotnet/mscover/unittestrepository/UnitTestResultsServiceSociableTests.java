@@ -17,7 +17,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultS
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultUnitTestRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.UnitTestRepository;
 
-public class UnitTestResultsServiceSociableTests {
+public class UnitTestResultsServiceSociableTests implements UnitTestResultsServiceTests {
 
     private String filePath;
     private MethodRepository methodRepository = new DefaultMethodRepository();
