@@ -30,7 +30,8 @@ public class DefaultUnitTestRepository implements UnitTestRepository {
 
     @Override
     public List<UnitTest> getUnitTests(List<MethodId> methods) {
-        // TODO Auto-generated method stub
-        return null;
+        List<UnitTest> result = new ArrayList<>();
+        methods.forEach(method -> { result.addAll(getUnitTests(method));});
+        return result;
     }
 }

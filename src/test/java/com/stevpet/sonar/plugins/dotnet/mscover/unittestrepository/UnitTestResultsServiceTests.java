@@ -53,4 +53,21 @@ public class UnitTestResultsServiceTests {
         verify(methodRepository,times(1)).getMethods("1");
         verify(sourceFileRepository,times(1)).getId("booh");
     }
+    
+    @Test
+    public void unknownSourceFile() {
+        when(sourceFileRepository.getId("booh")).thenReturn(null);
+        List<MethodId> methods = new ArrayList<>();
+        List<UnitTest> unitTests = new ArrayList<>();
+        when(methodRepository.getMethods(null)).thenReturn(methods);
+        when(unitTestRepository.getUnitTests(methods)).thenReturn(unitTests);
+        
+        List<UnitTest> result = service.getUnitTestsFor("booh");
+
+        assertEquals("list should have same tests",result,unitTests);
+        verify(methodRepository,times(1)).getMethods("1");
+        verify(sourceFileRepository,times(1)).getId("booh");     
+    }
+    
+    
 }
