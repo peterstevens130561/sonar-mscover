@@ -24,4 +24,10 @@ public class DefaultSourceFileRepository implements SourceFileRepository {
     public List<SourceFile> getSourceFiles() {
         return sourceFiles;
     }
+
+    @Override
+    public String getId(String filePath) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

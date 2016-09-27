@@ -16,4 +16,6 @@ public interface UnitTestRepository {
      */
     List<UnitTest> getUnitTests(List<MethodId> methods);
 
+    List<UnitTest> getUnitTests(MethodId methodId);
+
 }

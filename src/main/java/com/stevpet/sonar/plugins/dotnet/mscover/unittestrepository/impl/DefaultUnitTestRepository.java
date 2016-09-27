@@ -27,4 +27,10 @@ public class DefaultUnitTestRepository implements UnitTestRepository {
         unitTests.stream().filter( v -> v.hasTestMethod(methodId)).forEach(v -> result.add(v));
         return result ;
     }
+
+    @Override
+    public List<UnitTest> getUnitTests(List<MethodId> methods) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
