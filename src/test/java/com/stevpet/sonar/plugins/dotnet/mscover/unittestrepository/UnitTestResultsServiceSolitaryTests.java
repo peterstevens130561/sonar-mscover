@@ -23,6 +23,7 @@ public class UnitTestResultsServiceSolitaryTests implements UnitTestResultsServi
     @Mock private SourceFileRepository sourceFileRepository;
     @Mock private UnitTestRepository unitTestRepository;
     private String filePath;
+    private List<MethodId> methods= new ArrayList();
 
     
     @Before
@@ -43,10 +44,9 @@ public class UnitTestResultsServiceSolitaryTests implements UnitTestResultsServi
     @Test
     @Override
     public void simpleOne() {
-        when(sourceFileRepository.getId("booh")).thenReturn("1");
-        List<MethodId> methods = new ArrayList<>();
+        setupOneSourceFile();
+        setupOneMethod();
         List<UnitTest> unitTests = new ArrayList<>();
-        when(methodRepository.getMethods("1")).thenReturn(methods);
         when(unitTestRepository.getUnitTests(methods)).thenReturn(unitTests);
         
         List<UnitTest> result = service.getUnitTestsFor("booh");
@@ -54,6 +54,11 @@ public class UnitTestResultsServiceSolitaryTests implements UnitTestResultsServi
         assertEquals("list should have same tests",result,unitTests);
         verify(methodRepository,times(1)).getMethods("1");
         verify(sourceFileRepository,times(1)).getId("booh");
+    }
+
+    private void setupOneMethod() {
+        methods.add(new MethodId("m.dll","n","c","m"));
+        when(methodRepository.getMethods("1")).thenReturn(methods);
     }
     
     @Test
@@ -70,6 +75,16 @@ public class UnitTestResultsServiceSolitaryTests implements UnitTestResultsServi
         assertEquals("list should have same tests",result,unitTests);
         verify(methodRepository,times(1)).getMethods("1");
         verify(sourceFileRepository,times(1)).getId("booh");     
+    }
+
+    @Override
+    public void sourceFileHasSomeTwoMethodsAndOneMethodHasTwoTestsShouldHaveThreeTests() {
+        setupOneSourceFile();
+        
+    }
+
+    private void setupOneSourceFile() {
+        when(sourceFileRepository.getId("booh")).thenReturn("1");
     }
     
     
