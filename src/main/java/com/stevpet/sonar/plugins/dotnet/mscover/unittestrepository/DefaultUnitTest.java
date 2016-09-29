@@ -16,7 +16,7 @@ public class DefaultUnitTest implements UnitTest {
     }
     @Override
     public boolean hasTestMethod(MethodId methodId) {
-        return methodId.equals(methodId);
+        return unitTestResult.getMethodId().equals(methodId);
     }
 
     @Override

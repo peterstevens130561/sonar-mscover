@@ -59,7 +59,7 @@ public class UnitTestResultsServiceSociableTests implements UnitTestResultsServi
                 setupOneUnitTest();
                 setupTwoTestsForOneMethod();
                 
-                List<UnitTest> result = service.getUnitTestsFor("booh");
+                List<UnitTest> result = service.getUnitTestsFor("bogus");
                 
                 assertEquals(3,result.size());
             }
@@ -85,18 +85,18 @@ public class UnitTestResultsServiceSociableTests implements UnitTestResultsServi
             
             private void setupOneUnitTest() {
                 UnitTestMethodResult unitTestResult = new UnitTestMethodResult();
-                unitTestResult.setNamespaceNameFromClassName("namespace").setClassName("class").setTestName("method1").setModuleFromCodeBase("a:\\module.dll");
+                unitTestResult.setNamespaceNameFromClassName("namespace.class").setClassName("class").setTestName("method1").setModuleFromCodeBase("a:\\module.dll");
                 UnitTest unitTest = new DefaultUnitTest("firsttest", unitTestResult);
                 unitTestRepository.addUnitTest(unitTest);
             }
             
             private void setupTwoTestsForOneMethod() {
                 UnitTestMethodResult unitTestResult = new UnitTestMethodResult();
-                unitTestResult.setNamespaceNameFromClassName("namespace").setClassName("class").setTestName("method2").setModuleFromCodeBase("a:\\module.dll");
+                unitTestResult.setNamespaceNameFromClassName("namespace.class").setClassName("class").setTestName("method2").setModuleFromCodeBase("a:\\module.dll");
                 UnitTest unitTest = new DefaultUnitTest("test2 row1", unitTestResult);
                 unitTestRepository.addUnitTest(unitTest);
                 unitTestResult = new UnitTestMethodResult();
-                unitTestResult.setNamespaceNameFromClassName("namespace").setClassName("class").setTestName("method2").setModuleFromCodeBase("a:\\module.dll");
+                unitTestResult.setNamespaceNameFromClassName("namespace.class").setClassName("class").setTestName("method2").setModuleFromCodeBase("a:\\module.dll");
                 unitTest = new DefaultUnitTest("test2 row2", unitTestResult);
                 unitTestRepository.addUnitTest(unitTest);
             }

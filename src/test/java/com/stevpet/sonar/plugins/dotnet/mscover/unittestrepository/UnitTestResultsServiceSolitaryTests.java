@@ -73,7 +73,7 @@ public class UnitTestResultsServiceSolitaryTests implements UnitTestResultsServi
         List<UnitTest> result = service.getUnitTestsFor("booh");
 
         assertEquals("list should have same tests",result,unitTests);
-        verify(methodRepository,times(1)).getMethods("1");
+        verify(methodRepository,times(1)).getMethods(null);
         verify(sourceFileRepository,times(1)).getId("booh");     
     }
 
