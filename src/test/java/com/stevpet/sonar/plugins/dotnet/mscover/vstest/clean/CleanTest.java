@@ -35,7 +35,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.exception.MsCoverProgrammerException;
 import com.stevpet.sonar.plugins.dotnet.mscover.sonarmocks.FileSystemMock;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.exceptions.MsCoverInvalidSonarWorkingDir;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.runner.TestResultsCleaner;

@@ -24,10 +24,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver;
 import java.io.File;
 
 import org.junit.Before;
-import org.junit.Test;
 import org.mockito.Mock;
 import org.sonar.api.batch.SensorContext;
-import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.LineFileCoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 
