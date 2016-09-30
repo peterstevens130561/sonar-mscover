@@ -14,7 +14,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.UnitTestRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultMethodIds;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultUnitTestResultService;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.MethodIds;
 
 public class UnitTestResultsServiceSolitaryTests implements UnitTestResultsServiceTests {
 
@@ -23,7 +25,7 @@ public class UnitTestResultsServiceSolitaryTests implements UnitTestResultsServi
     @Mock private SourceFileRepository sourceFileRepository;
     @Mock private UnitTestRepository unitTestRepository;
     private String filePath;
-    private List<MethodId> methods= new ArrayList();
+    private MethodIds methods= new DefaultMethodIds();
 
     
     @Before
@@ -65,7 +67,7 @@ public class UnitTestResultsServiceSolitaryTests implements UnitTestResultsServi
     @Override
     public void unknownSourceFile() {
         when(sourceFileRepository.getId("booh")).thenReturn(null);
-        List<MethodId> methods = new ArrayList<>();
+        MethodIds methods = new DefaultMethodIds();
         List<UnitTest> unitTests = new ArrayList<>();
         when(methodRepository.getMethods(null)).thenReturn(methods);
         when(unitTestRepository.getUnitTests(methods)).thenReturn(unitTests);

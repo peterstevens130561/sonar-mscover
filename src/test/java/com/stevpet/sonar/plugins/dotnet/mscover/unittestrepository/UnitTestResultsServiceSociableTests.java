@@ -10,8 +10,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultMethodRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultSourceFileRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultUnitTest;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultUnitTestRepository;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.UnitTestRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultUnitTestResultService;
 
 public class UnitTestResultsServiceSociableTests implements UnitTestResultsServiceTests {
 

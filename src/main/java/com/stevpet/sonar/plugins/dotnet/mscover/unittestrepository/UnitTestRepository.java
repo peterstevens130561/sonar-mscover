@@ -1,9 +1,9 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl;
+package com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository;
 
 import java.util.List;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTest;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.MethodIds;
 
 public interface UnitTestRepository {
 
@@ -14,7 +14,7 @@ public interface UnitTestRepository {
      * @param methods
      * @return
      */
-    List<UnitTest> getUnitTests(List<MethodId> methods);
+    List<UnitTest> getUnitTests(MethodIds methods);
 
     List<UnitTest> getUnitTests(MethodId methodId);
 

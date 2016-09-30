@@ -2,15 +2,14 @@ package com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.DefaultUnitTest;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTest;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTestRepository;
 
 public class DefaultUnitTestRepositoryTests {
     private UnitTestRepository repository = new DefaultUnitTestRepository() ;
@@ -18,7 +17,7 @@ public class DefaultUnitTestRepositoryTests {
     @Test
     public void repositoryWithOneTests() {
         setupOneUnitTest();
-        List<MethodId> methods = new ArrayList<>();
+        MethodIds methods = new DefaultMethodIds();
         methods.add(new MethodId("module.dll","namespace","class","method1"));
         methods.add(new MethodId("module.dll","namespace","class","method2"));
         List<UnitTest> list = repository.getUnitTests(methods);

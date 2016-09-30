@@ -12,12 +12,12 @@ import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.MethodReposit
 
 public class DefaultMethodRepository implements MethodRepository{
 
-    Map<String,List<MethodId>> map = new HashMap<String,List<MethodId>>();
+    Map<String,MethodIds> map = new HashMap<>();
     @Override
     public void addMethod(String fileId,MethodId methodId) {
-        List<MethodId> list= map.get(fileId);
+        MethodIds list= map.get(fileId);
         if(list==null) {
-            list = new ArrayList<MethodId>();
+            list = new DefaultMethodIds();
             map.put(fileId, list);
         }
         list.add(methodId);       
@@ -30,10 +30,10 @@ public class DefaultMethodRepository implements MethodRepository{
      * @return
      */
     @Override
-    public List<MethodId> getMethods(String fileId) {
-        List<MethodId> list= map.get(fileId);
+    public MethodIds getMethods(String fileId) {
+        MethodIds list= map.get(fileId);
         if(list==null) {
-            list = new ArrayList<MethodId>();
+            list = new DefaultMethodIds();
         }
         return list;
     }

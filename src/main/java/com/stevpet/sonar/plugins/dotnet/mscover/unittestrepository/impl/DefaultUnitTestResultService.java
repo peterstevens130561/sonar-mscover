@@ -1,10 +1,15 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository;
+
+package com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl;
 
 import java.util.List;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
-import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.UnitTestRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.MethodRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.SourceFileRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTest;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTestRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTestResultService;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.MethodIds;
 
 public class DefaultUnitTestResultService implements UnitTestResultService {
     private final MethodRepository methodRepository;
@@ -21,7 +26,7 @@ public class DefaultUnitTestResultService implements UnitTestResultService {
     @Override
     public List<UnitTest> getUnitTestsFor( String filePath) {
         String fileId = sourceFileRepository.getId(filePath);
-        List<MethodId> methods = methodRepository.getMethods(fileId);
+        MethodIds methods = methodRepository.getMethods(fileId);
         List<UnitTest> tests = unitTestRepository.getUnitTests(methods);
         return tests;
     }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTest;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTestRepository;
 
 public class DefaultUnitTestRepository implements UnitTestRepository {
 
@@ -29,9 +30,9 @@ public class DefaultUnitTestRepository implements UnitTestRepository {
     }
 
     @Override
-    public List<UnitTest> getUnitTests(List<MethodId> methods) {
+    public List<UnitTest> getUnitTests(MethodIds methods) {
         List<UnitTest> result = new ArrayList<>();
-        methods.forEach(method -> { result.addAll(getUnitTests(method));});
+        methods.stream().forEach(method -> { result.addAll(getUnitTests(method));});
         return result;
     }
 }
