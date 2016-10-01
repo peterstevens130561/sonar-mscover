@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository;
+package com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -14,9 +14,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.MethodIds;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.MethodRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.SourceFileRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTest;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTestRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultMethodIds;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultUnitTestResultService;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.MethodIds;
 
 public class UnitTestResultsServiceSolitaryTests implements UnitTestResultsServiceTests {
 

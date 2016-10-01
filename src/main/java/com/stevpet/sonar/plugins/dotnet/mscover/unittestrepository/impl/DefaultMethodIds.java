@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.MethodIds;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.MethodIds;
 
 public class DefaultMethodIds implements MethodIds {
 

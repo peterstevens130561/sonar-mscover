@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository;
+package com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -8,6 +8,11 @@ import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.MethodRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.SourceFileRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTest;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTestRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTestResultService;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultMethodRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultSourceFileRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultUnitTest;

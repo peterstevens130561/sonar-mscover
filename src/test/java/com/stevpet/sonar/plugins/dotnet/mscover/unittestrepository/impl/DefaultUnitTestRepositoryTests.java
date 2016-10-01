@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.MethodIds;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTest;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTestRepository;
 

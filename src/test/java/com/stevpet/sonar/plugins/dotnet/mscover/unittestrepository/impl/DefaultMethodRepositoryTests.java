@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.MethodIds;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.MethodRepository;
 
 public class DefaultMethodRepositoryTests {

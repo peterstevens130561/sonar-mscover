@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.MethodIds;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTest;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTestRepository;
 

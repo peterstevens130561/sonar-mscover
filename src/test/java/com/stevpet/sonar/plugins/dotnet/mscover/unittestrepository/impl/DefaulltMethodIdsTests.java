@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository;
+package com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -6,8 +6,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.MethodIds;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultMethodIds;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.MethodIds;
 
 public class DefaulltMethodIdsTests {
     private MethodIds methods = new DefaultMethodIds();
@@ -33,7 +33,7 @@ public class DefaulltMethodIdsTests {
         methods.add (methodA);
         
         MethodId methodB = new MethodId("a.dll","b","c","2");
-        methods.add (methodA);
+        methods.add (methodB);
         
         long size = methods.stream().count();
         assertEquals("one elements",2,size);

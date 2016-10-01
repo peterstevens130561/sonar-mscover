@@ -4,12 +4,12 @@ package com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl;
 import java.util.List;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
+import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.MethodIds;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.MethodRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.SourceFileRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTest;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTestRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTestResultService;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.MethodIds;
 
 public class DefaultUnitTestResultService implements UnitTestResultService {
     private final MethodRepository methodRepository;
