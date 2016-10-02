@@ -30,7 +30,8 @@ public class OpenCoverFileNamesAndIdObserver implements ParserObserver {
 
     
     private SourceFileNameTable registry ;
-    private SourceFileNameRow model;
+    private String fileId;
+    private String filePath;
 
     @Override
     public void registerObservers(TopLevelObserverRegistrar registrar) {
@@ -45,20 +46,19 @@ public class OpenCoverFileNamesAndIdObserver implements ParserObserver {
     }
 
     public void uidMatcher(String attributeValue) {
-        model = new SourceFileNameRow();
-        model.setSourceFileID(Integer.parseInt(attributeValue));
+        fileId=attributeValue;
     }
     
     public void fileMatcher(String attributeValue) {
-        model.setSourceFileName(attributeValue);
-        registry.add(model);
+        filePath=attributeValue;
+        registry.add(fileId,filePath);
     }
 
     public int getUid() {
-    	return model.getSourceFileID();
+    	return Integer.parseInt(fileId);
     }
     
     public String getFileName() {
-    	return model.getSourceFileName();
+    	return filePath;
     }
 }
