@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository;
+package com.stevpet.sonar.plugins.dotnet.mscover.repositories;
 
 import java.util.List;
 

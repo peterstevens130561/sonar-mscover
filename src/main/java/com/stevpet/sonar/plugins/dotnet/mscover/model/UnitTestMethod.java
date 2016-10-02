@@ -1,7 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
+package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
 public class UnitTestMethod {
     private final MethodId methodId ;

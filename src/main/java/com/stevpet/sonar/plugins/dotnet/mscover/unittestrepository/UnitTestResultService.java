@@ -2,6 +2,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository;
 
 import java.util.List;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTest;
+
 public interface UnitTestResultService {
 
     /**

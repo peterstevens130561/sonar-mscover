@@ -6,17 +6,17 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.DefaultUnitTest;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTest;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.MethodRepository;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.SourceFileRepository;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTest;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTestRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.MethodRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.UnitTestRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl.DefaultMethodRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl.DefaultSourceFileRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl.DefaultUnitTestRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.UnitTestResultService;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultMethodRepository;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultSourceFileRepository;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultUnitTest;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultUnitTestRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultUnitTestResultService;
 
 public class UnitTestResultsServiceSociableTests implements UnitTestResultsServiceTests {

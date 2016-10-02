@@ -1,4 +1,4 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl;
+package com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.MethodIds;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.MethodRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIds;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.impl.DefaultMethodIds;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.MethodRepository;
 
 
 public class DefaultMethodRepository implements MethodRepository{

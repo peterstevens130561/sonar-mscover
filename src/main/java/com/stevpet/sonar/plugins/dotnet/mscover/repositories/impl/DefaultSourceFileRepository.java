@@ -1,11 +1,11 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl;
+package com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.impl.DefaultSourceFile;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.SourceFileRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
 
 
 public class DefaultSourceFileRepository implements SourceFileRepository {

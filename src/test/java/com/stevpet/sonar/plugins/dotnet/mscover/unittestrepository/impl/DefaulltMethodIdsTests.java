@@ -6,8 +6,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.MethodIds;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl.DefaultMethodIds;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIds;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.impl.DefaultMethodIds;
 
 public class DefaulltMethodIdsTests {
     private MethodIds methods = new DefaultMethodIds();

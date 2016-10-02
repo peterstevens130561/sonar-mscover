@@ -1,8 +1,6 @@
-package com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository;
+package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
 import java.util.stream.Stream;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 
 public interface MethodIds {
 

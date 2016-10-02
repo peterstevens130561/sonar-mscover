@@ -5,7 +5,8 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.SourceFileRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl.DefaultSourceFileRepository;
 
 public class DefaultSourceFileRepositoryTest {
     private SourceFileRepository repository = new DefaultSourceFileRepository();

@@ -9,8 +9,9 @@ import java.util.List;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.MethodIds;
-import com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.MethodRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIds;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.MethodRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl.DefaultMethodRepository;
 
 public class DefaultMethodRepositoryTests {
     private MethodRepository repository = new DefaultMethodRepository();
