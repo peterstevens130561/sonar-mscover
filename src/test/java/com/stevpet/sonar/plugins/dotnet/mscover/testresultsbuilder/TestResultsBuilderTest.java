@@ -74,7 +74,7 @@ public class TestResultsBuilderTest {
 	
 	@Test
 	public void OneFileWithResult_ShowHaveInFile() {
-		methodToSourceFileIdMap.add(new MethodId(MODULE,NAMESPACE,CLASS,"method1"), "1");
+		methodToSourceFileIdMap.add("1", new MethodId(MODULE,NAMESPACE,CLASS,"method1"));
 	
 		sourceFileNamesTable.add("1", "myname");
 		UnitTestingResults results=testResults.getTestingResults();
@@ -94,7 +94,7 @@ public class TestResultsBuilderTest {
 	@Test
 	public void OneMethodInCoverage_DifferentTestMethod_ShouldNotFind() {
 
-		methodToSourceFileIdMap.add(new MethodId(MODULE,NAMESPACE,CLASS,"method1"), "1");
+		methodToSourceFileIdMap.add("1", new MethodId(MODULE,NAMESPACE,CLASS,"method1"));
 	    sourceFileNamesTable.add("1", "myname");
 		
 		UnitTestingResults results=testResults.getTestingResults();

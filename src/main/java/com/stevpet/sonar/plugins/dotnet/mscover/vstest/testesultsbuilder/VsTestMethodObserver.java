@@ -61,7 +61,7 @@ public class VsTestMethodObserver implements ParserObserver {
             lookForLine = false;
             MethodId methodId = new MethodId(moduleName, nameSpaceName,
                     className, methodFullName);
-            methodToSourceFileIdMap.add(methodId, sourceFileID);
+            methodToSourceFileIdMap.add(sourceFileID, methodId);
         }
 
     }

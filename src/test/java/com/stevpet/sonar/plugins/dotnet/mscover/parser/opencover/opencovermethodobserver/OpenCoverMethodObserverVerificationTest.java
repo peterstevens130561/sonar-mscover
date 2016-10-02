@@ -85,7 +85,7 @@ public class OpenCoverMethodObserverVerificationTest {
     @Test
     public void CheckParserSubmitMethodID() {
         MethodId methodId = new MethodId(MODULE_NAME, NAMESPACE_NAME, CLASS_NAME, METHOD_NAME);
-		verify(mockRegistry,times(1)).add(methodId, "84");
+		verify(mockRegistry,times(1)).add("84", methodId);
     }
     
 }

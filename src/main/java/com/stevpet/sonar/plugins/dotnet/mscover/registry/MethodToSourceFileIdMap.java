@@ -38,7 +38,7 @@ public class MethodToSourceFileIdMap {
     
 	private int doubles=0;
     private Map<MethodId,String> map = new HashMap<MethodId,String>();
-    public void add(MethodId methodId,String sourceFileId) {
+    public void add(String sourceFileId,MethodId methodId) {
     	if(map.containsKey(methodId)) {
     		++doubles;
     	}

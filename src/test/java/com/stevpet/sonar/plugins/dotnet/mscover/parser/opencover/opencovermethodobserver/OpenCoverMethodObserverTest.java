@@ -84,7 +84,7 @@ public class OpenCoverMethodObserverTest {
         parser.registerObserver(observer);
         File file=TestUtils.getResource("coverage-report.xml");
         parser.parseFile(file);
-        verify(mockRegistry,times(170)).add(any(MethodId.class), anyString());
+        verify(mockRegistry,times(170)).add(anyString(), any(MethodId.class));
     }
     
    

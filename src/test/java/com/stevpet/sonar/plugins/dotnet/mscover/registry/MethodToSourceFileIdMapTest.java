@@ -43,7 +43,7 @@ public class MethodToSourceFileIdMapTest {
 	public void isInMap() {
 		MethodId methodId = new MethodId("module.dll","namespace","Class","Method");
 		String sourceFileId="10";
-		map.add(methodId, sourceFileId);
+		map.add(sourceFileId, methodId);
 		MethodId sameMethodId = new MethodId("module.dll","namespace","Class","Method");
 		String returnedSourceFileId=map.getFileId(sameMethodId);
 		assertEquals("should return the original one",sourceFileId,returnedSourceFileId);	
@@ -53,7 +53,7 @@ public class MethodToSourceFileIdMapTest {
 	public void isNotInMap() {
 		MethodId methodId = new MethodId("module.dll","namespace","Class","Method");
 		String sourceFileId="10";
-		map.add(methodId, sourceFileId);
+		map.add(sourceFileId, methodId);
 		MethodId sameMethodId = new MethodId("module.dll","namespace","Class","Method2");
 		String returnedSourceFileId=map.getFileId(sameMethodId);
 		assertNull("not in map, should return null",returnedSourceFileId);	
@@ -62,7 +62,7 @@ public class MethodToSourceFileIdMapTest {
 	@Test
 	public void isInherited() {
 		String sourceFileId="10";
-		map.add(new MethodId("module.dll","namespace","Class","Method"), sourceFileId);
+		map.add(sourceFileId, new MethodId("module.dll","namespace","Class","Method"));
 		
 		String returnedSourceFileId=map.getFileId(new MethodId("module.dll","namespace","OtherClass","Method"));
 		
@@ -72,10 +72,10 @@ public class MethodToSourceFileIdMapTest {
 	@Test
 	public void isAmbiguous() {
 		MethodId methodId = new MethodId("module.dll","namespace","Class","Method");
-		map.add(methodId, "10");
+		map.add("10", methodId);
 		
 		methodId = new MethodId("module.dll","namespace","OtherClass","Method");
-		map.add(methodId, "11");
+		map.add("11", methodId);
 		
 		MethodId sameMethodId = new MethodId("module.dll","namespace","FakeClass","Method");
 		String returnedSourceFileId=map.getFileId(sameMethodId);

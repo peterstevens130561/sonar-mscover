@@ -141,7 +141,7 @@ public class OpenCoverMethodObserver implements ParserObserver {
         }
         MethodId method = new MethodId(moduleName,nameSpaceName,className,methodName);
        
-        registry.add(method, sourceFileId);
+        registry.add(sourceFileId, method);
     }
 
 	public String getModuleName() {
