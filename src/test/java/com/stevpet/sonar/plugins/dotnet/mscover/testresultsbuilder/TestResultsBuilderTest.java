@@ -30,7 +30,6 @@ import org.mockito.Mock;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;

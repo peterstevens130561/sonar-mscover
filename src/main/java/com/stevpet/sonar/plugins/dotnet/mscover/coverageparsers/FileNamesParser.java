@@ -25,7 +25,6 @@ import java.io.File;
 
 import org.sonar.api.BatchExtension;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
 

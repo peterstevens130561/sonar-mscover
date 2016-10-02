@@ -34,9 +34,6 @@ import org.sonar.test.TestUtils;
 import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
 import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFile;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
-import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl.DefaultSourceFileRepository;
 
 public class OpenCoverFileNamesAndIdObserverTest {
