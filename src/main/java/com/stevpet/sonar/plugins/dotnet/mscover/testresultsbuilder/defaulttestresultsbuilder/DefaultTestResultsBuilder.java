@@ -59,7 +59,7 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
 
     	fileNamesParser.parse(coverageFile);
     	MethodToSourceFileIdMap methodToSourceFileIdMap=fileNamesParser.getMethodToSourceFileIdMap();
-    	SourceFileRepository sourceFileNamesTable= fileNamesParser.getSourceFileNamesTable();
+    	SourceFileRepository sourceFileNamesTable= fileNamesParser.getSourceFileRepository();
     	
 
     	testResultsParser.parse(testResultsFile);

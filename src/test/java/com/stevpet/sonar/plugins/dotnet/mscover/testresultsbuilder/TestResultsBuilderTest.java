@@ -26,21 +26,25 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl.DefaultSourceFileRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.DefaultTestResultsBuilder;
-
+import static org.mockito.Mockito.when;
 public class TestResultsBuilderTest {
 	private TestResultsBuilder testResultsBuilder ;
-	private FileNamesParserMock fileNamesParserMock = new FileNamesParserMock();
+	@Mock private FileNamesParser fileNamesParser ; 
 	private TestResultsParserMock testResultsParserMock = new TestResultsParserMock();
 	
     private UnitTestRegistry testResults;
-    private SourceFileNameTable sourceFileNamesTable;
+    private SourceFileRepository sourceFileNamesTable;
 
     private MethodToSourceFileIdMap methodToSourceFileIdMap;
 	private String CLASS = "TestingClass";
@@ -53,10 +57,13 @@ public class TestResultsBuilderTest {
 		methodToSourceFileIdMap = new MethodToSourceFileIdMap();
 		testResults = new UnitTestRegistry();
 		testResultsParserMock.givenTestResults(testResults);
-		testResultsBuilder = new DefaultTestResultsBuilder(fileNamesParserMock.getMock(), testResultsParserMock.getMock());
-		sourceFileNamesTable = new SourceFileNameTable();
-		fileNamesParserMock.givenSourceFileNamesTable(sourceFileNamesTable);
-		fileNamesParserMock.givenGetMethodToSourceFileIdMap(methodToSourceFileIdMap);
+		
+		org.mockito.MockitoAnnotations.initMocks(this);
+		
+		testResultsBuilder = new DefaultTestResultsBuilder(fileNamesParser, testResultsParserMock.getMock());
+		sourceFileNamesTable = new DefaultSourceFileRepository();
+		when(fileNamesParser.getMethodToSourceFileIdMap()).thenReturn(methodToSourceFileIdMap);
+		when(fileNamesParser.getSourceFileRepository()).thenReturn(sourceFileNamesTable);
 	}
 	
 	@Test
@@ -89,9 +96,7 @@ public class TestResultsBuilderTest {
 	public void OneMethodInCoverage_DifferentTestMethod_ShouldNotFind() {
 
 		methodToSourceFileIdMap.add(new MethodId(MODULE,NAMESPACE,CLASS,"method1"), "1");
-		fileNamesParserMock.givenGetMethodToSourceFileIdMap(methodToSourceFileIdMap);
-		
-	     sourceFileNamesTable.add("1", "myname");
+	    sourceFileNamesTable.add("1", "myname");
 		
 		UnitTestingResults results=testResults.getTestingResults();
 		results.newEntry().setClassName(FULLCLASSNAME)

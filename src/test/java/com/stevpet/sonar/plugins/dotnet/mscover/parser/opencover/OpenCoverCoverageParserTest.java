@@ -71,7 +71,7 @@ public class OpenCoverCoverageParserTest {
         File mixedFile=TestUtils.getResource("OpenCoverCoverageParser/coverage-report.xml");
         assertNotNull("file is in resources",mixedFile);
         fileNamesParser.parse(mixedFile);
-        SourceFileRepository table = fileNamesParser.getSourceFileNamesTable();
+        SourceFileRepository table = fileNamesParser.getSourceFileRepository();
         MethodToSourceFileIdMap map = fileNamesParser.getMethodToSourceFileIdMap();
         assertNotNull(table);
         assertNotNull(map);

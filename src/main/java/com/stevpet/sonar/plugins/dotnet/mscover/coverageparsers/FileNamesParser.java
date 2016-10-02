@@ -49,6 +49,6 @@ public interface FileNamesParser extends BatchExtension {
 	 * after {@link parse} invoke to get the {@link SourceFileRepository}
 	 * @return
 	 */
-	SourceFileRepository getSourceFileNamesTable();
+	SourceFileRepository getSourceFileRepository();
 
 }

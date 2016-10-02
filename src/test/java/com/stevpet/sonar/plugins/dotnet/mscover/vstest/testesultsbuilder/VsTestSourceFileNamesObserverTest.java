@@ -29,18 +29,20 @@ import org.junit.Test;
 import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
 import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl.DefaultSourceFileRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.VsTestObserverTest;
 
 public class VsTestSourceFileNamesObserverTest extends VsTestObserverTest {
 	private XmlParser parser;
-	private SourceFileNameTable sourceFileNameTable;
+	private DefaultSourceFileRepository sourceFileNameTable;
 	
 	@Before
 	public void before() {
 		VsTestSourceFileNamesObserver observer = new VsTestSourceFileNamesObserver();
 		parser = new DefaultXmlParser();
 		parser.registerObserver(observer);
-		sourceFileNameTable = new SourceFileNameTable();
+		sourceFileNameTable = new DefaultSourceFileRepository();
 		observer.setRegistry(sourceFileNameTable);
 	}
 	

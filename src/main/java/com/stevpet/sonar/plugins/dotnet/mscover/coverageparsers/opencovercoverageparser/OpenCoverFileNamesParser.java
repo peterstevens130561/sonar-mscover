@@ -64,7 +64,7 @@ public class OpenCoverFileNamesParser implements FileNamesParser {
 	}
 
 	@Override
-	public SourceFileRepository getSourceFileNamesTable() {
+	public SourceFileRepository getSourceFileRepository() {
 		return sourceFileRepository;
 	}
 }

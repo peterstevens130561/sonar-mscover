@@ -28,23 +28,25 @@ import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl.DefaultSourceFileRepository;
 
 public class VsTestFileNamesParser implements FileNamesParser {
 
     MethodToSourceFileIdMap methodToSourceFileIdMap;
-    SourceFileNameTable sourceFileNameTable;
+    SourceFileRepository sourceFileRepository;
 
     @Override
     public void parse(File coverageFile) {
         methodToSourceFileIdMap = new MethodToSourceFileIdMap();
-        sourceFileNameTable = new SourceFileNameTable();
+        sourceFileRepository = new DefaultSourceFileRepository();
         XmlParser xmlParser = new DefaultXmlParser();
         VsTestMethodObserver methodObserver = new VsTestMethodObserver();
         methodObserver.setRegistry(methodToSourceFileIdMap);
         xmlParser.registerObserver(methodObserver);
 
         VsTestSourceFileNamesObserver sourceFileNamesObserver = new VsTestSourceFileNamesObserver();
-        sourceFileNamesObserver.setRegistry(sourceFileNameTable);
+        sourceFileNamesObserver.setRegistry(sourceFileRepository);
         xmlParser.registerObserver(sourceFileNamesObserver);
         xmlParser.parseFile(coverageFile);
     }
@@ -55,8 +57,8 @@ public class VsTestFileNamesParser implements FileNamesParser {
     }
 
     @Override
-    public SourceFileNameTable getSourceFileNamesTable() {
-        return sourceFileNameTable;
+    public SourceFileRepository getSourceFileRepository() {
+        return sourceFileRepository;
     }
 
 }
