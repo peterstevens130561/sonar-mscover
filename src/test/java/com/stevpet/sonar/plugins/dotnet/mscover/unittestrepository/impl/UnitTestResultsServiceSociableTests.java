@@ -76,7 +76,7 @@ public class UnitTestResultsServiceSociableTests implements UnitTestResultsServi
             
             private void setupOneMethod() {
                 MethodId methodId = new MethodId("module.dll","namespace","class","method1");
-                methodRepository.addMethod("1",methodId );
+                methodRepository.add("1",methodId );
             }
             
             private void setupTwoMethods() {
@@ -86,7 +86,7 @@ public class UnitTestResultsServiceSociableTests implements UnitTestResultsServi
 
             private void setupMethodTwo() {
                 MethodId methodId = new MethodId("module.dll","namespace","class","method2");
-                methodRepository.addMethod("1",methodId );
+                methodRepository.add("1",methodId );
             }
             
             private void setupOneUnitTest() {

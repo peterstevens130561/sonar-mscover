@@ -81,7 +81,7 @@ public class VsTestMethodObserverTest extends VsTestObserverTest {
 		String doc=docToString();
 		parser.parseString(doc);
 		MethodId expectedId=new MethodId(MODULE_NAME,NAMESPACE_NAME,CLASS_NAME,"method");
-		String actualFileId=methodToSourceFileIdMap.get(expectedId);
+		String actualFileId=methodToSourceFileIdMap.getFileId(expectedId);
 		assertEquals("fileId of method",FILEID,actualFileId);
 	}
 	

@@ -35,7 +35,7 @@ public class MethodToSourceFileIdMapTest {
 	@Test
 	public void emptyMapReturnsNull() {
 		MethodId methodId = new MethodId("module.dll","namespace","Class","Method");
-		String sourceFileId=map.get(methodId);
+		String sourceFileId=map.getFileId(methodId);
 		assertNull("map is empty",sourceFileId);	
 	}
 	
@@ -45,7 +45,7 @@ public class MethodToSourceFileIdMapTest {
 		String sourceFileId="10";
 		map.add(methodId, sourceFileId);
 		MethodId sameMethodId = new MethodId("module.dll","namespace","Class","Method");
-		String returnedSourceFileId=map.get(sameMethodId);
+		String returnedSourceFileId=map.getFileId(sameMethodId);
 		assertEquals("should return the original one",sourceFileId,returnedSourceFileId);	
 	}
 	
@@ -55,7 +55,7 @@ public class MethodToSourceFileIdMapTest {
 		String sourceFileId="10";
 		map.add(methodId, sourceFileId);
 		MethodId sameMethodId = new MethodId("module.dll","namespace","Class","Method2");
-		String returnedSourceFileId=map.get(sameMethodId);
+		String returnedSourceFileId=map.getFileId(sameMethodId);
 		assertNull("not in map, should return null",returnedSourceFileId);	
 	}
 	
@@ -64,7 +64,7 @@ public class MethodToSourceFileIdMapTest {
 		String sourceFileId="10";
 		map.add(new MethodId("module.dll","namespace","Class","Method"), sourceFileId);
 		
-		String returnedSourceFileId=map.get(new MethodId("module.dll","namespace","OtherClass","Method"));
+		String returnedSourceFileId=map.getFileId(new MethodId("module.dll","namespace","OtherClass","Method"));
 		
 		assertEquals("though in different classshould return the original one",sourceFileId,returnedSourceFileId);
 	}
@@ -78,7 +78,7 @@ public class MethodToSourceFileIdMapTest {
 		map.add(methodId, "11");
 		
 		MethodId sameMethodId = new MethodId("module.dll","namespace","FakeClass","Method");
-		String returnedSourceFileId=map.get(sameMethodId);
+		String returnedSourceFileId=map.getFileId(sameMethodId);
 		assertEquals("the fake class will fallback to the last one added","11",returnedSourceFileId);
 	}
 }

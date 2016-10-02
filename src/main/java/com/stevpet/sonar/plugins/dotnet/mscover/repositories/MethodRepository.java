@@ -5,9 +5,19 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIds;
 
 public interface MethodRepository {
 
+    /**
+     * gets the methods matching the fileId
+     * @param fileId
+     * @return
+     */
     MethodIds getMethods(String fileId);
 
-    void addMethod(String fileId, MethodId methodId);
+    /**
+     * add method and fileId
+     * @param fileId - integer
+     * @param methodId - method
+     */
+    void add(String fileId, MethodId methodId);
     
 
 }

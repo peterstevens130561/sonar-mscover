@@ -23,7 +23,12 @@ package com.stevpet.sonar.plugins.dotnet.mscover.registry;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIds;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.impl.DefaultMethodIds;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.MethodRepository;
 
 /**
  * @author stevpet
@@ -33,7 +38,6 @@ public class MethodToSourceFileIdMap {
     
 	private int doubles=0;
     private Map<MethodId,String> map = new HashMap<MethodId,String>();
-   
     public void add(MethodId methodId,String sourceFileId) {
     	if(map.containsKey(methodId)) {
     		++doubles;
@@ -50,7 +54,7 @@ public class MethodToSourceFileIdMap {
      * @param methodId
      * @return
      */
-    public String get(MethodId methodId) {
+    public String getFileId(MethodId methodId) {
         if(methodId==null) {
             return null;
         }
@@ -62,6 +66,11 @@ public class MethodToSourceFileIdMap {
         return fileId;
     }
  
+    public MethodIds getMethods(String fileId) {
+        MethodIds methodIds = new DefaultMethodIds();
+        map.entrySet().stream().filter(entry -> entry.getValue().equals(fileId)).forEach(entry -> methodIds.add(entry.getKey()));
+        return methodIds;
+    }
     /**
      * the number of methods added
      * @return

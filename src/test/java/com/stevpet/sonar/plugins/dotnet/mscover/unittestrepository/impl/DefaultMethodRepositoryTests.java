@@ -24,7 +24,7 @@ public class DefaultMethodRepositoryTests {
     @Test
     public void repositoryShouldReturnElements() {
         MethodId method = new MethodId("a.dll","b","c","1");
-        repository.addMethod("1", method);
+        repository.add("1", method);
         MethodIds list= repository.getMethods("1");
         assertNotNull("should have valid list",list);
         assertEquals("list should have one element",1,list.stream().count());
@@ -34,9 +34,9 @@ public class DefaultMethodRepositoryTests {
     @Test
     public void repositoryShouldReturnTwoElements() {
         MethodId methodA = new MethodId("a.dll","b","c","1");
-        repository.addMethod("1", methodA);
+        repository.add("1", methodA);
         MethodId methodB = new MethodId("a.dll","b","c","2");
-        repository.addMethod("1", methodB);
+        repository.add("1", methodB);
         MethodIds list= repository.getMethods("1");
         assertNotNull("should have valid list",list);
         assertEquals("list should have two elements",2,list.stream().count());
@@ -47,7 +47,7 @@ public class DefaultMethodRepositoryTests {
     @Test
     public void repositoryShouldNotReturnElements() {
         MethodId method = new MethodId("a.dll","b","c","1");
-        repository.addMethod("1", method);
+        repository.add("1", method);
         MethodIds list= repository.getMethods("2");
         assertNotNull("should have valid list",list);
         assertEquals("list should have no element",0,list.stream().count());

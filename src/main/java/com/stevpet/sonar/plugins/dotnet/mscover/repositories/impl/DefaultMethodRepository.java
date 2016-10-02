@@ -13,7 +13,7 @@ public class DefaultMethodRepository implements MethodRepository{
 
     Map<String,MethodIds> map = new HashMap<>();
     @Override
-    public void addMethod(String fileId,MethodId methodId) {
+    public void add(String fileId,MethodId methodId) {
         MethodIds list= map.get(fileId);
         if(list==null) {
             list = new DefaultMethodIds();
