@@ -15,5 +15,7 @@ public interface SourceFileRepository {
      * @return - id of file, if not found then null
      */
     String getId(String filePath);
+    
+    String getSourceFileName(String fileId);
 
 }

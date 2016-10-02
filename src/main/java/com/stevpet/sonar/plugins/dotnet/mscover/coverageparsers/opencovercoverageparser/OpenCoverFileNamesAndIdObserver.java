@@ -23,12 +23,12 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercovera
 
 import com.stevpet.sonar.plugins.common.api.parser.ParserObserver;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
 
 public class OpenCoverFileNamesAndIdObserver implements ParserObserver {
 
     
-    private SourceFileNameTable registry ;
+    private SourceFileRepository registry ;
     private String fileId;
     private String filePath;
 
@@ -40,7 +40,7 @@ public class OpenCoverFileNamesAndIdObserver implements ParserObserver {
     	
     }
     
-    public void setRegistry(SourceFileNameTable registry) {
+    public void setRegistry(SourceFileRepository registry) {
         this.registry=registry;
     }
 

@@ -33,13 +33,16 @@ import org.sonar.test.TestUtils;
 
 import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
 import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFile;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl.DefaultSourceFileRepository;
 
 public class OpenCoverFileNamesAndIdObserverTest {
 
 	private final OpenCoverFileNamesAndIdObserver observer = new OpenCoverFileNamesAndIdObserver();
-	private SourceFileNameTable registry = new SourceFileNameTable();
+	private DefaultSourceFileRepository registry = new DefaultSourceFileRepository();
 	
 	@Before
 	public void before() {
@@ -62,8 +65,8 @@ public class OpenCoverFileNamesAndIdObserverTest {
 	
 	@Test
 	public void checkRegistry() {
-		Optional<SourceFileNameRow> row = registry.stream().filter(r -> r.getSourceFileID()==84).findFirst();
+		Optional<SourceFile> row = registry.stream().filter(r ->r.getId().equals("84")).findFirst();
 		assertTrue(row.isPresent());
-		assertEquals("c:\\Development\\bogus.cs",row.get().getSourceFileName());
+		assertEquals("c:\\Development\\bogus.cs",row.get().getPath());
 	}
 }

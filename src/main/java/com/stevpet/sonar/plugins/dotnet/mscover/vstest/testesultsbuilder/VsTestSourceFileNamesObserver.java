@@ -23,10 +23,10 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.testesultsbuilder;
 
 import com.stevpet.sonar.plugins.common.api.parser.ParserObserver;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
 
 public class VsTestSourceFileNamesObserver implements ParserObserver {
-    private SourceFileNameTable sourceFileNameTable;
+    private SourceFileRepository sourceFileNameTable;
     private String sourceFileID;
     
     @Override
@@ -36,7 +36,7 @@ public class VsTestSourceFileNamesObserver implements ParserObserver {
             .onElement("SourceFileName", value -> sourceFileNameTable.add(sourceFileID, value));
     }
     
-    public void setRegistry(SourceFileNameTable sourceFileNameTable) {
+    public void setRegistry(SourceFileRepository sourceFileNameTable) {
         this.sourceFileNameTable = sourceFileNameTable;
     }
 

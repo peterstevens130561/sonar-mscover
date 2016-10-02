@@ -24,12 +24,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
+
 /**
  * The table provides a means to lookup id by the name {@link getSourceFileId}
  * and name by the id {@link getSourceFileName)
  *
  */
-public class SourceFileNameTable {
+public class SourceFileNameTable implements SourceFileRepository {
     private Map<Integer,SourceFileNameRow> rows = new HashMap<Integer,SourceFileNameRow>();
     /**
      * add a row with given fileID and filePath
@@ -74,6 +76,11 @@ public class SourceFileNameTable {
             return null;
         }
         return model.getSourceFileName();
+    }
+
+    @Override
+    public String getId(String filePath) {
+        return null;
     }
 
 

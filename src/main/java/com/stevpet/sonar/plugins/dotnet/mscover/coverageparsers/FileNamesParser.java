@@ -27,12 +27,13 @@ import org.sonar.api.BatchExtension;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
 
 public interface FileNamesParser extends BatchExtension {
 
 
 	/**
-	 * parse a coverage file to get {@link MethodToSourceFileIdMap} and {@link SourceFileNameTable}
+	 * parse a coverage file to get {@link MethodToSourceFileIdMap} and {@link SourceFileRepository}
 	 * @param coverageFile
 	 */
 	void parse(File coverageFile);
@@ -45,9 +46,9 @@ public interface FileNamesParser extends BatchExtension {
 	MethodToSourceFileIdMap getMethodToSourceFileIdMap();
 
 	/**
-	 * after {@link parse} invoke to get the {@link SourceFileNameTable}
+	 * after {@link parse} invoke to get the {@link SourceFileRepository}
 	 * @return
 	 */
-	SourceFileNameTable getSourceFileNamesTable();
+	SourceFileRepository getSourceFileNamesTable();
 
 }

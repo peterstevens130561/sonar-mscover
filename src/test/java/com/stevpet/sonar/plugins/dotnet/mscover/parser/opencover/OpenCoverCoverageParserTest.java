@@ -34,10 +34,10 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverCoverageParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverFileNamesParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
 
 /**
  * Integration test!
@@ -71,7 +71,7 @@ public class OpenCoverCoverageParserTest {
         File mixedFile=TestUtils.getResource("OpenCoverCoverageParser/coverage-report.xml");
         assertNotNull("file is in resources",mixedFile);
         fileNamesParser.parse(mixedFile);
-        SourceFileNameTable table = fileNamesParser.getSourceFileNamesTable();
+        SourceFileRepository table = fileNamesParser.getSourceFileNamesTable();
         MethodToSourceFileIdMap map = fileNamesParser.getMethodToSourceFileIdMap();
         assertNotNull(table);
         assertNotNull(map);
