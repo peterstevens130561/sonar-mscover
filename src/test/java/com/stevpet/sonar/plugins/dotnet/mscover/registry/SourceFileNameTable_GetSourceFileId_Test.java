@@ -50,8 +50,7 @@ public class SourceFileNameTable_GetSourceFileId_Test {
     @Test
     public void secondToAdd_ExpectFoundAtNext() {
         String name = "myname";
-        SourceFileNameRow model = new SourceFileNameRow(3,"strange");
-        table.add(model);
+        table.add("3","strange");
         int index=table.getSourceFileId(name);
         assertEquals("expect index 4 for the item added",4,index);
     }

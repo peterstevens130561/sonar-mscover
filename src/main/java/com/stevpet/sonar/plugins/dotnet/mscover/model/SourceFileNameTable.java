@@ -43,19 +43,34 @@ public class SourceFileNameTable  {
     	row.setSourceFileName(filePath);
     }
     
-    public void add(SourceFileNameRow row) {
+    public SourceFileNameRow getNewRow(String fileId) {
+        SourceFileNameRow row = new SourceFileNameRow().setSourceFileID(Integer.parseInt(fileId));
+        add(row);
+        return row;
+    }
+
+    /**
+     * makes sure that the file is in the table, returns it's id
+     * @param fileName
+     * @return
+     */
+    public int getSourceFileId(String fileName) {
+        Integer id=mapNameToId.get(fileName);
+        if(id==null) {
+            id= ++maxId;
+            SourceFileNameRow model = new SourceFileNameRow(id,fileName);
+            add(model);
+        }
+        return id;
+    }
+    
+    private void add(SourceFileNameRow row) {
     	int key=row.getSourceFileID();
         rows.put(key,row);
         mapNameToId.put(row.getSourceFileName(),key);
         maxId = maxId>key?maxId:key;
     }
     
-    public SourceFileNameRow getNewRow(String fileId) {
-    	SourceFileNameRow row = new SourceFileNameRow().setSourceFileID(Integer.parseInt(fileId));
-    	add(row);
-    	return row;
-    }
-
     private SourceFileNameRow get(String fileId) {
     	int index = Integer.parseInt(fileId);
        return rows.get(index);
@@ -85,20 +100,7 @@ public class SourceFileNameTable  {
         return model.getSourceFileName();
     }
     
-    /**
-     * makes sure that the file is in the table, returns it's id
-     * @param fileName
-     * @return
-     */
-    public int getSourceFileId(String fileName) {
-        Integer id=mapNameToId.get(fileName);
-        if(id==null) {
-            id= ++maxId;
-            SourceFileNameRow model = new SourceFileNameRow(id,fileName);
-            add(model);
-        }
-        return id;
-    }
+
 
 
 }
