@@ -70,8 +70,7 @@ public class TestResultsBuilderTest {
 	public void OneFileWithResult_ShowHaveInFile() {
 		methodToSourceFileIdMap.add(new MethodId(MODULE,NAMESPACE,CLASS,"method1"), "1");
 	
-		sourceFileNamesTable.getNewRow("1").setSourceFileName("myname");
-	
+		sourceFileNamesTable.add("1", "myname");
 		UnitTestingResults results=testResults.getTestingResults();
 
 		results.newEntry().setClassName(FULLCLASSNAME)
@@ -92,7 +91,7 @@ public class TestResultsBuilderTest {
 		methodToSourceFileIdMap.add(new MethodId(MODULE,NAMESPACE,CLASS,"method1"), "1");
 		fileNamesParserMock.givenGetMethodToSourceFileIdMap(methodToSourceFileIdMap);
 		
-		sourceFileNamesTable.getNewRow("1").setSourceFileName("myname");
+	     sourceFileNamesTable.add("1", "myname");
 		
 		UnitTestingResults results=testResults.getTestingResults();
 		results.newEntry().setClassName(FULLCLASSNAME)
