@@ -20,7 +20,6 @@
  * Author: Peter Stevens, peter.stevens@bakerhughes.com
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.model;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -30,10 +29,8 @@ import java.util.stream.Stream;
  * and name by the id {@link getSourceFileName)
  *
  */
-public class SourceFileNameTable  {
+public class SourceFileNameTable {
     private Map<Integer,SourceFileNameRow> rows = new HashMap<Integer,SourceFileNameRow>();
-    private Map<String,Integer> mapNameToId = new HashMap<String,Integer>();
-    private int maxId=0;
     /**
      * add a row with given fileID and filePath
      * @param fileID 
@@ -53,8 +50,6 @@ public class SourceFileNameTable  {
     private void add(SourceFileNameRow row) {
     	int key=row.getSourceFileID();
         rows.put(key,row);
-        mapNameToId.put(row.getSourceFileName(),key);
-        maxId = maxId>key?maxId:key;
     }
     
     private SourceFileNameRow get(String fileId) {
@@ -80,8 +75,6 @@ public class SourceFileNameTable  {
         }
         return model.getSourceFileName();
     }
-    
-
 
 
 }

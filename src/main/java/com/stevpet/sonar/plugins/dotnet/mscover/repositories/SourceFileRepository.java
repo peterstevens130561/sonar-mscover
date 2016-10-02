@@ -1,15 +1,19 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.repositories;
 
-import java.util.List;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.model.impl.DefaultSourceFile;
-
 public interface SourceFileRepository {
 
-    void addFile(String fileId, String filePath);
+    /**
+     * add the sourcefile to the repository. fileId should be unique, if not it will overwrite
+     * @param fileId - integer
+     * @param filePath - full path to a file
+     */
+    void add(String fileId, String filePath);
 
-    List<DefaultSourceFile> getSourceFiles();
-
+    /**
+     * get the id of a file, denoted by its full path
+     * @param filePath - full path to a file
+     * @return - id of file, if not found then null
+     */
     String getId(String filePath);
 
 }

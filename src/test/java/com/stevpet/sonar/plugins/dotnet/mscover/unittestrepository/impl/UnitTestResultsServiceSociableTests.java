@@ -37,7 +37,7 @@ public class UnitTestResultsServiceSociableTests implements UnitTestResultsServi
             
             @Test
             public void simpleOne() {
-                sourceFileRepository.addFile("1", "booh");
+                sourceFileRepository.add("1", "booh");
                 setupOneMethod();
                 setupOneUnitTest();
                 List<UnitTest> result = service.getUnitTestsFor("booh");
@@ -71,7 +71,7 @@ public class UnitTestResultsServiceSociableTests implements UnitTestResultsServi
             }
             
             private void setupOneSourceFile() {
-                sourceFileRepository.addFile("1", "bogus");
+                sourceFileRepository.add("1", "bogus");
             }
             
             private void setupOneMethod() {

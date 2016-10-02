@@ -19,14 +19,14 @@ public class DefaultSourceFileRepositoryTest {
     
     @Test
     public void nonExistent() {
-        repository.addFile("1", "C:/bogus");
+        repository.add("1", "C:/bogus");
         String id=repository.getId("C:/fun");
         assertNull("should not be found",id);
     }
     
     @Test
     public void existing() {
-        repository.addFile("1", "C:/bogus");
+        repository.add("1", "C:/bogus");
         String id=repository.getId("C:/bogus");
         assertEquals("should  be found","1",id);  
     }
