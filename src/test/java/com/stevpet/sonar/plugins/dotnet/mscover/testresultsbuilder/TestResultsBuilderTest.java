@@ -31,7 +31,7 @@ import org.mockito.Mock;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl.DefaultSourceFileRepository;
@@ -45,7 +45,7 @@ public class TestResultsBuilderTest {
     private UnitTestRegistry testResults;
     private SourceFileRepository sourceFileNamesTable;
 
-    private MethodToSourceFileIdMap methodToSourceFileIdMap;
+    private MethodToSourceFileIdRepository methodToSourceFileIdMap;
 	private String CLASS = "TestingClass";
 	private String MODULE = "Module.dll";
 	private String NAMESPACE = "BHI.FUN";
@@ -53,7 +53,7 @@ public class TestResultsBuilderTest {
     
 	@Before() 
 	public void before() {
-		methodToSourceFileIdMap = new MethodToSourceFileIdMap();
+		methodToSourceFileIdMap = new MethodToSourceFileIdRepository();
 		testResults = new UnitTestRegistry();
 		testResultsParserMock.givenTestResults(testResults);
 		

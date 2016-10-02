@@ -34,7 +34,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.repositories.MethodRepository;
  * @author stevpet
  *
  */
-public class MethodToSourceFileIdMap {
+public class MethodToSourceFileIdRepository implements MethodRepository{
     
 	private int doubles=0;
     private Map<MethodId,String> map = new HashMap<MethodId,String>();

@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 import com.stevpet.sonar.plugins.common.api.parser.ParserObserver;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRepository;
 
 /**
  * observer is used to find the methods that may be used as unit tests.
@@ -38,7 +38,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap
  */
 public class OpenCoverMethodObserver implements ParserObserver {
 
-    private MethodToSourceFileIdMap registry;
+    private MethodToSourceFileIdRepository registry;
     protected String moduleName;
     protected String className;
     
@@ -52,7 +52,7 @@ public class OpenCoverMethodObserver implements ParserObserver {
     }
     
     protected ScanMode scanMode=ScanMode.SCAN ;
-    public void setRegistry(MethodToSourceFileIdMap registry) {
+    public void setRegistry(MethodToSourceFileIdRepository registry) {
         this.registry = registry;
     }
  

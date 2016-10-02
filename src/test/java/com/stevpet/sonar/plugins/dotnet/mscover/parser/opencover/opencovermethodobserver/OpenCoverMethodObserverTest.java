@@ -40,16 +40,16 @@ import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
 import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverMethodObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRepository;
 
 public class OpenCoverMethodObserverTest {
 
 	private OpenCoverMethodObserver observer;
-    private MethodToSourceFileIdMap registry;
+    private MethodToSourceFileIdRepository registry;
     @Before
     public void before() {
         observer = new OpenCoverMethodObserver();
-        registry = new MethodToSourceFileIdMap();
+        registry = new MethodToSourceFileIdRepository();
         observer.setRegistry(registry);
     }
     
@@ -77,7 +77,7 @@ public class OpenCoverMethodObserverTest {
     
     @Test
     public void ParseFileCheckCount() {
-    	MethodToSourceFileIdMap mockRegistry = mock(MethodToSourceFileIdMap.class);
+    	MethodToSourceFileIdRepository mockRegistry = mock(MethodToSourceFileIdRepository.class);
     	
         observer.setRegistry(mockRegistry);
         XmlParser parser = new DefaultXmlParser();

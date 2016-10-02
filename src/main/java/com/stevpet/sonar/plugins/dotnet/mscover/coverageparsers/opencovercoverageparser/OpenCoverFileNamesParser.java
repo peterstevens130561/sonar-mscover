@@ -28,21 +28,21 @@ import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverFileNamesAndIdObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverMethodObserver;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl.DefaultSourceFileRepository;
 
 public class OpenCoverFileNamesParser implements FileNamesParser {
 
-	private MethodToSourceFileIdMap methodToSourceFileIdMap;
+	private MethodToSourceFileIdRepository methodToSourceFileIdMap;
 	private SourceFileRepository sourceFileRepository;
 	/* (non-Javadoc)
-	 * @see com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.FileNamesParser#parse(java.io.File, com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap, com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable)
+	 * @see com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.FileNamesParser#parse(java.io.File, com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRepository, com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable)
 	 */
 	@Override
 	public void parse(File coverageFile) {
 		
-		methodToSourceFileIdMap=new MethodToSourceFileIdMap();
+		methodToSourceFileIdMap=new MethodToSourceFileIdRepository();
 		sourceFileRepository = new DefaultSourceFileRepository();
 		XmlParser xmlParser = new DefaultXmlParser();
 
@@ -58,7 +58,7 @@ public class OpenCoverFileNamesParser implements FileNamesParser {
 
 
 	@Override
-	public MethodToSourceFileIdMap getMethodToSourceFileIdMap() {
+	public MethodToSourceFileIdRepository getMethodToSourceFileIdMap() {
 		return methodToSourceFileIdMap;
 	}
 

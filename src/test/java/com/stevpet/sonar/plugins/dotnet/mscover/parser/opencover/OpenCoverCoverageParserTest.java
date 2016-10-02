@@ -36,7 +36,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverag
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverFileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
 
 /**
@@ -72,7 +72,7 @@ public class OpenCoverCoverageParserTest {
         assertNotNull("file is in resources",mixedFile);
         fileNamesParser.parse(mixedFile);
         SourceFileRepository table = fileNamesParser.getSourceFileRepository();
-        MethodToSourceFileIdMap map = fileNamesParser.getMethodToSourceFileIdMap();
+        MethodToSourceFileIdRepository map = fileNamesParser.getMethodToSourceFileIdMap();
         assertNotNull(table);
         assertNotNull(map);
         

@@ -29,7 +29,7 @@ import org.junit.Test;
 import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
 import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.parser.VsTestObserverTest;
 
 
@@ -40,11 +40,11 @@ public class VsTestMethodObserverTest extends VsTestObserverTest {
 	private static final String FILEID = "8";
 	private VsTestMethodObserver observer;
 	private XmlParser parser;
-	private MethodToSourceFileIdMap methodToSourceFileIdMap;
+	private MethodToSourceFileIdRepository methodToSourceFileIdMap;
 	@Before
 	public void before() {
 		observer = new VsTestMethodObserver();
-		methodToSourceFileIdMap = new MethodToSourceFileIdMap();
+		methodToSourceFileIdMap = new MethodToSourceFileIdRepository();
 		observer.setRegistry(methodToSourceFileIdMap);
 		parser = new DefaultXmlParser();
 		parser.registerObserver(observer);		

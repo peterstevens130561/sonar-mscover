@@ -34,7 +34,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
@@ -58,7 +58,7 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
 	public ProjectUnitTestResults parse(File testResultsFile, File coverageFile) {
 
     	fileNamesParser.parse(coverageFile);
-    	MethodToSourceFileIdMap methodToSourceFileIdMap=fileNamesParser.getMethodToSourceFileIdMap();
+    	MethodToSourceFileIdRepository methodToSourceFileIdMap=fileNamesParser.getMethodToSourceFileIdMap();
     	SourceFileRepository sourceFileNamesTable= fileNamesParser.getSourceFileRepository();
     	
 
@@ -68,7 +68,7 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
     	return mapUnitTestResultsToFile(testResults.getTestingResults(),methodToSourceFileIdMap,sourceFileNamesTable);
     }   
 	
-	public ProjectUnitTestResults mapUnitTestResultsToFile(UnitTestingResults unitTestingResults, MethodToSourceFileIdMap map,SourceFileRepository sourceFileNamesTable) {
+	public ProjectUnitTestResults mapUnitTestResultsToFile(UnitTestingResults unitTestingResults, MethodToSourceFileIdRepository map,SourceFileRepository sourceFileNamesTable) {
 		Map<String,ClassUnitTestResult> unitTestFilesResultRegistry = new HashMap<String,ClassUnitTestResult>();
 
 		Collection<UnitTestMethodResult>unitTests=unitTestingResults.values();

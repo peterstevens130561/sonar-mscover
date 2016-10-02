@@ -30,7 +30,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 
 public class MethodToSourceFileIdMapTest {
 
-	MethodToSourceFileIdMap map = new MethodToSourceFileIdMap();
+	MethodToSourceFileIdRepository map = new MethodToSourceFileIdRepository();
 	
 	@Test
 	public void emptyMapReturnsNull() {

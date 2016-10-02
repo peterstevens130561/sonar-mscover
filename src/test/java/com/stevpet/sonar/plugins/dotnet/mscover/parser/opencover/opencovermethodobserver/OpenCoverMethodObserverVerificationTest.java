@@ -36,7 +36,7 @@ import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
 import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverMethodObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRepository;
 
 public class OpenCoverMethodObserverVerificationTest {
 	 
@@ -46,15 +46,15 @@ public class OpenCoverMethodObserverVerificationTest {
 	private static final String BHI_JEWEL_EARTH_THIN_CLIENT_SERVICE = "BHI.JewelEarth.ThinClient.Service";
 	private static final String NAMESPACE_NAME = BHI_JEWEL_EARTH_THIN_CLIENT_SERVICE;
 	private static final String MODULE_NAME = "BHI.JewelEarth.ThinClient.Service.dll";
-	private MethodToSourceFileIdMap mockRegistry ;
+	private MethodToSourceFileIdRepository mockRegistry ;
 	private OpenCoverMethodObserver observer;
 	
     @Before
     public void before() {
     	observer = new OpenCoverMethodObserver();
-    	MethodToSourceFileIdMap registry = new MethodToSourceFileIdMap();
+    	MethodToSourceFileIdRepository registry = new MethodToSourceFileIdRepository();
         observer.setRegistry(registry);
-		mockRegistry = mock(MethodToSourceFileIdMap.class);    
+		mockRegistry = mock(MethodToSourceFileIdRepository.class);    
         observer.setRegistry(mockRegistry);
         XmlParser parser = new DefaultXmlParser();
         parser.registerObserver(observer);

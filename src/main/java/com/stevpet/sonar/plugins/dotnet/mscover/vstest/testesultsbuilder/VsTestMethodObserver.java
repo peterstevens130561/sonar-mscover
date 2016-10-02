@@ -24,18 +24,18 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.testesultsbuilder;
 import com.stevpet.sonar.plugins.common.api.parser.ParserObserver;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRepository;
 
 public class VsTestMethodObserver implements ParserObserver {
 
-    private MethodToSourceFileIdMap methodToSourceFileIdMap;
+    private MethodToSourceFileIdRepository methodToSourceFileIdMap;
     private String nameSpaceName;
     private String className;
     private String methodFullName;
     private String moduleName;
     private boolean lookForLine;
 
-    public void setRegistry(MethodToSourceFileIdMap methodToSourceFileIdMap) {
+    public void setRegistry(MethodToSourceFileIdRepository methodToSourceFileIdMap) {
         this.methodToSourceFileIdMap = methodToSourceFileIdMap;
 
     }
