@@ -3,7 +3,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.unittestrepository.impl;
 
 import java.util.List;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodIds;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTest;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.MethodRepository;

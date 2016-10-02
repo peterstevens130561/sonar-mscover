@@ -49,13 +49,13 @@ public class VsTestSourceFileNamesObserverTest extends VsTestObserverTest {
 		createNewDoc();
 		String doc = docToString();
 		parser.parseString(doc);
-		assertEquals("elements",0,sourceFileNameTable.size());
+		assertEquals("elements",0,sourceFileNameTable.stream().count());
 	}
 	
 	@Test
 	public void oneFile_OneElementInTable() {
 		createOneFile();
-		assertEquals("elements",1,sourceFileNameTable.size());		
+		assertEquals("elements",1,sourceFileNameTable.stream().count());		
 	}
 	
 	@Test
@@ -65,7 +65,7 @@ public class VsTestSourceFileNamesObserverTest extends VsTestObserverTest {
 		createFileName("file2", "10");
 		String doc = docToString();
 		parser.parseString(doc);
-		assertEquals("elements",2,sourceFileNameTable.size());		
+		assertEquals("elements",2,sourceFileNameTable.stream().count());		
 	}
 	@Test
 	public void oneFile_ShouldBeRightElement() {

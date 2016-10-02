@@ -23,8 +23,10 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercovera
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -61,9 +63,8 @@ public class OpenCoverFileNamesAndIdObserverTest {
 	
 	@Test
 	public void checkRegistry() {
-		SourceFileNameRow row = registry.get(84);
-		assertNotNull(row);
-		assertEquals("c:\\Development\\bogus.cs",row.getSourceFileName());
-		assertEquals(84,row.getSourceFileID());
+		Optional<SourceFileNameRow> row = registry.stream().filter(r -> r.getSourceFileID()==84).findFirst();
+		assertTrue(row.isPresent());
+		assertEquals("c:\\Development\\bogus.cs",row.get().getSourceFileName());
 	}
 }

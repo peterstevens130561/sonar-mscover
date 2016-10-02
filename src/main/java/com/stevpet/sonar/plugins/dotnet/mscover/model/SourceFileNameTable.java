@@ -23,6 +23,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * The table provides a means to lookup id by the name {@link getSourceFileId}
@@ -43,27 +44,12 @@ public class SourceFileNameTable  {
     	row.setSourceFileName(filePath);
     }
     
-    public SourceFileNameRow getNewRow(String fileId) {
+    private SourceFileNameRow getNewRow(String fileId) {
         SourceFileNameRow row = new SourceFileNameRow().setSourceFileID(Integer.parseInt(fileId));
         add(row);
         return row;
     }
-
-    /**
-     * makes sure that the file is in the table, returns it's id
-     * @param fileName
-     * @return
-     */
-    public int getSourceFileId(String fileName) {
-        Integer id=mapNameToId.get(fileName);
-        if(id==null) {
-            id= ++maxId;
-            SourceFileNameRow model = new SourceFileNameRow(id,fileName);
-            add(model);
-        }
-        return id;
-    }
-    
+ 
     private void add(SourceFileNameRow row) {
     	int key=row.getSourceFileID();
         rows.put(key,row);
@@ -76,16 +62,11 @@ public class SourceFileNameTable  {
        return rows.get(index);
     }
 
-    public SourceFileNameRow get(int index) {
-       return rows.get(index);
-    }
-    public int size() {
-        return rows.size();
+
+    public Stream<SourceFileNameRow> stream() {
+        return rows.values().stream();
     }
     
-    public Collection<SourceFileNameRow> values() {
-        return rows.values();
-    }
 
     /**
      * 

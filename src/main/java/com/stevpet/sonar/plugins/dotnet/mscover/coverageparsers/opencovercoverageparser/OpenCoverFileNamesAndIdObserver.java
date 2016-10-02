@@ -23,7 +23,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercovera
 
 import com.stevpet.sonar.plugins.common.api.parser.ParserObserver;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameRow;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 
 public class OpenCoverFileNamesAndIdObserver implements ParserObserver {
