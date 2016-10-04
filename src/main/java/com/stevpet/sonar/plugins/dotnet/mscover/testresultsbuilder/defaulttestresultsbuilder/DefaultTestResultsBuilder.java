@@ -51,6 +51,12 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
 
 
     private MethodRepository methodRepository ;
+
+
+    private SourceFileRepository sourceFileRepository;
+
+
+    private UnitTestRegistry testResults;
 	
     public DefaultTestResultsBuilder(FileNamesParser fileNamesParser,TestResultsParser testResultsParser) {
     	this.fileNamesParser = fileNamesParser;
@@ -61,14 +67,6 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
  
 	@Override
 	public ProjectUnitTestResults parse(File testResultsFile, File coverageFile) {
-
-    	fileNamesParser.parse(coverageFile);
-    	methodRepository = fileNamesParser.getMethodToSourceFileIdMap();
-    	SourceFileRepository sourceFileRepository= fileNamesParser.getSourceFileRepository();
-    	
-
-    	testResultsParser.parse(testResultsFile);
-    	UnitTestRegistry testResults = testResultsParser.getUnitTestRegistry();
     	
     	return mapUnitTestResultsToFile(testResults.getTestingResults(),methodRepository,sourceFileRepository);
     }   
@@ -113,6 +111,21 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
 	 */
     protected String onNotFound(MethodId methodId) {
         return null;
+    }
+
+
+    @Override
+    public void parseCoverage(File coverageFile) {
+        fileNamesParser.parse(coverageFile);
+        methodRepository = fileNamesParser.getMethodToSourceFileIdMap();
+        sourceFileRepository = fileNamesParser.getSourceFileRepository();
+    }
+
+
+    @Override
+    public void parseTestResults(File testResultsFile) {
+        testResultsParser.parse(testResultsFile);
+        testResults = testResultsParser.getUnitTestRegistry();
     }
     
 }

@@ -174,8 +174,14 @@ public class SpecflowIntegrationTestRunner implements
 			throw new IllegalStateException(msg);
 		}
 		testResults = testResultsFile == null ? new ProjectUnitTestResults()
-				: testResultsBuilder.parse(testResultsFile, moduleCoverageFile);
+				: getTestResults(testResultsFile, moduleCoverageFile);
 	}
+
+    private ProjectUnitTestResults getTestResults(File testResultsFile, File moduleCoverageFile) {
+        testResultsBuilder.parseCoverage(coverageFile);
+        testResultsBuilder.parseTestResults(testResultsFile);
+        return testResultsBuilder.parse(testResultsFile, moduleCoverageFile);
+    }
 
 
 	@Override

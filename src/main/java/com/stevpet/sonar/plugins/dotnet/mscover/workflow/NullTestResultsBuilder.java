@@ -35,5 +35,12 @@ class NullTestResultsBuilder implements TestResultsBuilder {
 	public ProjectUnitTestResults parse(File testResultsFile, File coverageFile) {
 		return new ProjectUnitTestResults();
 	}
+    @Override
+    public void parseCoverage(File coverageFile) {
+        
+    }
+    @Override
+    public void parseTestResults(File testResults) {
+    }
 
 }

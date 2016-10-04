@@ -67,7 +67,7 @@ public class TestResultsBuilderTest {
 	
 	@Test
 	public void NoTestResults_ShouldHaveEmptyResults() {
-		ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.parse(null, null);
+	    ProjectUnitTestResults projectUnitTestResults = parse();
 		assertNotNull("parse should always return valid object",projectUnitTestResults);
 		assertEquals("no results expected",0,projectUnitTestResults.values().size());
 	}
@@ -86,7 +86,7 @@ public class TestResultsBuilderTest {
 			.setOutcome("Failed")
 			.setTestName("method1").addToParent();
 	
-		ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.parse(null, null);
+	      ProjectUnitTestResults projectUnitTestResults = parse();
 		assertNotNull("parse should always return valid object",projectUnitTestResults);
 		assertEquals("One results expected",1,projectUnitTestResults.values().size());
 	}
@@ -103,9 +103,16 @@ public class TestResultsBuilderTest {
 			.setModuleFromCodeBase(MODULE)
 			.setTestName("bogus").addToParent();
 
-		ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.parse(null, null);
+	   ProjectUnitTestResults projectUnitTestResults = parse();
 		assertNotNull("parse should always return valid object",projectUnitTestResults);
 		assertEquals("No results expected",0,projectUnitTestResults.values().size());
 	}
+
+    private ProjectUnitTestResults parse() {
+        testResultsBuilder.parseCoverage(null);
+            testResultsBuilder.parseTestResults(null);
+        	ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.parse(null, null);
+        return projectUnitTestResults;
+    }
 	
 }

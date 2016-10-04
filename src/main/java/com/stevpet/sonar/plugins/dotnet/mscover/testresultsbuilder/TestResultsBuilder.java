@@ -35,4 +35,8 @@ public interface TestResultsBuilder extends BatchExtension {
      * @return
      */
     ProjectUnitTestResults parse(File testResultsFile, File coverageFile);
+    
+    void parseCoverage(File coverageFile);
+    
+    void parseTestResults(File testResults);
 }

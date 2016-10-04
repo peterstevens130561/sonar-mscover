@@ -177,6 +177,8 @@ public class OpenCoverUnitTestSensor implements Sensor {
 
         if (testResultsFile != null
                 && microsoftWindowsEnvironment.isUnitTestProject(project,pattern)) {
+            testResultsBuilder.parseCoverage(coverageFile);
+            testResultsBuilder.parseTestResults(testResultsFile);
             ProjectUnitTestResults testResults = testResultsBuilder.parse(
                     testResultsFile, coverageFile);
             Log.debug("test results read {}", testResults.getTests());
