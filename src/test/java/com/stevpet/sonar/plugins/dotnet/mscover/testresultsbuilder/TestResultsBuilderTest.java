@@ -58,9 +58,9 @@ public class TestResultsBuilderTest {
 		testResultsParserMock.givenTestResults(testResults);
 		
 		org.mockito.MockitoAnnotations.initMocks(this);
-		
-		testResultsBuilder = new DefaultTestResultsBuilder(fileNamesParser, testResultsParserMock.getMock(), methodToSourceFileIdMap, sourceFileNamesTable);
-		sourceFileNamesTable = new DefaultSourceFileRepository();
+        sourceFileNamesTable = new DefaultSourceFileRepository();
+        
+		testResultsBuilder = new DefaultTestResultsBuilder(fileNamesParser, testResultsParserMock.getMock(), methodToSourceFileIdMap, sourceFileNamesTable,testResults);
 		when(fileNamesParser.getMethodToSourceFileIdMap()).thenReturn(methodToSourceFileIdMap);
 		when(fileNamesParser.getSourceFileRepository()).thenReturn(sourceFileNamesTable);
 	}

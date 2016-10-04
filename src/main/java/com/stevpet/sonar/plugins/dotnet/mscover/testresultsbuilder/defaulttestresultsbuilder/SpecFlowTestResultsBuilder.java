@@ -43,8 +43,8 @@ public class SpecFlowTestResultsBuilder extends DefaultTestResultsBuilder {
     private final Logger LOG = LoggerFactory.getLogger(SpecFlowTestResultsBuilder.class);
     private SpecFlowScenarioMethodResolver specFlowScenarioMethodResolver;
 
-    public SpecFlowTestResultsBuilder(FileNamesParser fileNamesParser, TestResultsParser testResultsParser,SpecFlowScenarioMethodResolver specFlowScenarioMethodResolver, MethodRepository methodRepository, SourceFileRepository sourceFileRepository) {
-        super(fileNamesParser, testResultsParser,methodRepository,sourceFileRepository);
+    public SpecFlowTestResultsBuilder(FileNamesParser fileNamesParser, TestResultsParser testResultsParser,SpecFlowScenarioMethodResolver specFlowScenarioMethodResolver, MethodRepository methodRepository, SourceFileRepository sourceFileRepository,UnitTestRegistry unitTestRegistry) {
+        super(fileNamesParser, testResultsParser,methodRepository,sourceFileRepository, unitTestRegistry);
         this.specFlowScenarioMethodResolver = specFlowScenarioMethodResolver;
     }
 
@@ -58,7 +58,7 @@ public class SpecFlowTestResultsBuilder extends DefaultTestResultsBuilder {
         return new SpecFlowTestResultsBuilder (
 				new OpenCoverFileNamesParser(methodRepository,sourceFileRepository), 
 				new DefaultTestResultsParser(unitTestRegistry), 
-				new SpecFlowScenarioMethodResolver(microsoftWindowsEnvironment), methodRepository, sourceFileRepository
+				new SpecFlowScenarioMethodResolver(microsoftWindowsEnvironment), methodRepository, sourceFileRepository, unitTestRegistry
 				);
 	}
    

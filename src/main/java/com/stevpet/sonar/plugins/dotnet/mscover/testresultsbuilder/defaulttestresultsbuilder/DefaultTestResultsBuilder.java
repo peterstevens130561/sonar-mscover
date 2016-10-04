@@ -58,11 +58,12 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
 
     private UnitTestRegistry testResults;
 	
-    public DefaultTestResultsBuilder(FileNamesParser fileNamesParser,TestResultsParser testResultsParser,MethodRepository methodRepository, SourceFileRepository sourceFileRepository) {
+    public DefaultTestResultsBuilder(FileNamesParser fileNamesParser,TestResultsParser testResultsParser,MethodRepository methodRepository, SourceFileRepository sourceFileRepository,UnitTestRegistry unitTestRegistry) {
     	this.fileNamesParser = fileNamesParser;
     	this.testResultsParser = testResultsParser;
     	this.methodRepository = methodRepository;
     	this.sourceFileRepository=sourceFileRepository;
+    	this.testResults=unitTestRegistry;
     }
     
  
@@ -72,7 +73,7 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
     	return mapUnitTestResultsToFile(testResults.getTestingResults(),methodRepository,sourceFileRepository);
     }   
 	
-	public ProjectUnitTestResults mapUnitTestResultsToFile(UnitTestingResults unitTestingResults, MethodRepository map,SourceFileRepository sourceFileNamesTable) {
+	public ProjectUnitTestResults mapUnitTestResultsToFile(UnitTestingResults unitTestingResults, MethodRepository map,SourceFileRepository sourceFileRepository) {
 		Map<String,ClassUnitTestResult> unitTestFilesResultRegistry = new HashMap<String,ClassUnitTestResult>();
 
 		Collection<UnitTestMethodResult>unitTests=unitTestingResults.values();
@@ -81,7 +82,7 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
 			String fileId = map.getFileId(methodId);
 			String filePath=null;
 			if(fileId!=null) {
-		         filePath = sourceFileNamesTable.getSourceFileName(fileId);
+		         filePath = sourceFileRepository.getSourceFileName(fileId);
 			}
 
 			if (filePath==null) {
@@ -118,15 +119,15 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
     @Override
     public void parseCoverage(File coverageFile) {
         fileNamesParser.parse(coverageFile);
-        methodRepository = fileNamesParser.getMethodToSourceFileIdMap();
-        sourceFileRepository = fileNamesParser.getSourceFileRepository();
+        //methodRepository = fileNamesParser.getMethodToSourceFileIdMap();
+        //sourceFileRepository = fileNamesParser.getSourceFileRepository();
     }
 
 
     @Override
     public void parseTestResults(File testResultsFile) {
         testResultsParser.parse(testResultsFile);
-        testResults = testResultsParser.getUnitTestRegistry();
+        //testResults = testResultsParser.getUnitTestRegistry();
     }
     
 }
