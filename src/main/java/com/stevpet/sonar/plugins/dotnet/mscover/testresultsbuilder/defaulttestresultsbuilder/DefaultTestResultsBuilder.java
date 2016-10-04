@@ -58,10 +58,11 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
 
     private UnitTestRegistry testResults;
 	
-    public DefaultTestResultsBuilder(FileNamesParser fileNamesParser,TestResultsParser testResultsParser) {
+    public DefaultTestResultsBuilder(FileNamesParser fileNamesParser,TestResultsParser testResultsParser,MethodRepository methodRepository, SourceFileRepository sourceFileRepository) {
     	this.fileNamesParser = fileNamesParser;
     	this.testResultsParser = testResultsParser;
-    	this.methodRepository = new MethodToSourceFileIdRepository();
+    	this.methodRepository = methodRepository;
+    	this.sourceFileRepository=sourceFileRepository;
     }
     
  

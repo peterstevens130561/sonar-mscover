@@ -59,7 +59,7 @@ public class TestResultsBuilderTest {
 		
 		org.mockito.MockitoAnnotations.initMocks(this);
 		
-		testResultsBuilder = new DefaultTestResultsBuilder(fileNamesParser, testResultsParserMock.getMock());
+		testResultsBuilder = new DefaultTestResultsBuilder(fileNamesParser, testResultsParserMock.getMock(), methodToSourceFileIdMap, sourceFileNamesTable);
 		sourceFileNamesTable = new DefaultSourceFileRepository();
 		when(fileNamesParser.getMethodToSourceFileIdMap()).thenReturn(methodToSourceFileIdMap);
 		when(fileNamesParser.getSourceFileRepository()).thenReturn(sourceFileNamesTable);
