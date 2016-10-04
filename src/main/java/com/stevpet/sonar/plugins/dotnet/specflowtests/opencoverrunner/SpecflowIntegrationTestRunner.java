@@ -180,7 +180,7 @@ public class SpecflowIntegrationTestRunner implements
     private ProjectUnitTestResults getTestResults(File testResultsFile, File moduleCoverageFile) {
         testResultsBuilder.parseCoverage(coverageFile);
         testResultsBuilder.parseTestResults(testResultsFile);
-        return testResultsBuilder.parse(testResultsFile, moduleCoverageFile);
+        return testResultsBuilder.getTestResults();
     }
 
 

@@ -32,7 +32,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBu
 class NullTestResultsBuilder implements TestResultsBuilder {
 	private static final Logger LOG = LoggerFactory.getLogger(NullTestResultsBuilder.class);
 	@Override
-	public ProjectUnitTestResults parse(File testResultsFile, File coverageFile) {
+	public ProjectUnitTestResults getTestResults() {
 		return new ProjectUnitTestResults();
 	}
     @Override

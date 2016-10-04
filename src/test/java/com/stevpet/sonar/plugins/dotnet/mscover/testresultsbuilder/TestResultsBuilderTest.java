@@ -111,7 +111,7 @@ public class TestResultsBuilderTest {
     private ProjectUnitTestResults parse() {
         testResultsBuilder.parseCoverage(null);
             testResultsBuilder.parseTestResults(null);
-        	ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.parse(null, null);
+        	ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.getTestResults();
         return projectUnitTestResults;
     }
 	

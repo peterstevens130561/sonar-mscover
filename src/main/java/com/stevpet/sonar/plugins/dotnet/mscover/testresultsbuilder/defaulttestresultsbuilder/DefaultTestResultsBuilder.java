@@ -66,7 +66,7 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
     
  
 	@Override
-	public ProjectUnitTestResults parse(File testResultsFile, File coverageFile) {
+	public ProjectUnitTestResults getTestResults() {
     	
     	return mapUnitTestResultsToFile(testResults.getTestingResults(),methodRepository,sourceFileRepository);
     }   

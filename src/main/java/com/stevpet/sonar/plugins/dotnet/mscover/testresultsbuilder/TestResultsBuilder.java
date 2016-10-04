@@ -29,12 +29,12 @@ public interface TestResultsBuilder extends BatchExtension {
     /**
      * given the coverage file and the test results file, build a repository of
      * test results
-     * 
      * @param valid
      *            testResultsFile
+     * 
      * @return
      */
-    ProjectUnitTestResults parse(File testResultsFile, File coverageFile);
+    ProjectUnitTestResults getTestResults();
     
     void parseCoverage(File coverageFile);
     

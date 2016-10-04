@@ -83,7 +83,7 @@ public class SensorAnalyzeTest {
         when(runner.getTestResultsFile()).thenReturn(testResultsFile);
         when(cache.getTestCoverageFile()).thenReturn(coverageFile);
         when(cache.getTestResultsFile()).thenReturn(new File("testResults"));
-        when(testResultsBuilder.parse(testResultsFile, coverageFile))
+        when(testResultsBuilder.getTestResults())
                 .thenReturn(projectUnitTestResults);
     }
 
