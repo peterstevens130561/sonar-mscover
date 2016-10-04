@@ -29,6 +29,11 @@ import org.slf4j.LoggerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverFileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.MethodRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl.DefaultSourceFileRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsParser;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
@@ -46,9 +51,13 @@ public class SpecFlowTestResultsBuilder extends DefaultTestResultsBuilder {
     public static TestResultsBuilder create (
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment
 			) {
-		return new SpecFlowTestResultsBuilder (
-				new OpenCoverFileNamesParser(), 
-				new DefaultTestResultsParser(), 
+        MethodRepository methodRepository = new MethodToSourceFileIdRepository();
+		SourceFileRepository sourceFileRepository = new DefaultSourceFileRepository();
+        UnitTestRegistry unitTestRegistry = new UnitTestRegistry();
+        
+        return new SpecFlowTestResultsBuilder (
+				new OpenCoverFileNamesParser(methodRepository,sourceFileRepository), 
+				new DefaultTestResultsParser(unitTestRegistry), 
 				new SpecFlowScenarioMethodResolver(microsoftWindowsEnvironment)
 				);
 	}

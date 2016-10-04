@@ -28,6 +28,7 @@ import com.stevpet.sonar.plugins.common.api.parser.ParserObserver;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.MethodRepository;
 
 /**
  * observer is used to find the methods that may be used as unit tests.
@@ -38,7 +39,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRep
  */
 public class OpenCoverMethodObserver implements ParserObserver {
 
-    private MethodToSourceFileIdRepository registry;
+    private MethodRepository registry;
     protected String moduleName;
     protected String className;
     
@@ -52,8 +53,8 @@ public class OpenCoverMethodObserver implements ParserObserver {
     }
     
     protected ScanMode scanMode=ScanMode.SCAN ;
-    public void setRegistry(MethodToSourceFileIdRepository registry) {
-        this.registry = registry;
+    public void setRegistry(MethodRepository methodToSourceFileIdMap) {
+        this.registry = methodToSourceFileIdMap;
     }
  
     @Override

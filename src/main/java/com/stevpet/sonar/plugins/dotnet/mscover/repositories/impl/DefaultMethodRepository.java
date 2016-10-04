@@ -36,4 +36,10 @@ public class DefaultMethodRepository implements MethodRepository{
         }
         return list;
     }
+
+    @Override
+    public String getFileId(MethodId methodId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

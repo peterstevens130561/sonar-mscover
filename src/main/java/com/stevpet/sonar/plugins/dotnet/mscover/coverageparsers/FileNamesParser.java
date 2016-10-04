@@ -26,6 +26,7 @@ import java.io.File;
 import org.sonar.api.BatchExtension;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.MethodRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
 
 public interface FileNamesParser extends BatchExtension {
@@ -42,7 +43,7 @@ public interface FileNamesParser extends BatchExtension {
 	 * 
 	 * @return
 	 */
-	MethodToSourceFileIdRepository getMethodToSourceFileIdMap();
+	MethodRepository getMethodToSourceFileIdMap();
 
 	/**
 	 * after {@link parse} invoke to get the {@link SourceFileRepository}

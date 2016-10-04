@@ -36,6 +36,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.MethodRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
@@ -47,10 +48,14 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
 
 	private final FileNamesParser fileNamesParser;
 	private final TestResultsParser testResultsParser;
+
+
+    private MethodRepository methodRepository ;
 	
     public DefaultTestResultsBuilder(FileNamesParser fileNamesParser,TestResultsParser testResultsParser) {
     	this.fileNamesParser = fileNamesParser;
     	this.testResultsParser = testResultsParser;
+    	this.methodRepository = new MethodToSourceFileIdRepository();
     }
     
  
@@ -58,17 +63,17 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
 	public ProjectUnitTestResults parse(File testResultsFile, File coverageFile) {
 
     	fileNamesParser.parse(coverageFile);
-    	MethodToSourceFileIdRepository methodToSourceFileIdMap=fileNamesParser.getMethodToSourceFileIdMap();
-    	SourceFileRepository sourceFileNamesTable= fileNamesParser.getSourceFileRepository();
+    	methodRepository = fileNamesParser.getMethodToSourceFileIdMap();
+    	SourceFileRepository sourceFileRepository= fileNamesParser.getSourceFileRepository();
     	
 
     	testResultsParser.parse(testResultsFile);
     	UnitTestRegistry testResults = testResultsParser.getUnitTestRegistry();
     	
-    	return mapUnitTestResultsToFile(testResults.getTestingResults(),methodToSourceFileIdMap,sourceFileNamesTable);
+    	return mapUnitTestResultsToFile(testResults.getTestingResults(),methodRepository,sourceFileRepository);
     }   
 	
-	public ProjectUnitTestResults mapUnitTestResultsToFile(UnitTestingResults unitTestingResults, MethodToSourceFileIdRepository map,SourceFileRepository sourceFileNamesTable) {
+	public ProjectUnitTestResults mapUnitTestResultsToFile(UnitTestingResults unitTestingResults, MethodRepository map,SourceFileRepository sourceFileNamesTable) {
 		Map<String,ClassUnitTestResult> unitTestFilesResultRegistry = new HashMap<String,ClassUnitTestResult>();
 
 		Collection<UnitTestMethodResult>unitTests=unitTestingResults.values();

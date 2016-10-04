@@ -65,6 +65,7 @@ public class SpecFlowScenarioMethodResolverTest {
             }
         fail("expect MSCoverException on invalid file");  
     }
+    
     @Test
     public void OneUnitTestSourceFiles() {
         givenFeatureFile();

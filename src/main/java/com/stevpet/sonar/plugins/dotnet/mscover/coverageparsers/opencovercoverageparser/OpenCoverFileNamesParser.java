@@ -29,21 +29,26 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverFileNamesAndIdObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverMethodObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.MethodRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl.DefaultSourceFileRepository;
 
 public class OpenCoverFileNamesParser implements FileNamesParser {
 
-	private MethodToSourceFileIdRepository methodToSourceFileIdMap;
+	private MethodRepository methodToSourceFileIdMap;
 	private SourceFileRepository sourceFileRepository;
-	/* (non-Javadoc)
+	public OpenCoverFileNamesParser(MethodRepository methodRepository,SourceFileRepository sourceFileRepository) {
+        this.methodToSourceFileIdMap=methodRepository;
+        this.sourceFileRepository=sourceFileRepository;
+    }
+
+
+    /* (non-Javadoc)
 	 * @see com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.FileNamesParser#parse(java.io.File, com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRepository, com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable)
 	 */
 	@Override
 	public void parse(File coverageFile) {
 		
-		methodToSourceFileIdMap=new MethodToSourceFileIdRepository();
-		sourceFileRepository = new DefaultSourceFileRepository();
 		XmlParser xmlParser = new DefaultXmlParser();
 
 		OpenCoverMethodObserver methodObserver = new OpenCoverMethodObserver();
@@ -58,7 +63,7 @@ public class OpenCoverFileNamesParser implements FileNamesParser {
 
 
 	@Override
-	public MethodToSourceFileIdRepository getMethodToSourceFileIdMap() {
+	public MethodRepository getMethodToSourceFileIdMap() {
 		return methodToSourceFileIdMap;
 	}
 

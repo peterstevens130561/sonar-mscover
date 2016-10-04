@@ -37,7 +37,9 @@ import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverag
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.MethodRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl.DefaultSourceFileRepository;
 
 /**
  * Integration test!
@@ -49,12 +51,14 @@ public class OpenCoverCoverageParserTest {
     private OpenCoverFileNamesParser fileNamesParser;
     @Mock private MsCoverConfiguration configuration;
     private ProjectCoverageRepository registry;
+    private MethodRepository methodRepository = new MethodToSourceFileIdRepository();
+    private SourceFileRepository sourcefileRepository= new DefaultSourceFileRepository();
     
     @Before
     public void before() {
         initMocks(this);
         coverageParser = new OpenCoverCoverageParser(configuration);
-        fileNamesParser = new OpenCoverFileNamesParser();
+        fileNamesParser = new OpenCoverFileNamesParser(methodRepository,sourcefileRepository);
         registry = new DefaultProjectCoverageRepository();
         
     }
@@ -72,7 +76,7 @@ public class OpenCoverCoverageParserTest {
         assertNotNull("file is in resources",mixedFile);
         fileNamesParser.parse(mixedFile);
         SourceFileRepository table = fileNamesParser.getSourceFileRepository();
-        MethodToSourceFileIdRepository map = fileNamesParser.getMethodToSourceFileIdMap();
+        MethodRepository map = fileNamesParser.getMethodToSourceFileIdMap();
         assertNotNull(table);
         assertNotNull(map);
         

@@ -6,11 +6,13 @@ import java.io.File;
 
 import org.junit.Test;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsParser;
 
 public class DefaultTestResultsParserTest {
 
-    private final TestResultsParser parser = new DefaultTestResultsParser() ;
+    private UnitTestRegistry repository = new UnitTestRegistry();
+    private final TestResultsParser parser = new DefaultTestResultsParser(repository) ;
     
     @Test
     public void importTest() {

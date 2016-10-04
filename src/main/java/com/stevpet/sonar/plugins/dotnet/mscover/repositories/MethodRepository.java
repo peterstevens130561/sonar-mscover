@@ -18,6 +18,13 @@ public interface MethodRepository {
      * @param methodId - method
      */
     void add(String fileId, MethodId methodId);
+
+    /**
+     * given a method, return the corresponding file
+     * @param methodId
+     * @return
+     */
+    String getFileId(MethodId methodId);
     
 
 }

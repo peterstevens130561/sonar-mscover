@@ -29,14 +29,18 @@ import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsParser;
 
 public class DefaultTestResultsParser implements TestResultsParser {
-	
-	private UnitTestRegistry registry ;
+    
+    private final UnitTestRegistry registry ;
+    
+    public DefaultTestResultsParser(UnitTestRegistry registry) {
+        this.registry=registry;
+    }
+
     /* (non-Javadoc)
 	 * @see com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsParser#parse(com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry, java.io.File)
 	 */
     @Override
 	public void parse(File unitTestResultsFile) {
-    	registry = new UnitTestRegistry();
         XmlParser parser = new DefaultXmlParser();
         
         ResultsObserver resultsObserver = new ResultsObserver();

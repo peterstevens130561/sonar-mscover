@@ -27,6 +27,7 @@ import org.sonar.api.config.Settings;
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.CoverageHashes;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSplitter;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.MethodRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.SpecFlowTestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.DefaultOpenCoverTestRunner;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
@@ -41,8 +42,8 @@ public class DefaultIntegrationTestRunnerFactory implements IntegrationTestRunne
     public DefaultIntegrationTestRunnerFactory(
             MsCoverConfiguration msCoverConfiguration, Settings settings,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-            FileSystem fileSystem
-            ) {
+            FileSystem fileSystem)
+            {
         this.msCoverConfiguration = msCoverConfiguration;
         this.settings = settings;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
