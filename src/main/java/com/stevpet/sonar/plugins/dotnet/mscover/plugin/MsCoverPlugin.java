@@ -119,7 +119,7 @@ public final class MsCoverPlugin extends SonarPlugin {
                 UnitTestWorkflowSensor.class,
                 IntegrationTestCache.class,
                 IntegrationTestWorkflowSensor.class,
-                SupportedLanguage.class,
+                //SupportedLanguage.class,
                 DefaultProcessLock.class,
                 CSharpRegularReSharperProfileExporter.class,
                 CSharpRegularReSharperProfileImporter.class,
