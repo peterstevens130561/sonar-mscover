@@ -7,7 +7,6 @@ import java.io.File;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsParser;
 
 public class DefaultTestResultsParserTest {

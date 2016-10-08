@@ -3,7 +3,6 @@ package com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl;
 import org.sonar.api.BatchExtension;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.MethodRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.Repositories;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;

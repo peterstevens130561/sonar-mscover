@@ -29,13 +29,10 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRepository;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.MethodRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
