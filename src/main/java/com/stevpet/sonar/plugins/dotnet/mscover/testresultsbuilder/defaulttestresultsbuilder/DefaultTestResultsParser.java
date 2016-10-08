@@ -39,9 +39,6 @@ public class DefaultTestResultsParser implements TestResultsParser {
     	registry = new UnitTestRegistry();
         XmlParser parser = new DefaultXmlParser();
         
-        ResultsObserver resultsObserver = new ResultsObserver();
-        resultsObserver.setRegistry(registry.getSummary());
-        parser.registerObserver(resultsObserver);
         
         UnitTestResultObserver unitTestResultObserver = new UnitTestResultObserver();
         unitTestResultObserver.setRegistry(registry.getTestingResults());

@@ -21,27 +21,15 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.registry;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
 
 public class UnitTestRegistry {
     private UnitTestingResults resultRegistry;
-    private TestResults summaryResults;
     
     public UnitTestRegistry() {
-        resultRegistry = new UnitTestingResults();
-        summaryResults = new TestResults();
-        
+        resultRegistry = new UnitTestingResults();        
     }
-    
-    /**
-     * the summary results
-     * @return
-     */
-    @Deprecated
-    public TestResults getSummary() {
-        return summaryResults ;
-    }
+   
     
     public UnitTestingResults getTestingResults() {
         return resultRegistry;
