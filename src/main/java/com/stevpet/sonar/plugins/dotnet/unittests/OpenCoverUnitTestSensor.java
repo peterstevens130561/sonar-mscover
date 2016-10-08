@@ -36,11 +36,14 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.PathResolver;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverFileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.OpenCoverCoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver.DefaultCoverageSaverFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.Repositories;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.SpecFlowTestResultsBuilder;
@@ -75,6 +78,8 @@ public class OpenCoverUnitTestSensor implements Sensor {
     private VsTestTestResultsSaver testResultsSaver;
     private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
     private OverallCoverageRepository overallCoverageCache;
+    private FileNamesParser parser ;
+    private FileNamesParser fileNamesParser;
 
     /**
      * Includes all dependencies
@@ -88,6 +93,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
      * @param coverageReader
      * @param coverageSaver
      * @param microsoftWindowsEnvironment
+     * @param openCoverFileNamesParser 
      */
     public OpenCoverUnitTestSensor(FileSystem fileSystem,
             MsCoverConfiguration configuration,
@@ -96,7 +102,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
             VsTestTestResultsSaver testResultsSaver,
             CoverageReader coverageReader, CoverageSaver coverageSaver,
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-            OverallCoverageRepository overallCoverageCache) {
+            OverallCoverageRepository overallCoverageCache, FileNamesParser fileNamesParser) {
         this.fileSystem = fileSystem;
         this.configuration = configuration;
         this.cache = unitTestBatchData;
@@ -107,6 +113,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
         this.coverageSaver = coverageSaver;
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
         this.overallCoverageCache = overallCoverageCache;
+        this.fileNamesParser=fileNamesParser;
         ;
     }
 
@@ -129,15 +136,17 @@ public class OpenCoverUnitTestSensor implements Sensor {
             MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
             PathResolver pathResolver,
             OverallCoverageRepository overallCoverageCache, 
-            ResourcePerspectives perspectives) {
+            ResourcePerspectives perspectives,
+            Repositories repositories) {
         this(fileSystem, msCoverConfiguration, unitTestBatchData,
                 DefaultOpenCoverTestRunner.create(msCoverConfiguration,settings,
                         microsoftWindowsEnvironment, fileSystem), SpecFlowTestResultsBuilder
-                        .create(microsoftWindowsEnvironment),
+                        .create(microsoftWindowsEnvironment,repositories),
                 VsTestTestResultsSaver.create(pathResolver, fileSystem,perspectives),
                 new OpenCoverCoverageReader(msCoverConfiguration),
                 new DefaultCoverageSaverFactory(microsoftWindowsEnvironment, pathResolver, fileSystem).createOpenCoverUnitTestCoverageSaver(), 
-                microsoftWindowsEnvironment,overallCoverageCache);
+                microsoftWindowsEnvironment,overallCoverageCache,
+                new OpenCoverFileNamesParser(repositories.getMethodRepository(),repositories.getSourceFileRepository())) ;
     }
 
     @Override
@@ -177,7 +186,7 @@ public class OpenCoverUnitTestSensor implements Sensor {
 
         if (testResultsFile != null
                 && microsoftWindowsEnvironment.isUnitTestProject(project,pattern)) {
-            testResultsBuilder.parseCoverage(coverageFile);
+            fileNamesParser.parse(coverageFile);
             testResultsBuilder.parseTestResults(testResultsFile);
             ProjectUnitTestResults testResults = testResultsBuilder.getTestResults();
             Log.debug("test results read {}", testResults.getTests());

@@ -39,6 +39,7 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
+import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragereader.CoverageReader;
 import com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.CoverageSaver;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
@@ -71,6 +72,7 @@ public class SensorAnalyzeTest {
     private File coverageFile = new File("workdir/coverage.xml");
     private ProjectUnitTestResults projectUnitTestResults = new ProjectUnitTestResults();
     @Mock private OverallCoverageRepository overallCoverageCache;
+    @Mock private FileNamesParser fileNamesParser;
 
     @Before
     public void before() {
@@ -78,7 +80,7 @@ public class SensorAnalyzeTest {
 
         sensor = new OpenCoverUnitTestSensor(fileSystem, configuration, cache,
                 runner, testResultsBuilder, testResultsSaver, coverageReader,
-                coverageSaver, microsoftWindowsEnvironment, overallCoverageCache);
+                coverageSaver, microsoftWindowsEnvironment, overallCoverageCache,fileNamesParser);
         when(fileSystem.workDir()).thenReturn(new File("workdir"));
         when(runner.getTestResultsFile()).thenReturn(testResultsFile);
         when(cache.getTestCoverageFile()).thenReturn(coverageFile);

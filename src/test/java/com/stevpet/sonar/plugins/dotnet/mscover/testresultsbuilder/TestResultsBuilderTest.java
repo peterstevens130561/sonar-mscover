@@ -40,9 +40,8 @@ import static org.mockito.Mockito.when;
 public class TestResultsBuilderTest {
 	private TestResultsBuilder testResultsBuilder ;
 	@Mock private FileNamesParser fileNamesParser ; 
-	private TestResultsParserMock testResultsParserMock = new TestResultsParserMock();
 	
-    private UnitTestRegistry testResults;
+    private UnitTestingResults testResults;
     private SourceFileRepository sourceFileNamesTable;
 
     private MethodToSourceFileIdRepository methodToSourceFileIdMap;
@@ -50,17 +49,17 @@ public class TestResultsBuilderTest {
 	private String MODULE = "Module.dll";
 	private String NAMESPACE = "BHI.FUN";
 	private String FULLCLASSNAME = NAMESPACE + "." + CLASS;
+    private @Mock TestResultsParser testResultsParser;
     
 	@Before() 
 	public void before() {
 		methodToSourceFileIdMap = new MethodToSourceFileIdRepository();
-		testResults = new UnitTestRegistry();
-		testResultsParserMock.givenTestResults(testResults);
+		testResults = new UnitTestingResults();
 		
 		org.mockito.MockitoAnnotations.initMocks(this);
         sourceFileNamesTable = new DefaultSourceFileRepository();
         
-		testResultsBuilder = new DefaultTestResultsBuilder(fileNamesParser, testResultsParserMock.getMock(), methodToSourceFileIdMap, sourceFileNamesTable,testResults);
+		testResultsBuilder = new DefaultTestResultsBuilder(testResultsParser, methodToSourceFileIdMap, sourceFileNamesTable,testResults);
 		when(fileNamesParser.getMethodToSourceFileIdMap()).thenReturn(methodToSourceFileIdMap);
 		when(fileNamesParser.getSourceFileRepository()).thenReturn(sourceFileNamesTable);
 	}
@@ -77,7 +76,7 @@ public class TestResultsBuilderTest {
 		methodToSourceFileIdMap.add("1", new MethodId(MODULE,NAMESPACE,CLASS,"method1"));
 	
 		sourceFileNamesTable.add("1", "myname");
-		UnitTestingResults results=testResults.getTestingResults();
+		UnitTestingResults results=testResults;
 
 		results.newEntry().setClassName(FULLCLASSNAME)
 			.setNamespaceNameFromClassName(FULLCLASSNAME)
@@ -97,7 +96,7 @@ public class TestResultsBuilderTest {
 		methodToSourceFileIdMap.add("1", new MethodId(MODULE,NAMESPACE,CLASS,"method1"));
 	    sourceFileNamesTable.add("1", "myname");
 		
-		UnitTestingResults results=testResults.getTestingResults();
+		UnitTestingResults results=testResults;
 		results.newEntry().setClassName(FULLCLASSNAME)
 			.setNamespaceNameFromClassName(FULLCLASSNAME)
 			.setModuleFromCodeBase(MODULE)

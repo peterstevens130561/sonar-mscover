@@ -33,6 +33,7 @@ import org.sonar.api.SonarPlugin;
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultIntegrationTestsConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.failfast.FailFastSensor;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl.ModuleRepositories;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.DefaultOpenCoverCommandLineConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.vstest.results.VsTestEnvironment;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.IntegrationTestCache;
@@ -75,6 +76,7 @@ public final class MsCoverPlugin extends SonarPlugin {
         List clazzes=Arrays.asList(  
                 FailFastSensor.class, // executed first
         		VsTestEnvironment.class,
+        		ModuleRepositories.class,
         		DefaultMicrosoftWindowsEnvironment.class,
         		DefaultMsCoverConfiguration.class,
         		DefaultIntegrationTestsConfiguration.class,

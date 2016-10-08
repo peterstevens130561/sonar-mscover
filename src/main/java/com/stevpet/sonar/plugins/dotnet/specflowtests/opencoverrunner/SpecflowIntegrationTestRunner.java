@@ -85,29 +85,6 @@ public class SpecflowIntegrationTestRunner implements
 
 	}
 
-	/**
-	 * Creates an instance which is to be used in the compositionroot of the
-	 * sensor
-	 * 
-	 * @param integrationTestCache
-	 * @param msCoverConfiguration
-	 * @param microsoftWindowsEnvironment
-	 * @param fileSystem
-	 * @param coverageHashes 
-	 * @param vsTestEnvironment
-	 * @return
-	 */
-	public static SpecflowIntegrationTestRunner create(
-			MsCoverConfiguration msCoverConfiguration,
-			MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
-			FileSystem fileSystem,Settings settings, CoverageHashes coverageHashes) {
-		return new SpecflowIntegrationTestRunner(
-				new OpenCoverModuleSplitter(coverageHashes), DefaultOpenCoverTestRunner.create(
-						msCoverConfiguration, settings,microsoftWindowsEnvironment,
-						fileSystem),
-				SpecFlowTestResultsBuilder.create(microsoftWindowsEnvironment));
-	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -174,11 +151,11 @@ public class SpecflowIntegrationTestRunner implements
 			throw new IllegalStateException(msg);
 		}
 		testResults = testResultsFile == null ? new ProjectUnitTestResults()
-				: getTestResults(testResultsFile, moduleCoverageFile);
+				: getTestResults(testResultsFile);
 	}
 
-    private ProjectUnitTestResults getTestResults(File testResultsFile, File moduleCoverageFile) {
-        testResultsBuilder.parseCoverage(coverageFile);
+    private ProjectUnitTestResults getTestResults(File testResultsFile) {
+        
         testResultsBuilder.parseTestResults(testResultsFile);
         return testResultsBuilder.getTestResults();
     }

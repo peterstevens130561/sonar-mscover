@@ -28,6 +28,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.MsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.CoverageHashes;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSplitter;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.MethodRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.Repositories;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl.ModuleRepositories;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.SpecFlowTestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover.DefaultOpenCoverTestRunner;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
@@ -59,7 +61,7 @@ public class DefaultIntegrationTestRunnerFactory implements IntegrationTestRunne
                     new OpenCoverModuleSplitter(coverageHashes), DefaultOpenCoverTestRunner.create(
                             msCoverConfiguration, settings, microsoftWindowsEnvironment,
                             fileSystem),
-                    SpecFlowTestResultsBuilder.create(microsoftWindowsEnvironment));
+                    SpecFlowTestResultsBuilder.create(microsoftWindowsEnvironment, new ModuleRepositories()));
         }
     }
     

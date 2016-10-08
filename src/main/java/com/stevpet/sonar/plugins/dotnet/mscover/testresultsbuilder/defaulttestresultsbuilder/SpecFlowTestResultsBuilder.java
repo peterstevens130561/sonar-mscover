@@ -29,10 +29,13 @@ import org.slf4j.LoggerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverFileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.MethodRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.Repositories;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.SourceFileRepository;
+import com.stevpet.sonar.plugins.dotnet.mscover.repositories.UnitTestRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.repositories.impl.DefaultSourceFileRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsParser;
@@ -43,22 +46,21 @@ public class SpecFlowTestResultsBuilder extends DefaultTestResultsBuilder {
     private final Logger LOG = LoggerFactory.getLogger(SpecFlowTestResultsBuilder.class);
     private SpecFlowScenarioMethodResolver specFlowScenarioMethodResolver;
 
-    public SpecFlowTestResultsBuilder(FileNamesParser fileNamesParser, TestResultsParser testResultsParser,SpecFlowScenarioMethodResolver specFlowScenarioMethodResolver, MethodRepository methodRepository, SourceFileRepository sourceFileRepository,UnitTestRegistry unitTestRegistry) {
-        super(fileNamesParser, testResultsParser,methodRepository,sourceFileRepository, unitTestRegistry);
+    public SpecFlowTestResultsBuilder(TestResultsParser testResultsParser,SpecFlowScenarioMethodResolver specFlowScenarioMethodResolver, MethodRepository methodRepository, SourceFileRepository sourceFileRepository,UnitTestingResults unitTestingResults) {
+        super( testResultsParser,methodRepository,sourceFileRepository, unitTestingResults);
         this.specFlowScenarioMethodResolver = specFlowScenarioMethodResolver;
     }
 
-    public static TestResultsBuilder create (
-			MicrosoftWindowsEnvironment microsoftWindowsEnvironment
-			) {
-        MethodRepository methodRepository = new MethodToSourceFileIdRepository();
-		SourceFileRepository sourceFileRepository = new DefaultSourceFileRepository();
-        UnitTestRegistry unitTestRegistry = new UnitTestRegistry();
+    public static TestResultsBuilder create(MicrosoftWindowsEnvironment microsoftWindowsEnvironment,
+            Repositories repositories) {
+        MethodRepository methodRepository = repositories.getMethodRepository();
+		SourceFileRepository sourceFileRepository = repositories.getSourceFileRepository();
+        UnitTestingResults unitTestingResults= repositories.getUnitTestingResults();
         
         return new SpecFlowTestResultsBuilder (
-				new OpenCoverFileNamesParser(methodRepository,sourceFileRepository), 
-				new DefaultTestResultsParser(unitTestRegistry), 
-				new SpecFlowScenarioMethodResolver(microsoftWindowsEnvironment), methodRepository, sourceFileRepository, unitTestRegistry
+				
+				new DefaultTestResultsParser(unitTestingResults), 
+				new SpecFlowScenarioMethodResolver(microsoftWindowsEnvironment), methodRepository, sourceFileRepository, unitTestingResults
 				);
 	}
    
@@ -72,4 +74,6 @@ public class SpecFlowTestResultsBuilder extends DefaultTestResultsBuilder {
         return file==null?null:file.getAbsolutePath();
         
     }
+
+
 }

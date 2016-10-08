@@ -36,6 +36,7 @@ public interface TestResultsBuilder extends BatchExtension {
      */
     ProjectUnitTestResults getTestResults();
     
+    @Deprecated
     void parseCoverage(File coverageFile);
     
     void parseTestResults(File testResults);
