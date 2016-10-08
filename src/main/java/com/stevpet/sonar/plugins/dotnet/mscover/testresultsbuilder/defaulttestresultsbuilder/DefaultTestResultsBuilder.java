@@ -36,7 +36,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsParser;
@@ -63,9 +62,9 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
     	
 
     	testResultsParser.parse(testResultsFile);
-    	UnitTestRegistry testResults = testResultsParser.getUnitTestRegistry();
+    	UnitTestingResults testResults = testResultsParser.getUnitTestingResults();
     	
-    	return mapUnitTestResultsToFile(testResults.getTestingResults(),methodToSourceFileIdMap,sourceFileNamesTable);
+    	return mapUnitTestResultsToFile(testResults,methodToSourceFileIdMap,sourceFileNamesTable);
     }   
 	
 	public ProjectUnitTestResults mapUnitTestResultsToFile(UnitTestingResults unitTestingResults, MethodToSourceFileIdMap map,SourceFileNameTable sourceFileNamesTable) {

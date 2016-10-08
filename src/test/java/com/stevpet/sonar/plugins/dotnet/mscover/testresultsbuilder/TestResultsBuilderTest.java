@@ -26,20 +26,20 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
-
+import org.mockito.Mock;
+import static org.mockito.Mockito.when;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
-import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.DefaultTestResultsBuilder;
 
 public class TestResultsBuilderTest {
 	private TestResultsBuilder testResultsBuilder ;
 	private FileNamesParserMock fileNamesParserMock = new FileNamesParserMock();
-	private TestResultsParserMock testResultsParserMock = new TestResultsParserMock();
+	@Mock private TestResultsParser testResultsParser;
 	
-    private UnitTestRegistry testResults;
+    private UnitTestingResults testResults;
     private SourceFileNameTable sourceFileNamesTable;
 
     private MethodToSourceFileIdMap methodToSourceFileIdMap;
@@ -50,10 +50,11 @@ public class TestResultsBuilderTest {
     
 	@Before() 
 	public void before() {
+	    org.mockito.MockitoAnnotations.initMocks(this);
 		methodToSourceFileIdMap = new MethodToSourceFileIdMap();
-		testResults = new UnitTestRegistry();
-		testResultsParserMock.givenTestResults(testResults);
-		testResultsBuilder = new DefaultTestResultsBuilder(fileNamesParserMock.getMock(), testResultsParserMock.getMock());
+		testResults = new UnitTestingResults();
+		when(testResultsParser.getUnitTestingResults()).thenReturn(testResults);
+		testResultsBuilder = new DefaultTestResultsBuilder(fileNamesParserMock.getMock(), testResultsParser);
 		sourceFileNamesTable = new SourceFileNameTable();
 		fileNamesParserMock.givenSourceFileNamesTable(sourceFileNamesTable);
 		fileNamesParserMock.givenGetMethodToSourceFileIdMap(methodToSourceFileIdMap);
@@ -72,7 +73,7 @@ public class TestResultsBuilderTest {
 	
 		sourceFileNamesTable.getNewRow("1").setSourceFileName("myname");
 	
-		UnitTestingResults results=testResults.getTestingResults();
+		UnitTestingResults results=testResults;
 
 		results.newEntry().setClassName(FULLCLASSNAME)
 			.setNamespaceNameFromClassName(FULLCLASSNAME)
@@ -94,7 +95,7 @@ public class TestResultsBuilderTest {
 		
 		sourceFileNamesTable.getNewRow("1").setSourceFileName("myname");
 		
-		UnitTestingResults results=testResults.getTestingResults();
+		UnitTestingResults results=testResults;
 		results.newEntry().setClassName(FULLCLASSNAME)
 			.setNamespaceNameFromClassName(FULLCLASSNAME)
 			.setModuleFromCodeBase(MODULE)
