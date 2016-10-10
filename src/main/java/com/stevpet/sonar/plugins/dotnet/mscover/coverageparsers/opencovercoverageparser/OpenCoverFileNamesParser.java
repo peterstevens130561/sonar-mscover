@@ -35,24 +35,29 @@ public class OpenCoverFileNamesParser implements FileNamesParser {
 
 	private MethodToSourceFileIdMap methodToSourceFileIdMap;
 	private SourceFileNameTable sourceFileNameTable;
+	
+    public OpenCoverFileNamesParser(MethodToSourceFileIdMap map, SourceFileNameTable sourceFileNamesTable) {
+        this.methodToSourceFileIdMap=map;
+        this.sourceFileNameTable=sourceFileNamesTable;
+    }
+    private  void parse(MethodToSourceFileIdMap methodToSourceFileIdMap, File coverageFile) {
+        XmlParser xmlParser = new DefaultXmlParser();
+
+        OpenCoverMethodObserver methodObserver = new OpenCoverMethodObserver();
+        methodObserver.setRegistry(methodToSourceFileIdMap);
+        xmlParser.registerObserver(methodObserver);
+
+        OpenCoverFileNamesAndIdObserver sourceFileNamesObserver = new OpenCoverFileNamesAndIdObserver();
+        sourceFileNamesObserver.setRegistry(sourceFileNameTable);
+        xmlParser.registerObserver(sourceFileNamesObserver);
+        xmlParser.parseFile(coverageFile);  
+    }
 	/* (non-Javadoc)
 	 * @see com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.FileNamesParser#parse(java.io.File, com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap, com.stevpet.sonar.plugins.dotnet.mscover.registry.SourceFileNameTable)
 	 */
 	@Override
 	public void parse(File coverageFile) {
-		
-		methodToSourceFileIdMap=new MethodToSourceFileIdMap();
-		sourceFileNameTable = new SourceFileNameTable();
-		XmlParser xmlParser = new DefaultXmlParser();
-
-		OpenCoverMethodObserver methodObserver = new OpenCoverMethodObserver();
-		methodObserver.setRegistry(methodToSourceFileIdMap);
-		xmlParser.registerObserver(methodObserver);
-
-		OpenCoverFileNamesAndIdObserver sourceFileNamesObserver = new OpenCoverFileNamesAndIdObserver();
-		sourceFileNamesObserver.setRegistry(sourceFileNameTable);
-		xmlParser.registerObserver(sourceFileNamesObserver);
-		xmlParser.parseFile(coverageFile);
+		parse(methodToSourceFileIdMap, coverageFile);
 	}
 
 
@@ -65,4 +70,5 @@ public class OpenCoverFileNamesParser implements FileNamesParser {
 	public SourceFileNameTable getSourceFileNamesTable() {
 		return sourceFileNameTable;
 	}
+
 }

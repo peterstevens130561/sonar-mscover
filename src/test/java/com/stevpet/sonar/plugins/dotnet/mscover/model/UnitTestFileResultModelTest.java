@@ -97,21 +97,24 @@ public class UnitTestFileResultModelTest {
     
     @Test
     public void checkDuration() {
-        UnitTestMethodResult test = new UnitTestMethodResult();
+        UnitTestMethodResult test = newUnitTestMethod();
         LocalTime localTime = LocalTime.of(0, 3, 10, 11150000);
         test.setTime(localTime).setOutcome("Failed");
         fileResult.add(test);
         Assert.assertEquals((Double)((3*60+10)*1000.0 + 11),fileResult.getLocalTimeMillis());       
     }
+    private UnitTestMethodResult newUnitTestMethod() {
+        return new UnitTestMethodResult("SOMEID");
+    }
     
     @Test
     public void checkDurationAdd() {
-        UnitTestMethodResult test = new UnitTestMethodResult();
+        UnitTestMethodResult test = newUnitTestMethod();
         LocalTime localTime = LocalTime.of(0, 3, 10, 11150000);
         test.setTime(localTime).setOutcome("Failed");
         fileResult.add(test);
         
-        test = new UnitTestMethodResult();
+        test = newUnitTestMethod();
         localTime = LocalTime.of(1, 1, 10, 0);
         test.setTime(localTime).setOutcome("Failed");
         fileResult.add(test);
@@ -119,18 +122,18 @@ public class UnitTestFileResultModelTest {
         
     }
     private void addFailedTest() {
-        UnitTestMethodResult failedTest = new UnitTestMethodResult();
+        UnitTestMethodResult failedTest = newUnitTestMethod();
         failedTest.setOutcome("Failed");
         fileResult.add(failedTest);
     }
     private void addPassedTest() {
-        UnitTestMethodResult passedTest = new UnitTestMethodResult();
+        UnitTestMethodResult passedTest = newUnitTestMethod();
         passedTest.setOutcome("Passed");
         fileResult.add(passedTest);
     }
     
     private void addIgnoredTest() {
-        UnitTestMethodResult ignoredTest = new UnitTestMethodResult();
+        UnitTestMethodResult ignoredTest = newUnitTestMethod();
         ignoredTest.setOutcome("NotExecuted");
         fileResult.add(ignoredTest);
     }

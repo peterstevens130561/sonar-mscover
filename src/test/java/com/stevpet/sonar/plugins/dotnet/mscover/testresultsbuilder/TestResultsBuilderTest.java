@@ -30,16 +30,18 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.when;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.VsTestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.DefaultProjectUnitTestResultsService;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.DefaultTestResultsBuilder;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.ProjectUnitTestResultsService;
 
 public class TestResultsBuilderTest {
 	private TestResultsBuilder testResultsBuilder ;
 	private FileNamesParserMock fileNamesParserMock = new FileNamesParserMock();
 	@Mock private TestResultsParser testResultsParser;
 	
-    private UnitTestingResults testResults;
+    private VsTestResults testResults;
     private SourceFileNameTable sourceFileNamesTable;
 
     private MethodToSourceFileIdMap methodToSourceFileIdMap;
@@ -47,22 +49,23 @@ public class TestResultsBuilderTest {
 	private String MODULE = "Module.dll";
 	private String NAMESPACE = "BHI.FUN";
 	private String FULLCLASSNAME = NAMESPACE + "." + CLASS;
+    private ProjectUnitTestResultsService projectUnitTestResultsService ;
     
 	@Before() 
 	public void before() {
 	    org.mockito.MockitoAnnotations.initMocks(this);
 		methodToSourceFileIdMap = new MethodToSourceFileIdMap();
-		testResults = new UnitTestingResults();
-		when(testResultsParser.getUnitTestingResults()).thenReturn(testResults);
-		testResultsBuilder = new DefaultTestResultsBuilder(fileNamesParserMock.getMock(), testResultsParser);
+		testResults = new VsTestResults();
 		sourceFileNamesTable = new SourceFileNameTable();
+		projectUnitTestResultsService = new DefaultProjectUnitTestResultsService(testResults, methodToSourceFileIdMap, sourceFileNamesTable);
+		testResultsBuilder = new DefaultTestResultsBuilder(fileNamesParserMock.getMock(), testResultsParser, projectUnitTestResultsService);
 		fileNamesParserMock.givenSourceFileNamesTable(sourceFileNamesTable);
 		fileNamesParserMock.givenGetMethodToSourceFileIdMap(methodToSourceFileIdMap);
 	}
 	
 	@Test
 	public void NoTestResults_ShouldHaveEmptyResults() {
-		ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.parse(null, null);
+		ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.geProjecttUnitTestResults(null, null);
 		assertNotNull("parse should always return valid object",projectUnitTestResults);
 		assertEquals("no results expected",0,projectUnitTestResults.values().size());
 	}
@@ -72,17 +75,14 @@ public class TestResultsBuilderTest {
 		methodToSourceFileIdMap.add(new MethodId(MODULE,NAMESPACE,CLASS,"method1"), "1");
 	
 		sourceFileNamesTable.getNewRow("1").setSourceFileName("myname");
-	
-		UnitTestingResults results=testResults;
 
-		results.newEntry().setClassName(FULLCLASSNAME)
+		testResults.add("SOMEID").setClassName(FULLCLASSNAME)
 			.setNamespaceNameFromClassName(FULLCLASSNAME)
 			.setModuleFromCodeBase(MODULE)
-			.setTestId("id1")
 			.setOutcome("Failed")
-			.setTestName("method1").addToParent();
+			.setTestName("method1");
 	
-		ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.parse(null, null);
+		ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.geProjecttUnitTestResults(null, null);
 		assertNotNull("parse should always return valid object",projectUnitTestResults);
 		assertEquals("One results expected",1,projectUnitTestResults.values().size());
 	}
@@ -95,13 +95,13 @@ public class TestResultsBuilderTest {
 		
 		sourceFileNamesTable.getNewRow("1").setSourceFileName("myname");
 		
-		UnitTestingResults results=testResults;
-		results.newEntry().setClassName(FULLCLASSNAME)
+		VsTestResults results=testResults;
+		results.add("SOMEID").setClassName(FULLCLASSNAME)
 			.setNamespaceNameFromClassName(FULLCLASSNAME)
 			.setModuleFromCodeBase(MODULE)
-			.setTestName("bogus").addToParent();
+			.setTestName("bogus");
 
-		ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.parse(null, null);
+		ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.geProjecttUnitTestResults(null, null);
 		assertNotNull("parse should always return valid object",projectUnitTestResults);
 		assertEquals("No results expected",0,projectUnitTestResults.values().size());
 	}

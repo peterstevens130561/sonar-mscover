@@ -39,29 +39,18 @@ public class UnitTestMethodResult {
     private String codeBase;
     private String message = StringUtils.EMPTY;
     private String stackTrace;
-    private UnitTestingResults parent;
+    private VsTestResults parent;
 	private String moduleName;
 	private String namespaceName;
 	private String className;
 	private String methodName;
     private LocalTime localTime = LocalTime.MIN;
 
-    UnitTestMethodResult(UnitTestingResults unitTestingResults) {
-        this.parent = unitTestingResults;
+
+    public UnitTestMethodResult(String testId) {
+        this.testId = testId;
     }
 
-    public UnitTestMethodResult() {
-    }
-
-    /**
-     * add this method to the parent
-     * 
-     * @return
-     */
-    public UnitTestMethodResult addToParent() {
-        parent.add(this);
-        return this;
-    }
 
     public String getModuleName() {
         return moduleName;
@@ -73,11 +62,6 @@ public class UnitTestMethodResult {
 
     public String getTestId() {
         return testId;
-    }
-
-    public UnitTestMethodResult setTestId(String testId) {
-        this.testId = testId;
-        return this;
     }
 
     public String getTestName() {

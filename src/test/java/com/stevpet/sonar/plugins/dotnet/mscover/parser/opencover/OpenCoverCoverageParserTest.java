@@ -28,6 +28,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.sonar.test.TestUtils;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -49,12 +50,14 @@ public class OpenCoverCoverageParserTest {
     private OpenCoverFileNamesParser fileNamesParser;
     @Mock private MsCoverConfiguration configuration;
     private ProjectCoverageRepository registry;
+    private MethodToSourceFileIdMap map = new MethodToSourceFileIdMap();
+    private SourceFileNameTable sourceFileNamesTable = new SourceFileNameTable();
     
     @Before
     public void before() {
         initMocks(this);
         coverageParser = new OpenCoverCoverageParser(configuration);
-        fileNamesParser = new OpenCoverFileNamesParser();
+        fileNamesParser = new OpenCoverFileNamesParser(map, sourceFileNamesTable);
         registry = new DefaultProjectCoverageRepository();
         
     }
@@ -64,6 +67,7 @@ public class OpenCoverCoverageParserTest {
         File mixedFile=TestUtils.getResource("OpenCoverCoverageParser/coverage-report.xml");
         assertNotNull("file is in resources",mixedFile);
         coverageParser.parse(registry, mixedFile);
+        assertEquals(210,registry.size());
     }
     
     @Test
@@ -71,10 +75,8 @@ public class OpenCoverCoverageParserTest {
         File mixedFile=TestUtils.getResource("OpenCoverCoverageParser/coverage-report.xml");
         assertNotNull("file is in resources",mixedFile);
         fileNamesParser.parse(mixedFile);
-        SourceFileNameTable table = fileNamesParser.getSourceFileNamesTable();
-        MethodToSourceFileIdMap map = fileNamesParser.getMethodToSourceFileIdMap();
-        assertNotNull(table);
-        assertNotNull(map);
+        assertEquals(3128,map.size());
+        assertEquals(210,sourceFileNamesTable.size());
         
     }
 }

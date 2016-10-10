@@ -21,18 +21,18 @@
  *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.registry;
 
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.VsTestResults;
 
 @Deprecated
 public class UnitTestRegistry {
-    private UnitTestingResults resultRegistry;
+    private VsTestResults resultRegistry;
     
     public UnitTestRegistry() {
-        resultRegistry = new UnitTestingResults();        
+        resultRegistry = new VsTestResults();        
     }
    
     
-    public UnitTestingResults getTestingResults() {
+    public VsTestResults getTestingResults() {
         return resultRegistry;
     }
     

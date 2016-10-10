@@ -34,5 +34,5 @@ public interface TestResultsBuilder extends BatchExtension {
      *            testResultsFile
      * @return
      */
-    ProjectUnitTestResults parse(File testResultsFile, File coverageFile);
+    ProjectUnitTestResults geProjecttUnitTestResults(File testResultsFile, File coverageFile);
 }

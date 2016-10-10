@@ -31,7 +31,7 @@ import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
 import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.VsTestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.ResultsObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.UnitTestDefinitionObserver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder.UnitTestResultObserver;
@@ -55,7 +55,7 @@ public class VsTestResultsParserTest {
     public void parser_GetResults_ShouldMatch() {
         XmlParser xmlParser = createNewParser();
         File file = TestUtils.getResource("results.trx");
-        UnitTestingResults results = new UnitTestingResults();
+        VsTestResults results = new VsTestResults();
         UnitTestResultObserver resultsObserver = new UnitTestResultObserver();
         resultsObserver.setRegistry(results);
         xmlParser.registerObserver(resultsObserver);
@@ -72,7 +72,7 @@ public class VsTestResultsParserTest {
     public void parser_GetResultsWithError_ShouldMatch() {
         XmlParser xmlParser = createNewParser();
         File file = TestUtils.getResource("ResultsWithError.trx");
-        UnitTestingResults results = new UnitTestingResults();
+        VsTestResults results = new VsTestResults();
         UnitTestResultObserver resultsObserver = new UnitTestResultObserver();
         resultsObserver.setRegistry(results);
         xmlParser.registerObserver(resultsObserver);
@@ -86,16 +86,20 @@ public class VsTestResultsParserTest {
     }
     @Test
     public void checkModuleName_ShouldBeLastPart() {
-        UnitTestMethodResult result = new UnitTestMethodResult() ;
+        UnitTestMethodResult result = newUnitTestMethodResult() ;
         String codeBase="c:\\Development\\Jewel.Release.Oahu.StructMod\\JewelEarth\\Core\\joaGeometries\\joaGeometriesUnitTest\\Debug\\joaGeometriesUnitTests.dll";
         String expected = "joaGeometriesUnitTests.dll";
         result.setModuleFromCodeBase(codeBase);
         Assert.assertEquals(expected, result.getModuleName());
     }
+
+    private UnitTestMethodResult newUnitTestMethodResult() {
+        return new UnitTestMethodResult("SOMEID");
+    }
     
     @Test
     public void checkNameSpace_ShouldBeFirstPart() {
-        UnitTestMethodResult result = new UnitTestMethodResult() ;
+        UnitTestMethodResult result = newUnitTestMethodResult() ;
         String className="joaGeometriesUnitTest.joaMeshTriangleTest";
         String expected = "joaGeometriesUnitTest";
         result.setNamespaceNameFromClassName(className);
@@ -104,7 +108,7 @@ public class VsTestResultsParserTest {
     
     @Test
     public void checkNameSpace_ShouldBeEmpty() {
-        UnitTestMethodResult result = new UnitTestMethodResult() ;
+        UnitTestMethodResult result = newUnitTestMethodResult() ;
         String className="joaMeshTriangleTest";
         String expected = "";
         result.setNamespaceNameFromClassName(className);
@@ -114,7 +118,7 @@ public class VsTestResultsParserTest {
     public void parser_GetTest_ShouldMatch() {
         XmlParser xmlParser = createNewParser();
         File file = TestUtils.getResource("results.trx");
-        UnitTestingResults results = new UnitTestingResults();
+        VsTestResults results = new VsTestResults();
         UnitTestResultObserver resultsObserver = new UnitTestResultObserver();
         resultsObserver.setRegistry(results);
         xmlParser.registerObserver(resultsObserver);

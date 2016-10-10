@@ -26,7 +26,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.VsTestResults;
 
 public class UnitTestResultObserverTest {
 
@@ -34,7 +34,7 @@ public class UnitTestResultObserverTest {
     
     @Test
     public void someMilliSeconds() {
-        UnitTestingResults unitTestingResults = new UnitTestingResults();
+        VsTestResults unitTestingResults = new VsTestResults();
         observer.setRegistry(unitTestingResults);
         observer.testId("1");
         observer.duration("00:00:59.12346795");
@@ -44,7 +44,7 @@ public class UnitTestResultObserverTest {
     
     @Test
     public void oneMilliSeconds() {
-        UnitTestingResults unitTestingResults = new UnitTestingResults();
+        VsTestResults unitTestingResults = new VsTestResults();
         observer.setRegistry(unitTestingResults);
         observer.testId("1");
         observer.duration("00:00:00.001230");
@@ -54,7 +54,7 @@ public class UnitTestResultObserverTest {
     
     @Test
     public void almostoneday() {
-        UnitTestingResults unitTestingResults = new UnitTestingResults();
+        VsTestResults unitTestingResults = new VsTestResults();
         observer.setRegistry(unitTestingResults);
         observer.testId("1");
         observer.duration("23:59:59.99999");

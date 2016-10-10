@@ -25,35 +25,33 @@ import java.io.File;
 
 import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
 import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.VsTestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsParser;
 
 public class DefaultTestResultsParser implements TestResultsParser {
 	
-	private UnitTestingResults unitTestsingResults ;
+    private final VsTestResults unitTestingResults;
+    public DefaultTestResultsParser(VsTestResults unitTestingResults) {
+        this.unitTestingResults=unitTestingResults;
+    }
+
     /* (non-Javadoc)
 	 * @see com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsParser#parse(com.stevpet.sonar.plugins.dotnet.mscover.registry.UnitTestRegistry, java.io.File)
 	 */
     @Override
 	public void parse(File unitTestResultsFile) {
-    	unitTestsingResults = new UnitTestingResults();
         XmlParser parser = new DefaultXmlParser();
-        
-        
+       
         UnitTestResultObserver unitTestResultObserver = new UnitTestResultObserver();
-        unitTestResultObserver.setRegistry(unitTestsingResults);
+        unitTestResultObserver.setRegistry(unitTestingResults);
         parser.registerObserver(unitTestResultObserver);
         
         UnitTestDefinitionObserver unitTestDefinitionObserver = new UnitTestDefinitionObserver();
-        unitTestDefinitionObserver.setRegistry(unitTestsingResults);
+        unitTestDefinitionObserver.setRegistry(unitTestingResults);
         parser.registerObserver(unitTestDefinitionObserver);
 
        parser.parseFile(unitTestResultsFile);
     }
 
-	@Override
-	public UnitTestingResults getUnitTestingResults() {
-		return unitTestsingResults;
-	}
 }

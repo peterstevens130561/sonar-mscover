@@ -30,7 +30,7 @@ public class UnitTestResultModelTest {
     private UnitTestMethodResult model;
     @Before
     public void before() {
-        model = new UnitTestMethodResult();
+        model = new UnitTestMethodResult("SOMEID");
     }
     
     @Test
@@ -40,11 +40,8 @@ public class UnitTestResultModelTest {
     
     @Test
     public void setTestId() {
-        String expected="abcdefg";
+        String expected="SOMEID";
         String actual=model.getTestId();
-        Assert.assertNull(actual);
-        model.setTestId(expected);
-        actual=model.getTestId();
         Assert.assertEquals(expected, actual);
         
         

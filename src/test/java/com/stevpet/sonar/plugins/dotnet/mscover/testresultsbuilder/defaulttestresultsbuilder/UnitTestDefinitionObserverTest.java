@@ -34,12 +34,12 @@ import com.stevpet.sonar.plugins.common.api.parser.XmlParser;
 import com.stevpet.sonar.plugins.common.parser.DefaultXmlParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.TestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.VsTestResults;
 
 public class UnitTestDefinitionObserverTest {
     private final UnitTestDefinitionObserver observer = new UnitTestDefinitionObserver();
     private TestResults data;
-    private UnitTestingResults registry = new UnitTestingResults();
+    private VsTestResults registry = new VsTestResults();
     private UnitTestMethodResult result;
     
     @Before

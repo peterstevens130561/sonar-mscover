@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import com.stevpet.sonar.plugins.common.api.parser.ParserObserver;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.VsTestResults;
 
 /**
  *   <TestDefinitions>
@@ -39,10 +39,10 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
  */
 public class UnitTestDefinitionObserver implements ParserObserver {
 
-    private UnitTestingResults registry;
+    private VsTestResults vsTestResults;
     private UnitTestMethodResult unitTestResult;
-    public void setRegistry(UnitTestingResults registry) {
-        this.registry = registry;
+    public void setRegistry(VsTestResults vsTestResults) {
+        this.vsTestResults = vsTestResults;
     }
     
     @Override
@@ -55,10 +55,10 @@ public class UnitTestDefinitionObserver implements ParserObserver {
             .onAttribute("name",this::name);
     }
     
-    public void id(String value) {
-        unitTestResult=registry.getById(value);
+    public void id(String testId) {
+        unitTestResult=vsTestResults.getById(testId);
         if(unitTestResult==null) {
-            unitTestResult = registry.newEntry().setTestId(value).addToParent();
+            unitTestResult = vsTestResults.add(testId);
         }
     }
     

@@ -30,23 +30,26 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * holds the parsed unit testing results
+ * holds the parsed unit testing results 
  */
-public class UnitTestingResults {
-    private static Logger Log = LoggerFactory.getLogger(UnitTestingResults.class);
+public class VsTestResults {
+    private static Logger Log = LoggerFactory.getLogger(VsTestResults.class);
     // Key: MethodId
     private Map<String, UnitTestMethodResult> unitTestResultsById = new HashMap<String, UnitTestMethodResult>();
-
-    void add(UnitTestMethodResult unitTestResult) {
-        String testId = unitTestResult.getTestId();
+ 
+    /**
+     * Create a new instance of a vstest unitest result
+     * @param testId
+     * @return
+     */
+    public UnitTestMethodResult add(String testId) {
+        UnitTestMethodResult unitTestResult=new UnitTestMethodResult(testId);
         if (unitTestResultsById.containsKey(testId)) {
             Log.warn("UnitTestResult for test already stored :" + testId);
         }
         unitTestResultsById.put(testId, unitTestResult);
-    }
-
-    public UnitTestMethodResult newEntry() {
-        return new UnitTestMethodResult(this);
+        return unitTestResult;
+                
     }
 
     /**

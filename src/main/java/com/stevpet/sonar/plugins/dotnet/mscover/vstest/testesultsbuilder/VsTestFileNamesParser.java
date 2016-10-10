@@ -33,10 +33,7 @@ public class VsTestFileNamesParser implements FileNamesParser {
 
     MethodToSourceFileIdMap methodToSourceFileIdMap;
     SourceFileNameTable sourceFileNameTable;
-
-    @Override
-    public void parse(File coverageFile) {
-        methodToSourceFileIdMap = new MethodToSourceFileIdMap();
+    private void parse(MethodToSourceFileIdMap methodToSourceFileIdMap, File coverageFile) {
         sourceFileNameTable = new SourceFileNameTable();
         XmlParser xmlParser = new DefaultXmlParser();
         VsTestMethodObserver methodObserver = new VsTestMethodObserver();
@@ -46,7 +43,12 @@ public class VsTestFileNamesParser implements FileNamesParser {
         VsTestSourceFileNamesObserver sourceFileNamesObserver = new VsTestSourceFileNamesObserver();
         sourceFileNamesObserver.setRegistry(sourceFileNameTable);
         xmlParser.registerObserver(sourceFileNamesObserver);
-        xmlParser.parseFile(coverageFile);
+        xmlParser.parseFile(coverageFile);    
+    }
+    @Override
+    public void parse(File coverageFile) {
+        methodToSourceFileIdMap = new MethodToSourceFileIdMap();
+        parse(methodToSourceFileIdMap, coverageFile);
     }
 
     @Override
@@ -58,5 +60,6 @@ public class VsTestFileNamesParser implements FileNamesParser {
     public SourceFileNameTable getSourceFileNamesTable() {
         return sourceFileNameTable;
     }
+
 
 }

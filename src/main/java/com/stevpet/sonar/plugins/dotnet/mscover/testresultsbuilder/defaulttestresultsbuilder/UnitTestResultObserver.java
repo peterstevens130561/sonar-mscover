@@ -27,7 +27,7 @@ import com.stevpet.sonar.plugins.common.api.parser.ParserObserver;
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ParserHelper;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestingResults;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.VsTestResults;
 
 /*
  *   <UnitTestResult executionId="a3a9f8e0-1cbf-41c5-ae89-a579d2e6ece5" 
@@ -46,9 +46,9 @@ public class UnitTestResultObserver implements ParserObserver {
 
     private ParserHelper parserHelper = new ParserHelper();
     
-    private UnitTestingResults registry;
+    private VsTestResults registry;
     private UnitTestMethodResult unitTestResult;
-    public void setRegistry(UnitTestingResults registry) {
+    public void setRegistry(VsTestResults registry) {
         this.registry = registry;
     }
  
@@ -67,10 +67,10 @@ public class UnitTestResultObserver implements ParserObserver {
     }
     
 
-    public void testId(String value) {
-        unitTestResult=registry.getById(value);
+    public void testId(String testId) {
+        unitTestResult=registry.getById(testId);
         if(unitTestResult==null) {
-            unitTestResult = registry.newEntry().setTestId(value).addToParent();    
+            unitTestResult = registry.add(testId); 
         }
     }
   

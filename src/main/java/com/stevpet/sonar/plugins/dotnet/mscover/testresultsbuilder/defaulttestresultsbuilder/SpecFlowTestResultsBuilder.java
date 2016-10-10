@@ -29,6 +29,9 @@ import org.slf4j.LoggerFactory;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverFileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
+import com.stevpet.sonar.plugins.dotnet.mscover.model.VsTestResults;
+import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsParser;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
@@ -38,22 +41,26 @@ public class SpecFlowTestResultsBuilder extends DefaultTestResultsBuilder {
     private final Logger LOG = LoggerFactory.getLogger(SpecFlowTestResultsBuilder.class);
     private SpecFlowScenarioMethodResolver specFlowScenarioMethodResolver;
 
-    public SpecFlowTestResultsBuilder(FileNamesParser fileNamesParser, TestResultsParser testResultsParser,SpecFlowScenarioMethodResolver specFlowScenarioMethodResolver) {
-        super(fileNamesParser, testResultsParser);
+    public SpecFlowTestResultsBuilder(FileNamesParser fileNamesParser, TestResultsParser testResultsParser,SpecFlowScenarioMethodResolver specFlowScenarioMethodResolver, ProjectUnitTestResultsService projectUnitTestResultsService) {
+        super(fileNamesParser, testResultsParser, projectUnitTestResultsService);
         this.specFlowScenarioMethodResolver = specFlowScenarioMethodResolver;
     }
 
     public static TestResultsBuilder create (
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment
 			) {
-		return new SpecFlowTestResultsBuilder (
-				new OpenCoverFileNamesParser(), 
-				new DefaultTestResultsParser(), 
-				new SpecFlowScenarioMethodResolver(microsoftWindowsEnvironment)
+		VsTestResults unitTestingResults = new VsTestResults();
+        MethodToSourceFileIdMap map = new MethodToSourceFileIdMap();
+        SourceFileNameTable sourceFileNamesTable = new SourceFileNameTable();
+        return new SpecFlowTestResultsBuilder (
+				new OpenCoverFileNamesParser(map,sourceFileNamesTable), 
+				new DefaultTestResultsParser(unitTestingResults), 
+				new SpecFlowScenarioMethodResolver(microsoftWindowsEnvironment), 
+				new DefaultProjectUnitTestResultsService(unitTestingResults, map, sourceFileNamesTable)
 				);
 	}
    
-    @Override
+    //@Override
     protected String onNotFound(MethodId methodId) {
         String methodName=methodId.getMethodName();
         File  file=specFlowScenarioMethodResolver.getFile(methodName);

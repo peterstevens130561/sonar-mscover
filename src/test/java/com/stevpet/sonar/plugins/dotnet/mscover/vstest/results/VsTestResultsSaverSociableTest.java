@@ -96,7 +96,7 @@ public class VsTestResultsSaverSociableTest {
         when(testPlan.addTestCase("first")).thenReturn(testCase);
         ClassUnitTestResult result = results.addFile(first);
         when(resourceResolver.getFile(first)).thenReturn(sonarFile);
-        UnitTestMethodResult unitTest = new UnitTestMethodResult();
+        UnitTestMethodResult unitTest = newUnitTestMethodResult();
         unitTest.setClassName("class").setMessage("message").setTestName("first").setTimeMicros(25000).setOutcome("Passed").setStackTrace("stacktrace");
         result.add(unitTest);
         saver.save(sensorContext, results);
@@ -110,6 +110,10 @@ public class VsTestResultsSaverSociableTest {
         verify(testCase,times(1)).setType("INTEGRATION");  
         verify(testCase,times(1)).setStackTrace("stacktrace");      
     }
+
+    private UnitTestMethodResult newUnitTestMethodResult() {
+        return new UnitTestMethodResult("SOMEID");
+    }
     @Test
     public void oneFile() {
         results= new ProjectUnitTestResults();
@@ -118,7 +122,7 @@ public class VsTestResultsSaverSociableTest {
         when(testPlan.addTestCase("first")).thenReturn(testCase);
         ClassUnitTestResult result = results.addFile(first);
         when(resourceResolver.getFile(first)).thenReturn(sonarFile);
-        UnitTestMethodResult unitTest = new UnitTestMethodResult();
+        UnitTestMethodResult unitTest = newUnitTestMethodResult();
         unitTest.setClassName("class").setMessage("message").setTestName("first").setTimeMicros(25000).setOutcome("Passed").setStackTrace("stacktrace");
         result.add(unitTest);
         saver.save(sensorContext, results);
@@ -152,7 +156,7 @@ public class VsTestResultsSaverSociableTest {
         when(testPlan.addTestCase("first")).thenReturn(testCase);
         ClassUnitTestResult result = results.addFile(first);
         when(resourceResolver.getFile(first)).thenReturn(sonarFile);
-        UnitTestMethodResult unitTest = new UnitTestMethodResult();
+        UnitTestMethodResult unitTest = newUnitTestMethodResult();
         unitTest.setClassName("class").setMessage("message").setTestName("first").setTimeMicros(25000).setOutcome(outcome).setStackTrace("stacktrace");
         result.add(unitTest);
         saver.save(sensorContext, results);
@@ -165,10 +169,10 @@ public class VsTestResultsSaverSociableTest {
         when(testPlan.addTestCase("first")).thenReturn(testCase);
         ClassUnitTestResult result = results.addFile(first);
         when(resourceResolver.getFile(first)).thenReturn(sonarFile);
-        UnitTestMethodResult unitTest = new UnitTestMethodResult();
+        UnitTestMethodResult unitTest = newUnitTestMethodResult();
         unitTest.setClassName("class").setMessage("message").setTestName("first").setTimeMicros(25000).setOutcome("Passed").setStackTrace("stacktrace");
         result.add(unitTest);
-        unitTest = new UnitTestMethodResult();
+        unitTest = newUnitTestMethodResult();
         when(testPlan.addTestCase("second")).thenReturn(testCase);
         unitTest.setClassName("class").setMessage("message2").setTestName("second").setTimeMicros(5000).setOutcome("Failed").setStackTrace("stacktrace2");
         result.add(unitTest);
