@@ -26,6 +26,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.sonar.test.TestUtils;
 
@@ -37,6 +38,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.parser.exceptions.ParserSubjectE
 public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbsTest {
     private OpenCoverMissingPdbObserverIgnoringSpecifiedPdbs observer;
     private List<String> pdbs = new ArrayList<String>();
+    
+    @Ignore
     @Test(expected=ParserSubjectErrorException.class)
     public void reportWithTwoMissingPdbs_ExpectExepction() {
         //Arrange
@@ -46,6 +49,7 @@ public class OpenCoverMissingPdbObserverIgnoringSpecifiedPdbsTest {
         parser.parseFile(file);
     }
   
+    @Ignore
     @Test(expected=ParserSubjectErrorException.class)
     public void reportWithTwoMissingPdbs_IgnoreBothExpectException() {
         //Arrange

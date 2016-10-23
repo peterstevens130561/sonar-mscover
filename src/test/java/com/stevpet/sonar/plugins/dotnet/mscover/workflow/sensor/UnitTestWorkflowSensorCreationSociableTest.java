@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.picocontainer.DefaultPicoContainer;
 import org.sonar.api.Extension;
@@ -19,6 +20,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.workflow.WorkflowSteps;
 
 public class UnitTestWorkflowSensorCreationSociableTest {
 
+    @Ignore
     @Test
     public void ResolveUnitTestWorkflowSensor() {
         DefaultPicoContainer container = composeDependencies();
@@ -29,6 +31,7 @@ public class UnitTestWorkflowSensorCreationSociableTest {
         }
     }
 
+ 
     @Test
     public void ExecuteUnitTestWorkflowSensor() {
         DefaultPicoContainer container = composeDependencies();

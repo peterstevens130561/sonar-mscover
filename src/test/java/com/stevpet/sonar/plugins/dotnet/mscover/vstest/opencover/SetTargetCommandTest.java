@@ -23,6 +23,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.vstest.opencover;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.opencover.command.OpenCoverCommand;
@@ -37,6 +38,7 @@ public class SetTargetCommandTest {
          openCoverCommand = testHelper.openCoverCommand;
     }
     
+    @Ignore
     @Test
     public void NormalCommand_ShouldSeeCommandLineWithTargetArgsEscaped() {
         OpenCoverTarget target = new Target();

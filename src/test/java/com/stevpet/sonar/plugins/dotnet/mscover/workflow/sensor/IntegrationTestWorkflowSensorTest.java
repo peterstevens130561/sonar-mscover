@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.jfree.util.Log;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.picocontainer.DefaultPicoContainer;
@@ -48,6 +49,7 @@ public class IntegrationTestWorkflowSensorTest {
     }
     
 
+    @Ignore
     @Test
     public void createDependencies() {
         try {

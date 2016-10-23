@@ -116,7 +116,7 @@ public abstract class AbstractAssembliesFinder implements AssembliesFinder {
         if(!StringUtils.isEmpty(buildPlatform)) {
             buildPlatform=buildPlatform.replace(" ", "");
         }
-        File assemblyFile=project.getArtifact(buildConfiguration, buildPlatform);
+        File assemblyFile=project.getArtifactFile();
         if(assemblyFile==null) {
             throw new NoAssemblyDefinedMsCoverException(buildConfiguration,buildPlatform);
         }

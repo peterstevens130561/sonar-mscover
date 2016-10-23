@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.picocontainer.DefaultPicoContainer;
 import org.sonar.test.TestUtils;
@@ -72,6 +73,7 @@ public class OpenCoverWorkflowTest extends AbstractSensorTest {
      * Test on a real project
      */
    
+    @Ignore
     @Test
     public void OpenCoverWorkflow_SociableTest() {
         //Given a solution 

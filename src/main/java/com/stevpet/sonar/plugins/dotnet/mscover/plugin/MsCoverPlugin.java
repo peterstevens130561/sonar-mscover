@@ -65,7 +65,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.workflow.UnitTestBatchData;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.IntegrationTestCache;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.IntegrationTestWorkflowSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.workflow.sensor.UnitTestWorkflowSensor;
-import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.SimpleMicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.DefaultMicrosoftWindowsEnvironment;
+import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.MsBuildRunnerMicrosoftWindowsEnvironment;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioConfiguration;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualStudioProjectBuilder;
 import com.stevpet.sonar.plugings.dotnet.resharper.ReSharperConfiguration;
@@ -106,11 +107,11 @@ public final class MsCoverPlugin extends SonarPlugin {
     public List getExtensions() {
 
         List clazzes=Arrays.asList(
-                SimpleMicrosoftWindowsEnvironment.class,
+                MsBuildRunnerMicrosoftWindowsEnvironment.class,
                 VsTestEnvironment.class,
                 DefaultMsCoverConfiguration.class,
                 ReSharperConfiguration.class,
-                VisualStudioProjectBuilder.class,
+                //VisualStudioProjectBuilder.class,
                 //IntegrationTestLineDecorator.class,
                 //UnitTestLineDecorator.class,
                 //IntegrationTestBlockDecorator.class,
