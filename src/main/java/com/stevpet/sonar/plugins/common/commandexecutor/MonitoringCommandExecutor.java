@@ -1,7 +1,7 @@
-/*******************************************************************************
- * SonarQube MsCover Plugin
- * Copyright (C) 2016 Baker Hughes
- * peter.stevens@bakerhughes.com
+/*
+ * Sonar Integration Test Plugin MSCover
+ * Copyright (C) 2009 ${owner}
+ * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,9 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
- *
- * Author: Peter Stevens, peter.stevens@bakerhughes.com
- *******************************************************************************/
+ */
 package com.stevpet.sonar.plugins.common.commandexecutor;
 
 import java.io.BufferedReader;
