@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,9 +36,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
 
+import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
-
-public class SpecFlowScenarioMethodResolver implements BatchExtension {
+/**
+ * On first invocation will get all the unittest sourcefiles, and extract all test methods, the name of the method
+ * serves as key to map to the sourcefile
+ * 
+ * The algorithm will work in most cases, if the same method is used in other files then the result may be assigned
+ * to the wrong test
+ * 
+ *
+ */
+public class SpecFlowScenarioMethodResolver implements Function<MethodId, String> {
     
     private final Logger LOG = LoggerFactory.getLogger(SpecFlowScenarioMethodResolver.class);
     
@@ -48,6 +58,15 @@ public class SpecFlowScenarioMethodResolver implements BatchExtension {
         this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
     }
     
+    @Override
+    public String apply(MethodId methodId) {
+        String methodName=methodId.getMethodName();
+        File  file=getFile(methodName);
+        if(file==null) {
+            LOG.warn("Tried to resolve a potential specflow method, but failed {}",methodName);
+        }
+        return file==null?null:file.getAbsolutePath();
+    }
     /**
      * Find the sourcefile that declares the given test method as private virtual void [methodName]()
      * @param methodName
@@ -91,4 +110,6 @@ public class SpecFlowScenarioMethodResolver implements BatchExtension {
             throw new IllegalStateException(msg,e);
         }
     }
+
+
 }

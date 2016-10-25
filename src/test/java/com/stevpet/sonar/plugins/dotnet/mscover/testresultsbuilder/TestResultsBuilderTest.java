@@ -28,6 +28,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import static org.mockito.Mockito.when;
+
+import java.io.File;
+
+import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.VsTestResults;
@@ -65,7 +69,7 @@ public class TestResultsBuilderTest {
 	
 	@Test
 	public void NoTestResults_ShouldHaveEmptyResults() {
-		ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.geProjecttUnitTestResults(null, null);
+		ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.getProjecttUnitTestResults(null, null);
 		assertNotNull("parse should always return valid object",projectUnitTestResults);
 		assertEquals("no results expected",0,projectUnitTestResults.values().size());
 	}
@@ -82,9 +86,11 @@ public class TestResultsBuilderTest {
 			.setOutcome("Failed")
 			.setTestName("method1");
 	
-		ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.geProjecttUnitTestResults(null, null);
+		ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.getProjecttUnitTestResults(null, null);
 		assertNotNull("parse should always return valid object",projectUnitTestResults);
 		assertEquals("One results expected",1,projectUnitTestResults.values().size());
+		ClassUnitTestResult unitTestClass = projectUnitTestResults.values().iterator().next();
+		assertEquals(new File("myname"),unitTestClass.getFile());
 	}
 	
 	@Test
@@ -101,7 +107,7 @@ public class TestResultsBuilderTest {
 			.setModuleFromCodeBase(MODULE)
 			.setTestName("bogus");
 
-		ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.geProjecttUnitTestResults(null, null);
+		ProjectUnitTestResults projectUnitTestResults=testResultsBuilder.getProjecttUnitTestResults(null, null);
 		assertNotNull("parse should always return valid object",projectUnitTestResults);
 		assertEquals("No results expected",0,projectUnitTestResults.values().size());
 	}

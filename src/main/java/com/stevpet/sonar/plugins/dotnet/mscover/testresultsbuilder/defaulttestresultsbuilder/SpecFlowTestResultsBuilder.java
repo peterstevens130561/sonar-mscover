@@ -28,25 +28,23 @@ import org.slf4j.LoggerFactory;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.opencovercoverageparser.OpenCoverFileNamesParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.SourceFileNameTable;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.VsTestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
+import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsParser;
 import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnvironment;
 
-public class SpecFlowTestResultsBuilder extends DefaultTestResultsBuilder {
+public class SpecFlowTestResultsBuilder implements TestResultsBuilder {
 
     private final Logger LOG = LoggerFactory.getLogger(SpecFlowTestResultsBuilder.class);
-    private SpecFlowScenarioMethodResolver specFlowScenarioMethodResolver;
-
-    public SpecFlowTestResultsBuilder(FileNamesParser fileNamesParser, TestResultsParser testResultsParser,SpecFlowScenarioMethodResolver specFlowScenarioMethodResolver, ProjectUnitTestResultsService projectUnitTestResultsService) {
-        super(fileNamesParser, testResultsParser, projectUnitTestResultsService);
-        this.specFlowScenarioMethodResolver = specFlowScenarioMethodResolver;
+    private TestResultsBuilder testResultsBuilder ;
+    public SpecFlowTestResultsBuilder(FileNamesParser fileNamesParser, TestResultsParser testResultsParser, ProjectUnitTestResultsService projectUnitTestResultsService) {
+        testResultsBuilder = new DefaultTestResultsBuilder(fileNamesParser, testResultsParser, projectUnitTestResultsService);
     }
 
-    public static TestResultsBuilder create (
+    public static SpecFlowTestResultsBuilder create (
 			MicrosoftWindowsEnvironment microsoftWindowsEnvironment
 			) {
 		VsTestResults unitTestingResults = new VsTestResults();
@@ -55,19 +53,13 @@ public class SpecFlowTestResultsBuilder extends DefaultTestResultsBuilder {
         return new SpecFlowTestResultsBuilder (
 				new OpenCoverFileNamesParser(map,sourceFileNamesTable), 
 				new DefaultTestResultsParser(unitTestingResults), 
-				new SpecFlowScenarioMethodResolver(microsoftWindowsEnvironment), 
-				new DefaultProjectUnitTestResultsService(unitTestingResults, map, sourceFileNamesTable)
+				new DefaultProjectUnitTestResultsService(unitTestingResults, map, sourceFileNamesTable,new SpecFlowScenarioMethodResolver(microsoftWindowsEnvironment))
 				);
 	}
    
-    //@Override
-    protected String onNotFound(MethodId methodId) {
-        String methodName=methodId.getMethodName();
-        File  file=specFlowScenarioMethodResolver.getFile(methodName);
-        if(file==null) {
-            LOG.warn("Tried to resolve a potential specflow method, but failed {}",methodName);
-        }
-        return file==null?null:file.getAbsolutePath();
-        
+    @Override
+    public ProjectUnitTestResults getProjecttUnitTestResults(File testResultsFile, File coverageFile) {
+        return testResultsBuilder.getProjecttUnitTestResults(testResultsFile, coverageFile);
     }
+
 }

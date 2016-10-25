@@ -22,8 +22,11 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder;
 
 import java.io.File;
+import java.util.function.Function;
 
 import org.sonar.api.BatchExtension;
+
+import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 
 public interface TestResultsBuilder extends BatchExtension {
     /**
@@ -34,5 +37,5 @@ public interface TestResultsBuilder extends BatchExtension {
      *            testResultsFile
      * @return
      */
-    ProjectUnitTestResults geProjecttUnitTestResults(File testResultsFile, File coverageFile);
+    ProjectUnitTestResults getProjecttUnitTestResults(File testResultsFile, File coverageFile);
 }

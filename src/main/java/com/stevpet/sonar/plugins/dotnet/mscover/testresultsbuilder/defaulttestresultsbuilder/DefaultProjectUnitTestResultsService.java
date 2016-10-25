@@ -1,10 +1,12 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,17 +18,25 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.VsTestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.registry.MethodToSourceFileIdMap;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 
+import java.util.function.Function;
 public class DefaultProjectUnitTestResultsService implements ProjectUnitTestResultsService {
     private final static Logger LOG = LoggerFactory.getLogger(DefaultProjectUnitTestResultsService.class);
     private VsTestResults unitTestingResults;
     private SourceFileNameTable sourceFileNamesTable;
     private MethodToSourceFileIdMap methodToSourceFileIdMap;
-
+    Function<MethodId,String> onNotFoundResolver;
 
     public DefaultProjectUnitTestResultsService(VsTestResults unitTestingResults, MethodToSourceFileIdMap map,SourceFileNameTable sourceFileNamesTable) {
         this.unitTestingResults = unitTestingResults;
         this.sourceFileNamesTable = sourceFileNamesTable;
         this.methodToSourceFileIdMap=map;
+    }
+    public DefaultProjectUnitTestResultsService(VsTestResults unitTestingResults, MethodToSourceFileIdMap map,
+            SourceFileNameTable sourceFileNamesTable, Function<MethodId, String> resolver) {
+        this.unitTestingResults = unitTestingResults;
+        this.sourceFileNamesTable = sourceFileNamesTable;
+        this.methodToSourceFileIdMap=map;
+        this.onNotFoundResolver=resolver;
     }
     @Override
     public ProjectUnitTestResults mapUnitTestResultsToFile() {
@@ -41,8 +51,8 @@ public class DefaultProjectUnitTestResultsService implements ProjectUnitTestResu
                  filePath = sourceFileNamesTable.getSourceFileName(fileId);
             }
 
-            if (filePath==null) {
-                filePath=onNotFound(methodId);
+            if (filePath==null && onNotFoundResolver!=null) {
+                filePath=onNotFoundResolver.apply(methodId);
             }
             if(filePath==null) {
                 LOG.warn("Could not find filename for method " + methodId + "");
@@ -61,13 +71,4 @@ public class DefaultProjectUnitTestResultsService implements ProjectUnitTestResu
         return projectUnitTestResults;
     }
 
-
-    /**
-     * extension point to override normal behavior
-     * @param methodId
-     * @return absolute path to the file
-     */
-    protected String onNotFound(MethodId methodId) {
-        return null;
-    }
 }

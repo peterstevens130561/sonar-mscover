@@ -22,7 +22,6 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.defaulttestresultsbuilder;
 
 import java.io.File;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.coverageparsers.FileNamesParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.TestResultsBuilder;
@@ -41,12 +40,11 @@ public class DefaultTestResultsBuilder implements TestResultsBuilder {
     }
  
 	@Override
-	public ProjectUnitTestResults geProjecttUnitTestResults(File testResultsFile, File coverageFile) {
+	public ProjectUnitTestResults getProjecttUnitTestResults(File testResultsFile, File coverageFile) {
     	fileNamesParser.parse(coverageFile);  	
     	testResultsParser.parse(testResultsFile);
     	ProjectUnitTestResults results = projectUnitTestResultsService.mapUnitTestResultsToFile();
     	return results;
-    }   
+    }
 	
-    
 }

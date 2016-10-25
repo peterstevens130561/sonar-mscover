@@ -23,6 +23,8 @@ package com.stevpet.sonar.plugins.dotnet.mscover.model;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Stream;
 
 /**
  * The table provides a means to lookup id by the name {@link getSourceFileId}
@@ -98,6 +100,15 @@ public class SourceFileNameTable  {
             add(model);
         }
         return id;
+    }
+    
+
+    /**
+     * string part is the filename, integer is the id.
+     * @return
+     */
+    public Stream<Entry<String, Integer>> stream() {
+        return mapNameToId.entrySet().stream();
     }
 
 
