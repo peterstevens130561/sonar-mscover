@@ -122,11 +122,11 @@ public final class MsCoverPlugin extends SonarPlugin {
                 IntegrationTestWorkflowSensor.class,
                 //SupportedLanguage.class,
                 DefaultProcessLock.class,
-                CSharpRegularReSharperProfileExporter.class,
-                CSharpRegularReSharperProfileImporter.class,
-                ReSharperSonarWayProfileCSharp.class,
-                ReSharperRuleRepositoryProvider.class, 
-                ReSharperSensor.class, 
+                //CSharpRegularReSharperProfileExporter.class,
+                //CSharpRegularReSharperProfileImporter.class,
+                //ReSharperSonarWayProfileCSharp.class,
+                //ReSharperRuleRepositoryProvider.class, 
+                //ReSharperSensor.class, 
                 DefaultInspectCodeResultsParser.class,
                 DefaultResourceResolver.class, 
                 IntegrationTestResourceResolver.class,
@@ -148,7 +148,7 @@ public final class MsCoverPlugin extends SonarPlugin {
         List extensions = new ArrayList();
         extensions.addAll(clazzes);
         extensions.addAll(BuildWrapperConstants.getProperties());
-        extensions.addAll(ReSharperConfiguration.getProperties());
+        //extensions.addAll(ReSharperConfiguration.getProperties());
         extensions.addAll(DefaultMsCoverConfiguration.getProperties());
         extensions.addAll(VisualStudioConfiguration.getProperties());
         return extensions;
