@@ -22,7 +22,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.commandexecutor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class CommandHelper {
     private CommandHelper() {

@@ -20,7 +20,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.model;
 
 import java.time.LocalTime;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 
 public class UnitTestMethodResult {

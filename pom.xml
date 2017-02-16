@@ -22,21 +22,28 @@
   <dependency>
     <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
     <artifactId>sonar-packaging-maven-plugin</artifactId>
-    <version>1.17</version>
+    <version>1.19-SNAPSHOT</version>
     <scope>provided</scope>
 </dependency>
     <dependency>
       <groupId>org.sonarsource.sonarqube</groupId>
       <artifactId>sonar-plugin-api</artifactId>
-      <version>5.6.3</version>
+      <version>5.6</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
         <groupId>org.sonarsource.sonarqube</groupId>
     <artifactId>sonar-core</artifactId>
-    <version>5.6.3</version>
+    <version>5.6</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>19.0</version>
+</dependency>
+    
         <dependency>
       <groupId>org.powermock</groupId>
       <artifactId>powermock-module-junit4</artifactId>
@@ -76,7 +83,7 @@
        <dependency>
        	<groupId>com.stevpet.sonar</groupId>
        	<artifactId>plugins-dotnet-utils</artifactId>
-       	<version>3.2-SNAPSHOT</version>
+       	<version>4.1</version>
        </dependency>
                <dependency>
             <groupId>com.sun.jersey</groupId>
@@ -87,6 +94,13 @@
     <groupId>org.codehaus.plexus</groupId>
     <artifactId>plexus-utils</artifactId>
     <version>3.0.24</version>
+    
+</dependency>
+                   <!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.4</version>
 </dependency>
   </dependencies>
 
@@ -120,7 +134,7 @@
 
     <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
     <artifactId>sonar-packaging-maven-plugin</artifactId>
-    <version>1.17</version>
+    <version>1.19-SNAPSHOT</version>
         <extensions>true</extensions>
         <configuration>
           <pluginClass>com.stevpet.sonar.plugins.dotnet.mscover.plugin.MsCoverPlugin</pluginClass>

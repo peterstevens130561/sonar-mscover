@@ -33,6 +33,7 @@ import javax.xml.transform.stream.StreamResult;
 import static org.junit.Assert.fail;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 public class VsTestObserverTest {
 
@@ -87,30 +88,22 @@ public class VsTestObserverTest {
 	
 	protected void createModule(String name) {
 		moduleElement=createChild(rootElement,"Module");
-		Element nameElement = doc.createElement("ModuleName");
-		nameElement.setTextContent(name);
-		moduleElement.appendChild(nameElement);
+		addTextElement(moduleElement,"ModuleName",name);
 	}
 		
 	protected void createNamespaceTable(String name) {
 		namespaceTableElement = createChild(moduleElement,"NamespaceTable");
-		Element nameElement = doc.createElement("NamespaceName");
-		nameElement.setTextContent(name);
-		namespaceTableElement.appendChild(nameElement);
+		addTextElement(namespaceTableElement,"NamespaceName",name);
 	}
 	
 	protected void createClass (String name) {
 		classElement = createChild(namespaceTableElement,"Class");
-		Element nameElement = doc.createElement("ClassName");
-		nameElement.setTextContent(name);
-		classElement.appendChild(nameElement);
+		addTextElement(classElement,"ClassName",name);
 	}
 	
 	protected void createMethod (String name) {
 		methodElement = createChild(classElement,"Method");
-		Element nameElement = doc.createElement("MethodFullName");
-		nameElement.setTextContent(name);
-		methodElement.appendChild(nameElement);
+		addTextElement(methodElement,"MethodFullName",name);
 	}
 	
 	private Element createChild(Element parent,String name) {
@@ -126,30 +119,34 @@ public class VsTestObserverTest {
 	protected void createFileName(String name, String id) {
 		Element fileNamesElement = doc.createElement("SourceFileNames");
 		rootElement.appendChild(fileNamesElement);
-		Element sourceFileIdElement = doc.createElement("SourceFileID");
-		sourceFileIdElement.setTextContent(id);
-		fileNamesElement.appendChild(sourceFileIdElement);
-		Element sourceFileNameElement =doc.createElement("SourceFileName");
-		sourceFileNameElement.setTextContent(name);
-		fileNamesElement.appendChild(sourceFileNameElement);
+		
+		addTextElement(fileNamesElement,"SourceFileID",id);
+		addTextElement(fileNamesElement,"SourceFileName",name);
 	}	
 	
 	protected void addLine(String fileID, String line,String coverage) {
 		Element linesElement = doc.createElement("Lines");
-		addLineElement(linesElement,"LnStart",line);
-		addLineElement(linesElement,"ColStart","9");
-		addLineElement(linesElement,"LnEnd","37");
-		addLineElement(linesElement,"ColEnd","10");
-		addLineElement(linesElement,"Coverage",coverage);
-		addLineElement(linesElement,"SourceFileID",fileID);
-		addLineElement(linesElement,"FileID","10");
+		addTextElement(linesElement,"LnStart",line);
+		addTextElement(linesElement,"ColStart","9");
+		addTextElement(linesElement,"LnEnd","37");
+		addTextElement(linesElement,"ColEnd","10");
+		addTextElement(linesElement,"Coverage",coverage);
+		addTextElement(linesElement,"SourceFileID",fileID);
+		addTextElement(linesElement,"FileID","10");
 		methodElement.appendChild(linesElement);
 	}
 	
 	private void addLineElement(Element linesElement,String name, String value) {
 		Element lineElement = doc.createElement(name);
-		lineElement.setTextContent(value);
+		lineElement.setNodeValue(value);
 		linesElement.appendChild(lineElement);
+	}
+	
+	private void addTextElement(Element root,String name,String value) {
+	    Element textElement=doc.createElement(name);
+	    Text text = doc.createTextNode(value);
+	    textElement.appendChild(text);
+	    root.appendChild(textElement);
 	}
 
 }

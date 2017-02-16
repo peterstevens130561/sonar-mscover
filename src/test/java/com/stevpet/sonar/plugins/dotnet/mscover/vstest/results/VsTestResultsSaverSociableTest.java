@@ -40,8 +40,6 @@ import org.sonar.api.scan.filesystem.PathResolver;
 import org.sonar.api.test.MutableTestCase;
 import org.sonar.api.test.MutableTestPlan;
 import org.sonar.api.test.TestCase.Status;
-import org.sonar.core.test.DefaultTestPlan;
-
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.UnitTestMethodResult;
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResourceResolver;
@@ -64,8 +62,6 @@ public class VsTestResultsSaverSociableTest {
     
     @Before
     public void before() {
-        testPlan = new DefaultTestPlan();
-
         org.mockito.MockitoAnnotations.initMocks(this);
         when(perspectives.as(eq(MutableTestPlan.class), any( org.sonar.api.resources.File.class))).thenReturn(testPlan);
         saver = new VsTestTestResultsSaver(resourceResolver, perspectives);

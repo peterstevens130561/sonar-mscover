@@ -19,7 +19,7 @@
  */
 package com.stevpet.sonar.plugins.dotnet.mscover.testrunner.opencover;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.sonar.api.config.Settings;
 
 public class DefaultOpenCoverCommandLineConfiguration implements OpenCoverCommandLineConfiguration {

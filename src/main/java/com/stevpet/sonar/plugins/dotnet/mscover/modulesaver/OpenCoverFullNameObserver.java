@@ -19,7 +19,7 @@
  */
 package com.stevpet.sonar.plugins.dotnet.mscover.modulesaver;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.stevpet.sonar.plugins.common.parser.observerdsl.TopLevelObserverRegistrar;
 

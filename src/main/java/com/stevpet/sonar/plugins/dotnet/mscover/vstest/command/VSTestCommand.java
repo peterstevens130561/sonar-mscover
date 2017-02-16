@@ -22,7 +22,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.vstest.command;
 import java.io.File;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.sonar.api.utils.command.Command;
 
 import com.stevpet.sonar.plugins.common.api.ShellCommand;

@@ -19,7 +19,7 @@
  */
 package com.stevpet.sonar.plugins.dotnet.mscover.housekeeping;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.command.Command;

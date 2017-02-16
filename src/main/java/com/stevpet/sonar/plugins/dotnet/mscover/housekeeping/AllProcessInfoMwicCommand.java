@@ -19,7 +19,7 @@
  */
 package com.stevpet.sonar.plugins.dotnet.mscover.housekeeping;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.sonar.api.utils.command.Command;
 
 import com.google.common.base.Preconditions;

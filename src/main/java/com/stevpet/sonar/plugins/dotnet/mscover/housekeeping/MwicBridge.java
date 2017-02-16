@@ -22,7 +22,7 @@ package com.stevpet.sonar.plugins.dotnet.mscover.housekeeping;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.stevpet.sonar.plugins.common.api.CommandLineExecutor;
 

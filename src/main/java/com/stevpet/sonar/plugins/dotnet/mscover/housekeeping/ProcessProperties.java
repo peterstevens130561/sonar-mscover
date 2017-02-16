@@ -24,7 +24,9 @@ import java.util.Hashtable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.internal.google.common.base.Preconditions;
+
+import com.google.common.base.Preconditions;
+
 
 /**
  * Properties of a process
