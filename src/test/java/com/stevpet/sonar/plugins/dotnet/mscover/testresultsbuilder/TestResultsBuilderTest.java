@@ -25,8 +25,6 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import static org.mockito.Mockito.when;
-
 import java.io.File;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.ClassUnitTestResult;

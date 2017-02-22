@@ -20,11 +20,7 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder;
 
 import java.io.File;
-import java.util.function.Function;
-
 import org.sonar.api.BatchExtension;
-
-import com.stevpet.sonar.plugins.dotnet.mscover.model.MethodId;
 
 public interface TestResultsBuilder extends BatchExtension {
     /**

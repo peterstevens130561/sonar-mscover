@@ -19,14 +19,9 @@
  */
 package com.stevpet.sonar.plugins.dotnet.mscover;
 
-import java.io.Reader;
-
 import org.sonar.api.rules.Rule;
-import org.sonar.api.rules.RulePriority;
 import org.sonar.api.rules.RuleType;
 import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.api.server.rule.RulesDefinition.NewRepository;
-import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 
 public class RuleTest {
     Rule rule = Rule.create();

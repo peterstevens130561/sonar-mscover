@@ -19,8 +19,6 @@
  */
 package com.stevpet.sonar.plugins.dotnet.mscover.model.sonarcoverage;
 
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +29,6 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoints;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
-import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarCoverageSummary;
 
 public class SonarCoverageTest {
 

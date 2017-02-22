@@ -21,6 +21,9 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver.defaultsaver;
 
 
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.sensor.coverage.NewCoverage;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.File;
 
@@ -62,6 +65,8 @@ public class DefaultLineFileCoverageSaver implements LineFileCoverageSaver
             return;
         }
 
+        InputFile inputFile ;
+        NewCoverage newCoverage=sensorContext.newCoverage();
         SonarCoverageSummary summary=coveragePoints.getSummary();
         double coverage = summary.getCoverage();
         sensorContext.saveMeasure(resource, lineCoverageMetrics.getLinesToCoverMetric(), (double) summary.getToCover());
@@ -69,6 +74,7 @@ public class DefaultLineFileCoverageSaver implements LineFileCoverageSaver
         sensorContext.saveMeasure(resource,  lineCoverageMetrics.getCoverageMetric(), coverageSaverHelper.convertPercentage(coverage));
         sensorContext.saveMeasure(resource,  lineCoverageMetrics.getLineCoverageMetric(), coverageSaverHelper.convertPercentage(coverage));
         Measure<?> lineMeasures=coverageSaverHelper.getCoveredHitData( coveragePoints,lineCoverageMetrics.getCoverageLineHitsDataMetric());
+        
         sensorContext.saveMeasure(resource, lineMeasures); 
     }
 
