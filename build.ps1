@@ -32,4 +32,7 @@ Get-ChildItem -Path target -Filter "$TargetSpec" -Recurse -File | Copy-Item -Des
 ls $DestFolder
 &$Git add pom.xml
 &$Git commit --message "snapshot build $Version"
+$myXML.project.version = "4.0-SNAPSHOT"
+$myXML.Save("$ScriptPath/pom.xml")
+
 #&$SonarQube\bin\windows-x86-64\StartSonar.bat
