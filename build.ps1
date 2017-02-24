@@ -30,4 +30,6 @@ if($? -eq $false) {
 Remove-Item -Path "$DestFolder\$TargetSpec"
 Get-ChildItem -Path target -Filter "$TargetSpec" -Recurse -File | Copy-Item -Destination $DestFolder
 ls $DestFolder
+&$Git add pom.xml
+&$Git commit --message "snapshot build $Version"
 #&$SonarQube\bin\windows-x86-64\StartSonar.bat
