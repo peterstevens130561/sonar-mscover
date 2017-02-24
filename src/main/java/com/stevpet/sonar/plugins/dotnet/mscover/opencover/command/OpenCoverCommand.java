@@ -19,6 +19,7 @@
  */
 package com.stevpet.sonar.plugins.dotnet.mscover.opencover.command;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,14 +27,14 @@ import org.sonar.api.utils.command.Command;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+
 import com.stevpet.sonar.plugins.common.api.ShellCommand;
 
 public class OpenCoverCommand implements ShellCommand {
 
     private  String path;
 
-    private Map<String,String> arguments = Maps.newHashMap();
+    private Map<String,String> arguments = new HashMap<String, String>();
     
     @SuppressWarnings("ucd")
     public OpenCoverCommand() {

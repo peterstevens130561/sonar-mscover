@@ -46,12 +46,12 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 import org.sonar.api.utils.System2;
 
 import java.io.File;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 /**
@@ -69,7 +69,7 @@ public class DefaultCommand {
   DefaultCommand(String executable, System2 system) {
     Preconditions.checkArgument(!StringUtils.isBlank(executable), "DefaultCommand executable can not be blank");
     this.executable = executable;
-    this.env = Maps.newHashMap(system.envVariables());
+    this.env = new HashMap<String,String>(system.envVariables());
     this.system = system;
   }
 
