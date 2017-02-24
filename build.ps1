@@ -7,6 +7,7 @@ $TargetSpec="sonar-mscover-plugin-4.0-*.jar"
 &$Git diff-index --quiet HEAD --
 if($? -eq $false) {
     Write-Host "There are uncommitted files, please commit first"
+    &$Git diff-index HEAD --
     exit 1 ;
     }
 echo $ScriptPath
