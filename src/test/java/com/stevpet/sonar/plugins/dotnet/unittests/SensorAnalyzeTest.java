@@ -51,6 +51,7 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.MicrosoftWindowsEnviro
 
 public class SensorAnalyzeTest {
 
+    private static final String TESTPROJECT_LITERALPATTERN = "SpecFlow";
     @Mock
     private FileSystem fileSystem;
     @Mock private MsCoverConfiguration configuration;
@@ -83,6 +84,8 @@ public class SensorAnalyzeTest {
         when(cache.getTestResultsFile()).thenReturn(new File("testResults"));
         when(testResultsBuilder.getProjecttUnitTestResults(testResultsFile, coverageFile))
                 .thenReturn(projectUnitTestResults);
+        Pattern pattern = Pattern.compile(TESTPROJECT_LITERALPATTERN);
+        when(configuration.getTestProjectPattern()).thenReturn(pattern);
     }
 
 
@@ -103,7 +106,7 @@ public class SensorAnalyzeTest {
     
 
     public void runUnitTestsWithPattern() {
-        Pattern pattern = Pattern.compile("SpecFlow");
+        Pattern pattern = Pattern.compile(TESTPROJECT_LITERALPATTERN);
         when(configuration.getTestProjectPattern()).thenReturn(pattern);
         givenIsFirstProject();
         givenIsUnitTestProject();
@@ -114,8 +117,6 @@ public class SensorAnalyzeTest {
 
     @Test
     public void initialRunOnUnitTestProject() {
-        Pattern pattern = Pattern.compile("SpecFlow");
-        when(configuration.getTestProjectPattern()).thenReturn(pattern);
         givenIsFirstProject();
         givenIsUnitTestProject();
         sensor.analyse(module, sensorContext);
@@ -163,6 +164,7 @@ public class SensorAnalyzeTest {
     }
 
     private void givenIsNormalProject() {
+        when(module.getName()).thenReturn("Addin");
         when(microsoftWindowsEnvironment.isUnitTestProject(module)).thenReturn(
                 false);
     }
@@ -182,6 +184,7 @@ public class SensorAnalyzeTest {
     }
 
     private void givenIsUnitTestProject() {
+        when(module.getName()).thenReturn(TESTPROJECT_LITERALPATTERN);       
         when(microsoftWindowsEnvironment.isUnitTestProject(eq(module),any(Pattern.class))).thenReturn(
                 true);
     }

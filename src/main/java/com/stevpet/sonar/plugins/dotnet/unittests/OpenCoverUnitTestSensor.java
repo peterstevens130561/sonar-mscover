@@ -172,9 +172,10 @@ public class OpenCoverUnitTestSensor implements Sensor {
         }
         overallCoverageCache.merge(sonarCoverage, project.getName());
         coverageSaver.save(context, sonarCoverage);
-
+        String projectName=project.getName();
+        boolean isTestProject = pattern.matcher(projectName).matches();
         if (testResultsFile != null
-                && microsoftWindowsEnvironment.isUnitTestProject(project,pattern)) {
+                && isTestProject) {
             ProjectUnitTestResults testResults = testResultsBuilder.getProjecttUnitTestResults(
                     testResultsFile, coverageFile);
             Log.debug("test results read {}", testResults.getTests());
