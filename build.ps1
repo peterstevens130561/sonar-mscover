@@ -12,7 +12,7 @@ if($? -eq $false) {
  }
 
 [xml]$myXML = Get-Content pom.xml
-$TimeStamp = Get-Date -Format "yyMMddhhmm"
+$TimeStamp = Get-Date -Format "yyMMddHHmm"
 $Version="4.0-SN$($TimeStamp)"
 $myXML.project.version = $Version
 $myXML.Save("$ScriptPath/pom.xml")
