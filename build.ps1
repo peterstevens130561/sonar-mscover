@@ -33,6 +33,8 @@ ls $DestFolder
 &$Git add pom.xml
 &$Git commit --message "snapshot build $Version"
 $myXML.project.version = "4.0-SNAPSHOT"
+&$Git add pom.xml
+&$Git commit --message "back to snapshot"
 $myXML.Save("$ScriptPath/pom.xml")
 
 #&$SonarQube\bin\windows-x86-64\StartSonar.bat
