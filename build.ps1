@@ -4,12 +4,25 @@ $DestFolder="$SonarQube\extensions\plugins"
 $ScriptPath = Split-Path $MyInvocation.InvocationName
 $TargetSpec="sonar-mscover-plugin-4.0-*.jar"
 
+[xml]$myXML = Get-Content pom.xml
+$TimeStamp = Get-Date -Format "yyMMddhhmm"
+$Version="4.0-SN$($TimeStamp)"
+$myXML.project.version = $Version
+$myXML.Save("$ScriptPath/pom.xml")
+
 &$Git diff-index --quiet HEAD --
 if($? -eq $false) {
     Write-Host "There are uncommitted files, please commit first"
     &$Git diff-index HEAD --
     exit 1 ;
-    }
+ }
+
+[xml]$myXML = Get-Content pom.xml
+$TimeStamp = Get-Date -Format "yyMMddhhmm"
+$Version="4.0-SN$($TimeStamp)"
+$myXML.project.version = $Version
+$myXML.Save("$ScriptPath/pom.xml")
+
 echo $ScriptPath
 cd $ScriptPath
 if(Test-Path target) {
