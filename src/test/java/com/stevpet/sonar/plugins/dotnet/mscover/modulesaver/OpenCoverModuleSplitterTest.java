@@ -25,7 +25,9 @@ import java.io.FileNotFoundException;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.TransformerException;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.sonar.test.TestUtils;
 
 import com.google.common.io.Files;
@@ -38,14 +40,22 @@ import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSplit
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.eq;
-
+import org.slf4j.Logger;
 public class OpenCoverModuleSplitterTest {
 
 	private CoverageHashes coverageHashes = new CoverageHashes();
 	private String projectName = "bogus";
 	private File root = new File("bogus");
+	@Mock private Logger log;
+	
+	@Before
+	public void before() {
+	    org.mockito.MockitoAnnotations.initMocks(this);
+	}
+	
     @Test
 	public void simpleTest() throws FileNotFoundException, XMLStreamException, TransformerException {
 		File testCoverageFile = TestUtils.getResource("OpenCoverCoverageParser/coverage-report.xml");
@@ -54,6 +64,21 @@ public class OpenCoverModuleSplitterTest {
 		verify(coverageModuleSaver,times(34)).save(eq(root),eq(projectName),anyString());
 	}
 	
+    @Test
+    public void emptyFileTest_shouldThrowException() throws FileNotFoundException, XMLStreamException, TransformerException {
+        File testCoverageFile = TestUtils.getResource("OpenCoverCoverageParser/empty-report.xml");
+        CoverageModuleSaver coverageModuleSaver = mock(CoverageModuleSaver.class);
+        try {
+            new OpenCoverModuleSplitter(coverageModuleSaver,coverageHashes,log).splitCoverageFileInFilePerModule(root, projectName, testCoverageFile);
+        } catch (IllegalStateException e) {
+            verify(coverageModuleSaver,times(0)).save(eq(root),eq(projectName),anyString());
+            verify(log,times(1)).error(anyString());
+            return;
+        }
+        fail("expected IllegalStateException, due to empty file");
+        
+    }
+    
 	@Test
 	public void fullTest() throws FileNotFoundException, XMLStreamException, TransformerException {
 		File testCoverageFile = TestUtils.getResource("OpenCoverCoverageParser/coverage-report.xml");
@@ -63,5 +88,6 @@ public class OpenCoverModuleSplitterTest {
 		OpenCoverCoverageModuleSaver moduleLambda = new OpenCoverCoverageModuleSaver(moduleParser);
 		new OpenCoverModuleSplitter(moduleLambda,coverageHashes).splitCoverageFileInFilePerModule(root, projectName, testCoverageFile);
 	}
+
 
 }

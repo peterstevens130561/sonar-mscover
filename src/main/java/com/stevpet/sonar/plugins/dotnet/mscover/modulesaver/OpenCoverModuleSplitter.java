@@ -47,7 +47,7 @@ import org.slf4j.LoggerFactory;
  * 
  */
 public class OpenCoverModuleSplitter implements ModuleSplitter {
-    private final Logger LOG = LoggerFactory.getLogger(OpenCoverModuleSplitter.class);
+    private Logger LOG = LoggerFactory.getLogger(OpenCoverModuleSplitter.class);
     private CoverageModuleSaver coverageModuleSaver;
     private CoverageHashes coverageHashes;
     private final XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
@@ -70,6 +70,13 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
      */
     public OpenCoverModuleSplitter(CoverageModuleSaver moduleHelper, CoverageHashes coverageHashes) {
         this.coverageModuleSaver = moduleHelper;
+        this.coverageHashes = coverageHashes;
+    }
+
+    public OpenCoverModuleSplitter(CoverageModuleSaver coverageModuleSaver, CoverageHashes coverageHashes,
+            Logger log) {
+        this.LOG=log;
+        this.coverageModuleSaver = coverageModuleSaver;
         this.coverageHashes = coverageHashes;
     }
 
