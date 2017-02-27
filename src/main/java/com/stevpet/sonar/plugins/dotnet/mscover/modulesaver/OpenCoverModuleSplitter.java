@@ -86,8 +86,10 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
         try {
             return split(coverageRootDir, testProjectName, inputStream);
         } catch (XMLStreamException | TransformerException e) {
-            throw new IllegalStateException("XML exception", e);
-        }
+            String msg="XML Exception\nfile " + testCoverageFile.getAbsolutePath() + "\n for project " + testProjectName;
+            LOG.error(msg);
+            throw new IllegalStateException(msg, e);
+        } 
     }
 
     private int split(File coverageRootDir, String testProjectName, InputStream inputStream) throws XMLStreamException,
