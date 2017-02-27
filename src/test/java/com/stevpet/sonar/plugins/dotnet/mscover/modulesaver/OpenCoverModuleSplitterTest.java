@@ -30,16 +30,12 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.sonar.test.TestUtils;
 
-import com.google.common.io.Files;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.CoverageModuleSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.ModuleParser;
-import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverCoverageModuleSaver;
-import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleParser;
 import com.stevpet.sonar.plugins.dotnet.mscover.modulesaver.OpenCoverModuleSplitter;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.eq;
@@ -50,24 +46,35 @@ public class OpenCoverModuleSplitterTest {
 	private String projectName = "bogus";
 	private File root = new File("bogus");
 	@Mock private Logger log;
-	
+	@Mock private CoverageModuleSaver coverageModuleSaver;
 	@Before
 	public void before() {
 	    org.mockito.MockitoAnnotations.initMocks(this);
 	}
 	
+	/**
+	 * The sample file should lead to 34 save actions.
+	 * 
+	 * @throws FileNotFoundException
+	 * @throws XMLStreamException
+	 * @throws TransformerException
+	 */
     @Test
-	public void simpleTest() throws FileNotFoundException, XMLStreamException, TransformerException {
+	public void simpleTest_shouldSave() throws FileNotFoundException, XMLStreamException, TransformerException {
 		File testCoverageFile = TestUtils.getResource("OpenCoverCoverageParser/coverage-report.xml");
-		CoverageModuleSaver coverageModuleSaver = mock(CoverageModuleSaver.class);
-		new OpenCoverModuleSplitter(coverageModuleSaver,coverageHashes).splitCoverageFileInFilePerModule(root, projectName, testCoverageFile);
+		new OpenCoverModuleSplitter(coverageModuleSaver,coverageHashes,log).splitCoverageFileInFilePerModule(root, projectName, testCoverageFile);
 		verify(coverageModuleSaver,times(34)).save(eq(root),eq(projectName),anyString());
 	}
 	
+    /**
+     * Empty file should lead to IllegalStateException
+     * @throws FileNotFoundException
+     * @throws XMLStreamException
+     * @throws TransformerException
+     */
     @Test
     public void emptyFileTest_shouldThrowException() throws FileNotFoundException, XMLStreamException, TransformerException {
         File testCoverageFile = TestUtils.getResource("OpenCoverCoverageParser/empty-report.xml");
-        CoverageModuleSaver coverageModuleSaver = mock(CoverageModuleSaver.class);
         try {
             new OpenCoverModuleSplitter(coverageModuleSaver,coverageHashes,log).splitCoverageFileInFilePerModule(root, projectName, testCoverageFile);
         } catch (IllegalStateException e) {
@@ -79,15 +86,13 @@ public class OpenCoverModuleSplitterTest {
         
     }
     
-	@Test
-	public void fullTest() throws FileNotFoundException, XMLStreamException, TransformerException {
-		File testCoverageFile = TestUtils.getResource("OpenCoverCoverageParser/coverage-report.xml");
-		ModuleParser moduleParser = new OpenCoverModuleParser();
-		Files.createTempDir();
-		
-		OpenCoverCoverageModuleSaver moduleLambda = new OpenCoverCoverageModuleSaver(moduleParser);
-		new OpenCoverModuleSplitter(moduleLambda,coverageHashes).splitCoverageFileInFilePerModule(root, projectName, testCoverageFile);
-	}
-
-
+    /**
+     * Only checks that we can instantiate with the normal parameter.
+     */
+    @Test
+    public void constructorTest_shouldPass() {
+        OpenCoverModuleSplitter splitter = new OpenCoverModuleSplitter(coverageHashes);
+        assertNotNull(splitter);
+    }
+    
 }

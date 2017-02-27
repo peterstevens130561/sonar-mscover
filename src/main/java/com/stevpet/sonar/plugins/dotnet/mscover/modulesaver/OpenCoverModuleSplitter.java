@@ -47,7 +47,7 @@ import org.slf4j.LoggerFactory;
  * 
  */
 public class OpenCoverModuleSplitter implements ModuleSplitter {
-    private Logger LOG = LoggerFactory.getLogger(OpenCoverModuleSplitter.class);
+    private Logger log = LoggerFactory.getLogger(OpenCoverModuleSplitter.class);
     private CoverageModuleSaver coverageModuleSaver;
     private CoverageHashes coverageHashes;
     private final XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
@@ -59,7 +59,7 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
      * @param coverageHashes
      */
     public OpenCoverModuleSplitter(CoverageHashes coverageHashes) {
-        this(new OpenCoverCoverageModuleSaver(new OpenCoverModuleParser()), coverageHashes);
+        this(new OpenCoverCoverageModuleSaver(new OpenCoverModuleParser()), coverageHashes,LoggerFactory.getLogger(OpenCoverModuleSplitter.class));
     }
 
     /**
@@ -67,15 +67,11 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
      * 
      * @param moduleHelper
      * @param coverageHashes
+     * @param  
      */
-    public OpenCoverModuleSplitter(CoverageModuleSaver moduleHelper, CoverageHashes coverageHashes) {
-        this.coverageModuleSaver = moduleHelper;
-        this.coverageHashes = coverageHashes;
-    }
-
     public OpenCoverModuleSplitter(CoverageModuleSaver coverageModuleSaver, CoverageHashes coverageHashes,
             Logger log) {
-        this.LOG=log;
+        this.log=log;
         this.coverageModuleSaver = coverageModuleSaver;
         this.coverageHashes = coverageHashes;
     }
@@ -94,7 +90,7 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
             return split(coverageRootDir, testProjectName, inputStream);
         } catch (XMLStreamException | TransformerException e) {
             String msg="XML Exception\nfile " + testCoverageFile.getAbsolutePath() + "\n for project " + testProjectName;
-            LOG.error(msg);
+            log.error(msg);
             throw new IllegalStateException(msg, e);
         } 
     }
@@ -113,7 +109,7 @@ public class OpenCoverModuleSplitter implements ModuleSplitter {
             while (reader.hasNext()) {
                 reader.next();
                 if (isModuleStartElement(reader)) {
-                    LOG.debug(reader.getLocalName());
+                    log.debug(reader.getLocalName());
                     String xml = getModuleIntoNewXmlDoc(transformer, reader);
                     ++modules;
                     if (!coverageHashes.add(xml)) {
