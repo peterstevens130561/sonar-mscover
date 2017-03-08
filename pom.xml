@@ -5,7 +5,7 @@
   <artifactId>sonar-mscover-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
   <description>Plugin to combine unit testing and integration testing for C#</description>
-  <version>4.0-SN1702270752</version>
+  <version>4.0-SNAPSHOT</version>
   <name>Sonar Integration Test Plugin MSCover</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
