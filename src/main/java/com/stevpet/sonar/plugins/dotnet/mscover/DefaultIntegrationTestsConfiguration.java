@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.BatchExtension;
+import org.sonar.api.batch.BatchSide;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.Settings;
@@ -48,7 +48,8 @@ import com.stevpet.sonar.plugins.dotnet.mscover.property.TestCaseFilterProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.TestRunnerThreadsProperty;
 import com.stevpet.sonar.plugins.dotnet.mscover.property.TestRunnerTimeoutProperty;
 
-public class DefaultIntegrationTestsConfiguration implements IntegrationTestsConfiguration, BatchExtension {
+@BatchSide
+public class DefaultIntegrationTestsConfiguration implements IntegrationTestsConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultIntegrationTestsConfiguration.class);
     public static final String MSCOVER = "sonar.mscover.integrationtests.";
     private static final String MSCOVER_INTEGRATION_RESULTS = DefaultIntegrationTestsConfiguration.MSCOVER + "dir";
@@ -104,7 +105,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
         
         Collection<PropertyDefinition> properties = new ArrayList<>();
         int i=0;
-        for(ConfigurationProperty configurationProperty : propertyBag.getProperties()) {
+        for(ConfigurationProperty<?> configurationProperty : propertyBag.getProperties()) {
             properties.add(configurationProperty.getPropertyBuilder().index(i).build());
             ++i;
         }
@@ -117,7 +118,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
      * Fail Fast through calling this is early as possible
      */
     public void validate() {
-        for(ConfigurationProperty configurationProperty : propertyBag.getProperties()) {
+        for(ConfigurationProperty<?> configurationProperty : propertyBag.getProperties()) {
             configurationProperty.validate();
         }
     }
@@ -148,9 +149,6 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
         return mode;
     }
 
-    private void validateMode() {
-        getMode();
-    }
     private boolean isModulePathChildOfRootPath() {
         String modulePath = fileSystem.baseDir().getAbsolutePath();
         File rootFile = specflowTestsRootProperty.getValue();
@@ -199,9 +197,6 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
         return tool;
     }
 
-    private void validateCoverageTool() {
-        getTool();
-    }
     /**
      * Used by sensors in shouldExecute() to see if they should run.
      * 
@@ -276,7 +271,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
     private class PropertyBag {
         
         private Settings settings;
-        private List<ConfigurationProperty> properties = new ArrayList<>();
+        private List<ConfigurationProperty<?>> properties = new ArrayList<>();
         
 
         
@@ -288,7 +283,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
             T instance;
             try {
                 instance = (T) clazz.getDeclaredConstructor(Settings.class).newInstance(settings);
-                properties.add((ConfigurationProperty) instance);
+                properties.add((ConfigurationProperty<?>) instance);
                 return instance;
             } catch (Exception e) {
                 throw new IllegalStateException(e);
@@ -296,7 +291,7 @@ public class DefaultIntegrationTestsConfiguration implements IntegrationTestsCon
 
         }
        
-       List<ConfigurationProperty> getProperties() {
+       List<ConfigurationProperty<?>> getProperties() {
            return properties;
        }
     }
