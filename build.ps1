@@ -2,7 +2,7 @@
 $SonarQube="C:\Program Files\sonarqube-5.6.6"
 $Destinations="\\dftweb02\SonarQube\sonarqube-5.6.4-Test","C:\Program Files\sonarqube-5.6.6"
 $DestFolder="$SonarQube\extensions\plugins"
-$ScriptPath = Split-Path $MyInvocation.InvocationName
+$ScriptPath = Split-Path "$($MyInvocation.InvocationName)"
 $TargetSpec="sonar-mscover-plugin-4.0-*.jar"
 
 &$Git diff-index --quiet HEAD --
