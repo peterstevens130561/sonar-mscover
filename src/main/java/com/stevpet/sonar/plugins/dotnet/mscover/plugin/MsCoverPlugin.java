@@ -28,7 +28,7 @@ import org.sonar.api.Properties;
 import org.sonar.api.Property;
 import org.sonar.api.PropertyType;
 
-
+import com.stevpet.sonar.plugins.dotnet.experimental.ExperimentalSensor;
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultIntegrationTestsConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.failfast.FailFastSensor;
@@ -69,7 +69,8 @@ public final class MsCoverPlugin implements Plugin {
 
     @Override
     public void define(Context context) {
-        context.addExtensions(getExtensions());        
+        List clazzes=Arrays.asList(ExperimentalSensor.class);
+        context.addExtensions(clazzes);        
     }
 
     @SuppressWarnings({ "rawtypes" })
