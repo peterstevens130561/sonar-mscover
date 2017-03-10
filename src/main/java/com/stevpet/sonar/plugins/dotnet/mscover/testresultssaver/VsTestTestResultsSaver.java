@@ -40,7 +40,7 @@ import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.DefaultResource
 import com.stevpet.sonar.plugins.dotnet.mscover.resourceresolver.ResourceResolver;
 import com.stevpet.sonar.plugins.dotnet.mscover.testresultsbuilder.ProjectUnitTestResults;
 
-public class VsTestTestResultsSaver implements BatchExtension{
+public class VsTestTestResultsSaver  {
     private static final Logger LOG = LoggerFactory
             .getLogger(VsTestTestResultsSaver.class);
     TestResultsSaver testResultsSaver;

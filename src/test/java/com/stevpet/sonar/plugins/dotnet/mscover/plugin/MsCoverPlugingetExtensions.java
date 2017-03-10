@@ -27,7 +27,8 @@ import java.util.List;
 import org.codehaus.plexus.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.SonarPlugin;
+import org.sonar.api.Plugin;
+import org.sonar.api.SonarQubeVersion;
 
 @SuppressWarnings({"unchecked","rawtypes","deprecation"})
 public class MsCoverPlugingetExtensions {
@@ -35,15 +36,17 @@ public class MsCoverPlugingetExtensions {
     Logger LOG = LoggerFactory.getLogger(MsCoverPlugingetExtensions.class);
     
     public void allElementsImplementBatchExtension_Pass() {
-        SonarPlugin classUnderTest = new MsCoverPlugin() ;
+        Plugin plugin = new MsCoverPlugin() ;
         List<String> allowedInterfaces =Arrays.asList("org.sonar.api.resources.Language","org.sonar.api.batch.Sensor","org.sonar.api.BatchExtension","org.sonar.api.BatchComponent","org.sonar.api.batch.Decorator");
 
-        List<Class> plugins = classUnderTest.getExtensions();
+
+        Plugin.Context context = new Plugin.Context(SonarQubeVersion.V5_6);
+        plugin.define(context);
         StringBuilder sb = new StringBuilder();
-        for(Class plugin:plugins) {
-            boolean found = checkImplementation(allowedInterfaces, plugin);
+        for(Object extension:context.getExtensions()) {
+            boolean found = checkImplementation(allowedInterfaces, (Class)extension);
             if ( !found) {
-                sb.append(plugin.getName()).append(" ");
+                sb.append(((Class)extension).getName()).append(" ");
             }
         }
         String failedPlugins=sb.toString();

@@ -22,7 +22,8 @@ package com.stevpet.sonar.plugins.dotnet.unittests;
 import org.junit.Before;
 import org.mockito.Mock;
 import org.picocontainer.DefaultPicoContainer;
-import org.sonar.api.SonarPlugin;
+import org.sonar.api.Plugin;
+import org.sonar.api.SonarQubeVersion;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.config.Settings;
@@ -41,8 +42,10 @@ public class SensorInstantationTest {
 		org.mockito.MockitoAnnotations.initMocks(this);
 		picoContainer = new DefaultPicoContainer() ;
 		picoContainer.addComponent( settings);
-		SonarPlugin plugin = new MsCoverPlugin();
-		for(Object clazz : plugin.getExtensions()) {
+		Plugin plugin = new MsCoverPlugin();
+		Plugin.Context context = new Plugin.Context(SonarQubeVersion.V5_6);
+		plugin.define(context);
+		for(Object clazz : context.getExtensions()) {
 			picoContainer.addComponent(clazz);
 		}
 		

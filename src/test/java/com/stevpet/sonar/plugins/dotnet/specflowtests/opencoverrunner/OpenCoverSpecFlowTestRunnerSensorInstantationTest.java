@@ -23,7 +23,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.picocontainer.DefaultPicoContainer;
+import org.sonar.api.Plugin;
 import org.sonar.api.SonarPlugin;
+import org.sonar.api.SonarQubeVersion;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.PropertyDefinition;
@@ -49,8 +51,10 @@ public class OpenCoverSpecFlowTestRunnerSensorInstantationTest {
 		picoContainer = new DefaultPicoContainer() ;
 		picoContainer.addComponent( settings);
 		picoContainer.addComponent(resourcePerspectives);
-		SonarPlugin plugin = new MsCoverPlugin();
-		for(Object clazz : plugin.getExtensions()) {
+		Plugin plugin = new MsCoverPlugin();
+		   Plugin.Context context = new Plugin.Context(SonarQubeVersion.V5_6);
+		   plugin.define(context);
+		for(Object clazz : context.getExtensions()) {
 
 		    if( !clazz.getClass().isAssignableFrom(PropertyDefinition.class)){
 		        picoContainer.addComponent(clazz);

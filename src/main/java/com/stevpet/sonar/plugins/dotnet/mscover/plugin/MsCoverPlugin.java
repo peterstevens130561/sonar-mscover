@@ -23,10 +23,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.sonar.api.Plugin;
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
 import org.sonar.api.PropertyType;
-import org.sonar.api.SonarPlugin;
+
 
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultIntegrationTestsConfiguration;
 import com.stevpet.sonar.plugins.dotnet.mscover.DefaultMsCoverConfiguration;
@@ -64,9 +65,13 @@ import com.stevpet.sonar.plugins.dotnet.utils.vstowrapper.implementation.VisualS
         @Property(key = DefaultMsCoverConfiguration.MSCOVER_UNITTEST_HINTPATH, name = "hintpath for unit testing dlls", defaultValue = "", global = false, project = true, type = PropertyType.STRING),
         @Property(key = DefaultOpenCoverCommandLineConfiguration.SKIPAUTOPROPS_KEY, name = "skip autoproperties", defaultValue = "true", global = true, project = true, type = PropertyType.BOOLEAN)
         })
-public final class MsCoverPlugin extends SonarPlugin {
+public final class MsCoverPlugin implements Plugin {
 
-    // This is where you're going to declare all your Sonar extensions
+    @Override
+    public void define(Context context) {
+        context.addExtensions(getExtensions());        
+    }
+
     @SuppressWarnings({ "rawtypes" })
     public List getExtensions() {
 
@@ -99,4 +104,6 @@ public final class MsCoverPlugin extends SonarPlugin {
         extensions.addAll(new DefaultIntegrationTestsConfiguration().getProperties());
         return extensions;
     }
+
+
 }
