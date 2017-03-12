@@ -39,9 +39,15 @@ public class DefaultCoverageSerializationService implements CoverageSerializatio
     private void writeLine(LineToCover line) {
         String isCovered=line.getCovered()?"true":"false";
         int lineNumber = line.getLine();
+        int branchesToCover=line.getBranchesToCover();
+        int coveredBranches=line.getCoveredBranches();
         xmlWriter.begin("lineToCover")
             .prop("lineNumber", lineNumber)
             .prop("covered", isCovered);
+        if(branchesToCover>0) {
+            xmlWriter.prop("branchesToCover", branchesToCover)
+            .prop("coveredBranches", coveredBranches);
+        }
         xmlWriter.end();
     }
 

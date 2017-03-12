@@ -127,5 +127,32 @@ public class DefaultCoverageSerializationServiceTests {
         verify(xmlWriter,times(3)).prop(anyString(),anyString());
     }
     
+    @Test
+    public void oneFileOneLineLinesWithBranchInfo_ShouldBeInRepor() {
+        File file = null;
+        repository.linkFileNameToFileId("myfile", "1");
+        repository.addLinePoint("1", 1, true);
+        repository.addBranchPoint("1",1,1,true);
+        repository.addBranchPoint("1",1,2,false);
+        service.Serialize(file, repository);
+        InOrder order = Mockito.inOrder(xmlWriter);
+        
+        //this is the line
+        verify(xmlWriter,times(1)).prop("lineNumber",1);
+        verify(xmlWriter,times(1)).prop("covered","true");
+        // check that there is  attempt to create branch coverage
+        verify(xmlWriter,times(1)).prop("branchesToCover",2);
+        verify(xmlWriter,times(1)).prop("coveredBranches",1);
+        
+
+        //this should be it
+        order.verify(xmlWriter,times(1)).begin("coverage");
+        order.verify(xmlWriter,times(1)).begin("file");
+        order.verify(xmlWriter,times(1)).begin("lineToCover");
+        order.verify(xmlWriter,times(3)).end();
+       
+        // no others should be invoked
+        verify(xmlWriter,times(3)).begin(anyString());
+    }
     
 }
