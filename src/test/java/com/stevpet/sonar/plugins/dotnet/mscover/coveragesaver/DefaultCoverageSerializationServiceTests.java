@@ -13,6 +13,8 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.eq;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
@@ -72,6 +74,9 @@ public class DefaultCoverageSerializationServiceTests {
         verify(xmlWriter,times(1)).prop("lineNumber",1);
         verify(xmlWriter,times(1)).prop("covered","true");
         
+        // check that there is no attempt to create branch coverage
+        verify(xmlWriter,times(0)).prop(eq("branchesToCover"),anyString());
+        verify(xmlWriter,times(0)).prop(eq("coveredBranches"),anyString());
         order.verify(xmlWriter,times(1)).begin("lineToCover");
         order.verify(xmlWriter,times(3)).end();
        
@@ -89,6 +94,11 @@ public class DefaultCoverageSerializationServiceTests {
         service.Serialize(file, repository);
         InOrder order = Mockito.inOrder(xmlWriter);
         
+        // check that there is no attempt to create branch coverage
+        verify(xmlWriter,times(0)).prop(eq("branchesToCover"),anyString());
+        verify(xmlWriter,times(0)).prop(eq("coveredBranches"),anyString());
+        
+        // check two lines are thee
         verify(xmlWriter,times(1)).prop("lineNumber",1);
         verify(xmlWriter,times(1)).prop("covered","true");
         verify(xmlWriter,times(1)).prop("lineNumber",2);
