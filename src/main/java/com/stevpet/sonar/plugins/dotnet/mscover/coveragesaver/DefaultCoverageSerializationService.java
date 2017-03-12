@@ -37,7 +37,12 @@ public class DefaultCoverageSerializationService implements CoverageSerializatio
     }
 
     private void writeLine(LineToCover line) {
-        xmlWriter.begin("lineToCover");
+        String isCovered=line.getCovered()?"true":"false";
+        int lineNumber = line.getLine();
+        xmlWriter.begin("lineToCover")
+            .prop("lineNumber", lineNumber)
+            .prop("covered", isCovered);
+        xmlWriter.end();
     }
 
     private List<LineToCover> GetLinesToCover(SonarFileCoverage fileCoverage) {
