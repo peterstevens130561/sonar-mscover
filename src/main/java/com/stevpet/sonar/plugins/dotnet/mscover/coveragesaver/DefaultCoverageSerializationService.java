@@ -21,7 +21,8 @@ public class DefaultCoverageSerializationService implements CoverageSerializatio
 
     @Override
     public void Serialize(File file, ProjectCoverageRepository repository) {
-        xmlWriter.begin("coverage").prop("version", "1");
+        xmlWriter.begin("coverage");
+        xmlWriter.prop("version", "1");
 
         repository.getValues().forEach(f -> writeFile(f));
         xmlWriter.end();
@@ -29,7 +30,8 @@ public class DefaultCoverageSerializationService implements CoverageSerializatio
     }
 
     private void writeFile(SonarFileCoverage f) {
-        xmlWriter.begin("file").prop("path", f.getAbsolutePath());
+        String absolutePath=f.getAbsolutePath();
+        xmlWriter.begin("file").prop("path", absolutePath);
         GetLinesToCover(f).forEach(l -> writeLine(l));
         xmlWriter.end();
     }
