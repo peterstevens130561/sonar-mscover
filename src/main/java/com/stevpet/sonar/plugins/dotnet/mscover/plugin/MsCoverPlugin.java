@@ -69,8 +69,7 @@ public final class MsCoverPlugin implements Plugin {
 
     @Override
     public void define(Context context) {
-        List clazzes=Arrays.asList(ExperimentalSensor.class);
-        context.addExtensions(clazzes);        
+        context.addExtensions(getExtensions());        
     }
 
     @SuppressWarnings({ "rawtypes" })
