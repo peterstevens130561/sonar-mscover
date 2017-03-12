@@ -13,6 +13,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.anyInt;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.eq;
 
@@ -155,4 +156,73 @@ public class DefaultCoverageSerializationServiceTests {
         verify(xmlWriter,times(3)).begin(anyString());
     }
     
+    @Test
+    public void oneFileSeveralLinesWithSomeBranchPoints_ShouldBeInRepor() {
+        File file = null;
+        String fileId="1";
+        repository.linkFileNameToFileId("myfile", "1");
+        
+        // 10 lines
+        for(int i=1;i<10; i++) {
+            repository.addLinePoint(fileId, i, true);
+        }
+        
+        // a branchpoint on line 3
+        repository.addBranchPoint(fileId,3,1,true);
+        
+        repository.addBranchPoint(fileId,5,1,true);
+        repository.addBranchPoint(fileId,7,1,true);
+        
+        service.Serialize(file, repository);
+        InOrder order = Mockito.inOrder(xmlWriter);
+        
+        //this should be it
+        order.verify(xmlWriter,times(1)).begin("coverage");
+        order.verify(xmlWriter,times(1)).begin("file");
+        order.verify(xmlWriter,times(1)).begin("lineToCover");
+        //this is the line
+        order.verify(xmlWriter,times(1)).prop("lineNumber",3);
+        order.verify(xmlWriter,times(1)).prop("covered","true");
+        // check that there is  attempt to create branch coverage
+        order.verify(xmlWriter,times(1)).prop("branchesToCover",1);
+        order.verify(xmlWriter,times(1)).prop("coveredBranches",1);
+        
+        // line 5
+        order.verify(xmlWriter,times(1)).prop("lineNumber",5);
+        order.verify(xmlWriter,times(1)).prop("covered","true");
+        order.verify(xmlWriter,times(1)).prop("branchesToCover",1);
+        order.verify(xmlWriter,times(1)).prop("coveredBranches",1);
+
+        order.verify(xmlWriter,times(1)).prop("lineNumber",7);
+        order.verify(xmlWriter,times(1)).prop("covered","true");
+        order.verify(xmlWriter,times(1)).prop("branchesToCover",1);
+        order.verify(xmlWriter,times(1)).prop("coveredBranches",1);
+        
+        order.verify(xmlWriter,times(5)).end();
+        // no others should be invoked
+        verify(xmlWriter,times(11)).begin(anyString());
+    }
+    
+    @Test
+    public void oneFileSeveralLinesWithInvalidBranchPoint_ShouldThrowException() {
+        File file = null;
+        String fileId="1";
+        repository.linkFileNameToFileId("myfile", "1");
+        
+        // 10 lines
+        for(int i=1;i<10; i++) {
+            repository.addLinePoint(fileId, i, true);
+        }
+        
+        // a branchpoint on line 3
+        repository.addBranchPoint(fileId,10,1,true);
+        try {
+            service.Serialize(file, repository);
+        } catch (IllegalStateException e) {
+            // not interested in the text
+            return;
+        }
+        fail("expected IllegalStateException");
+
+    }
 }
