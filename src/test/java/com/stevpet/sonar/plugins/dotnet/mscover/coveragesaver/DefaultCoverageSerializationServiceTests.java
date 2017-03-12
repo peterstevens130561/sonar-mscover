@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * SonarQube MsCover Plugin
+ * Copyright (C) 2017 Baker Hughes
+ * peter.stevens@bakerhughes.com
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ *
+ * Author: Peter Stevens, peter.stevens@bakerhughes.com
+ *******************************************************************************/
 package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver;
 
 import java.io.File;
@@ -14,7 +35,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.anyInt;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.eq;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.DefaultProjectCoverageRepository;
@@ -32,16 +52,16 @@ public class DefaultCoverageSerializationServiceTests {
         when(xmlWriter.begin(anyString())).thenReturn(xmlWriter);
         when(xmlWriter.prop(anyString(),anyString())).thenReturn(xmlWriter);
         when(xmlWriter.prop(anyString(),anyInt())).thenReturn(xmlWriter);
-        service = new DefaultCoverageSerializationService(xmlWriter);
+        service = new DefaultCoverageSerializationService();
         repository=new DefaultProjectCoverageRepository();
     }
     
     @Test
     public void noCoverage_ShouldHaveBody() {
-        File file = null;
 
+        whenSerialize();
+        
         InOrder order = Mockito.inOrder(xmlWriter);
-        service.Serialize(file, repository);
         order.verify(xmlWriter,times(1)).begin("coverage");
         order.verify(xmlWriter,times(1)).prop("version","1");
         order.verify(xmlWriter,times(1)).end();
@@ -50,9 +70,9 @@ public class DefaultCoverageSerializationServiceTests {
     
     @Test
     public void oneFileNoResults_ShouldHaveOneFile() {
-        File file = null;
+
         repository.linkFileNameToFileId("myfile", "1");
-        service.Serialize(file, repository);
+        whenSerialize();
         verify(xmlWriter,times(1)).begin("coverage");
         verify(xmlWriter,times(1)).begin("file");
         verify(xmlWriter,times(1)).prop("path","myfile");
@@ -65,11 +85,12 @@ public class DefaultCoverageSerializationServiceTests {
     
     @Test
     public void oneFileOneLines_ShouldBeInRepor() {
-        File file = null;
+
         repository.linkFileNameToFileId("myfile", "1");
         repository.addLinePoint("1", 1, true);
         
-        service.Serialize(file, repository);
+        whenSerialize();
+        
         InOrder order = Mockito.inOrder(xmlWriter);
         
         verify(xmlWriter,times(1)).prop("lineNumber",1);
@@ -87,12 +108,12 @@ public class DefaultCoverageSerializationServiceTests {
     
     @Test
     public void oneFileTwoLinesOneNotCovered_ShouldBeInRepor() {
-        File file = null;
+
         repository.linkFileNameToFileId("myfile", "1");
         repository.addLinePoint("1", 1, true);
         repository.addLinePoint("1", 2, false);
         
-        service.Serialize(file, repository);
+        whenSerialize();
         InOrder order = Mockito.inOrder(xmlWriter);
         
         // check that there is no attempt to create branch coverage
@@ -113,10 +134,10 @@ public class DefaultCoverageSerializationServiceTests {
     }
     @Test
     public void twoFileNoResults_ShouldHaveTwoFile() {
-        File file = null;
+
         repository.linkFileNameToFileId("myfile", "1");
         repository.linkFileNameToFileId("secondfile", "2");
-        service.Serialize(file, repository);
+        whenSerialize();
         verify(xmlWriter,times(1)).begin("coverage");
         verify(xmlWriter,times(2)).begin("file");
         verify(xmlWriter,times(1)).prop("path","myfile");
@@ -130,12 +151,14 @@ public class DefaultCoverageSerializationServiceTests {
     
     @Test
     public void oneFileOneLineLinesWithBranchInfo_ShouldBeInRepor() {
-        File file = null;
+       
         repository.linkFileNameToFileId("myfile", "1");
         repository.addLinePoint("1", 1, true);
         repository.addBranchPoint("1",1,1,true);
         repository.addBranchPoint("1",1,2,false);
-        service.Serialize(file, repository);
+        
+        whenSerialize();
+        
         InOrder order = Mockito.inOrder(xmlWriter);
         
         //this is the line
@@ -173,7 +196,7 @@ public class DefaultCoverageSerializationServiceTests {
         repository.addBranchPoint(fileId,5,1,true);
         repository.addBranchPoint(fileId,7,1,true);
         
-        service.Serialize(file, repository);
+        whenSerialize();
         InOrder order = Mockito.inOrder(xmlWriter);
         
         //this should be it
@@ -217,12 +240,16 @@ public class DefaultCoverageSerializationServiceTests {
         // a branchpoint on line 3
         repository.addBranchPoint(fileId,10,1,true);
         try {
-            service.Serialize(file, repository);
+            whenSerialize();
         } catch (IllegalStateException e) {
             // not interested in the text
             return;
         }
         fail("expected IllegalStateException");
 
+    }
+
+    private void whenSerialize() {
+        service.Serialize(xmlWriter, repository);
     }
 }
