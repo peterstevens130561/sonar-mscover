@@ -22,18 +22,28 @@
 package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 
+import org.assertj.core.util.Files;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.sonar.api.utils.text.XmlWriter;
+
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+import org.sonar.test.TestUtils;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.anyInt;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.eq;
 
@@ -42,115 +52,114 @@ import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepos
 
 public class DefaultCoverageSerializationServiceTests {
 
-    @Mock XmlWriter xmlWriter ;
+    @Mock XMLStreamWriter xmlStreamWriter ;
     CoverageSerializationService service ;
     private ProjectCoverageRepository repository; 
    
     @Before
     public void before() {
         org.mockito.MockitoAnnotations.initMocks(this);
-        when(xmlWriter.begin(anyString())).thenReturn(xmlWriter);
-        when(xmlWriter.prop(anyString(),anyString())).thenReturn(xmlWriter);
-        when(xmlWriter.prop(anyString(),anyInt())).thenReturn(xmlWriter);
+        
+  
         service = new DefaultCoverageSerializationService();
         repository=new DefaultProjectCoverageRepository();
     }
     
     @Test
-    public void noCoverage_ShouldHaveBody() {
+    public void noCoverage_ShouldHaveBody() throws XMLStreamException {
 
         whenSerialize();
         
-        InOrder order = Mockito.inOrder(xmlWriter);
-        order.verify(xmlWriter,times(1)).begin("coverage");
-        order.verify(xmlWriter,times(1)).prop("version","1");
-        order.verify(xmlWriter,times(1)).end();
-        verify(xmlWriter,times(1)).begin(anyString());
+        InOrder order = Mockito.inOrder(xmlStreamWriter);
+        order.verify(xmlStreamWriter,times(1)).writeStartElement("coverage");
+        order.verify(xmlStreamWriter,times(1)).writeAttribute("version","1");
+        order.verify(xmlStreamWriter,times(1)).writeEndElement();
+        verify(xmlStreamWriter,times(1)).writeStartElement(anyString());
     }
     
     @Test
-    public void oneFileNoResults_ShouldHaveOneFile() {
+    public void oneFileNoResults_ShouldHaveOneFile() throws XMLStreamException {
 
         repository.linkFileNameToFileId("myfile", "1");
         whenSerialize();
-        verify(xmlWriter,times(1)).begin("coverage");
-        verify(xmlWriter,times(1)).begin("file");
-        verify(xmlWriter,times(1)).prop("path","myfile");
-        verify(xmlWriter,times(2)).end();
+        verify(xmlStreamWriter,times(1)).writeStartElement("coverage");
+        verify(xmlStreamWriter,times(1)).writeStartElement("file");
+        verify(xmlStreamWriter,times(1)).writeAttribute("path","myfile");
+        verify(xmlStreamWriter,times(2)).writeEndElement();
         
         // no others should be invoked
-        verify(xmlWriter,times(2)).begin(anyString());
-        verify(xmlWriter,times(2)).prop(anyString(),anyString());
+        verify(xmlStreamWriter,times(2)).writeStartElement(anyString());
+        verify(xmlStreamWriter,times(2)).writeAttribute(anyString(),anyString());
     }
     
     @Test
-    public void oneFileOneLines_ShouldBeInRepor() {
+    public void oneFileOneLines_ShouldBeInRepor() throws XMLStreamException {
 
         repository.linkFileNameToFileId("myfile", "1");
         repository.addLinePoint("1", 1, true);
         
         whenSerialize();
         
-        InOrder order = Mockito.inOrder(xmlWriter);
+        InOrder order = Mockito.inOrder(xmlStreamWriter);
         
-        verify(xmlWriter,times(1)).prop("lineNumber",1);
-        verify(xmlWriter,times(1)).prop("covered","true");
+        verify(xmlStreamWriter,times(1)).writeAttribute("lineNumber","1");
+        verify(xmlStreamWriter,times(1)).writeAttribute("covered","true");
         
         // check that there is no attempt to create branch coverage
-        verify(xmlWriter,times(0)).prop(eq("branchesToCover"),anyString());
-        verify(xmlWriter,times(0)).prop(eq("coveredBranches"),anyString());
-        order.verify(xmlWriter,times(1)).begin("lineToCover");
-        order.verify(xmlWriter,times(3)).end();
+        verify(xmlStreamWriter,times(0)).writeAttribute(eq("branchesToCover"),anyString());
+        verify(xmlStreamWriter,times(0)).writeAttribute(eq("coveredBranches"),anyString());
+        order.verify(xmlStreamWriter,times(1)).writeStartElement("lineToCover");
+        order.verify(xmlStreamWriter,times(3)).writeEndElement();
        
         // no others should be invoked
-        verify(xmlWriter,times(3)).begin(anyString());
+        verify(xmlStreamWriter,times(3)).writeStartElement(anyString());
     }
     
     @Test
-    public void oneFileTwoLinesOneNotCovered_ShouldBeInRepor() {
+    public void oneFileTwoLinesOneNotCovered_ShouldBeInRepor() throws XMLStreamException {
 
         repository.linkFileNameToFileId("myfile", "1");
         repository.addLinePoint("1", 1, true);
         repository.addLinePoint("1", 2, false);
         
         whenSerialize();
-        InOrder order = Mockito.inOrder(xmlWriter);
+        InOrder order = Mockito.inOrder(xmlStreamWriter);
         
         // check that there is no attempt to create branch coverage
-        verify(xmlWriter,times(0)).prop(eq("branchesToCover"),anyString());
-        verify(xmlWriter,times(0)).prop(eq("coveredBranches"),anyString());
+        verify(xmlStreamWriter,times(0)).writeAttribute(eq("branchesToCover"),anyString());
+        verify(xmlStreamWriter,times(0)).writeAttribute(eq("coveredBranches"),anyString());
         
         // check two lines are thee
-        verify(xmlWriter,times(1)).prop("lineNumber",1);
-        verify(xmlWriter,times(1)).prop("covered","true");
-        verify(xmlWriter,times(1)).prop("lineNumber",2);
-        verify(xmlWriter,times(1)).prop("covered","false");
+        verify(xmlStreamWriter,times(1)).writeAttribute("lineNumber","1");
+        verify(xmlStreamWriter,times(1)).writeAttribute("covered","true");
+        verify(xmlStreamWriter,times(1)).writeAttribute("lineNumber","2");
+        verify(xmlStreamWriter,times(1)).writeAttribute("covered","false");
         
-        order.verify(xmlWriter,times(1)).begin("lineToCover");
-        order.verify(xmlWriter,times(4)).end();
+        order.verify(xmlStreamWriter,times(1)).writeStartElement("lineToCover");
+        order.verify(xmlStreamWriter,times(4)).writeEndElement();
        
         // no others should be invoked
-        verify(xmlWriter,times(4)).begin(anyString());
+        verify(xmlStreamWriter,times(4)).writeStartElement(anyString());
     }
     @Test
-    public void twoFileNoResults_ShouldHaveTwoFile() {
+    public void twoFileNoResults_ShouldHaveTwoFile() throws XMLStreamException {
 
         repository.linkFileNameToFileId("myfile", "1");
         repository.linkFileNameToFileId("secondfile", "2");
         whenSerialize();
-        verify(xmlWriter,times(1)).begin("coverage");
-        verify(xmlWriter,times(2)).begin("file");
-        verify(xmlWriter,times(1)).prop("path","myfile");
-        verify(xmlWriter,times(1)).prop("path","secondfile");
-        verify(xmlWriter,times(3)).end();
+        verify(xmlStreamWriter,times(1)).writeStartElement("coverage");
+        verify(xmlStreamWriter,times(2)).writeStartElement("file");
+        verify(xmlStreamWriter,times(1)).writeAttribute("path","myfile");
+        verify(xmlStreamWriter,times(1)).writeAttribute("path","secondfile");
+        verify(xmlStreamWriter,times(3)).writeEndElement();
         
         // no others should be invoked
-        verify(xmlWriter,times(3)).begin(anyString());
-        verify(xmlWriter,times(3)).prop(anyString(),anyString());
+        verify(xmlStreamWriter,times(3)).writeStartElement(anyString());
+        verify(xmlStreamWriter,times(3)).writeAttribute(anyString(),anyString());
     }
     
     @Test
-    public void oneFileOneLineLinesWithBranchInfo_ShouldBeInRepor() {
+    public void oneFileOneLineLinesWithBranchInfo_ShouldBeInRepor() throws XMLStreamException {
        
         repository.linkFileNameToFileId("myfile", "1");
         repository.addLinePoint("1", 1, true);
@@ -159,28 +168,28 @@ public class DefaultCoverageSerializationServiceTests {
         
         whenSerialize();
         
-        InOrder order = Mockito.inOrder(xmlWriter);
+        InOrder order = Mockito.inOrder(xmlStreamWriter);
         
         //this is the line
-        verify(xmlWriter,times(1)).prop("lineNumber",1);
-        verify(xmlWriter,times(1)).prop("covered","true");
+        verify(xmlStreamWriter,times(1)).writeAttribute("lineNumber","1");
+        verify(xmlStreamWriter,times(1)).writeAttribute("covered","true");
         // check that there is  attempt to create branch coverage
-        verify(xmlWriter,times(1)).prop("branchesToCover",2);
-        verify(xmlWriter,times(1)).prop("coveredBranches",1);
+        verify(xmlStreamWriter,times(1)).writeAttribute("branchesToCover","2");
+        verify(xmlStreamWriter,times(1)).writeAttribute("coveredBranches","1");
         
 
         //this should be it
-        order.verify(xmlWriter,times(1)).begin("coverage");
-        order.verify(xmlWriter,times(1)).begin("file");
-        order.verify(xmlWriter,times(1)).begin("lineToCover");
-        order.verify(xmlWriter,times(3)).end();
+        order.verify(xmlStreamWriter,times(1)).writeStartElement("coverage");
+        order.verify(xmlStreamWriter,times(1)).writeStartElement("file");
+        order.verify(xmlStreamWriter,times(1)).writeStartElement("lineToCover");
+        order.verify(xmlStreamWriter,times(3)).writeEndElement();
        
         // no others should be invoked
-        verify(xmlWriter,times(3)).begin(anyString());
+        verify(xmlStreamWriter,times(3)).writeStartElement(anyString());
     }
     
     @Test
-    public void oneFileSeveralLinesWithSomeBranchPoints_ShouldBeInRepor() {
+    public void oneFileSeveralLinesWithSomeBranchPoints_ShouldBeInRepor() throws XMLStreamException {
         File file = null;
         String fileId="1";
         repository.linkFileNameToFileId("myfile", "1");
@@ -197,33 +206,33 @@ public class DefaultCoverageSerializationServiceTests {
         repository.addBranchPoint(fileId,7,1,true);
         
         whenSerialize();
-        InOrder order = Mockito.inOrder(xmlWriter);
+        InOrder order = Mockito.inOrder(xmlStreamWriter);
         
         //this should be it
-        order.verify(xmlWriter,times(1)).begin("coverage");
-        order.verify(xmlWriter,times(1)).begin("file");
-        order.verify(xmlWriter,times(1)).begin("lineToCover");
+        order.verify(xmlStreamWriter,times(1)).writeStartElement("coverage");
+        order.verify(xmlStreamWriter,times(1)).writeStartElement("file");
+        order.verify(xmlStreamWriter,times(1)).writeStartElement("lineToCover");
         //this is the line
-        order.verify(xmlWriter,times(1)).prop("lineNumber",3);
-        order.verify(xmlWriter,times(1)).prop("covered","true");
+        order.verify(xmlStreamWriter,times(1)).writeAttribute("lineNumber","3");
+        order.verify(xmlStreamWriter,times(1)).writeAttribute("covered","true");
         // check that there is  attempt to create branch coverage
-        order.verify(xmlWriter,times(1)).prop("branchesToCover",1);
-        order.verify(xmlWriter,times(1)).prop("coveredBranches",1);
+        order.verify(xmlStreamWriter,times(1)).writeAttribute("branchesToCover","1");
+        order.verify(xmlStreamWriter,times(1)).writeAttribute("coveredBranches","1");
         
         // line 5
-        order.verify(xmlWriter,times(1)).prop("lineNumber",5);
-        order.verify(xmlWriter,times(1)).prop("covered","true");
-        order.verify(xmlWriter,times(1)).prop("branchesToCover",1);
-        order.verify(xmlWriter,times(1)).prop("coveredBranches",1);
+        order.verify(xmlStreamWriter,times(1)).writeAttribute("lineNumber","5");
+        order.verify(xmlStreamWriter,times(1)).writeAttribute("covered","true");
+        order.verify(xmlStreamWriter,times(1)).writeAttribute("branchesToCover","1");
+        order.verify(xmlStreamWriter,times(1)).writeAttribute("coveredBranches","1");
 
-        order.verify(xmlWriter,times(1)).prop("lineNumber",7);
-        order.verify(xmlWriter,times(1)).prop("covered","true");
-        order.verify(xmlWriter,times(1)).prop("branchesToCover",1);
-        order.verify(xmlWriter,times(1)).prop("coveredBranches",1);
+        order.verify(xmlStreamWriter,times(1)).writeAttribute("lineNumber","7");
+        order.verify(xmlStreamWriter,times(1)).writeAttribute("covered","true");
+        order.verify(xmlStreamWriter,times(1)).writeAttribute("branchesToCover","1");
+        order.verify(xmlStreamWriter,times(1)).writeAttribute("coveredBranches","1");
         
-        order.verify(xmlWriter,times(5)).end();
+        order.verify(xmlStreamWriter,times(5)).writeEndElement();
         // no others should be invoked
-        verify(xmlWriter,times(11)).begin(anyString());
+        verify(xmlStreamWriter,times(11)).writeStartElement(anyString());
     }
     
     @Test
@@ -249,7 +258,29 @@ public class DefaultCoverageSerializationServiceTests {
 
     }
 
+    @Test
+    public void usageExampleTest() throws IOException, XMLStreamException {
+        File file=TestUtils.getResource("DefaultCoverageSerializationServiceTests/dummy.txt");
+        File tmpFile=Files.newTemporaryFile();
+        assertNotNull("should be there",file);
+        
+        //setup of the writer
+        Writer writer = new FileWriter(tmpFile.getAbsolutePath());
+        XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
+        XMLStreamWriter xmlStreamWriter = outputFactory.createXMLStreamWriter(writer);
+        
+        // just some simple data
+        repository.linkFileNameToFileId("myfile", "1");
+        repository.addLinePoint("1", 1, true);
+        repository.addBranchPoint("1",1,1,true);
+        repository.addBranchPoint("1",1,2,false);
+        
+        service.Serialize(xmlStreamWriter,repository);
+        //now the file should be there
+        
+        
+    }
     private void whenSerialize() {
-        service.Serialize(xmlWriter, repository);
+        service.Serialize(xmlStreamWriter, repository);
     }
 }

@@ -24,46 +24,72 @@ package com.stevpet.sonar.plugins.dotnet.mscover.coveragesaver;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sonar.api.utils.text.XmlWriter;
 
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.CoverageLinePoint;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.ProjectCoverageRepository;
 import com.stevpet.sonar.plugins.dotnet.mscover.model.sonar.SonarFileCoverage;
 
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+/**
+ * Serializes to the generic coverage format of SonarQube introduced in 5.6
+ * <br>
+ * <pre>
+ * {@code <coverage version="1">
+ * <file path="sources/hello/NoConditions.xoo">
+ * <lineToCover lineNumber="6" covered="true"/>
+ * <lineToCover lineNumber="7" covered="false"/>  
+ * </file>
+ * <file path="xources/hello/WithConditions.xoo">
+ *   <lineToCover lineNumber="3" covered="true" branchesToCover="2" coveredBranches="1"/>
+ * </file>
+ * </coverage> }
+ * </pre>
+ */
+
 public class DefaultCoverageSerializationService implements CoverageSerializationService {
 
-
     @Override
-    public void Serialize(XmlWriter xmlWriter, ProjectCoverageRepository repository) {
-
-        xmlWriter.begin("coverage").prop("version", "1");
-        repository.getValues().forEach(f -> writeFile(xmlWriter,f));
-        xmlWriter.end();
-    }
-
-    private void writeFile(XmlWriter xmlWriter,SonarFileCoverage f) {
-        String absolutePath=f.getAbsolutePath();
-        xmlWriter.begin("file").prop("path", absolutePath);
-        GetLinesToCover(f).forEach(l -> writeLine(xmlWriter,l));
-        xmlWriter.end();
-    }
-
-    private void writeLine(XmlWriter xmlWriter,LineToCover line) {
-        String isCovered=line.getCovered()?"true":"false";
-        int lineNumber = line.getLine();
-        int branchesToCover=line.getBranchesToCover();
-        int coveredBranches=line.getCoveredBranches();
-        xmlWriter.begin("lineToCover")
-            .prop("lineNumber", lineNumber)
-            .prop("covered", isCovered);
-        if(branchesToCover>0) {
-            xmlWriter.prop("branchesToCover", branchesToCover)
-            .prop("coveredBranches", coveredBranches);
+    public void Serialize(XMLStreamWriter xmlStreamWriter, ProjectCoverageRepository repository) {
+        try {
+            writeDocumentStart(xmlStreamWriter);
+            for (SonarFileCoverage fileCoverage : repository.getValues()) {
+                writeFile(xmlStreamWriter, fileCoverage);
+            }
+            writeDocumentEnd(xmlStreamWriter);
+        } catch (XMLStreamException e) {
+            throw new IllegalStateException(e);
         }
-        xmlWriter.end();
+
     }
 
-    private List<LineToCover> GetLinesToCover(SonarFileCoverage fileCoverage) {
+
+    private void writeFile(XMLStreamWriter xmlStreamWriter, SonarFileCoverage f) throws XMLStreamException {
+        String absolutePath = f.getAbsolutePath();
+        writeFileElement(xmlStreamWriter, absolutePath);
+        for (LineToCover lineToCover : getCoveragePerLineToCover(f)) {
+            writeLine(xmlStreamWriter, lineToCover);
+        }
+        writeEndElement(xmlStreamWriter);
+    }
+
+    private void writeLine(XMLStreamWriter xmlStreamWriter, LineToCover line) throws XMLStreamException {
+        String isCovered = line.getCovered() ? "true" : "false";
+        Integer lineNumber = line.getLine();
+        Integer branchesToCover = line.getBranchesToCover();
+        Integer coveredBranches = line.getCoveredBranches();
+        xmlStreamWriter.writeCharacters("\t");
+        xmlStreamWriter.writeStartElement("lineToCover");
+        xmlStreamWriter.writeAttribute("lineNumber", lineNumber.toString());
+        xmlStreamWriter.writeAttribute("covered", isCovered);
+        if (branchesToCover > 0) {
+            xmlStreamWriter.writeAttribute("branchesToCover", branchesToCover.toString());
+            xmlStreamWriter.writeAttribute("coveredBranches", coveredBranches.toString());
+        }
+        writeEndElement(xmlStreamWriter);
+    }
+
+    private List<LineToCover> getCoveragePerLineToCover(SonarFileCoverage fileCoverage) {
         List<LineToCover> result = new ArrayList<LineToCover>();
         fileCoverage.getLinePoints().getPoints().forEach(p -> {
             LineToCover line = new LineToCover(p.getLine(), p.getCovered() > 0);
@@ -87,4 +113,27 @@ public class DefaultCoverageSerializationService implements CoverageSerializatio
         return result;
     }
 
+    private void writeDocumentEnd(XMLStreamWriter xmlStreamWriter) throws XMLStreamException {
+        writeEndElement(xmlStreamWriter);
+        xmlStreamWriter.writeEndDocument();
+    }
+
+    private void writeDocumentStart(XMLStreamWriter xmlStreamWriter) throws XMLStreamException {
+        xmlStreamWriter.writeStartDocument("1.0");
+        xmlStreamWriter.writeCharacters("\n");
+
+        xmlStreamWriter.writeStartElement("coverage");
+        xmlStreamWriter.writeAttribute("version", "1");
+    }
+    
+    private void writeEndElement(XMLStreamWriter xmlStreamWriter) throws XMLStreamException {
+        xmlStreamWriter.writeEndElement();
+        xmlStreamWriter.writeCharacters("\n");
+    }
+
+    private void writeFileElement(XMLStreamWriter xmlStreamWriter, String absolutePath) throws XMLStreamException {
+        xmlStreamWriter.writeStartElement("file");
+        xmlStreamWriter.writeAttribute("path", absolutePath);
+        xmlStreamWriter.writeCharacters("\n");
+    }
 }
